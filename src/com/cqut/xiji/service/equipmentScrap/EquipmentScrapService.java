@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
-import com.cqut.xiji.entity.equipment.Equipment;
 import com.cqut.xiji.entity.equipmentScrap.EquipmentScrap;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;

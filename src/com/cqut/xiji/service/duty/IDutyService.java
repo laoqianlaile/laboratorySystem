@@ -2,8 +2,6 @@ package com.cqut.xiji.service.duty;
 
 import java.util.Map;
 
-import com.cqut.xiji.entity.duty.Duty;
-
 public interface IDutyService {
 	Map<String, Object> getDutyWithPage(String dutyCode,String dutyName,
 			 int limit, int offset,String order, String sort);

@@ -2,8 +2,6 @@ package com.cqut.xiji.service.accounts;
 
 import java.util.Map;
 
-import com.cqut.xiji.entity.accounts.Accounts;
-
 public interface IAccountsService {
 
 	Map<String, Object> getAccountWithPaging(String contractCode,

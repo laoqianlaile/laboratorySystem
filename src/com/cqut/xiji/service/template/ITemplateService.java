@@ -1,9 +1,6 @@
 package com.cqut.xiji.service.template;
 
-import java.util.List;
 import java.util.Map;
-
-import com.cqut.xiji.entity.template.Template;
 
 public interface ITemplateService {
 

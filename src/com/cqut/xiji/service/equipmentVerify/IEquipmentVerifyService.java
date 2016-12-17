@@ -2,8 +2,6 @@ package com.cqut.xiji.service.equipmentVerify;
 
 import java.util.Map;
 
-import com.cqut.xiji.entity.equipmentVerify.EquipmentVerify;
-
 public interface IEquipmentVerifyService {
 
 	/**

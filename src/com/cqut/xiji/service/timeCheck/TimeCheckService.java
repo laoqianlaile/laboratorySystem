@@ -11,15 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.jms.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.constraints.Null;
-
 import net.sf.json.JSONArray;
 
-import org.apache.http.HttpResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,19 +24,13 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
-import com.cqut.xiji.entity.contract.Contract;
 import com.cqut.xiji.entity.department.Department;
 import com.cqut.xiji.entity.employee.Employee;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
-import com.cqut.xiji.entity.qualityPlan.QualityPlan;
 import com.cqut.xiji.entity.timeCheck.TimeCheck;
 import com.cqut.xiji.service.base.SearchService;
 
-import com.cqut.xiji.tool.treeNode.Node;
-import com.cqut.xiji.tool.treeNode.NodeList;
 import com.cqut.xiji.tool.util.EntityIDFactory;
-import com.mysql.fabric.xmlrpc.base.Data;
-import com.sun.jna.platform.win32.OaIdl.VARDESC;
 
 @Service
 public class TimeCheckService extends SearchService implements ITimeCheckService{

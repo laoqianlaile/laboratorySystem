@@ -1,34 +1,17 @@
 package com.cqut.xiji.service.fileInformation;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import net.sf.json.JSONArray;
-
 import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
-import com.cqut.xiji.entity.contract.Contract;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
-import com.cqut.xiji.entity.task.Task;
 import com.cqut.xiji.service.base.SearchService;
-import com.cqut.xiji.tool.treeNode.Node;
-import com.cqut.xiji.tool.treeNode.NodeList;
-import com.cqut.xiji.tool.util.EntityIDFactory;
 
 @Service
 public class FileInformationService extends SearchService implements IFileInformationService{
@@ -127,6 +110,7 @@ public class FileInformationService extends SearchService implements IFileInform
 	 * @return
 	 * @see com.cqut.xiji.service.fileInformation.IFileInformationService#getFileInTaskWithPaging(java.lang.String, int, int, java.lang.String, java.lang.String)
 	 */
+	@Override
 	public Map<String, Object> getFileInTaskWithPaging(String ID, int limit, int offset, String sort, String order){
 		int index = limit;
 		int pageNum = offset/limit;
@@ -194,6 +178,7 @@ public class FileInformationService extends SearchService implements IFileInform
 	
 
 	
+	@Override
 	public Map<String, Object> getFileInReceiptlistWithPaging(String ID, int limit, int offset, String sort, String order){
 		int index = limit;
 		int pageNum = offset/limit + 1;
@@ -217,6 +202,7 @@ public class FileInformationService extends SearchService implements IFileInform
 		return map;
 	}
 
+	@Override
 	public Map<String, Object> getContractFileWithPaging(int limit, int offset,
 			String order, String sort, String ID){
 		int index = limit;

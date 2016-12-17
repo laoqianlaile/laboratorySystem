@@ -78,6 +78,7 @@ public class EquipmentTypeService extends SearchService implements IEquipmentTyp
 		return result;
 	}
 	
+	@Override
 	public int addEquipmentType(String equipmentTypeCode, String equipmentTypeName, String remarks){
 		EquipmentType equipmentType = new EquipmentType();
 		equipmentType.setID(EntityIDFactory.createId());
@@ -129,6 +130,7 @@ public class EquipmentTypeService extends SearchService implements IEquipmentTyp
 		return result;
 	}
 	
+	@Override
 	public int updEquipmentType(String ID, String equipmentTypeCode, String equipmentTypeName, String remarks){
 		// TODO Auto-generated method stub
 		EquipmentType equipmentType = new EquipmentType();

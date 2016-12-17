@@ -2,7 +2,6 @@ package com.cqut.xiji.service.sampleRecord;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,21 +10,15 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
 import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
-import com.cqut.xiji.entity.department.Department;
 import com.cqut.xiji.entity.employee.Employee;
 import com.cqut.xiji.entity.sample.Sample;
-import com.cqut.xiji.entity.sampleInformation.SampleInformation;
 import com.cqut.xiji.entity.sampleRecord.SampleRecord;
 import com.cqut.xiji.service.base.SearchService;
-import com.cqut.xiji.tool.treeNode.Node;
-import com.cqut.xiji.tool.treeNode.NodeList;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
 @Service
@@ -61,7 +54,7 @@ public class SampleRecordService extends SearchService implements
 			// condition, Sample.class).get(0).get("ID");
 			List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, Sample.class);
 			if (list != null  && list.size() >0) {
-				Map<String, Object>  map =(Map<String, Object>)list.get(0) ;
+				Map<String, Object>  map =list.get(0) ;
                 return map;
 			} else return null;
 				/*Sample sample = entityDao.getByID(str, Sample.class);
@@ -89,6 +82,7 @@ public class SampleRecordService extends SearchService implements
 		return resultList.toString();
 	}
 
+	@Override
 	public Map<String, Object> getSampleRecordWithPaging(String factoryCode,
 			String sampleName, String specifications, String getMan, int limit,
 			int offset, String order, String sort) {

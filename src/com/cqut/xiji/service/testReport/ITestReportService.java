@@ -3,8 +3,6 @@ package com.cqut.xiji.service.testReport;
 import java.util.List;
 import java.util.Map;
 
-import com.cqut.xiji.entity.testReport.TestReport;
-
 public interface ITestReportService {
 	public Map<String, Object> getTestReportWithPaging(int limit, int offset,
 			String order, String sort, String receiptlistCode,

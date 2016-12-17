@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cqut.xiji.entity.module.Module;
 import com.cqut.xiji.service.module.IModuleService;
 
 

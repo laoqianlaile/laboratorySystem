@@ -8,9 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -27,19 +25,15 @@ import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-
 import com.cqut.xiji.entity.document.Document;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.service.document.IDocumentService;
 import com.cqut.xiji.service.timeCheck.ITimeCheckService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 import com.cqut.xiji.tool.util.JToolWeb;
-import com.cqut.xiji.tool.word.WordProcess;
 import com.cqut.xiji.tool.word.wordToHtml;
 
 @Controller

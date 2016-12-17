@@ -42,8 +42,6 @@ import javax.servlet.http.HttpSession;
 
 
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -56,11 +54,8 @@ import org.springframework.stereotype.Service;
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
-import com.cqut.xiji.entity.article.Article;
 import com.cqut.xiji.entity.client.Client;
 import com.cqut.xiji.entity.company.Company;
-import com.cqut.xiji.entity.registry.Registry;
-import com.cqut.xiji.entity.role.Role;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 @Service
@@ -375,7 +370,7 @@ public class ClientService extends SearchService implements IClientService{
         String appSecret = "c09c739d40cf";
         String nonce =  "12345";
         String curTime = String.valueOf((new Date()).getTime() / 1000L);
-        String checkSum = this.getCheckSum(appSecret, nonce ,curTime);//参考 计算CheckSum的java代码
+        String checkSum = ClientService.getCheckSum(appSecret, nonce ,curTime);//参考 计算CheckSum的java代码
         
         // 设置请求的header
         System.out.println("checkSum："+checkSum);

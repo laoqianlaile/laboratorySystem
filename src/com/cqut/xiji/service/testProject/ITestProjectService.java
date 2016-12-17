@@ -3,8 +3,6 @@ package com.cqut.xiji.service.testProject;
 import java.util.List;
 import java.util.Map;
 
-import com.cqut.xiji.entity.testProject.TestProject;
-
 /**
  * 检测项目
  * 

@@ -11,12 +11,10 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cqut.xiji.entity.employee.Employee;
 import com.cqut.xiji.service.employee.IEmployeeService;
 import com.cqut.xiji.tool.util.RandomValidateCode;
 

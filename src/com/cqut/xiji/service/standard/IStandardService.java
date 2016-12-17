@@ -3,8 +3,6 @@ package com.cqut.xiji.service.standard;
 import java.util.List;
 import java.util.Map;
 
-import com.cqut.xiji.entity.standard.Standard;
-
 /**
  * 标准管理
  * 

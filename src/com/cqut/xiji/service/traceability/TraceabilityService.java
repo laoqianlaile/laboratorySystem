@@ -166,6 +166,7 @@ public class TraceabilityService extends SearchService implements
 		return map;
 	}
 
+	@Override
 	public Map<String, Object> getTraceabilityResultWithPaging(int limit,
 			int offset, String order, String sort, String condition) {
 		int index = limit;

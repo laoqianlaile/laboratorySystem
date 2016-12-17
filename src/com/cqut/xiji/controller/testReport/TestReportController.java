@@ -1,13 +1,9 @@
 package com.cqut.xiji.controller.testReport;
 
-import java.io.File;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
@@ -15,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cqut.xiji.service.testReport.ITestReportService;
-//import com.cqut.xiji.tool.util.DocConverter;
-import com.cqut.xiji.tool.util.DocConverter;
 
 @Controller
 @RequestMapping("/testReportController")

@@ -1,42 +1,22 @@
 package com.cqut.xiji.service.employee;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.enterprise.inject.New;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
-import org.apache.taglibs.standard.lang.jstl.Literal;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
 
-import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
-import com.cqut.xiji.entity.department.Department;
 import com.cqut.xiji.entity.employee.Employee;
-import com.cqut.xiji.entity.role.Role;
 import com.cqut.xiji.service.base.SearchService;
-import com.cqut.xiji.tool.treeNode.Node;
-import com.cqut.xiji.tool.treeNode.NodeList;
-import com.cqut.xiji.tool.util.EntityIDFactory;
-import com.cqut.xiji.tool.util.MD5;
 
 @Service("employeeService")
 public class EmployeeService extends SearchService implements IEmployeeService{

@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.mail.Session;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cqut.xiji.entity.article.Article;
 import com.cqut.xiji.entity.client.Client;
 import com.cqut.xiji.service.client.IClientService;
 

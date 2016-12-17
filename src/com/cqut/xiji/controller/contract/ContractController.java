@@ -198,7 +198,7 @@ public class ContractController{
         String appSecret = "0836ea59c6bc";
         String nonce =  "12345";
         String curTime = String.valueOf((new Date()).getTime() / 1000L);
-        String checkSum = this.getCheckSum(appSecret, nonce ,curTime);//参考 计算CheckSum的java代码
+        String checkSum = ContractController.getCheckSum(appSecret, nonce ,curTime);//参考 计算CheckSum的java代码
         
         // 设置请求的header
         System.out.println("checkSum："+checkSum);
@@ -221,7 +221,7 @@ public class ContractController{
         //System.out.println(EntityUtils.toString(response.getEntity(), "utf-8"));
         String stringResult = new String(EntityUtils.toString(response.getEntity(), "utf-8"));
         JSONObject  jasonObject = JSONObject.fromObject(stringResult);
-        Map map = (Map)jasonObject;
+        Map map = jasonObject;
         String returncode= map.get("code").toString();
         System.out.println(returncode);
         return returncode;
@@ -248,7 +248,7 @@ public class ContractController{
         String appSecret = "0836ea59c6bc";
         String nonce =  "12345";
         String curTime = String.valueOf((new Date()).getTime() / 1000L);
-        String checkSum = this.getCheckSum(appSecret, nonce ,curTime);//参考 计算CheckSum的java代码
+        String checkSum = ContractController.getCheckSum(appSecret, nonce ,curTime);//参考 计算CheckSum的java代码
         // 设置请求的header
         System.out.println("checkSum："+checkSum);
         httpPost.addHeader("AppKey", appKey);
@@ -268,7 +268,7 @@ public class ContractController{
         System.out.println("验证打印验证结果");
         String stringResult = new String(EntityUtils.toString(response1.getEntity(), "utf-8"));
         JSONObject  jasonObject = JSONObject.fromObject(stringResult);
-        Map map = (Map)jasonObject;
+        Map map = jasonObject;
         String returncode= map.get("code").toString();
         System.out.println(returncode);
         //   System.out.println(EntityUtils.toString(response1.getEntity(), "utf-8"));

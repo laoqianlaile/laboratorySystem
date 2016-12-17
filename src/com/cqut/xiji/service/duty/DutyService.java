@@ -7,18 +7,13 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import net.sf.json.JSONArray;
-
 import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
-import com.cqut.xiji.entity.department.Department;
 import com.cqut.xiji.entity.duty.Duty;
 import com.cqut.xiji.service.base.SearchService;
-import com.cqut.xiji.tool.treeNode.Node;
-import com.cqut.xiji.tool.treeNode.NodeList;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
 @Service
@@ -43,6 +38,7 @@ public class DutyService extends SearchService implements IDutyService{
 		return "duty.ID";
 	}
 	
+	@Override
 	public Map<String, Object> getDutyWithPage(String dutyCode,String dutyName,
 			 int limit, int offset,String order, String sort){
 		int index = limit;
@@ -86,6 +82,7 @@ public class DutyService extends SearchService implements IDutyService{
 			
 		
 	}
+	@Override
 	public String addDuty(String dutyCode,String dutyName,String introduction){
 		Duty duty=new Duty();
 		duty.setID(EntityIDFactory.createId());
@@ -99,6 +96,7 @@ public class DutyService extends SearchService implements IDutyService{
 		return result+"";
 		
 	}
+	@Override
 	public String updDuty(String ID,String dutyCode,String dutyName,String introduction){
 		Duty duty=entityDao.getByID(ID, Duty.class);
 		duty.setDutyCode(dutyCode);
@@ -107,6 +105,7 @@ public class DutyService extends SearchService implements IDutyService{
 		int result = entityDao.updatePropByID(duty, ID);
 		return result+"";
 	}
+	@Override
 	public String delDuty(String IDs) {
 		// TODO Auto-generated method stub
 		if(IDs == null || IDs.isEmpty()){

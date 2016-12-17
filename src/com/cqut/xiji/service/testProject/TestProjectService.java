@@ -1,6 +1,5 @@
 package com.cqut.xiji.service.testProject;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,8 +8,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import net.sf.json.JSONArray;
-
 import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
@@ -18,15 +15,12 @@ import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.contract.Contract;
 import com.cqut.xiji.entity.department.Department;
-import com.cqut.xiji.entity.document.Document;
 import com.cqut.xiji.entity.equipment.Equipment;
 import com.cqut.xiji.entity.standard.Standard;
 import com.cqut.xiji.entity.testInstument.TestInstument;
 import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.entity.testStandard.TestStandard;
 import com.cqut.xiji.service.base.SearchService;
-import com.cqut.xiji.tool.treeNode.Node;
-import com.cqut.xiji.tool.treeNode.NodeList;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
 @Service
@@ -352,6 +346,7 @@ public class TestProjectService extends SearchService implements
 	 * @created 2016年12月12日19:13:01
 	 * @param testProjectName
 	 */
+	@Override
 	public List<Map<String, Object>> getTestProjectByName(String testProjectName){
 		String[] properties = new String[] {"ID","nameCn"};
 		String condition = " nameCn like '%" + testProjectName + "%'";
