@@ -10,7 +10,6 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.entity.base.Entity;
-import com.cqut.xiji.tool.util.TableCreator;
 
 
 @Service

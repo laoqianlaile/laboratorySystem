@@ -3,8 +3,6 @@ package com.cqut.xiji.service.contractFineItem;
 import java.util.List;
 import java.util.Map;
 
-import com.cqut.xiji.entity.contractFineItem.ContractFineItem;
-
 public interface IContractFineItemService {
 
 	Map<String, Object> getTestProjectInTaskStatistical(String ID, String testProjectID,int limit,int offset, String order, String sort);

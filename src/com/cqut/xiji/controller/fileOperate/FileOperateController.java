@@ -12,7 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -94,7 +93,7 @@ public class FileOperateController {
 		String fileName = "";// 文件名
 		String[] fileNames = null; // 文件名按"."分割后文件名的集合
 		String path = "";// 文件路径
-		begin = (long) System.currentTimeMillis();
+		begin = System.currentTimeMillis();
 		ID = EntityIDFactory.createId();
 		fileName = file.getOriginalFilename();
 		fileNames = fileName.split("\\.");

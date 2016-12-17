@@ -1,8 +1,5 @@
 package com.cqut.xiji.service.sampleRecord;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -13,9 +10,6 @@ import java.util.Map;
 
 
 import net.sf.json.JSONArray;
-
-import com.cqut.xiji.entity.sample.Sample;
-import com.cqut.xiji.entity.sampleRecord.SampleRecord;
 
 public interface ISampleRecordService {
 	/**

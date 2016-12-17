@@ -1,8 +1,5 @@
 package com.cqut.xiji.controller.permissionAssign;
 
-import java.util.List;
-import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 

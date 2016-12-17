@@ -1,7 +1,5 @@
 package com.cqut.xiji.service.testReport;
 
-import java.io.File;
-import java.net.ConnectException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +11,6 @@ import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
-import com.cqut.xiji.entity.task.Task;
 import com.cqut.xiji.entity.testReport.TestReport;
 import com.cqut.xiji.service.base.SearchService;
 
@@ -315,6 +312,7 @@ public class TestReportService extends SearchService implements
 		return map;
 	}
 
+	@Override
 	public List<Map<String,Object>> getProjectName(String ID){
 		String lefjionCondition = "";
 		if (!ID.isEmpty() || ID != "" || ID != null) {

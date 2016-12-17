@@ -11,6 +11,7 @@ public class LogTool implements ILogTool {
 		logger  =  Logger.getLogger(clazz);
 	}
 	
+	@Override
 	public void  error(Object message) {
 		logger.error(message);
 	}

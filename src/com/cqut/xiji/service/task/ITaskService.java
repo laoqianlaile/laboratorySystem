@@ -3,10 +3,6 @@ package com.cqut.xiji.service.task;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.json.JSONObject;
-
-import com.cqut.xiji.entity.task.Task;
-
 public interface ITaskService {
 
 	int setTestprojectId(String projectID);

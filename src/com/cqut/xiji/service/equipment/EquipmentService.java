@@ -121,6 +121,7 @@ public class EquipmentService extends SearchService implements
 		return map;
 	}
 	
+	@Override
 	public int addEquipment(String equipmentCode, String equipmentName,
 			String equipmentType, String model, String department,
 			String buyTime, int useYear, String factoryCode, String credentials,

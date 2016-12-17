@@ -6,11 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.jms.Session;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.ws.rs.core.Request;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 

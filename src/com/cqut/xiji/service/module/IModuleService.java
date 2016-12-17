@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.cqut.xiji.entity.base.BootstrapTreeNode;
 import com.cqut.xiji.entity.module.Module;
-import com.cqut.xiji.tool.treeNode.NodeList;
 
 /**
  * @author zx

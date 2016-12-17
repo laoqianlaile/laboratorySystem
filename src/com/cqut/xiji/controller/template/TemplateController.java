@@ -1,6 +1,5 @@
 package com.cqut.xiji.controller.template;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;

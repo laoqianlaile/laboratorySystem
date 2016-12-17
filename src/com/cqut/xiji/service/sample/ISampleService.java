@@ -3,8 +3,6 @@ package com.cqut.xiji.service.sample;
 import java.util.List;
 import java.util.Map;
 
-import com.cqut.xiji.entity.sample.Sample;
-
 public interface ISampleService {
 
     /**

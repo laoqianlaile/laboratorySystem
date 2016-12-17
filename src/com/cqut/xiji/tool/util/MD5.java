@@ -60,6 +60,6 @@ public class MD5 {
     	System.out.print("Please enter the String which you want to change: ");
     	String s = input.next();	
         MD5 getMD5 = new MD5();
-        System.out.println(getMD5.GetMD5Code(s));
+        System.out.println(MD5.GetMD5Code(s));
     }
 }

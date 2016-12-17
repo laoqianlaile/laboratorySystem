@@ -1,8 +1,6 @@
 package com.cqut.xiji.controller.equipment;
 
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 

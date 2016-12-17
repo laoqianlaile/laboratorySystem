@@ -180,7 +180,7 @@ public class WordProcess {
         if (toFindText == null || toFindText.equals(""))  
             return false;  
         // 从selection所在位置开始查询  
-        Dispatch find = word.call(selection, "Find").toDispatch();  
+        Dispatch find = Dispatch.call(selection, "Find").toDispatch();  
         // 设置要查找的内容  
         Dispatch.put(find, "Text", toFindText);  
         // 向前查找  

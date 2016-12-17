@@ -1,7 +1,5 @@
 package com.cqut.xiji.entity.template;
 
-import java.util.Date;
-
 import com.cqut.xiji.entity.base.Entity;
 import com.cqut.xiji.service.tableCreator.ID;
 

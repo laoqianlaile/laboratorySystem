@@ -1,20 +1,13 @@
 package com.cqut.xiji.tool.fileEncrypt;
 
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.Resource;
-import javax.enterprise.inject.New;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.service.base.SearchService;
-import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
-import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
 
 @Service

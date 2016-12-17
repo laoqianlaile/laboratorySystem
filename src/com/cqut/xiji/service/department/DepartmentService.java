@@ -17,7 +17,6 @@ import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.entity.base.BootstrapTreeNode;
 import com.cqut.xiji.entity.department.Department;
 import com.cqut.xiji.entity.employee.Employee;
-import com.cqut.xiji.entity.module.Module;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
@@ -103,6 +102,7 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 		return map;
 		
 	}
+	@Override
 	public String addDepartment(String departmentName,String departmentCode,String remarks,String employeeID,String parent){
 		Department department = new Department();
 		department.setID(EntityIDFactory.createId());
@@ -134,6 +134,7 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 		
 	}
 
+	@Override
 	public String delDepartment(String IDs) {
 		// TODO Auto-generated method stub
 		if(IDs == null || IDs.isEmpty()){
@@ -160,6 +161,7 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 		}
 	}
 	
+	@Override
 	public String updDepartment(String ID,String departmentName,String departmentCode,String remarks,String employeeID,String parent){
 		Department department=entityDao.getByID(ID, Department.class);
 		department.setDepartmentName(departmentName);

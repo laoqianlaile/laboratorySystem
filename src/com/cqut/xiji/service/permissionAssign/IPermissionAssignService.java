@@ -1,11 +1,7 @@
 package com.cqut.xiji.service.permissionAssign;
 
 import java.util.List;
-import java.util.Map;
-
 import com.cqut.xiji.entity.base.BootstrapTreeNode;
-import com.cqut.xiji.entity.permissionAssign.PermissionAssign;
-import com.cqut.xiji.tool.treeNode.Node;
 
 
 /**

@@ -1,7 +1,5 @@
 package com.cqut.xiji.entity.taskMan;
 
-import java.util.Date;
-
 import com.cqut.xiji.entity.base.Entity;
 import com.cqut.xiji.service.tableCreator.ID;
 

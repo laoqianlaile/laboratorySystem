@@ -1,10 +1,7 @@
 package com.cqut.xiji.entity.base;
 
-import java.awt.Color;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 类详细描述:树节点

@@ -1,15 +1,8 @@
 package com.cqut.xiji.controller.fileInformation;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;

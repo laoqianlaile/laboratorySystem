@@ -2,8 +2,6 @@ package com.cqut.xiji.service.standardType;
 
 import java.util.Map;
 
-import com.cqut.xiji.entity.standardType.StandardType;
-
 public interface IStandardTypeService {
 
 	public Map<String, Object> getStandardTypeWithPaging(String sTANDARDTYPECODE,

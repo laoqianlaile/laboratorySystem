@@ -5,8 +5,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.cqut.xiji.entity.receiptlist.Receiptlist;
-
 public interface IReceiptlistService {
  
 			
