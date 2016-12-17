@@ -1,0 +1,235 @@
+@CHARSET "UTF-8";
+body{
+	margin:0px;
+	padding:0px;
+	background-color:#eee;
+}
+.main{
+	min-width:755px;
+	width:1100px;
+	height:900px;
+	background:#fff;
+	margin:0 auto;
+	border-radius:7px;
+	-moz-border-radius:7px; /* 老的 Firefox */
+	box-shadow: 0px 0px 10px #333;
+	-moz-box-shadow: 0px 0px 10px #333; /* 老的 Firefox */
+}
+.main #showContract{
+    min-width:855px;
+	height:210px;
+	margin:20px 50px;
+	font-size:14px;
+}
+#showContract .top{
+	height:55px;
+	line-height:55px;
+	border-bottom:2px solid #999;
+}
+#showContract .top span{
+	font-family:"Times New Roman",Georgia,Serif;
+	font-size:24px;
+	width:200px;
+}
+
+.contract-title{
+	float:right;
+	height:55px;
+	padding:11px 0;
+}
+
+.contractCode{
+	float:right;
+	height:34px;
+	width:350px;
+}
+.contractCode label{
+	float:right;
+	height:34px;
+	line-height: 34px;
+}
+.contractCode input{
+	float:right;
+	width:188px;
+}
+
+#showContract .bottom{
+	float:right;
+	height:176px;
+	border-bottom:2px solid #999;
+}
+#showContract .bottom div{
+	height:32px;
+	line-height:32px;
+	margin:4px 0;
+	float:left;
+}
+#showContract input{height:32px;}
+.contractName{width:33%;}
+.companyName{width:33%;}
+.address{width:34%;}
+.oppositeMen{width:33%;}
+.linkPhone{width:33%;}
+.signAddress{width:34%;}
+.employeeName{width:33%;}
+.Time{width:67%;}
+.signTime{width:33%;}
+.contractAmount{width:24%;}
+.isClassified{width:23%;}
+.classifiedLevel{width:20%;}
+
+.contractName input{width:225px;}
+.signAddress input{width:225px;}
+.companyName input{width:225px;}
+.address input{width:225px;}
+.oppositeMen input{width:100px;}
+.linkPhone input{width:137px;}
+.Time div{width:220px;}
+.Time div.bsp{width:40px;text-align: center;}
+.Time div input{width:180px;}
+.employeeName input{width:100px;}
+.signTime div{width:220px;}
+.signTime input{width:160px;}
+.contractAmount input{width:100px;}
+.isClassified input{float:left;width:16px;height:20px;}
+.isClassified span{height:28px;width:24px;font-size:18px;float:left;display:inline-block;}
+.classifiedLevel select{width:88px;}
+
+.companyN{
+	position:relative;
+	 width:236px;
+	 display:none;
+	 border:2px solid #ccc;
+	 border-top:none;
+	 border-radius:3px;
+	 z-index: 10;
+}
+.companyN ul {
+	width:235px;
+	height:30px;
+	border:none;
+	margin:0;
+	margin-left:-40px;
+}
+.companyN ul li{
+	width:235px;
+	height:30px;
+	line-height: 30px;
+	list-style-type: none;
+	text-indent: 12px;
+	background-color:#fff;
+}
+.companyN ul li:hover{
+	background-color:#dcdcdc;
+}
+.employeeN{
+	position:relative;
+	 width:106px;
+	 display:none;
+	 border:2px solid #ccc;
+	 border-top:none;
+	 border-radius:3px;
+	 z-index: 10;
+}
+.employeeN ul {
+	width:105px;
+	height:30px;
+	border:none;
+	margin:0;
+	margin-left:-40px;
+}
+.employeeN ul li{
+	width:105px;
+	height:30px;
+	line-height: 30px;
+	list-style-type: none;
+	text-indent: 12px;
+	background-color:#fff;
+}
+.employeeN ul li:hover{
+	background-color:#dcdcdc;
+}
+
+.main .contractFile{
+	min-width:855px;
+	width:1000px;
+	height:300px;
+	margin:20px 50px;
+	padding-bottom:20px;
+}
+.main .contractFile .top{
+	height:50px;
+	width:1000px;
+	line-height:50px;
+	border-bottom:2px solid #999;
+}
+.contractFile .top span{
+	font-family:"Times New Roman",Georgia,Serif;
+	font-size:24px;
+	width:200px;
+}
+.contractFile .top  .btnAdd{
+	margin:6px;
+	width:160px;
+}
+
+.contractFile .top  .btnAdd button{
+	width:100px;
+	height:32px;
+	line-height:10px;
+	font-size:14px;
+}
+
+.contractFile .bottom{
+	margin:20px 0px;
+	height:230px;
+	width:1000px;
+	border:1px solid #ccc;
+}
+#show_contractFile{
+	width:1000px;
+}
+.main .contractFileItem{
+	min-width:755px;
+	width:1000px;
+	height:200px;
+	margin:20px 50px;
+}
+.main .contractFileItem .top{
+	height:40px;
+	line-height:40px;
+	border-bottom:2px solid #999;
+}
+.contractFileItem .top span{
+	font-family:"Times New Roman",Georgia,Serif;
+	font-size:24px;
+	width:200px;
+}
+.contractFileItem .bottom{
+	margin:20px 0px;
+	height:200px;
+	width:1000px;
+	border:1px solid #ccc;
+}
+#show_contractFileItem{
+	width:1000px;
+}
+.footer{
+	margin-top:40px;
+    float:left;
+    width:1000px;
+}
+.footer button#btn-goback{
+	margin-right:100px;
+}
+.footer button{
+	margin-right:20px;
+	float:right;
+	width:88px;
+	height:30px;
+	color:#eee;
+	background-color:#5695ff;
+	border:2px outset #89a6ff;
+}
+.fl{float:left;}
+.fr{float:right;}

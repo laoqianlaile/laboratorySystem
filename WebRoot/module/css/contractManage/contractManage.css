@@ -1,0 +1,9 @@
+@CHARSET "UTF-8";
+#table_module {
+	width:900px;
+	float: right;
+}
+#tree {
+	width:200px;
+	float:left;
+}

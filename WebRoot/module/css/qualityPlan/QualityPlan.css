@@ -1,0 +1,111 @@
+@CHARSET "UTF-8";
+#main{
+	width:94%;
+	margin:0 auto;
+}
+#head{
+	width:100%;
+	height:150px;
+
+}
+#center{
+	width:100%;
+}
+#bottom{
+	width:100%;
+
+}
+#font{
+	text-align:center;
+	font-size:22px;
+}
+#Serialnumber{
+	float:right;
+}
+.headtext{
+	display:inline-block;
+	margin-left:30px;
+	height:36px;
+	line-height:36px;
+	margin-top:40px;
+}
+.text{
+	display:inline-block;
+	width:200px;
+	margin-top:-5px;
+}
+.btncss{
+	display:inline-block;
+	width:80px;
+	margin-top:-5px;
+}
+.thisbtn{
+	margin-left:20px;
+}
+#tablecontent{
+	margin-top:10px;
+}
+#listdata li{
+	text-align:center;
+}
+#listdata li:hover{
+	cursor:pointer;
+	background:#F5F5F5;
+	font-color:black;
+	text-align:center;
+}
+.mystyle{
+	height:34px;
+	width:200px;
+	line-height:20px;
+	font-size:17px;
+}
+li{
+	text-align:center;
+}
+li:hover{
+	cursor:pointer;
+	background:#F5F5F5;
+	font-color:black;
+}
+.timeStyle{
+	padding:0px;
+	height:34px;
+	width:37px;
+	margin-top:-3px;
+	margin-left:-7px;
+	border-bottom-left-radius:0;
+	border-top-left-radius:0;
+}
+#tablecontent tr{
+	height:45px;
+}
+#listdata{
+	margin-left:30px;
+}
+#listdata2{
+	margin-left:30px;
+}
+#listul2{
+	margin-top:37px;
+}
+.thatbtn{
+	float:right;
+	display:none;
+}
+.trbg{
+	background:yellow !important;
+}
+.tan{
+	position:fixed;
+	height:100px;
+	z-index:9999;
+	opacity:0.8;
+	padding-top:30px;
+	text-align:center;
+	font-size:25px;
+	display:none;
+}
+.fixed-table-body{
+	height:300px;
+}

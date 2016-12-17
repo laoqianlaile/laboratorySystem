@@ -1,0 +1,106 @@
+@CHARSET "UTF-8";
+body{
+	margin:0px;
+	padding:0px;
+	background-color:#eee;
+}
+.main{
+	min-width:855px;
+	width:1100px;
+	height:600px;
+	background:#fff;
+	margin:0 auto;
+	border-radius:7px;
+	-moz-border-radius:7px; /* 老的 Firefox */
+	box-shadow: 0px 0px 10px #333;
+	-moz-box-shadow: 0px 0px 10px #333; /* 老的 Firefox */
+}
+.main .header{
+    min-width:855px;
+	height:200px;
+	margin:20px 50px;
+}
+.main .header .top{
+	height:40px;
+	line-height:40px;
+	border-bottom:2px solid #999;
+}
+.main .header .top span{
+	font-family:"Times New Roman",Georgia,Serif;
+	font-size:24px;
+	width:200px;
+}
+.contract-title{
+	float:right;
+}
+.contract-title .state{
+	display:inline;
+	height:50px;
+	width:150px;
+	margin-right:32px;
+}
+.contract-title .contractCode{
+	display:inline;
+	height:50px;
+	width:150px;
+}
+.main .header .bottom{
+	width:1000px;
+	float:right;
+	height:164px;
+	border-bottom:2px solid #999;
+}
+.main .header .bottom div{
+	height:40px;
+	line-height:40px;
+	float:left;
+}
+.contractName{width:40%;}
+.signAddress{width:60%;}
+.companyName{width:40%;}
+.oppositeMen{width:32%;}
+.linkPhone{width:28%;}
+.Time{width:40%;}
+.employeeName{width:32%;}
+.signTime{width:28%;}
+.contractAmount{width:40%;}
+.isClassified{width:32%;}
+.classifiedLevel{width:28%;}
+.main .content{
+	min-width:855px;
+	width:1000px;
+	height:260px;
+	margin:20px 50px;
+}
+.main .content .top{
+	height:40px;
+	line-height:40px;
+	border-bottom:2px solid #999;
+}
+.content .top span{
+	font-family:"Times New Roman",Georgia,Serif;
+	font-size:24px;
+	width:200px;
+}
+.content .bottom{
+	margin:20px 0px;
+	height:200px;
+	width:1000px;
+	border:1px solid #ccc;
+}
+.footer{
+
+}
+.footer button#btn-goback{
+	margin-right:100px;
+}
+.footer button{
+	margin-right:20px;
+	float:right;
+	width:68px;
+	height:30px;
+	color:#eee;
+	background-color:#5695ff;
+	border:2px outset #89a6ff;
+}
+

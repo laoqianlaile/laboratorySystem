@@ -1,0 +1,63 @@
+@CHARSET "UTF-8";
+#hote{
+	width:1100px;
+	margin:0 auto;
+	margin-top:50px;
+}
+.subadd{
+	margin-left:100px;
+}
+.subadd2{
+	margin-left:50px;
+}
+.subadd3{
+	margin-left:10px;
+}
+.abc{
+	margin-left:30px;	
+}
+#hote-right{
+	width:1100px;
+}
+.cgtable{
+	text-align:center;
+}
+.hang{
+	height:30px;
+}
+.span{
+	padding-left:30px;
+	padding-top:20px;
+	height:40px;
+	line-height:40px;
+}
+.nav{
+	float:right;
+	margin-top:-20px;
+	margin-right:30px;
+}
+.hr{
+	border-color:#e5e5e5;
+	width:1100px;
+	float:left;
+	padding-top:10px;
+}
+td{
+	overflow:hidden;
+}
+.tan{
+	position:absolute;
+	width:300px;
+	height:100px;
+	z-index:9999;
+	opacity:0.8;
+	padding-top:30px;
+	text-align:center;
+	font-size:25px;
+	display:none;
+}
+
+
+
+
+

@@ -1,0 +1,39 @@
+@CHARSET "UTF-8";
+	
+	.input_top{
+	 margin-left:20px;
+	}
+	.top{
+	margin-buttom:20px;
+	}
+	#sty{
+	  padding: 6px 12px;
+      font-size: 14px;
+      font-weight: normal;
+      line-height: 1;
+      color: #555;
+      text-align: center;
+      background-color: #eee;
+      border: 1px solid #ccc;
+      padding-left:2px;
+      padding-right:2px;
+	}
+	.form_self-inline{
+	  width:200px;
+    display:inline;
+	}
+	.self_margin{
+	 margin-top:14px;
+	}
+	.input-self{
+	width:200px;
+	}
+	#search{
+	margin-left: 56px;
+	}
+	#self-company{
+	margin-left: 20px;
+	}
+	#tableDiv{
+	padding-top: 53px;
+	}

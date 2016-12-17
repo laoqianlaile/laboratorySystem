@@ -1,0 +1,187 @@
+@charset "utf-8";
+/* 公共部分css样式 */
+.pagination-info{
+	color:#198ac8;
+}
+.page-list{
+	color:#198ac8;
+}
+.content1{
+	width:1366px;
+	margin:0 auto;
+}
+.content{
+	width:1210px;
+	margin:0 auto;
+}
+.header{
+
+}
+.logoline{
+	height:68px;
+}
+.logo{
+	position:relative;
+	left:72px;
+	top:4px;
+	height:60px;
+	width:500px;
+}
+.line{
+	height:40px;
+	background-color:#2999d5;
+}
+.tittleline{
+	float:left;
+	height:30px;
+	line-height:30px;
+	text-align:center;
+	margin-top:5px;
+	margin-bottom:5px;
+	margin-left:76px;
+}
+.item{
+	float:left;
+	display:block;
+}
+.item-inner{
+	display:inline-block;
+	color:#fff;
+	width:90px;
+	margin:0 2px;
+}
+.item-inner:active{
+	background-color:#0e7ebb;
+	}
+.item-inner:hover{
+	background-color:#0e7ebb;
+	text-decoration:none;
+	}
+.tittleline span{
+	color:#2692ce;
+	}	
+.right-linne{
+	float:right;
+	height:40px;
+	line-height:40px;
+	text-align:center;
+	position: relative;
+	}
+.right-linne a{
+	color:#fff;
+	float:right;
+	margin-right:30px;
+}
+.right-linne p{
+	color:#fff;
+	float:right;
+	margin-right:30px;
+	cursor: pointer;
+}
+.right-linne p:hover{
+	color:#d5d4c8cc;
+}
+.ulDiv{
+	position:absolute;
+	top:40px;
+	left:0px;
+	width:120px; 
+	height:120px;
+	border:1px solid #dddddd;
+}
+.ulDiv ul li a{
+	color:#000;
+    margin-left: -30px;
+}
+.ulDiv ul li a:HOVER{
+	color:#dddddd;
+	cursor: pointer;
+}
+/* .register:hover{
+	color:#CCC;
+	} */
+.banner{
+	margin:0 auto;
+	overflow:hidden;
+}
+.footer{
+	height:100px;
+	border-top:3px solid #198ac8;
+	margin-top:20px;
+	}
+.btext{
+	padding-top:10px;
+	text-align:center;
+	font-family:Georgia, "Times New Roman", Times, serif;
+}
+/*登陆弹窗*/
+#login_box{
+	position:fixed;
+	height:350px;
+	width:410px;
+	background:#fff;
+	z-index:1001;
+	display:none;
+	border:2px solid #ccc;
+}
+.container2{
+	width:304px;
+	margin:0 48px;
+}
+.show_logo{
+	height:65px;
+	width:304px;
+	margin-top:26px;
+}
+.form-signin{
+	margin-top:30px;
+}
+.form-signin input{
+	margin-bottom:20px;
+}
+.check_box{
+	margin-bottom:20px;
+}
+.check_box input{
+	float:left;
+}
+.check_box a{
+	float:right;
+	font-size:18px;
+	margin-right:40px;
+}
+
+.btn{
+	background-color:#0e7ebb;
+	color:#000;
+}
+.findPassword{
+	margin-top:20px;
+	font-size:17px;
+	float:right;
+}
+#imask{
+	position:relative;
+	background:#000;
+	opacity:0.75;
+	filter:alpha(opacity=75);
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:1000;
+	display:block;
+	}
+#imask_1{
+	position:relative;
+	background:#000;
+	opacity:0.75;
+	filter:alpha(opacity=75);
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:1000;
+	display:block;
+	}
+.close{
+	
+}

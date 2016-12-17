@@ -1,0 +1,65 @@
+.headTitel label {
+	text-align: right;
+	display: inline-block;
+	width: 49.5%;
+	font-family: cursive;
+	font-size: larger;
+}
+
+.headHr {
+	border: 1px solid black;
+	margin-bottom: 5px;
+	margin-top: 0px;
+}
+
+.headTitel label:FIRST-CHILD {
+	text-align: left;
+}
+
+.form-control {
+	display: inline;
+	width: auto;
+}
+
+.row {
+	margin-bottom: 7px;
+}
+
+.col-md-6 input {
+	width: 79%;
+}
+
+.col-md-12 textarea {
+	width: 90%;
+}
+
+.main {
+	margin-top: 25px;
+}
+
+.mainTitel,.secondTitel {
+	padding-left: 15px;
+	padding-right: 15px;
+	position: relative;
+	margin-top: 10px;
+}
+
+#sampleTable th,#fileTable th {
+	border: 1px solid;
+	text-align: center;
+}
+
+#sampleTable td,#fileTable td {
+	border: 1px solid;
+	text-align: center;
+}
+
+.footer {
+	margin-top: 20px;
+}
+
+.footer button {
+	float: right;
+	margin-right: 20px;
+	width: 90px;
+}

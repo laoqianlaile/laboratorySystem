@@ -1,0 +1,469 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<base href="<%=basePath%>">
+
+<title>部门管理</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+
+
+<link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
+<link rel="stylesheet" type="text/css"href="module/css/bootstrap-table.css">
+<link rel="stylesheet" type="text/css"href="module/css/bootstrap-datetimepicker.css">
+<link rel="stylesheet" type="text/css" href="module/css/uploadify.css">
+<link rel="stylesheet" type="text/css"href="module/css/fileManage/fileManage.css">
+<link rel="stylesheet" type="text/css"href="module/css/timecheck/suggest.css">
+<link rel="stylesheet" type="text/css" href="module/css/jquery.fonticonpicker.min.css" />
+<link rel="stylesheet" type="text/css" href="module/css/fontello.css" />
+<link rel="stylesheet" type="text/css" href="module/css/fontello-7275ca86/css/fontello.css" />
+<link rel="stylesheet" type="text/css" href="module/css/themes/grey-theme/jquery.fonticonpicker.grey.min.css" />
+<link rel="stylesheet" type="text/css" href="module/css/themes/dark-grey-theme/jquery.fonticonpicker.darkgrey.min.css" />
+<link rel="stylesheet" type="text/css" href="module/css/themes/bootstrap-theme/jquery.fonticonpicker.bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="module/css/themes/inverted-theme/jquery.fonticonpicker.inverted.min.css" />
+	
+	
+	
+
+<script src="module/js/jquery-2.1.1.min.js"></script>
+<script src="module/js/fileManage/fileManage.js"></script>
+<script src="module/js/jquery.uploadify.min.js"></script>
+<script src="module/js/bootstrap.js"></script>
+<script src="module/js/bootstrap-table.js"></script>
+<script src="module/js/bootstrap-table-zh-CN.js"></script>
+<script src="module/js/bootstrap-datetimepicker.fr.js"></script>
+<script src="module/js/bootstrap-datetimepicker.js"></script>
+<script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="module/js/bootstrap-treeview.js"></script>
+<script src="module/js/moduleManage/jquery.fonticonpicker.min.js"></script>
+ 
+
+</head>
+
+<style>
+span {
+	font-size: 20px;
+	padding: 0px;
+	margin: 0px;
+}
+
+.input-group[class*="col-"] {
+	float: left;
+}
+
+.input-group .form-control {
+	float: left;
+	margin-bottom: 0;
+	position: relative;
+	width: 100%;
+	z-index: 2;
+	float: right;
+}
+
+#departin label {
+	margin-top: 11px;
+	float: left;
+}
+
+textarea {
+	margin-top: 10px;
+}
+
+#form {
+	width: 100%;
+	height: 60px;
+	float: left;
+	margin-top: 8px;
+}
+
+.item {
+	width: 30%;
+	height: 40%;
+	float: left;
+}
+
+.item>input {
+	display: inline-block;
+	width: 60%;
+}
+
+
+#search {
+	float: left;
+}
+.dropdown-menu{
+		width: 159px;
+    height: 77px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+		.choose {
+	height: 300px;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	width: 290px;
+}
+
+.overChoose {
+	display: none;
+	height: 300px;
+	    left: 480px;
+	margin: 0 auto;
+	min-width: 124px;
+	overflow: hidden;
+	position: absolute;
+	top: 150px;
+	width: 260px;
+	z-index: 9999;
+	/* color: #fff; */
+	background: #fff;
+}
+
+.over {
+	background: #808080 none repeat scroll 0 0;
+	color: #333;
+	display: block;
+	opacity: 1;
+	position: fixed;
+	top: 0px;
+	z-index: 9999;
+}
+
+.col-xs-12 input,.col-md-12 input,.col-xs-12 select {
+	display: block;
+	width: 100%;
+	display: block;
+	width: 90%;
+	height: 34px;
+}
+
+h4,.h4 {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.col-xs-12 input.chooseInput,.col-md-12 input.chooseInput {
+	width: 20px;
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 70px;
+}
+
+.col-xs-12 label.fontStyle,.col-md-12 label.fontStyle {
+	margin: 10px 0 0;
+}
+.col-xs-12 label.fontStyle1,.col-md-12 label.fontStyle1 {
+	margin: 10px 0 0;
+}
+.fip-box i {
+	display: block;
+	margin-top: 13px;
+}
+.icons-selector .fip-icon-block:BEFORE{
+    margin-top: 10px;
+}
+
+.icons-selector .fip-icon-down-dir:BEFORE {
+    margin-top: 10px;
+}
+
+.icons-selector .fip-icon-search:BEFORE {
+    margin-top: 10px;
+}
+table {
+	width: 1020px;
+	min-width:1200px;
+/* 	float: left;
+	margin-left: 40px; */
+}
+#tree{
+min-width: 300px;
+width:20%;
+float:left ;
+}
+#moduleTable{
+    min-width: 1200px;
+    /* float: left; */
+    margin-left: 10px;
+    display: inline-block;
+    width: 79%;
+    margin-top: 10px;
+}
+.container{
+   margin : 0 auto;
+  min-width: 1600px;
+  width: 100%;
+}
+.btn-primary{
+margin-left: 3px;
+}    
+		
+</style>
+
+<body>
+<div class="container">
+	<div id="form">
+		<div class="item">
+			<label class="control-label">部门编号:</label> <input
+				class="form-control" id="linkdepartmentCode">
+		</div>
+		<div class="item">
+			<label class="control-label">部门名称:</label> <input
+				class="form-control" id="linkdepartmentName">
+		</div>
+		<div class="item">
+			<label class="control-label">负责人:</label> <input class="form-control"
+				id="linkemployeeID">
+		</div>
+
+	</div>
+	<!--功能按钮 -->
+	
+	<div class="row clearfix">
+
+		<div class="col-md-3.5 column">
+			<div style="float: right;margin-right: 16px;">
+				<button id="query" onclick="find()" class="btn btn-prima    ry"
+					type="button">
+					<em class="glyphicon glyphicon-search"></em> 查询
+				</button>
+				<button type="button" class="btn btn-info glyphicon glyphicon-plus"
+					data-toggle="modal" data-target="#addModal">&nbsp;新增</button>
+
+				<button class="btn btn-warning type=" button" id="del"
+					onclick="openModal()">
+					<em class="glyphicon glyphicon-trash"></em> 修改
+				</button>
+
+				<button class="btn btn-d type=" button" id="del" onclick="delData()">
+					<em class="glyphicon glyphicon-trash"></em> 删除
+				</button>
+
+				<button class="btn btn-success type=" button" id="refresh"
+					onclick="query()">
+					<em class="glyphicon glyphicon-refresh"></em> 全部数据
+				</button>
+
+			</div>
+		</div>
+	</div>
+	
+	
+<!--小弹框  -->
+							<div class="over" id="addOver">
+									<div class="overChoose">
+										<!-- 隐藏滑动条 -->
+										<div class="choose">
+											<div class="row">
+												
+
+											</div>
+										</div>
+									</div>
+								</div>
+
+	
+	
+	<!-- 新增弹框 -->
+	<div id="addModal" class="modal fade" role="dialog"
+		aria-labelledby="gridSystemModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">添加部门</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-xs-12 col-md-12">
+							<h4>部门编码：</h4>
+							<input type="text" id="add_departmentCode" name="departmentCode "
+								class="form-control" aria-describedby="basic-addon1" />
+						</div>
+						<div class="col-xs-12 col-md-12">
+							<h4>部门名称：</h4>
+							<input type="text" id="add_departmentName" name="departmentName"
+								class="form-control" aria-describedby="basic-addon1" />
+						</div>
+						<div style="margin-top:20px" id="departin">
+							<label>部门简介:</label>
+							<textarea rows="6" cols="40" id="add_remarks"></textarea>
+							<input id="ID" type="hidden"></input>
+						</div>
+						<div class="col-xs-12 col-md-12">
+							<h4>负责人：</h4>
+							<input type="text" id="add_responsibleMan" name="responsibleMan"
+								class="form-control" aria-describedby="basic-addon1" />
+						</div>
+						<div style="display: none;"class="col-xs-12 col-md-12">
+							<h4>负责人：</h4>
+							<input type="text" id="add_employeeID" name="responsibleMan"
+								class="form-control" aria-describedby="basic-addon1" />
+						</div>
+						<!-- <div class="col-xs-12 col-md-12">
+							<h4>上级部门：</h4>
+							<input type="text" id="add_parent" name="parent" class="form-control"
+								aria-describedby="basic-addon1" />
+						</div> -->
+						<div class="headtext">
+							<span class="spanstyle">上&nbsp;&nbsp;级&nbsp;部&nbsp;&nbsp;门:</span>
+							<div class="btn-group">
+								<button type="button" onclick="getdepartment()" 
+									class="btn mystyle btn-default dropdown-toggle"
+									data-toggle="dropdown">
+									<span id="textspan1"></span> <span
+										style="position:absolute;left:175px;top:15px;" class="caret"></span>
+								</button>
+								<ul id="listul1" class="dropdown-menu" role="menu"
+									style="width:200px;">
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" onclick="add();">新增</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 修改弹框 -->
+	<div id="editModal" class="modal fade" role="dialog"
+		aria-labelledby="gridSystemModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">修改信息</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div style="display: none;" class="col-xs-12 col-md-12">
+							<h4>流水号1：</h4>
+							<input type="text" id="edit_ID" name="ID" class="form-control"
+								aria-describedby="basic-addon1" />
+						</div>
+						<div class="col-xs-12 col-md-12">
+							<h4>部门编码：</h4>
+							<input type="text" id="edit_departmentCode"
+								name="EdepartmentCode " class="form-control"
+								aria-describedby="basic-addon1" />
+						</div>
+						<div class="col-xs-12 col-md-12">
+							<h4>部门名称：</h4>
+							<input type="text" id="edit_departmentName"
+								name="EdepartmentName" class="form-control"
+								aria-describedby="basic-addon1" />
+						</div>
+						<div style="margin-top:20px" >
+							<label>部门简介:</label>
+							<textarea rows="6" cols="40" id="edit_remarks"></textarea>
+							<input id="ID" type="hidden"></input>
+						</div>
+						<div style="display: none;"class="col-xs-12 col-md-12">
+							<h4>负责人：</h4>
+							<input type="text" id="edit_employeeID" name="EemployeeID"
+								class="form-control" aria-describedby="basic-addon1" />
+						</div>
+						<div class="col-xs-12 col-md-12">
+							<h4>负责人：</h4>
+							<input type="text" id="edit_employee" name="Eemployee"
+								class="form-control" aria-describedby="basic-addon1" />
+						</div>
+						<div class="headtext">
+							<span class="spanstyle">上&nbsp;&nbsp;级&nbsp;部&nbsp;&nbsp;门:</span>
+							<div class="btn-group">
+								<button type="button" onclick="getdepartment1()"
+									class="btn mystyle btn-default dropdown-toggle"
+									data-toggle="dropdown">
+									<span id="textspan2"></span> <span
+										style="position:absolute;left:175px;top:15px;" class="caret"></span>
+								</button>
+								<ul id="listul2" class="dropdown-menu" role="menu"
+									style="width:200px;">
+								</ul>
+							</div>
+						</div>
+						<!-- <div class="col-xs-12 col-md-12">
+							<h4>上级部门：</h4>
+							<input type="text" id="edit_parent" name="parent"
+								class="form-control" aria-describedby="basic-addon1" />
+						</div> -->
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" onclick="edit();">修改</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 结构树 -->
+	<div id="tree" >
+	  </div>
+    <div id="moduleTable">
+       <table id="table"></table>
+    </div>
+		</div>
+	<script type="text/javascript">
+		
+
+		//如果有树需加上下面这样初始化树代码
+		//初始化树
+		$.ajax({
+			type : 'POST',
+			url : 'departmentController/getTree.do',
+			success : function(value) {
+
+				var trees = JSON.parse(value);
+				$('#tree').treeview({
+					data : trees,
+					showIcon : true,
+					levels : 1,
+				});
+			},
+			dataType : 'text'
+		});
+	</script>
+
+	
+	
+	
+	
+
+
+</body>
+
+
+
+<script type="text/javascript">
+	$('.form_datetime').datetimepicker({
+		language : 'zh-CN',
+		weekStart : 1,
+		todayBtn : 1,
+		autoclose : 1,
+		todayHighlight : 1,
+		startView : 2,
+		minView : 2,
+		forceParse : 0,
+		format : 'yyyy-mm-dd'
+	});
+</script>
+
+<script src="module/js/department/department.js"></script>
+</html>

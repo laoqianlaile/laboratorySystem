@@ -1,0 +1,312 @@
+package com.cqut.xiji.service.equipment;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+import com.cqut.xiji.dao.base.BaseEntityDao;
+import com.cqut.xiji.dao.base.EntityDao;
+import com.cqut.xiji.dao.base.SearchDao;
+import com.cqut.xiji.entity.equipment.Equipment;
+import com.cqut.xiji.service.base.SearchService;
+import com.cqut.xiji.tool.util.EntityIDFactory;
+
+
+@Service
+public class EquipmentService extends SearchService implements
+		IEquipmentService {
+
+
+	@Resource(name = "entityDao")
+	EntityDao entityDao;
+
+	@Resource(name = "searchDao")
+	SearchDao searchDao;
+
+	@Resource(name = "baseEntityDao")
+	BaseEntityDao baseEntityDao;
+
+	@Override
+	public String getBaseEntityName() {
+		return "equipment";
+	}
+
+	@Override
+	public String getBasePrimaryKey() {
+		return "equipment.ID";
+	}
+
+	@Override
+	public List<Map<String, Object>> getEquipments() {
+		List<Map<String, Object>> ens = searchDao
+				.searchForeign(
+						new String[] { "equipment.ID as equipmentID",
+								"equipmentCode", "equipmentName",
+								"equipmentType.ID as equipmentTypeID",
+								"equipmentType.name as equipmentTypeName", },
+						"equipment",
+						"join equipmentType on equipmentType.ID = equipment.equipmentTypeID",
+						null, null, " 1 = 1");
+		return ens;
+	}
+
+	@Override
+	public List<Map<String, Object>> getEquipmentsByID(String equipmentID) {
+		List<Map<String, Object>> ens = searchDao
+				.searchForeign(
+						new String[] { "equipment.ID as equipmentID",
+								"equipmentCode", "equipmentName",
+								"equipmentType.ID as equipmentTypeID",
+								"equipmentType.name as equipmentTypeName",
+								"department.departmentName as departmentName" },
+						"equipment",
+						"join equipmentType on equipmentType.ID = equipment.equipmentTypeID "
+								+ "JOIN department ON department.ID = equipment.departmentID",
+						null, null, "equipment.ID=" + equipmentID + "");
+		return ens;
+	}
+	@Override
+	public Map<String, Object> getEquipmentWithPaging(int limit, int offset,
+			String sort, String order, String equipmentName,
+			String equipmentType, String departmentName, String buyTime){
+		int index = limit;
+		int pageNum = offset/limit + 1;
+		String tableName = "equipment";
+		String[] properties = new String[]{
+				"equipment.ID",
+				"equipment.equipmentCode",
+				"equipment.equipmentName",
+				"equipment.model",
+				"department.departmentName",
+				"date_format(equipment.buyTime,'%Y.%m.%d') as buyTime",
+				"equipment.useYear",
+				"equipmentType.name",
+				"employee.employeeName",
+				"equipment.factoryCode",
+				"equipment.credentials",
+				"date_format(equipment.effectiveTime,'%Y.%m.%d') as effectiveTime",
+				"equipment.remarks"
+		};
+		String joinEntity = " LEFT JOIN department ON equipment.departmentID = department.ID " +
+				" LEFT JOIN equipmentType ON equipment.equipmentTypeID = equipmentType.ID " +
+				" LEFT JOIN employee ON equipment.employeeID = employee.ID ";
+		String condition = " 1 = 1 "; 
+		if (equipmentName != null && !equipmentName.isEmpty()) {
+			condition += " and equipmentName like '%" + equipmentName+ "%'";
+		}if (equipmentType != null && !equipmentType.isEmpty()) {
+			if( !equipmentType.equals("0") ){
+				condition += " and equipmentType.ID = '" + equipmentType + "'";
+			}
+		}if (departmentName != null && !departmentName.isEmpty()) {
+			if( !departmentName.equals("0") ){
+				condition += " and department.ID = '" + departmentName + "'";
+			}
+		}if (buyTime != null && !buyTime.isEmpty()) {
+			condition += " and buyTime >'" + buyTime + "'";
+		}
+		List<Map<String, Object>> result = entityDao.searchWithpaging(
+				properties, tableName, joinEntity, null, condition, null,sort,
+				order, index, pageNum);
+		System.out.println("初始化成功:"+result);
+		int count = entityDao.getByCondition(" 1=1 ", Equipment.class).size();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("total", count);
+		map.put("rows", result);
+		return map;
+	}
+	
+	public int addEquipment(String equipmentCode, String equipmentName,
+			String equipmentType, String model, String department,
+			String buyTime, int useYear, String factoryCode, String credentials,
+			String effectiveTime, String employeeID, String remarks){
+		Equipment equipment = new Equipment();
+		equipment.setID(EntityIDFactory.createId());
+		equipment.setEquipmentCode(equipmentCode);
+		equipment.setEquipmentName(equipmentName);
+		equipment.setEquipmentTypeID(equipmentType);
+		equipment.setModel(model);
+		equipment.setDepartmentID(department);
+		equipment.setUseYear(useYear);
+		equipment.setFactoryCode(factoryCode);
+		equipment.setCredentials(credentials);
+		equipment.setEmployeeID(employeeID);
+		equipment.setRemarks(remarks);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+		Date buyTime1 = null;
+		Date effectiveTime1 = null;
+		try {
+			buyTime1 = sdf.parse(buyTime);
+			effectiveTime1 = sdf.parse(effectiveTime);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if (buyTime1 != null) {
+			equipment.setBuyTime(buyTime1);
+		}
+		if (effectiveTime1 != null) {
+			equipment.setEffectiveTime(effectiveTime1);
+		}
+		
+		int result = entityDao.save(equipment);
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @description 删除设备
+	 * @author hujiajun
+	 * @created 2016-10-21 下午4:45:15
+	 * @param equipmentCodes
+	 * @return
+	 * @see com.cqut.xiji.service.equipment.IEquipmentService#delEquipment(java.lang.String)
+	 */
+	@Override
+	public int delEquipment(String equipmentCodes) {
+		// TODO Auto-generated method stub
+		if(equipmentCodes == null || equipmentCodes.isEmpty()){
+			return 0;
+		}
+		
+		String position = equipmentCodes;
+		int result = entityDao.deleteByCondition(position, Equipment.class);
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @description 通过仪器编号获得合同ID
+	 * @author hujiajun
+	 * @created 2016-10-21 下午4:47:01
+	 * @param equipmentCode
+	 * @return
+	 * @see com.cqut.xiji.service.equipment.IEquipmentService#getIdByCode(java.lang.String)
+	 */
+	@Override
+	public List<Map<String, Object>> getIdByCode(String equipmentCode) {
+		// TODO Auto-generated method stub
+		String[] properties = new String[] {"ID"};
+		String condition = "equipmentCode='" + equipmentCode + "'";
+		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Equipment.class);
+		return result;
+	}
+	
+	/**
+	 * @description 通过设备名称得到设备信息
+	 * @author hujiajun
+	 * @created 2016年12月12日19:13:01
+	 * @param equipmentName
+	 */
+	@Override
+	public List<Map<String, Object>> getEquipmentByName(String equipmentName){
+		String[] properties = new String[] {"ID","equipmentCode","equipmentName","buyTime","departmentID"};
+		String condition = "equipmentName like '%" + equipmentName + "%'";
+		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Equipment.class);
+		return result;
+	}
+	
+	/**
+	 * @description 通过设备ID得到设备信息
+	 * @author hujiajun
+	 * @created 2016年12月12日19:13:01
+	 * @param ID
+	 */
+	@Override
+	public List<Map<String, Object>> getEquipmentById(String ID){
+		String[] properties = new String[] {"ID","equipmentCode","equipmentName","date_format(buyTime,'%Y.%m.%d') as buyTime","departmentID"};
+		String condition = "ID = '" + ID + "'";
+		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Equipment.class);
+		return result;
+	}
+	
+	@Override
+	public String updEquipment(String ID, String equipmentCode,
+			String equipmentName, String equipmentType, String model,
+			String department, String buyTime, int useYear, String factoryCode,
+			String credentials, String effectiveTime, String employeeID,
+			String remarks){
+		// TODO Auto-generated method stub
+		Equipment equipment = new Equipment();
+		
+		equipment.setEquipmentCode(equipmentCode);
+		equipment.setEquipmentName(equipmentName);
+		equipment.setEquipmentTypeID(equipmentType);
+		equipment.setModel(model);
+		equipment.setDepartmentID(department);
+		equipment.setUseYear(useYear);
+		equipment.setFactoryCode(factoryCode);
+		equipment.setCredentials(credentials);
+		equipment.setEmployeeID(employeeID);
+		equipment.setRemarks(remarks);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+		Date buyTime1 = null;
+		Date effectiveTime1 = null;
+		try {
+			buyTime1 = sdf.parse(buyTime);
+			effectiveTime1 = sdf.parse(effectiveTime);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if (buyTime1 != null) {
+			equipment.setBuyTime(buyTime1);
+		}
+		if (effectiveTime1 != null) {
+			equipment.setEffectiveTime(effectiveTime1);
+		}
+				
+		int result = entityDao.updatePropByID(equipment,ID);
+		return result + "";
+	}
+	
+	@Override
+	public Long dateDiff(String startTime, String endTime,  String format, String str) {   
+        // 按照传入的格式生成一个simpledateformate对象    
+        SimpleDateFormat sd = new SimpleDateFormat(format);    
+        long nd = 1000 * 24 * 60 * 60;// 一天的毫秒数    
+        long nh = 1000 * 60 * 60;// 一小时的毫秒数    
+        long nm = 1000 * 60;// 一分钟的毫秒数    
+        long ns = 1000;// 一秒钟的毫秒数    
+        long diff;    
+        long day = 0;    
+        long hour = 0;    
+        long min = 0;    
+        long sec = 0;    
+        // 获得两个时间的毫秒时间差异    
+        try {    
+            diff = sd.parse(endTime).getTime() - sd.parse(startTime).getTime();    
+            day = diff / nd;// 计算差多少天    
+            hour = diff % nd / nh + day * 24;// 计算差多少小时    
+            min = diff % nd % nh / nm + day * 24 * 60;// 计算差多少分钟    
+            sec = diff % nd % nh % nm / ns;// 计算差多少秒    
+            // 输出结果    
+            System.out.println("时间相差：" + day + "天" + (hour - day * 24) + "小时"   
+                    + (min - day * 24 * 60) + "分钟" + sec + "秒。");    
+            System.out.println("hour=" + hour + ",min=" + min);    
+            if (str.equalsIgnoreCase("h")) {    
+                return hour;    
+            } else {    
+                return min;    
+            }    
+   
+        } catch (ParseException e) {    
+            // TODO Auto-generated catch block    
+            e.printStackTrace();    
+        }    
+        if (str.equalsIgnoreCase("h")) {    
+            return hour;    
+        } else {    
+            return min;    
+        }    
+	}
+}
+	
+

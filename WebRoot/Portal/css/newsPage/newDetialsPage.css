@@ -1,0 +1,139 @@
+@CHARSET "UTF-8";
+#nav{
+	background-color:#198ac8;
+	font-size:20px;
+	height:50px;
+	margin:0px;
+	width:1349px;
+}
+#nav ul li a{
+	color:#fff;
+}
+.register{ 
+	float:right;
+}
+.register a{ 
+	float:right;
+	color:#fff !important;
+	font-size:20px;
+	line-height:50px;
+	margin-right:50px;
+}
+#headimg{
+	margin:0px;
+}
+#headimg img{
+	width:1349px !important;
+}
+#headlogo{
+	margin:0px;
+	height:70px;
+}
+#headlogo .logo1{
+	margin-left:100px;	
+	margin-top:10px;
+}
+#headlogo .logo2{
+	position:absolute;
+	top:10px;
+	left:150px;
+}
+#headlogo .logo3{
+	position:absolute;
+	top:50px;
+	left:150px;
+}
+#leftlist{
+	width:220px;
+	height:300px;
+	border:1px solid rgb(230,230,230);
+	margin-top:30px;
+	float:left;
+}
+#leftlist .panel-heading span{
+	color:#198ac8;
+}
+#leftlist .table img{
+	margin-right:8px;
+}
+#leftlist .panel-heading img{
+	margin-right:8px;
+	margin-left:10px;
+}
+#leftlist .table{
+	margin-left:16px;
+	width:188px;
+}
+.lefttable{
+	height:300px;
+}
+#leftlist .table tr{
+	font-size:14px;
+	height:30px;
+	color:#198ac8;
+}
+#leftlist .panel-heading{
+	font-size:16px;
+	height:34px;
+	background:-moz-linear-gradient(top,#F2F2F2,#fff);
+	filter:progid:DXImageTransform.Microsoft.Gradient(startColorStr='#F2F2F2',endColorStr='#fff',gradientType='0');
+	background:-o-linear-gradient(top,#F2F2F2, #fff);
+	background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#F2F2F2), to(#fff));
+}
+#rightlist .panel-heading{
+	font-size:16px;
+	height:34px;
+	color:#198ac8;
+	background:-moz-linear-gradient(top,#F2F2F2,#fff);
+	filter:progid:DXImageTransform.Microsoft.Gradient(startColorStr='#F2F2F2',endColorStr='#fff',gradientType='0');
+	background:-o-linear-gradient(top,#F2F2F2, #fff);
+	background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#F2F2F2), to(#fff));
+}
+#rightlist{
+	width:950px;
+	height:800px;
+	margin-left:40px;
+	border:1px solid rgb(230,230,230);
+	margin-top:30px;
+	float:left;
+}
+.righttable{
+	height:800px;
+}
+.newsTitleDiv{
+	width: 100%;
+	height:50px;	
+}
+.newsTitleDiv h3{
+	text-align:center;
+	margin-top:20px;
+}
+.newsIntroductionDiv{
+	width: 100%;
+	height: 130px;
+}
+.newsIntroductionDiv p{
+	text-indent:32px;
+	height:100%;
+	width:100%;
+	overflow:hidden;
+	text-overflow:ellipsis; 
+	display:block; 
+}
+.newsColumnDiv{
+	width: 100%;
+	height: 130px;
+	overflow: hidden;
+}
+.newsColumnDiv p{
+	text-indent:32px;
+	height:100%;
+	width:100%;
+	overflow:hidden;
+	text-overflow:ellipsis; 
+	display:block; 
+	overflow: hidden;
+}
+
+
+

@@ -1,0 +1,27 @@
+@charset "utf-8";
+/* 初始化 */
+body,div,di,dt,dd,h1,h2,h3,h4,h5,a,p{
+	margin:0;
+	padding:0;
+}
+a{
+	text-decoration:none;
+	display:block;
+}
+ul,li,ol{
+	list-style:none;
+}
+img{
+	margin:0;
+	border:none;
+}
+.clearfloat{
+	zoom:1;
+}
+.clearfloat:after{
+	display:block;
+	content:"";
+	clear:both;
+	visibility:hidden;
+	height:0;
+}

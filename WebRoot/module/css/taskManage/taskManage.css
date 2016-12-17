@@ -1,0 +1,79 @@
+#searchArea {
+	margin: 20px 0 20px 20px;
+}
+
+.form-control {
+	display: inline;
+	width: 70%;
+}
+
+.row {
+	margin-bottom: 10px;
+}
+
+.row label {
+	width: 20%;
+	min-width: 80px;
+}
+
+.row input {
+	width: 73%;
+}
+
+.timeLabelDiv {
+	float: left;
+	height: 34px;
+	margin-right: 4px;
+	min-width: 80px;
+}
+
+.timeLabelDiv label {
+	margin-top: 7px;
+}
+
+.timeChooseDiv {
+	width: 73%;
+	margin-top: 0px;
+}
+
+.input-group-addon {
+	background-color: #fff;
+}
+
+#testItemDiv {
+	width: 73%;
+	display: inline-block;
+	position: relative;
+}
+
+#dropDownList li {
+	padding-left: 12px;
+}
+
+#dropDownList li:hover {
+	background: #f0f0f0;
+	cursor: pointer;
+}
+
+#dropDownList {
+	position: absolute;
+	z-index: 1600;
+	background-color: #fff;
+	width: 100%;
+	border: 1px solid #7f9db9;
+	border-top: none;
+	border-radius: 0 0 4px 4px;
+	box-sizing: border-box;
+	font-family: sans-serif;
+	list-style: outside none none;
+	margin: 0;
+	max-height: 250px;
+	overflow: auto;
+	padding: 0;
+	display: none;
+}
+
+#testProcess {
+	width: 73%;
+	text-align: center
+}

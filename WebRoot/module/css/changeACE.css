@@ -1,0 +1,39 @@
+@CHARSET "UTF-8";
+
+.fixed-table-container {
+	height: auto;
+}
+
+.fixed-table-body {
+	height: auto;
+	 margin-bottom: -10px;
+}
+
+.fixed-table-pagination {
+	 margin-top: 9px;
+	
+}
+.pull-right , .pagination-detail{
+}
+.pull-left ,.pagination{
+}
+.sidebar {
+	width: 190px;
+	float: left;
+	height:100%;
+	position: relate;
+	padding-bootom:40%;
+	top:0px;
+	border: 1px solid #ccc;
+	border-width: 0 1px 0 0;
+	background-color: #f2f2f2
+}
+.sidebar.display {
+		display: block;
+		padding-bootom:0;
+		
+	}
+	
+.input-group-addon{
+	background-color : #fff;
+}

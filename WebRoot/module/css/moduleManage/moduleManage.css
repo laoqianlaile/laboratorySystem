@@ -1,0 +1,20 @@
+@CHARSET "UTF-8";
+#table_module {
+	width:900px;
+	float: right;
+}
+#tree {
+	width:200px;
+	float:left;
+}
+/* body {font-family: "Microsoft YaHei","iconfont"  !important;} */
+.icon-popup dropdown-menu{
+	overflow:scroll;
+}
+/* /* @font-face {  font-family: 'font-family名称';  src: url('font字体路径')} */
+全局字体
+*:not([class*="icon"]):not(i){font-family: 方正准圆_GBK !important;}
+
+字体阴影
+*{text-shadow: 0.05em 0.05em 0.05em #a9a9a9; }
+ */

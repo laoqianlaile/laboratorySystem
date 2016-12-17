@@ -1,0 +1,94 @@
+.headTitle label {
+	text-align: right;
+	display: inline-block;
+	width: 49.5%;
+	font-family: cursive;
+	font-size: larger;
+}
+
+.headTitle label:FIRST-CHILD {
+	text-align: left;
+}
+
+.headHr {
+	border: 1px solid black;
+	margin-bottom: 5px;
+	margin-top: 0px;
+}
+
+.form-control {
+	display: inline;
+	width: auto;
+}
+
+.col-xs-8 input {
+	width: 73%;
+}
+
+.col-xs-4 input {
+	width: 50%;
+}
+
+.row {
+	margin-bottom: 7px;
+}
+
+.sample {
+	margin-top: 25px;
+}
+
+.title {
+	padding-left: 15px;
+	padding-right: 15px;
+	position: relative;
+	margin-top: 10px;
+}
+
+.title button {
+	position: absolute;
+	right: 15px;
+	margin-top: -13px;
+}
+
+.footer {
+	margin-top: 20px;
+}
+
+.footer button {
+	float: right;
+	margin-right: 20px;
+	width: 90px;
+}
+
+#sampleTable th {
+	border: 1px solid;
+	text-align: center;
+}
+
+#sampleTable td {
+	border: 1px solid;
+	text-align: center;
+}
+
+.col-xs-12 input,.col-md-12 input{
+	display: block;
+	width: 100%;
+	display: block;
+	width: 90%;
+	height: 34px;
+}
+
+.timeLabelDiv{
+  float:left;
+  height: 34px;
+  min-width: 70px;
+}
+
+.timeLabelDiv label{
+  margin-top: 7px;
+}
+
+.timeChooseDiv{
+ width: 50%;
+ margin-top: 0px;
+}

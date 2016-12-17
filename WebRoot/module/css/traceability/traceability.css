@@ -1,0 +1,93 @@
+.list-searcher {
+	min-width: 300px;
+	height: 40px;
+}
+.list-searcher input {
+	display: inline-block;
+	margin-right: 20px;
+	width: 200px;
+}
+.list-searcher select {
+	display: inline-block;
+	margin-right: 20px;
+	width: 200px;
+}
+
+.list-searcher span {
+	display: inline-block;
+	width: 100px;
+}/* 
+.list_upload {
+	width:500px;
+	height: 300px;
+}
+.list_upload input {
+	margin-left: 5px;
+	width: 150px;
+	margin-top:20px;
+	margin-bottom:30px;
+}
+.list_upload span {
+	width: 100px;
+	margin-top:20px;
+}
+.list_upload textarea
+{
+	margin-left: 5px;
+	width: 150px;
+} */
+.wrapper{
+	width:1100px;
+	margin:0 auto;
+	text-align:left;
+/* 	background-color:rgb(252,231,231); */
+}
+
+.mainTableDate .form-group .btn{
+	margin:30px 20px 0px;
+}
+.mainTableDate .table thead{
+	background:-moz-linear-gradient(top,#F2F2F2,#fff);
+	filter:progid:DXImageTransform.Microsoft.Gradient(startColorStr='#F2F2F2',endColorStr='#fff',gradientType='0');
+	background:-o-linear-gradient(top,#F2F2F2, #fff);
+	background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#F2F2F2), to(#fff));
+}
+.edui-popup-content.edui-default{     height: auto !important;    }
+.Ntable tr{
+	display:block;
+	height:22px !important;
+	border-bottom:1px solid #ddd;
+	line-height:22px !important;
+}
+.Ntable td{
+	display:inline-block !important;
+	height:21px;
+	width:60px;
+}
+.deletelogo{
+	height:21px;
+	font-size:12px;
+	color:red;
+	line-height:21px;
+}
+.deletelogo span{
+	display:inline-block;
+	display:none;
+	margin-top:5px;
+	cursor:pointer;
+}
+.tabletext{
+	display:inline-block;
+	height:20px;
+	width:58px;
+	border-radius:2px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+	border: 1px solid #ccc;
+}
+.mybtnstyle{
+	margin-top:5px;
+	width:40px;
+	margin-left:2px;
+	font-size:9px !important;
+	padding:2px 5px !important;
+}

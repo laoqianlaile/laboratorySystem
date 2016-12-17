@@ -1,0 +1,381 @@
+package com.cqut.xiji.service.testProject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import net.sf.json.JSONArray;
+
+import org.springframework.stereotype.Service;
+
+import com.cqut.xiji.dao.base.BaseEntityDao;
+import com.cqut.xiji.dao.base.EntityDao;
+import com.cqut.xiji.dao.base.SearchDao;
+import com.cqut.xiji.entity.contract.Contract;
+import com.cqut.xiji.entity.department.Department;
+import com.cqut.xiji.entity.document.Document;
+import com.cqut.xiji.entity.equipment.Equipment;
+import com.cqut.xiji.entity.standard.Standard;
+import com.cqut.xiji.entity.testInstument.TestInstument;
+import com.cqut.xiji.entity.testProject.TestProject;
+import com.cqut.xiji.entity.testStandard.TestStandard;
+import com.cqut.xiji.service.base.SearchService;
+import com.cqut.xiji.tool.treeNode.Node;
+import com.cqut.xiji.tool.treeNode.NodeList;
+import com.cqut.xiji.tool.util.EntityIDFactory;
+
+@Service
+public class TestProjectService extends SearchService implements
+		ITestProjectService {
+
+	@Resource(name = "entityDao")
+	EntityDao entityDao;
+
+	@Resource(name = "searchDao")
+	SearchDao searchDao;
+
+	@Resource(name = "baseEntityDao")
+	BaseEntityDao baseEntityDao;
+
+	@Override
+	public String getBaseEntityName() {
+		return "testProject";
+	}
+
+	@Override
+	public String getBasePrimaryKey() {
+		return "testProject.ID";
+	}
+
+	@Override
+	public Map<String, Object> getTestProjectWithPaging(String departmentID,
+			String nameCnORnameEn, int limit, int offset, String order,
+			String sort) {
+		int index = limit;
+		int pageNum = offset / limit;
+
+		String tableName = "testProject";
+		String[] properties = new String[] { "testProject.ID as testProjectID",
+				"testProject.NAMEEN", "testProject.NAMECN",
+				"testProject.ENVIRONMENTALREQUIREMENTS",
+				"testproject.describes",
+				"testproject.remarks",
+				"testInstument.ID as testInstumentID",
+				"testStandard.ID as testStandardID",
+				"standard.STANDARDCODE",
+				"GROUP_CONCAT(equipment.equipmentName) as EQUIPMENTNAME",
+				"GROUP_CONCAT(equipment.ID) AS EQUIPMENTID",
+				"department.DEPARTMENTNAME", 
+				"DATE_FORMAT(testProject.CREATETIME,'%Y-%m-%d %H:%i') as createTime",
+				"department.ID as DEPARTMENTID", "standard.ID as STANDARDID",
+				"template.`name`" };
+
+		String condition = "1 = 1 ";
+		if (departmentID != null && departmentID != "") {
+			condition += " and department.id = '" + departmentID + "' ";
+		}
+		if (nameCnORnameEn != null && nameCnORnameEn != "") {
+			condition += " and testproject.nameCn like '%" + nameCnORnameEn
+					+ "%' or testproject.nameEn like '%" + nameCnORnameEn
+					+ "%' ";
+		}
+		String joinEntity = "LEFT JOIN testinstument on testproject.ID = testinstument.testProjectID "
+				+ "LEFT JOIN teststandard on testproject.ID = teststandard.testPorjectID "
+				+ "LEFT JOIN standard on standard.ID = teststandard.standardID "
+				+ "LEFT JOIN department on department.ID = testproject.departmentID "
+				+ "LEFT JOIN template on template.ID = testproject.templateID "
+				+ "LEFT JOIN equipment on equipment.ID = testinstument.equipmentID";
+
+		String groupField = "testProject.ID ";
+		List<Map<String, Object>> result = originalSearchWithpaging(properties,
+				tableName, joinEntity, null, condition, false, groupField,
+				sort, order, index, pageNum);
+
+		// System.out.println(Arrays.toString(result.toArray()));
+
+		int count = getForeignCountInFull("testproject.ID", joinEntity, null,
+				condition, false);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("total", count);
+		map.put("rows", result);
+		return map;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.cqut.xiji.service.testProject.ITestProjectService#addTestProject(
+	 * java.lang.String, java.lang.String, java.lang.String, java.lang.String,
+	 * java.lang.String, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public String addTestProject(String NAMECN, String NAMEEN,
+			String DEPARTMENTID, String ENVIRONMENTALREQUIREMENTS,
+			String STANDARDID, String EQUIPMENTID,String describes,String remarks) {
+
+		int result = 0; //
+		// 检测项目
+		TestProject testProject = new TestProject();
+
+		testProject.setID(EntityIDFactory.createId());
+		testProject.setNameEn(NAMEEN);
+		testProject.setNameCn(NAMECN);
+		testProject.setDepartmentID(DEPARTMENTID);
+		testProject.setEnvironmentalRequirements(ENVIRONMENTALREQUIREMENTS);
+		testProject.setStandardID(STANDARDID);
+		testProject.setDescribes(describes);
+		testProject.setRemarks(remarks);
+		testProject.setCreateTime(new Date());
+
+		result += entityDao.save(testProject);
+		// 检测标准
+		TestStandard testStandard = new TestStandard();
+
+		testStandard.setID(EntityIDFactory.createId());
+		testStandard.setStandardID(STANDARDID);
+		testStandard.setTestPorjectID(testProject.getID());
+
+		result += entityDao.save(testStandard);
+		// 检测仪器
+
+		String[] EQUIPMENTIDs = EQUIPMENTID.replaceAll(" ", "").split(",");
+		if (EQUIPMENTIDs.length > 0) {
+
+			for (int i = 0; i < EQUIPMENTIDs.length; i++) {
+				TestInstument testInstument = new TestInstument();
+				testInstument.setID(EntityIDFactory.createId());
+				testInstument.setTestProjectID(testProject.getID());
+				testInstument.setEquipmentID(EQUIPMENTIDs[i]);
+
+				System.out.println(EQUIPMENTIDs[i]);
+				result += entityDao.save(testInstument);
+
+			}
+		}
+		return result + "";
+
+	}
+
+	@Override
+	public String upTestProject(String testProjectID,String testStandardID,String testInstumentID,String NAMECN,
+			String NAMEEN, String DEPARTMENTID,
+			String ENVIRONMENTALREQUIREMENTS, String STANDARDID,
+			String EQUIPMENTID,String describes,String remarks) {
+		int result = 0; //
+
+		// 检测项目
+		TestProject testProject = new TestProject();
+
+		testProject.setNameEn(NAMEEN);
+		testProject.setNameCn(NAMECN);
+		testProject.setDepartmentID(DEPARTMENTID);
+		testProject.setEnvironmentalRequirements(ENVIRONMENTALREQUIREMENTS);
+		testProject.setStandardID(STANDARDID);
+		testProject.setDescribes(describes);
+		testProject.setRemarks(remarks);
+
+		result += entityDao.updatePropByID(testProject,testProjectID);
+		// 检测标准
+		TestStandard testStandard = new TestStandard();
+
+		testStandard.setStandardID(STANDARDID);
+		testStandard.setTestPorjectID(testProjectID);
+
+		result += entityDao.updatePropByID(testStandard,testStandardID);
+		// 检测仪器
+
+
+		int IsDelete = 0;
+		
+		
+		IsDelete += entityDao.deleteByCondition(" testProjectID = " + testProjectID, TestInstument.class);
+		System.out.println(IsDelete);
+		System.out.println(testProjectID);
+		if(IsDelete >= 0){
+			String[] EQUIPMENTIDs = EQUIPMENTID.replaceAll(" ", "").split(",");
+			if (EQUIPMENTIDs.length > 0) {
+
+				for (int i = 0; i < EQUIPMENTIDs.length; i++) {
+					TestInstument testInstument = new TestInstument();
+					testInstument.setID(EntityIDFactory.createId());
+					testInstument.setTestProjectID(testProjectID);
+					testInstument.setEquipmentID(EQUIPMENTIDs[i]);
+
+					System.out.println(EQUIPMENTIDs[i]);
+					result += entityDao.save(testInstument);
+
+				}
+			}
+		}
+		return result + "";
+	}
+
+	@Override
+	public String delTestProject(String TestProjectIDs) {
+		if (TestProjectIDs == null || TestProjectIDs.isEmpty()) {
+			return 0 + "";
+		}
+		String[] ids = TestProjectIDs.split(",");
+
+		int result = entityDao.deleteEntities(ids, TestProject.class);
+		if (ids.length == 1) {
+			result += entityDao.deleteByCondition(
+					"teststandard.testPorjectID =  " + ids[0],
+					TestStandard.class);
+			result += entityDao.deleteByCondition(
+					"testinstument.testProjectID =  " + ids[0],
+					TestInstument.class);
+		} else {
+			for (int i = 0; i < ids.length; i++) {
+				result += entityDao.deleteByCondition(
+						"teststandard.testPorjectID =  " + ids[i],
+						TestStandard.class);
+				result += entityDao.deleteByCondition(
+						"testinstument.testProjectID =  " + ids[i],
+						TestInstument.class);
+			}
+		}
+		return result + "";
+	}
+
+	@Override
+	public List<Map<String, Object>> getDepartment() {
+
+		String[] properties = new String[] {
+
+		"Department.ID", "Department.departmentName"
+
+		};
+
+		List<Map<String, Object>> result = entityDao.findByCondition(
+				properties, " 1 = 1", Department.class);
+
+		System.out.println(Arrays.toString(result.toArray()));
+
+		return result;
+	}
+
+	@Override
+	public List<Map<String, Object>> getEquipment() {
+		String[] properties = new String[] {
+
+		"equipment.ID", "equipment.equipmentName"
+
+		};
+
+		List<Map<String, Object>> result = entityDao.findByCondition(
+				properties, " 1 = 1", Equipment.class);
+
+		System.out.println(Arrays.toString(result.toArray()));
+
+		return result;
+	}
+
+	@Override
+	public List<Map<String, Object>> getStandard() {
+
+		String[] properties = new String[] {
+
+		"standard.ID", "standard.STANDARDCODE" , "standard.state"
+
+		};
+
+		List<Map<String, Object>> result = entityDao.findByCondition(
+				properties, " 1 = 1 and state = 1", Standard.class);
+
+		System.out.println(Arrays.toString(result.toArray()));
+
+		return result;
+	}
+
+	@Override
+	public Map<String, Object> getTestproWithPaging(int limit, int offset,
+			String order, String sort, String contract) {
+		System.out.println("222" + "<br />");
+		int index = limit;
+		int pageNum = offset / limit + 1;
+		String tablename = "testproject";
+		String[] properties = new String[] { "ID", "nameCn", "createTime" };
+		List<Map<String, Object>> result = entityDao.searchWithpaging(
+				properties, tablename, null, null, "1=1", null, sort, order,
+				index, pageNum);
+		int count = entityDao.getByCondition("1=1", Contract.class).size();
+		String receive = "";
+		for (Map<String, Object> m : result) {
+			Map map2 = m;
+			receive = "<span class='tabledata'>"
+					+ map2.get("createTime").toString() + "</span>";
+			m.put("nameCn",
+					"<img class='point-image' src='Portal/images/point_triangle.png' />"
+							+ "<span class='tablevalue'>" + m.get("nameCn")
+							+ "</span>" + receive);
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("total", count);
+		map.put("rows", result);
+
+		return map;
+	}
+
+	/**
+	 * 
+	 * 
+	 * @author wzj
+	 * @date 2016年11月19日 上午9:45:23
+	 * 
+	 */
+	@Override
+	public List<Map<String, Object>> getTestProjectList() {
+		// TODO Auto-generated method stub
+		String[] properties = new String[] {
+				"testproject.ID",
+				"IF(testproject.nameCn IS  NULL , testproject.nameEn , "
+						+ " if ( testproject.nameEn is null ,testproject.nameCn,"
+						+ " CONCAT(testproject.nameCn,'(',testproject.nameEn,')') )) as testName " };
+		String condition = " 1 = 1 ";
+		List<Map<String, Object>> list = entityDao.findByCondition(properties,
+				condition, TestProject.class);
+		return list;
+	}
+
+	
+	/**
+	 * @description 通过设备名称得到设备信息
+	 * @author hujiajun
+	 * @created 2016年12月12日19:13:01
+	 * @param testProjectName
+	 */
+	public List<Map<String, Object>> getTestProjectByName(String testProjectName){
+		String[] properties = new String[] {"ID","nameCn"};
+		String condition = " nameCn like '%" + testProjectName + "%'";
+		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, TestProject.class);
+		return result;
+	}
+	
+	@Override
+	public List<Map<String, Object>> getTestProject(String testProjectNamae) {
+		String[] properties = new String[] { "DISTINCT(IF (testproject.nameCn IS NULL,testproject.nameEn,"
+				+ "IF (testproject.nameEn IS NULL,testproject.nameCn,"
+				+ "CONCAT(testproject.nameCn,'(',testproject.nameEn,')')))) AS testProjectName" };
+	String condition = " 1 = 1 ";
+		if (testProjectNamae != null && !testProjectNamae.isEmpty()&& !testProjectNamae.equals("")) {
+			condition += " AND (testproject.nameCn LIKE '%" + testProjectNamae
+					+ "%' OR testproject.nameEn LIKE '%" + testProjectNamae
+					+ "%' )";
+		}
+		List<Map<String, Object>> result = entityDao.findByCondition(
+				properties, condition, TestProject.class);
+		return result;
+	}
+}
+
+
+
+

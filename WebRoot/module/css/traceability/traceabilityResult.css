@@ -1,0 +1,40 @@
+.list-searcher {
+	min-width: 300px;
+	height: 40px;
+}
+.list-searcher input {
+	display: inline-block;
+	margin-right: 20px;
+	width: 200px;
+}
+.list-searcher select {
+	display: inline-block;
+	margin-right: 20px;
+	width: 200px;
+}
+.list-searcher span {
+	display: inline-block;
+	width: 130px;
+}
+.wrapper{
+	width:1100px;
+	margin:0 auto;
+	text-align:left;
+}
+.Ntable tr{
+	display:block;
+	height:22px !important;
+	border-bottom:1px solid #ddd;
+	line-height:22px !important;
+}
+.Ntable td{
+	display:inline-block !important;
+	height:21px;
+	width:74px;
+}
+.deletelogo span{
+	display:inline-block;
+	display:none;
+	margin-top:5px;
+	cursor:pointer;
+}

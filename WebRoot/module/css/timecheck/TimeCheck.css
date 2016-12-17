@@ -1,0 +1,127 @@
+@CHARSET "UTF-8";
+#main{
+	width:94%;
+	margin:0 auto;
+}
+#head{
+	width:100%;
+	height:150px;
+
+}
+#center{
+	width:100%;
+}
+#bottom{
+	width:100%;
+}
+#font{
+	text-align:center;
+	font-size:22px;
+}
+#Serialnumber{
+	float:right;
+}
+.headtext{
+	display:inline-block;
+	margin-left:30px;
+	height:36px;
+	line-height:36px;
+}
+.text{
+	display:inline-block;
+	width:200px;
+	margin-top:-5px;
+}
+.btncss{
+	display:inline-block;
+	width:80px;
+	margin-top:-5px;
+}
+.thisbtn{
+	margin-left:20px;
+}
+.tablecontent{
+	margin-top:10px;
+}
+#listdata li{
+	text-align:center;
+}
+#listdata li:hover{
+	cursor:pointer;
+	background:#F5F5F5;
+	font-color:black;
+	text-align:center;
+}
+.mystyle{
+	height:34px;
+	width:200px;
+
+	line-height:20px;
+	font-size:17px;
+}
+li{
+	text-align:center;
+}
+li:hover{
+	cursor:pointer;
+	background:#F5F5F5;
+	font-color:black;
+}
+.timeStyle{
+	padding:0px;
+	height:33px;
+	width:37px;
+	margin-top:-5px;
+	margin-left:-7px;
+	border-bottom-left-radius:0;
+	border-top-left-radius:0;
+}
+.time{
+	width:168px;
+}
+#center tr{
+	height:45px;
+}
+.fileinput{
+	height:34px;
+	width:443px;
+	line-height:34px;
+	border-radius:4px;
+	color: #999;
+	margin-left:-13px;
+}
+.filetextdiv{
+	border:1px solid red;
+	width:445px;
+	margin-left:12px;
+	border-radius:4px;
+	overflow:hidden;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+	border: 1px solid #ccc;
+}
+.tan{
+	position:fixed;
+	height:100px;
+	z-index:9999;
+	opacity:0.8;
+	padding-top:30px;
+	text-align:center;
+	font-size:25px;
+	display:none;
+}
+.thatbtn{
+	float:right;
+	display:none;
+}
+.trbg{
+	background:yellow !important;
+}
+.fixed-table-body{
+	height:370px;
+}
+.hiddenspan{
+	display:none;
+}
+#showdiv1{
+	width:300px;
+}

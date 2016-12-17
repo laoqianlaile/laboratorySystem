@@ -1,0 +1,170 @@
+<%@ page language="java" import="java.util.*" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <base href="<%=basePath%>">
+    
+    <title>检测管理</title>
+    
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+	<meta http-equiv="description" content="This is my page">
+	<!--
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	-->
+	
+	<link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
+	
+	<link rel="stylesheet" href="module/css/changeACE.css" />
+	 
+	<script src="module/js/jquery-2.1.1.min.js"></script>
+	<script src="module/js/bootstrap.js"></script>
+	<script src="module/js/bootstrap-table.js"></script>
+	<script src="module/js/bootstrap-table-zh-CN.js"></script>
+   
+  </head>
+  
+  <body>
+  	<span id="receiptlistID" style="display:none"></span>
+  	<div class="container" style="width:100%">
+  		<div class="row">
+			<div class="col-xs-10 col-md-10 col-lg-10">
+				<h4 >任务分配</h4>
+			</div>
+			<div class="col-xs-2 col-md-2 col-lg-2">
+				<h5 id="receiptlistCode">交接单号:&nbsp;<span></span></h5>
+			</div>
+		</div>
+		<hr />
+		<div class="row">
+			<div class="col-xs-4 col-md-4 col-lg-4">
+				<span id="companyName">委托单位:&nbsp;<span></span></span>
+			</div>
+			<div class="col-xs-2 col-md-2 col-lg-2">
+				<span id="linkMan">委托人:&nbsp;<span></span></span>
+			</div>
+			<div class="col-xs-2 col-md-2 col-lg-2">
+				<span id="acceptSampleTime">委托时间:&nbsp;<span></span></span>
+			</div>
+			<div class="col-xs-2 col-md-2 col-lg-2">
+				<span id="endTime">完成时间:&nbsp;<span></span></span>
+			</div>
+			<div class="col-xs-2 col-md-2 col-lg-2">
+				<span id="linkPhone">联系电话:&nbsp;<span></span></span>
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<div class="col-xs-8 col-md-8 col-lg-8">
+				<span id="address">通讯地址:&nbsp;<span></span></span>
+			</div>
+			<div class="col-xs-2 col-md-2 col-lg-2">
+				<input id="isClassified" type="checkbox" />&nbsp;<span>是否涉密</span>
+			</div>
+			<div class="col-xs-2 col-md-2 col-lg-2">
+				<span id="classifiedLevel">密级:&nbsp;<span></span></span>
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<div class="col-xs-1 col-md-1 col-lg-1">
+				<span>依据的技术文件（代号、名称）及客户要求:</span>
+			</div>
+			<div class="col-xs-11 col-md-11 col-lg-11">
+				<span id="accordingDoc"></span>
+			</div>
+		</div>
+		<hr />
+		<div class="row">
+			<div class="col-xs-2 col-md-2 col-lg-2">
+				<span id="employeeName">样品管理员:&nbsp;<span></span></span>
+			</div>
+			<div class="col-xs-2 col-md-2 col-lg-2"></div>
+			<div class="col-xs-6 col-md-6 col-lg-6">
+			</div>
+			<div class="col-xs-1 col-md-1 col-lg-2">
+				<button id="btn-assign" type="button" class="btn btn-primary" >分配检测/校准人员</button>
+			</div>
+		</div>
+		<br />
+		<!-- 任务表格 -->
+  		<table id="taskTable">
+  		</table>
+  		<hr />
+  		<div class="row">
+  			<div class="col-xs-12 col-md-12 col-lg-2">
+				<h5>其他文件</h5>
+			</div>
+		</div>
+		<hr />
+		<!-- 文件表格 -->
+  		<table id="fileTable">
+  		</table>
+  		<hr />
+		<div class="row">
+			<div class="col-xs-11 col-md-11 col-lg-11">
+			</div>
+  			<div class="col-xs-1 col-md-1 col-lg-1">
+				<button type="button" class="btn btn-primary" id="return">返回</button>
+			</div>
+		</div>
+  	</div>
+  	
+	<!-- 分配弹框 -->
+	<div id="assignPeopleModal" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="row">
+						<div class="col-xs-8 col-md-8 col-lg-8">
+							<h4 >分配到检测/校准员</h4>
+						</div>
+						<div class="col-xs-3 col-md-3 col-lg-3">
+							<h5 >样品编号：<span id="sampleCode"></span></h5>
+						</div>
+						<div class="col-xs-1 col-md-1 col-lg-1">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"> 
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-xs-8 col-md-8 col-lg-8">
+							<h4><span id="departmentPeople"></span>部门所有人员：</h4>
+						</div>
+						<div class="col-xs-2 col-md-2 col-lg-2">
+							<button type="button" class="btn btn-primary" id="assignCustodian">分配监督员</button>
+						</div>
+						<div class="col-xs-2 col-md-2 col-lg-2">
+							<button type="button" class="btn btn-primary" ID="assignDetector">分配检测/校准员</button>
+						</div>
+					</div>
+					<span style="display:none" id="taskID"></span>
+					<span style="display:none" id="type"></span>
+					<span style="display:none" id="departmentID"></span>
+					<div class="row">
+						<div id="assignTable" class="col-xs-10 col-md-10 col-lg-10" >
+						</div>	
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+  
+  <script src="module/js/taskAssignManage/taskAssign.js"></script>
+</html>

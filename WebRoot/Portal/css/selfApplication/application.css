@@ -1,0 +1,150 @@
+@charset "utf-8";
+/* CSS Document */
+.Navigation-bar{
+	margin-top:30px;
+	width:218px;
+	height:278px;
+	float:left;
+	border: 1px solid #CCC;
+}
+/* 导航栏头部 */
+.notices-h{
+	height:32px;
+	width:382px;
+	background:url(../../images/apply_h.png) no-repeat;
+	padding:10px;
+}
+.application-icon{
+	width:16px;
+	height:16px;
+	float:left;
+	background:url(../../images/apply_icon.png) no-repeat;
+	margin-left:6px;
+	margin-top:2px;
+	}
+.notices-h img{
+	margin-left:3px;
+	margin-top:-4px;
+}
+.notices-h .more{
+	float:right;
+	margin-right:12px;
+	margin-top:-4px;
+	}
+.notic-h-bottom{
+	margin-left:4px;
+}
+.application-list{
+	margin-top:20px;
+	color:#6facd7;
+	padding-left:10px;
+}
+.application-item{
+	margin-bottom:20px;
+	border-bottom:1px solid #ccc;
+}
+.application-item a{
+	text-decoration:none;
+	color:#ccc;
+}
+.application-item a:hover{
+	text-decoration:none;
+}
+/* .application-item a:visited{
+	text-decoration:none;
+	color:#198ac8;
+}
+.application-item a:link{
+	text-decoration:none;
+	color:#198ac8;
+} */
+.application-tittle-icon{
+	float:left;
+	width:10px;
+	height:10px;
+	margin-left:6px;
+	margin-top:4px;
+	margin-right:5px;
+	display: inline-block;
+    border-radius: 50%;
+    background-color:#666666;
+}
+.active2{
+	background-color:#198ac8;
+	color:#198ac8;}
+#selfapply{
+	color:#198ac8;
+}
+.active3{
+
+	color:#198ac8;}
+	
+.tittle{
+	margin-left:3px;
+}
+/* .hengxian{
+	border:1px solid #CCC;
+	height:1px;
+	width:150px;
+	margin-left:10px;
+} */
+
+/* 申请表单部分 */
+
+.application-form{
+	margin-top:30px;
+	float:right;
+	width:946px;
+	height:729px;
+	border: 1px solid #CCC;
+}
+.form-head{
+	height:38px;
+	width:946px;
+	background:url(../../images/apply_form_h.png) no-repeat;
+	border-bottom: 1px solid #CCC;
+	}
+.form-head h3{
+	 font-size: 16px;
+     font-family: "Microsoft YaHei";
+     color: rgb( 25, 138, 200 );
+     text-align: left;
+	 line-height:0px;
+	 margin-left:36px;
+	 margin-top:0;
+	 padding-top:20px;
+  }
+.form-content{
+	margin-top: 60px;
+/*     margin-left: 100px; */
+}
+.language{
+	color:red;
+	font-size:13px;
+	line-height:32px;
+	margin:0;
+}
+.entryDate{
+	width:376px;
+}
+#sumit-btn{
+	width: 382px;
+    color: #fff;
+    background-color: #198ac8;
+    margin-left: 160px;
+    border: #198ac8;
+}
+.selfapplypic{
+	float:right;
+	margin-top:-300px;
+	margin-right:40px;
+}
+.fixed-table-pagination .pagination-info {
+    line-height: 34px;
+    margin-right: 5px;
+    color: #428bca;
+}
+.fixed-table-pagination .page-list {
+    display: inline-block;
+    color: #428bca;
+}

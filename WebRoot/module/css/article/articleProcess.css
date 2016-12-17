@@ -1,0 +1,46 @@
+/* .wrapper{
+	width:700px;
+	margin:0 auto;
+	text-align:left;
+	padding-top:10px;
+} */
+.wrapper button{
+	/* border-radius:10px; */
+}
+.form-control{
+	margin-left:10px;
+}
+.form-group{
+	margin:20px 10px;
+	width:340px;
+}
+#artTitle{
+	width:240px;
+}
+#artCaseType{
+	width:240px;
+}
+#artColumn{
+	width:240px;
+}
+.left-form{
+	width:50%;
+	float:left;
+}
+.right-form{
+	width:35%;
+	float:right;
+}
+/* .right-up{
+	height:300px;
+} */
+.right-up input{
+	margin-top:200px;
+}
+.right-down{
+	margin-top:250px;
+/* 	height:300px; */
+}
+.right-down button{
+	margin-right:50px;
+}

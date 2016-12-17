@@ -1,0 +1,22 @@
+@CHARSET "UTF-8";
+
+.doc {
+	background: url(/laboratorySystem/module/img/file/fileType.png) -60px 0
+		no-repeat;
+	width: 18px;
+	height: 18px;
+}
+
+.picture {
+	background: url(/laboratorySystem/module/img/file/fileType.png) 0 0px
+		no-repeat;
+	width: 18px;
+	height: 18px;
+}
+
+.xls {
+	background: url(/laboratorySystem/module/img/file/fileType.png) -90px 0
+		no-repeat;
+	width: 18px;
+	height: 18px;
+}
