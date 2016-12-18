@@ -7,7 +7,7 @@
 
 
 #### clone代码
-> git clone http://superc102.vicp.cc:1234/icode/
+> git clone http://superc102.vicp.cc:1234/icode/laboratorySystem.git
 
 #### 暂存代码
 > git add .
