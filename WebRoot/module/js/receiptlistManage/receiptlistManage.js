@@ -13,7 +13,7 @@ var param = {
 	state : $("#schState").val()
 }
 var globl = {
-	proID : "243254",
+	proID : "243255465464",
 }
 /* 初始化数据 */
 $(function() {
