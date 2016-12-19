@@ -1,4 +1,4 @@
-
+﻿
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
 String path = request.getContextPath();
@@ -165,15 +165,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</div>
 						<div class ="col-xs-6 col-md-6">
 							<label>发票编码：</label> 
-							<input type="text" id="add_contractAmount" name="contractAmount" disabled="disabled"  class="form-control" aria-describedby="basic-addon1"/>
+							<input type="text" id="add_invoice" name="invoice"   class="form-control" aria-describedby="basic-addon1"/>
 						</div>
 						<div class ="col-xs-6 col-md-6">
 							<label>金额：　　</label> 
-							<input type="text" id="add_employeeName" name="employeeName" disabled="disabled" value="<%=session.getAttribute("EmployeeName")%>" class="form-control" aria-describedby="basic-addon1"/>
+							<input type="text" id="add_money" name="money"  class="form-control" aria-describedby="basic-addon1"/>
 						</div>
 						<div class ="col-xs-12 col-md-12">
-							<label><input id ="add_isIncome" name="isIncome" type="radio" value="0" />收入 </label>
-							<label><input id ="add_isIncome" name="isIncome" type="radio" value="1" />支出 </label> 
+							<label><input name="add_isIncome" type="radio" value="0" />收入 </label>
+							<label><input name="add_isIncome" type="radio" value="1" />支出 </label> 
 						</div>
 						<div class ="col-xs-12 col-md-12">
 							<label>备注：　　</label> 
@@ -183,7 +183,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" onclick="addAccounts()">确认</button>
+					<button type="button" class="btn btn-primary" onclick="addJouranlAccounts()">确认</button>
 				</div>
 			</div>
 		</div>
@@ -193,43 +193,44 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="  close" data-dismiss="modal"
+					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title">编辑</h4>
+					<h4 class="modal-title">新增</h4>
 				</div>
 				<div class="modal-body">
-					<div class="row" id="edit">
-						<input type="hidden" id="edit_accountsID" name="accountsID"/>
-						
+					<input type="hidden" id="jouranlAccountID" name="jouranlAccountID" / >
+					<div class="row">
 						<div class ="col-xs-6 col-md-6">
 							<label>合同编码：</label>
-							<select id="edit_contractCode" name="contractCode" oninput="contractCodeChange()"
-									onpropertychange="contractCodeChange()" class="form-control">
-							</select>
-						</div>
-						<div class ="col-xs-6 col-md-6">
-							<label>录入时间：</label> 
-							<input type="text" id="edit_checkinTime" name="checkinTime"  class="form-control" aria-describedby="basic-addon1"/>
+							<input type="text" id="edit_contractCode" name="contractCode" disabled="disabled"  class="form-control" aria-describedby="basic-addon1"/>
 						</div>
 						<div class ="col-xs-6 col-md-6">
 							<label>合同名称：</label> 
 							<input type="text" id="edit_contractName" name="contractName" disabled="disabled"  class="form-control" aria-describedby="basic-addon1"/>
 						</div>
 						<div class ="col-xs-6 col-md-6">
-							<label>合同金额：</label> 
-							<input type="text" id="edit_contractAmount" name="contractAmount" disabled="disabled" class="form-control" aria-describedby="basic-addon1"/>
+							<label>发票编码：</label> 
+							<input type="text" id="edit_invoice" name="invoice"   class="form-control" aria-describedby="basic-addon1"/>
 						</div>
 						<div class ="col-xs-6 col-md-6">
-							<label>报账专员：</label> 
-							<input type="text" id="edit_employeeName" name="employeeName"  disabled="disabled" class="form-control" aria-describedby="basic-addon1"/>
+							<label>金额：　　</label> 
+							<input type="text" id="edit_money" name="money"  class="form-control" aria-describedby="basic-addon1"/>
+						</div>
+						<div class ="col-xs-12 col-md-12">
+							<label><input  name="edit_isIncome" type="radio" value="0" />收入 </label>
+							<label><input  name="edit_isIncome" type="radio" value="1" />支出 </label> 
+						</div>
+						<div class ="col-xs-12 col-md-12">
+							<label>备注：　　</label> 
+							<input type="text" id="edit_remarks" name="remarks"  class="form-control" aria-describedby="basic-addon1"/>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" onclick="editAccounts()">确认</button>
+					<button type="button" class="btn btn-primary" onclick="editJouranlAccounts()">确认</button>
 				</div>
 			</div>
 		</div>
