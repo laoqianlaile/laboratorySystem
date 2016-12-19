@@ -64,7 +64,7 @@ $(function () {
 			title:'合同编号',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10%'//宽度
+			width:'20%'//宽度
 		},{
 			field:'receiptlistCode',//返回值名称
 			title:'交接单号',//列名
@@ -118,19 +118,18 @@ $(function () {
 			title:'操作',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'15%',//宽度
+			width:'5%',//宽度
 			formatter:function(value,row,index){  
 				var temp = '';
 				if(row.assignState === "未分配"){
-					var btn_assign = '<button type="button" onclick="taskAssign(\'' + row.ID + '\')" class="btn btn-primary glyphicon glyphicon-show">&nbsp;分配</button>&nbsp';
-					var btn_viewProgress = '<button type="button" onclick="checkTaskProgress(\'' + row.ID + '\',\'' + row.receiptlistCode + '\')" class="btn btn-primary glyphicon glyphicon-edit">&nbsp;查看任务进度</button>';
+					var btn_assign = '<span onclick="taskAssign(\'' + row.ID + '\')" data-toggle="tooltip" data-placement="top"  title="分配"  class="glyphicon glyphicon-user" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
+					var btn_viewProgress = '<span onclick="checkTaskProgress(\'' + row.ID + '\',\'' + row.receiptlistCode + '\')" data-toggle="tooltip" ddata-placement="top"  title="查看任务进度"  class="glyphicon glyphicon-user" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
 					temp += btn_assign + btn_viewProgress;
 				}else{
-					var btn_viewProgress = '<button type="button" onclick="checkTaskProgress(\'' + row.ID + '\',\'' + row.receiptlistCode + '\')" class="btn btn-primary glyphicon glyphicon-edit">&nbsp;查看任务进度</button>';
+					var btn_viewProgress = '<span onclick="checkTaskProgress(\'' + row.ID + '\',\'' + row.receiptlistCode + '\')" data-toggle="tooltip" data-placement="top"  title="查看任务进度"  class="glyphicon glyphicon-user" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
 					temp += btn_viewProgress;
 				}
 		  		return temp;
-		  			 
           } 
 		}]//列配置项,详情请查看 列参数 表格
 		/*事件*/
