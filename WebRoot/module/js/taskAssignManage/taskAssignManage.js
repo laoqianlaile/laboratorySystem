@@ -128,6 +128,7 @@ $(function () {
 				}else{
 					var btn_viewProgress = '<span onclick="checkTaskProgress(\'' + row.ID + '\',\'' + row.receiptlistCode + '\')" data-toggle="tooltip" data-placement="top"  title="查看任务进度"  class="glyphicon glyphicon-user" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
 					temp += btn_viewProgress;
+					
 				}
 		  		return temp;
           } 
