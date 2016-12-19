@@ -2,6 +2,8 @@ package com.cqut.xiji.service.jouranlAccount;
 
 import java.util.Map;
 
+import com.cqut.xiji.entity.jouranlAccount.JouranlAccount;
+
 public interface IJouranlAccountService {
 
 	Map<String, Object> getJouranlAccountsWithPaging(String contractID ,String invoice,
@@ -13,5 +15,7 @@ public interface IJouranlAccountService {
 
 	String addJouranlAccounts(String contractID,String employeeID, String invoice, String money,
 			int isIncome, String remarks);
+
+	String delJouranlAccounts(String jouranlAccountsID);
 	
 }

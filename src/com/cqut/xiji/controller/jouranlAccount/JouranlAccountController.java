@@ -1,4 +1,4 @@
-package com.cqut.xiji.controller.jouranlAccount;
+﻿package com.cqut.xiji.controller.jouranlAccount;
 
 import java.util.Map;
 
@@ -76,6 +76,20 @@ public class JouranlAccountController{
 	@ResponseBody
 	public String addJouranlAccounts(String contractID,String employeeID,String invoice,String money,int isIncome,String remarks){
 		String result = service.addJouranlAccounts(contractID,employeeID,invoice,money,isIncome,remarks);
+		return result;
+	}
+	/**
+	 * 
+	 * 删除流水账目
+	 * 
+	 * @author zkl
+	 * @param jouranlAccountsID
+	 * @return
+	 */
+	@RequestMapping("/delJouranlAccounts")
+	@ResponseBody
+	public String delJouranlAccounts(String jouranlAccountsID){
+		String result = service.delJouranlAccounts(jouranlAccountsID);
 		return result;
 	}
 }

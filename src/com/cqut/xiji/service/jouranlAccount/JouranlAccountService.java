@@ -1,4 +1,4 @@
-package com.cqut.xiji.service.jouranlAccount;
+﻿package com.cqut.xiji.service.jouranlAccount;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -7,13 +7,18 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import net.sf.json.JSONArray;
+
 import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
+import com.cqut.xiji.entity.accounts.Accounts;
 import com.cqut.xiji.entity.jouranlAccount.JouranlAccount;
 import com.cqut.xiji.service.base.SearchService;
+import com.cqut.xiji.tool.treeNode.Node;
+import com.cqut.xiji.tool.treeNode.NodeList;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
 @Service
@@ -50,7 +55,7 @@ public class JouranlAccountService extends SearchService implements IJouranlAcco
 		String baseEntity = "jouranlAccount";
 		
 		String[] properties ={
-				"jouranlaccount.ID as jouranlaccountID",
+				"jouranlaccount.ID as jouranlAccountID",
 				"jouranlaccount.invoice",
 				"jouranlaccount.money",
 				"jouranlaccount.remarks",
@@ -124,6 +129,15 @@ public class JouranlAccountService extends SearchService implements IJouranlAcco
 		
 		int result = entityDao.save(jouranlAccount);
 		
+		return result + "";
+	}
+
+	@Override
+	public String delJouranlAccounts(String jouranlAccountsID) {
+		if(jouranlAccountsID == null || jouranlAccountsID.isEmpty()){
+			return 0+"";
+		}
+		int result =  entityDao.deleteByID(jouranlAccountsID, JouranlAccount.class);
 		return result + "";
 	}
 

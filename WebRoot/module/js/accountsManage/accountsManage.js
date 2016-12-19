@@ -1,4 +1,4 @@
-var ContractInfo = {};
+﻿var ContractInfo = {};
 ContractInfo.data = getContract();//全局合同信息
 
 $(function(){
@@ -142,7 +142,7 @@ function isLogin(){
 function viewDetailed(){
 	window.location.href = window.location.href.replace('accountsManage.jsp','jouranlAccounts.jsp') + '?ID='+arguments[0];
 }
-
+/* 新增弹窗  */
 function delAccounts(){
 	if(confirm("确定要删除？")){
 		 accountsID = arguments[0];
@@ -161,11 +161,12 @@ function delAccounts(){
 	 }
 }
 
-
+/* 新增弹窗  */
 function openAddModal(){
 	fillContract("add_contractCode");
 	$('#addModal').modal('show');
 }
+/* 新增账目  */
 function addAccounts(){
 	var parame = {};
 	
@@ -185,6 +186,7 @@ function addAccounts(){
 		});
 	
 }
+/* 合同信息html  */
 function fillContract(id){
 	var html = "";
 	for(var i = 0 ; i < ContractInfo.data.length; i++){
@@ -195,6 +197,7 @@ function fillContract(id){
 	}
 }
 
+/* 修改弹窗  */
 function openEditModal(){
 	
 	fillContract("edit_contractCode");
@@ -219,6 +222,7 @@ function openEditModal(){
 	
 	
 }
+/* 合同信息填充  */
 function contractCodeChange(type){
 	if(type === "add"){
 		var add_contractID = $('#add_contractCode').val();
@@ -244,6 +248,7 @@ function contractCodeChange(type){
 	}
 	
 }
+/* 修改账目  */
 function editAccounts(){
 	var parame = {};
 	

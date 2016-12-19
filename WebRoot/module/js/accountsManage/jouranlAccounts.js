@@ -1,4 +1,4 @@
-var ContractInfo = {};
+﻿var ContractInfo = {};
 ContractInfo.data = getContract();//全局合同信息
 ContractInfo.contractID= window.location.search.match(/\d+/i)[0];
 $(function(){
@@ -49,8 +49,8 @@ function init(){
 				checkbox:true,
 				width:'1%'// 宽度
 			},{
-				field:'accountsID',// 返回值名称
-				title:'项目ID',// 列名
+				field:'jouranlAccountID',// 返回值名称
+				title:'流水账ID',// 列名
 				align:'center',// 水平居中显示
 				valign:'middle',// 垂直居中显示
 				width:'0',// 宽度
@@ -85,7 +85,7 @@ function init(){
 				title:'报账专员',// 列名
 				align:'center',// 水平居中显示
 				valign:'middle',// 垂直居中显示
-				width:'10%'// 宽度
+				width:'8%'// 宽度
 			},{
 				field:'invoice',// 返回值名称
 				title:'发票编号 ',// 列名
@@ -103,7 +103,7 @@ function init(){
 				title:'是否收入 ',// 列名
 				align:'center',// 水平居中显示
 				valign:'middle',// 垂直居中显示
-				width:'10%'// 宽度
+				width:'5%'// 宽度
 			},{
 				field:'checkinTime',// 返回值名称
 				title:'录入时间 ',// 列名
@@ -123,9 +123,9 @@ function init(){
 				valign:'middle',
 				width:'10%',
 				 formatter:function(value,row,index){    
-	                 var e = '<button  onclick="viewDetailed('+row.contractID+')"  title="查看详细" class="glyphicon glyphicon-tasks" style="cursor:pointer;color: rgb(10, 78, 143);margin-right:8px;"></button> ';
+	                 var e = '<button  onclick="viewDetailed('+row.jouranlAccountID+')"  title="查看详细" class="glyphicon glyphicon-tasks" style="cursor:pointer;color: rgb(10, 78, 143);margin-right:8px;"></button> ';
 	                 var a = "<button  onclick='openEditModal("+JSON.stringify(row)+")'"+" title='修改'  class='glyphicon glyphicon-edit' style='cursor:pointer;color: rgb(10, 78, 143);margin-right:8px;'></button>";
-	                 var d = "<button  onclick='delAccounts(\""+row.accountsID+"\")' data-toggle='tooltip'  title='删除'  class='glyphicon glyphicon-remove-sign' style='color: rgb(10, 78, 143);margin-right:8px;'></button>";
+	                 var d = "<button  onclick='delJouranlAccounts(\""+row.jouranlAccountID+"\")' data-toggle='tooltip'  title='删除'  class='glyphicon glyphicon-remove-sign' style='color: rgb(10, 78, 143);margin-right:8px;'></button>";
 	                 return e+a+d;
 	             }   
 			}]// 列配置项,详情请查看 列参数 表格
@@ -148,9 +148,109 @@ function query(){
 	refresh();		
 }
 
-function openAddModal(){
-	
+/* 删除流水账目 */
+function delJouranlAccounts(){
+	if(confirm("确定要删除？")){
+		jouranlAccountsID = arguments[0];
+		 $.ajax({
+				url: 'jouranlAccountController/delJouranlAccounts.do',
+				data:{
+					jouranlAccountsID : jouranlAccountsID
+				},
+				success:function(o){
+					if(o <= 0){
+						alert("删除失败");
+					}
+					refresh();
+				}
+        });
+	 }     
 }
+/* 新增弹窗 */
+function openAddModal(){
+	for(var i = 0 ; i < ContractInfo.data.length; i++){
+		if(ContractInfo.contractID === ContractInfo.data[i].contractID){ //填充数据;
+			$('#add_contractCode').val(ContractInfo.data[i].contractCode);
+			$('#add_contractName').val(ContractInfo.data[i].contractName);
+			break;
+		}
+	}
+	$('#addModal').modal('show');
+}
+
+/* 新增流水账 */
+function addJouranlAccounts(){
+	var parame ={}
+	
+	parame.contractID = ContractInfo.contractID;
+	parame.employeeID = $('#employeeID').val();
+	parame.invoice = $('#add_invoice').val();
+	parame.money = $('#add_money').val();
+	parame.isIncome = $('input[name="add_isIncome"]:checked').val();
+	parame.remarks = $('#add_remarks').val();
+	
+	$.ajax({
+	  url:'jouranlAccountController/addJouranlAccounts.do',
+	  data:parame,
+	  success:function(o){
+		  if(o<=0){
+			  alert("新增失败");
+		  }
+		  $('#addModal').modal('hide');
+		  refresh();
+	  }
+	});
+}
+/* 修改弹窗  */
+function openEditModal(){
+	for(var i = 0 ; i < ContractInfo.data.length; i++){
+		if(ContractInfo.contractID === ContractInfo.data[i].contractID){ //填充数据;
+			$('#edit_contractCode').val(ContractInfo.data[i].contractCode);
+			$('#edit_contractName').val(ContractInfo.data[i].contractName);
+			break;
+		}
+	}
+	$('#jouranlAccountID').val(arguments[0].jouranlAccountID);
+	$('#edit_invoice').val(arguments[0].invoice);
+	$('#edit_money').val(arguments[0].money);
+	//单选按钮
+	if(arguments[0].isIncome === "收入"){
+		$('#edit_isIncome').val(0);
+		$("input:radio[value='0']").click();
+	}
+	else{
+		$('#edit_isIncome').val(1);
+		$("input:radio[value='1']").click();
+	}
+	
+	$('#edit_remarks').val(arguments[0].remarks);
+	
+	$('#editModal').modal('show');
+}
+
+function editJouranlAccounts(){
+	
+	
+	var parame = {};
+	parame.jouranlAccountsID = $('#jouranlAccountID').val();
+	parame.invoice= $('#edit_invoice').val();
+	parame.money= $('#edit_money').val();
+	parame.isIncome = $('input[name="edit_isIncome"]:checked').val();
+	parame.remarks= $('#edit_remarks').val();
+	
+	$.ajax({
+		  url:'jouranlAccountController/upJouranlAccounts.do',
+		  data:parame,
+		  success:function(o){
+			  if(o<=0){
+				  alert("修改失败");
+			  }
+			  $('#editModal').modal('hide');
+			  refresh();
+		  }
+	});
+}
+
 /* 重置刷新 */
 function reSetRefresh(){
 	document.getElementById("query_contractCode").value=""; 	
@@ -169,7 +269,9 @@ function isLogin(){
 		 return true;
 	 }
 }
-
+function viewDetailed(){
+	window.location.href= window.location.href.split("?")[0].replace('jouranlAccounts.jsp','paymentDetail.jsp') + '?jouranlAccountID='+arguments[0];
+}
 /* 获取合同数据 */
 function getContract(){
 	var data;
