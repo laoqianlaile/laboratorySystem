@@ -44,7 +44,7 @@ function initData(){
 			title : '文件ID',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : "10%",// 宽度
+			width : "20%",// 宽度
 			visible : false
 	    },{
 			field : 'fileName',// 返回值名称
