@@ -32,11 +32,11 @@ public interface ITestReportService {
 
 	public List<Map<String, Object>> getTemplateFileID(String ID);
 
-	public List<Map<String, Object>> checkTask(String testReportID);
+	public List<Map<String, Object>> getCilentInfo(String testReportID);
 
-	public List<Map<String, Object>> checkSample(String testReportID);
+	public Map<String, Object> getSampleInfoWithPaging(int limit, int offset, String order,String sort,String testReportID);
 
-	public List<Map<String, Object>> checkReport(String testReportID);
+	public Map<String, Object>  getTestReportFileInfoWithPaging(int limit, int offset, String order,String sort,String testReportID);
 
 	public boolean deleteOtherTableInfo(String fileID);
 

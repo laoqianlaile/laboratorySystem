@@ -80,8 +80,8 @@ public class TestReportService extends SearchService implements
 				+ "testreport.dismissreason3 AS dismissreason3,"
 				+ "testreport.remarks AS remarks"
 				+ " FROM "
-				+ " task "
-				+ " LEFT JOIN testreport ON task.ID = testreport.taskID "
+				+ " testreport "
+				+ " LEFT JOIN task ON testreport.taskID = task.ID  "
 				+ " LEFT JOIN receiptlist ON task.receiptlistID = receiptlist.ID "
 				+ " ) AS a "
 				+ " LEFT JOIN contract ON a.contractID = contract.ID "
@@ -312,7 +312,6 @@ public class TestReportService extends SearchService implements
 		return map;
 	}
 
-	@Override
 	public List<Map<String,Object>> getProjectName(String ID){
 		String lefjionCondition = "";
 		if (!ID.isEmpty() || ID != "" || ID != null) {
@@ -380,6 +379,7 @@ public class TestReportService extends SearchService implements
 		if (fr == null) {
 			return false;
 		} else {
+			fr.setBelongtoID(ID);
 			return baseEntityDao.updatePropByID(fr, fileID) > 0 ? true : false;
 		}
 
@@ -435,7 +435,7 @@ public class TestReportService extends SearchService implements
 	}
 
 	@Override
-	public List<Map<String, Object>> checkTask(String testReportID) {
+	public List<Map<String, Object>> getCilentInfo(String testReportID) {
 		String lefjionCondition = "";
 		if (testReportID != null && !testReportID.equals("") && !testReportID.equals(" ") && !testReportID.isEmpty()) {
 			lefjionCondition = " WHERE testreport.ID = " + testReportID;
@@ -443,7 +443,7 @@ public class TestReportService extends SearchService implements
 		String tableName = " ( SELECT "
 				+ "b.createTime AS createTime,"
 				+ "b.linkman AS linkman,"
-				+ "b.receiptlistID AS receiptlistID,"
+				+ "b.receiptlistCode AS receiptlistCode,"
 				+ "b.contractID AS contractID,"
 				+ "b.completeTime AS completeTime,"
 				+ "b.linkPhone AS linkPhone,"
@@ -455,7 +455,7 @@ public class TestReportService extends SearchService implements
 				+ " SELECT "
 				+ "DATE_FORMAT(receiptlist.createTime,'%Y-%m-%d %H:%i:%s') AS createTime,"
 				+ "receiptlist.linkman AS linkman,"
-				+ "receiptlist.ID AS receiptlistID,"
+				+ "receiptlist.receiptlistCode AS receiptlistCode,"
 				+ "receiptlist.contractID AS contractID,"
 				+ "DATE_FORMAT(receiptlist.completeTime,'%Y-%m-%d %H:%i:%s') AS completeTime,"
 				+ "receiptlist.linkPhone AS linkPhone" + " FROM " + " ( "
@@ -470,7 +470,7 @@ public class TestReportService extends SearchService implements
 				"c.createTime AS createTime",
 				"c.completeTime AS completeTime",
 				"c.linkPhone AS linkPhone",
-				"c.receiptlistID",
+				"c.receiptlistCode AS receiptlistCode",
 				"IF (c.isClassified  = 0,'不涉密','涉密') AS isClassified,"
 						+ "IF (c.classifiedLevel = 0,'秘密',IF (c.classifiedLevel = 1,'机密',"
 						+ "IF (c.classifiedLevel = 2,'绝密','无密级'))) AS classifiedLevel",
@@ -485,13 +485,15 @@ public class TestReportService extends SearchService implements
 	}
 
 	@Override
-	public List<Map<String, Object>> checkSample(String testReportID) {
-		String lefjionCondition = "";
+	public Map<String, Object> getSampleInfoWithPaging(int limit, int offset, String order,String sort,String testReportID) {
+		int index = limit;
+		int pageNum = offset / limit;
+		String filterCondition = "";
 		if (testReportID != null && !testReportID.equals("") && !testReportID.equals(" ") && !testReportID.isEmpty()) {
-			lefjionCondition = " WHERE testreport.ID = " + testReportID;
+			filterCondition = " WHERE testreport.ID = " + testReportID;
 		}
 		String tableName = " ( " + " SELECT "
-				+ "b.testProjectID AS testProjectID,"
+				+ "b.testProjectID AS testProjectID," + "sample.ID AS ID,"
 				+ "sample.specifications AS specifications,"
 				+ "sample.sampleName AS sampleName,"
 				+ "sample.factoryCode AS factoryCode,"
@@ -499,30 +501,38 @@ public class TestReportService extends SearchService implements
 				+ " SELECT " + "task.testProjectID AS testProjectID,"
 				+ "task.sampleID AS sampleID," + "task.ID AS ID" + " FROM "
 				+ " ( " + " SELECT " + "testreport.taskID AS taskID" + " FROM "
-				+ "testreport" + lefjionCondition + " ) AS a "
+				+ "testreport" + filterCondition + " ) AS a "
 				+ " LEFT JOIN task ON a.taskID = task.ID " + " ) AS b "
 				+ " LEFT JOIN sample ON b.sampleID = sample.ID "
 				+ " LEFT JOIN taskMan ON b.ID = taskman.taskID " + " ) AS c ";
 		String[] properties = new String[] {
-				"testproject.nameCn AS nameCn",
-				"c.factoryCode AS factoryCode",
+				"IF (testproject.nameCn IS NULL,testproject.nameEn,IF (testproject.nameEn IS NULL,testproject.nameCn,CONCAT(testproject.nameCn,'(',testproject.nameEn,')'))) AS testProjectName",
+				"c.factoryCode AS factoryCode", "c.ID AS ID",
 				"c.sampleName AS sampleName",
 				"c.specifications AS specifications",
-				"employee.employeeName AS employeeName" 
-				};
+				"employee.employeeName AS employeeName" };
 		String joinEntity = " LEFT JOIN testproject ON c.testProjectID = testproject.ID "
 				+ " LEFT JOIN employee ON c.detector = employee.ID ";
 		String condition = " 1 = 1";
-		List<Map<String, Object>> result = entityDao.searchForeign(properties,tableName, joinEntity, null, condition);
-		return result;
+		List<Map<String, Object>> result = entityDao.searchWithpaging(
+				properties, tableName, joinEntity, null, null, condition, sort,
+				order, index, pageNum);
+		int count = entityDao.searchForeign(properties, tableName, joinEntity,
+				null, null).size();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("total", count);
+		map.put("rows", result);
+		return map;
 
 	}
 
 	@Override
-	public List<Map<String, Object>> checkReport(String testReportID) {
-		String lefjionCondition = "";
+	public Map<String, Object>  getTestReportFileInfoWithPaging(int limit, int offset, String order,String sort,String testReportID) {
+		int index = limit;
+		int pageNum = offset / limit;
+		String filterCondition = "";
 		if (testReportID != null && !testReportID.equals("") && !testReportID.equals(" ") && !testReportID.isEmpty()) {
-			lefjionCondition = " WHERE testreport.ID = " + testReportID;
+			filterCondition = " WHERE testreport.ID = " + testReportID;
 		}
 		String tableName = " ( "
 				+ " SELECT "
@@ -551,9 +561,9 @@ public class TestReportService extends SearchService implements
 				+ "testreport.remarks AS remarks"
 				+ " FROM "
 				+ "testreport"
-				+ lefjionCondition
+				+ filterCondition
 				+ " ) AS a "
-				+ " LEFT JOIN fileinformation ON a.fileID = fileinformation.ID "
+				+ " LEFT JOIN fileinformation ON a.fileID = fileinformation.ID WHERE fileinformation.state = 0"
 				+ " ) AS b";
 		String[] properties = new String[] { 
 				"b.ID AS ID",
@@ -567,9 +577,15 @@ public class TestReportService extends SearchService implements
 				"employee.employeeName" };
 		String joinEntity = " LEFT JOIN employee ON b.uploaderID = employee.ID ";
 		String condition = " 1 = 1";
-		List<Map<String, Object>> result = entityDao.searchForeign(properties,
-				tableName, joinEntity, null, condition);
-		return result;
+		List<Map<String, Object>> result = entityDao.searchWithpaging(
+				properties, tableName, joinEntity, null, null, condition, sort,
+				order, index, pageNum);
+		int count = entityDao.searchForeign(properties, tableName, joinEntity,
+				null, null).size();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("total", count);
+		map.put("rows", result);
+		return map;
 
 	}
 
