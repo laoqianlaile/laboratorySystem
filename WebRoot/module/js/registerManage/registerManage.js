@@ -66,12 +66,12 @@ function initTable(){
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 		},{
-			field:'qulicationPic',///返回值名称
+			field:'legal',///返回值名称
 			title:'资质图',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 		},{
-			field:'phoneNumber',///返回值名称
+			field:'mobilePhone',///返回值名称
 			title:'联系电话',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
@@ -81,7 +81,7 @@ function initTable(){
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 		},{
-			field:'legal',///返回值名称
+			field:'qulicationPic',///返回值名称
 			title:'法定代表',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
@@ -170,7 +170,7 @@ function registerModal(){
 	$('#show_clientNo').val(data[0].clientNo);
 	$('#password').val(data[0].password);
 	$('#reviewStatus1').val(data[0].reviewStatus);
-	$('#phoneNumber').val(data[0].phoneNumber);
+	$('#phoneNumber').val(data[0].mobilePhone);
 	$('#scope').val(data[0].scope);
 	$('#legal').val(data[0].legal);
 	$('#type').val(data[0].type);
@@ -202,12 +202,12 @@ function checkModal(){
 	$('#check_address').val(data[0].address);
 	$('#check_clientNo').val(data[0].clientNo);
 	$('#check_password').val(data[0].password);
-	$('#check_phoneNumber').val(data[0].phoneNumber);
+	$('#check_phoneNumber').val(data[0].mobilePhone);
 	$('#check_scope').val(data[0].scope);
-	$('#check_legal').val(data[0].legal);
+	$('#check_legal').val(data[0].qulicationPic);
 	$('#check_type').val(data[0].type);
 	$('#check_remarks').val(data[0].remarks);
-	$("#check_qulicationPic").attr('src',data[0].qulicationPic);
+	$("#check_qulicationPic").attr('src',data[0].legal);
 	$("#check_businessLicence").attr('src',data[0].businessLicence);
 	$('#checkModal').modal('show');
    $('#checkModal').modal({ show: true, backdrop: 'static' });
@@ -258,8 +258,8 @@ function formSearch1(){
 		  check_reviewStatus="1";
 		 else
 		  check_reviewStatus="2"; 
-	 alert("审核："+check_reviewStatus);//审核状态 0:未审核  1：审核成功  2：审核失败
-		var ajaxParameter = {
+	 /*alert("审核："+check_reviewStatus);//审核状态 0:未审核  1：审核成功  2：审核失败*/		
+	    var ajaxParameter = {
 				"reviewStatus":encodeURI(check_reviewStatus),
 				"clientID":check_clientId,
 		};

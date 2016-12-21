@@ -42,6 +42,7 @@ function changePassword(){
 				 $('#oldPassword').val("");
 				 $('#newPassword1').val("");
 				 $('#newPassword2').val("");
+				 window.location.href="/laboratorySystem/Portal/jsp/homePage/homePage.jsp";
 			}
 			else
 				alert("修改失败!");

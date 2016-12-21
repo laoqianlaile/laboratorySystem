@@ -1,10 +1,10 @@
 var verify = "";
 //加载修改密码界面
 function findPassword(){
-	if(upperCase()&&fixedCase){
+	if(upperCase()&&fixedCase()){
 	var parame = {};
 	parame.clientNo = $('#clientNo1').val();
-	parame.fixedTelephone = $('#fixedTelephone').val();
+	parame.mobilePhone = $('#fixedTelephone').val();
 	$.ajax({
 		url :'clientController/findPassword.do',
 		data :parame,
@@ -13,7 +13,7 @@ function findPassword(){
 		success:function(o) {// 后台处理数据成功后的回调函数
 			if(o == "1"){
 				alert("尊敬的用户，您的密码已通过短信发送到您的手机，请妥善保管您的密码！");
-				 window.location.href="Portal/jsp/register/register.jsp";
+				 window.location.href="/laboratorySystem/Portal/jsp/homePage/homePage.jsp";
 			}
 			else{
 				alert("您输入的账户有误或电话与注册是不一致!");

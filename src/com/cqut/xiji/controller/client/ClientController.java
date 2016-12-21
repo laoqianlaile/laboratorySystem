@@ -31,10 +31,8 @@ public class ClientController{
 		 clientNo = URLDecoder.decode(clientNo,"utf-8");
 		 reviewStatus = URLDecoder.decode(reviewStatus,"utf-8");
 		 isTouchReviewStatus = URLDecoder.decode(isTouchReviewStatus,"utf-8");
-		 System.out.println("controller:__ isTouchReviewStatus"+ isTouchReviewStatus);
-		Map<String, Object> result = service.getRegistryWithPaging(limit,offset,sort,order,companyName,clientNo,reviewStatus,isTouchReviewStatus);
-		System.out.println("Clientcontroller:"+JSONObject.fromObject(result));
-		return JSONObject.fromObject(result);
+		 Map<String, Object> result = service.getRegistryWithPaging(limit,offset,sort,order,companyName,clientNo,reviewStatus,isTouchReviewStatus);
+		 return JSONObject.fromObject(result);
 	}
 	@RequestMapping("/updateStatus")  
     @ResponseBody
@@ -85,6 +83,8 @@ public class ClientController{
 		representative = URLDecoder.decode(representative,"utf-8");
 		companyType = URLDecoder.decode(companyType,"utf-8");
 		remarks = URLDecoder.decode(remarks,"utf-8");
+		idCardLicense = URLDecoder.decode(idCardLicense,"utf-8");
+		idCardAptitude = URLDecoder.decode(idCardAptitude,"utf-8");
 		return service.addPersonnel(clientNo,password,companyID,mobilePhone,fixedTelephone,
 	    		 manage,representative,companyType,remarks,idCardLicense,idCardAptitude); 
 		
@@ -138,20 +138,22 @@ public class ClientController{
 	 */
 	@RequestMapping("/changePersonnel")  
     @ResponseBody 
-    public String changePersonnel(String clientNo,String clientID,String clientPassword,String companyID,String companyName,String mobilePhone,String fixedTelephone,
+    public String changePersonnel(String clientNo,String clientID,String clientPassword,String companyID,String companyName,String address,String mobilePhone,
     		String manage,String representative,String companyType,String remarks,String idCardLicense,String idCardAptitude) throws UnsupportedEncodingException{
 		clientNo = URLDecoder.decode(clientNo,"utf-8");
 		clientID = URLDecoder.decode(clientID,"utf-8");
 		clientPassword = URLDecoder.decode(clientPassword,"utf-8");
 		companyID = URLDecoder.decode(companyID,"utf-8");
 		mobilePhone = URLDecoder.decode(mobilePhone,"utf-8");
-		fixedTelephone = URLDecoder.decode(fixedTelephone,"utf-8");
+		address = URLDecoder.decode(address,"utf-8");
 		manage = URLDecoder.decode(manage,"utf-8");
 		representative = URLDecoder.decode(representative,"utf-8");
 		companyType = URLDecoder.decode(companyType,"utf-8");
 		remarks = URLDecoder.decode(remarks,"utf-8");
 		companyName = URLDecoder.decode(companyName,"utf-8");
-		return service.changePersonnel(clientNo,clientID,clientPassword,companyID,companyName,mobilePhone,fixedTelephone,
+		idCardLicense = URLDecoder.decode(idCardLicense,"utf-8");
+		idCardAptitude = URLDecoder.decode(idCardAptitude,"utf-8");
+		return service.changePersonnel(clientNo,clientID,clientPassword,companyID,companyName,address,mobilePhone,
 	    		 manage,representative,companyType,remarks,idCardLicense,idCardAptitude); 
 		
 	}
@@ -224,7 +226,7 @@ public class ClientController{
 	 */
 	@RequestMapping("/findPassword")
 	@ResponseBody
-	public int findPassword(String clientNo1,String fixedTelephone){
-		return service.findPassword(clientNo1,fixedTelephone) == "true" ? 1 : 0;
+	public int findPassword(String clientNo1,String mobilePhone){
+		return service.findPassword(clientNo1,mobilePhone) == "true" ? 1 : 0;
 	}
 }

@@ -84,7 +84,7 @@ public class ClientService extends SearchService implements IClientService{
 			String order, String sort,String reCompyName,String reUserName,String reReviewStatus,String isTouchReviewStatus) {
 		// TODO Auto-generated method stub
 		int index = limit;
-		int pageNum = offset/limit + 1;
+		int pageNum = offset/limit;
 		String tableName = "company";
 		String[] allProperties = new String[]{
 			"client.id id",
@@ -95,7 +95,7 @@ public class ClientService extends SearchService implements IClientService{
             "address",
             "businessLicence",
             "qulicationPic",
-            "phoneNumber",
+            "mobilePhone",
             "scope",
             "legal",
             "type",
@@ -220,9 +220,9 @@ public class ClientService extends SearchService implements IClientService{
 		company2.setAddress(mobilePhone);
 		company2.setMobilephone(fixedTelephone);
 		company2.setBusinessLicence(idCardLicense);
-		company2.setLegal(representative);
+		company2.setLegal(idCardAptitude);
 		company2.setScope(manage);
-		company2.setQulicationPic(idCardAptitude);
+		company2.setQulicationPic(representative);
 		company2.setRemarks(remarks);
 		company2.setType(Integer.parseInt(company));
 		
@@ -246,7 +246,7 @@ public class ClientService extends SearchService implements IClientService{
 						"password",
 						"company.ID AS ID",
 						"companyName",
-						"phoneNumber",
+						"mobilePhone",
 						"qulicationPic",
 						"address",
 						"legal",
@@ -286,7 +286,7 @@ public class ClientService extends SearchService implements IClientService{
 
 	@Override
 	public String changePersonnel(String clientNo,String clientID,String clientPassword,String companyID, String companyName,
-			String mobilePhone, String fixedTelephone, String manage,
+			String address, String mobilePhone, String manage,
 			String representative, String companyType, String remarks,
 			String idCardLicense, String idCardAptitude) {
 		Company company2 = new Company();
@@ -301,12 +301,12 @@ public class ClientService extends SearchService implements IClientService{
 		
 		company2.setID(companyID);
 		company2.setCompanyName(companyName);
-		company2.setAddress(mobilePhone);
-		company2.setMobilephone(fixedTelephone);
+		company2.setAddress(address);
+		company2.setMobilephone(mobilePhone);
 		company2.setBusinessLicence(idCardLicense);
-		company2.setLegal(representative);
+		company2.setLegal(idCardAptitude);
 		company2.setScope(manage);
-		company2.setQulicationPic(idCardAptitude);
+		company2.setQulicationPic(representative);
 		company2.setRemarks(remarks);
 		company2.setType(Integer.parseInt(companyType));
 		entityDao.updatePropByID(client, client.getID());
@@ -323,7 +323,7 @@ public class ClientService extends SearchService implements IClientService{
 	}
 
 	@Override
-	public String findPassword(String clientNo,String phoneNumber) {
+	public String findPassword(String clientNo,String mobilePhone) {
 		String condition = " 1 = 1 ";
 		if (clientNo != null && !clientNo.trim().toString().equals("null")) {
 			condition = " 1 = 1 and clientNo =  '" + clientNo + "'";
@@ -335,14 +335,14 @@ public class ClientService extends SearchService implements IClientService{
 						"clientNo",
 						"password",
 						"company.ID AS ID",
-						"phoneNumber",
+						"mobilephone",
 						},
 				"client",
 				" join company on client.companyID = company.ID"
 				, null, null, condition);
-		if(phoneNumber.equals(enList.get(0).get("phoneNumber"))){
+		if(mobilePhone.equals(enList.get(0).get("mobilephone"))){
 			try {
-				sendSuccessMessage((String)enList.get(0).get("phoneNumber"),(String)enList.get(0).get("clientNo"),(String)enList.get(0).get("password"));
+				sendSuccessMessage((String)enList.get(0).get("mobilephone"),(String)enList.get(0).get("clientNo"),(String)enList.get(0).get("password"));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
