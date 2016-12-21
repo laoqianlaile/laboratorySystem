@@ -122,11 +122,11 @@ $(function () {
 			formatter:function(value,row,index){  
 				var temp = '';
 				if(row.assignState === "未分配"){
-					var btn_assign = '<span onclick="taskAssign(\'' + row.ID + '\')" data-toggle="tooltip" data-placement="top"  title="分配"  class="glyphicon glyphicon-user" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
-					var btn_viewProgress = '<span onclick="checkTaskProgress(\'' + row.ID + '\',\'' + row.receiptlistCode + '\')" data-toggle="tooltip" ddata-placement="top"  title="查看任务进度"  class="glyphicon glyphicon-user" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
+					var btn_assign = '<span onclick="taskAssign(\'' + row.ID + '\')" data-toggle="tooltip" data-placement="top" title="分配"  class="glyphicon glyphicon-user" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
+					var btn_viewProgress = '<span onclick="checkTaskProgress(\'' + row.ID + '\',\'' + row.receiptlistCode + '\')" data-toggle="tooltip" ddata-placement="top"  title="查看任务进度"  class="glyphicon glyphicon-search" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
 					temp += btn_assign + btn_viewProgress;
 				}else{
-					var btn_viewProgress = '<span onclick="checkTaskProgress(\'' + row.ID + '\',\'' + row.receiptlistCode + '\')" data-toggle="tooltip" data-placement="top"  title="查看任务进度"  class="glyphicon glyphicon-user" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
+					var btn_viewProgress = '<span onclick="checkTaskProgress(\'' + row.ID + '\',\'' + row.receiptlistCode + '\')" data-toggle="tooltip" data-placement="top"  title="查看任务进度"  class="glyphicon glyphicon-search" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
 					temp += btn_viewProgress;
 				}
 		  		return temp;
@@ -146,7 +146,7 @@ $(function () {
 		parame1.acceptSampleTime_start = $('#acceptSampleTime_start').val();
 		parame1.acceptSampleTime_end = $('#acceptSampleTime_end').val();
 		parame1.state = parseInt($('#state').val());
-		parame1.assignState = parseInt($('#assignState').val());
+		parame1.assignState = parseInt($('#assignState').val()); 
 		
 		$('#table').bootstrapTable('refresh',{
 			silent: true,
