@@ -45,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	width:70%;
 	}
 	.span4{
-	width: 33%;
+	width: 710px;
     height: 50px;
     padding: 7px 5px;
     float:left;
@@ -59,7 +59,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
  
- <div class="container-fluid" style="width:100%">
+ <div class="container-fluid">
 		<div class="span4">
 			<div class="form-group">
 			<label for="firstname" class="col-sm-2 control-label">组织者</label>
@@ -78,9 +78,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		<div class="span4">
 			<div class="form-group">
-				<label for="firstname" class="col-sm-2 control-label">执行时间</label>
+				<label for="firstname" class="col-sm-2 control-label">计划执行时间</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control inputWidth"  id="Executiontime" placeholder="请输入时间" >
+					<input type="text" class="form-control" style="width:32.5%;float:left;" id="Executiontime" placeholder="请输入开始时间" >
+					<span style="width: 5%;float: left;font-size: 20px;text-align: center;line-height: 30px;">至</span>
+					<input type="text" class="form-control" style="width:32.5%;float:left;" id="Executiontime2" placeholder="请输入结束时间" >
 				</div>
 			</div>
 		</div>
@@ -148,13 +150,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  				<input  id="cID" type="hidden" name="fileID" value=""></input>
                	<input  id="cstate" type="hidden" name="state" value="0"></input>
              	<div style="margin-top: 15px;">
-             	<input id="file" name="file" type="file"></div> 
+             	<input id="file" name="file" type="file" value=""></div> 
+             	<button type="submit" style="display:none;">
                </div>
              </div>
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-	        <button type="submit" onclick="check()" class="btn btn-primary">提交</button>
+	        <button type="button" onclick="check()" class="btn btn-primary">提交</button>
 	     </form> 
 	      </div>
 	    	
@@ -163,12 +166,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 	
 		<div class="input-group" style="float: left;margin-bottom: 10px;">
-  		<button type="button" onclick="add()" class="btn btn-primary glyphicon glyphicon-plus newButton">&nbsp;制定计划</button>
-  		<button type="button" onclick="editPlan()" class="btn btn-primary glyphicon glyphicon-edit newButton">&nbsp;修改计划</button>
-		<button type="button" onclick="deleteModal()" class="btn btn-primary glyphicon glyphicon-remove newButton">&nbsp;删除计划</button>
-  		<button onclick="checkTable()" type="button" class="btn btn-primary glyphicon glyphicon-file newButton" >&nbsp;填写结果</button>
-  		<button onclick="download()"  class="btn btn-primary glyphicon glyphicon-download-alt newButton">&nbsp;下载报告</button>
-  		<button class='btn btn-primary glyphicon glyphicon-refresh newButton' onclick="refresh2()" type='button'>&nbsp;刷新&nbsp;</button>
+  		<button type="button" onclick="add()" class="btn btn-info glyphicon glyphicon-plus newButton">&nbsp;制定计划</button>
+  		<button type="button" onclick="editPlan()" class="btn btn-info glyphicon glyphicon-edit newButton">&nbsp;修改计划</button>
+		<button type="button" onclick="deleteModal()" class="btn btn-info glyphicon glyphicon-remove newButton">&nbsp;删除计划</button>
+  		<button onclick="download()"  class="btn btn-info glyphicon glyphicon-download-alt newButton">&nbsp;下载报告</button>
+  		<button onclick="checkTable()" type="button" class="btn btn-info glyphicon glyphicon-file newButton" >&nbsp;填写结果</button>
+  		<button class='btn btn-info glyphicon glyphicon-refresh newButton' onclick="refresh2()" type='button'>&nbsp;刷新&nbsp;</button>
   		</div> 
   			<button id="uploading" style="float:right;display: none;" class="btn btn-primary glyphicon glyphicon-arrow-up" onclick="addPlan(this)" type="button">&nbsp提交&nbsp</button>
 		<table class="table table-bordered table-hover"  id="table"></table>

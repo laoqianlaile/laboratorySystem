@@ -13,7 +13,7 @@ var param = {
 	state : $("#schState").val()
 }
 var globl = {
-	proID : "243254",
+	proID : "",
 }
 /* 初始化数据 */
 $(function() {
@@ -61,8 +61,7 @@ $(function() {
 									valign : 'middle',// 垂直居中显示
 									width : '5%',// 宽度
 									formatter : function(value, row, index) {
-										 check
-									}
+										 checkData(row);									}
 								},
 								{
 									field : 'reID',// 返回值名称
@@ -342,7 +341,7 @@ function deleteRe(id) {
 
 
 // 检查数据是否合理
-function chenkData(dataObj) { // 后台数据字段为空就不会传上来
+function checkData(dataObj) { // 后台数据字段为空就不会传上来
 	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
 			|| dataObj.ID.trim() == "NULL") {
 		dataObj.ID = "";
@@ -356,8 +355,8 @@ function chenkData(dataObj) { // 后台数据字段为空就不会传上来
 			|| dataObj.coCode.trim() == "NULL") {
 		dataObj.coCode = "";
 	}
-	if (!dataObj.hasOwnProperty("isEditSample") || dataObj.isEditSample == null
-			|| dataObj.isEditSample.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("isEditSample") || dataObj.isEditSample == null //|| dataObj.isEditSample.trim() == "NULL" 
+			) {
 		dataObj.isEditSample = "1";
 	}
 	if (!dataObj.hasOwnProperty("comID") || dataObj.comID == null
@@ -405,7 +404,7 @@ function chenkData(dataObj) { // 后台数据字段为空就不会传上来
 	var dataS = getOneDate(id);
 	alert("2");
 	console.log(dataS);
-	chenkData(dataS);
+	checkData(dataS);
 
 	// 填充查看页面的
 	$('#lookSampleName').val(dataS.name);

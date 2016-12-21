@@ -154,7 +154,7 @@ public class ReceiptlistService extends SearchService implements
 			int offset, String order, String sort) {
 		// TODO Auto-generated method stub
 		int pageNum = limit;
-		int pageIndex = offset / limit + 1;
+		int pageIndex = offset / limit ;
 		System.out.println("");
 		System.out.println("limit : " + limit + "  " + offset);
 		String[] properties = new String[] { "a.ID", "project.ID AS proID",
@@ -171,13 +171,13 @@ public class ReceiptlistService extends SearchService implements
 				+ "receiptlist.linkMan,"
 				+ "receiptlist.isEditSample,"
 				+ "receiptlist.linkPhone,"
-				+ "date_format(receiptlist.acceptSampleTime,'%Y-%m-%e') AS startTime,"
+				+ "date_format(receiptlist.createTime,'%Y-%m-%e') AS startTime,"
 				+ "date_format(receiptlist.completeTime,'%Y-%m-%e') AS endTime,"
 				+ "employee.employeeName,"
 				+ "IF (receiptlist.state = 0,'未检测',IF (receiptlist.state = 1,'检测中',IF (receiptlist.state = 2,'检测完成',"
 				+ "IF (receiptlist.state = 3,'异常终止','无')))) AS state,"
 				+ " IF (receiptlist.receiptlistType = 0,'接受',IF (receiptlist.receiptlistType = 1,'退还','无' "
-				+ " )) AS reType FROM receiptlist LEFT JOIN contract ON receiptlist.contractID = contract.ID "
+				+ " )) AS reType FROM contract LEFT JOIN  receiptlist ON receiptlist.contractID = contract.ID "
 				+ " LEFT JOIN employee ON receiptlist.employeeID = employee.ID "
 				+ " WHERE 1 = 1 ";
 
@@ -238,7 +238,6 @@ public class ReceiptlistService extends SearchService implements
 
 	}
 
-	@Override
 	public List<Map<String, Object>> getReceiptlistInfoInTaskAssign(String ID) {
 		String tableName = "receiptlist";
 
@@ -308,7 +307,7 @@ public class ReceiptlistService extends SearchService implements
 					+ "task.sampleID,"
 					+ "task.testProjectID,"
 					+ " date_format(task.startTime,'%Y-%m-%d %H:%i:%s') as startTime , "
-					+ " task.require as askFor "
+					+ " task.requires as askFor "
 					+ " from task where  task.receiptlistID ='"
 					+ reID
 					+ "' ) as a "

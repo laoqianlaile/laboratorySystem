@@ -1,11 +1,16 @@
 package com.cqut.xiji.controller.abilityCheck;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
+
 import javax.annotation.Resource;
 
 
@@ -20,12 +25,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.entity.abilityCheck.AbilityCheck;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.service.abilityCheck.IAbilityCheckService;
+import com.cqut.xiji.service.fileOperate.IFileOperateService;
+import com.cqut.xiji.tool.util.EntityIDFactory;
 
 @Controller
 @RequestMapping("/abilityCheckController")
@@ -97,8 +106,9 @@ public class AbilityCheckController{
 	 */ 
 	@RequestMapping("/updateAbilityCheckByCondition")
 	@ResponseBody
-	public String updateAbilityCheckByCondition(AbilityCheck abilityCheck){
+	public String updateAbilityCheckByCondition(AbilityCheck abilityCheck, HttpSession session){
 		System.out.println(abilityCheck.toString() +"~~~~~~~~~~~~~~~~~~");
+		abilityCheck.setEmployeeID((String)session.getAttribute("EMPLOYEEID"));
 		return service.updateAbilityCheckByCondition(abilityCheck);
 	}
 	/**
@@ -118,13 +128,14 @@ public class AbilityCheckController{
 	@RequestMapping("/getAbilityCheckWithPaging")
 	@ResponseBody
 	public JSONObject getAbilityCheckWithPaging(int limit, int offset, String order,
-			String sort, String condition)
+			String sort, String condition,HttpSession session)
 			throws UnsupportedEncodingException, ParseException {
 		System.out.println("limit ======== " + limit);
 		System.out.println("offset ======== " + offset);
 		System.out.println("order ======== " + order);
 		System.out.println("sort ======== " + sort);
-
+		condition += " and dutyName = '技术主管'";
+		condition += " and employee.ID = '" + session.getAttribute("EMPLOYEEID") + "'";
 
 		return JSONObject.fromObject(service.getAbilityCheckWithPaging(limit,
 				offset, order, sort, condition));
@@ -170,7 +181,7 @@ public class AbilityCheckController{
 			String ID = request.getParameter("fileID");// 文件ID
 			String fileName = file.getOriginalFilename();// 文件名
 			String path = "";// 文件路径
-			begin = System.currentTimeMillis();
+			begin = (long) System.currentTimeMillis();
 			fileNames = fileName.split("\\.");
 			
 			path = System.getProperty("user.dir").replace("bin", "webapps")  + "\\"

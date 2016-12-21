@@ -6,7 +6,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="../../css/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="../../css/bootstrap-table.css">
+<link rel="stylesheet" type="text/css"
+	href="../../css/bootstrap-table.css">
 
 <script src="../../js/jquery-2.1.1.min.js"></script>
 <script src="../../js/bootstrap.js"></script>
@@ -18,6 +19,7 @@
 	min-width: 300px;
 	height: 40px;
 }
+
 .list-searcher input {
 	display: inline-block;
 	margin-right: 20px;
@@ -28,85 +30,135 @@
 	display: inline-block;
 	width: 90px;
 }
-.backgray{
-  background: gray;
-}
-.fixed-table-container .bs-checkbox {
-    text-align: center;
-    vertical-align: middle;
-}
-.input-group{
- margin-top: 10px;
+
+.backgray {
+	background: gray;
 }
 
-#searcherArea{
- min-width: 1300px;
+.fixed-table-container .bs-checkbox {
+	text-align: center;
+	vertical-align: middle;
 }
-.bootstrap-table{
- min-width: 1500px;
+
+.input-group {
+	margin-top: 10px;
 }
-.btn-primary{
-margin-right: 3px;
+
+#searcherArea {
+	min-width: 1300px;
 }
-.row{
- margin-bottom: 10px;
+
+.bootstrap-table {
+	min-width: 1500px;
 }
+
+.btn-primary {
+	margin-right: 3px;
+}
+
+.row {
+	margin-bottom: 10px;
+}
+
 .row label {
 	min-width: 80px;
-}  
-.form-control{
-    width: 70%;
-    display: inline;
 }
-.timeLabelDiv{
-  float:left;
-  height: 34px;
-  min-width: 80px;
+
+.form-control {
+	width: 70%;
+	display: inline;
 }
-.timeLabelDiv label{
-  margin-top: 7px;
+
+.timeLabelDiv {
+	float: left;
+	height: 34px;
+	min-width: 80px;
 }
-.timeChooseDiv{
- width: 70%;
- margin-top: 0px;
+
+.timeLabelDiv label {
+	margin-top: 7px;
 }
- .input-group-addon{
-  background-color: #fff;
- } 
+
+.timeChooseDiv {
+	width: 70%;
+	margin-top: 0px;
+}
+
+.input-group-addon {
+	background-color: #fff;
+}
+
+.tip-factory {
+	width: 70%;
+	height: auto;
+	position: absolute;
+	z-index: 9999;
+}
+.tip-factory-content{
+    /* width:100%; 这里设置后，后面的margin-right:就不起作用*/
+	height: auto;
+	z-index: 9999;
+	margin-right:21px;   /* 598 * 0.7 568 *0.7*/
+	border-radius:5px;
+	background: rgba(182, 176, 176, 0.3);
+}
 </style>
 </head>
 <body>
-	
+
 	<!-- 功能按钮 -->
 	<div id="searcherArea">
 		<div class="row">
-		<div class=" col-xs-3 col-md-3 col-lg-3">	<label>出厂编码：</label><input type="text" id="schFactoryCode" name="schFactoryCode" class="form-control" aria-describedby="basic-addon1"></div>
-		<div class=" col-xs-3 col-md-3 col-lg-3">	<label>样品名称：</label><input type="text" id="schSampleName" name="schSampleName" class="form-control" aria-describedby="basic-addon1"> </div>
-		<div class=" col-xs-3 col-md-3 col-lg-3">	<label>样品型号：</label><input type="text" id="schSampleType" name="schSampleType" class="form-control" aria-describedby="basic-addon1"></div>
+			<div class=" col-xs-3 col-md-3 col-lg-3">
+				<label>出厂编码：</label><input type="text" id="schFactoryCode"
+					name="schFactoryCode" class="form-control"
+					aria-describedby="basic-addon1">
+			</div>
+			<div class=" col-xs-3 col-md-3 col-lg-3">
+				<label>样品名称：</label><input type="text" id="schSampleName"
+					name="schSampleName" class="form-control"
+					aria-describedby="basic-addon1">
+			</div>
+			<div class=" col-xs-3 col-md-3 col-lg-3">
+				<label>样品型号：</label><input type="text" id="schSampleType"
+					name="schSampleType" class="form-control"
+					aria-describedby="basic-addon1">
+			</div>
 		</div>
 		<div class="row">
-		<div class=" col-xs-3 col-md-3 col-lg-3">
-				<div class="timeLabelDiv"><label class="control-label" >委托时间:</label></div>
+			<div class=" col-xs-3 col-md-3 col-lg-3">
+				<div class="timeLabelDiv">
+					<label class="control-label">委托时间:</label>
+				</div>
 				<div class="input-group date form_datetime timeChooseDiv">
-   					<input class="form-control" id="schStartTime" name="schStartTime" size="16" type="text" value="" readonly="true">
-    				<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+					<input class="form-control" id="schStartTime" name="schStartTime"
+						size="16" type="text" value="" readonly="true"> <span
+						class="input-group-addon"><span
+						class="glyphicon glyphicon-remove"></span></span> <span
+						class="input-group-addon"><span
+						class="glyphicon glyphicon-calendar"></span></span>
 				</div>
 			</div>
 			<div class=" col-xs-3 col-md-3 col-lg-3">
-				<div class="timeLabelDiv"><label class="control-label" >至:</label></div>
+				<div class="timeLabelDiv">
+					<label class="control-label">至:</label>
+				</div>
 				<div class="input-group date form_datetime timeChooseDiv">
-   					<input class="form-control" id="schEndTime" name="schEndTime" size="16" type="text" value="" readonly="true">
-    				<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+					<input class="form-control" id="schEndTime" name="schEndTime"
+						size="16" type="text" value="" readonly="true"> <span
+						class="input-group-addon"><span
+						class="glyphicon glyphicon-remove"></span></span> <span
+						class="input-group-addon"><span
+						class="glyphicon glyphicon-calendar"></span></span>
 				</div>
 			</div>
-		<!-- 	<div class=" col-xs-3 col-md-3 col-lg-3">  <label>交接单号：</label><input type="text" id="schReceiptlistCode" name="schReceiptlistCode" class="form-control" aria-describedby="basic-addon1"></div>
+			<!-- 	<div class=" col-xs-3 col-md-3 col-lg-3">  <label>交接单号：</label><input type="text" id="schReceiptlistCode" name="schReceiptlistCode" class="form-control" aria-describedby="basic-addon1"></div>
 	 -->
 		</div>
 	</div>
 	<div class="input-group" style="float: right;margin-bottom: 10px;">
-		<button type="button" class="btn btn-primary glyphicon glyphicon-search"
+		<button type="button"
+			class="btn btn-primary glyphicon glyphicon-search"
 			onclick="seacher()">&nbsp;查询</button>
 		<button type="button" class="btn btn-primary glyphicon glyphicon-plus"
 			data-toggle="modal" data-target="#addModal">&nbsp;新增</button>
@@ -134,10 +186,14 @@ margin-right: 3px;
 				</div>
 				<div class="modal-body">
 					<div class="row">
-					   <div class="col-xs-12 col-md-12">
+						<div class="col-xs-12 col-md-12">
 							<h4>出厂编号：</h4>
 							<input type="text" id="addFactoryCode" name="addFactoryCode"
-								class="form-control" aria-describedby="basic-addon1"  onblur="isExitFactory('add')"/>
+								class="form-control" aria-describedby="basic-addon1"
+								onblur="isExitFactory('add')" />
+							<div class="tip-factory  ">
+							     <div class="tip-factory-content"></div>
+							</div>
 						</div>
 						<div class="col-xs-12 col-md-12">
 							<h4>样品名称：</h4>
@@ -149,11 +205,11 @@ margin-right: 3px;
 							<input type="text" id="addSampleType" name="addSampleType"
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
-						<div class="col-xs-12 col-md-12">
+						<!-- <div class="col-xs-12 col-md-12">
 							<h4>交接单号：</h4>
 							<input type="text" id="addReceiptlistCode" name="addReceiptlistCode"
 								class="form-control" aria-describedby="basic-addon1" />
-						</div>
+						</div> -->
 						<div class="col-xs-12 col-md-12">
 							<h4>单位：</h4>
 							<select id="addUnit" name="addUnit" class="form-control"
@@ -171,7 +227,7 @@ margin-right: 3px;
 
 					</div>
 				</div>
-			
+
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 					<button type="button" class="btn btn-primary" onclick="add()">新增</button>
@@ -192,12 +248,13 @@ margin-right: 3px;
 					</button>
 					<h4 class="modal-title">查看</h4>
 				</div>
-					<div class="modal-body">
+				<div class="modal-body">
 					<div class="row">
-					 <div class="col-xs-12 col-md-12">
+						<div class="col-xs-12 col-md-12">
 							<h4>出厂编号：</h4>
 							<input type="text" id="lookFactoryCode" name="lookFactoryCode"
 								class="form-control" aria-describedby="basic-addon1" />
+							<div class="tip-factory"></div>
 						</div>
 						<div class="col-xs-12 col-md-12">
 							<h4>样品名称：</h4>
@@ -209,11 +266,11 @@ margin-right: 3px;
 							<input type="text" id="lookSampleType" name="lookSampleType"
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
-						<div class="col-xs-12 col-md-12">
+						<!-- <div class="col-xs-12 col-md-12">
 							<h4>交接单号：</h4>
 							<input type="text" id="lookReceiptlistCode" name="lookReceiptlistCode"
 								class="form-control" aria-describedby="basic-addon1" />
-						</div>
+						</div> -->
 						<div class="col-xs-12 col-md-12">
 							<h4>单位：</h4>
 							<select id="lookUnit" name="lookUnit" class="form-control"
@@ -231,8 +288,8 @@ margin-right: 3px;
 
 					</div>
 				</div>
-			
-				
+
+
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
 					<!--  <button type="button" class="btn btn-primary" onclick="edit()">修改</button> -->
@@ -255,10 +312,14 @@ margin-right: 3px;
 				</div>
 				<div class="modal-body">
 					<div class="row">
-					<div class="col-xs-12 col-md-12">
+						<div class="col-xs-12 col-md-12">
 							<h4>出厂编号：</h4>
 							<input type="text" id="editFactoryCode" name="editFactoryCode"
-								class="form-control" aria-describedby="basic-addon1"  onblur="isExitFactory('edit')"/>
+								class="form-control" aria-describedby="basic-addon1"
+								onblur="isExitFactory('edit')" />
+							<div class="tip-factory  ">
+							     <div class="tip-factory-content"></div>
+							</div>
 						</div>
 						<div class="col-xs-12 col-md-12">
 							<h4>样品名称：</h4>
@@ -270,11 +331,11 @@ margin-right: 3px;
 							<input type="text" id="editSampleType" name="editSampleType"
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
-						<div class="col-xs-12 col-md-12">
+						<!-- <div class="col-xs-12 col-md-12">
 							<h4>交接单号：</h4>
 							<input type="text" id="editReceiptlistCode" name="editReceiptlistCode"
 								class="form-control" aria-describedby="basic-addon1" />
-						</div>
+						</div> -->
 						<div class="col-xs-12 col-md-12">
 							<h4>单位：</h4>
 							<select id="editUnit" name="editUnit" class="form-control"

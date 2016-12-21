@@ -1,170 +1,68 @@
 @CHARSET "UTF-8";
 
-* {
-	margin: 0;
-	padding: 0;
+.form-control {
+	display: inline;
+	width: 70%;
 }
 
-body {
+.content {
+	width: 100%;
 	min-width: 1300px;
 }
 
-#searchArea {
-	min-width: 900px;
+.searchArea {
+	width: 70%;
 	margin-top: 10px;
-	margin-bottom: 15px;
+	margin-bottom: 10px;
+	display: inline-block;
+}
+
+.row {
+	margin-bottom: 10px;
+}
+
+.row label {
+	width: 20%;
+	min-wdith: 80px;
+}
+
+.timeLabelDiv {
 	float: left;
+	height: 34px;
+	margin-right: 4px;
+	width: 20%;
 }
 
-#searchArea input {
-	width: 132px;
-	height: 28px;
-	display: inline;
+.timeLabelDiv label {
+	margin-top: 7px;
+	min-width: 80px;
 }
 
-#searchAreaTop {
-	min-width: 800px;
+.timeChooseDiv {
+	width: 70%;
+	margin-top: 0px;
 }
 
-#searchAreaTop input {
-	margin-right: 97px;
-}
-
-#searchAreaBottom {
-	margin-top: 10px;
+.input-group-addon {
+	background-color: #fff;
 }
 
 #selectPart {
-	padding: 2px;
-	height: 28px;
-	width: 131px;
-	text-align: center;
-	display: inline;
+	width: 70%;
+	text-align: center
 }
 
-.time {
+.buttonGroup {
 	display: inline-block;
-	margin-right: 12px;
-}
-
-.prev {
-	background: url('/laboratorySystem/module/img/testReport/arrowl.png') 0
-		0 no-repeat;
-}
-
-.next {
-	background: url('/laboratorySystem/module/img/testReport/arrowr.png') 0
-		0 no-repeat;
-}
-
-#beginTime,#endTime {
-	background-color: #fff;
-	background-image: none;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-	color: #555;
-}
-
-#beginTime:focus,#endTime:focus {
-	border-color: #66afe9;
-	background-image: none;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px
-		rgba(102, 175, 233, 0.6);
-	outline: none;
-}
-
-#functionButton {
+	width: 30%;
 	float: right;
-	margin-top: 24px;
-	margin-bottom: 15px;
-	min-width: 270px;
+	margin-top: 25px;
 }
 
-#entrustInfo span {
-	margin-left: 80px;
-	display: inline-block;
-	margin-top: 20px;
-}
-
-#entrustInfo p {
-	width: 100px;
-}
-
-#entrustInfo p,span {
-	font-size: 18px;
-}
-
-#entrustInfo table {
-	margin: 20px auto;
-	border: 1px solid #000;
-	width: 1300px;
-}
-
-#testReportDetalInfo {
-	margin-bottom: 40px;
-}
-
-.rowStyle {
-	border-top: 1px solid #e5e5e5;
-	margin-top: 20px;
-}
-
-.rowStyle p:first-child {
-	margin-top: 20px;
-}
-
-.uploadFileText {
-	margin-top: 20px;
-}
-
-.uploadFileText label {
-	margin-left: 20px;
-}
-
-#entrustInfo .row {
-	margin-top: 10px;
-}
-
-#entrustInfo .row hr {
-	width: 1300px;
-	margin: 10px auto;
-}
-
-#entrustInfo .row p:first-child {
-	font-size: 18px;
-	margin-left: 20px;
-}
-
-#entrustInfo .row table tr:hover {
-	cursor: pointer;
-}
-
-#entrustInfo .row table tr:nth-child(2n+1):hover {
-	background-color: #F5F5F5;
-}
-
-#entrustInfo .row table tr th {
-	background: #E8E8E8;
-}
-
-#entrustInfo .row table th,td {
-	font-family: '宋体';
-	height: 60px;
-	text-align: center;
-}
-
-#fileVersionNumber,#fileVersionInfo,#fileRemarks {
-	width: 180px;
-	display: inline-block;
-}
-
-textarea {
+#recoverReport textarea {
 	resize: none;
 }
 
-#rejectReson {
-	width: 350px;
-	height: 150px;
-	display: inline-block;
+#recoverReport .form-control {
+	margin-top: 10px
 }

@@ -224,6 +224,23 @@ public class TaskController{
 		return JSONObject.fromObject(result);
 	}
 	
+	/**
+	 * 
+     * @discription 初始化任务管理界面的数据
+     * @author zt       
+     * @created 2016-12-20 上午11:13:03     
+     * @param limit
+     * @param offset
+     * @param order
+     * @param sort
+     * @param receiptlistCode
+     * @param testProjectName
+     * @param sampleName
+     * @param beginTime
+     * @param endTime
+     * @param testProcess
+     * @return
+	 */
 	@RequestMapping("/getTaskWithPaging")  
     @ResponseBody
 	public JSONObject getTaskWithPaging(int limit, int offset, String order,
@@ -300,6 +317,17 @@ public class TaskController{
 		return JSONObject.fromObject(result);
 	}
 	
+	/**
+	 * 
+     * @discription 获取任务审核人列表
+     * @author zt       
+     * @created 2016-12-20 上午11:12:30     
+     * @param limit
+     * @param offset
+     * @param order
+     * @param sort
+     * @return
+	 */
 	@RequestMapping("/getTaskAuditPersonWithPaging")
 	@ResponseBody
 	public JSONObject getTaskAuditPersonWithPaging(int limit, int offset, String order,String sort) {
