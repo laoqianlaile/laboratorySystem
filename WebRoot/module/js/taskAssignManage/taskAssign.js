@@ -1,7 +1,8 @@
 $(function () {
 	var ID = window.location.search.match(/\d+/i)[0];
+
 	$('#receiptlistID').text(ID);
-	
+
 	// 得到交接单信息
 	$.ajax({
 		url:'receiptlistController/getReceiptlistInfoInTaskAssign.do',
@@ -24,7 +25,7 @@ $(function () {
 			$('#accordingDoc').text(data[0].accordingDoc);
 	  	}
 	});
-	
+
 	// 获取当前登录人员的部门ID和部门名称
 	$.ajax({
 		url:'employeeController/getDepartmentInfo.do',
@@ -36,7 +37,7 @@ $(function () {
 			$('#departmentPeople').text(data[0].departmentName);
 	  	}
 	});
-	
+
 	// 得到指定交接单下的任务
 	$('#taskTable').bootstrapTable({
 		striped: true,// 隔行变色效果
@@ -53,15 +54,15 @@ $(function () {
 		contentType:'application/json',//发送到服务器的数据编码类型
 		dataType:'json',//服务器返回的数据类型
 		queryParams:function queryParams(params) { //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
-		    			var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的  
-		    				limit: params.limit, //页面大小  
+		    			var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+		    				limit: params.limit, //页面大小
 		    				offset: params.offset, //偏移量
 			    			search: "",//初始化搜索文字
-			    			sort: params.sort, //排序列名  
+			    			sort: params.sort, //排序列名
 			    			order: params.order, //排位命令（desc，asc）
 			    			ID:ID
-		    			};  
-		    			return temp;  
+		    			};
+		    			return temp;
 		    	  	},
 		queryParamsType: "limit", //参数格式,发送标准的RESTFul类型的参数请求
 		selectItemName:'',//radio or checkbox 的字段名
@@ -149,21 +150,21 @@ $(function () {
 			width:'15%',//宽度
 			formatter:function(value,row,index){
 				var temp = '';
-				
+
 				if(row.detector != "无" || row.custodian != "无"){
 					var btn_assignAgain = '<button type="button" onclick="assignAgain(\'' + row.ID + '\',\'' + row.detector + '\',\'' + row.custodian + '\',\'' + row.factoryCode + '\')" class="btn btn-primary glyphicon glyphicon-show">&nbsp;重新分配</button>&nbsp';
 			  		var btn_edit = '<button type="button" onclick="edit(\'' + row.ID + '\',\'' + row.factoryCode + '\')" class="btn btn-primary glyphicon glyphicon-edit">&nbsp;修改</button>';
 					temp += btn_assignAgain + btn_edit;
 				}else{
 					var btn_edit = '<button type="button" onclick="edit(\'' + row.ID + '\',\'' + row.factoryCode + '\')" class="btn btn-primary glyphicon glyphicon-edit">&nbsp;修改</button>';
-					return btn_edit;  
+					return btn_edit;
 				}
 		  		return temp;
-            } 
+            }
 		}]//列配置项,详情请查看 列参数 表格
 		/*事件*/
 	});
-	
+
 	// 得到与交接单相关的文件信息
 	$('#fileTable').bootstrapTable({
 		//定义表格的高度height: 500,
@@ -181,15 +182,15 @@ $(function () {
 		contentType:'application/json',//发送到服务器的数据编码类型
 		dataType:'json',//服务器返回的数据类型
 		queryParams:function queryParams(params) { //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
-		    			var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的  
-		    				limit: params.limit, //页面大小  
+		    			var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+		    				limit: params.limit, //页面大小
 		    				offset: params.offset, //偏移量
 			    			search: "",//初始化搜索文字
-			    			sort: params.sort, //排序列名  
+			    			sort: params.sort, //排序列名
 			    			order: params.order, //排位命令（desc，asc）
 			    			ID:ID
-		    			};  
-		    			return temp;  
+		    			};
+		    			return temp;
 		    	  	},
 	  	queryParamsType: "limit", //参数格式,发送标准的RESTFul类型的参数请求
 		selectItemName:'',//radio or checkbox 的字段名
@@ -236,8 +237,8 @@ $(function () {
 			width:'20%',//宽度
 			formatter:function(value,row,index){
 				var btn_download = '<button type="button" onclick="download(\''+ row.path +'\')" class="btn btn-primary glyphicon glyphicon-show">&nbsp;下载</button>&nbsp';
-		  			return btn_download;  
-            } 
+		  			return btn_download;
+            }
 		}]//列配置项,详情请查看 列参数 表格
 		/*事件*/
 	});
@@ -246,21 +247,21 @@ $(function () {
 //分配到检测/校准员弹框方法
 $("#btn-assign").click(function(){
 	var data = $('#taskTable').bootstrapTable('getSelections');
-	
+
 	if(data.length==0 || data.length>1){
 		alert("请选中一条数据");
 		return;
 	}
-	
+
 	if (data[0].detector != "无" && data[0].custodian != "无") {
 		alert("该任务已分配完成!!!");
 	} else {
 		$('#sampleCode').text(data[0].factoryCode);
 		$('#taskID').text(data[0].ID);
 		$('#type').text(0);
-		
+
 		var departmentID = $('#departmentID').text();
-		
+
 		$('#assignTable').bootstrapTable({
 			striped: true,// 隔行变色效果
 			pagination: true,//在表格底部显示分页条
@@ -276,15 +277,15 @@ $("#btn-assign").click(function(){
 			contentType:'application/json',//发送到服务器的数据编码类型
 			dataType:'json',//服务器返回的数据类型
 			queryParams:function queryParams(params) { //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
-			    			var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的  
-			    				limit: params.limit, //页面大小  
+			    			var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+			    				limit: params.limit, //页面大小
 			    				offset: params.offset, //偏移量
 				    			search: "",//初始化搜索文字
-				    			sort: params.sort, //排序列名  
+				    			sort: params.sort, //排序列名
 				    			order: params.order, //排位命令（desc，asc）
 				    			ID:departmentID
-			    			};  
-			    			return temp;  
+			    			};
+			    			return temp;
 			    	  	},
 		  	queryParamsType: "limit", //参数格式,发送标准的RESTFul类型的参数请求
 			selectItemName:'',//radio or checkbox 的字段名
@@ -343,7 +344,7 @@ $("#btn-assign").click(function(){
 			}]//列配置项,详情请查看 列参数 表格
 			/*事件*/
 		});
-		
+
 		$('#assignPeopleModal').modal('show');
 	}
 });
@@ -354,9 +355,9 @@ function assignAgain(ID,detector,custodian,factoryCode){
 	$('#sampleCode').text(factoryCode);
 	$('#taskID').text(ID);
 	$('#type').text(1);
-	
+
 	var departmentID = $('#departmentID').text();
-	
+
 	$('#assignTable').bootstrapTable({
 		striped: true,// 隔行变色效果
 		pagination: true,//在表格底部显示分页条
@@ -372,15 +373,15 @@ function assignAgain(ID,detector,custodian,factoryCode){
 		contentType:'application/json',//发送到服务器的数据编码类型
 		dataType:'json',//服务器返回的数据类型
 		queryParams:function queryParams(params) { //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
-		    			var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的  
-		    				limit: params.limit, //页面大小  
+		    			var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+		    				limit: params.limit, //页面大小
 		    				offset: params.offset, //偏移量
 			    			search: "",//初始化搜索文字
-			    			sort: params.sort, //排序列名  
+			    			sort: params.sort, //排序列名
 			    			order: params.order, //排位命令（desc，asc）
 			    			ID:departmentID
-		    			};  
-		    			return temp;  
+		    			};
+		    			return temp;
 		    	  	},
 	  	queryParamsType: "limit", //参数格式,发送标准的RESTFul类型的参数请求
 		selectItemName:'',//radio or checkbox 的字段名
@@ -439,7 +440,7 @@ function assignAgain(ID,detector,custodian,factoryCode){
 		}]//列配置项,详情请查看 列参数 表格
 		/*事件*/
 	});
-	
+
 	$('#assignPeopleModal').modal('show');
 }
 
@@ -452,19 +453,19 @@ function edit(ID,factoryCode){
 //分配监督员
 $('#assignCustodian').click(function(){
 	var data = $('#assignTable').bootstrapTable('getSelections');
-	
+
 	if(data.length==0 || data.length>1){
 		alert("请选中一条数据");
 		return;
 	}
-	
+
 	var parame = {};
-	
+
 	parame.taskID = $('#taskID').text();
 	parame.IDs = data[0].ID;
 	parame.assignType = 0;
 	parame.type = $('#type').text();
-	
+
 	$.ajax({
 		url:'taskController/assignTaskPeople.do',
 		data:parame,
@@ -482,20 +483,20 @@ $('#assignCustodian').click(function(){
 // 分配检测人员
 $('#assignDetector').click(function(){
 	var data = $('#assignTable').bootstrapTable('getSelections');
-	
+
 	var parame = {};
 	var IDs='';
 	for(var i=0;i<data.length;i++){
-		IDs += data[i].ID+','; 
+		IDs += data[i].ID+',';
 	}
-	
+
 	parame.taskID = $('#taskID').text();
 	parame.IDs = IDs;
 	parame.assignType = 1;
 	parame.type = $('#type').text();
-	
+
 	console.log(parame);
-	
+
 	$.ajax({
 		url:'taskController/assignTaskPeople.do',
 		data:parame,
