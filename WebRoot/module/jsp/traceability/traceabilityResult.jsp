@@ -38,6 +38,15 @@
 
 <body>
 	<div class="wrapper">
+	<div style="height:70px">
+			<span id="yearvalue" hidden><%=request.getParameter("year")%></span><span
+				id="codevalue" hidden><%=request.getParameter("code")%></span>
+	<!-- 		<div id="showdiv1" class="alert alert-danger tan"></div> -->
+			<div id="font">
+				<h3 style="text-align:center"><%=request.getParameter("year")%>年度检测/量值溯源建议</h3>
+			</div>
+			<p style="float:right;">编号:<label><%=request.getParameter("code") %></label></p>
+		</div>
 		<div id="searcherArea">
 			<div class="list-searcher" style="float:left">
 				<span>检测/校验部门名称：</span><select id="departmentName" class="form-control"></select>

@@ -184,15 +184,11 @@ function inti() {
 		*/
 		
 		for(var i =0;i<value.length;i++){
-			content += "<tr><td ondblclick='doubleclick(this)'>"+value[i].Name+"</td>"+
-			"<td ondblclick='doubleclick(this)'>"+value[i].Value+"</td>"+
-			"<td class='deletelogo' style='display:inline-block;width:11px;border-left:none;display:none;'>"+
-			"<span class='glyphicon glyphicon-remove' onclick='deletetd(this,"+index+")'></span></td></tr>";
+			content += "<tr><td>"+value[i].Name+"</td>"+
+			"<td>"+value[i].Value+"</td></tr>";
 		}
 		var div = "<table id=Ntable"+index+" class='Ntable' style='display:block;overflow:auto;height:45px'>"+content+"</table>";
-		/*var button1 = '<button class="mybtnstyle btn btn-sm btn-primary glyphicon glyphicon-plus"  onclick="addNameAndRange(this,'+index+')"></button>';
-		var button2 = '<button class="mybtnstyle btn btn-sm btn-primary glyphicon glyphicon-minus"  onclick="delNameAndRange(this,'+index+')"></button>';
-*/		if(content!=null&&content!=""){
+    	if(content!=null&&content!=""){
 			return div;
 		}else{
 			this;
