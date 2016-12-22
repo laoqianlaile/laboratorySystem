@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 
@@ -142,27 +143,35 @@ public class ReceiptlistService extends SearchService implements
 
 	/**
 	 * 
-	 * 
+	 * 初始化交接单数据 --以合同为主表（存在合同有而交接单没有）
 	 * @author wzj
 	 * @date 2016年10月22日 上午10:41:48
 	 * 
 	 */
 	@Override
-	public Map<String, Object> getReceiptlistWithPaging(String reCode,
-			String coCode, String companyName, String reType, String linkMan,
+	public Map<String, Object> getReceiptlistWithPaging(String reCode, String coCode, String companyName, String reType, String linkMan,
 			String startTime, String endTime, String state, int limit,
 			int offset, String order, String sort) {
-		// TODO Auto-generated method stub
 		int pageNum = limit;
-		int pageIndex = offset / limit ;
-		System.out.println("");
+		int pageIndex = offset / limit ;  //分页查询数据限制
 		System.out.println("limit : " + limit + "  " + offset);
-		String[] properties = new String[] { "a.ID", "project.ID AS proID",
-				"a.contractCode as coCode", "a.isEditSample", "a.coID",
-				"a.companyID AS comID", "a.reCode", "company.companyName",
-				"a.linkMan", "a.startTime", "a.endTime", "a.employeeName",
-				"a.linkPhone", "a.reType", "a.state" };
-		String joinEntity = " "
+		String[] properties = new String[] {   //查询的字段
+				"a.ID", 
+				"project.ID AS proID",
+				"a.contractCode as coCode", 
+				"a.isEditSample", 
+				"a.coID",
+				"a.companyID AS comID", 
+				"a.reCode",
+				"company.companyName",
+				"a.linkMan", 
+				"a.startTime",
+				"a.endTime", 
+				"a.employeeName",
+				"a.linkPhone", 
+				"a.reType", "a.state" };
+		//连接关系表和一些删选条件
+		String joinEntity = " " 
 				+ "( SELECT receiptlist.ID,"
 				+ "contract.contractCode,"
 				+ "contract.ID AS coID,"
@@ -180,46 +189,45 @@ public class ReceiptlistService extends SearchService implements
 				+ " )) AS reType FROM contract LEFT JOIN  receiptlist ON receiptlist.contractID = contract.ID "
 				+ " LEFT JOIN employee ON receiptlist.employeeID = employee.ID "
 				+ " WHERE 1 = 1 ";
-
+       //异常数据判断 并加上搜索条件
 		if (reCode != null && !reCode.equals("")) {
 			joinEntity += " and receiptlistCode  like '%" + reCode + "%'  ";
 		}
+		 //异常数据判断 并加上搜索条件
 		if (coCode != null && !coCode.equals("")) {
-			joinEntity += " and  contract.contractCode like '%" + coCode
-					+ "%'  ";
+			joinEntity += " and  contract.contractCode like '%" + coCode + "%'  ";
 		}
-
+		 //异常数据判断 并加上搜索条件
 		if (reType != null && !reType.equals("")) {
 			if (!reType.equals("2"))
 				joinEntity += " and receiptlistType = " + reType + "  ";
 
 		}
+		 //异常数据判断 并加上搜索条件
 		if (linkMan != null && !linkMan.equals("")) {
 			joinEntity += " and linkMan like '%" + linkMan + "%'  ";
 		}
-
+		//异常数据判断 并加上搜索条件
 		if (state != null && !state.equals("")) {
-			if (!state.equals("4"))
+		//	if (!state.equals("4"))   //看异常终止的交接单是否能够查看
 				joinEntity += " and receiptlist.state = " + state + "  ";
 		}
-
-		if (startTime != null && endTime != null && !startTime.equals("")
-				&& !endTime.equals("")) {
+        //时间的三种方式查询
+		if (startTime != null && endTime != null && !startTime.equals("") && !endTime.equals("")) {  //中间
 			startTime.replaceAll(" ", "");
 			endTime.replaceAll(" ", "");
 			joinEntity += " and startTime between  '" + startTime + "' and '"
 					+ endTime + "'  ";
-		} else if ((startTime != null && !startTime.equals(""))
-				&& (endTime == null || endTime.equals(""))) {
+		} else if ((startTime != null && !startTime.equals(""))  && (endTime == null || endTime.equals(""))) {  // 从什么时候起
 			startTime.replaceAll(" ", "");
 			joinEntity += " and startTime >  '" + startTime + "'  ";
-		} else if ((startTime == null || startTime.equals(""))
-				&& (endTime != null && !endTime.equals(""))) {
+		} else if ((startTime == null || startTime.equals(""))  && (endTime != null && !endTime.equals(""))) {  // 到什么时候至
 			endTime.replaceAll(" ", "");
 			joinEntity += " and startTime < '" + endTime + "'  ";
 		}
 		joinEntity += " ) AS a LEFT JOIN company ON company.ID = a.companyID "
 				+ "  LEFT JOIN project on project.contractID = a.coID  and  project.state != 5";
+		//搜索条件  condition
 		String condition = " 1 = 1    ";
 		if (companyName != null && !companyName.equals("")) {
 			condition += " and company.companyName like '%" + companyName
@@ -227,8 +235,8 @@ public class ReceiptlistService extends SearchService implements
 		}
 		List<Map<String, Object>> list = entityDao.searchWithpaging(properties,
 				null, joinEntity, null, condition, null, sort, order, pageNum,
-				pageIndex);
-
+				pageIndex);  //获取数据
+		 //获取总的记录数
 		int count = entityDao.searchForeign(properties, null, joinEntity, null,
 				condition).size();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -269,7 +277,7 @@ public class ReceiptlistService extends SearchService implements
 
 	/**
 	 * 
-	 * 
+	 * 通过交接单ID查询任务
 	 * @author wzj
 	 * @date 2016年11月18日 上午8:58:54
 	 * 
@@ -279,13 +287,12 @@ public class ReceiptlistService extends SearchService implements
 			int offset, String order, String sort) {
 		// TODO Auto-generated method stub
 		int pageNum = limit;
-		int pageIndex = offset / limit ;
-		System.out.println("");
+		int pageIndex = offset / limit ;  //分页查询数据限制
 		System.out.println("limit : " + limit + "  " + offset);
 		if (reID == null || reID.equals(""))
-			return null;
+			  return null;
 		else {
-			String[] properties = new String[] {
+			String[] properties = new String[] {   //查询字段
 					"a.ID",
 					"a.reID",
 					"a.askFor",
@@ -299,7 +306,7 @@ public class ReceiptlistService extends SearchService implements
 					"IF(testproject.nameCn IS  NULL , testproject.nameEn , "
 							+ " if ( testproject.nameEn is null ,testproject.nameCn,"
 							+ " CONCAT(testproject.nameCn,'(',testproject.nameEn,')') )) as testName " };
-
+          //关联条件
 			String joinEntity = "  "
 					+ " ( SELECT "
 					+ "task.ID,"
@@ -314,14 +321,8 @@ public class ReceiptlistService extends SearchService implements
 					+ " left join sample on a.sampleID = sample.ID "
 					+ " LEFT JOIN testproject on testproject.ID = a.testProjectID ";
 
-			// String condition = " linkReSample.receiptlistID ='" + reID +
-			// "' ";
-			List<Map<String, Object>> list = entityDao.searchWithpaging(
-					properties, null, joinEntity, null, null, null,
-					" factoryCode ", "  desc ,  a.startTime desc ", pageNum,
-					pageIndex);
-			int count = entityDao.searchForeign(properties, null, joinEntity,
-					null, null).size();
+			List<Map<String, Object>> list = entityDao.searchWithpaging( properties, null, joinEntity, null, null, null, " factoryCode ", "  desc ,  a.startTime desc ", pageNum, pageIndex);
+			int count = entityDao.searchForeign(properties, null, joinEntity, null, null).size();
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("total", count);
 			map.put("rows", list);
@@ -342,26 +343,23 @@ public class ReceiptlistService extends SearchService implements
 			int offset, String order, String sort) {
 		// TODO Auto-generated method stub
 		int pageNum = limit;
-		int pageIndex = offset / limit ;
-		System.out.println("");
-		System.out.println("limit : " + limit + "  " + offset);
-		if (reID == null || reID.equals(""))
+		int pageIndex = offset / limit ; //分页查询数据限制
+		if (reID == null || reID.equals("")) 
 			return null;
-		String[] properties = new String[] { "fileinformation.ID", "fileName",
-				"remarks", "employee.employeeName as uploadName",
-				"date_format(fileinformation.uploadTime,'%Y-%m-%d %H:%i:%s') as uploadTime	" };
+		String[] properties = new String[] { 
+				"fileinformation.ID",
+				"fileName",
+				"remarks",
+				"employee.employeeName as uploadName",
+				"date_format(fileinformation.uploadTime,'%Y-%m-%d %H:%i:%s') as uploadTime	"
+				};
 
-		String baseEntity = " fileinformation ";
-		String joinEntity = " LEFT JOIN employee on fileinformation.uploaderID = employee.ID ";
+		String baseEntity = " fileinformation ";  //主表
+		String joinEntity = " LEFT JOIN employee on fileinformation.uploaderID = employee.ID "; //关联条件
+		String condition = " fileinformation.belongtoID = '" + reID + "' and fileinformation.state = 0"; //查询条件
 
-		String condition = " fileinformation.belongtoID = '" + reID
-				+ "' and fileinformation.state = 0";
-
-		List<Map<String, Object>> list = entityDao.searchWithpaging(properties,
-				baseEntity, joinEntity, null, condition, null, " uploadTime ",
-				"desc", pageNum, pageIndex);
-		int count = entityDao.searchForeign(properties, baseEntity, joinEntity,
-				null, condition).size();
+		List<Map<String, Object>> list = entityDao.searchWithpaging(properties, baseEntity, joinEntity, null, condition, null, " uploadTime ", "desc", pageNum, pageIndex);
+		int count = entityDao.searchForeign(properties, baseEntity, joinEntity, null, condition).size();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("total", count);
 		map.put("rows", list);
@@ -371,7 +369,6 @@ public class ReceiptlistService extends SearchService implements
 	/**
 	 * 
 	 * 新增或者编辑任务
-	 * 
 	 * @author wzj
 	 * @date 2016年11月22日 上午1:58:08
 	 * 
@@ -381,12 +378,6 @@ public class ReceiptlistService extends SearchService implements
 			String sampleCode, String sampleName, String sampleStyle,
 			String testProject, String unit, String require, String reID,
 			String state) {
-		// TODO Auto-generated method stub
-
-		System.out.println(taskID + "," + sampleID + "," + sampleCode + ","
-				+ sampleName + "," + sampleStyle + ",");
-		System.out.println(testProject + "," + unit + "," + require + ","
-				+ reID + "," + state);
 		if (sampleID == null || sampleID.equals("")) {
 			// 样品还不存在
 			Sample sample = new Sample();
@@ -403,7 +394,7 @@ public class ReceiptlistService extends SearchService implements
 				return "false";
 
 		} else {
-			Sample sample = entityDao.getByID(sampleID, Sample.class);
+			Sample sample = entityDao.getByID(sampleID, Sample.class); //有样品更新数据
 			sample.setFactoryCode(sampleCode);
 			sample.setSampleName(sampleName);
 			sample.setSpecifications(sampleStyle);
@@ -412,13 +403,12 @@ public class ReceiptlistService extends SearchService implements
 				return "false";
 		}
 		// 不管是不是新增还是编辑
-		if (state.equals("edit"))
+		if (state.equals("edit"))  //先删除后重新添加
 			if (entityDao.deleteByID(taskID, Task.class) != 1)
 				return "false";
-		// 新增任务
-		if (testProject != null && !testProject.equals("")) {
-			String[] testProjectIDs = testProject.replaceAll(" ", "")
-					.split(",");
+		// 新增任务--选择了检测项目
+		if (testProject != null && !testProject.equals("")) {  
+			String[] testProjectIDs = testProject.replaceAll(" ", "") .split(",");
 			int counter = 0;
 			for (int i = 0; i < testProjectIDs.length; i++) {
 				Task task = new Task();
@@ -433,7 +423,7 @@ public class ReceiptlistService extends SearchService implements
 				counter += entityDao.save(task);
 			}
 			return counter == testProjectIDs.length ? "true" : "false";
-		} else {
+		} else {  // 新增任务--没有选择了检测项目
 			Task task = new Task();
 			task.setID(EntityIDFactory.createId());
 			task.setReceiptlistID(reID);
@@ -441,7 +431,6 @@ public class ReceiptlistService extends SearchService implements
 			task.setStartTime(new Date());
 			task.setAllotstate(0);
 			task.setDetectstate(0);
-
 			return entityDao.save(task) == 1 ? "true" : "false";
 		}
 
@@ -450,14 +439,12 @@ public class ReceiptlistService extends SearchService implements
 	/**
 	 * 
 	 * 通过TaskID删除任务
-	 * 
 	 * @author wzj
 	 * @date 2016年11月22日 上午1:49:49
 	 * 
 	 */
 	@Override
 	public String deleteTaskByID(String taskID) {
-		// TODO Auto-generated method stub
 		if (taskID == null || taskID.equals(""))
 			return "false";
 		int retur = entityDao.deleteByID(taskID, Task.class);
@@ -467,7 +454,6 @@ public class ReceiptlistService extends SearchService implements
 	/**
 	 * 
 	 * 保存和提交交接单
-	 * 
 	 * @author wzj
 	 * @date 2016年11月22日 上午1:57:43
 	 * 
@@ -499,28 +485,25 @@ public class ReceiptlistService extends SearchService implements
 		receiptlist.setAccordingDoc(accordingDoc);
 		receiptlist.setState(0);
 		receiptlist.setReceiptlistType(0);
-		if (saveState == null || saveState.equals("") || saveState == "save") {
-
+		if (saveState == null || saveState.equals("") || saveState == "save") { //保存交接单
 			receiptlist.setIsEditSample(0);
-		} else {
+		} else {  //提交交接单
 			receiptlist.setIsEditSample(1);
 		}
 		return entityDao.updatePropByID(receiptlist, reID) == 1 ? "true"
 				: "false";
 	}
-
+   //新增交接单--各种类型
 	@Override
-	public Map<String, Object> addReceiptList(String coID, String proID,
+	public Map<String, Object> addReceiptList(HttpSession  session ,String coID, String proID,
 			String state, HttpServletRequest request) {
 		// String employeeID = (String) request.getSession().getAttribute("ID");
 		Map<String, Object> map = new HashMap<String, Object>();
 		String employeeID = "1";
-
+     //   request.getSession().getAttribute("employeeid");
 		Receiptlist receiptlist = new Receiptlist();
 		receiptlist.setID(EntityIDFactory.createId());
 		map.put("reID", receiptlist.getID());
-		receiptlist.setReceiptlistCode("交接单编码生成规则不知道");
-		map.put("reCode", receiptlist.getReceiptlistCode());
 		receiptlist.setCreateTime(new Date());
 		receiptlist.setEmployeeID(employeeID);
 		receiptlist.setState(0);
@@ -528,11 +511,11 @@ public class ReceiptlistService extends SearchService implements
 		receiptlist.setIsEditSample(1);
 		receiptlist.setReceiptlistType(0);
 		map.put("coID", coID);
-		if (state.equals("yes")) {
-
+		if (state.equals("yes")) { //有合同新增交接单-接受
+			receiptlist.setReceiptlistCode("交接单编码生成规则不知道-接受");
 			receiptlist.setContractID(coID);
 			receiptlist.setProjectID(proID);
-		} else {
+		} else if(state.equals("no")) { //无合同新增交接单-接受
 			Contract contract = new Contract();
 			contract.setID(EntityIDFactory.createId());
 			contract.setContractCode("合同编号生成规则");
@@ -550,17 +533,28 @@ public class ReceiptlistService extends SearchService implements
 			receiptlist.setProjectID(project.getID());
 			entityDao.save(project);
 			entityDao.save(contract);
+		}else{  //有合同新增交接单-退还
+			receiptlist.setReceiptlistCode("交接单编码生成规则不知道--退还");
+			receiptlist.setContractID(coID);
+			receiptlist.setProjectID(proID);
 		}
+		map.put("reCode", receiptlist.getReceiptlistCode());
 		entityDao.save(receiptlist);
 		return map;
 	}
-
+    /**
+     * 
+     * 通过交接单IDH获取交接单一部分的信息 --编辑接受交接单的页面调用
+     * @author wzj
+     * @date 2016年12月22日 下午10:18:35
+     *
+     */
 	@Override
 	public Map<String, Object> getReceiptByReID(String reID) {
 		// TODO Auto-generated method stub
-		if (reID == null || reID.equals(""))
+		if (reID == null || reID.equals("")) //传输错误返回
 			return null;
-		String[] properties = new String[] {
+		String[] properties = new String[] { //选择字段
 				"date_format(receiptlist.createTime,'%Y-%m-%e') as startTime",
 				"receiptlist.linkMan", "receiptlist.linkPhone",
 				"date_format(receiptlist.completeTime,'%Y-%m-%e') as endTime" };
@@ -668,7 +662,13 @@ public class ReceiptlistService extends SearchService implements
 			receiptlist.setReceiptlistType(receiptlistType);
 			return entityDao.updatePropByID(receiptlist,ID)==1?"true":"false";
 		}
-
+       /**
+        * 
+        * 删除交接单
+        * @author wzj
+        * @date 2016年12月22日 下午10:28:05
+        *
+        */
 		@Override
 		public String delReceiptlist(String reID) {
 			 System.out.println(reID);

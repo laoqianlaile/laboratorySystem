@@ -400,6 +400,7 @@ public class SampleService extends SearchService implements ISampleService{
 	public List<Map<String, Object>> getSampleListByCodeLimit(String sampleCode) {
 		// TODO Auto-generated method stub
 		String[] properties = new String[]{
+				"sample.ID ",
 				"factoryCode as sampleCode"
 		};
 		String condition = " factoryCode like '%"+sampleCode+"%' order by factoryCode asc limit 0,5";
