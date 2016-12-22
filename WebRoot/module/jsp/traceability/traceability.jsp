@@ -5,8 +5,8 @@
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 	String qualiyPlanId = request.getParameter("qualiyPlanId");
-	if(qualiyPlanId!=null&&qualiyPlanId!="")
-		session.setAttribute("qualiyPlanId",qualiyPlanId);
+	if (qualiyPlanId != null && qualiyPlanId != "")
+		session.setAttribute("qualiyPlanId", qualiyPlanId);
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -57,7 +57,17 @@
 <body>
 	<!-- 功能按钮 -->
 	<div class="wrapper">
+		<div style="height:70px">
+			<span id="yearvalue" hidden><%=request.getParameter("year")%></span><span
+				id="codevalue" hidden><%=request.getParameter("code")%></span>
+	<!-- 		<div id="showdiv1" class="alert alert-danger tan"></div> -->
+			<div id="font">
+				<h3 style="text-align:center"><%=request.getParameter("year")%>年度检测/量值溯源建议</h3>
+			</div>
+			<p style="float:right;">编号:<label><%=request.getParameter("code") %></label></p>
+		</div>
 		<div id="searcherArea">
+		
 			<div class="list-searcher">
 				<span>设备名称：</span><input type="text" id="equipmentName"
 					name="equipmentName" class="form-control"
@@ -131,7 +141,7 @@
 					<h4 class="modal-title" id="myModalLabel">上传文件</h4>
 				</div>
 				<div class="modal-body">
-					<form id="adddata" action="timeCheckController/upload.do"
+					<form id="adddata" action="traceabilityController/upload.do"
 						method="post" enctype="multipart/form-data"
 						class="form-horizontal">
 						<div id="files">
@@ -145,21 +155,17 @@
 							<div class="form-group">
 								<label for="inputPassword3" class="col-sm-2 control-label">送检方式</label>
 								<div class="col-sm-10">
-									<select class="form-control" id="type">
+									<select class="form-control" id="type" name="type">
 										<option>自检</option>
 										<option>外检</option>
-									</select>
-									<!-- 	     								<input type="text" class="form-control" id="belongID" name="belongID" readonly="true">
- -->
+										</select>
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="inputPassword3" class="col-sm-2 control-label">备注</label>
 								<div class="col-sm-10">
-									<textarea rows="3" class="form-control" name="remarks"
-										id="remarks"></textarea>
-									<!-- <input type="text" class="form-control" id="remarks"
-										name="remark"> -->
+									<textarea rows="3" class="form-control" name="remark"
+										id="remark"></textarea>
 								</div>
 							</div>
 							<div class="form-group" style="visibility:hidden;">
@@ -181,8 +187,5 @@
 			</div>
 		</div>
 	</div>
-
-
-
 </body>
 </html>

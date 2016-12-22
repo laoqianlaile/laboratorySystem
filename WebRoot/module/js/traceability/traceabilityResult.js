@@ -5,7 +5,11 @@ function queryParams(pageReqeust) {
 	//alert(encodeURI($("#departmentName").val()));
 	//alert(encodeURI($("#type").val()));
 	pageReqeust.departmentName=$("#departmentName").val();
-	pageReqeust.type=$("#type").val();
+	if($("#type").val()=="自检"){
+		pageReqeust.type=0;
+	}else{
+		pageReqeust.type=1;
+	}	
 	pageReqeust.pageNo = this.offset;
 	pageReqeust.pageSize = this.pageNumber;
 	pageReqeust.length = 6;
@@ -175,8 +179,18 @@ function submit(){
 		var data={};
 		data=getdata[0];
 		data.ID = getdata[0].traceabilityID;
-		data.result=getdata[0].result;
-		data.certificateNumber=getdata[0].certificateNumber;
+		if(getdata[0].result!=null&&getdata[0].result!=""){
+			data.result=getdata[0].result;
+		}else{
+			alert("确认结果不能为空");
+			return;
+		}
+		if(getdata[0].certificateNumber!=null&&getdata[0].certificateNumber!=""){
+			data.certificateNumber=getdata[0].certificateNumber;
+		}else{
+			alert("证书编号不能为空");
+			return;
+		}
 		data.reason="";
 		$.ajax({
 			data:data,
@@ -327,6 +341,16 @@ $(function(){
 							title : '送检方式',
 							field : 'type',
 							align : 'center',
+							formatter : function(value, row,
+									index) {
+								var content="";
+								if (value == "0") {
+									content = "自检";
+								} else if (value == "1") {
+									content= "外检";
+								}
+								return content;
+							}
 						},
 
 						{

@@ -222,9 +222,9 @@ function inti() {
 												+ index
 												+ " class='Ntable' style='display:block;overflow:auto;height:45px'>"
 												+ content + "</table>";
-										var button1 = '<button class="mybtnstyle btn btn-sm btn-primary glyphicon glyphicon-plus"  onclick="addNameAndRange(this,'
+										var button1 = '<button style="background-color:#31b0d5;color:#FFF" class="mybtnstyle btn btn-sm glyphicon glyphicon-plus"  onclick="addNameAndRange(this,'
 												+ index + ')"></button>';
-										var button2 = '<button class="mybtnstyle btn btn-sm btn-primary glyphicon glyphicon-minus"  onclick="delNameAndRange(this,'
+										var button2 = '<button style="background-color:#31b0d5;color:#FFF" class="mybtnstyle btn btn-sm glyphicon glyphicon-minus"  onclick="delNameAndRange(this,'
 												+ index + ')"></button>';
 										return div + button1 + button2;
 									}
@@ -401,6 +401,7 @@ function addSubmit() {
 			data : dataobj,
 			success : function(e) {	
 				alert("新增成功");
+				$("#AddSubmit").hide();
 			}
 		});
 		var trlength = $('#table').find("tr").length;
@@ -430,12 +431,13 @@ function addSubmit() {
 					traceabilityID : obj.traceabilityID,
 				},
 				success : function(e) {
-				
+					$("#AddSubmit").hide();
 				}
 			});
 		}
 		
 	}
+
 
 }
 
@@ -515,7 +517,7 @@ window.onload = function() {
 	intiFileTable();
 }
 
-function getfilename(){
+/*function getfilename(){
 	var myobj={};
 	var files = $("#fileupload").val();
 	var type=$("#type").val();
@@ -524,14 +526,14 @@ function getfilename(){
 	myobj.files = files;
 	myobj.remark=remark;
 	$.ajax({
-		url:'fileOperateController/saveFileAndGetFileID.do',
+		url:'timeCheckController/upload.do',
 		datatype:"json",
 		data:myobj,
 		success:function(e){
 			alert("上传成功");
 		}
 	});
-}
+}*/
 //上传文件
 function Upload() {
 	var getData = $('#table').bootstrapTable("getSelections");
@@ -1032,6 +1034,16 @@ function intiFileTable(){
 							title : '送检方式',
 							field : 'type',
 							align : 'center',
+							formatter : function(value, row,
+									index) {
+								var content="";
+								if (value == "0") {
+									content = "自检";
+								} else if (value == "1") {
+									content= "外检";
+								}
+								return content;
+							}
 						},
 
 						{
@@ -1054,7 +1066,7 @@ function intiFileTable(){
 							title : '操作',
 							formatter : function(value, row,
 									index) {
-								var submit = '<button class="btn btn-primary glyphicon" onclick="fileDownload()">下载</button>';
+								var submit = '<button style="background-color:#31b0d5;color:#FFF" class="btn glyphicon" onclick="fileDownload()">下载</button>';
 								return submit;
 							}
 						}, {
@@ -1076,8 +1088,6 @@ function allData() {
 	$('#equipmentName').val("");
 	$('#equipmentTypeName').val("");
 	$("#auditState").val("全部");
-	//$("#auditState").find("option:selected").text("全部");
-	//$('#auditState').text("");
 	$('#equipmentCode').val("");
 	$('#correctOrgan').val("");
 	$('#startTime').val("");
