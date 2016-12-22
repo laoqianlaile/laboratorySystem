@@ -37,74 +37,106 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
   </head>
   
   <body>
-  
-  <div id="showdiv1" class="alert alert-danger tan"></div>
-    <!-- 搜索框2-->  
-  <div class="searchbox2">
-	  <form class="form-horizontal" role="form">
-		  <div class="form-group">
-			  <span class="col-sm-2 control-label" for="projectCode">比对项目编号</span>
-			  <div class="col-sm-2">
-			  <input type="text" class="form-control" id="projectCode" placeholder="">
-			  </div>
-			  <span  class="col-sm-1 control-label">是否通过</span>
-			  <div class="col-sm-1">
-			    <button  style="margin-left:0px;" type="button" class="btn dropdown-toggle" id="result" data-toggle="dropdown">
-			    <span id="pass1"></span>
-			     <span class="caret"></span>
-			    </button>
-			    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
-				    <li onclick="changgedata(3)" role="presentation">...</li>
-				    <li onclick="changgedata(1)" role="presentation">通过</li>
-	                <li onclick="changgedata(2)" role="presentation">不通过</li>
-			    </ul>	
-			  </div>	 
-			  <button type="button" id="" class="btn btn-info" onclick="refresh()">查询</button>
-		  </div>
-		  
-		  <div class="form-group">
-		   <span class="col-sm-2 control-label">计划执行时间</span>
-			  <div class="col-sm-2">
-			      <input class="form_datetime form-control" type="text" id="startTime">
-			  </div>
-		  
-		  <span class="col-sm-1 control-label">比对科室</span>
-			  <div class="col-sm-2">
-			    <button type="button" class="btn dropdown-toggle" id="" data-toggle="dropdown">
-			    <span id="departmentID"></span>
-			        <span id="caret"></span>
-			    </button>
-			    <ul id="list2" class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
-			    </ul>
-			  </div>
-	     </div>
-	  </form>
-  </div>
-    <!-- 表格2-->
-    <div class="tablebox">
-    <button type="button" class="btn btn-info " onclick="pass()">通过</button>
-    <button type="button" class="btn btn-info " onclick="showModal()">不通过</button>
-  	<table id="table">
-  	</table></div>
-  	
-  	<!-- 不通过原因弹窗-->
-  	<div id="showModal" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-		  	<div class="reason">
-			  	<h3 class="tittle">不通过原因:</h3>
-			  	<div class="center">
+  <div class="main">
+      <span id="yearvalue" class="hiddenspan"><%=request.getParameter("year") %></span>
+	  <span id="codevalue" class="hiddenspan"><%=request.getParameter("code") %></span>
+  		<div id="font">
+  			<%=request.getParameter("year") %>人员比对审核
+  		</div>
+        <div id="showdiv1" class="alert alert-danger tan"></div>
+        
+         <div id="head">
+	      <p id="Serialnumber">编号:<label><%=request.getParameter("code") %></label></p>
+		    <!-- 搜索框2-->  
+		  <div class="searchbox2">
+			  <form class="form-horizontal" role="form">
 				  <div class="form-group">
-				    <label for="name">原因</label>
-				    <textarea id="reason" class="form-control" rows="3"></textarea>
-				  </div>				
-			  	</div>
-			  	<button type="button" class="btn"  onclick="unpass()">确定</button>
-			  	<button type="button" class="btn" id="disapper" onclick="disapper()">取消</button>
-		  	</div>
-  	    </div>
-  	  </div>
-    </div>
-  	
+					  <span class="col-sm-2 control-label" for="projectCode">比对项目编号</span>
+					  <div class="col-sm-2">
+					  <input type="text" class="form-control" id="projectCode" placeholder="">
+					  </div>
+					<span class="col-sm-1 control-label">执行时间</span>
+					  <div class="col-sm-2">
+					      <input class="form_datetime form-control " type="text" id="startTime">
+					  </div>
+					  <span class="to">至</span>
+					  <div class="col-sm-2">
+					     <input class="form_datetime form-control " type="text" id="endTime">
+					  </div>	
+				  </div>
+				  
+				  <div class="form-group">
+				   <span class="col-sm-2 control-label">比对科室</span>
+					  <div class="col-sm-2">
+					    <button type="button" class="btn dropdown-toggle" id="" data-toggle="dropdown">
+					    <span id="departmentID"></span>
+					        <span id="caret"></span>
+					    </button>
+					    <ul id="list2" class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
+					    </ul>
+					  </div>
+				    <span  class="col-sm-1 control-label">是否通过</span>
+					  <div class="col-sm-1">
+					    <button  style="margin-left:0px;" type="button" class="btn dropdown-toggle" id="result" data-toggle="dropdown">
+					    <span id="pass1"></span>
+					     <span class="caret"></span>
+					    </button>
+					    <ul class="dropdown-menu pull-right" id="list1" role="menu" aria-labelledby="dropdownMenu1">
+						    <li onclick="changgedata(3)" role="presentation">&nbsp;&nbsp;</li>
+						    <li onclick="changgedata(0)" role="presentation">未审核</li>
+						    <li onclick="changgedata(1)" role="presentation">通过</li>
+			                <li onclick="changgedata(2)" role="presentation">不通过</li>
+					    </ul>	
+					  </div>
+					  <div class="col-sm-3 location"> 
+					  <button type="button" id="" class="btn btn-info" onclick="refresh()">查询</button>
+					  </div>	
+				  
+				  
+				   			 
+			     </div>
+			  </form>
+		  </div>
+		  </div>
+	    <!-- 表格2-->
+	    <div class="tablebox">
+	    <button type="button" class="btn btn-info " onclick="pass()">通过</button>
+	    <button type="button" class="btn btn-info " onclick="showModal()">不通过</button>
+	    <button type="button" class="btn btn-info"  onclick="refreshAll()">刷新全部</button>	
+	  	<table id="table">
+	  	</table></div>
+	  	
+	  	<!-- 不通过原因弹窗-->
+	  	<div id="showModal" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
+		  <div class="modal-dialog" role="document">
+		    	<div class="modal-content">
+				<div class="modal-header">
+				<h4 class="modal-title">填写不通过原因</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="list_upload" style="text-align:center;width:600px">
+							<div class="col-xs-12 col-md-12">
+								<label style="width:100px;float:left">不通过原因：</label>
+								<textarea rows="5" cols="5"
+									style="width:250px;float:left;margin-top:20px;" id="reason"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button id="updateReason" type="button" class="btn btn-info thisbtn" onclick="unpass()">确定</button>
+				</div>
+			</div>
+
+	  	  </div>
+	    </div>
+	    
+  	</div>
   </body>
 </html>

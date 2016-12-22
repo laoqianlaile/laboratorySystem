@@ -23,7 +23,7 @@ function init(){
 		
 	$(".form_datetime").datetimepicker({
 		minView: 'month',            //设置时间选择为年月日 去掉时分秒选择
-		format:'yyyy-mm',
+		format:'yyyy-mm-dd',
 		weekStart: 1,
 		todayBtn:  1,
 		autoclose: 1,
@@ -39,7 +39,7 @@ function init(){
 			pagination: true,//在表格底部显示分页条
 			pageSize: 3,//页面数据条数
 			pageNumber:1,//首页页码
-			pageList: [3, 5, 9, 10, 20, 30],//设置可供选择的页面数据条数
+			pageList: [1, 5, 10, 15, 20],//设置可供选择的页面数据条数
 			clickToSelect:true,//设置true 将在点击行时，自动选择rediobox 和 checkbox
 			cache: false,//禁用 AJAX 数据缓存
 			sortName:'personconTrast.ID',//定义排序列
@@ -114,15 +114,36 @@ function init(){
 				valign:'middle',//垂直居中显示
 				width:'5',//宽度
 				formatter: function (value, row, index) {
-					if(value=="0")
+					if(value=="1")
+						value="完成";
+					else{
 						value="未完成";
-						else{
-							value="完成";
-						}
+					}
 					return value;
 				}
 			},{
 			    field:'ID',
+			    title:'',
+			    align:'center',
+			    valign:'middle',
+			    width:'100',
+			    visible:false,
+			},{
+			    field:'employeeID1',
+			    title:'',
+			    align:'center',
+			    valign:'middle',
+			    width:'100',
+			    visible:false,
+			},{
+			    field:'employeeID2',
+			    title:'',
+			    align:'center',
+			    valign:'middle',
+			    width:'100',
+			    visible:false,
+			},{
+			    field:'departmentID',
 			    title:'',
 			    align:'center',
 			    valign:'middle',
@@ -211,8 +232,12 @@ function onDblClickCell(field,value,row,$element){
 			
 			break;
 		case "departmentName":
-			if(clicked==0)
+			if(clicked==0){
 				getvalue2 = row.departmentName;
+				clicked=1;
+				
+			}
+				
 			if(clicked==1){
 				getvalue2 = updatevalue;
 			};
@@ -237,8 +262,11 @@ function onDblClickCell(field,value,row,$element){
 			
 			break;
 		case "Name1":
-			if(clicked1==0)
+			if(clicked1==0){
 				getvalue = row.Name1;
+				clicked1=1;
+			}
+				
 			if(clicked1==1){
 				
 				getvalue = updatevalue1;
@@ -266,8 +294,11 @@ function onDblClickCell(field,value,row,$element){
 				});
 			break;
 		case "Name2":
-			if(clicked2==0)
+			if(clicked2==0){
 				getvalue = row.Name2;
+				clicked2=1;
+			}
+				
 			if(clicked2==1){
 				getvalue = updatevalue2;
 			};
@@ -312,15 +343,11 @@ function onDblClickCell(field,value,row,$element){
 		        showMeridian: 1,
 		        language: 'zh-CN'              //设置时间控件为中文
 		    }).on('changeDate', function(ev){
-		    	/*if(object.startTime == $('#startTime123').val()){
-					sbtjude = sbtjude; 
-				}else{*/
+		    	
 					object.startTime =$('#startTime123').val();
-						/*sbtjude = 1;
-				};*/
-				$element[0].innerHTML=$("#startTime123").val();
+					$element[0].innerHTML=$("#startTime123").val();
+					sbtjude = 1;
 			});
-
 			break;
 		}	
 	}
@@ -330,10 +357,12 @@ function onDblClickCell(field,value,row,$element){
 }
 //获取点击后的值
 function getParentbutton(dom,value,ID){
+	/*alert(value);*/
 	var parentdom = dom.parentNode;
+/*	alert(parentdom);*/
 	for(var i = 0;;i++){
 		if(parentdom.nodeName == "TD"){
-			parentdom.innerHTML=value;
+			parentdom.innerHTML=value;	
 			updatevalue = value ; 
 			object.departmentName = ID;
 			sbtjude = 1;
@@ -471,17 +500,17 @@ function updataPersonContrast(dom){
 	
 	$(".disappear").css("display","none");
 	var getdata = $('#table').bootstrapTable('getSelections');
+
 	var personcontrast={};
 	if(getdata.length==1){
 		personcontrast.ID = getdata[0].ID;
 		personcontrast.projectCode = getdata[0].projectCode;
 		personcontrast.projectName = getdata[0].projectName;
 		personcontrast.testDevice = getdata[0].testDevice;
-		personcontrast.departmentID = getdata[0].departmentName;
-		personcontrast.employeeID1 = getdata[0].Name1;
-		personcontrast.employeeID2 = getdata[0].Name2;
+		personcontrast.departmentID = getdata[0].departmentID;
+		personcontrast.employeeID1 = getdata[0].employeeID1;
+		personcontrast.employeeID2 = getdata[0].employeeID2;
 		personcontrast.startTime = getdata[0].startTime;
-    	console.info(personcontrast);
 		if(sbtjude == 1){
 			$.ajax({				  
 				  url:'personconTrastController/updatePersonconTrastByID.do',
@@ -492,6 +521,8 @@ function updataPersonContrast(dom){
 					  refresh();
 					  }
 			});
+		}else{
+			alert("11111111111111111");
 		}		
 	}else{
 		alert("请选择或者选择一条");
@@ -508,11 +539,13 @@ function deletelist(dom){
 	if(getdata.length<=0){
 		alert("请选择");
 	}else{
+		
 		for (var i = 0 ; i < getdata.length ; i++){
 			allid += getdata[i].ID+","; 
 		}
 		var deleteid={};
 		deleteid.id = allid;
+		alert("确认删除？")
 		$.ajax({
 			  url:'personconTrastController/deletePersonconTrastByID.do',
 			  data:deleteid,
@@ -537,7 +570,7 @@ function addrow(){
 		Name1:'',
 		Name2:'',
 		startTime:'',
-		auditState:'',
+		auditState:"未完成",
 		operation:'<button type=\'button\' class=\'btn btn-info\' onclick=\'addpersonconTrast(this)\'>提交</button>',
 	}});
 }
@@ -598,6 +631,7 @@ function addpersonconTrast(){
 				success:function(e){
 					refresh();
 					$(".disappear").css("display","none");
+					alert("新增成功!")
 					},
 				});
 			}
@@ -614,12 +648,16 @@ function refresh(){
 
 //刷新全部
 function refreshAll(){
-	init();
+	$('#projectCode').val("");
+	$('#projectCode').val(""),
+	$('#projectName').val(""),
+	$('#employeeID1').val(""),
+	$('#testDevice').val(""),
+	$('#startTime').val(""),
+	$('#endTime').val(""),
+	$('#employeeID2').val(""),
+	$('#table').bootstrapTable('refresh', null);
 	$(".disappear").css("display","none");
-}
-//搜索
-function search(){
-	
 }
 
 

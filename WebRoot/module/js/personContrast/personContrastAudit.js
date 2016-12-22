@@ -116,6 +116,13 @@ $(function () {
 					valign:'middle',
 					width:'100',
 				    visible:false,
+				},{
+					field:'departmentID',
+					title:'',
+					align:'center',
+					valign:'middle',
+					width:'100',
+				    visible:false,
 				}]//列配置项,详情请查看 列参数 表格
 				/*事件*/
 	});
@@ -126,7 +133,7 @@ $(function () {
 			var myobj = eval(e);
 			var dom1 = $('#list2');
 			$('#pass1').html("");
-			var str2 = "<li role='presentation' onclick='changevalue(1,\"\")'>\"\"</li>";
+			var str2 = "<li role='presentation' onclick='changevalue(1,\"\")'>&nbsp;&nbsp;</li>";
 			dom1.append(str2);
 			for(var i = 0;i< myobj.length;i++){
 				var str = "<li role='presentation' onclick='changevalue(1,\""+myobj[i].departmentName+"\")'>"+myobj[i].departmentName+"</li>";
@@ -146,35 +153,47 @@ function changevalue(type,value){
 
 //配置参数
 function queryParams(params) { 
-
+	
 	var temp = { // 这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+			qualityPlanID :$('#codevalue').val(),
 			projectCode : $('#projectCode').val(),
 			projectName : "",
 			employeeID1 : "",
 			testDevice : "",
 			startTime : $('#startTime').val(),
+			endTime :$('#endTime').val(),
 			employeeID2 :"",
-			state:$('#pass1').html(),
-			departmentName:$('#departmentID').html(),
+			auditState :passNum,
+			departmentID :$('#departmentID').html(),
 			limit : params.limit, // 页面大小
 			offset : params.offset, // 页码
 			sort : params.sort, // 排序列名
 			order : params.order
 	};
+	console.log(temp);
 	return temp;
 }
 
+var passNum = ""; //数字代替通过和不通过
 //下拉框选中的值转换
 function changgedata(i){
-	if(i==1){
-		$('#pass1').html("通过");
+	if(i==0){
+		$('#pass1').html("未审核");//通过
+		passNum = "0";
+	}
+	else if(i==1){
+		$('#pass1').html("通过");//通过
+		passNum = "1";
 	}
 	else if(i==2){
-		$('#pass1').html("不通过");
+		$('#pass1').html("不通过");//不通过
+		passNum = "2";
 	}
 	else{
 		$('#pass1').html("");
+		passNum = "";
 	}
+		
 }
 
 //提交通过
@@ -258,11 +277,10 @@ function unpass(){
 	$.ajax({
 		data:object,
 		url:'personconTrastController/auditPersonconTrastByID.do',
-		success:function(msg){
-			
-			alert("审核成功");
+		success:function(msg){	
 			$('#showModal').modal('hide');
 			refresh();
+			alert("审核成功");
 		}
 	});
 }
@@ -275,4 +293,17 @@ function disapper(){
 //刷新表格
 function refresh(){
 	$('#table').bootstrapTable('refresh', null);
+}
+
+function refreshAll(){
+	$('#codevalue').val(""),
+	$('#projectCode').val(""),
+	$('#startTime').val(""),
+	passNum="",
+	$('#departmentID').html(""),
+	$('#startTime').val(""),
+	$('#endTime').val(""),
+	
+	$('#table').bootstrapTable('refresh', null);
+	$(".disappear").css("display","none");
 }
