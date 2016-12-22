@@ -72,6 +72,7 @@ public class SampleService extends SearchService implements ISampleService{
 		"factoryCode",
 		"sampleName",
 		"specifications AS type", 
+		"if(state = 0 ,'未领用','领用') as state",
 		"unit",
 		"DATE_FORMAT(sample.createTime,'%Y-%m-%d %H:%i:%s') AS createTime ",
 		"sample.remarks  "
@@ -236,6 +237,7 @@ public class SampleService extends SearchService implements ISampleService{
 		}
 		
 		sample.setUnit(unit);
+		sample.setState(0);
 		sample.setCreateTime(new Date());
 	/*	String condition = " factoryCode ='"+factoryCode+"'";
 		List<Sample> list = entityDao.getByCondition(condition, Sample.class);*/
@@ -392,6 +394,17 @@ public class SampleService extends SearchService implements ISampleService{
 		if(list != null && list.size() > 0)
 			return "true";
 		else return "false";
+	}
+
+	@Override
+	public List<Map<String, Object>> getSampleListByCodeLimit(String sampleCode) {
+		// TODO Auto-generated method stub
+		String[] properties = new String[]{
+				"factoryCode as sampleCode"
+		};
+		String condition = " factoryCode like '%"+sampleCode+"%' order by factoryCode asc limit 0,5";
+		List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, Sample.class);
+		return list;
 	}
 
 

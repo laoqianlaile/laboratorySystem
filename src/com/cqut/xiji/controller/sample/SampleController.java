@@ -189,4 +189,11 @@ public class SampleController{
 		List<Map<String, Object>> result = service.getSampleInfor(qrcode);
 		return JSONArray.fromObject(result).toString();
 	}
+	@RequestMapping("/getSampleListByCodeLimit")  
+    @ResponseBody
+	public String getSampleListByCodeLimit(String sampleCode){
+		List<Map<String, Object>> result = service.getSampleListByCodeLimit(sampleCode);
+		return JSONArray.fromObject(result).toString();
+	}
+	
 }

@@ -25,16 +25,20 @@
 <link rel="stylesheet" type="text/css"
 	href="./module/css/bootstrap-table.css">
 <link rel="stylesheet" href="./module/css/changeACE.css" />
-<link rel="stylesheet" type="text/css" href="./module/css/fileManage/fileManage.css">
+<link rel="stylesheet" type="text/css"
+	href="./module/css/fileManage/fileManage.css">
 <link rel="stylesheet" type="text/css" href="module/css/uploadify.css">
-<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
-	
+<link rel="stylesheet" type="text/css"
+	href="module/css/bootstrap-datetimepicker.css">
+
 <script type="text/javascript" src="./module/js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="./module/js/bootstrap.js"></script>
 <script type="text/javascript" src="./module/js/bootstrap-table.js"></script>
-<script type="text/javascript" src="./module/js/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript"
+	src="./module/js/bootstrap-table-zh-CN.js"></script>
 <script type="text/javascript" src="./module/js/commonTool.js"></script>
-<script src="./module/js/receiptlistManage/fileUpload.js" type="text/javascript"></script>
+<script src="./module/js/receiptlistManage/fileUpload.js"
+	type="text/javascript"></script>
 <script src="./module/js/jquery.uploadify.min.js" type="text/javascript"></script>
 <script src="module/js/bootstrap-datetimepicker.js"></script>
 <script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
@@ -199,65 +203,101 @@ h4,.h4 {
 .mainTitel button:FIRST-CHILD {
 	margin-right: 95px;
 }
-.file-box{ 
-   position:relative;
-   width:340px;
-   } 
-.txt{ 
-   height:22px; 
-   border:1px solid #cdcdcd; 
-   width:180px;
-   } 
-#file_uploadModal .filebtn{ 
-   background-color:#FFF;
-    border:1px solid #CDCDCD;
-    height:24px; 
-    width:70px;
-    } 
-.file{ 
-    position:absolute;
-     top:0; 
-     right:80px; 
-     height:24px; 
-     filter:alpha(opacity:0);
-     opacity: 0;
-     width:260px;
-      }
-#submitFileBtn{
-     height: 30px;
-     width: 80px;
-     border-radius: 5px;
+
+.file-box {
+	position: relative;
+	width: 340px;
 }
-#loading{
-	position:fixed;
-	left:48%;
-	top:45%;
+
+.txt {
+	height: 22px;
+	border: 1px solid #cdcdcd;
+	width: 180px;
+}
+
+#file_uploadModal .filebtn {
+	background-color: #FFF;
+	border: 1px solid #CDCDCD;
+	height: 24px;
+	width: 70px;
+}
+
+.file {
+	position: absolute;
+	top: 0;
+	right: 80px;
+	height: 24px;
+	filter: alpha(opacity : 0);
+	opacity: 0;
+	width: 260px;
+}
+
+#submitFileBtn {
+	height: 30px;
+	width: 80px;
+	border-radius: 5px;
+}
+
+#loading {
+	position: fixed;
+	left: 48%;
+	top: 45%;
 	width: 150px;
-    height: 150px;
-    z-index: 9999;
+	height: 150px;
+	z-index: 9999;
 }
-#loading img{
+
+#loading img {
 	width: 150px;
-    height: 150px;
+	height: 150px;
 }
- .row label {
+
+.row label {
 	min-width: 80px;
-}  
-.timeLabelDiv{
-  float:left;
-  height: 34px;
-  min-width: 80px;
 }
-.timeLabelDiv label{
-  margin-top: 7px;
+
+.timeLabelDiv {
+	float: left;
+	height: 34px;
+	min-width: 80px;
 }
-.timeChooseDiv{
- width: 70%;
- margin-top: 0px;
+
+.timeLabelDiv label {
+	margin-top: 7px;
 }
- .input-group-addon{
-  background-color: #fff;
- }  
+
+.timeChooseDiv {
+	width: 70%;
+	margin-top: 0px;
+}
+
+.input-group-addon {
+	background-color: #fff;
+}
+
+.tip-factory {
+	width: 90%; /* 和上面的一样  */
+	height: auto;
+	position: absolute;
+	z-index: 9999;
+}
+
+.tip-factory-content {
+	/* width:100%; 这里设置后，后面的margin-right:就不起作用*/
+	height: auto;
+	z-index: 9999;
+	margin-right: 27px; /* 598 * 0.9 568 *0.9  30 * 0.9 */
+	border-radius: 5px;
+	background: rgba(182, 176, 176, 1);
+}
+
+.tip-factory-content li {
+	display: block;
+	list-style-type: none;
+	height: 30px;
+	vertical-align: middle;
+	padding-top: 7px;
+}
 </style>
 </head>
 <body>
@@ -282,21 +322,29 @@ h4,.h4 {
 						class="form-control">
 				</div> -->
 				<div class="headModeal col-xs-3 col-md-3 col-lg-3">
-				<div class="timeLabelDiv"><label class="control-label" >委托时间:</label></div>
-				<div class="input-group date form_datetime timeChooseDiv">
-   					<input class="form-control" id="startTime" size="16" type="text" value="" readonly="true">
-    				<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+					<div class="timeLabelDiv">
+						<label class="control-label">委托时间:</label>
+					</div>
+					<div class="input-group date form_datetime timeChooseDiv">
+						<input class="form-control" id="startTime" size="16" type="text"
+							value="" readonly="true"> <span class="input-group-addon"><span
+							class="glyphicon glyphicon-remove"></span></span> <span
+							class="input-group-addon"><span
+							class="glyphicon glyphicon-calendar"></span></span>
+					</div>
 				</div>
-			</div>
-			<div class="headModeal col-xs-3 col-md-3 col-lg-3">
-				<div class="timeLabelDiv"><label class="control-label" >至:</label></div>
-				<div class="input-group date form_datetime timeChooseDiv">
-   					<input class="form-control" id="endTime" size="16" type="text" value="" readonly="true">
-    				<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+				<div class="headModeal col-xs-3 col-md-3 col-lg-3">
+					<div class="timeLabelDiv">
+						<label class="control-label">至:</label>
+					</div>
+					<div class="input-group date form_datetime timeChooseDiv">
+						<input class="form-control" id="endTime" size="16" type="text"
+							value="" readonly="true"> <span class="input-group-addon"><span
+							class="glyphicon glyphicon-remove"></span></span> <span
+							class="input-group-addon"><span
+							class="glyphicon glyphicon-calendar"></span></span>
+					</div>
 				</div>
-			</div>
 				<!-- <div class="headModeal col-xs-3">
 					<label>完成时间：</label><input type="date" id="endTime"
 						class="form-control">
@@ -322,7 +370,7 @@ h4,.h4 {
 			<div class="row">
 				<div class=" col-xs-12">
 					<label class="kemiche ">依据的技术文件(代号、名称)及客户要求：</label>
-					<textarea type="text" id="accordingDoc" rows="6">&nbsp;&nbsp;QRX-1型雷达光电望远镜按《QRX-1型雷达光电望远镜系统更新技术状态鉴定试验大纲WLDGA》和《GJB50.11A-2009军用设备实验室环境实验方法第II部分：盐雾实验》进行24h喷雾，24h干燥，两种状态，供240h的盐雾实验</textarea>
+					<textarea type="text" id="accordingDoc" rows="6"><!-- &nbsp;&nbsp;QRX-1型雷达光电望远镜按《QRX-1型雷达光电望远镜系统更新技术状态鉴定试验大纲WLDGA》和《GJB50.11A-2009军用设备实验室环境实验方法第II部分：盐雾实验》进行24h喷雾，24h干燥，两种状态，供240h的盐雾实验 --></textarea>
 				</div>
 			</div>
 			<hr class="headHr">
@@ -336,7 +384,7 @@ h4,.h4 {
 					<hr class="headHr">
 				</div>
 				<table id="sampleTable">
-				<!-- 	<tr>
+					<!-- 	<tr>
 						<th>序号</th>
 						<th>出厂编号</th>
 						<th>名称</th>
@@ -350,13 +398,15 @@ h4,.h4 {
 			</div>
 			<div class="second">
 				<div class="row secondTitel">
-					<label>其他文件</label> 
-					<button type="button" class="btn btn-primary glyphicon glyphicon-plus" data-toggle="modal" data-target="#file_uploadModal">&nbsp;添加附件</button>
+					<label>其他文件</label>
+					<button type="button"
+						class="btn btn-primary glyphicon glyphicon-plus"
+						data-toggle="modal" data-target="#file_uploadModal">&nbsp;添加附件</button>
 					<!-- <button type="file" id="file_upload"
 						name="file_upload" class="btn btn-primary glyphicon "
 						multiple="multiple" value="添加附件" title="添加附件"> -->
 					<hr class="headHr">
-					
+
 				</div>
 				<table id="fileTable">
 					<!-- <tr>
@@ -395,12 +445,13 @@ h4,.h4 {
 							<p>上传附件</p>
 						</div>
 						<div class="modal-body">
-						<div id="uploadfileQueue"></div>
-							<input type="file" id="file_upload" name="file_upload" onchanage="chooseFileNum(this)"
-								multiple="multiple">
+							<div id="uploadfileQueue"></div>
+							<input type="file" id="file_upload" name="file_upload"
+								onchanage="chooseFileNum(this)" multiple="multiple">
 						</div>
 						<div class="modal-footer">
-						  <button class="btn-primary glyphicon"  id="submitFileBtn" onclick="submitFile()">提交</button>
+							<button class="btn-primary glyphicon" id="submitFileBtn"
+								onclick="submitFile()">提交</button>
 						</div>
 					</div>
 				</div>
@@ -424,9 +475,14 @@ h4,.h4 {
 									<h4>出厂编号：</h4>
 									<input type="text" id="addSampleCode" name="sampleCode"
 										placeholder="输入出厂编码" class="form-control"
-										aria-describedby="basic-addon1" /> <input type="hidden"
-										id="addSampleID" name="sampleID" class="form-control"
-										aria-describedby="basic-addon1" />
+										aria-describedby="basic-addon1"
+										onpropertychange="set_alert_wb_comment(this,'add')"
+										oninput="set_alert_wb_comment(this,'add')" /> <input
+										type="hidden" id="addSampleID" name="sampleID"
+										class="form-control" aria-describedby="basic-addon1" />
+									<div class="tip-factory  ">
+										<div class="tip-factory-content"></div>
+									</div>
 								</div>
 								<div class="col-xs-12 col-md-12">
 									<h4>样品名称：</h4>
@@ -484,7 +540,7 @@ h4,.h4 {
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default"
-								data-dismiss="modal" onclick="addTaskModel()">确定</button>
+								 onclick="addTaskModel()">确定</button>
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">取消</button>
 						</div>
@@ -512,11 +568,16 @@ h4,.h4 {
 									<h4>出厂编号：</h4>
 									<input type="text" id="editSampleCode" name="sampleCode"
 										placeholder="输入出厂编码" class="form-control"
-										aria-describedby="basic-addon1" /> <input type="hidden"
-										id="editSampleID" name="sampleID" class="form-control"
-										aria-describedby="basic-addon1" /> <input type="hidden"
-										id="editTaskID" name="taskID" class="form-control"
-										aria-describedby="basic-addon1" />
+										aria-describedby="basic-addon1"
+										onpropertychange="set_alert_wb_comment(this,'edit')"
+										oninput="set_alert_wb_comment(this,'edit')" /> <input
+										type="hidden" id="editSampleID" name="sampleID"
+										class="form-control" aria-describedby="basic-addon1" /> <input
+										type="hidden" id="editTaskID" name="taskID"
+										class="form-control" aria-describedby="basic-addon1" />
+									<div class="tip-factory  ">
+										<div class="tip-factory-content"></div>
+									</div>
 								</div>
 								<div class="col-xs-12 col-md-12">
 									<h4>样品名称：</h4>
@@ -619,18 +680,19 @@ h4,.h4 {
 	<!-- 总container -->
 
 </body>
-<script src="./module/js/receiptlistManage/addReceiptlist.js" type="text/javascript" ></script>
+<script src="./module/js/receiptlistManage/addReceiptlist.js"
+	type="text/javascript"></script>
 <script type="text/javascript">
 	$('.form_datetime').datetimepicker({
-	    language: 'zh-CN',
-	    weekStart: 1,
-	    todayBtn: 1,
-	    autoclose: 1,
-	    todayHighlight: 1,
-	    startView: 2,
-	    minView: 1,
-	    forceParse: 0,
-	    format: 'yyyy-mm-dd HH:ii:ss'
+		language : 'zh-CN',
+		weekStart : 1,
+		todayBtn : 1,
+		autoclose : 1,
+		todayHighlight : 1,
+		startView : 2,
+		minView : 1,
+		forceParse : 0,
+		format : 'yyyy-mm-dd HH:ii:ss'
 	});
-	</script>
+</script>
 </html>

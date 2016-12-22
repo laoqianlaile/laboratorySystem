@@ -6,8 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="../../css/bootstrap.css">
-<link rel="stylesheet" type="text/css"
-	href="../../css/bootstrap-table.css">
+<link rel="stylesheet" type="text/css" href="../../css/bootstrap-table.css">
 
 <script src="../../js/jquery-2.1.1.min.js"></script>
 <script src="../../js/bootstrap.js"></script>
@@ -190,7 +189,7 @@
 							<h4>出厂编号：</h4>
 							<input type="text" id="addFactoryCode" name="addFactoryCode"
 								class="form-control" aria-describedby="basic-addon1"
-								onblur="isExitFactory('add')" />
+								  onblur="isExitFactory('add')"/> <!-- onpropertychange="set_alert_wb_comment(this,'onp')" oninput="set_alert_wb_comment(this,'oni')" -->
 							<div class="tip-factory  ">
 							     <div class="tip-factory-content"></div>
 							</div>
@@ -254,7 +253,6 @@
 							<h4>出厂编号：</h4>
 							<input type="text" id="lookFactoryCode" name="lookFactoryCode"
 								class="form-control" aria-describedby="basic-addon1" />
-							<div class="tip-factory"></div>
 						</div>
 						<div class="col-xs-12 col-md-12">
 							<h4>样品名称：</h4>
