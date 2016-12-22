@@ -49,6 +49,7 @@ $(function () {
 		},
 		queryParamsType: "limit", //参数格式,发送标准的RESTFul类型的参数请求
 		selectItemName:'',//radio or checkbox 的字段名
+		singleSelect:true,//禁止多选
 		columns:[{
 			checkbox:true,
 			width:'5%'//宽度
