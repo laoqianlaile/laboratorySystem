@@ -66,6 +66,7 @@ $(function () {
 		    	  	},
 		queryParamsType: "limit", //参数格式,发送标准的RESTFul类型的参数请求
 		selectItemName:'',//radio or checkbox 的字段名
+		singleSelect:true,//禁止多选
 		columns:[{
 			checkbox:true,
 			width:'5%'//宽度
@@ -81,13 +82,13 @@ $(function () {
 			title:'出厂编号',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'5%'//宽度
+			width:'10%'//宽度
 		},{
 			field:'sampleName',//返回值名称
 			title:'名称',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'5%'//宽度
+			width:'10%'//宽度
 		},{
 			field:'specifications',//返回值名称
 			title:'型号/规格/代号',//列名
@@ -147,16 +148,16 @@ $(function () {
 			title:'操作',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'15%',//宽度
+			width:'5%',//宽度
 			formatter:function(value,row,index){
 				var temp = '';
 
 				if(row.detector != "无" || row.custodian != "无"){
-					var btn_assignAgain = '<button type="button" onclick="assignAgain(\'' + row.ID + '\',\'' + row.detector + '\',\'' + row.custodian + '\',\'' + row.factoryCode + '\')" class="btn btn-primary glyphicon glyphicon-show">&nbsp;重新分配</button>&nbsp';
-			  		var btn_edit = '<button type="button" onclick="edit(\'' + row.ID + '\',\'' + row.factoryCode + '\')" class="btn btn-primary glyphicon glyphicon-edit">&nbsp;修改</button>';
+					var btn_assignAgain = '<span class="glyphicon glyphicon-user" onclick="assignAgain(\'' + row.ID + '\',\'' + row.detector + '\',\'' + row.custodian + '\',\'' + row.factoryCode + '\')" data-toggle="tooltip" data-placement="top" title="重新分配" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
+			  		var btn_edit = '<span class="glyphicon glyphicon-edit" onclick="edit(\'' + row.ID + '\',\'' + row.factoryCode + '\')" data-toggle="tooltip" data-placement="top" title="修改" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
 					temp += btn_assignAgain + btn_edit;
 				}else{
-					var btn_edit = '<button type="button" onclick="edit(\'' + row.ID + '\',\'' + row.factoryCode + '\')" class="btn btn-primary glyphicon glyphicon-edit">&nbsp;修改</button>';
+					var btn_edit = '<span class="glyphicon glyphicon-edit" onclick="edit(\'' + row.ID + '\',\'' + row.factoryCode + '\')" data-toggle="tooltip" data-placement="top" title="修改" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
 					return btn_edit;
 				}
 		  		return temp;
@@ -194,6 +195,7 @@ $(function () {
 		    	  	},
 	  	queryParamsType: "limit", //参数格式,发送标准的RESTFul类型的参数请求
 		selectItemName:'',//radio or checkbox 的字段名
+		singleSelect:true,//禁止多选
 		columns:[{
 			checkbox:true,
 			width:'5%'//宽度
@@ -236,7 +238,7 @@ $(function () {
 			valign:'middle',//垂直居中显示
 			width:'20%',//宽度
 			formatter:function(value,row,index){
-				var btn_download = '<button type="button" onclick="download(\''+ row.path +'\')" class="btn btn-primary glyphicon glyphicon-show">&nbsp;下载</button>&nbsp';
+				var btn_download = '<span class="glyphicon glyphicon-download" onclick="download(\''+ row.path +'\')" data-toggle="tooltip" data-placement="top" title="下载" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
 		  			return btn_download;
             }
 		}]//列配置项,详情请查看 列参数 表格
@@ -244,14 +246,9 @@ $(function () {
 	});
 });
 
-//分配到检测/校准员弹框方法
+//分配弹框方法
 $("#btn-assign").click(function(){
 	var data = $('#taskTable').bootstrapTable('getSelections');
-
-	if(data.length==0 || data.length>1){
-		alert("请选中一条数据");
-		return;
-	}
 
 	if (data[0].detector != "无" && data[0].custodian != "无") {
 		alert("该任务已分配完成!!!");
@@ -357,6 +354,7 @@ function assignAgain(ID,detector,custodian,factoryCode){
 	$('#type').text(1);
 
 	var departmentID = $('#departmentID').text();
+	
 
 	$('#assignTable').bootstrapTable({
 		striped: true,// 隔行变色效果
@@ -450,8 +448,18 @@ function edit(ID,factoryCode){
 	window.location.href = window.location.href.split("?")[0].replace('taskAssign.jsp','editAssignPeople.jsp') + '?ID=' + ID + "&factoryCode="+ factoryCode + "&receiptlistID=" + receiptlistID ;
 }
 
+//分配方法
+$('#assign').click(function(){
+	var assignType = $("input[name='assignType']:checked").val();// 分配人员类型
+	if(assignType === "1"){
+		assignDetector();
+	}else if(assignType === "0"){
+		assignCustodian();
+	}
+});
+
 //分配监督员
-$('#assignCustodian').click(function(){
+function assignCustodian(){
 	var data = $('#assignTable').bootstrapTable('getSelections');
 
 	if(data.length==0 || data.length>1){
@@ -478,10 +486,10 @@ $('#assignCustodian').click(function(){
 			}
 	  	}
 	});
-});
+}
 
 // 分配检测人员
-$('#assignDetector').click(function(){
+function assignDetector(){
 	var data = $('#assignTable').bootstrapTable('getSelections');
 
 	var parame = {};
@@ -495,8 +503,6 @@ $('#assignDetector').click(function(){
 	parame.assignType = 1;
 	parame.type = $('#type').text();
 
-	console.log(parame);
-
 	$.ajax({
 		url:'taskController/assignTaskPeople.do',
 		data:parame,
@@ -509,7 +515,7 @@ $('#assignDetector').click(function(){
 			}
 	  	}
 	});
-});
+};
 
 // 返回按钮
 $('#return').click(function(){
@@ -518,5 +524,5 @@ $('#return').click(function(){
 
 //下载文件按钮
 function download(path){
-	alert(path);
+	alert('the file path is : ' + path);
 };
