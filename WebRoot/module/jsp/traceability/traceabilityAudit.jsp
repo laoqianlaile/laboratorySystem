@@ -43,7 +43,7 @@
 				id="codevalue" hidden><%=request.getParameter("code")%></span>
 	<!-- 		<div id="showdiv1" class="alert alert-danger tan"></div> -->
 			<div id="font">
-				<h3 style="text-align:center"><%=request.getParameter("year")%>年度检测/量值溯源建议</h3>
+				<h3 style="text-align:center"><%=request.getParameter("year")%>年度检测/校准结果质量保证/量值溯源建议</h3>
 			</div>
 			<p style="float:right;">编号:<label><%=request.getParameter("code") %></label></p>
 		</div>
