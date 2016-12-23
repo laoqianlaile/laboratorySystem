@@ -1,4 +1,4 @@
-package com.cqut.xiji.controller.template;
+﻿package com.cqut.xiji.controller.template;
 
 import java.util.Map;
 
@@ -78,8 +78,8 @@ public class TemplateController{
 	 */
 	@RequestMapping("/addTemplate")
 	@ResponseBody
-	public String addTemplate(String TemplateName ,String TemplateRemarks,String TemplateType,String fileID,String uploaderID){
-		String result = service.addTemplate(TemplateName,TemplateRemarks,TemplateType,fileID,uploaderID);
+	public String addTemplate(String TemplateName ,String TemplateRemarks,String TemplateType,String TestProjectID,String fileID,String uploaderID){
+		String result = service.addTemplate(TemplateName,TemplateRemarks,TemplateType,TestProjectID,fileID,uploaderID);
 		return result;
 	}
 	/**

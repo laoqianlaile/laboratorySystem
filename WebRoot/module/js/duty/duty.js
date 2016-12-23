@@ -109,7 +109,10 @@ function add(){
 	parame.dutyCode = $('#add_dutyCode').val();
 	parame.dutyName = $('#add_dutyName').val();
 	parame.introduction = $('#add_introduction').val();
+	if($('#add_dutyCode').val()!=""&&$('#add_dutyName').val()!=""){
+		
 	
+	$("#add_introduction").val("");
 	$("input").val("");
 	$.ajax({
 	  url:'dutyController/addDuty.do',
@@ -122,6 +125,7 @@ function add(){
 		  refresh();
 	  }
 	});
+	}else alert("请把信息填写完整")
 }
 function delData(){
 	var data = $('#table').bootstrapTable('getSelections');
@@ -172,6 +176,7 @@ function edit(){
 	parame.dutyCode = $('#edit_dutyCode').val();
 	parame.dutyName = $('#edit_dutyName').val();
 	parame.introduction = $('#edit_introduction').val();
+	if($('#edit_dutyCode').val()!=""&&$('#edit_dutyName').val()!=""){
 	$.ajax({	
 		  url:'dutyController/updDuty.do',
 		  data:parame,
@@ -183,6 +188,7 @@ function edit(){
 			  refresh();
 		  }
 		});	
+	}else alert("请把信息修改完整");
 }
 function find(){
 	var parame = {};

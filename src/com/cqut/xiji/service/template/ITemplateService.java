@@ -14,6 +14,6 @@ public interface ITemplateService {
 	public String updPasstemplate(String ID,String SUGGEST,String verifyMan);
 
 	String addTemplate(String templateName, String templateRemarks,
-			String templateType, String fileID, String uploaderID);
+			String templateType,String TestProjectID, String fileID, String uploaderID);
 	
 }

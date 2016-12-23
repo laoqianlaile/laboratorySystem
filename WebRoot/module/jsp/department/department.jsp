@@ -28,8 +28,8 @@
 <link rel="stylesheet" type="text/css" href="module/css/themes/dark-grey-theme/jquery.fonticonpicker.darkgrey.min.css" />
 <link rel="stylesheet" type="text/css" href="module/css/themes/bootstrap-theme/jquery.fonticonpicker.bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="module/css/themes/inverted-theme/jquery.fonticonpicker.inverted.min.css" />
-	
-	
+	<!-- <link rel="stylesheet" type="text/css" href="module/css/timecheck/TimeCheck.css">
+ -->	
 	
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
@@ -43,15 +43,37 @@
 <script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="module/js/bootstrap-treeview.js"></script>
 <script src="module/js/moduleManage/jquery.fonticonpicker.min.js"></script>
+
  
 
 </head>
+<script> 
+window.onload = inifA; 
+function inifA(){ 
+document.getElementById("tree").onclick = function(){return false}
+} 
+</script>
 
 <style>
 span {
 	font-size: 20px;
 	padding: 0px;
 	margin: 0px;
+}
+.mystyle {
+    height: 34px;
+    width: 200px;
+}
+#listul1 li {
+    text-align: center;
+}
+#listul2 li {
+    text-align: center;
+}
+li:hover {
+    cursor: pointer;
+    background: #F5F5F5;
+    font-color: black;
 }
 
 .input-group[class*="col-"] {
@@ -70,6 +92,12 @@ span {
 #departin label {
 	margin-top: 11px;
 	float: left;
+	 margin-left: 15px;
+}
+#departin1 label {
+	margin-top: 11px;
+	float: left;
+	 margin-left: 15px;
 }
 
 textarea {
@@ -203,7 +231,18 @@ float:left ;
 }
 .btn-primary{
 margin-left: 3px;
-}    
+}
+
+span {
+    font-weight: bold;
+}
+#add_department{
+    margin-top:8px
+}
+#edit_department{
+	margin-top:8px
+}
+
 		
 </style>
 
@@ -315,8 +354,8 @@ margin-left: 3px;
 							<input type="text" id="add_parent" name="parent" class="form-control"
 								aria-describedby="basic-addon1" />
 						</div> -->
-						<div class="headtext">
-							<span class="spanstyle">上&nbsp;&nbsp;级&nbsp;部&nbsp;&nbsp;门:</span>
+						<div class="col-xs-12 col-md-12" id="add_department">
+							<span class="spanstyle">上级部门:</span>
 							<div class="btn-group">
 								<button type="button" onclick="getdepartment()" 
 									class="btn mystyle btn-default dropdown-toggle"
@@ -369,7 +408,7 @@ margin-left: 3px;
 								name="EdepartmentName" class="form-control"
 								aria-describedby="basic-addon1" />
 						</div>
-						<div style="margin-top:20px" >
+						<div style="margin-top:20px"id="departin1" >
 							<label>部门简介:</label>
 							<textarea rows="6" cols="40" id="edit_remarks"></textarea>
 							<input id="ID" type="hidden"></input>
@@ -384,8 +423,8 @@ margin-left: 3px;
 							<input type="text" id="edit_employee" name="Eemployee"
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
-						<div class="headtext">
-							<span class="spanstyle">上&nbsp;&nbsp;级&nbsp;部&nbsp;&nbsp;门:</span>
+						<div class="col-xs-12 col-md-12"id="edit_department">
+							<span class="spanstyle">上级部门:</span>
 							<div class="btn-group">
 								<button type="button" onclick="getdepartment1()"
 									class="btn mystyle btn-default dropdown-toggle"
