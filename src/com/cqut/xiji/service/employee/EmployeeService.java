@@ -110,7 +110,13 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			 
 			return "1";
 		}
-		
+		/**
+		 * 获取员工角色
+		 * @author wzj
+		 * @date 2016年12月23日 上午11:12:21
+		 * @param userID
+		 * @return
+		 */
 		@Override
 		public List<String> getEmployeeRole(String userID) {
 			// TODO Auto-generated method stub

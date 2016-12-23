@@ -18,44 +18,38 @@ $(function () {
 		selectItemName:'',//radio or checkbox 的字段名
 		columns:[{
 			checkbox:true,
-			width:'5'//宽度
+			width:'10%'//宽度
 		},{
-			field:'DEPARTMENTID',//返回值名称
-			title:'部门编号',//列名
+			field:'ID',//返回值名称
+			title:'角色ID',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10',//宽度
-//			visible:false
+			width:'10%',//宽度
+			visible:false
 		},{
-			field:'NAME',//返回值名称
-			title:'部门名称',//列名
+			field:'roleName',//返回值名称
+			title:'角色名称',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'20%'//宽度
 		},{
-			field:'HEAD',//返回值名称
+			field:'creator',//返回值名称
 			title:'负责人',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'20%'//宽度
 		},{
-			field:'INTRODUCTION',//返回值名称
-			title:'部门介绍',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-			width:'10'//宽度
-		},{
-			field:'CREATTIME',//返回值名称
+			field:'createTime',//返回值名称
 			title:'创建时间',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'20%'//宽度
 		},{
-			field:'SUPERIOR',//返回值名称
-			title:'上级部门',//列名
+			field:'description',//返回值名称
+			title:'角色简介',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'20%'//宽度
 		}]//列配置项,详情请查看 列参数 表格
 		/*事件*/
 	});
@@ -71,14 +65,14 @@ function refresh(){
 function delData(){
 	var data = $('#table').bootstrapTable('getSelections');
 	
-	if(data.length==0){
+	if(data.length ==0){
 		alert("请至少选中一条数据");
 		return;
 	}
 	
 	var ids = "";
 	for(var i=0; i<data.length; i++){
-		ids += data[i].ROLEID + ",";
+		ids += data[i].ID + ",";
 	}
 	
 	var ajaxParameter = {
@@ -100,17 +94,14 @@ function delData(){
 /* 新增方法 */
 function add(){
 	
-	
-
-	var name = $('#add_NAME').val(); 
+	var name = $('#add_roleName').val(); 
 	if (!name && typeof(name)!="undefined" && name=='') 
 	{ 
 		alert("角色名不能为空！"); 
 	}else {
 		var parame = {};
-		parame.NAME = $('#add_NAME').val();
-		parame.REMARKS = $('#add_REMARKS').val();
-		parame.CREATOR = 'xjuc';
+		parame.roleName = name;
+		parame.description = $('#add_description').val();
 		
 		$.ajax({
 		  url:'roleController/addRole.do',
@@ -128,10 +119,7 @@ function add(){
 }
 
 /* 弹出查看弹框方法 */
-function showModal(){
-	/*var frameSrc = "module/jsp/roleManage/testFrame.html";
-    $("#NoPermissioniframe").attr("src", frameSrc);
-    $('#NoPermissionModal').modal({ show: true, backdrop: 'static' });*/
+function lookModal(){
     
 	var data = $('#table').bootstrapTable('getSelections');
 	
@@ -139,12 +127,18 @@ function showModal(){
 		alert("请选中一条数据");
 		return;
 	}
-	
-	$('#show_ROLEID').val(data[0].ROLEID);
-	$('#show_NAME').val(data[0].NAME);
-	$('#show_CREATOR').val(data[0].CREATOR);
-	$('#show_REMARKS').val(data[0].REMARKS);
-	
+	//填充数据
+	$('#show_roleID').val(data[0].ID);
+	$('#show_roleName').val(data[0].roleName);
+	$('#show_creator').val(data[0].creator);
+	$('#show_createTime').val(data[0].createTime);
+	$('#show_describtion').val(data[0].description);
+	//设置不可编辑
+//	$('#show_roleID').attr("disabled", true);//不可编辑
+	$('#show_roleName').attr("disabled", true);//不可编辑
+ 	$('#show_creator').attr("disabled", true);//不可编辑
+	$('#show_createTime').attr("disabled", true);//不可编辑
+	$('#show_describtion').attr("disabled", true);//不可编辑
 	$('#showModal').modal('show');
 }
 
@@ -160,9 +154,9 @@ function openModal(){
 	
 	//var ids =  data[0].ROLEID;
 	
-	
-	$('#edit_NAME').val(data[0].NAME);
-	$('#edit_REMARKS').val(data[0].REMARKS);
+	//
+	$('#edit_roleName').val(data[0].roleName);
+	$('#edit_description').val(data[0].description);
 	
 	$('#editModal').modal('show');
 }
@@ -170,18 +164,17 @@ function openModal(){
 
 /* 修改方法 */
 function edit(){
-	var name = $('#edit_NAME').val(); 
+	var name = $('#edit_roleName').val(); 
 	if (!name && typeof(name)!="undefined" && name=='') 
 	{ 
 		alert("角色名不能为空！"); 
 	}else {
 		var data = $('#table').bootstrapTable('getSelections');
-		var ids =  data[0].ROLEID;
+		var ids =  data[0].ID;
 		var parame = {};
-		parame.ROLEID = ids;
-		parame.NAME = $('#edit_NAME').val();
-		parame.REMARKS = $('#edit_REMARKS').val();
-		
+		parame.roleID = id;
+		parame.roleName = $('#edit_roleName').val();
+		parame.description = $('#edit_description').val();
 		$.ajax({
 		  url:'roleController/updRole.do',
 		  data:parame,

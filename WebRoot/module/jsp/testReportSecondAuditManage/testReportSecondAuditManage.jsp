@@ -16,9 +16,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
@@ -31,140 +28,113 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="module/js/bootstrap-datetimepicker.js"></script>
 	<script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
 	<script src="module/js/bootstrap-datetimepicker.fr.js"></script>
-  </head>
+	
+	<style>
+	#rejectReason {
+		resize: none;
+		width: 90%;
+		height: 200px;
+	}
+	</style>
+</head>
   
   <body>
-   <div style="min-width:1200px">
-	<div class="form-group form-inline" id="searchArea">
-	 <div style="float:left" id="searchTextArea" >
-		<div id="searchAreaTop" >
-		<label class="control-label">交接单号:</label>
-		  <input type="text" class="form-control" name="transitreceiptNumber" id="transitreceiptNumber"> 
-	    <label class="control-label">委托单位:</label>
-		   <input type="text" class="form-control" name="client" id="client">
-	    <label  class="control-label">报告名称:</label> 
-	    <input type="text" class="form-control" name="reportName" id="reportName" style="margin-right:0">
-	  </div> 
-	  
-	<div id="searchAreaBottom">
-	<div class="date form_datetime time input-group">
-    	<label class="control-label">开始时间:</label>
-          <input type="text"  name="beginTime" id="beginTime">
-          <span class="input-group-addon" style="display:inline">
-		     <span class="glyphicon glyphicon-remove">
-		     </span>
-		  </span> 
-          <span class="input-group-addon" style="display:inline">
-			 <span class="glyphicon glyphicon-th">
-			</span>
-		</span>   
-    </div> 
-    
-   <div  class="date form_datetime time input-group">
-    	<label class="control-label">结束时间:</label>
-          <input type="text" name="endTime" id="endTime" >
-          <span class="input-group-addon" style="display:inline">
-		     <span class="glyphicon glyphicon-remove">
-		     </span>
-		  </span>
-          <span class="input-group-addon" style="display:inline">
-			 <span class="glyphicon glyphicon-th">
-			 </span>
-		</span>   
-    </div> 
-    
-
-    
-
-	</div>
-		
-	</div>
-	 <div style="margin-top:15px">
-	    <button type="button" class="btn btn-default" onclick="search()">
-			<span class="glyphicon glyphicon-search"></span> 查询
-		</button>	    
-	</div>
-	</div>
-	<!-- 功能按钮 -->
-	<div class="input-group" id="functionButton"  style="margin-top:24px;margin-bottom:15px;min-width:170px">
-		<button type="button" class="btn btn-primary glyphicon glyphicon-arrow-down" onclick="filelDown()">下载
-		</button>
-		&nbsp;
-		<button type="button" class="btn btn-info glyphicon glyphicon-search" onclick="checkReport()">查看
-		</button>
-	</div>
-</div>
-
-<div id="checkModal" class="modal fade" role="dialog"
-		aria-labelledby="gridSystemModalLabel">
-		<div class="modal-dialog" role="document" style="width:1350px;">
-			<div class="modal-content">
-
-				<div class="modal-header">
-						<h4 class="modal-title" id="receiptlistNumber" style="float:right"></h4>
-						<h4 class="modal-title"><strong>查看检测报告</strong></h4>
+    <div class="content" >
+		<div class="searchArea">
+			<div class="row">
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<label>交接单号:</label> <input type="text" name="transitreceiptNumber" id="transitreceiptNumber" class="form-control"
+						aria-describedby="basic-addon1">
 				</div>
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<label>委托单位:</label> <input type="text" name="client" id="client" class="form-control"
+						aria-describedby="basic-addon1">
+				</div>
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<label>报告名称:</label> <input type="text" name="reportName" id="reportName" class="form-control"
+						aria-describedby="basic-addon1">
+				</div>
+			</div>
 
-				<div class="modal-body" id="entrustInfo">
-
-					<div class="row" id="testReportDetalInfo">
+			<div class="row">
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<div class="timeLabelDiv">
+						<label class="control-label">委托时间:</label>
 					</div>
-					
-					<div class="row rowStyle" id="sampleInfo">
-				    </div>
-				 
-				 
-				 <div class="row rowStyle" id="testReportInfo">
+					<div class="input-group date form_datetime timeChooseDiv">
+						<input class="form-control" name="beginTime" id="beginTime"
+							size="16" type="text" value="" readonly="true"> <span
+							class="input-group-addon"><span
+							class="glyphicon glyphicon-remove"></span></span> <span
+							class="input-group-addon"><span
+							class="glyphicon glyphicon-calendar"></span></span>
+					</div>
 				</div>
-				
-				
+
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<div class="timeLabelDiv">
+						<label class="control-label">至:</label>
+					</div>
+					<div class="input-group date form_datetime timeChooseDiv">
+						<input class="form-control" name="endTime" id="endTime"
+							size="16" type="text" value="" readonly="true"> <span
+							class="input-group-addon"><span
+							class="glyphicon glyphicon-remove"></span></span> <span
+							class="input-group-addon"><span
+							class="glyphicon glyphicon-calendar"></span></span>
+					</div>
 				</div>
-				
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-				</div>
+		
+			</div>
+		</div>
+
+
+		<div class="buttonGroup">
+			<div style="text-align:center">
+				<button type="button" class="btn btn-primary glyphicon glyphicon-search" onclick="search()">查询</button>
+				&nbsp;
+				<button type="button" class="btn btn-primary glyphicon glyphicon-eye-open" onclick="checkReport()">查看</button>
+				&nbsp;
+				<button type="button" class="btn btn-primary glyphicon glyphicon-arrow-down" onclick="filelDown()">下载</button>
+				&nbsp;
 			</div>
 		</div>
 	</div>
-	
-
-   
-   <div id="secondAuditRejectModal" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
+	<div id="secondAuditRejectModal" class="modal fade" role="dialog"
+		aria-labelledby="gridSystemModalLabel">
 		<div class="modal-dialog" role="document" style="width:450px; ">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					</button>
-					<h4 class="modal-title"><strong>填写驳回意见</strong></h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+					<h4 class="modal-title">
+						<strong>填写驳回意见</strong>
+					</h4>
 				</div>
-				<div class="modal-body" id="entrustInfo">
+				<div class="modal-body">
 					<hr />
 					<div class="row" style="text-align:center">
-					<span id="testReportID" style="display:none"></span>
-					  <textarea id="rejectReson" class="form-control" style="">
+						<span id="testReportID" style="display:none"></span>
+						<textarea id="rejectReason" class="form-control">
 					 </textarea>
 					</div>
 					<hr />
 				</div>
-
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" onclick="secondAuditRejectSure()">确定</button>
+					<button type="button" class="btn btn-primary"
+						onclick="secondAuditRejectSure()">确定</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
-
-
- 	<!-- 表格 -->
+	<!-- 表格 -->
 	<table id="table">
 
 	</table>
-
-
-<script src="module/js/testReportSecondAuditManage/testReportSecondAuditManage.js"></script>
-<script src="module/js/fileManage/fileManage.js"></script>
+	
+	<script src="module/js/testReportSecondAuditManage/testReportSecondAuditManage.js"></script>
+    <script src="module/js/fileManage/fileManage.js"></script>
 	<script type="text/javascript">
 		$('.form_datetime').datetimepicker({
 			language : 'zh-CN',
@@ -178,5 +148,3 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			format : 'yyyy-mm-dd hh:ii:ss'
 		});
 	</script>
-  </body>
-</html>

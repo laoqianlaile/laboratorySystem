@@ -76,7 +76,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 		String groupField = "testProject.ID";
 		
 		List<Map<String, Object>> result = originalSearchWithpaging(properties, baseEntity, joinEntity, null, condition, false, groupField, sort, order, index, pageNum);
-		int count = originalGetForeignCount("taskMan.ID", baseEntity, joinEntity, null, condition, false);
+		int count = originalGetForeignCount("testProject.ID", baseEntity, joinEntity, null, condition, false);
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("total", count);
@@ -199,7 +199,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 		}
 		
 		List<Map<String, Object>> result = originalSearchWithpaging(properties, baseEntity, joinEntity, null, condition, false, null, sort, order, index, pageNum);
-		int count = originalGetForeignCount("contract.contractCode", baseEntity, joinEntity, null, condition, false);
+		int count = originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false).size();
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("total", count);
@@ -444,7 +444,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 		}
 		
 		List<Map<String, Object>> result = originalSearchWithpaging(properties, getBaseEntityName(), joinEntity, null, condition, false, null, sort, order, index, pageNum);
-		int count = originalGetForeignCount("task.ID", getBaseEntityName(), joinEntity, null, condition, false);
+		int count = originalSearchForeign(properties, getBaseEntityName(), joinEntity, null, condition, false).size();
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("total", count);

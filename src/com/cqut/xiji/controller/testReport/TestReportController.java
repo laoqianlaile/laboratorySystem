@@ -226,10 +226,10 @@ public class TestReportController {
 	 * @param receiptlistID
 	 * @return
 	 */
-	@RequestMapping("/checkTask")
+	@RequestMapping("/getCilentInfo")
 	@ResponseBody
-	public List<Map<String, Object>> checkTask(String testReportID) {
-		List<Map<String, Object>> result = service.checkTask(testReportID);
+	public List<Map<String, Object>> getCilentInfo(String testReportID) {
+		List<Map<String, Object>> result = service.getCilentInfo(testReportID);
 		return result;
 
 	}
@@ -243,12 +243,11 @@ public class TestReportController {
 	 * @param testReportID
 	 * @return
 	 */
-	@RequestMapping("/checkSample")
+	@RequestMapping("/getSampleInfoWithPaging")
 	@ResponseBody
-	public List<Map<String, Object>> checkSample(String testReportID) {
-		List<Map<String, Object>> result = service.checkSample(testReportID);
-		return result;
-
+	public JSONObject getSampleInfoWithPaging(int limit, int offset, String order,String sort,String testReportID) {
+		Map<String, Object> result = service.getSampleInfoWithPaging(limit,offset,order,sort,testReportID);
+		return JSONObject.fromObject(result);
 	}
 
 	/**
@@ -260,13 +259,14 @@ public class TestReportController {
 	 * @param testReportID
 	 * @return
 	 */
-	@RequestMapping("/checkReport")
+	@RequestMapping("/getTestReportFileInfoWithPaging")
 	@ResponseBody
-	public List<Map<String, Object>> checkReport(String testReportID){
-		List<Map<String, Object>> result = service.checkReport(testReportID);
-		return result;
+	public JSONObject getTestReportFileInfoWithPaging(int limit, int offset, String order,String sort,String testReportID) {
+		Map<String, Object> result = service.getTestReportFileInfoWithPaging(limit,offset,order,sort,testReportID);
+		return JSONObject.fromObject(result);
 	}
-
+	
+	
 	/**
 	 * 
 	 * @discription 删除对应的检测报告数据

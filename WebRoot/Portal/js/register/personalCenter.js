@@ -18,16 +18,16 @@ $(function(){
 				$('#clientNo1').val(obj.client[0].clientNo);
 				$('#companyName').val(obj.client[0].companyName);
 				$('#mobilePhone').val(obj.client[0].address);
-				$('#fixedTelephone').val(obj.client[0].phoneNumber);	
+				$('#fixedTelephone').val(obj.client[0].mobilePhone);	
 				$('#manage').val(obj.client[0].scope);
-				$('#representative').val(obj.client[0].legal);
+				$('#representative').val(obj.client[0].qulicationPic);
 				$('#companyType').val(obj.client[0].type);
-				$('#idCard1').val(obj.client[0].qulicationPic);
-				$('#idCard2').val(obj.client[0].businessLicence);
+				$('#idCard1').val(obj.client[0].businessLicence);
+				$('#idCard2').val(obj.client[0].legal);
 				$('#remarks').val(obj.client[0].remarks);
 				$('#companyID').val(obj.client[0].companyID);
-				$("#image1").attr("src",obj.client[0].qulicationPic);
-				$("#image2").attr("src",obj.client[0].businessLicence);
+				$("#image1").attr("src",obj.client[0].businessLicence);
+				$("#image2").attr("src",obj.client[0].legal);
 				$('#clientPassword').val(obj.client[0].password);
 				$('#clientID').val(obj.client[0].ID);
 			},
@@ -77,14 +77,14 @@ function change(){
 		parame.clientPassword = encodeURI($('#clientPassword').val());
     	parame.companyID = encodeURI($('#companyID').val());
 		parame.companyName = encodeURI($('#companyName').val());
-		parame.mobilePhone = encodeURI($('#mobilePhone').val());
-		parame.fixedTelephone = encodeURI($('#fixedTelephone').val());
+		parame.address = encodeURI($('#mobilePhone').val());
+		parame.mobilePhone = encodeURI($('#fixedTelephone').val());
 		parame.manage = encodeURI($('#manage').val());
 		parame.representative = encodeURI($('#representative').val());
 		parame.companyType = encodeURI($('#companyType').val());
 		parame.remarks = encodeURI($('#remarks').val());
-		parame.idCardLicense = $('#idCard1').val();
-		parame.idCardAptitude = $('#idCard2').val();
+		parame.idCardLicense = encodeURI($('#idCard1').val());
+		parame.idCardAptitude = encodeURI($('#idCard2').val());
 		$.ajax({
 		  url:'clientController/changePersonnel.do',
 		  data:parame,

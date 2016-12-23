@@ -1,14 +1,18 @@
 package com.cqut.xiji.controller.traceability;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -162,7 +166,8 @@ public class TraceabilityController {
 		}
 		condition = getCondition(condition, equipmentName, equipmentCode,
 				equipmentTypeName, correctOrgan, auditState, startTime,
-				endTime, departmentName, session.getAttribute("qualiyPlanId").toString(), null);
+				endTime, departmentName, session.getAttribute("qualiyPlanId")
+						.toString(), null);
 
 		Map<String, Object> result = service.getTraceabilityWithPaging(limit,
 				offset, order, sort, condition);
@@ -264,13 +269,33 @@ public class TraceabilityController {
 			String order, String sort, String equipmentName,
 			String equipmentCode, String auditState, String startTime,
 			String endTime, String departmentName, String qualityPlanID,
-			String type,HttpSession session) throws ParseException {
+			String type, HttpSession session) throws ParseException {
 		String condition = getCondition(null, equipmentName, equipmentCode,
 				null, null, auditState, startTime, endTime, departmentName,
 				session.getAttribute("qualiyPlanId").toString(), type);
 		Map<String, Object> result = service.getTraceabilityWithPaging(limit,
 				offset, order, sort, condition);
 		return JSONObject.fromObject(result);
+	}
+
+	/**
+	 * @description 上传文件并保存
+	 * @author wnn
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @throws IOException
+	 */
+	@RequestMapping("/upload")
+	@ResponseBody
+	public void upload(HttpServletRequest request,
+			HttpServletResponse response, ModelMap model) throws IOException {
+		Boolean result = service.upload(request, response, model);
+		if (result == true) {
+			response.sendRedirect("../module/jsp/traceability/traceability.jsp");
+		} else {
+			response.sendRedirect("../module/jsp/traceability/traceability.jsp");
+		}
 	}
 
 }

@@ -1,0 +1,32 @@
+@CHARSET "UTF-8";
+
+.content,.sampleInfo {
+	width: 98%;
+	margin: 5px auto;
+}
+
+.hrStyle {
+	border: 1px solid black;
+}
+
+.title label {
+	font-family: cursive;
+	font-size: larger;
+}
+
+.clientInfo .row {
+	margin-top: 10px
+}
+
+.clientInfo label {
+	width: 20%;
+}
+
+.clientInfo span {
+	width: 70%
+}
+
+.sampleInfoDiv {
+	width: 100%;
+	margin: 10px auto;
+}

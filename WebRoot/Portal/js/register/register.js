@@ -98,8 +98,8 @@ function add(){
 		parame.representative = encodeURI($('#representative').val());
 		parame.companyType = encodeURI($('#companyType').val());
 		parame.remarks = encodeURI($('#remarks').val());
-		parame.idCardLicense = $('#idCard1').val();
-		parame.idCardAptitude = $('#idCard2').val();
+		parame.idCardLicense = encodeURI($('#idCard1').val());
+		parame.idCardAptitude =encodeURI($('#idCard2').val());
 		$.ajax({
 		  url:'clientController/addPersonnel.do',
 		  data:parame,
@@ -117,6 +117,7 @@ function add(){
 				  $('#representative').val("");
 				  $('#companyType').val("");
 				  window.location.reload();
+				  window.location.href="/laboratorySystem/Portal/jsp/homePage/homePage.jsp";
 		  }
 		});
     }

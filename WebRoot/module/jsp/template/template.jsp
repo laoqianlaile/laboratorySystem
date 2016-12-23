@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+﻿<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -52,6 +52,7 @@ span {
 	z-index: 2;
 	float: right;
 }
+
 </style>
 
 <body>
@@ -129,11 +130,36 @@ span {
 			</div>
 		</div>
 	</div>
-
+	<!-- 检测项目弹框 -->
+	<div id="testProjectModal" class="modal fade" role="dialog" style="display: none;"
+		aria-labelledby="gridSystemModalLabel ">
+		<div class="modal-dialog" role="document" style="width:75%;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">上传</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<table id= "testProject">
+						</table>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary" id="ensure"
+						name="ensure" onclick="addTestproject()">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- 新增弹框 -->
-	<div id="addModal" class="modal fade" role="dialog"
+	<div id="addModal" class="modal fade" role="dialog" style="display: none;"
 		aria-labelledby="gridSystemModalLabel">
-		<div class="modal-dialog" role="document">
+		<div class="modal-dialog" role="document" >
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
@@ -149,6 +175,11 @@ span {
 							<label>模板名称：</label> <input type="text" id="add_TemplateName"
 								name="TemplateName" class="form-control" />
 						</div>
+						<div class ="col-md-6 column">
+							<input type="hidden" id="add_TestProjectID" name ="TestProject"/>
+							<label>检测项目：</label> <input type="text" id="add_TestProjectNameCn"
+								name="TestProjectNameCn" class="form-control" placeholder="当为报告模板时有值"  disabled="disabled"/>
+						</div>
 					</div>
 					<div class="row">
 						<div id="files">
@@ -159,7 +190,8 @@ span {
 								<select id="fileType">
 									<option value = "13">模板文件</option>
 								</select> 
-								<select id="fileSubtype" >
+								<select id="fileSubtype" oninput="isReport()"
+									onpropertychange="isReport()" >
 								</select>
 							</div>
 							<div class="col-md-12 column">

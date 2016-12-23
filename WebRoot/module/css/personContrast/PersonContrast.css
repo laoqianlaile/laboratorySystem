@@ -96,7 +96,9 @@
 }
 .searchbox2{
 
-	margin: 30px -20px;
+	margin-bottom: 30px;
+    margin-top: 30px;
+    margin-left: 10px;
 }
 .searchbutton{
 	position:absoulute;
@@ -171,3 +173,25 @@
 .appear{
 	display:block;
 }
+.btn-local{
+	margin-left:20px;
+}
+#font{
+	text-align:center;
+	font-size:22px;
+}
+#Serialnumber{
+	float:right;
+}
+.hiddenspan{
+	display:none;
+}
+.to{
+	position: relative;
+    top: 6px;
+    left: -200px;
+}
+
+
+
+

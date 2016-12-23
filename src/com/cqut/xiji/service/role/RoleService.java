@@ -145,7 +145,15 @@ public class RoleService extends SearchService implements IRoleService{
 	
 	
 	/**
-	 * 角色管理
+	 * 角色分页查询
+	 * @author wzj
+	 * @date 2016年12月23日 上午11:07:33
+	 * @param limit
+	 * @param offset
+	 * @param order
+	 * @param sort
+	 * @param roleName
+	 * @return
 	 */
 	@Override
 	public Map<String, Object> getRoleWithPaging(int limit, int offset,
@@ -153,13 +161,13 @@ public class RoleService extends SearchService implements IRoleService{
 		// TODO Auto-generated method stub
 		System.out.println("limit : "+limit+"  "+offset); //OFFEST 偏移量  首次为0 
 		int index = limit;
-		int pageNum = offset/limit + 1;
+		int pageNum = offset/limit ;
 		String tableName = "role";
 		String[] properties = new String[]{
 				"role.ID",
-				"role.NAME",
-				"employeeName AS CREATOR",
-				"role.CREATETIME",
+				"role.name as roleName",
+				"employeeName AS creator",
+				"date_format(role.createTime, '%Y-%m-%d %H:%i:%s') as createTime",
 				"description"
 		};
 		String contectString = "LEFT JOIN employee ON employee.ID = role.createID"; 

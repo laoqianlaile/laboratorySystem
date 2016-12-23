@@ -38,7 +38,7 @@ public interface IClientService {
 
 
 	public String changePersonnel(String clientNo,String clientID,String clientPassword,String companyID, String companyName,
-			String mobilePhone, String fixedTelephone, String manage,
+			String address, String mobilePhone, String manage,
 			String representative, String companyType, String remarks,
 			String idCardLicense, String idCardAptitude);
 

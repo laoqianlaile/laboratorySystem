@@ -52,10 +52,10 @@ public class SampleController{
 	 * @param sampleID
 	 * @return
 	 */
-	@RequestMapping("/getSample")  
+	@RequestMapping("/getSampleByID")  
     @ResponseBody  	
-	public String getSample(String sampleID) {
-		return service.getSample(sampleID);
+	public String getSampleByID(String sampleID) {
+		return service.getSampleByID(sampleID);
 	}
 	
 	
@@ -80,6 +80,28 @@ public class SampleController{
 		String result = service.addLinkSample(factoryCode, sampleName, sampleType, receiptlistCode, remarks, unit);
 		return result;
 	}
+	/**
+	 * 新增样品
+	 * @author wzj
+	 * @date 2016年12月21日 上午12:15:11
+	 * @param factoryCode
+	 * @param sampleName
+	 * @param sampleType
+	 * @param giveMan
+	 * @param takeMan
+	 * @param takePhone
+	 * @param givePhone
+	 * @param remarks
+	 * @param unit
+	 * @return
+	 */
+	@RequestMapping("/addSample")  
+    @ResponseBody
+	public String addSample(String factoryCode,String sampleName, String sampleType,String giveMan,String takeMan,String takePhone,String givePhone, String remarks,String unit){
+		String result = service.addSample(factoryCode, sampleName, sampleType, remarks, unit);
+		return result;
+	}
+
 	/**
 	 * 
 	 * @author wzj
@@ -167,4 +189,11 @@ public class SampleController{
 		List<Map<String, Object>> result = service.getSampleInfor(qrcode);
 		return JSONArray.fromObject(result).toString();
 	}
+	@RequestMapping("/getSampleListByCodeLimit")  
+    @ResponseBody
+	public String getSampleListByCodeLimit(String sampleCode){
+		List<Map<String, Object>> result = service.getSampleListByCodeLimit(sampleCode);
+		return JSONArray.fromObject(result).toString();
+	}
+	
 }

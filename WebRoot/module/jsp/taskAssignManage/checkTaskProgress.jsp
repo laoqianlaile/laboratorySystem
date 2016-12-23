@@ -46,6 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<h5 id="receiptlistCode">交接单号:&nbsp;<span></span></h5>
 			</div>
 		</div>
+		<br />
 		<!-- 表格 -->
   		<table id="table">
   		</table>
