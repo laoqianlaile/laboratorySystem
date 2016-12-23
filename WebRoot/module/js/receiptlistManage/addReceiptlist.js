@@ -284,22 +284,27 @@ function set_alert_wb_comment(the,state){
 		}
 	});
 	for(var i = 0 ; i < list_data.length ; i++){
-		html+='<li onclick="inputSample(this,\''+state+'\')">'+list_data[i].sampleCode+'</li>';
+		html+='<li onclick="inputSample(this,\''+state+'\',\''+list_data[i].ID+'\')">'+list_data[i].sampleCode+'</li>';
 	}
 	html+='</ul>';
 	$(".tip-factory .tip-factory-content").html(html);
 	$(".list_sampleCode").css("display","block");
 }
-function inputSample(the,state){
+function inputSample(the,state,sampleID){
 	var sampleCode = $(the).text();
 	if(state == "add")
 		{
+		 
 		 $("#addSampleCode").val(sampleCode);
+		 $("#addSampleID").val(sampleID);
 		}
 	else {
 		$("#editSampleCode").val(sampleCode);
+		 $("#editSampleID").val(sampleID);
 	}
-	$(the).parent().css("display","none");
+	$(the).parent().css("display","none"); //隐藏搜索面板
+	isExitSample(sampleCode); //填充数据--并设置相关属性
+	
 }
 // 拼装项目列表html
 function playTestProjectHtml(data, testNamevalue, isAdd) {
@@ -374,7 +379,7 @@ function initSaveAndSubmitRe_event() {
 			alert("公司通讯地址不能为空");
 	});
 
-	$(".footer button").click(function() {
+	$(".footer button").click(function() { //保存和提交按钮的点击操作
 				var btnName = "";
 				var param = {};
 				var data ;
@@ -472,7 +477,14 @@ function isExitSample(sampleCode) {
 		$("#addUnit").attr("disabled", true);
 
 	} else {
-
+		// 清除数据-新增
+		$("#editSampleID").val("");
+		$("#editSampleName").val("");
+		$("#editSampleStyle").val("");
+		// 清除数据-编辑
+		$("#addSampleID").val("");
+		$("#addSampleName").val("");
+		$("#addSampleStyle").val("");
 		// 设置可编辑--编辑
 		$("#editSampleName").attr("disabled", false);
 		$("#editSampleStyle").attr("disabled", false);
@@ -487,25 +499,45 @@ function isExitSample(sampleCode) {
 // 初始出厂编码填写框失去焦点事件
 function initSampleCode_event() {
 	var sampleCode = "";
-/*	$(document).on("blur", "#editSampleCode", function() {  //暂时不需要blur事件 有自动搜索框
+/*	var fn1 = $("#editSampleCode").blur(function(){
+		if($("#editSampleCode").val() == "")
+		{  
+			// alert("样品编号不能为空");
+			//sample_global.isAddEdit = false;
+			//$(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框
+		}
+		else setTimeout(isExitSample($("#addSampleCode").val()),400);
+	});
+	var fn1 = $(document).on("blur", "#editSampleCode", function() {  //需要blur事件填充剩余的数据
 	
 		if($("#editSampleCode").val() == "")
 		{  
 			// alert("样品编号不能为空");
-			sample_global.isAddEdit = false;
-			$(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框
+			//sample_global.isAddEdit = false;
+			//$(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框
 		}
 		else isExitSample($("#editSampleCode").val());
 	});
-	$(document).on("blur", "#addSampleCode", function() {
+	var fn2 = $("#addSampleCode").blur(function(){
 		if($("#addSampleCode").val() == "")
 		{
 			//alert("样品编号不能为空");
-			sample_global.isAddEdit = false;
-			$(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框
+			//sample_global.isAddEdit = false;
+			//$(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框
+		}
+		else setTimeout(isExitSample($("#addSampleCode").val()),400);
+	});*/
+	/*var fn2 = $(document).on("blur", "#addSampleCode", function() {
+		if($("#addSampleCode").val() == "")
+		{
+			//alert("样品编号不能为空");
+			//sample_global.isAddEdit = false;
+			//$(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框
 		}
 		else isExitSample($("#addSampleCode").val());
 	});*/
+	/*setTimeout(fn1,200);
+	setTimeout(fn2,200);*/
 }
 /**
  * 打开新增任务框清除数据事件

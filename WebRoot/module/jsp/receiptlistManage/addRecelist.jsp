@@ -506,7 +506,7 @@ h4,.h4 {
 										<!-- 隐藏滑动条 -->
 										<div class="choose">
 											<div class="row">
-												<div class="col-xs-12 col-md-12">
+												<!-- <div class="col-xs-12 col-md-12">
 													<input type="checkbox" value="123" name="task"
 														class="chooseInput"><label class="fontStyle">电磁兼容</label>
 												</div>
@@ -518,7 +518,7 @@ h4,.h4 {
 												<div class="col-xs-12 col-md-12">
 													<input type="checkbox" value="1235" name="task"
 														class="chooseInput"><label class="fontStyle">环境测验</label>
-												</div>
+												</div> -->
 											</div>
 										</div>
 									</div>

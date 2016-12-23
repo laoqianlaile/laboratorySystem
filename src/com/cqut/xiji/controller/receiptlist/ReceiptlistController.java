@@ -191,8 +191,8 @@ public class ReceiptlistController{
 	 */
 	@RequestMapping("/addReceiptList")
 	@ResponseBody
-	public String addReceiptList(String coID ,String proID ,String state,HttpServletRequest request) {
-		Map<String, Object> result = service.addReceiptList( coID , proID , state ,request ) ;
+	public String addReceiptList(HttpServletRequest request,String coID ,String proID ,String state) {
+		Map<String, Object> result = service.addReceiptList( request.getSession() ,coID , proID , state ,request ) ;
 		return JSONObject.fromObject(result).toString();
 	}
 	/**
@@ -208,6 +208,13 @@ public class ReceiptlistController{
 		Map<String, Object> result = service.getReceiptByReID( reID) ;
 		return JSONObject.fromObject(result).toString();
 	}
+	/**
+	 * 删除交接单
+	 * @author wzj
+	 * @date 2016年12月22日 下午10:25:18
+	 * @param reID
+	 * @return
+	 */
 	@RequestMapping("/delReceiptlist")
 	@ResponseBody
 	public String delReceiptlist(String reID ) {
