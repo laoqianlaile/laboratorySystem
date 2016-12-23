@@ -1,17 +1,20 @@
 
 package com.cqut.xiji.controller.role;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cqut.xiji.entity.base.BootstrapTreeNode;
 import com.cqut.xiji.service.role.IRoleService;
 
 @Controller
@@ -94,6 +97,18 @@ public class RoleController {
 	public String updRole( String roleID, String roleName, String description){
 		String result = service.updRole(roleID,roleName,description);
 		return result;
+	}
+	/**
+	 * 获取角色树+头节点
+	 * @author wzj
+	 * @date 2016年12月23日 下午5:07:52
+	 * @return
+	 */
+	@RequestMapping("/getRoleTree_w")  
+    @ResponseBody
+	public String getRoleTree_w(){
+		List<BootstrapTreeNode> result =  service.getRoleTree_w();
+		return JSONArray.fromObject(result).toString();
 	}
 	
 }

@@ -54,12 +54,12 @@ public class ModuleService extends SearchService implements IModuleService{
 		Map<String, BootstrapTreeNode> parentTwo = new HashMap<String, BootstrapTreeNode>();
 		
 		//头节点 
-		BootstrapTreeNode node = new BootstrapTreeNode("", "模块管理");
+		BootstrapTreeNode node = new BootstrapTreeNode("", "所有模块");
 		node.setBackColor("f2f2f2");
 		node.setlevel0("0");
 		node.setIcon("glyphicon glyphicon-th");
 		node.setColor("green");
-		node.setHref("module/jsp/moduleManage/moduleManage.jsp");
+		node.setHref("javascript:void(0)");
 		TreeNode= node;
 		
 		String[]  properties = new String[]{
