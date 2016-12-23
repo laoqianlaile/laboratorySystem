@@ -89,8 +89,7 @@ textarea {
 #search {
 	float: left;
 }
-
-		
+	
 </style>
 
 <body>

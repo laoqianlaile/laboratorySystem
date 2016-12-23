@@ -1,4 +1,4 @@
-$(function () {
+﻿$(function () {
 	$('#table').bootstrapTable({
 		/*height: 400,//定义表格的高度
 */		striped: true,// 隔行变色效果
@@ -24,7 +24,7 @@ $(function () {
 			title:'ID',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'0',//宽度
+			width:'0%',//宽度
 			visible:false
 		},{
 			field:'sampleID',//返回值名称
