@@ -444,7 +444,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 		}
 		
 		List<Map<String, Object>> result = originalSearchWithpaging(properties, getBaseEntityName(), joinEntity, null, condition, false, null, sort, order, index, pageNum);
-		int count = originalGetForeignCount("task.ID", getBaseEntityName(), joinEntity, null, condition, false);
+		int count = originalSearchForeign(properties, getBaseEntityName(), joinEntity, null, condition, false).size();
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("total", count);
