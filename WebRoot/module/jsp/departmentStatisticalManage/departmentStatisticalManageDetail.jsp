@@ -40,10 +40,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
   	<div class="container" style="width:100%">
 		<div class="row">
+			<div class="col-xs-11 col-md-11 col-lg-11"></div>
 			<div class="col-xs-1 col-md-1 col-lg-1">
 				<button type="button" id="return" class="btn btn-primary">返回</button>
 			</div>
-			<div class="col-xs-11 col-md-11 col-lg-11"></div>
 		</div>
 		<hr />
 		<!-- 表格 -->
