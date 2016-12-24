@@ -13,8 +13,8 @@ $(function () {
 	// 初始化交接单表格
 	initTable();
 	
-	// 查看报告按钮点击事件
-	$('#viewReport').click(function (){
+	// 查看检测报告列表按钮点击事件
+	$('#viewReportList').click(function (){
 		var data = $('#table').bootstrapTable('getSelections');
 		
 		if(data.length==0 || data.length>1){
@@ -22,11 +22,11 @@ $(function () {
 			return;
 		}
 		var receiptlistID = data[0].ID;
-		window.location.href = window.location.href.replace('departmentSupervisorDesktop/departmentSupervisorDesktop.jsp','testReportManage/testReportManage.jsp') + '?ID='+receiptlistID;
+		window.location.href = window.location.href.replace('testReportAuditDesktop/testReportAuditDesktop.jsp','testReportManage/testReportManage.jsp') + '?ID='+receiptlistID;
 	});
 	
-	// 工作量统计按钮点击事件
-	$('#workloadStatistical').click(function (){
+	// 审核检测报告按钮点击事件
+	$('#auditReport').click(function (){
 		var data = $('#table').bootstrapTable('getSelections');
 		
 		if(data.length==0 || data.length>1){
@@ -35,11 +35,12 @@ $(function () {
 		}
 		
 		var ID = data[0].ID;
-		window.location.href = window.location.href.replace('departmentSupervisorDesktop.jsp','workloadStatistical.jsp') + '?ID='+ID;
+		alert('审核检测报告');
+//		window.location.href = window.location.href.replace('departmentSupervisorDesktop.jsp','workloadStatistical.jsp') + '?ID='+ID;
 	});
 	
-	// 分配任务按钮点击事件
-	$('#assignTask').click(function (){
+	// 打印报告按钮点击事件
+	$('#printReport').click(function (){
 		var data = $('#table').bootstrapTable('getSelections');
 		
 		if(data.length==0 || data.length>1){
@@ -48,19 +49,20 @@ $(function () {
 		}
 		
 		var ID = data[0].ID;
-		window.location.href = window.location.href.replace('departmentSupervisorDesktop/departmentSupervisorDesktop.jsp','taskAssignManage/taskAssign.jsp') + '?ID='+ID;
+		alert('打印报告');
+//		window.location.href = window.location.href.replace('departmentSupervisorDesktop/departmentSupervisorDesktop.jsp','taskAssignManage/taskAssign.jsp') + '?ID='+ID;
 	});
 	
 	// 查看文档按钮点击事件
 	$('#viewFile').click(function() {
 		var data = $('#fileTable').bootstrapTable('getSelections');
 		
-		if (data.length == 0 || data.length > 1) {
-			alert("请选择一个文档查看");
+		if(data.length==0 || data.length>1){
+			alert("请选中一条数据");
 			return;
-		} else {
-			// todo...
 		}
+		
+		// todo...
 	});
 	
 	// 下载文档按钮点击事件
@@ -85,7 +87,6 @@ $(function () {
 		}
 		refresh();
 	});
-	
 });
 
 // 初始化交接单表格
@@ -135,6 +136,13 @@ function initTable(){
 			width:'0',//宽度
 			visible:false
 		},{
+			field:'testReportCode',//返回值名称
+			title:'检测报告编号',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:'0',//宽度
+			visible:false
+		},{
 			field:'',//返回值名称
 			title:'序号',//列名
 			align:'center',//水平居中显示
@@ -151,15 +159,14 @@ function initTable(){
 			width:'70%'//宽度
 		},{
 			field:'assignState',//返回值名称
-			title:'分配状态',//列名
+			title:'状态',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'20%'//宽度
 		}],//列配置项,详情请查看 列参数 表格
 		/*事件*/
 		onClickRow: function (row, tr) {
-			$('#receiptlistCode').text(row.receiptlistCode);
-			
+			$('#currentReportCode').text(row.testReportCode);
 			refreshFileTable(row.ID);
 		}
 	});
