@@ -381,6 +381,8 @@ function edit(){
 	parame.remarks = $('#edit_remarks').val();
 	parame.employeeID = $('#edit_employeeID').val();
 	parame.parent = $('#textspan2').text();
+	if($('#edit_departmentName').val()!=$('#textspan2').text()){
+	if($('#edit_departmentName').val()!=""&&$('#edit_departmentCode').val()!=""){
 	$.ajax({	
 		  url:'departmentController/updDepartment.do',
 		  data:parame,
@@ -392,6 +394,8 @@ function edit(){
 			  refresh();
 		  }
 		});	
+	}else alert("请把信息修改完整");
+	}else alert("不能把自己作为上级部门");
 }
 function find(){
 	var parame = {};
@@ -415,6 +419,7 @@ function add(){
 	parame.remarks = $('#add_remarks').val();
 	parame.employeeID = $('#add_employeeID').val();
 	parame.parent = $('#textspan1').text();
+	if($('#add_departmentName').val()!=""&&$('#add_departmentCode').val()!=""){
 	$('#add_remarks').val("");
 	$('#textspan1').text("");
 	alert($('#add_employeeID').val());
@@ -430,6 +435,7 @@ function add(){
 		  refresh();
 	  }
 	});
+	}else alert("请把信息填完");
 }
 function delData(){
 	var data = $('#table').bootstrapTable('getSelections');

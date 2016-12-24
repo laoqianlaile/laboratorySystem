@@ -50,7 +50,7 @@
 		searchResultColor: '#D9534F',
 		searchResultBackColor: undefined, //'#FFFFFF',
 
-		enableLinks: true, //打开连接
+		enableLinks: false, //打开连接
 		highlightSelected: true,
 		highlightSearchResults: true,
 		showBorder: true,
