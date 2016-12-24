@@ -24,7 +24,18 @@ public class ModuleController{
 	
 	@Resource(name="moduleService")
 	IModuleService service;
-	
+	/**
+	 * 
+	 * @author wzj
+	 * @date 2016年12月24日 下午5:22:30
+	 * @param limit
+	 * @param offset
+	 * @param order
+	 * @param sort
+	 * @param moduleName
+	 * @param condition
+	 * @return
+	 */
 	@RequestMapping("/getModulesWithPaging")  
     @ResponseBody  	
 	public  JSONObject getModulesWithPaging(int limit, int offset, String order, String sort,String moduleName,String condition) {
@@ -32,7 +43,7 @@ public class ModuleController{
 	
 		return JSONObject.fromObject(result);
 	}
-	
+
 	@RequestMapping("/getModules")  
     @ResponseBody  	
 	public JSONObject getModules(int limit, int offset, String order, String sort,String moduleName,String condition) {
@@ -44,7 +55,17 @@ public class ModuleController{
 	public JSONArray getTexts() {
 		return JSONArray.fromObject(service.getModulesByCondition("level0 < 3"));
 	}
-	
+	/**
+	 * 添加模块
+	 * @author wzj
+	 * @date 2016年12月24日 下午5:21:25
+	 * @param text
+	 * @param parent
+	 * @param href
+	 * @param icon
+	 * @param isShow
+	 * @return
+	 */
 	@RequestMapping("/addModule")  
     @ResponseBody 
 	public String addModule(String text,String parent, String href,String icon,String isShow){
@@ -52,14 +73,32 @@ public class ModuleController{
 		
 		return service.addModule(text,parent,href,icon,isShow) ;
 	}
-	
+	/**
+	 * 更新模块
+	 * @author wzj
+	 * @date 2016年12月24日 下午5:21:12
+	 * @param text
+	 * @param parent
+	 * @param href
+	 * @param icon
+	 * @param isShow
+	 * @param ID
+	 * @return
+	 */
 	@RequestMapping("/updateModule")  
 	@ResponseBody 
 	public String updateModule(String text,String parent, String href,String icon,String isShow,String ID){
 	
 		return service.updateModule( text, parent,  href, icon, isShow, ID) == 1 ? "true" : "false";
 	}
-
+   
+	/**
+	 * 删除模块
+	 * @author wzj
+	 * @date 2016年12月24日 下午5:20:59
+	 * @param IDs
+	 * @return
+	 */
 	@RequestMapping("/deleteModule")  
 	@ResponseBody 
 	public String deleteModule(String IDs){
@@ -67,7 +106,13 @@ public class ModuleController{
 			 return "true";
 		return service.deleteModule(IDs.split(",")) ;
 	}
-	
+	/**
+	 * 
+	 * @author wzj
+	 * @date 2016年12月24日 下午5:19:03
+	 * @param location
+	 * @return
+	 */
 	@RequestMapping("/getTree")
 	@ResponseBody
 	public String getTree(String location) {
@@ -75,4 +120,30 @@ public class ModuleController{
     	return JSONArray.fromObject(service.getModuleTree()).toString();
 		
 	}
+	/**
+	 * 获取角色对应的模块IDs
+	 * @author wzj
+	 * @date 2016年12月24日 下午5:19:00
+	 * @param roleID
+	 * @return
+	 */
+	@RequestMapping("/getModuleIDByRoleID")
+	@ResponseBody
+	public String getModuleIDByRoleID(String roleID) {
+		return service.getModuleIDByRoleID(roleID);
+	}
+	/**
+	 * //得到条件满足的模块数量
+	 * @author wzj
+	 * @date 2016年12月24日 下午5:18:56
+	 * @param condition
+	 * @return
+	 */
+	@RequestMapping("/getModuleNum")
+	@ResponseBody
+	public String getModuleNum(String condition) {
+		return service.getModuleNum(condition);
+	}
+	
+	
 }
