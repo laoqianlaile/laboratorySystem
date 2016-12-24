@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>科室主管桌面</title>
+    <title>检测报告审核人员桌面</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -40,21 +40,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div id="left" class="container" style="width:60%;float:left">
 		<div class="row">
 			<div class="col-xs-12 col-md-12 col-lg-12">
-				<h4>当前交接单编号: <span id="receiptlistCode"></span></h4>
+				<h4>当前检测报告编号: <span id="currentReportCode"></span></h4>
 			</div>
 		</div>
 		<br />	
 		<div class="row">
 			<div class="col-xs-2 col-md-2 col-lg-2">
-				<button type="button" id="viewReport" class="btn btn-primary">查看报告</button>
+				<button type="button" id="viewReportList" class="btn btn-primary">查看检测报告列表</button>
 			</div>
 			<div class="col-xs-3 col-md-3 col-lg-3"></div>
 			<div class="col-xs-2 col-md-2 col-lg-2">
-				<button type="button" id="workloadStatistical" class="btn btn-primary">工作量统计</button>
+				<button type="button" id="auditReport" class="btn btn-primary">审核检测报告</button>
 			</div>
 			<div class="col-xs-3 col-md-3 col-lg-3"></div>
 			<div class="col-xs-2 col-md-2 col-lg-2">
-				<button type="button" id="assignTask" class="btn btn-primary">分配任务</button>
+				<button type="button" id="printReport" class="btn btn-primary">打印报告</button>
 			</div>
 		</div>
 		<br />
@@ -84,6 +84,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
   </body>
   
-  <script src="module/js/departmentSupervisorDesktop/departmentSupervisorDesktop.js"></script>
+  <script src="module/js/testReportAuditDesktop/testReportAuditDesktop.js"></script>
   <script src="module/js/fileManage/fileManage.js"></script>
 </html>

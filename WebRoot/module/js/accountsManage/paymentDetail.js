@@ -1,4 +1,4 @@
-var jouranlAccountID = window.location.search.match(/\d+/i)[0];
+﻿var jouranlAccountID = window.location.search.match(/\d+/i)[0];
 
 $(function(){
 	init();
@@ -173,6 +173,11 @@ function openEditModal(){
 	$('#edit_remarks').val(arguments[0].remarks);
 	
 	$('#editModal').modal('show');
+}
+
+function editPaymentDetail(){
+	var parame = {};
+	parame.receiptlistCode
 }
 /* 获取合同数据 */
 function getContract(){
