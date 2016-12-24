@@ -14,6 +14,7 @@ import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.paymentDetail.PaymentDetail;
+import com.cqut.xiji.entity.receiptlist.Receiptlist;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.treeNode.Node;
 import com.cqut.xiji.tool.treeNode.NodeList;
@@ -80,6 +81,27 @@ public class PaymentDetailService extends SearchService implements IPaymentDetai
 		map.put("rows", result);
 	    
 		return map;
+	}
+
+	@Override
+	public String upPaymentDetail(String payMentDetailID,String receiptlistID,
+			String receiptlistCode, String drawID, String payMoney,String remarks) {
+		
+		PaymentDetail detail = new PaymentDetail();
+		
+		detail.setDrawID(drawID);
+		detail.setPayMoney(Integer.parseInt(payMoney));
+		detail.setRemarks(remarks);
+		
+		int result = entityDao.updatePropByID(detail, payMentDetailID);
+		
+		Receiptlist receiptlist = new Receiptlist();
+		
+		receiptlist.setReceiptlistCode(receiptlistCode);
+		
+		result += entityDao.updatePropByCondition(receiptlist, receiptlistID);
+		
+		return result + "";
 	}
 	
 }
