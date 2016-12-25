@@ -18,6 +18,7 @@ import com.cqut.xiji.entity.sample.Sample;
 import com.cqut.xiji.entity.task.Task;
 import com.cqut.xiji.entity.taskMan.TaskMan;
 import com.cqut.xiji.entity.testProject.TestProject;
+import com.cqut.xiji.entity.testReport.TestReport;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
@@ -99,7 +100,6 @@ public class TaskService extends SearchService implements ITaskService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("total", count);
 		map.put("rows", result);
-
 		return map;
 	}
 
@@ -611,7 +611,7 @@ public class TaskService extends SearchService implements ITaskService {
 
 
 
-@Override
+    @Override
 	public boolean updateTaskAuditPerson(String taskID,String employeeID){
 			Task tk = entityDao.getByID(taskID, Task.class);
 			if (tk == null) {
@@ -736,7 +736,6 @@ public class TaskService extends SearchService implements ITaskService {
 	public Map<String, Object> getTaskAuditPersonWithPaging(int limit, int offset,String order, String sort ) {
 		int index = limit;
 		int pageNum = offset / limit;
-		
 		String tableName = "employee";
 		String[] properties = new String[] {
 				"employee.ID AS ID",
@@ -757,5 +756,128 @@ public class TaskService extends SearchService implements ITaskService {
 		map.put("total", count);
 		map.put("rows", result);
 		return map;
+	}
+	
+	@Override
+	public boolean recoverFileCheck(String taskID){
+		String tableName = "task";
+		Map<String, Object> result = baseEntityDao.findByID(new String[] { "detectstate" }, taskID, "ID", tableName);
+        if(result==null){
+        	return true;
+        }else{
+        	String detectState = result.get("detectstate").toString();
+        	if(detectState.equals("0")||detectState.equals("1")||detectState.equals("3")||detectState.equals("5")){
+        		return true;
+        	}else{
+        		return false;
+        	}
+        }
+	}
+	
+	@Override
+	public List<Map<String, Object>> getProjectName(String taskID) {
+		String filteCondition = "";
+		if (taskID != null && !taskID.equals("") && !taskID.isEmpty()) {
+			filteCondition += " where task.ID = '" + taskID + "'";
+		}
+		String baseEntiy = " ( "
+				+ " SELECT "
+				+ " contract.fileTypeID AS fileTypeID "
+				+ " FROM "
+				+ " ( "
+				+ " SELECT "
+				+ "task.receiptlistID"
+				+ " FROM "
+				+ " task "
+				+ filteCondition
+				+ " ) AS a "
+				+ " LEFT JOIN receiptlist ON a.receiptlistID = receiptlist.ID "
+				+ " LEFT JOIN contract ON receiptlist.contractID = contract.ID "
+				+ " ) AS b ";
+		String[] properties = new String[] { "filetype.name AS name" };
+		String joinEntity = " LEFT JOIN filetype ON b.fileTypeID = filetype.ID ";
+		List<Map<String, Object>> result = entityDao.searchForeign(properties,
+				baseEntiy, joinEntity, null, null);
+		return result;
+	}
+	
+	@Override
+	public boolean setTaskDetectState(String taskID) {
+		Task tk = entityDao.getByID(taskID, Task.class);
+		if (tk == null) {
+			return false;
+		} else {
+			tk.setDetectstate(1);
+			return baseEntityDao.updatePropByID(tk, taskID) > 0 ? true : false;
+		}
+	}
+	
+	@Override
+	public boolean setTestReportInfo(String taskID, String remarks) {
+		Map<String, Object> result = baseEntityDao.findByID(
+				new String[] { "testReportID,receiptlistID" }, taskID, "ID",
+				"task");
+		String condition = " fileinformation.belongtoID = '" + taskID + "'";
+		List<Map<String, Object>> result1 = entityDao.searchWithpaging(
+				new String[] { "fileinformation.ID AS ID" }, "fileinformation",
+				null, null, condition, null, "fileinformation.uploadTime",
+				"DESC", 1, 0);
+		String fileID = "";
+		if (result1 != null && result1.size() > 0) {
+			fileID = result1.get(0).get("ID").toString();
+		}
+		String testReportID = "";
+		if (result.get("testReportID") == null) {
+			TestReport tr = new TestReport();
+			String receiptlistID = result.get("receiptlistID").toString();
+			testReportID = EntityIDFactory.createId().toString();
+			tr.setID(testReportID);
+			tr.setReceiptlistID(receiptlistID);
+			tr.setTaskID(taskID);
+			/*
+			 * tr.setVersionNumber(""); tr.setVersionInformation("");
+			 */
+			if (fileID != null && !fileID.isEmpty() && !fileID.equals("")) {
+				tr.setState(1);
+				tr.setFileID(fileID);
+			} else {
+				tr.setState(0);
+			}
+			tr.setRemarks(remarks);
+			Task tk = entityDao.getByID(taskID, Task.class);
+			tk.setTestReportID(testReportID);
+			int saveTereport = baseEntityDao.save(tr);
+			int updateTask = baseEntityDao.updatePropByID(tk, taskID);
+			int updateSuccessCount = saveTereport + updateTask;
+			return (updateTask + updateSuccessCount) > 1 ? true : false;
+		} else {
+			testReportID = result.get("testReportID").toString();
+			TestReport tr = entityDao.getByID(testReportID, TestReport.class);
+			tr.setFileID(fileID);
+			tr.setRemarks(remarks);
+			return baseEntityDao.updatePropByID(tr, testReportID) > 0 ? true
+					: false;
+		}
+	}
+	
+	@Override
+	public boolean submitReport(String taskID) {
+		Task tk = entityDao.getByID(taskID, Task.class);
+		Map<String, Object> result = baseEntityDao.findByID( new String[] { "detectstate,testReportID" }, taskID, "ID", "task");
+		String detectstate = result.get("detectstate").toString();
+		if (detectstate.equals("1")) {
+			tk.setDetectstate(2);
+			String testReportID = result.get("testReportID").toString();
+			TestReport tr = entityDao.getByID(testReportID, TestReport.class);
+			if (tr != null) {
+				tr.setState(2);
+			}
+			int updateTaskSuccessCount = baseEntityDao.updatePropByID(tk, taskID);
+			int updateReportSuccessCount = baseEntityDao.updatePropByID(tr,testReportID);
+			return (updateTaskSuccessCount + updateReportSuccessCount) > 1 ? true : false;
+			
+		} else {
+			return false;
+		}
 	}
 }

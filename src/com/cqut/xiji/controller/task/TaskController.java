@@ -334,4 +334,79 @@ public class TaskController{
 		Map<String, Object> result = service.getTaskAuditPersonWithPaging(limit,offset,order,sort);
 		return JSONObject.fromObject(result);
 	}
+	
+    /**
+     * 
+     * @discription 检查当前审核状态下是否可以上传检测报告
+     * @author zt       
+     * @created 2016-12-24 下午5:15:18     
+     * @param taskID
+     * @return
+     */
+	@RequestMapping("/recoverFileCheck")
+	@ResponseBody
+	public boolean recoverFileCheck(String taskID) {
+		boolean result = service.recoverFileCheck(taskID);
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @discription 通过任务ID获取对应的项目名字
+	 * @author zt
+	 * @created 2016-12-23 下午5:03:27
+	 * @param taskID
+	 * @return
+	 */
+	@RequestMapping("/getProjectName")
+	@ResponseBody
+	public List<Map<String, Object>> getProjectName(String taskID) {
+		List<Map<String, Object>> result = service.getProjectName(taskID);
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @discription 设置相应任务的检测状态
+	 * @author zt
+	 * @created 2016-12-23 下午9:32:11
+	 * @param taskID
+	 * @return
+	 */
+	@RequestMapping("/setTaskDetectState")
+	@ResponseBody
+	public boolean setTaskDetectState(String taskID) {
+		boolean result = service.setTaskDetectState(taskID);
+		return result;
+	}
+	
+	/**
+	 * 
+     * @discription 设置检测报告信息
+     * @author zt       
+     * @created 2016-12-24 下午5:58:01     
+     * @param taskID
+     * @return
+	 */
+	@RequestMapping("/setTestReportInfo")
+	@ResponseBody
+	public boolean setTestReportInfo(String taskID,String remarks) {
+		boolean result = service.setTestReportInfo(taskID,remarks);
+		return result;
+	}
+	
+    /**
+     * 
+     * @discription 提交审核
+     * @author zt       
+     * @created 2016-12-25 下午5:48:27     
+     * @param taskID
+     * @return
+     */
+	@RequestMapping("/submitReport")
+	@ResponseBody
+	public boolean submitReport(String taskID) {
+		boolean result = service.submitReport(taskID);
+		return result;
+	}
 }

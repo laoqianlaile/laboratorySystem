@@ -167,11 +167,18 @@ public class EquipmentController {
 		return JSONObject.fromObject(map);
 	}
 	
-	@RequestMapping("/dateDiff")
+	/**
+	 * 
+     * @discription 获取设备的名称、出厂编号信息
+     * @author zt       
+     * @created 2016-12-21 下午5:19:26     
+     * @return
+	 */
+	@RequestMapping("/getEquipmentInfo")
 	@ResponseBody
-	public Long dateDiff(String startTime, String endTime,  String format, String str) {   
-        Long time = service.dateDiff(startTime, endTime, format, str);
-        System.out.println(time);
-        return time;
+	public List<Map<String,Object>> getEquipmentInfo() {
+		List<Map<String, Object>> result = service.getEquipmentInfo();
+		return result;
 	}
+	
 }

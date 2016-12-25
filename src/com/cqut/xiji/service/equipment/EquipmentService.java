@@ -308,6 +308,15 @@ public class EquipmentService extends SearchService implements
             return min;    
         }    
 	}
+	
+	@Override
+	public List<Map<String, Object>> getEquipmentInfo() {
+		String tableName = "equipment";
+		String[] properties = new String[] { "ID,IF (factoryCode IS NULL,equipmentName,CONCAT(equipmentName,'(',factoryCode,')')) AS equipmentInfo" };
+		List<Map<String, Object>> result = entityDao.searchForeign(properties,
+				tableName, null, null, null);
+		return result;
+	}
 }
 	
 

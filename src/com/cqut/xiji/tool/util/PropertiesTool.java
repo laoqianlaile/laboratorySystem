@@ -16,7 +16,7 @@ public class PropertiesTool {
 
 		systemPram = new Properties();
 		InputStream inStream = PropertiesTool.class.getClassLoader()
-				.getResourceAsStream("config/systemParameters.properties");
+				.getResourceAsStream("systemParameters.properties");
 
 		if (inStream != null) {
 			try {
@@ -37,7 +37,7 @@ public class PropertiesTool {
 		}
 	}
 
-	public static String getSystemPram(String key) {
+	public  String getSystemPram(String key) {
 		if (propMap.containsKey(key))
 			return propMap.get(key);
 		else {

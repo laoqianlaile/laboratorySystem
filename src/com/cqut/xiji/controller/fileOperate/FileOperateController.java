@@ -34,6 +34,7 @@ import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.tool.util.DocConverter;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 import com.cqut.xiji.tool.util.JToolWeb;
+import com.cqut.xiji.tool.util.PropertiesTool;
 import com.cqut.xiji.service.fileOperate.IFileOperateService;
 
 @Controller
@@ -97,10 +98,9 @@ public class FileOperateController {
 		ID = EntityIDFactory.createId();
 		fileName = file.getOriginalFilename();
 		fileNames = fileName.split("\\.");
-
-		path = System.getProperty("user.dir").replace("bin", "webapps") + "\\"
-				+ "files" + "\\";// 获取tomcat下webapps的目录
-
+//		path = System.getProperty("user.dir").replace("bin", "webapps") + "\\" + "files" + "\\";// 获取tomcat下webapps的目录
+		PropertiesTool pe = new PropertiesTool();
+		path= pe.getSystemPram("filePath")+"\\" ;
 		if (filePath != null && !filePath.isEmpty() && !filePath.equals("")) {
 			path = filePath;
 		} else if (firstDirectory != null && !firstDirectory.isEmpty()
@@ -122,7 +122,7 @@ public class FileOperateController {
 				path += "_" + ID + "." + fileNames[j];
 			}
 		}
-
+        System.out.println("path :"+path);
 		File targetFile = new File(path);
 		if (!targetFile.exists()) {
 			targetFile.mkdirs();
@@ -143,7 +143,6 @@ public class FileOperateController {
 		fr.setID(ID);
 		fr.setContent(content);
 		fr.setFileName(fileName);
-		fr.setBelongtoID("");
 		fr.setPath(path);
 		fr.setRemarks(remark);
 		fr.setBelongtoID(belongtoID);
@@ -195,8 +194,7 @@ public class FileOperateController {
 	 */
 	@RequestMapping("/filedownload")
 	@ResponseBody
-	public void filedownload(HttpServletRequest request,
-			HttpServletResponse response, String ID) throws IOException {
+	public void filedownload(HttpServletRequest request,HttpServletResponse response, String ID) throws IOException {
 		response.reset();// 可以加也可以不加,注意加了之后tomcate需要配置UTF-8否则乱码
 		response.setContentType("application/x-download");
 		String fileTurePath = service.getFilePath(ID);
