@@ -1,5 +1,9 @@
 ﻿var jouranlAccountID = window.location.search.match(/\d+/i)[0];
-
+/* 全局数据  */
+var  JouranlAccountDate = {};
+JouranlAccountDate.data = getJouranlAccount(); // 流水账信息
+//var  employeeData = {};
+//employeeData.data = getEmployee();
 $(function(){
 	init();
 });
@@ -152,6 +156,8 @@ function isLogin(){
 }
 /* 新增 弹窗 */
 function openAddModal(){
+	$('#add_companyName').val(JouranlAccountDate.data[0].companyName);
+	$('#add_invoice').val(JouranlAccountDate.data[0].invoice);
 	
 	
 	$('#addModal').modal('show');
@@ -162,7 +168,69 @@ function addPaymentDetail(){
 	parame.jouranlAccountID = jouranlAccountID;
 	parame.payMoney = $('#add_payMoney').val();
 	
+	
 }
+/* 得到焦点时显示数据 */
+$('#add_drawName').focus(function(){
+	matchEmployee();
+});
+/* 失去焦点时隐藏数据  */
+$('#add_drawName').blur(function(){
+	$('#draw').css("display","none");
+});
+/* 领取人  */
+function matchEmployee(){
+	$('#draw').css("display","block");
+	var matchName = $('#add_drawName').val();
+	drawName = matchName.split("(")[0];
+	var data;
+	$.ajax({
+		url : 'employeeController/getEmployeeData.do?matchName=' + drawName,
+		dataType : "json",
+		async : false,
+		data : {},
+		success :　function(o){
+			data = JSON.parse(o);
+		},
+		error : function(){
+			return false;
+		}
+	});
+	return fullDrawMan(data);
+	
+}
+
+/* 生成Html */
+function fullDrawMan(data){
+	var html = "<div class='form-control' >";
+	if(data.length < 4){
+		for(var i = 0; i < data.length ; i++){
+			html += "<option class='form-control' value ='"+data[i].ID+"' onclick='getDrawMan(this)'>" + data[i].employeeName +"("+ data[i].departmentName  + ")"+ " </option>";
+		}
+	}
+	else{
+		for(var i = 0; i < 4 ; i++){
+			html += "<option class='form-control' value ='"+data[i].ID+"' onclick='getDrawMan(this)'>" + data[i].employeeName +"("+ data[i].departmentName  + ")"+ " </option>";
+		}
+	}
+		
+	html +="</div>"
+	$('#draw').html(html);
+}
+/* 得到领取人  */
+function getDrawMan(d){
+	console.log("getDrawMan is used");
+	$('#draw').css("display","none");
+		
+	console.log(d.text);
+	console.log(d.value);
+	$('#add_drawName').val(d.text);
+	$('#add_drawID').val(d.value);
+	console.log( $(this).text());
+	
+	
+}
+/* 修改弹窗 */
 function openEditModal(){
 	
 	$('#edit_receiptlistCode').val(arguments[0].receiptlistCode);
@@ -184,6 +252,24 @@ function getContract(){
 	var data;
 	$.ajax({
 		url : 'contractController/getContract.do',
+		dataType : "json",
+		async : false,
+		data : {},
+		success : function(o) {
+			data = JSON.parse(o);
+		},
+		error : function() {
+			return false;
+		}
+	});
+	return data;
+}
+
+/* 获取 流水账数据*/
+function getJouranlAccount(){
+	var data;
+	$.ajax({
+		url : 'jouranlAccountController/getJouranlAccountDate.do?jouranlAccountID=' + jouranlAccountID,
 		dataType : "json",
 		async : false,
 		data : {},

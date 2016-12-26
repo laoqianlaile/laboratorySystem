@@ -1,4 +1,4 @@
-
+﻿
 package com.cqut.xiji.service.employee;
 
 
@@ -32,6 +32,8 @@ public interface IEmployeeService {
 	String getEmployeeID(HttpSession session);
 	
 	List<Map<String,Object>> getDepartmentInfo(HttpSession session);
+
+	List<Map<String, Object>> getEmployeeData(String matchName);
 }
 	
 

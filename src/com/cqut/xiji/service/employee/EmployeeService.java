@@ -1,4 +1,4 @@
-package com.cqut.xiji.service.employee;
+﻿package com.cqut.xiji.service.employee;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
+
 import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.dao.base.EntityDao;
@@ -110,13 +111,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			 
 			return "1";
 		}
-		/**
-		 * 获取员工角色
-		 * @author wzj
-		 * @date 2016年12月23日 上午11:12:21
-		 * @param userID
-		 * @return
-		 */
+		
 		@Override
 		public List<String> getEmployeeRole(String userID) {
 			// TODO Auto-generated method stub
@@ -230,6 +225,23 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			String condtion = " 1 = 1 and employee.ID = '" + ID +"' ";
 			
 			List<Map<String,Object>> result = this.searchForeignWithJoin(properties, joinEntity, null, condtion, false);
+			return result;
+		}
+
+		@Override
+		public List<Map<String, Object>> getEmployeeData(String matchName) {
+			String baseEntity = "employee";
+			String[] properties = {
+					"employee.ID",
+					"employee.employeeName",
+					"department.departmentName"
+			};
+			String joinEntity = " LEFT JOIN department ON department.ID = employee.departmentID ";
+			String condition = " 1 = 1 ";
+			if(matchName != null && matchName != ""){
+				condition += " and employee.employeeName LIKE '%" + matchName + "%'";
+			}
+			List<Map<String, Object>> result = originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false);
 			return result;
 		}
 		

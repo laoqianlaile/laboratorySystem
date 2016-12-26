@@ -1,4 +1,4 @@
-package com.cqut.xiji.controller.employee;
+﻿package com.cqut.xiji.controller.employee;
 
 import java.util.List;
 import java.util.Map;
@@ -122,4 +122,16 @@ public class EmployeeController {
 		}
 		
 		
+		/**
+		 * 账目管理支付详细 - 领取人数据提取
+		 * 
+		 * @author zkl
+		 * @return
+		 */
+		@RequestMapping("/getEmployeeData")
+		@ResponseBody
+		public String getEmployeeData(String matchName){
+			List<Map<String, Object>> result = service.getEmployeeData(matchName);
+			return JSONArray.fromObject(result).toString();
+		}
 }
