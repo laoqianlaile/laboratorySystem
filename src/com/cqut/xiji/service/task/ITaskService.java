@@ -33,5 +33,6 @@ public interface ITaskService {
 	public List<Map<String, Object>> getSampleManageInfo(String taskID);
 	public Map<String, Object> getSampleInfoWithPaging(int limit, int offset,
 			String order, String sort, String taskID);
+	List<Map<String, Object>> getTaskByRelist(String receiptlistID);
 
 }

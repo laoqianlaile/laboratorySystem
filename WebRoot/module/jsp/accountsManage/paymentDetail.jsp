@@ -127,33 +127,37 @@ option.form-control:hover {
 				<div class="modal-body">
 					<div class="row">
 						<div class ="col-xs-6 col-md-6">
-							<label>交接单号：</label>
-							<input type="text" id="add_receiptlistCode" name="receiptlistCode"  class="form-control" aria-describedby="basic-addon1"/>
-						</div>
-						<div class ="col-xs-6 col-md-6">
 							<label>委托单位：</label> 
 							<input type="text" id="add_companyName" name="companyName" disabled="disabled" class="form-control" aria-describedby="basic-addon1"/>
+						</div>
+						<div class ="col-xs-6 col-md-6" >
+							<label>发票编号：</label> 
+							<input type="text" id="add_invoice" name="invoice" disabled="disabled" class="form-control" aria-describedby="basic-addon1"/>
+						</div>
+						<div class ="col-xs-6 col-md-6">
+							<label>交接单号：</label>
+							<select id = "add_receiptlistID" name="receiptlistCode"  class="form-control"></select>
+						</div>
+						<div class ="col-xs-6 col-md-6">
+							<label>支付金额：</label> 
+							<input type="text" id="add_payMoney" name="payMoney"  class="form-control" aria-describedby="basic-addon1"/>
 						</div>
 						<div class ="col-xs-6 col-md-6">
 							<label>领取人：　</label> 
 							<input type="hidden" id="add_drawID" name="drawID">
 							<input type="text" id="add_drawName" name="drawName"   class="form-control" aria-describedby="basic-addon1" oninput="matchEmployee()"
 									onpropertychange="matchEmployee()"/>
-							<div id = "draw">
+							<div id = "draw" style="position: fixed;">
 							</div>
 						</div>
-						<div class ="col-xs-6 col-md-6" >
-							<label>发票编号：</label> 
-							<input type="text" id="add_invoice" name="invoice" disabled="disabled" class="form-control" aria-describedby="basic-addon1"/>
+						<div class ="col-xs-6 col-md-6">
+							
 						</div>
-						<div class ="col-xs-6 col-md-6" style="float: right;">
-							<label>支付金额：</label> 
-							<input type="text" id="add_payMoney" name="payMoney"  class="form-control" aria-describedby="basic-addon1"/>
-						</div>
-						<div class ="col-xs-12 col-md-12">
+						<!-- <div class ="col-xs-12 col-md-12">
 							<label>备注：　　</label> 
 							<input type="text" id="add_remarks" name="remarks"  class="form-control" aria-describedby="basic-addon1"/>
 						</div>
+						 -->
 					</div>
 				</div>
 				<div class="modal-footer">

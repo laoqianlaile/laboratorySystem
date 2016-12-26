@@ -37,5 +37,6 @@ public interface IReceiptlistService {
 	Map<String, Object> addReceiptListInReturn(); //新增退还交接单
 	
 	public String updRelistInforInReturn(String reID,String conID,String linkMan,String createTime,String linkPhone);
+	List<Map<String, Object>> getReceiptlistInfo(String contractID);
 	
 }

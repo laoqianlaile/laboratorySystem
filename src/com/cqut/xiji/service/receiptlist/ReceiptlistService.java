@@ -734,4 +734,19 @@ public class ReceiptlistService extends SearchService implements
 			
 			return entityDao.updatePropByID(receiptlist,reID)==1?"true":"false";
 		}
+
+		@Override
+		public List<Map<String, Object>> getReceiptlistInfo(String contractID) {
+			String baseEntity = "receiptlist";
+			
+			String[] properties = {
+					"receiptlist.ID",
+					"receiptlist.receiptlistCode"
+			};
+			String joinEntity = "LEFT JOIN contract on contract.ID = receiptlist.contractID ";
+			String condition = " 1 = 1 and receiptlist.contractID = " + contractID ;
+			List<Map<String, Object>> result =	originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false);
+			
+			return result;
+		}
 }

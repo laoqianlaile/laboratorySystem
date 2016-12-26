@@ -2,8 +2,7 @@
 /* 全局数据  */
 var  JouranlAccountDate = {};
 JouranlAccountDate.data = getJouranlAccount(); // 流水账信息
-//var  employeeData = {};
-//employeeData.data = getEmployee();
+
 $(function(){
 	init();
 });
@@ -158,16 +157,37 @@ function isLogin(){
 function openAddModal(){
 	$('#add_companyName').val(JouranlAccountDate.data[0].companyName);
 	$('#add_invoice').val(JouranlAccountDate.data[0].invoice);
-	
+	data = getReceiptlistInfo();
+	var html = "";
+	console.log(data.length);
+	for(var i = 0 ; i < data.length; i++){
+		html += "<option class='form-control' value ='"+ data[i].ID+"'>" +data[i].receiptlistCode+"</option>"
+	}
+	$('#add_receiptlistID').html(html);
 	
 	$('#addModal').modal('show');
 }
 function addPaymentDetail(){
 	var parame = {};
-	parame.receiptlistCode = $('#add_receiptlistCode').val();
-	parame.jouranlAccountID = jouranlAccountID;
-	parame.payMoney = $('#add_payMoney').val();
 	
+	parame.jouranlAccountID = jouranlAccountID; //流水账ID
+	parame.employeeID = "";//创建人
+	parame.drawID = $('#add_drawID').val();//领取人ID
+	parame.receiptlistID = $('#add_receiptlistID').val();//交接单ID
+	parame.payMoney = $('#add_payMoney').val(); // 支付金额
+	parame.remarks = "";
+	
+	$.ajax({
+		  url:'paymentDetailController/addPaymentDetail.do',
+		  data:parame,
+		  success:function(o){
+			  if(o<=0){
+				  alert("新增失败");
+			  }
+			  $('#addModal').modal('hide');
+			  refresh();
+		  }
+		});
 	
 }
 /* 得到焦点时显示数据 */
@@ -175,9 +195,9 @@ $('#add_drawName').focus(function(){
 	matchEmployee();
 });
 /* 失去焦点时隐藏数据  */
-$('#add_drawName').blur(function(){
-	$('#draw').css("display","none");
-});
+//$('#add_drawName').blur(function(){
+//	$('#draw').css("display","none");
+//});
 /* 领取人  */
 function matchEmployee(){
 	$('#draw').css("display","block");
@@ -196,6 +216,9 @@ function matchEmployee(){
 			return false;
 		}
 	});
+	if(data.length == 0){
+		console.log("没有搜索到人员，请重新输入或检查是否有员工。");
+	}
 	return fullDrawMan(data);
 	
 }
@@ -221,14 +244,8 @@ function fullDrawMan(data){
 function getDrawMan(d){
 	console.log("getDrawMan is used");
 	$('#draw').css("display","none");
-		
-	console.log(d.text);
-	console.log(d.value);
 	$('#add_drawName').val(d.text);
 	$('#add_drawID').val(d.value);
-	console.log( $(this).text());
-	
-	
 }
 /* 修改弹窗 */
 function openEditModal(){
@@ -248,10 +265,10 @@ function editPaymentDetail(){
 	parame.receiptlistCode
 }
 /* 获取合同数据 */
-function getContract(){
+function getReceiptlistInfo(){
 	var data;
 	$.ajax({
-		url : 'contractController/getContract.do',
+		url : 'receiptlistController/getReceiptlistInfo.do?contractID=' + JouranlAccountDate.data[0].contractID,//合同ID
 		dataType : "json",
 		async : false,
 		data : {},
@@ -262,6 +279,9 @@ function getContract(){
 			return false;
 		}
 	});
+	if(data.length == 0){
+		return alert("当前没有交接单！");
+	}
 	return data;
 }
 
@@ -280,5 +300,9 @@ function getJouranlAccount(){
 			return false;
 		}
 	});
+	
+	if(data.length == 0){
+		return alert("没有支付详细，请添加！");
+	}
 	return data;
 }

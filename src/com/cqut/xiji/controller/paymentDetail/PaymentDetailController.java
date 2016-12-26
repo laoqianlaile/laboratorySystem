@@ -20,7 +20,7 @@ public class PaymentDetailController{
 	IPaymentDetailService service;
 	/**
 	 * 
-	 * ֧�������ҳչʾ
+	 * 通过流水账ID 分页初始化支付详情
 	 * 
 	 * @author zkl
 	 * @param jouranlAccountsID
@@ -39,7 +39,7 @@ public class PaymentDetailController{
 	
 	/**
 	 * 
-	 * ����֧����ϸ
+	 * 更新支付详情
 	 * 
 	 * @author zkl
 	 * @param payMentDetailID
@@ -54,6 +54,25 @@ public class PaymentDetailController{
 	@ResponseBody
 	public String upPaymentDetail(String payMentDetailID,String receiptlistID, String receiptlistCode,String drawID,String PayMoney,String remarks){
 		String result = service.upPaymentDetail(payMentDetailID,receiptlistID,receiptlistCode,drawID,PayMoney,remarks);
+		return result;
+	}
+	
+	
+	/**
+	 * 新增支付详情
+	 * 
+	 * @author zkl
+	 * @param jouranlAccountID
+	 * @param employeeID
+	 * @param drawID
+	 * @param receiptlistID
+	 * @param payMoney
+	 * @return
+	 */
+	@RequestMapping("/addPaymentDetail")
+	@ResponseBody
+	public String addPaymentDetail(String jouranlAccountID,String employeeID,String drawID,String receiptlistID,String payMoney,String remarks){
+		String result = service.addPaymentDetail(jouranlAccountID,employeeID,drawID,receiptlistID,payMoney,remarks);
 		return result;
 	}
 }
