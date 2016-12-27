@@ -111,4 +111,17 @@ public class RoleController {
 		return JSONArray.fromObject(result).toString();
 	}
 	
+	/**
+	 * @description 获取所有的角色名
+	 * @author Hzz
+	 * @date 2016年12月7日  晚上20:12:40
+	 * @return
+	 */
+	@RequestMapping("/getAllName")  
+    @ResponseBody
+	public String getAllName(){
+		List<Map<String, Object>> result = service.getAllName();
+		return JSONArray.fromObject(result).toString();
+	}
+	
 }

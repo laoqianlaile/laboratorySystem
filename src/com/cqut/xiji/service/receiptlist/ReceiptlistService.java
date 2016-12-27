@@ -745,8 +745,7 @@ public class ReceiptlistService extends SearchService implements
 		 *
 		 */
 		@Override
-		public Map<String, Object> getReceiptlistAll(int limit, int offset, String sort,
-				String order) {
+		public Map<String, Object> getReceiptlistAll(int limit, int offset, String sort, String order) {
 			int pageNum = limit;
 			int pageIndex = offset / limit ; //分页查询数据限制
 			
@@ -774,5 +773,19 @@ public class ReceiptlistService extends SearchService implements
 		 	map.put("total", count);
 		 	map.put("rows", list);
 		 	return map;
+		}
+		@Override
+		public List<Map<String, Object>> getReceiptlistInfo(String contractID) {
+			String baseEntity = "receiptlist";
+			
+			String[] properties = {
+					"receiptlist.ID",
+					"receiptlist.receiptlistCode"
+			};
+			String joinEntity = "LEFT JOIN contract on contract.ID = receiptlist.contractID ";
+			String condition = " 1 = 1 and receiptlist.contractID = " + contractID ;
+			List<Map<String, Object>> result =	originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false);
+			
+			return result;
 		}
 }

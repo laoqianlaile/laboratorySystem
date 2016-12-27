@@ -1,9 +1,11 @@
 ﻿package com.cqut.xiji.controller.jouranlAccount;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
@@ -91,5 +93,20 @@ public class JouranlAccountController{
 	public String delJouranlAccounts(String jouranlAccountsID){
 		String result = service.delJouranlAccounts(jouranlAccountsID);
 		return result;
+	}
+	
+	
+	/**
+	 * 获取报账专员信息，公司名称（委托单位）
+	 * 
+	 * @author zkl
+	 * @param jouranlAccountID 
+	 * @return
+	 */
+	@RequestMapping("/getJouranlAccountDate")
+	@ResponseBody
+	public String getJouranlAccountDate(String jouranlAccountID){
+		List<Map<String, Object>> result = service.getJouranlAccountDate(jouranlAccountID);
+		return JSONArray.fromObject(result).toString();
 	}
 }

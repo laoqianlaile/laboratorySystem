@@ -29,4 +29,6 @@ public interface IRoleService {
 	public String delRole(String roleIDs);
 	public String updRole(String roleID, String roleName, String description);
 	List<BootstrapTreeNode> getRoleTree_w();
+	
+	List<Map<String, Object>> getAllName();
 }

@@ -305,4 +305,17 @@ public class ReceiptlistController{
 		return JSONObject.fromObject(service.getReceiptlistAll(   limit,   offset,   sort,   order));
 	}
 	
+
+	/**
+	 * 获取交接单数据 通过合同ID
+	 * 
+	 * @author zkl
+	 * @return
+	 */
+	@RequestMapping("/getReceiptlistInfo")
+	@ResponseBody
+	public String getReceiptlistInfo(String contractID){
+		List<Map<String, Object>> result = service.getReceiptlistInfo(contractID);
+		return JSONArray.fromObject(result).toString();
+	}
 }
