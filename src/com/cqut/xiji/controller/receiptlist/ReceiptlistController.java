@@ -297,7 +297,12 @@ public class ReceiptlistController{
 	public String updRelistInforInReturn(String reID,String conID,String linkMan,String createTime,String linkPhone) throws UnsupportedEncodingException{
 		linkMan=URLDecoder.decode(linkMan,"utf-8");
 		String result = service.updRelistInforInReturn(reID, conID, linkMan, createTime, linkPhone);
-		return result;
+		return result; 
 	}
-
+	@RequestMapping("/getReceiptlistAll")  
+	@ResponseBody
+	public JSONObject getReceiptlistAll(int limit, int offset, String sort, String order) throws UnsupportedEncodingException{
+		return JSONObject.fromObject(service.getReceiptlistAll(   limit,   offset,   sort,   order));
+	}
+	
 }

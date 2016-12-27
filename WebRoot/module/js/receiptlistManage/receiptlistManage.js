@@ -196,6 +196,11 @@ function addRe() {
 		alert("请选中一条数据");
 		return;
 	}
+	if(data[0].coState >= 4 ){
+		alert(data[0].coState +" 表示已经审核通过了")
+	}else{
+		alert(data[0].coState +" 表示没有审核通过了")
+	}
 	var result = initAddReceiptlist(data[0],"yes");  //创建交接单跳转
 	window.location.href = "./addRecelist.jsp?reID="
 		    +result.reID+"&coID=" 
@@ -352,11 +357,14 @@ function checkData(dataObj) { // 后台数据字段为空就不会传上来
 	if (!dataObj.hasOwnProperty("proID") || dataObj.proID == null 	|| dataObj.proID.trim() == "NULL") {
 		  dataObj.proID = "";
 	}
+	if (!dataObj.hasOwnProperty("coState") || dataObj.coState == null || dataObj.coState == undefined ) {
+		dataObj.coState = "0"; //没有合同文件
+	}
 	if (!dataObj.hasOwnProperty("coCode") || dataObj.coCode == null || dataObj.coCode.trim() == "NULL") {
 		 dataObj.coCode = "";
 	}
 	if (!dataObj.hasOwnProperty("isEditSample") || dataObj.isEditSample == null || dataObj.isEditSample == undefined ) {
-		dataObj.isEditSample = "1";
+		dataObj.isEditSample = "1"; //能编辑
 	}
 	if (!dataObj.hasOwnProperty("comID") || dataObj.comID == null || dataObj.comID.trim() == "NULL") {
 		dataObj.comID = "";
