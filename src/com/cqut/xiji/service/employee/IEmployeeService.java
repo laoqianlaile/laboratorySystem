@@ -34,6 +34,17 @@ public interface IEmployeeService {
 	List<Map<String,Object>> getDepartmentInfo(HttpSession session);
 
 	List<Map<String, Object>> getEmployeeData(String matchName);
+	
+	Map<String, Object> getEmployeeWithPaging(String employeeName, String employeeCode,String loginName, String phoneNumber, String departmentName, int limit,
+			int offset, String order, String sort);
+	
+	public String addEmployee(String employeeName, String employeeCode, int sex,String email,String phoneNumber,String address,String dutyID,String roleID,String departmentID);
+	
+	public String delEmployee(String IDs);
+	
+	public String updEmployee(String ID,String employeeName, String employeeCode, int sex,String email,String phoneNumber,String address,String dutyID,String roleID,String departmentID);
+	
+	public String updEmployeeState(String ID,int state);
 }
 	
 

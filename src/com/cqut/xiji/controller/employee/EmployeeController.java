@@ -1,5 +1,7 @@
 ﻿package com.cqut.xiji.controller.employee;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 
@@ -133,5 +135,115 @@ public class EmployeeController {
 		public String getEmployeeData(String matchName){
 			List<Map<String, Object>> result = service.getEmployeeData(matchName);
 			return JSONArray.fromObject(result).toString();
+		}
+		
+		/**
+		 * 
+		 * @description 获取员工信息
+		 * @author Hzz
+		 * @date 2016年12月7日 早上10:15:22
+		 * @param employeeName
+		 * @param employeeCode
+		 * @param loginName
+		 * @param phoneNumber
+		 * @param departmentName
+		 * @param limit
+		 * @param offset
+		 * @param order
+		 * @param sort
+		 * @return
+		 */
+		@RequestMapping("/getEmployeeWithPaging")  
+	    @ResponseBody
+		public JSONObject getEmployeeWithPaging(String employeeName,
+				String employeeCode, String loginName, String phoneNumber,
+				String departmentName, int limit, int offset, String order,
+				String sort){
+			Map<String, Object> result =service.getEmployeeWithPaging(employeeName, employeeCode, loginName, phoneNumber, departmentName, limit, offset, order, sort);
+			return JSONObject.fromObject(result);
+		}
+		
+		/**
+		 * @description 新增员工
+		 * @author Hzz
+		 * @date 2016年12月8日 早上10:49:17
+		 * @param employeeName
+		 * @param employeeCode
+		 * @param sex
+		 * @param email
+		 * @param phoneNumber
+		 * @param address
+		 * @param dutyID
+		 * @param roleID
+		 * @param departmentID
+		 * @return
+		 * @throws UnsupportedEncodingException 
+		 */
+		@RequestMapping("/addEmployee")  
+	    @ResponseBody
+		public String addEmployee(String employeeName, String employeeCode,
+				int sex, String email, String phoneNumber, String address,
+				String dutyID, String roleID, String departmentID) throws UnsupportedEncodingException{
+			employeeName=URLDecoder.decode(employeeName,"utf-8");
+			address=URLDecoder.decode(address,"utf-8");
+			String result = service.addEmployee(employeeName, employeeCode, sex, email, phoneNumber, address, dutyID, roleID, departmentID);
+			return result;
+		}
+		
+		/**
+		 * @description 删除员工
+		 * @author Hzz
+		 * @date 2016年12月8日 早上10:54:05
+		 * @param IDs
+		 * @return
+		 */
+		@RequestMapping("/delEmployee")  
+	    @ResponseBody
+		public String delEmployee(String IDs){
+			String result = service.delEmployee(IDs);
+			return result;
+		}
+		
+		/**
+		 * @description 更新员工信息
+		 * @author Hzz
+		 * @date 2016年12月8日 早上11:05:11
+		 * @param ID
+		 * @param employeeName
+		 * @param employeeCode
+		 * @param sex
+		 * @param email
+		 * @param phoneNumber
+		 * @param address
+		 * @param dutyID
+		 * @param roleID
+		 * @param departmentID
+		 * @return
+		 * @throws UnsupportedEncodingException 
+		 */
+		@RequestMapping("/updEmployee")  
+	    @ResponseBody
+		public String updEmployee(String ID,String employeeName, String employeeCode,
+				int sex, String email, String phoneNumber, String address,
+				String dutyID, String roleID, String departmentID) throws UnsupportedEncodingException{
+			employeeName=URLDecoder.decode(employeeName,"utf-8");
+			address=URLDecoder.decode(address,"utf-8");
+			String result = service.updEmployee(ID, employeeName, employeeCode, sex, email, phoneNumber, address, dutyID, roleID, departmentID);
+			return result;
+		}
+		
+		/**
+		 * @decription 更改员工状态
+		 * @author Hzz
+		 * @date 2016年12月8日 早上11:21:08
+		 * @param ID
+		 * @param state
+		 * @return
+		 */
+		@RequestMapping("/updEmployeeState")  
+	    @ResponseBody
+		public String updEmployeeState(String ID,int state){
+			String result = service.updEmployeeState(ID, state);
+			return result;
 		}
 }

@@ -116,4 +116,17 @@ public class DutyService extends SearchService implements IDutyService{
 		return result+"";
 	}
 	
+	/**
+	 * @description 获取所有职务名
+	 * @author Hzz
+	 * @date 2016年12月7日晚上 20:04:13
+	 */
+	@Override
+	public List<Map<String, Object>> getAllDutyName() {
+		// TODO Auto-generated method stub
+		String[] properties = new String[] {"ID","dutyName"};
+		String condition = "";
+		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Duty.class);
+		return result;
+	}
 }
