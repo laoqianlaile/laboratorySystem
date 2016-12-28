@@ -14,7 +14,7 @@ $(function(){
 function initData(){
 	initContractTable();
 	initFileTable();
-	//initTidingsTable();
+	initTidingsTable();
 }
 function initContractTable(){
 	var order ;
@@ -211,7 +211,7 @@ function initFileTable(){
 			});
 }
 function initTidingsTable(){
-	$('.tidingsTable') .bootstrapTable(
+	$('.tidingsTable').bootstrapTable( 
 			{
 						// 定义表格的高度height: 500,
 				striped : true,// 隔行变色效果
@@ -224,7 +224,7 @@ function initTidingsTable(){
 				cache : false,// 禁用 AJAX 数据缓存
 				sortName : 'ID',// 定义排序列
 				sortOrder : 'asc',// 定义排序方式 getRceiptlistWithPaging
-				url : '/laboratorySystem/receiptlistController/getReFiletByReID.do',// 服务器数据的加载地址
+				url : '/laboratorySystem/messageController/getMessageByUserID.do',// 服务器数据的加载地址
 				sidePagination : 'server',// 设置在哪里进行分页
 				method : "post",
 				dataType : "json",// 服务器返回的数据类型
@@ -257,8 +257,16 @@ function initTidingsTable(){
 							}
 						},
 						{
-							field : 'ID',// 返回值名称
+							field : 'mnID',// 返回值名称
 							title : 'messageNoticeID',// 列名
+							align : 'center',// 水平居中显示
+							valign : 'middle',// 垂直居中显示
+							width : '10%',// 宽度
+							visible : false
+						},
+						{
+							field : 'mID',// 返回值名称
+							title : 'message ID',// 列名
 							align : 'center',// 水平居中显示
 							valign : 'middle',// 垂直居中显示
 							width : '10%',// 宽度
@@ -289,7 +297,7 @@ function initTidingsTable(){
 								var look = "", edit = "", download = "";
 								look = '<button onclick= "lookMessage(\''
 										+ row.ID
-										+ '\')" data-toggle="tooltip" data-placement="top" title="确认查看"  class="glyphicon glyphicon-save" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></button>';
+										+ '\')" data-toggle="tooltip" data-placement="top" title="确认查看"  class="icon-eye-open" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></button>';
 								return look;
 							}
 						} ]

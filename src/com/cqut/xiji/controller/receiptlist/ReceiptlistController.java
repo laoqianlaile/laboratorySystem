@@ -329,4 +329,6 @@ public class ReceiptlistController{
 		List<Map<String, Object>> result = service.getReceiptlistInfo(contractID);
 		return JSONArray.fromObject(result).toString();
 	}
+	
+	
 }

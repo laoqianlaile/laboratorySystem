@@ -67,6 +67,10 @@
 	min-width: 120px;
 	margin-right: 5px;
 }
+.tidings{
+    margin-top: 35PX;
+}
+
 </style>
 </head>
 

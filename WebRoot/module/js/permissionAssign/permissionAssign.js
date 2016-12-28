@@ -91,7 +91,7 @@ function initSlecledByRoleId(roleID){
 	var node ; 
 	for(var i = 1 ; i < moduleNum ; i++){
 		node =$('#treeModule').treeview('getNode',i);
-		if(node.id != null  && moduleIDs != null && moduleIDs != "" && isContains(moduleIDs,node.id))
+		if(node != null  && node.id != null  && moduleIDs != null && moduleIDs != "" && isContains(moduleIDs,node.id))
 			{
 		    	$('#treeModule').treeview('checkNode', [ i, { silent: true } ]);  //怕把所有子节点的模块都选中
 		    	$('#treeModule').treeview('expandNode', [ i, { levels: 5, silent: true } ]); //展开列表 默认5级 true false 暂时没有影响 没有定义展开事件

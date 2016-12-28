@@ -236,7 +236,7 @@
 					<ul class="nav nav-list">
 						<label for="tree"></label>
 						<div class="tree"></div>
-						<li><a href="module/jsp/roleManage/roleManage.jsp"
+						<!-- <li><a href="module/jsp/roleManage/roleManage.jsp"
 							target="aa"> <i class="icon-dashboard"></i> <span
 								class="menu-text">角色管理 </span>
 						</a></li>
@@ -278,7 +278,7 @@
 							href="module/jsp/moduleManage/moduleManage.jsp"
 							target="aa"> <i class="icon-desktop"></i> <span
 								class="menu-text">模块管理</span>
-						</a></li>
+						</a></li> -->
  
 
 					</ul>
