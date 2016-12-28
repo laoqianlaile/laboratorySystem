@@ -367,6 +367,7 @@ function add(dom){
 	var getdata = $('#table').bootstrapTable('getSelections');
 	var dataobj={};
 	if(getdata.length==1){
+		dataobj.datacount = $('#table').bootstrapTable('getData').length+1;
 		dataobj.projectName = getdata[0].projectName;
 		dataobj.projectPoint = getdata[0].projectPoint;
 		dataobj.endTime = getdata[0].endTime;
