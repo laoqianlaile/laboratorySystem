@@ -299,6 +299,17 @@ public class ReceiptlistController{
 		String result = service.updRelistInforInReturn(reID, conID, linkMan, createTime, linkPhone);
 		return result; 
 	}
+	/**
+	 * 样品管理员-获取合同-交接单数据信息
+	 * @author wzj
+	 * @date 2016年12月28日 下午3:03:33
+	 * @param limit
+	 * @param offset
+	 * @param sort
+	 * @param order
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
 	@RequestMapping("/getReceiptlistAll")  
 	@ResponseBody
 	public JSONObject getReceiptlistAll(int limit, int offset, String sort, String order) throws UnsupportedEncodingException{
