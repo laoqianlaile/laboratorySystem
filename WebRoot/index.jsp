@@ -148,7 +148,7 @@
 			<div class="navbar-container" id="navbar-container">
 				<div class="navbar-header pull-left">
 					<a href="#" class="navbar-brand"> <small> <i
-							class="icon-leaf"></i> 西计后台管理系统
+							class="icon-leaf"></i>西计实验室管理系统
 					</small>
 					</a>
 				</div>
