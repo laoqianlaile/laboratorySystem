@@ -32,6 +32,7 @@ $(function () {
 		if(data.length==0 || data.length>1){
 			alert("请选中一条数据");
 			return;
+			
 		}
 		
 		var ID = data[0].ID;
@@ -41,7 +42,7 @@ $(function () {
 	
 	// 打印报告按钮点击事件
 	$('#printReport').click(function (){
-		var data = $('#table').bootstrapTable('getSelections');
+		var data = $('#table').bootstrapTable('getSelections');                                      
 		
 		if(data.length==0 || data.length>1){
 			alert("请选中一条数据");
