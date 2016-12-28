@@ -67,12 +67,14 @@ function initRoleTree(){
 					
 					
 				$('#treeRole').treeview('uncheckAll', { silent: false });
+				$('#treeModule').treeview('uncheckAll', { silent: true }); //清楚以前的勾选数据
 				$('#treeRole').treeview('checkNode', [ node.nodeId, { silent: true } ]);
 				permission_global.roleID = node.id;
+				   initSlecledByRoleId(node.id);
 			}else{  //是头节点
 				  permission_global.roleID = "";
 			}
-        
+         
 			//使有关的模块选中
 		},
 		onNodeUnchecked :function(event , node){ //一个节点取消选择  这个事件源竟然是整个tree 
@@ -82,7 +84,63 @@ function initRoleTree(){
 		
 	});
 }
-//角色权限查看
+function initSlecledByRoleId(roleID){
+	var moduleIDs = getModuleIDByRoleID(roleID);
+	var nodeIds = [];
+	var moduleNum = getModuleNum()+1;
+	var node ; 
+	for(var i = 1 ; i < moduleNum ; i++){
+		node =$('#treeModule').treeview('getNode',i);
+		if(node.id != null  && moduleIDs != null && moduleIDs != "" && isContains(moduleIDs,node.id))
+			{
+		    	$('#treeModule').treeview('checkNode', [ i, { silent: true } ]);  //怕把所有子节点的模块都选中
+		    	$('#treeModule').treeview('expandNode', [ i, { levels: 5, silent: true } ]); //展开列表 默认5级 true false 暂时没有影响 没有定义展开事件
+			} 
+	}
+	
+}
+function getModuleNum(){
+	var moduleNums ;
+	$.ajax({
+		url : '/laboratorySystem/moduleController/getModuleNum.do',
+		dataType : "json",
+		async : false,
+		data : { 
+			
+		},
+		success : function(o) {
+			alert("sucess 2");
+			moduleNums = JSON.parse(o);
+		},
+		error : function() {
+			alert("faire 1");
+			return false;
+		}
+	});
+	return moduleNums;
+}
+function getModuleIDByRoleID(roleID){
+	var moduleIDs ;
+	$.ajax({
+		url : '/laboratorySystem/moduleController/getModuleIDByRoleID.do',
+		dataType : "json",
+		async : false,
+		data : {
+			roleID : roleID
+		},
+		success : function(o) {
+			moduleIDs = o ;
+			//moduleIDs = JSON.parse(o); //字符串 加上,解析失败
+			console.log(moduleIDs);
+		},
+		error : function() {
+			alert("faire 1");
+			return false;
+		}
+	});
+	return moduleIDs;
+}
+//初始化模块树
 function initModuleTree(){
 	// var treemoduleurl="permissionAssignController/getPermissionModule.do?level="+3;
 		$('#treeModule').treeview({
@@ -96,95 +154,83 @@ function initModuleTree(){
 				var thisId = node.nodeId;
 				var thisParentId = node.parentId;
 				var total = "";
-				if(thisId != null && thisId != ""){  //不是头节点
-					permission_global.moduleIDs += node.id+",";
-				}
+				
 				if(node.id == undefined || node.id == ""){ //是头节点
-					if(permission_global.isSelected == true) //是自己点击触发的
 					 $('#treeModule').treeview('checkAll', { silent: false });
-					else {
-						  permission_global.isSelected = true;
-					}
                      //没有父节点的不需要处理
 				}else {  
-					   permission_global.isSelected = false; //点击了其他节点
-					    if(node.id != null && node.id != "") //节点的主键没有设置
-			                permission_global.moduleIDs += node.id+",";
 					   //选中一个节点需要把父节点选中
-					$('#treeModule').treeview('checkNode', [ thisParentId, { silent: true } ]); //防止父节点为头节点 又重新选中所有
-
-
-					//选中子节点
-					var siblings =   $('#treeModule').treeview('getSiblings', node.nodeId);//兄弟节点  就算子节点展开也不是兄弟节点不要误导(虽然页面上是同一级的)  但是上面的下面也算兄弟节点
-					if(siblings == null ){
-						console.log("没有兄弟");
-					}else{
-						console.log(siblings);
-						var nextId = siblings[0].nodeId;
-						console.log(node.nodeId);
-						if(nextId  < thisId){ //说明已经回了一圈，已经是同级最后的一个 但是它的子节点也要选中
-							console.log(node);
+					    if(thisParentId == 0)  //是头节点
+					    {
+					    	$('#treeModule').treeview('checkNode', [ thisParentId, { silent: true } ]); //防止父节点为头节点 又重新选中所有
+					    }
+					    else  {  //不是头节点
+					    	var parentNode =  $('#treeModule').treeview('getNode', thisParentId);
+					    	 if(isContains(permission_global.moduleIDs,parentNode.id))  //是否添加父节点
+					    			 {
+					    		         ;
+					    			 }
+					    	 else {
+					    		 permission_global.moduleIDs+=parentNode.id+",";
+					    		 addPermission(permission_global.roleID ,parentNode.id); //分配权限
+					    	 }
+					    	  $('#treeModule').treeview('checkNode', [ thisParentId, { silent: true } ]); //防止父节点又重新选中所有字节点
+					    	  console.log(permission_global.moduleIDs);
+					    }
+					    if(node.id != undefined && node.id != ""){ //添加选中的节点的id
+							 permission_global.moduleIDs +=node.id+ ","; 
+							 addPermission(permission_global.roleID ,node.id); //分配权限
+						}
+					   
+				        	//选中子节点
 							total = "";
 							var temp = node;
-							while ( temp.nodes.length == 0){
+							while ( temp.nodes.length != 0){
 								if(node.nodes != null && node.nodes.length != 0)//没有孩子节点却有孩子数组
-								{ 
-									 temp = node.nodes[length-1]; //数组最后一个
+								{    
+									 console.log(node.nodes);
+									 temp = node.nodes[temp.nodes.length-1]; //数组最后一个
+									 console.log(temp);
 									 total = temp.nodeId;
 								}
 								
 							}
-							$('#treeModule').treeview('expandNode', [ thisId, { levels: 5, silent: true } ]);  //自己选中的节点也展开
+							$('#treeModule').treeview('expandNode', [ thisId, { levels: 5, silent: false } ]);  //自己选中的节点也展开
 							selectedModuleChilred(thisId+1,total); //展开和选中
-						} else{  //有同级下面的节点
-							$('#treeModule').treeview('expandNode', [ thisId, { levels: 5, silent: true } ]);   //自己选中的节点也展开
-							selectedModuleChilred(thisId+1,nextId - 1); //展开和选中
 							
-						}
-						
-					} //else
 
 				}
 		        },
 		        onNodeUnchecked :function(event , node){
 		        	var thisId = node.nodeId;
-		        	
+		        	console.log(permission_global);
 					var thisParentId = node.parentId;
 					var total = ""; //最后一个节点才用
-					if(thisId != null && thisId != ""){
-						permission_global.moduleIDs.replace(node.id+",",""); //删除对应模块
-					}
 					if(node.id == undefined || node.id == ""){ //所有节点
 						$('#treeRole').treeview('uncheckAll', { silent: true }); //可以直接赋值空 
-						permission_global.moduleIDs = "";
-						 permission_global.isSelected = true;
+						 permission_global.moduleIDs = "";
+						 deletePermission(permission_global.roleID ,"all"); //分配权限
 	                     //没有父节点的不需要处理
-					}else {
-						 //不选中一个节点需要把子节点不选中
-						//找子节点
-						var siblings =   $('#treeModule').treeview('getSiblings', node.nodeId);//兄弟节点  就算子节点展开也不是兄弟节点不要误导(虽然页面上是同一级的)  但是上面的下面也算兄弟节点
-						if(siblings == null ){
-							console.log("没有兄弟");
-						}else{
-							console.log(siblings);
-							var nextId = siblings[0].nodeId;
-							console.log(node.nodeId);
-							if(nextId  < thisId){ //说明已经回了一圈，已经是同级最后的一个 但是它的子节点也要选中
+					}else {      
+						if(thisId != null && thisId != ""){
+							  permission_global.moduleIDs.replace(node.id+",",""); //删除对应模块
+							  console.log(permission_global.moduleIDs);
+							  deletePermission(permission_global.roleID ,node.id); //分配权限
+						}
+						        //取消选中的字节点 
 								console.log(node);
 								total = "";
 								var temp = node;
-								while ( temp.nodes.length == 0){
-									temp = node.nodes[length-1]; //数组最后一个
-									total = temp.nodeId;
+								while ( temp.nodes.length != 0){
+									 console.log(node.nodes);
+									 temp = node.nodes[temp.nodes.length-1]; //数组最后一个
+									 console.log(temp);
+									 total = temp.nodeId;
 								}
 								$('#treeModule').treeview('expandNode', [ thisId, { levels: 5, silent: true } ]);  //自己选中的节点也展开
 								unSelectedModuleChilred(thisId+1,total); //展开和不选中
-							} else{  //有同级下面的节点
-								$('#treeModule').treeview('expandNode', [ thisId, { levels: 5, silent: true } ]);   //自己选中的节点也展开
-								unSelectedModuleChilred(thisId+1,nextId - 1); //展开和不选中
-							}
-							
-						}
+								
+					
 				} //else
 		      } //事件
 			
@@ -207,7 +253,49 @@ function unSelectedModuleChilred(start,end){
 		$('#treeModule').treeview('expandNode', [ i, { levels: 5, silent: true } ]); //展开列表 默认5级 true false 暂时没有影响 没有定义展开事件
 	}
 }
+//判断字符串是否包含字串
+function isContains(str, substr) {
+	return str.indexOf(substr) >= 0;
+}
 //分配权限
+function addPermission(roleID,moduleID){
+	$.ajax({
+		url : '/laboratorySystem/permissionAssignController/addPermission.do',
+		dataType : "json",
+		async : false,
+		data : {
+			roleID : roleID,
+			moduleID : moduleID
+		},
+		success : function(o) {
+			moduleIDs = JSON.parse(o);
+		},
+		error : function() {
+			alert("add faire");
+			return false;
+		}
+	});
+	
+	
+}
+function deletePermission(roleID,moduleID){
+	$.ajax({
+		url : '/laboratorySystem/permissionAssignController/deletePermission.do',
+		dataType : "json",
+		async : false,
+		data : {
+			roleID : roleID,
+			moduleID : moduleID
+		},
+		success : function(o) {
+			moduleIDs = JSON.parse(o);
+		},
+		error : function() {
+			alert("delete faire");
+			return false;
+		}
+	});
+}
 function addSelectedsFun(){
 	if(operatorcode && operatorcode!=null){
 		var selrow = [];

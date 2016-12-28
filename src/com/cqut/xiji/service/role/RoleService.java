@@ -249,4 +249,18 @@ public class RoleService extends SearchService implements IRoleService{
 		list.add(node);
 		return list;
 	}
+	
+	/**
+	 * @description 获取所有的角色名
+	 * @author Hzz
+	 * @date 2016年12月7日 晚上20:10:37
+	 */
+	@Override
+	public List<Map<String, Object>> getAllName() {
+		// TODO Auto-generated method stub
+		String[] properties = new String[] {"ID","name"};
+		String condition = "";
+		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Role.class);
+		return result;
+	}
 }

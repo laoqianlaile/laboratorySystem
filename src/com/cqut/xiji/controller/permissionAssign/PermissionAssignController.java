@@ -105,4 +105,29 @@ public class PermissionAssignController{
 	public String delPermission(String modulecode,String roleId,boolean isLeaf){
 		return String.valueOf(service.delPermission(modulecode, roleId,isLeaf));
 	}*/
+	/**
+	 * 删除角色对应的模块
+	 * @author wzj
+	 * @date 2016年12月24日 下午5:30:50
+	 * @param roleID
+	 * @param moduleID
+	 */
+	@RequestMapping("/deletePermission")  
+	@ResponseBody	
+	public String deletePermission(String roleID,String moduleID){
+		return service.deletePermission(roleID,moduleID);
+	}
+	/**
+	 * 新增角色对应的模块
+	 * @author wzj
+	 * @date 2016年12月24日 下午5:31:08
+	 * @param roleID
+	 * @param moduleID
+	 */
+	@RequestMapping("/addPermission")  
+	@ResponseBody	
+	public String addPermission(String roleID,String moduleID){
+	return  service.addPermission(roleID,moduleID);
+	}
+	
 }

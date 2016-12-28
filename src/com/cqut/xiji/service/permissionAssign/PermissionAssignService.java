@@ -13,8 +13,11 @@ import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.base.BootstrapTreeNode;
+import com.cqut.xiji.entity.permissionAssign.PermissionAssign;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.service.employee.IEmployeeService;
+import com.cqut.xiji.tool.util.EntityIDFactory;
+import com.mysql.fabric.xmlrpc.base.Data;
 
 /**
  * @author zx 权限分配
@@ -321,4 +324,48 @@ public class PermissionAssignService extends SearchService implements
 		System.out.println(TreeNode.toArray().toString());
 		return TreeNode;
 	}
+/**
+ * 
+ *  删除角色对应模块
+ * @author wzj
+ * @date 2016年12月24日 下午5:37:20
+ *
+ */
+@Override
+public String deletePermission(String roleID, String moduleID) {
+	// TODO Auto-generated method stub
+	if(roleID != null && !roleID.equals("")){
+		if(moduleID.equals("all")){
+			return  entityDao.deleteByCondition(" ownerCode='"+roleID+"'", PermissionAssign.class) > 0 ? "true" : "false";
+		}else {
+			return entityDao.deleteByCondition(" ownerCode='"+roleID+"' and permissionCode = '"+moduleID+"' ", PermissionAssign.class) > 0 ? "true" : "false";
+		}
+	}
+	return "true";
+	
+}
+/**
+ * 
+ * 新增角色对应模块
+ * @author wzj
+ * @date 2016年12月24日 下午5:36:58
+ *
+ */
+@Override
+public String addPermission(String roleID, String moduleID) {
+	// TODO Auto-generated method stub
+List<PermissionAssign>  list = 	entityDao.getByCondition(" ownerCode='"+roleID+"' and permissionCode='"+moduleID+"'", PermissionAssign.class);
+  if(list != null && list.size() > 0){
+	 return "true" ; //已经有，无需操作
+  }
+  else if(roleID != null && !roleID.equals("")){
+		  PermissionAssign permissionAssign = new PermissionAssign();
+		  permissionAssign.setID(EntityIDFactory.createId());
+		  permissionAssign.setOWNERCODE(roleID);
+		  permissionAssign.setPERMISSIONCODE(moduleID);
+		  permissionAssign.setREMARKS((new Data()).toString());
+		  return entityDao.save(permissionAssign) == 1 ? "true"  : "false" ;
+	}
+  return "true";
+}
 }

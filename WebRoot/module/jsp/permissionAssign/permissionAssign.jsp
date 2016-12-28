@@ -26,12 +26,15 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 <style type="text/css">
+.sortTree{
+ min-width: 1300px;
+}
 #treeRole {
 	width: 400px; position : relative;
 	float: left;
 	margin-left: 10px;
 	margin-top: 10px;
-	height: 500px;
+	height: auto;
 	overflow: auto;
 	position: relative;
 }
@@ -42,7 +45,7 @@
 	float: left;
 	margin-left: 70px;
 	margin-top: 10px;
-	height: 500px;
+	height: auto;
 	overflow: auto;
 }
 

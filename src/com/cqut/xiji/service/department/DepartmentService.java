@@ -313,7 +313,19 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 		return bootsrapTree;
 	}
 	
-		
+	/**
+	 * @descriptlion 获取所有的部门名称
+	 * @author Hzz
+	 * @date 2016年12月7日 下午13:10:54
+	 */
+	@Override
+	public List<Map<String, Object>> getAllDepartmentName() {
+		// TODO Auto-generated method stub
+		String[] properties = new String[] {"ID","departmentName"};
+		String condition = "";
+		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Department.class);
+		return result;
+	}	
 }
 	
 

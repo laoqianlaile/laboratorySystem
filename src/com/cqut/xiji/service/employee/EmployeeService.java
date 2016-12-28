@@ -1,6 +1,7 @@
-package com.cqut.xiji.service.employee;
+﻿package com.cqut.xiji.service.employee;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,12 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
+
 import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.employee.Employee;
 import com.cqut.xiji.service.base.SearchService;
+import com.cqut.xiji.tool.util.EntityIDFactory;
 
 @Service("employeeService")
 public class EmployeeService extends SearchService implements IEmployeeService{
@@ -110,13 +113,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			 
 			return "1";
 		}
-		/**
-		 * 获取员工角色
-		 * @author wzj
-		 * @date 2016年12月23日 上午11:12:21
-		 * @param userID
-		 * @return
-		 */
+		
 		@Override
 		public List<String> getEmployeeRole(String userID) {
 			// TODO Auto-generated method stub
@@ -231,6 +228,193 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			
 			List<Map<String,Object>> result = this.searchForeignWithJoin(properties, joinEntity, null, condtion, false);
 			return result;
+		}
+
+		@Override
+		public List<Map<String, Object>> getEmployeeData(String matchName) {
+			String baseEntity = "employee";
+			String[] properties = {
+					"employee.ID",
+					"employee.employeeName",
+					"department.departmentName"
+			};
+			String joinEntity = " LEFT JOIN department ON department.ID = employee.departmentID ";
+			String condition = " 1 = 1 ";
+			if(matchName != null && matchName != ""){
+				condition += " and employee.employeeName LIKE '%" + matchName + "%'";
+			}
+			List<Map<String, Object>> result = originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false);
+			return result;
+		}
+		
+		
+		/**
+		 * @descriptlion 获取员工信息
+		 * @author Hzz
+		 * @date 2016年12月7日 早上10:10:12
+		 */
+		@Override
+		public Map<String, Object> getEmployeeWithPaging(String employeeName,
+				String employeeCode, String loginName, String phoneNumber,
+				String departmentName, int limit, int offset, String order,
+				String sort) {
+			// TODO Auto-generated method stub
+			int index = limit;
+			int pageNum = offset/limit;
+			String tableName = "employee";
+			String[] properties = new String[]{
+					"employee.ID",
+					"employee.employeeName",
+					"employee.employeeCode",
+					"employee.loginName",
+					"employee.email",
+					"employee.phoneNumber",
+					"employee.address",
+					"date_format(employee.createTime,'%Y-%m-%d') as createTime",
+					"employee.roleID",
+					"employee.departmentID",
+					"employee.dutyID",
+					"role.name",
+					"department.departmentName",
+					"duty.dutyName",
+					"case when employee.sex = 0 then '女'"
+					+ "when employee.sex = 1 then '男' end as sex",
+					
+					"case when employee.state = 0 then '禁用'"
+					+ "when employee.state = 1 then '启用' end as state",
+			};
+			
+			String condition=" 1 = 1 "
+					+ "and employee.departmentID = department.ID "
+					+ "and employee.roleID = role.ID "
+					+ "and employee.dutyID = duty.ID";
+			
+			if (employeeName != null && !employeeName.equals("")) {
+				condition += " and employee.employeeName like '%"
+						+ employeeName + "%'";
+			}
+			if (employeeCode != null && !employeeCode.equals("")) {
+				condition += " and employee.employeeCode like '%" + employeeCode
+						+ "%'";
+			}
+			if (loginName != null && !loginName.equals("")) {
+				condition += " and employee.loginName like '%" + loginName
+						+ "%'";
+			}
+			if (phoneNumber != null && !phoneNumber.equals("")) {
+				condition += " and employee.phoneNumber like '%" + phoneNumber + "%'";
+			}
+			if (departmentName != null && !departmentName.equals("")) {
+				condition += " and department.departmentName like '%" + departmentName + "%'";
+			}
+			
+			String[] foreignEntitys = new String[] { "role", "department",
+			"duty" };
+			
+			List<Map<String, Object>> result = originalSearchWithpaging(properties,
+					tableName, null, foreignEntitys, condition, false, null, sort,
+					order, index, pageNum);
+			int count = getForeignCount(foreignEntitys, condition, false);
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("total", count);
+			map.put("rows", result);
+
+			return map;
+		}
+
+		/**
+		 * @description 新增员工
+		 * @author Hzz
+		 * @date  2016年12月8日 早上10:46:09
+		 */
+		@Override
+		public String addEmployee(String employeeName, String employeeCode,
+				int sex, String email, String phoneNumber, String address,
+				String dutyID, String roleID, String departmentID) {
+			// TODO Auto-generated method stub
+			
+			Employee employee = new Employee();
+			employee.setID(EntityIDFactory.createId());
+			employee.setEmployeeName(employeeName);
+			employee.setEmployeeCode(employeeCode);
+			employee.setAddress(address);
+			employee.setEmail(email);
+			employee.setSex(sex);
+			employee.setCreateTime(new Date());
+			employee.setPhoneNumber(phoneNumber);
+			employee.setDutyID(dutyID);
+			employee.setDepartmentID(departmentID);
+			employee.setRoleID(roleID);
+			employee.setState(0);
+			employee.setLevel(0);
+			int result = entityDao.save(employee);
+			return result + "";
+		}
+
+		/**
+		 * @description 删除员工
+		 * @author Hzz
+		 * @date 2016年12月8日 早上10:52:43
+		 */
+		@Override
+		public String delEmployee(String IDs) {
+			// TODO Auto-generated method stub
+			if(IDs == null || IDs.isEmpty()){
+				return 0+"";
+			}
+			String[] ids = IDs.split(",");
+			int result = entityDao.deleteEntities(ids, Employee.class);
+			return result+"";
+		}
+
+		/**
+		 * @description 更新员工信息
+		 * @author Hzz
+		 * @date 2016年12月8日 早上11:03:14
+		 */
+		@Override
+		public String updEmployee(String ID,String employeeName, String employeeCode,
+				int sex, String email, String phoneNumber, String address,
+				String dutyID, String roleID, String departmentID) {
+			// TODO Auto-generated method stub
+			
+			if(ID == null  || ID.equals("")){
+				return "false";
+			}
+			Employee employee = entityDao.getByID(ID, Employee.class);
+			if(employee == null )
+				return "false";
+			employee.setEmployeeName(employeeName);
+			employee.setEmployeeCode(employeeCode);
+			employee.setSex(sex);
+			employee.setAddress(address);
+			employee.setEmail(email);
+			employee.setPhoneNumber(phoneNumber);
+			employee.setDutyID(dutyID);
+			employee.setDepartmentID(departmentID);
+			employee.setRoleID(roleID);
+			
+			return entityDao.updatePropByID(employee,ID)==1?"true":"false";
+		}
+
+		/**
+		 * @description 更改员工状态
+		 * @author Hzz
+		 * @date 2016年12月8日 早上11:19:54
+		 */
+		@Override
+		public String updEmployeeState(String ID,int state) {
+			// TODO Auto-generated method stub
+			if(ID == null  || ID.equals("")){
+				return "false";
+			}
+			Employee employee = entityDao.getByID(ID, Employee.class);
+			if(employee == null )
+				return "false";
+			employee.setState(state);
+			
+			return entityDao.updatePropByID(employee,ID)==1?"true":"false";
 		}
 		
 }

@@ -39,5 +39,7 @@ public interface IModuleService {
 	public String deleteModule(String[] IDs);
 	public Map<String,Object> getModuleWithPaging(int rows, int page, String order,
 			String sort, String moduleName,String condition);
+	public String getModuleIDByRoleID(String roleID);  //通过角色Id查询对应的模块ID
+	String getModuleNum(String condition);  //通过条件查询所有的模块数
 	
 }

@@ -11,5 +11,8 @@ public interface IPaymentDetailService {
 
 	String upPaymentDetail(String payMentDetailID,String receiptlistID, String receiptlistCode,
 			String drawID, String payMoney, String remarks);
+
+	String addPaymentDetail(String jouranlAccountID, String employeeID,
+			String drawID, String receiptlistID, String payMoney, String remarks);
 	
 }

@@ -4,6 +4,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import com.cqut.xiji.entity.qualityPlan.QualityPlan;
+
 public interface IQualityPlanService {
 
 	Map<String, Object> getQualityPlanWithPaging(int limit, int offset,

@@ -150,6 +150,18 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
 	     								<input type="text" class="form-control" id="belongID" name="belongID" readonly="true">
 	    							</div>
 	  							</div>
+	  							<div class="form-group" style="visibility:hidden;">
+	    							<label for="inputPassword3" class="col-sm-2 control-label">year</label>
+	    							<div class="col-sm-10">
+	     								<input type="text" class="form-control" id="belongID" name="year" readonly="true" value=<%=request.getParameter("year") %>>
+	    							</div>
+	  							</div>
+	  							<div class="form-group" style="visibility:hidden;">
+	    							<label for="inputPassword3" class="col-sm-2 control-label">code</label>
+	    							<div class="col-sm-10">
+	     								<input type="text" class="form-control" id="belongID" name="code" readonly="true" value=<%=request.getParameter("code") %>>
+	    							</div>
+	  							</div>
 								<div class="modal-footer">
 				      				<button type="submit" class="btn btn-primary">确定</button>
 					        		<button type="button" class="btn btn-primary" data-dismiss="modal">退出</button>	
