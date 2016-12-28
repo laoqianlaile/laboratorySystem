@@ -332,7 +332,7 @@ function lookMessage(ID){
 				ID:ID
 			},
 			success : function(o) {
-				
+				$('.fileTable').bootstrapTable( 'refresh',null);
 			},
 			error : function() {
 			}
