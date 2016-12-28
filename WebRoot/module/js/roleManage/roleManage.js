@@ -172,7 +172,7 @@ function edit(){
 		var data = $('#table').bootstrapTable('getSelections');
 		var ids =  data[0].ID;
 		var parame = {};
-		parame.roleID = id;
+		parame.roleID = ids;
 		parame.roleName = $('#edit_roleName').val();
 		parame.description = $('#edit_description').val();
 		$.ajax({

@@ -26,6 +26,9 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 <style type="text/css">
+.sortTree{
+ min-width: 1300px;
+}
 #treeRole {
 	width: 400px; position : relative;
 	float: left;
