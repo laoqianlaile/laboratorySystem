@@ -115,7 +115,7 @@ function initData(){
 			formatter : function(value, row, index) {
 				return "<span  onclick='fileDown(\""+row.ID+"\")'  title='下载报告' class='glyphicon glyphicon-arrow-down' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
 				+"<span  onclick='submitReport(\""+row.ID+"\")'  title='提交审核' class='glyphicon glyphicon-ok-sign' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
-				+"<span  onclick='sendReport(\""+row.ID+"\")'  title='发送报告' class='glyphicon glyphicon-log-out' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
+				+"<span  onclick='showSendReportModal(\""+row.ID+"\")'  title='发送报告' class='glyphicon glyphicon-log-out' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
 			}
 		}]
 	});

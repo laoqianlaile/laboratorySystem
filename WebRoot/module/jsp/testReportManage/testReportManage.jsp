@@ -153,6 +153,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="modal-body">
 					<div class="row">
 					<label class="col-xs-4 col-md-4 col-lg-4">接受人:</label>
+					<span id="receiveMan"></span>
 					<input class="col-xs-8 col-md-8 col-lg-8 form-control" type="text"/>
 					</div>
 				</div>
