@@ -341,15 +341,29 @@ public class TestProjectService extends SearchService implements
 
 	
 	/**
-	 * @description 通过设备名称得到设备信息
+	 * @description 通过检测项目名称得到设备信息
 	 * @author hujiajun
 	 * @created 2016年12月12日19:13:01
 	 * @param testProjectName
 	 */
 	@Override
 	public List<Map<String, Object>> getTestProjectByName(String testProjectName){
-		String[] properties = new String[] {"ID","nameCn"};
-		String condition = " nameCn like '%" + testProjectName + "%'";
+		String[] properties = new String[] {"ID","nameCn","nameEn"};
+		String condition = " nameCn like '%" + testProjectName + "%' or nameEn like '%" + testProjectName + "%'";
+		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, TestProject.class);
+		return result;
+	}
+	
+	/**
+	 * @description 通过检测项目ID得到设备信息
+	 * @author hujiajun
+	 * @created 2016年12月12日19:13:01
+	 * @param testProjectByID
+	 */
+	@Override
+	public List<Map<String, Object>> getTestProjectById(String testProjectByID){
+		String[] properties = new String[] {"ID","nameCn","nameEn"};
+		String condition = " ID = '" + testProjectByID + "'";
 		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, TestProject.class);
 		return result;
 	}

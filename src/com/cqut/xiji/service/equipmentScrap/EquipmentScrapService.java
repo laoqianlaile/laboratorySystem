@@ -44,7 +44,7 @@ public class EquipmentScrapService extends SearchService implements IEquipmentSc
 			String order, String model, String equipmentName,String departmentID){
 		// TODO Auto-generated method stub
 				int index = limit;
-				int pageNum = offset/limit + 1;
+				int pageNum = offset/limit ;
 				//String tableName = "contract";
 				String[] properties = new String[]{
 						"b.ID", 

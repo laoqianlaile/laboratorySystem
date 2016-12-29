@@ -132,14 +132,14 @@ function queryParams(){
 /**
  * 搜索方法
  */
-function searchEquipment(){
+function searchContract(){
 	initData();
-	refresh();
+	$('#table').bootstrapTable('refresh', null);
 }
 
 /* 刷新方法 */
 function refresh(){
-	$('#table').bootstrapTable('refresh', null);
+	window.location.href="module/jsp/equipmentManage/equipmentManage.jsp";
 }
 
 /* 删除方法 */

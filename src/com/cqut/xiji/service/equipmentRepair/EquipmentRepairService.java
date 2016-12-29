@@ -45,7 +45,7 @@ public class EquipmentRepairService extends SearchService implements IEquipmentR
 			String equipmentName, String employeeName){
 		// TODO Auto-generated method stub
 				int index = limit;
-				int pageNum = offset/limit + 1;
+				int pageNum = offset/limit ;
 				//String tableName = "contract";
 				String[] properties = new String[]{
 						"a.ID", 

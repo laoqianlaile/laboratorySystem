@@ -72,8 +72,8 @@ public class ContractController{
 	 */
 	@RequestMapping("/addContract")  
     @ResponseBody
-	public String addContract(String contractName, String companyName, String oppositeMen,String linkPhone, String employeeName, String signAddress,String startTime,String signTime, String endTime){
-		String result = service.addContract(contractName, companyName, oppositeMen, linkPhone, employeeName, signAddress, startTime, signTime, endTime);
+	public int addContract(String contractName, String companyName, String oppositeMen,String linkPhone, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime){
+		int result = service.addContract(contractName, companyName, oppositeMen, linkPhone, employeeName, address, signAddress, startTime, signTime, endTime);
 		return result;
 	}
 	
@@ -81,13 +81,13 @@ public class ContractController{
 	 * @description 删除合同
 	 * @author hujiajun
 	 * @created 2016-10-17 下午9:31:13
-	 * @param contractCodes
+	 * @param ID
 	 * @return
 	 */
 	@RequestMapping("/delContract")  
     @ResponseBody
-	public String delContract(String contractCodes){
-		String result = service.delContract(contractCodes);
+	public String delContract(String ID){
+		String result = service.delContract(ID);
 		return result;
 	}
 	
@@ -105,10 +105,10 @@ public class ContractController{
 		return JSONArray.fromObject(result).toString();
 	}
 	
-	@RequestMapping("/getContractByCode")  
+	@RequestMapping("/getContractByID")  
     @ResponseBody
-	public String getContractByCode(String contractCode){
-		List<Map<String, Object>> result = service.getContractByCode(contractCode);
+	public String getContractByID(String ID){
+		List<Map<String, Object>> result = service.getContractByID(ID);
 		return JSONArray.fromObject(result).toString();
 	}
 	
@@ -135,8 +135,8 @@ public class ContractController{
 	 */
     @RequestMapping("/updContract")  
     @ResponseBody
-	public String updContract(String ID, String contractCode,String contractName, String companyName, String oppositeMen,String linkPhone, String employeeName, String signAddress,String startTime,String signTime, String endTime,double contractAmount,int isClassified,int classifiedLevel,int state){
-		String result = service.updContract(ID, contractCode, contractName, companyName, oppositeMen, linkPhone, employeeName, signAddress, startTime, signTime, endTime, contractAmount, isClassified, classifiedLevel, state);
+	public String updContract(String ID, String contractCode,String contractName, String companyID, String companyName, String address, String oppositeMen,String linkPhone, String employeeID, String employeeName, String signAddress,String startTime,String signTime, String endTime,double contractAmount,int isClassified,int classifiedLevel,int state){
+		String result = service.updContract(ID, contractCode, contractName, companyID, companyName, address, oppositeMen, linkPhone, employeeID, employeeName, signAddress, startTime, signTime, endTime, contractAmount, isClassified, classifiedLevel, state);
 		return result;
 	}
 	
