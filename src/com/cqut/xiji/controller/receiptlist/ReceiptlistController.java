@@ -191,8 +191,8 @@ public class ReceiptlistController{
 	 */
 	@RequestMapping("/addReceiptList")
 	@ResponseBody
-	public String addReceiptList(String coID ,String proID ,String state,HttpServletRequest request) {
-		Map<String, Object> result = service.addReceiptList( coID , proID , state ,request ) ;
+	public String addReceiptList(HttpServletRequest request,String coID ,String proID ,String state) {
+		Map<String, Object> result = service.addReceiptList( request.getSession() ,coID , proID , state ,request ) ;
 		return JSONObject.fromObject(result).toString();
 	}
 	/**
@@ -208,6 +208,13 @@ public class ReceiptlistController{
 		Map<String, Object> result = service.getReceiptByReID( reID) ;
 		return JSONObject.fromObject(result).toString();
 	}
+	/**
+	 * 删除交接单
+	 * @author wzj
+	 * @date 2016年12月22日 下午10:25:18
+	 * @param reID
+	 * @return
+	 */
 	@RequestMapping("/delReceiptlist")
 	@ResponseBody
 	public String delReceiptlist(String reID ) {
@@ -290,7 +297,38 @@ public class ReceiptlistController{
 	public String updRelistInforInReturn(String reID,String conID,String linkMan,String createTime,String linkPhone) throws UnsupportedEncodingException{
 		linkMan=URLDecoder.decode(linkMan,"utf-8");
 		String result = service.updRelistInforInReturn(reID, conID, linkMan, createTime, linkPhone);
-		return result;
+		return result; 
 	}
+	/**
+	 * 样品管理员-获取合同-交接单数据信息
+	 * @author wzj
+	 * @date 2016年12月28日 下午3:03:33
+	 * @param limit
+	 * @param offset
+	 * @param sort
+	 * @param order
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	@RequestMapping("/getReceiptlistAll")  
+	@ResponseBody
+	public JSONObject getReceiptlistAll(int limit, int offset, String sort, String order) throws UnsupportedEncodingException{
+		return JSONObject.fromObject(service.getReceiptlistAll(   limit,   offset,   sort,   order));
+	}
+	
 
+	/**
+	 * 获取交接单数据 通过合同ID
+	 * 
+	 * @author zkl
+	 * @return
+	 */
+	@RequestMapping("/getReceiptlistInfo")
+	@ResponseBody
+	public String getReceiptlistInfo(String contractID){
+		List<Map<String, Object>> result = service.getReceiptlistInfo(contractID);
+		return JSONArray.fromObject(result).toString();
+	}
+	
+	
 }

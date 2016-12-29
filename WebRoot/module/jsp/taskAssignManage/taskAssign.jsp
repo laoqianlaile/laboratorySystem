@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>检测管理</title>
+    <title>西计实验室管理系统</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -91,7 +91,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="col-xs-6 col-md-6 col-lg-6">
 			</div>
 			<div class="col-xs-1 col-md-1 col-lg-2">
-				<button id="btn-assign" type="button" class="btn btn-primary" >分配检测/校准人员</button>
+				<button id="btn-assign" type="button" class="btn btn-primary" >分配人员</button>
 			</div>
 		</div>
 		<br />
@@ -124,11 +124,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="modal-content">
 				<div class="modal-header">
 					<div class="row">
-						<div class="col-xs-8 col-md-8 col-lg-8">
-							<h4 >分配到检测/校准员</h4>
-						</div>
-						<div class="col-xs-3 col-md-3 col-lg-3">
-							<h5 >样品编号：<span id="sampleCode"></span></h5>
+						<div class="col-xs-11 col-md-11 col-lg-11">
+							<h4>分配人员</h4>
 						</div>
 						<div class="col-xs-1 col-md-1 col-lg-1">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"> 
@@ -139,14 +136,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-xs-8 col-md-8 col-lg-8">
+						<div class="col-xs-4 col-md-4 col-lg-4">
 							<h4><span id="departmentPeople"></span>部门所有人员：</h4>
 						</div>
-						<div class="col-xs-2 col-md-2 col-lg-2">
-							<button type="button" class="btn btn-primary" id="assignCustodian">分配监督员</button>
+						<div class="col-xs-4 col-md-4 col-lg-4">
+							<div>
+								<input type="radio" name="assignType" value="1" checked>检测/校准员&nbsp;
+								<input type="radio" name="assignType" value="0">监督员
+							</div>
 						</div>
-						<div class="col-xs-2 col-md-2 col-lg-2">
-							<button type="button" class="btn btn-primary" ID="assignDetector">分配检测/校准员</button>
+						<div class="col-xs-1 col-md-1 col-lg-1"></div>
+						<div class="col-xs-3 col-md-3 col-lg-3">
+							<h5 >样品编号：<span id="sampleCode"></span></h5>
 						</div>
 					</div>
 					<span style="display:none" id="taskID"></span>
@@ -158,7 +159,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary">确定</button>
+					<button id="assign" type="button" class="btn btn-primary">确定</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 				</div>
 			</div>

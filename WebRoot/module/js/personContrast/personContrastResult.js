@@ -18,9 +18,10 @@ $(function () {
    $('#table').bootstrapTable({
 		striped: true,// 隔行变色效果
 		pagination: true,//在表格底部显示分页条
+		singleSelect : true,
 		pageSize: 3,//页面数据条数
 		pageNumber:1,//首页页码
-		pageList: [3, 5, 9, 10, 20, 30],//设置可供选择的页面数据条数
+		pageList: [1,5,10,15,20],//设置可供选择的页面数据条数
 		clickToSelect:true,//设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache: false,//禁用 AJAX 数据缓存
 		sortName:'ID',//定义排序列
@@ -32,6 +33,7 @@ $(function () {
 		selectItemName:'',//radio or checkbox 的字段名
 		queryParams : queryParams, // 参数
 		queryParamsType : "limit", // 参数格式,发送标准的RESTFul类型的参数请求
+		onClickRow:onClickRow,
 		showRefresh : false, // 显示刷新按钮
 		columns:[{
 			checkbox:true,
@@ -143,7 +145,16 @@ $(function () {
 		}]//列配置项,详情请查看 列参数 表格
 		/*事件*/
 	});
+   initTableFile();
+   
 });
+
+//选中行展示文件
+function onClickRow(row){
+	rowID = row.ID;
+	refreshfile();
+}
+
 
 //展示弹窗
 var selectobject={};
@@ -203,6 +214,7 @@ function queryParams(params) {
 			employeeID1 : $('#employeeID1').val(),
 			testDevice : $('#testDevice').val(),
 			startTime : $('#startTime').val(),
+			endTime :$('#endTime').val(),
 			employeeID2 : $('#employeeID2').val(),
 			state:"",
 			departmentName:"",
@@ -269,11 +281,11 @@ function getfiled(str){
 	return result;
 }
 
-//获取当条数据id
-function getsugestID(){
+//展示文件上传
+function uploadfile(){
 	var getdata = $('#table').bootstrapTable('getSelections');
 	if(getdata.length==1){
-		$('#asda').attr("data-target","#addModal");
+		$('#showfilepage').modal('show');	
 		$('#belongID').val(getdata[0].ID);
 	}else
 		showdiag("请选择一条数据");
@@ -285,7 +297,6 @@ function download(){
 		if(getdata.length == 1){
 			var fileID;
 			fileID=getdata[0].fileID;
-			alert(fileID);
 			window.location.href="fileOperateController/filedownload.do?ID="+fileID;
 		}
 		if(getdata==null||getdata==""){
@@ -306,61 +317,76 @@ function refreshfile(){
 	$('#tablefile').bootstrapTable('refresh', null);
 }
 
-//加载文件
-function setTimeoutgetID(dom,rowID){
-	var getdata = $('#table').bootstrapTable('getSelections');
-	if((getdata.length==1)&&(dom.getAttribute("class")=="selected")){
-		refreshfile();
-		$(function(){
-			$('#tablefile').bootstrapTable({
-				height: '320',//定义表格的高度
-				pagination: true,//在表格底部显示分页条
-				classes:'table table-condensed',
-				clickToSelect:true,
-				pageSize: 10,//页面数据条数
-				pageNumber:1,//首页页码
-				pageList: [1,2,3, 10, 20],//设置可供选择的页面数据条数
-				cache: false,//禁用 AJAX 数据缓存
-				sortName:'fileName',//定义排序列
-				sortOrder:'asc',//定义排序方式
-				url:'timeCheckController/getTimecheckFileWithPaging.do',//服务器数据的加载地址
-				sidePagination:'server',//设置在哪里进行分页
-				contentType:'application/json',//发送到服务器的数据编码类型
-				dataType:'json',//服务器返回的数据类型
-//				queryParams:'',//请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
-				queryParams : queryParams, // 参数
-				queryParamsType : "limit", // 参数格式,发送标准的RESTFul类型的参数请求
-				showRefresh : false, // 显示刷新按钮
-			    columns:[{
-			    	checkbox:true,
-			    	align:'center',
-			    	valign:'middle',
-			    	width:'50',
-			    },{
-			    	field:'ID',
-    			    },{
-			    	field:'fileName',
-			    	title:'文件名',
-			    	align:'center',
-			    	valign:'middle',
-			    	width:'400',
-			    },{
-			    	field:'uploadTime',
-			    	title:'上传时间',
-			    	align:'center',
-			    	valign:'middle',
-			    	width:'400',
-			    },{
-			    	field:'remarks',
-			    	title:'备注',
-			    	align:'center',
-			    	valign:'middle',
-			    	width:'',
-			    }]
-			});
+        var rowID = "";
+
+		function Params(pageRequest){
 			
-		});
-		rowID="";
-	};
+			pageRequest.pageNo = this.offset;
+			pageRequest.pageSize = this.pageNumber;
+			pageRequest.length = 6;
+			pageRequest.planID = rowID;
+			return pageRequest;
+		}
+
+function initTableFile(){
+	$('#tablefile').bootstrapTable({
+		height: '320',//定义表格的高度
+		pagination: true,//在表格底部显示分页条
+		classes:'table table-condensed',
+		clickToSelect:true,
+		pageSize: 10,//页面数据条数
+		pageNumber:1,//首页页码
+		pageList: [3,5,10,15,20],//设置可供选择的页面数据条数
+		cache: false,//禁用 AJAX 数据缓存
+		sortName:'fileName',//定义排序列
+		sortOrder:'asc',//定义排序方式
+		url:'timeCheckController/getTimecheckFileWithPaging.do',//服务器数据的加载地址
+		sidePagination:'server',//设置在哪里进行分页
+		contentType:'application/json',//发送到服务器的数据编码类型
+		dataType:'json',//服务器返回的数据类型
+//		queryParams:'',//请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
+		queryParams : Params, // 参数
+		queryParamsType : "limit", // 参数格式,发送标准的RESTFul类型的参数请求
+		showRefresh : false, // 显示刷新按钮
+	    columns:[{
+	    	checkbox:true,
+	    	align:'center',
+	    	valign:'middle',			
+	    },{
+	    	field:'ID',
+	    	visible:false,
+		    },{
+	    	field:'fileName',
+	    	title:'文件名',
+	    	align:'center',
+	    	valign:'middle',
+	    },{
+	    	field:'uploadTime',
+	    	title:'上传时间',
+	    	align:'center',
+	    	valign:'middle',
+	    },{
+	    	field:'remarks',
+	    	title:'备注',
+	    	align:'center',
+	    	valign:'middle',
+	    }]
+	});
+	
+}
+			
+
+//刷新全部
+function refreshAll(){
+	$('#projectCode').val("");
+	$('#projectCode').val(""),
+	$('#projectName').val(""),
+	$('#employeeID1').val(""),
+	$('#testDevice').val(""),
+	$('#startTime').val(""),
+	$('#endTime').val(""),
+	$('#employeeID2').val(""),
+	$('#table').bootstrapTable('refresh', null);
+	$(".disappear").css("display","none");
 }
 

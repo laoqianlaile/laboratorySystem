@@ -54,12 +54,12 @@ public class ModuleService extends SearchService implements IModuleService{
 		Map<String, BootstrapTreeNode> parentTwo = new HashMap<String, BootstrapTreeNode>();
 		
 		//头节点 
-		BootstrapTreeNode node = new BootstrapTreeNode("", "模块管理");
+		BootstrapTreeNode node = new BootstrapTreeNode("", "所有模块");
 		node.setBackColor("f2f2f2");
 		node.setlevel0("0");
 		node.setIcon("glyphicon glyphicon-th");
 		node.setColor("green");
-		node.setHref("module/jsp/moduleManage/moduleManage.jsp");
+		node.setHref("javascript:void(0)");
 		TreeNode= node;
 		
 		String[]  properties = new String[]{
@@ -417,5 +417,50 @@ public class ModuleService extends SearchService implements IModuleService{
 		// TODO Auto-generated method stub
 		
 		return null;
+	}
+	/**
+	 * 
+	 * 获取角色对应的模块IDs
+	 * @author wzj
+	 * @date 2016年12月24日 下午5:20:19
+	 *
+	 */
+	@Override
+	public String getModuleIDByRoleID(String roleID) {
+		// TODO Auto-generated method stub
+		String[] properties = new String[]{
+				"permissionCode"
+		};
+		String moduleIDsString = "";
+		 List<Map<String, Object>> list = entityDao.findByCondition(properties, " ownerCode = '"+roleID+"'", PermissionAssign.class);
+		 if( list != null && list.size() > 0){
+			for(int i = 0 ; i < list.size() ; i++){
+				  moduleIDsString+=(String)list.get(i).get("permissionCode")+",";
+			}
+			 moduleIDsString = moduleIDsString.substring(0, moduleIDsString.length()-1);
+			 System.out.println("moduleIDsString : "+moduleIDsString);
+			 return moduleIDsString;
+		 }
+		 else  return "";
+	}
+	
+	/**
+	 * 
+	 * //得到条件满足的模块数量
+	 * @author wzj
+	 * @date 2016年12月24日 下午5:19:58
+	 *
+	 */
+	@Override
+	public String getModuleNum(String condition) {
+		 int num = 0; 
+		 if(condition == null){
+			 return entityDao.getCountByCondition(" 1 = 1", Module.class)+"";
+		 }
+		 else  if(condition != null && !condition.equals("")){
+			 return entityDao.getCountByCondition(condition, Module.class)+"";
+		 }
+		 
+		 else return ""+num;
 	}
 }

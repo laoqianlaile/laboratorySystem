@@ -40,60 +40,71 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
   </head>
   
   <body>
+  <div class="main">
+	  <span id="yearvalue" class="hiddenspan"><%=request.getParameter("year") %></span>
+	  <span id="codevalue" class="hiddenspan"><%=request.getParameter("code") %></span>
+  		<div id="font">
+  			<%=request.getParameter("year") %>人员比对建议
+  		</div>
+  		
   
-    <!-- 搜索框2-->  
-  <div class="searchbox2">
-	  <form class="form-horizontal" role="form">
-		  <div class="form-group">
-		  
-			  <span class="col-sm-2 control-label" for="projectCode">比对项目编号</span>
-			  <div class="col-sm-2">
-			  <input type="text" class="form-control" id="projectCode" placeholder="">
-			  </div>
-			  
-			  <span class="col-sm-1 control-label" for="projectName">比对项目</span>
-			  <div class="col-sm-2">
-			  <input type="text" class="form-control" id="projectName" placeholder="">
-			  </div>
-			   <span class="col-sm-1 control-label">比对人员</span>
-			  <div class="col-sm-2">
-			     <input type="text" class="form-control" id="employeeID1" placeholder="">
-			  </div>
-			  <button type="button" id="" class="btn btn-info" onclick="query()">查询</button>
+	    <!-- 搜索框2-->  
+	    <div id="head">
+	      <p id="Serialnumber">编号:<label><%=request.getParameter("code") %></label></p>
+		  <div class="searchbox2">
+			  <form class="form-horizontal" role="form">
+				  <div class="form-group">
+				  
+					  <span class="col-sm-1 control-label" for="projectCode">比对项目编号</span>
+					  <div class="col-sm-2">
+					  <input type="text" class="form-control" id="projectCode" placeholder="">
+					  </div>
+					  
+					  <span class="col-sm-1 control-label" for="projectName">比对项目</span>
+					  <div class="col-sm-2">
+					  <input type="text" class="form-control" id="projectName" placeholder="">
+					  </div>
+					   <span class="col-sm-1 control-label">比对人员</span>
+					  <div class="col-sm-2">
+					     <input type="text" class="form-control" id="employeeID1" placeholder="">
+					  </div>
+					  <button type="button" id="" class="btn btn-info " onclick="query()">查询</button>
+				  </div>
+				  
+				  <div class="form-group">  
+					 
+					  <span class="col-sm-1 control-label">测试装置</span>
+					  <div class="col-sm-2">
+					      <input type="text" class="form-control" id="testDevice" placeholder="">
+					  </div>  
+					  <span class="col-sm-1 control-label">待比对人员</span>
+					  <div class="col-sm-2">
+					     <input type="text" class="form-control" id="employeeID2" placeholder="">
+					  </div>
+					  <span class="col-sm-1 control-label">执行时间</span>
+					  <div class="col-sm-2">
+					      <input class="form_datetime form-control " type="text" id="startTime">
+					  </div>
+					  <span class="to">至</span>
+					  <div class="col-sm-2">
+					     <input class="form_datetime form-control " type="text" id="endTime">
+					  </div>
+				  </div>
+				  
+			  </form>
 		  </div>
-		  
-		  <div class="form-group">  
-			 
-			  <span class="col-sm-2 control-label">测试装置</span>
-			  <div class="col-sm-2">
-			      <input type="text" class="form-control" id="testDevice" placeholder="">
-			  </div>  
-			<!--   <form class="form-inline"> -->
-			  <span class="col-sm-1 control-label">计划年度</span>
-			  <div class="col-sm-1">
-			      <input class="form_datetime form-control " type="text" id="startTime">
-			  </div>
-			  <div class="col-sm-1">
-			     <input class="form_datetime form-control " type="text" id="endTime">
-			  </div>
-		   <!-- 	  </form> -->
-			  <span class="col-sm-1 control-label">待比对人员</span>
-			  <div class="col-sm-2">
-			     <input type="text" class="form-control" id="employeeID2" placeholder="">
-			  </div>
-		  </div>
-		  
-	  </form>
-  </div>
-    <!-- 表格2-->
-    <div class="tablebox">
-    <button type="button" class="btn btn-info " onclick="addrow(this)">新增</button>
-    <button type="button" class="btn btn-info " onclick="deletelist(this)">删除</button>
-    <button type="button" class="btn btn-info " onclick="updataPersonContrast(this)">修改</button>
-    <button type="button" class="btn btn-info disappear"  id="disappear" onclick="addpersonconTrast()">提交</button>
-    <button type="button" class="btn btn-info"  onclick="refreshAll()">刷新全部</button>
-  	<table id="table">
-  	
-  	</table></div>
+  
+		    <!-- 表格2-->
+		    <div class="tablebox">
+		    <button type="button" class="btn btn-info " onclick="addrow(this)">新增</button>
+		    <button type="button" class="btn btn-info " onclick="deletelist(this)">删除</button>
+		    <button type="button" class="btn btn-info " onclick="updataPersonContrast(this)">修改</button>
+		    <button type="button" class="btn btn-info disappear"  id="disappear" onclick="addpersonconTrast()">提交</button>
+		    <button type="button" class="btn btn-info"  onclick="refreshAll()">刷新全部</button>		  	
+		  	<table id="table"></table>  	
+		  	</div>
+
+	  	</div>
+  	</div>
   </body>
 </html>

@@ -13,7 +13,6 @@ public interface ISampleService {
      * @return
      */
 	String delSample(String roleIDs);
-	String getSample(String sampleID);
 	Map<String, Object> getSampleWithPaging(String factoryCode,String sampleName,String sampleType, String giveMan, String takeMan,String receiptlistCode, String startTime, String endTime,
 			int limit, int offset, String order, String sort);//分页初始化数据
 	String addLinkSample(String factoryCode, String sampleName, String sampleType,
@@ -24,11 +23,16 @@ public interface ISampleService {
 			String remarks, String unit); //单纯的修改样品信息
 	String delLinkReSample(String linkIDs);
 	String getSampleByCode(String sampleCode);
+	String getSampleByID(String sampleID);
 	public List<Map<String, Object>> getSampleInfor(String qrcode);
+	String addSample(String factoryCode, String sampleName, String sampleType,String remarks, String unit); //新增样品
 	String isExitFactory(String factoryCode); //查看样品编号是否存在
+	List<Map<String, Object>> getSampleListByCodeLimit(String sampleCode); //根据样品编号搜索样品-限制5条以内
 	/**
 	 * wzj
 	 */
+
+	
 	
 	
 }

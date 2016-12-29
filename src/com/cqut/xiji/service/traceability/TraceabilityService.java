@@ -1,24 +1,35 @@
 package com.cqut.xiji.service.traceability;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 
 import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.employee.Employee;
+import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.entity.traceability.Traceability;
 import com.cqut.xiji.service.base.SearchService;
+import com.cqut.xiji.tool.util.EntityIDFactory;
 
 @Service
 public class TraceabilityService extends SearchService implements
@@ -72,6 +83,62 @@ public class TraceabilityService extends SearchService implements
 	}
 
 	@Override
+	public Boolean upload(HttpServletRequest request,
+			HttpServletResponse response, ModelMap model) throws IOException {
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		// 得到上传的文件
+		MultipartFile mFile = multipartRequest.getFile("file");
+		System.out.println("mFile=" + mFile);
+		// 得到上传服务器的路径
+		String path = request.getSession().getServletContext()
+				.getRealPath("/WEB-INF/");
+
+		System.out.println(path);
+		String filename = mFile.getOriginalFilename();
+		String remark = request.getParameter("remark");
+		int type;
+		if (request.getParameter("type") == "自检") {
+			type = 0;
+		} else {
+			type = 1;
+		}
+
+		String belongID = request.getParameter("belongID");
+		if (filename == null || filename == "") {
+			return false;
+		}
+		InputStream inputStream = mFile.getInputStream();
+		byte[] b = new byte[1048576];
+		int length = inputStream.read(b);
+		path += "\\" + filename;
+		// 文件流写到服务器端
+		FileOutputStream outputStream = new FileOutputStream(path);
+		outputStream.write(b, 0, length);
+		inputStream.close();
+		outputStream.close();
+		String ID = EntityIDFactory.createId();
+		FileInformation fr = new FileInformation();
+		fr.setID(ID);
+		fr.setBelongtoID(belongID);
+		fr.setFileName(filename);
+		fr.setPath(path);
+		fr.setUploadTime(new Date());
+		fr.setRemarks(remark);
+		fr.setType(type);
+		String result = this.saveFiles(fr);
+		if (result == "true") {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public String saveFiles(FileInformation fr) {
+		return baseEntityDao.save(fr) == 1 ? "true" : "false";
+	}
+
+	@Override
 	public int getCountByCondition(String condition) {
 		return entityDao.getCountByCondition(condition, Traceability.class);
 	}
@@ -87,7 +154,8 @@ public class TraceabilityService extends SearchService implements
 				traceability.setDepartmentID(ens.get(0).getDepartmentID());// 设置部门ID
 			}
 		}
-		traceability.setQualityPlanID(session.getAttribute("qualiyPlanId").toString());
+		traceability.setQualityPlanID(session.getAttribute("qualiyPlanId")
+				.toString());
 		traceability.setEmployeeID(userID);// 设置制定者（用户名）ID
 		traceability.setAuditState("0");// 0-未审核，1-审核通过，2-不通过
 		return entityDao.save(traceability);
@@ -166,7 +234,6 @@ public class TraceabilityService extends SearchService implements
 		return map;
 	}
 
-	@Override
 	public Map<String, Object> getTraceabilityResultWithPaging(int limit,
 			int offset, String order, String sort, String condition) {
 		int index = limit;

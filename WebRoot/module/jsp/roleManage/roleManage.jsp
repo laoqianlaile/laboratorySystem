@@ -29,14 +29,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="module/js/bootstrap.js"></script>
 	<script src="module/js/bootstrap-table.js"></script>
 	<script src="module/js/bootstrap-table-zh-CN.js"></script>
-   
+   <style type="text/css">
+   .input-group  .btn-primary{
+     margin-right: 5px;
+   }
+   </style>
   </head>
   
   <body>
   	<!-- 功能按钮 -->
   	 <div class="input-group" style="float: right;margin-bottom: 10px;">
   		<button type="button" class="btn btn-primary glyphicon glyphicon-plus" data-toggle="modal" data-target="#addModal">&nbsp;新增</button>
-  		<button type="button" onclick="showModal()" class="btn btn-primary glyphicon glyphicon-show">&nbsp;查看</button>
+  		<button type="button" onclick="lookModal()" class="btn btn-primary glyphicon glyphicon-show">&nbsp;查看</button>
   		<button type="button" onclick="openModal()" class="btn btn-primary glyphicon glyphicon-edit">&nbsp;修改</button>
   		<button id="del" onclick="delData()" type="button" class="btn btn-primary glyphicon glyphicon-remove">&nbsp;删除</button>
   		<button id="refresh" onclick="refresh()" type="button" class="btn btn-primary glyphicon glyphicon-refresh">&nbsp;刷新</button>
@@ -62,11 +66,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      	<div class="row">
                <div class="col-xs-12 col-md-12">
                    <h4>角色名：</h4>
-                   <input type="text" id="add_NAME" name="NAME" class="form-control" aria-describedby="basic-addon1"/>
+                   <input type="text" id="add_roleName" name="roleNam" class="form-control" aria-describedby="basic-addon1"/>
                </div>
                <div class="col-xs-12 col-md-12">
-                   <h4>备注：</h4>
-                   <input type="text" id="add_REMARKS" name="REMARKS" class="form-control" aria-describedby="basic-addon1"/>
+                   <h4>角色简介：</h4>
+                   <textarea   id="add_description" name="description" class="form-control" aria-describedby="basic-addon1"></textarea>
                </div>
              </div>
              
@@ -90,20 +94,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      <div class="modal-body">
 	      	<div class="row">
 	      	   <div class="col-xs-12 col-md-12">
-                   <h4>用户ID：</h4>
-                   <input  type="text" id="show_ROLEID" name="ROLEID" class="form-control" aria-describedby="basic-addon1"/>
+               <!--     <h4>用户ID：</h4> -->
+                   <input  type="hidden" id="show_roleID" name="roleID" class="form-control" aria-describedby="basic-addon1"/>
                </div>
 		       <div class="col-xs-12 col-md-12">
                    <h4>角色名：</h4>
-                   <input  type="text" id="show_NAME" name="NAME" class="form-control" aria-describedby="basic-addon1"/>
+                   <input  type="text" id="show_roleName" name="roleName" class="form-control" aria-describedby="basic-addon1"/>
                </div>
                <div class="col-xs-12 col-md-12">
                    <h4>创建人：</h4>
-                   <input  type="text" id="show_CREATOR" name="CREATOR" class="form-control" aria-describedby="basic-addon1"/>
+                   <input  type="text" id="show_creator" name="creator" class="form-control" aria-describedby="basic-addon1"/>
+               </div>
+                <div class="col-xs-12 col-md-12">
+                   <h4>创建人：</h4>
+                   <input  type="text" id="show_createTime" name="createTime" class="form-control" aria-describedby="basic-addon1"/>
                </div>
                <div class="col-xs-12 col-md-12">
-                   <h4>备注：</h4>
-                   <input  type="text" id="show_REMARKS" name="REMARKS" class="form-control" aria-describedby="basic-addon1"/>
+                   <h4>角色简介：</h4>
+                   <textarea  cols="6" id="show_describtion" name="describtion" class="form-control" aria-describedby="basic-addon1" ></textarea>
                </div>
              </div>
 	      </div>
@@ -127,11 +135,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      	<div class="row">
 		       <div class="col-xs-12 col-md-12">
                    <h4>角色名：</h4>
-                   <input  type="text" id="edit_NAME" name="NAME" class="form-control" aria-describedby="basic-addon1"/>
+                   <input  type="text" id="edit_roleName" name="NAME" class="form-control" aria-describedby="basic-addon1"/>
                </div>
                <div class="col-xs-12 col-md-12">
-                   <h4>备注：</h4>
-                   <input  type="text" id="edit_REMARKS" name="REMARKS" class="form-control" aria-describedby="basic-addon1"/>
+                   <h4>角色简介：</h4>
+                   <textarea    id="edit_description"  cols="6"   name="description" class="form-control" aria-describedby="basic-addon1"></textarea>
                </div>
              </div>
 	      </div>

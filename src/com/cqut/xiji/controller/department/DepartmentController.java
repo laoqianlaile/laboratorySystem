@@ -87,5 +87,16 @@ public class DepartmentController {
 		
 	}
 	
-
+	/**
+	 * @description 获取所有的部门名称
+	 * @author Hzz
+	 * @date 2016年12月7日 下午13:13:04
+	 * @return
+	 */
+	@RequestMapping("/getAllDepartmentName")
+	@ResponseBody
+	public String getAllDepartmentName(){
+		List<Map<String, Object>> result = service.getAllDepartmentName();
+		return JSONArray.fromObject(result).toString();
+	}
 }

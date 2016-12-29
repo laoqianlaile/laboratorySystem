@@ -1,4 +1,4 @@
-package com.cqut.xiji.service.template;
+﻿package com.cqut.xiji.service.template;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +13,7 @@ import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.entity.template.Template;
+import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
@@ -114,7 +115,7 @@ public class TemplateService extends SearchService implements ITemplateService{
 
 	@Override
 	public String addTemplate(String TemplateName, String TemplateRemarks,
-			String TemplateType, String fileID,String uploaderID) {
+			String TemplateType, String TestProjectID,String fileID,String uploaderID) {
 		
 		int result = 0;
 		
@@ -138,7 +139,14 @@ public class TemplateService extends SearchService implements ITemplateService{
 
 		result += entityDao.updatePropByID(fileInformation, fileID);
 		
+		//关联检测项目
 		
+		
+		TestProject project = new TestProject();
+		
+		project.setTemplateID(template.getID());
+		
+		result += entityDao.updatePropByID(project, TestProjectID);
 		return result +"";
 	}
 	@Override

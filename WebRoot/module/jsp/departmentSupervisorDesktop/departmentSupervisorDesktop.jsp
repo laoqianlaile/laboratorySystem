@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>科室主管桌面</title>
+    <title>西计实验室管理系统</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -85,4 +85,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </body>
   
   <script src="module/js/departmentSupervisorDesktop/departmentSupervisorDesktop.js"></script>
+  <script src="module/js/fileManage/fileManage.js"></script>
 </html>

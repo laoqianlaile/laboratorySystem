@@ -53,6 +53,7 @@ public interface ITaskService {
 
 	public Map<String, Object> getSampleInfoWithPaging(int limit, int offset,
 			String order, String sort, String taskID);
+	List<Map<String, Object>> getTaskByRelist(String receiptlistID);
 
 	public List<Map<String, Object>> getProjectName(String taskID);
 

@@ -121,7 +121,8 @@ public class PersonconTrastController{
 			String employeeID1,String employeeID2,String state,String departmentName,
 			String qualityPlanID,HttpSession session) throws ParseException, java.text.ParseException{
 		String condition = "";
-		
+		System.out.println("11111111111111"+startTime);
+		System.out.println("2222222222222222"+endTime);
 		condition = " EmployeeID0 = '" + session.getAttribute("ID").toString() + "'";
 		qualityPlanID = session.getAttribute("qualiyPlanId").toString();
 		
@@ -155,7 +156,7 @@ public class PersonconTrastController{
 		}
 		if (startTime != null && !startTime.trim().equals("")
 				&& endTime != null && !endTime.trim().equals("")) {
-			condition += " nowCorrectYear  between '"
+			condition += " and startTime  between '"
 					+ startTime + "' " + " and '"
 					+ endTime + "'";
 		} 
@@ -198,11 +199,11 @@ public class PersonconTrastController{
 	public JSONObject getAuditPersonconTrastWithPaging(int limit, int offset,
 			String order, String sort, String projectCode,
 			String projectName,String testDevice,String startTime,String endTime,
-			String employeeID1,String employeeID2,String state,String departmentName,
+			String employeeID1,String employeeID2,String auditState,String departmentID,
 			String qualityPlanID,HttpSession session){
 		String condition = getCondition(projectCode, projectName, testDevice, startTime, endTime, 
-				employeeID1, employeeID2, state, departmentName, qualityPlanID);
-		qualityPlanID = session.getAttribute("qualityPlanId").toString();
+				employeeID1, employeeID2, auditState, departmentID, qualityPlanID);
+		qualityPlanID = session.getAttribute("qualiyPlanId").toString();
 		return JSONObject.fromObject(service.getPersonconTrastWithPaging(limit, offset, order, sort, condition));
 	}
 	
@@ -271,7 +272,7 @@ public class PersonconTrastController{
 
 	/**
 	 * @description 上传文件并保存
-	 * @author fujianfei
+	 * @author 
 	 * @param request
 	 * @param response
 	 * @param model
@@ -280,39 +281,11 @@ public class PersonconTrastController{
 	@RequestMapping("/upload")
 	@ResponseBody
 	public void upload(HttpServletRequest request,HttpServletResponse response, ModelMap model) throws IOException {
-		  MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		  // 得到上传的文件
-		  MultipartFile mFile = multipartRequest.getFile("file");
-		  // 得到上传服务器的路径
-		  String path = request.getSession().getServletContext().getRealPath("/WEB-INF/");
-		 
-		  System.out.println(path);
-		  String filename = mFile.getOriginalFilename();
-		  String remark = request.getParameter("remark");
-		  String belongID = request.getParameter("belongID");
-		  System.out.println("filename:"+filename);
-		  System.out.println("remarks:"+remark);
-		  InputStream inputStream = mFile.getInputStream();
-		  byte[] b = new byte[1048576];
-		  int length = inputStream.read(b);
-		  path += "\\" + filename;
-		  // 文件流写到服务器端
-		  FileOutputStream outputStream = new FileOutputStream(path);
-		  outputStream.write(b, 0, length);
-		  inputStream.close();
-		  outputStream.close();
-		  String ID = EntityIDFactory.createId();
-		  FileInformation fr = new FileInformation();
-		  fr.setID(ID);
-		  fr.setBelongtoID(belongID);
-		  fr.setFileName(filename);
-		  fr.setPath(path);
-		  fr.setUploadTime(new Date());
-		  fr.setRemarks(remark);
-		  String result = service.saveFiles(fr);
-		  if(result=="true"){
-			  System.out.println("返回结果正确");
-			  response.sendRedirect("../module/jsp/personContrast/personContrastResult.jsp");
-		  }
-		 }
+			  Boolean result =  service.upload(request, response, model);
+			  if(result == true){
+				  response.sendRedirect("../module/jsp/personContrast/personContrastResult.jsp");
+			  }else {
+				  response.sendRedirect("../module/jsp/personContrast/personContrastResult.jsp");
+			}
+		}
 }

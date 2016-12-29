@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>查看任务进度</title>
+    <title>西计实验室管理系统</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -66,11 +66,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="modal-content">
 				<div class="modal-header">
 					<div class="row">
-						<div class="col-xs-8 col-md-8 col-lg-8">
-							<h4 >修改监督员/检测人员</h4>
-						</div>
-						<div class="col-xs-3 col-md-3 col-lg-3">
-							<h5 >样品编号：<span id="sampleCode"></span></h5>
+						<div class="col-xs-11 col-md-11 col-lg-11">
+							<h4 >修改人员</h4>
 						</div>
 						<div class="col-xs-1 col-md-1 col-lg-1">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"> 
@@ -81,24 +78,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-xs-8 col-md-8 col-lg-8">
+						<div class="col-xs-4 col-md-4 col-lg-4">
 							<h4><span id="departmentPeople"></span>部门所有人员：</h4>
 						</div>
-						<div class="col-xs-2 col-md-2 col-lg-2">
-							<button type="button" class="btn btn-primary" id="assignCustodian">修改监督员</button>
-						</div>
-						<div class="col-xs-2 col-md-2 col-lg-2">
-							<button type="button" class="btn btn-primary" ID="assignDetector">修改检测/校准员</button>
+						<div class="col-xs-5 col-md-5 col-lg-5"></div>
+						<div class="col-xs-3 col-md-3 col-lg-3">
+							<h5 >样品编号：<span id="sampleCode"></span></h5>
 						</div>
 					</div>
 					<span style="display:none" id="departmentID"></span>
+					<span style="display:none" id="assignType"></span>
 					<div class="row">
 						<div id="assignTable" class="col-xs-12 col-md-12 col-lg-12" >
 						</div>	
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary">确定</button>
+					<button id="assign" type="button" class="btn btn-primary">确定</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 				</div>
 			</div>

@@ -11,11 +11,15 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.jms.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.constraints.Null;
+
 import net.sf.json.JSONArray;
 
+import org.apache.http.HttpResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,13 +28,19 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
+import com.cqut.xiji.entity.contract.Contract;
 import com.cqut.xiji.entity.department.Department;
 import com.cqut.xiji.entity.employee.Employee;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
+import com.cqut.xiji.entity.qualityPlan.QualityPlan;
 import com.cqut.xiji.entity.timeCheck.TimeCheck;
 import com.cqut.xiji.service.base.SearchService;
 
+import com.cqut.xiji.tool.treeNode.Node;
+import com.cqut.xiji.tool.treeNode.NodeList;
 import com.cqut.xiji.tool.util.EntityIDFactory;
+import com.mysql.fabric.xmlrpc.base.Data;
+import com.sun.jna.platform.win32.OaIdl.VARDESC;
 
 @Service
 public class TimeCheckService extends SearchService implements ITimeCheckService{
@@ -62,7 +72,7 @@ public class TimeCheckService extends SearchService implements ITimeCheckService
 			"employeeName",
 			"employee.ID",
 		};
-		String leftconditionString = "JOIN duty ON dutyID = duty.ID and dutyCode='1111'";
+		String leftconditionString = "JOIN duty ON dutyID = duty.ID and dutyName='审核人'";
 		return JSONArray.fromObject(entityDao.searchForeign(properties,"employee", leftconditionString, null, "1=1"));
 	}
 	
@@ -93,7 +103,7 @@ public class TimeCheckService extends SearchService implements ITimeCheckService
 		int index = limit;
 		int pageNum = offset/limit;
 		String tablename = "timeCheck";
-		String conditiona2 = "1=1" + " and qualityPlanID = '" + session.getAttribute("qualiyPlanId")+"'" +" and employee3.ID= '"+6+"'";
+		String conditiona2 = "1=1" + " and qualityPlanID = '" + session.getAttribute("qualiyPlanId")+"'" +" and employee3.ID= '"+session.getAttribute("ID").toString()+"'";
 		String[] properties = new String[]{
 				"timeCheck.ID",
 				"employee3.ID",
@@ -223,9 +233,10 @@ public class TimeCheckService extends SearchService implements ITimeCheckService
 		String id = EntityIDFactory.createId();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		TimeCheck timeCheck = new TimeCheck();
+		String code = (int)(Math.random()*(9999-1000+1))+1000+"";
 		timeCheck.setID(id);
 		timeCheck.setQualityPlanID(session.getAttribute("qualiyPlanId").toString());
-		timeCheck.setProjectCode("11111");
+		timeCheck.setProjectCode(code);
 		timeCheck.setProjectName(projectName);
 		timeCheck.setProjectPoint(projectPoint);
 		String userID = (String)session.getAttribute("ID");// 获取用户名ID
@@ -325,6 +336,7 @@ public class TimeCheckService extends SearchService implements ITimeCheckService
 		  String filename = mFile.getOriginalFilename();
 		  String remark = request.getParameter("remark");
 		  String belongID = request.getParameter("belongID");
+		  
 		  if(filename==null||filename==""){
 			  return false;
 		  }

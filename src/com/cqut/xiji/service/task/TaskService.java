@@ -878,4 +878,19 @@ public class TaskService extends SearchService implements ITaskService {
 			return false;
 		}
 	}
+
+	@Override
+	public List<Map<String, Object>> getTaskByRelist(String receiptlistID) {
+		
+		String baseEntity = "task";
+		String[] properties = {
+			"task.ID as taskID",
+			"testproject.nameCn"
+		};
+		String joinEntity = " LEFT JOIN testproject ON testproject.ID = task.testProjectID  ";
+		String condition = " 1 = 1 and  task.receiptlistID = " + receiptlistID; 
+		List<Map<String, Object>> result = originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false);
+		return result;
+	}
+
 }

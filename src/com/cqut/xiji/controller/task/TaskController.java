@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
@@ -335,6 +336,7 @@ public class TaskController{
 		return JSONObject.fromObject(result);
 	}
 	
+
     /**
      * 
      * @discription 检查当前审核状态下是否可以上传检测报告
@@ -408,5 +410,19 @@ public class TaskController{
 	public boolean submitReport(String taskID) {
 		boolean result = service.submitReport(taskID);
 		return result;
+	}
+	
+	/**
+	 * 通过交接单获取任务列表（用于账目支付详细填写列表）
+	 * 
+	 * @author zkl
+	 * @param ReceiptlistID
+	 * @return
+	 */
+	@RequestMapping("/getTaskByRelist")
+	@ResponseBody
+	public String getTaskByRelist(String ReceiptlistID){
+		List<Map<String,Object>> result = service.getTaskByRelist(ReceiptlistID);
+		return JSONArray.fromObject(result).toString();
 	}
 }

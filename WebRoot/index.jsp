@@ -17,7 +17,8 @@
 <link rel="stylesheet" type="text/css" href="module/css/fontello.css" />
 <link rel="stylesheet" type="text/css" href="module/css/fontello-7275ca86/css/fontello.css" />
 <link href="module/css/bootstrap-treeview.css" rel="stylesheet">
-
+<!-- <link href="module/css/bootstrap.css" rel="stylesheet">
+<link href="module/css/bootstrap.min.css" rel="stylesheet"> -->
 <script src="assets/js/ace-extra.min.js"></script>
 <style type="text/css">
 .contairw {
@@ -68,6 +69,67 @@
 #navName {
 	font-size: 22px;
 }
+/* .tree {
+    min-height:20px;
+    padding:19px;
+    margin-bottom:20px;
+    background-color:#fbfbfb;
+    border:1px solid #999;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    -webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05)
+}
+.tree li {
+    list-style-type:none;
+    margin:0;
+    padding:10px 5px 0 5px;
+    position:relative
+}
+.tree li::before, .tree li::after {
+    content:'';
+    left:-20px;
+    position:absolute;
+    right:auto
+}
+.tree li::before {
+    border-left:1px solid #999;
+    bottom:50px;
+    height:100%;
+    top:0;
+    width:1px
+}
+.tree li::after {
+    border-top:1px solid #999;
+    height:20px;
+    top:25px;
+    width:25px
+}
+.tree li span {
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border:1px solid #999;
+    border-radius:5px;
+    display:inline-block;
+    padding:3px 8px;
+    text-decoration:none
+}
+.tree li.parent_li>span {
+    cursor:pointer
+}
+.tree>ul>li::before, .tree>ul>li::after {
+    border:0
+}
+.tree li:last-child::before {
+    height:30px
+}
+.tree li.parent_li>span:hover, .tree li.parent_li>span:hover+ul li span {
+    background:#eee;
+    border:1px solid #94a0b4;
+    color:#000
+} */
 </style>
 
 </head>
@@ -86,7 +148,7 @@
 			<div class="navbar-container" id="navbar-container">
 				<div class="navbar-header pull-left">
 					<a href="#" class="navbar-brand"> <small> <i
-							class="icon-leaf"></i> 西计后台管理系统
+							class="icon-leaf"></i>西计实验室管理系统
 					</small>
 					</a>
 				</div>
@@ -172,9 +234,9 @@
 					<!-- #sidebar-shortcuts -->
 					<!--  左边菜单栏树-->
 					<ul class="nav nav-list">
-						<label for="treeview"></label>
-						<div id="treeview"></div>
-						<li><a href="module/jsp/roleManage/roleManage.jsp"
+						<label for="tree"></label>
+						<div class="tree"></div>
+						<!-- <li><a href="module/jsp/roleManage/roleManage.jsp"
 							target="aa"> <i class="icon-dashboard"></i> <span
 								class="menu-text">角色管理 </span>
 						</a></li>
@@ -199,9 +261,9 @@
 						</a></li>
 
 						<li><a
-							href="module/jsp/sampleInformation/sampleInformation.jsp"
+							href="module/jsp/permissionAssign/permissionAssign.jsp"
 							target="aa"> <i class="icon-desktop"></i> <span
-								class="menu-text">样品信息管理 </span>
+								class="menu-text">角色权限分配管理 </span>
 						</a></li>
 						<li><a href="module/jsp/sampleRoom/sampleRoom.jsp"
 							target="aa"> <i class="icon-desktop"></i> <span
@@ -216,7 +278,7 @@
 							href="module/jsp/moduleManage/moduleManage.jsp"
 							target="aa"> <i class="icon-desktop"></i> <span
 								class="menu-text">模块管理</span>
-						</a></li>
+						</a></li> -->
  
 
 					</ul>

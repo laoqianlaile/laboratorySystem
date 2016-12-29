@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 <base href="<%=basePath%>">
 
-<title>任务分配管理</title>
+<title>西计实验室管理系统</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -22,10 +22,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	-->
 
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
-<link rel="stylesheet" type="text/css"
-	href="module/css/bootstrap-table.css">
-<link rel="stylesheet" type="text/css"
-	href="module/css/bootstrap-datetimepicker.css">
+<link rel="stylesheet" type="text/css" href="module/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
+<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
 
 <link rel="stylesheet" href="module/css/changeACE.css" />
 <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">

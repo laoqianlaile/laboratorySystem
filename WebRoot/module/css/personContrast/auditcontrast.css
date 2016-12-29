@@ -23,8 +23,8 @@
 }
 #files{
 	position:absolute;
-	margin-top: 30px;
-    margin-left: 120px;
+	margin-top: 20px;
+    margin-left: 20px;
 }
 .modal-footer {
     padding: 30px;
@@ -45,13 +45,25 @@
 	font-size:25px;
 	display:none;
 }
+#list1{
+	
+	position: absolute;
+    left: -10px;
+    top: 20px;
+    right: 51px;
+}
+
 #list2{
 	
-	position: relative;
-    left: -64px;
-    top: -19px;
+	position: absolute;
+    left: 6px;
+    top: 20px;
+    right: 51px;
 }
 .formontral{
 	
 	margin-right:30px;
+}
+.location{
+	margin-left:136px;
 }

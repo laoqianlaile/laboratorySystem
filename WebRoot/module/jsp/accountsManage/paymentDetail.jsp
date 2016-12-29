@@ -1,4 +1,4 @@
-
+﻿
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
 String path = request.getContextPath();
@@ -68,6 +68,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	width:200px;
 	display: inline-block;
 }
+#draw option{
+	width:200px;
+	margin:0xp;
+	padding:0px;
+	z-index: 100;
+}
+#draw div{
+
+	position: relative;
+	width:200px;
+	margin:0px;
+	padding:0px;
+	border:0px;
+	z-index: 100;
+}
+option.form-control:hover {
+	background-color: #ccc;
+    color: #6fb3e0;
+}
+#draw ul:hover{
+	color:red;
+}
 </style>
   <body>
   	<div class="container" style="width:100%;">
@@ -105,29 +127,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="modal-body">
 					<div class="row">
 						<div class ="col-xs-6 col-md-6">
-							<label>交接单号：</label>
-							<input type="text" id="add_receiptlistCode" name="receiptlistCode"  class="form-control" aria-describedby="basic-addon1"/>
-						</div>
-						<div class ="col-xs-6 col-md-6">
 							<label>委托单位：</label> 
 							<input type="text" id="add_companyName" name="companyName" disabled="disabled" class="form-control" aria-describedby="basic-addon1"/>
 						</div>
-						<div class ="col-xs-6 col-md-6">
-							<label>领取人：　</label> 
-							<input type="text" id="add_drawID" name="drawID"   class="form-control" aria-describedby="basic-addon1"/>
-						</div>
-						<div class ="col-xs-6 col-md-6">
+						<div class ="col-xs-6 col-md-6" >
 							<label>发票编号：</label> 
 							<input type="text" id="add_invoice" name="invoice" disabled="disabled" class="form-control" aria-describedby="basic-addon1"/>
+						</div>
+						<div class ="col-xs-6 col-md-6">
+							<label>交接单号：</label>
+							<select id = "add_receiptlistID" name="receiptlistCode"  class="form-control"></select>
 						</div>
 						<div class ="col-xs-6 col-md-6">
 							<label>支付金额：</label> 
 							<input type="text" id="add_payMoney" name="payMoney"  class="form-control" aria-describedby="basic-addon1"/>
 						</div>
-						<div class ="col-xs-12 col-md-12">
+						<div class ="col-xs-6 col-md-6">
+							<label>领取人：　</label> 
+							<input type="hidden" id="add_drawID" name="drawID">
+							<input type="text" id="add_drawName" name="drawName"   class="form-control" aria-describedby="basic-addon1" oninput="matchEmployee()"
+									onpropertychange="matchEmployee()"/>
+							<div id = "draw" style="position: fixed;">
+							</div>
+						</div>
+						<div class ="col-xs-6 col-md-6">
+							
+						</div>
+						<!-- <div class ="col-xs-12 col-md-12">
 							<label>备注：　　</label> 
 							<input type="text" id="add_remarks" name="remarks"  class="form-control" aria-describedby="basic-addon1"/>
 						</div>
+						 -->
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -146,7 +176,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title">新增支付详情</h4>
+					<h4 class="modal-title">编辑</h4>
 				</div>
 				<div class="modal-body">
 					<div class="row">
@@ -178,7 +208,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" onclick="addJouranlAccounts()">确认</button>
+					<button type="button" class="btn btn-primary" onclick="editPaymentDetail()">确认</button>
 				</div>
 			</div>
 		</div>

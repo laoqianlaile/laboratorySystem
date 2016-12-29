@@ -37,14 +37,22 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
   </head>
   
   <body>
+   <div class="main">
+	  <span id="yearvalue" class="hiddenspan"><%=request.getParameter("year") %></span>
+	  <span id="codevalue" class="hiddenspan"><%=request.getParameter("code") %></span>
+  		<div id="font">
+  			<%=request.getParameter("year") %>人员比对结果填写
+  		</div>
   
   <div id="showdiv1" class="alert alert-danger tan"></div>
     <!-- 搜索框2-->  
+       <div id="head">
+	      <p id="Serialnumber">编号:<label><%=request.getParameter("code") %></label></p>
   <div class="searchbox2">
 	  <form class="form-horizontal" role="form">
 		  <div class="form-group">
 		  
-			  <span class="col-sm-2 control-label" for="projectCode">比对项目编号</span>
+			  <span class="col-sm-1 control-label" for="projectCode">比对项目编号</span>
 			  <div class="col-sm-2">
 			  <input type="text" class="form-control" id="projectCode" placeholder="">
 			  </div>
@@ -62,37 +70,42 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
 		  
 		  <div class="form-group">  
 			 
-			  <span class="col-sm-2 control-label">测试装置</span>
+			  <span class="col-sm-1 control-label">测试装置</span>
 			  <div class="col-sm-2">
 			      <input type="text" class="form-control" id="testDevice" placeholder="">
 			  </div>  
-			  <span class="col-sm-1 control-label">计划年度</span>
-			  <div class="col-sm-2">
-			      <input class="form_datetime form-control" id="startTime" type="text">
-			  </div>
+			  
 			  <span class="col-sm-1 control-label">待比对人员</span>
 			  <div class="col-sm-2">
 			     <input type="text" class="form-control" id="employeeID2" placeholder="">
 			  </div>
+			  
+			  <span class="col-sm-1 control-label">执行时间</span>
+				  <div class="col-sm-2">
+				     <input class="form_datetime form-control " type="text" id="startTime">
+				  </div>
+				  <span class="to">至</span>
+				  <div class="col-sm-2">
+				     <input class="form_datetime form-control " type="text" id="endTime">
+				  </div>
 		  </div>
 		  
 	  </form>
+  </div>
   </div>
     <!-- 表格-->
     <div class="tablebox">
     <button type="button" class="btn btn-info " onclick="showpage()">填写结果</button>
     <button type="button" class="btn btn-info " onclick="download()">下载</button>
+    <button type="button" class="btn btn-info"  onclick="refreshAll()">刷新全部</button>
   	<table id="table">
   	</table>
   	</div>
   	<div id="bottom">
-  			<div>
-    			<button type="button" id="asda" class="btn btn-info thisbtn" data-toggle="modal"  onclick="getresultID()">&nbsp;上传结果</button>
-    		</div>
-    		<div class="tablecontent">
-    			<table id="tablefile">
-    			</table>
-    		</div>
+	  	<button type="button" id="asda" class="btn btn-info thisbtn" data-toggle="modal"  onclick="uploadfile()">&nbsp;上传结果</button>
+	    <table id="tablefile">
+	    
+	    </table>
   	</div>
   	
   	<!-- 填写结果弹窗-->
@@ -119,19 +132,8 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
 								<div class="col-sm-8">
 								     <input class="form-control" id="result"  type="text">
 								</div>				
-							</div>
-			        					    		
-									
-				      		<!-- <div class="form-group" style="visibility:hidden;">
-				    			<label for="inputPassword3" class="col-sm-2 control-label">ID</label>
-				    			<div class="col-sm-10">
-				     			     <input type="text" class="form-control" id="belongID" name="belongID" readonly="true">
-				    			</div>
-			  				</div>	 -->
-			  				
-			  				</form>			  				  							
-		      		<!-- 	</div>	 -->      							      		
-	        			
+							</div>			        					    			
+			  				</form>			  				  							  							      			        			
 	      			</div>
 	      			<div class="modal-footer">
 	      			  <h4 ></h4>
@@ -141,14 +143,54 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
 	   		 </div>
 	  	</div>
 	</div>
- 	        			 <!-- <form id="adddata" action="personconTrastController/upload.do" method="post" enctype="multipart/form-data" class="form-horizontal">
-	        			 -->
-	        			 <!--  <div class="form-group">
-				    				<label for="inputEmail3" class="col-sm-2 control-label">选择文件</label>
-				    				<div class="col-sm-10">
-				      					<input id="fileupload" type="file" name="file"  placeholder="请选择">
-				    				</div>
-				    			</div>	  -->	
-				    	<!-- </form> -->
+	
+	<!-- 上传文件弹框-->
+  	<div class="modal fade" id="showfilepage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  		<div class="modal-dialog" role="document">
+	    		<div class="modal-content" style="height:400px;">
+	      			<div class="modal-header">
+	        			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	        			<span aria-hidden="true">&times;</span></button>
+	        				<h4 class="modal-title" id="myModalLabel">上传文件:</h4>
+	      			</div>
+	      			<div class="modal-body">
+	      			<h4 ></h4>
+		      			<form id="adddata" action="personconTrastController/upload.do"
+						method="post" enctype="multipart/form-data"
+						class="form-horizontal">
+						<div id="files">
+							<div class="form-group">
+								<span for="inputEmail3" class="col-sm-4 control-label">选择文件</span>
+								<div class="col-sm-5">
+									<input id="fileupload" type="file" name="file"
+										placeholder="请选择" />
+								</div>
+							</div>
+							<div class="form-group">
+								<span class="col-sm-4 control-label">备注</span>
+								<div class="col-sm-8">
+								     <input class="form-control" id="remarks"  type="text">
+								</div>				
+							</div>	
+							
+							<div class="form-group" style="visibility:hidden;">
+								<label for="inputPassword3" class="col-sm-2 control-label">ID</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="belongID"
+										name="belongID" readonly="true">
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-info thisbtn">确定<tton>
+								<button type="button" class="btn btn-info thisbtn"
+									data-dismiss="modal">退出<tton>
+							</div>
+						</div>
+					</form>		  				  							  							      			        			
+	      			</div>
+	   		 </div>
+	  	</div>
+	</div>
+	</div>
   </body>
 </html>

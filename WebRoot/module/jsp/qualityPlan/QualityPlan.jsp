@@ -38,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			<input id="type" type="text" class="form-control text">
     		</div>
     		<div class="headtext">
-    			<span class="spanstyle">计划完成时间:</span>
+    			<span class="spanstyle">执行年度:</span>
     			<input id="year" type="text" class="form-control text">
     		</div>
     		<div class="headtext">

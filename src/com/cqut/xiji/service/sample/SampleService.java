@@ -72,6 +72,7 @@ public class SampleService extends SearchService implements ISampleService{
 		"factoryCode",
 		"sampleName",
 		"specifications AS type", 
+		"if(state = 0 ,'未领用','领用') as state",
 		"unit",
 		"DATE_FORMAT(sample.createTime,'%Y-%m-%d %H:%i:%s') AS createTime ",
 		"sample.remarks  "
@@ -206,6 +207,44 @@ public class SampleService extends SearchService implements ISampleService{
 		     return entityDao.save(sample) + entityDao.save(linkReSample) == 2 ?"true":"false";
 		 else return "false";*/
 	}
+	/**
+	 * 
+	 * 新增样品
+	 * @author wzj
+	 * @date 2016年12月20日 下午5:14:15
+	 *
+	 */
+	@Override
+	public String addSample(String factoryCode,String sampleName, String sampleType, String remarks,String unit){
+		System.out.println(sampleName+" sn "+ sampleType+" st "+remarks+ " r "+ unit);
+		// TODO Auto-generated method stub
+		Sample sample = new Sample();
+		String sampleID = EntityIDFactory.createId();
+		sample.setID(sampleID);
+	/*	LinkReSample linkReSample = null ;*/
+		if(factoryCode != null && !factoryCode.equals("")){
+			sample.setFactoryCode(factoryCode);
+		}
+		if(sampleName != null && !sampleName.equals("")){
+			sample.setSampleName(sampleName);
+		}
+		if(sampleType != null && !sampleType.equals("")){
+			sample.setSpecifications(sampleType);
+		}
+		
+		if(remarks != null  && !remarks.equals("")){
+			sample.setRemarks(remarks);
+		}
+		
+		sample.setUnit(unit);
+		sample.setState(0);
+		sample.setCreateTime(new Date());
+	/*	String condition = " factoryCode ='"+factoryCode+"'";
+		List<Sample> list = entityDao.getByCondition(condition, Sample.class);*/
+	
+		 return  entityDao.save(sample) == 1 ?"true":"false";
+	
+	}
 	
 	/**
 	 * 字符串转换成日期
@@ -225,29 +264,7 @@ public class SampleService extends SearchService implements ISampleService{
 		}
 		return date;
 	}
-    /**
-     * 
-     * 获取样品信息
-     * @author wzj
-     * @date 2016年10月13日 下午9:21:50
-     *
-     */
-	@Override
-	public String getSample(String sampleID) {
-		// TODO Auto-generated method stub
-		String[] properties = new String[]{
-				"sample.ID",
-				"factoryCode",
-				"sampleName as name",
-				"specifications AS type",
-				"unit",
-				"DATE_FORMAT(sample.createTime,'%Y-%m-%d %H:%i:%s') as createTime ",
-				"remarks"
-		};
-		String condition = " sample.ID='"+sampleID+"'";
-		 List<Map<String, Object>> list  = searchDao.searchForeign(properties, null, null, null, null, condition);
-       return JSONObject.fromObject(list.get(0)).toString();
-	}
+   
     /**
      * 
      * 更新样品信息(包括样品交接单号)
@@ -303,10 +320,10 @@ public class SampleService extends SearchService implements ISampleService{
 		sample.setSampleName(sampleName);
 		sample.setSpecifications(sampleType);
 		sample.setRemarks(remarks);
-		sample.setCreateTime(new Date());
+		/*sample.setCreateTime(new Date());
 		List<Sample> list = entityDao.getByCondition("  sample.factoryCode='"+factoryCode+"'", Sample.class);
 		if(list != null && list.size() > 0)
-			return "codeExit";
+			return "codeExit";*/
 		sample.setFactoryCode(factoryCode);
 		return entityDao.updatePropByID(sample, ID)  == 1 ? "true": "false";
 	}
@@ -321,14 +338,35 @@ public class SampleService extends SearchService implements ISampleService{
 	public String getSampleByCode(String sampleCode) {
 		// TODO Auto-generated method stub
 		String[] properties = new String[]{
-				"sample.ID as sampleID",
+				 "sample.ID as sampleID",
 				 "sampleName",
 				 "factoryCode as sampleCode",
 				 "specifications as sampleStyle",
-				 "unit"
+				 "unit",
+				 "DATE_FORMAT(sample.createTime,'%Y-%m-%d %H:%i:%s') as createTime ",
+				 "remarks"
 				
 		};
 		String condition = "  sample.factoryCode ='"+sampleCode+"'";
+		 List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, Sample.class);
+	  if(list == null || list.size() == 0)
+		 return "false";
+	  else return JSONObject.fromObject(list.get(0)).toString();
+	}
+	
+	public String getSampleByID(String sampleID) {
+		// TODO Auto-generated method stub
+		String[] properties = new String[]{
+				 "sample.ID as sampleID",
+				 "sampleName",
+				 "factoryCode as sampleCode",
+				 "specifications as sampleStyle",
+				 "unit",
+				 "DATE_FORMAT(sample.createTime,'%Y-%m-%d %H:%i:%s') as createTime ",
+				 "remarks"
+				
+		};
+		String condition = "  sample.ID ='"+sampleID+"'";
 		 List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, Sample.class);
 	  if(list == null || list.size() == 0)
 		 return "false";
@@ -356,6 +394,18 @@ public class SampleService extends SearchService implements ISampleService{
 		if(list != null && list.size() > 0)
 			return "true";
 		else return "false";
+	}
+
+	@Override
+	public List<Map<String, Object>> getSampleListByCodeLimit(String sampleCode) {
+		// TODO Auto-generated method stub
+		String[] properties = new String[]{
+				"sample.ID ",
+				"factoryCode as sampleCode"
+		};
+		String condition = " factoryCode like '%"+sampleCode+"%' order by factoryCode asc limit 0,5";
+		List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, Sample.class);
+		return list;
 	}
 
 

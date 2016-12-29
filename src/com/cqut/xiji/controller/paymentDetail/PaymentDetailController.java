@@ -18,11 +18,61 @@ public class PaymentDetailController{
 	
 	@Resource(name="paymentDetailService")
 	IPaymentDetailService service;
-	
+	/**
+	 * 
+	 * 通过流水账ID 分页初始化支付详情
+	 * 
+	 * @author zkl
+	 * @param jouranlAccountsID
+	 * @param limit
+	 * @param offset
+	 * @param order
+	 * @param sort
+	 * @return
+	 */
 	@RequestMapping("/getPaymentDetailWithPaging")
 	@ResponseBody
 	public JSONObject getPaymentDetailWithPaging(String jouranlAccountsID,int limit, int offset, String order, String sort){
 		Map<String, Object> result = service.getPaymentDetailWithPaging(jouranlAccountsID,limit,offset,order,sort);
 		return JSONObject.fromObject(result);
+	}
+	
+	/**
+	 * 
+	 * 更新支付详情
+	 * 
+	 * @author zkl
+	 * @param payMentDetailID
+	 * @param receiptlistID
+	 * @param receiptlistCode
+	 * @param drawID
+	 * @param PayMoney
+	 * @param remarks
+	 * @return
+	 */
+	@RequestMapping("/upPaymentDetail")
+	@ResponseBody
+	public String upPaymentDetail(String payMentDetailID,String receiptlistID, String receiptlistCode,String drawID,String PayMoney,String remarks){
+		String result = service.upPaymentDetail(payMentDetailID,receiptlistID,receiptlistCode,drawID,PayMoney,remarks);
+		return result;
+	}
+	
+	
+	/**
+	 * 新增支付详情
+	 * 
+	 * @author zkl
+	 * @param jouranlAccountID
+	 * @param employeeID
+	 * @param drawID
+	 * @param receiptlistID
+	 * @param payMoney
+	 * @return
+	 */
+	@RequestMapping("/addPaymentDetail")
+	@ResponseBody
+	public String addPaymentDetail(String jouranlAccountID,String employeeID,String drawID,String receiptlistID,String payMoney,String remarks){
+		String result = service.addPaymentDetail(jouranlAccountID,employeeID,drawID,receiptlistID,payMoney,remarks);
+		return result;
 	}
 }

@@ -3,14 +3,18 @@ package com.cqut.xiji.service.abilityCheck;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
@@ -18,7 +22,10 @@ import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.abilityCheck.AbilityCheck;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
+import com.cqut.xiji.entity.role.Role;
 import com.cqut.xiji.service.base.SearchService;
+import com.cqut.xiji.tool.treeNode.Node;
+import com.cqut.xiji.tool.treeNode.NodeList;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
 @Service
@@ -99,7 +106,7 @@ public class AbilityCheckService extends SearchService implements IAbilityCheckS
 		int mergeCount;
 		int mergeIndex;
 		String tableName = "abilitycheck";
-		String contectString = "LEFT JOIN role ON abilitycheck.employeeID = role.ID" + " LEFT JOIN equipment ON abilitycheck.equipmentID = equipment.ID" + " LEFT JOIN department ON abilitycheck.departmentID = department.ID" + " LEFT JOIN fileinformation ON abilitycheck.fileID = fileinformation.ID"; 
+		String contectString = "LEFT JOIN employee ON abilitycheck.employeeID = employee.ID " + " LEFT JOIN duty ON employee.dutyID = duty.ID " + " LEFT JOIN equipment ON abilitycheck.equipmentID = equipment.ID" + " LEFT JOIN department ON abilitycheck.departmentID = department.ID" + " LEFT JOIN fileinformation ON abilitycheck.fileID = fileinformation.ID"; 
 		// 获取总数
 		int count = getForeignCountInFull("abilitycheck.ID", contectString, null,
 				condition, false);
@@ -109,7 +116,7 @@ public class AbilityCheckService extends SearchService implements IAbilityCheckS
 				new String[]{
 				"abilitycheck.ID",// ID
 				"parameter",// 参数/项目
-				"abilitycheck.employeeID as roleID",// 组织者（技术主管）
+				"employeeName",// 组织者（技术主管）
 				"abilitycheck.type",// 实施类型
 				"equipmentName",// 设备名称
 				"departmentName",//实验室名称（部门名称）
@@ -126,21 +133,19 @@ public class AbilityCheckService extends SearchService implements IAbilityCheckS
 		String outTime = null;
 		while(i < result.size()){
 		outTime = s2.format(result.get(i).get("startTime")); 
-		if(outTime.equals("1010-10"))
-			outTime = "请初始化日期";
 		result.get(i).put("startTime", outTime);
 		i++;
 		}
 
 		j = 0;i=0;
 		while(j < (result.size()-1)){
-				if(result.get(j).get("roleID") == null ||result.get(j).get("roleID").equals("") ||  result.get(j).get("equipmentName") == null||result.get(j).get("equipmentName").equals("")  || result.get(j).get("startTime") == null||result.get(j).get("startTime").equals("") )
+				if(result.get(j).get("employeeName") == null ||result.get(j).get("employeeName").equals("") ||  result.get(j).get("equipmentName") == null||result.get(j).get("equipmentName").equals("")  || result.get(j).get("startTime") == null||result.get(j).get("startTime").equals("") )
 					j++;
 				else{
-					if(result.get(j).get("roleID").equals(result.get(j + 1).get("roleID")) && result.get(j).get("equipmentName").equals(result.get(j + 1).get("equipmentName")) && result.get(j).get("startTime").equals(result.get(j + 1).get("startTime"))){
+					if(result.get(j).get("employeeName").equals(result.get(j + 1).get("employeeName")) && result.get(j).get("equipmentName").equals(result.get(j + 1).get("equipmentName")) && result.get(j).get("startTime").equals(result.get(j + 1).get("startTime"))){
 						mergeIndex = j;
 						mergeCount = 1;
-						while(j < (result.size()-1) && result.get(j).get("roleID").equals(result.get(j + 1).get("roleID")) && result.get(j).get("equipmentName").equals(result.get(j + 1).get("equipmentName")) && result.get(j).get("startTime").equals(result.get(j + 1).get("startTime"))){
+						while(j < (result.size()-1) && result.get(j).get("employeeName").equals(result.get(j + 1).get("employeeName")) && result.get(j).get("equipmentName").equals(result.get(j + 1).get("equipmentName")) && result.get(j).get("startTime").equals(result.get(j + 1).get("startTime"))){
 							mergeCount++;
 							j++;
 						}
