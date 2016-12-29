@@ -170,16 +170,18 @@ function checkReport() {
 //二次审核通过
 function secondAuditPass() {
 	var keyID = arguments[0];
-	$.post("testReportController/secondPassReport.do", {
-		ID : keyID
-	}, function(result) {
-		if (result == true || result == "true") {
-			alert("审核通过成功");
-		} else {
-			alert("通过审核失败");
-		}
-		refresh();
-	});
+	if (confirm("是否通过审核")) {
+		$.post("testReportController/secondPassReport.do", {
+			ID : keyID
+		}, function(result) {
+			if (result == true || result == "true") {
+				alert("审核通过成功");
+			} else {
+				alert("通过审核失败");
+			}
+			refresh();
+		});
+	}
 }
 
 //二次审核驳回

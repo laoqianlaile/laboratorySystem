@@ -61,6 +61,7 @@
 
 #recoverReport textarea {
 	resize: none;
+	overflow-y:scroll;
 }
 
 #recoverReport .form-control {

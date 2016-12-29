@@ -565,7 +565,7 @@ public class TaskService extends SearchService implements ITaskService {
 				 "c.ID AS ID",
 				 "DATE_FORMAT(startTime,'%Y-%m-%d %H:%i:%s') AS startTime",
 				 "DATE_FORMAT(endTime,'%Y-%m-%d %H:%i:%s') AS endTime",
-				 "IF (c.detectstate = 0,'无报告',IF (c.detectstate = 1,'未提交',IF (c.detectstate = 2,'二审中',IF (c.detectstate=3,'二审未通过',IF (c.detectstate = 4,'三审中',"+
+				 "IF (c.detectstate = 0,'无报告',IF (c.detectstate = 1,'未提交',IF (c.detectstate = 2,'二审核中',IF (c.detectstate=3,'二审未通过',IF (c.detectstate = 4,'三审核中',"+
 				 "IF (c.detectstate = 5,'三审未通过',IF (c.detectstate = 6,'审核通过','其它'))))))) AS detectstate",
 				 "c.receiptlistCode AS receiptlistCode",
 				 "c.testProjectName AS testProjectName",
@@ -827,7 +827,7 @@ public class TaskService extends SearchService implements ITaskService {
 			fileID = result1.get(0).get("ID").toString();
 		}
 		String testReportID = "";
-		if (result.get("testReportID") == null) {
+		if (result.get("testReportID") == null || result.get("testReportID").equals("") || result.get("testReportID").equals(" ")) {
 			TestReport tr = new TestReport();
 			String receiptlistID = result.get("receiptlistID").toString();
 			testReportID = EntityIDFactory.createId().toString();
@@ -838,10 +838,8 @@ public class TaskService extends SearchService implements ITaskService {
 			 * tr.setVersionNumber(""); tr.setVersionInformation("");
 			 */
 			if (fileID != null && !fileID.isEmpty() && !fileID.equals("")) {
-				tr.setState(1);
-				tr.setFileID(fileID);
-			} else {
 				tr.setState(0);
+				tr.setFileID(fileID);
 			}
 			tr.setRemarks(remarks);
 			Task tk = entityDao.getByID(taskID, Task.class);

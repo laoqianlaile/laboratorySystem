@@ -5,8 +5,8 @@ import java.util.Map;
 
 public interface ITestReportService {
 	public Map<String, Object> getTestReportWithPaging(int limit, int offset,
-			String order, String sort, String receiptlistCode,
-			String client, String reportName, String beginTime, String endTime,
+			String order, String sort, String receiptlistCode, String client,
+			String reportName, String beginTime, String endTime,
 			String selectPart);
 
 	public Map<String, Object> getTestReporSecondtAuditWithPaging(int limit,
@@ -19,7 +19,9 @@ public interface ITestReportService {
 
 	public List<Map<String, Object>> getProjectName(String ID);
 
-	public boolean updateTestReport(String ID, String fileID,
+	public boolean recoverCheck(String ID);
+
+	public boolean updateTestReport(String ID, String taskID,
 			String versionNumber, String versionInfo, String remarks);
 
 	public boolean submitReportCheck(String ID);
@@ -34,11 +36,15 @@ public interface ITestReportService {
 
 	public List<Map<String, Object>> getCilentInfo(String testReportID);
 
-	public Map<String, Object> getSampleInfoWithPaging(int limit, int offset, String order,String sort,String testReportID);
+	public Map<String, Object> getSampleInfoWithPaging(int limit, int offset,
+			String order, String sort, String testReportID);
 
-	public Map<String, Object>  getTestReportFileInfoWithPaging(int limit, int offset, String order,String sort,String testReportID);
+	public Map<String, Object> getTestReportFileInfoWithPaging(int limit,
+			int offset, String order, String sort, String testReportID);
 
-	public boolean deleteOtherTableInfo(String fileID);
+	public boolean deleteCheck(String ID);
+
+	public boolean deleteOtherTableInfo(String ID, String taskID);
 
 	public boolean secondPassReport(String ID);
 

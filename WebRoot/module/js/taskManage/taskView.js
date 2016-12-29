@@ -133,7 +133,7 @@ $(function() {
 		cache : false,// 禁用 AJAX 数据缓存
     	sortName : 'ID',// 定义排序列
     	sortOrder : 'DESC',// 定义排序方式
-		url : 'fileInformationController/getFileInSampleWithPaging.do',// 服务器数据的加载地址
+		url : 'fileInformationController/getFileInTaskViewWithPaging.do',// 服务器数据的加载地址
 		sidePagination : 'server',// 设置在哪里进行分页
 		contentType : 'application/json',// 发送到服务器的数据编码类型
 		dataType : 'json',// 服务器返回的数据类型

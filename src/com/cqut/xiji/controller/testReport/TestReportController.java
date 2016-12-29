@@ -103,6 +103,22 @@ public class TestReportController {
 		return JSONObject.fromObject(result);
 	}
 	
+	
+	/**
+	 * 
+     * @discription 检测是否可以重新覆盖
+     * @author zt       
+     * @created 2016-12-26 下午3:25:56     
+     * @param ID
+     * @return
+	 */
+	@RequestMapping("/recoverCheck")
+	@ResponseBody
+	public boolean recoverCheck(String ID) {
+		boolean result = service.recoverCheck(ID);
+		return result;
+	}
+	
 	/**
 	 * 
 	 * @description 重新覆盖
@@ -117,8 +133,8 @@ public class TestReportController {
 	 */
 	@RequestMapping("/updateTestReport")
 	@ResponseBody
-	public boolean updateTestReport(String ID, String fileID,String versionNumber, String versionInfo, String remarks) {
-		boolean result = service.updateTestReport(ID, fileID, versionNumber,versionInfo, remarks);
+	public boolean updateTestReport(String ID,String taskID,String versionNumber,String versionInfo, String remarks) {
+		boolean result = service.updateTestReport(ID,taskID,versionNumber,versionInfo, remarks);
 		return result;
 	}
 
@@ -267,6 +283,14 @@ public class TestReportController {
 	}
 	
 	
+
+	@RequestMapping("/deleteCheck")
+	@ResponseBody
+	public boolean deleteCheck(String ID) {
+		boolean result = service.deleteCheck(ID);
+		return result;
+	}
+	
 	/**
 	 * 
 	 * @discription 删除对应的检测报告数据
@@ -277,8 +301,8 @@ public class TestReportController {
 	 */
 	@RequestMapping("/deleteOtherTableInfo")
 	@ResponseBody
-	public boolean deleteOtherTableInfo(String ID) {
-		boolean result = service.deleteOtherTableInfo(ID);
+	public boolean deleteOtherTableInfo(String ID,String taskID) {
+		boolean result = service.deleteOtherTableInfo(ID,taskID);
 		return result;
 	}
 
