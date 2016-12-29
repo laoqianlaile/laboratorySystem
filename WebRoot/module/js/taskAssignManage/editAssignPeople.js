@@ -49,6 +49,7 @@ $(function () {
 		},
 		queryParamsType: "limit", //参数格式,发送标准的RESTFul类型的参数请求
 		selectItemName:'',//radio or checkbox 的字段名
+		singleSelect:true,// 禁止多选
 		columns:[{
 			checkbox:true,
 			width:'5%'//宽度
@@ -71,7 +72,7 @@ $(function () {
 			title:'出厂编码',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10%'//宽度
+			width:'15%'//宽度
 		},{
 			field:'sampleName',//返回值名称
 			title:'样品名称',//列名
@@ -89,7 +90,7 @@ $(function () {
 			title:'检测/校准项目',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'5%'//宽度
+			width:'10%'//宽度
 		},{
 			field:'state',//返回值名称
 			title:'状态',//列名
@@ -113,11 +114,11 @@ $(function () {
 			title:'操作',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'20%',//宽度
+			width:'10%',//宽度
 			formatter:function(value,row,index){
-				var btn_editCustodian = '<button type="button" onclick="editCustodian()" class="btn btn-primary glyphicon glyphicon-show">&nbsp;修改监督人</button>&nbsp';
-		  		var btn_editDetector = '<button type="button" onclick="editDetector(\'' + row.taskManID + '\')" class="btn btn-primary glyphicon glyphicon-edit">&nbsp;修改检测人</button>';
-		  		return btn_editCustodian + btn_editDetector;
+				var btn_editCustodian = '<span class="glyphicon glyphicon-glass" onclick="editCustodian()" data-toggle="tooltip" data-placement="top" title="修改监督人" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
+		  		var btn_editDetector = '<span class="glyphicon glyphicon-user" onclick="editDetector(\'' + row.taskManID + '\')" data-toggle="tooltip" data-placement="top" title="修改检测人" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
+		  		return btn_editDetector + '  ' + btn_editCustodian;
             } 
 		}]//列配置项,详情请查看 列参数 表格
 		/*事件*/
@@ -127,6 +128,7 @@ $(function () {
 // 修改监督员弹框
 function editCustodian(){
 	$('#sampleCode').text(factoryCode);
+	$('#assignType').text('0');
 	
 	var departmentID = $('#departmentID').text();
 	
@@ -157,6 +159,7 @@ function editCustodian(){
 		    	  	},
 	  	queryParamsType: "limit", //参数格式,发送标准的RESTFul类型的参数请求
 		selectItemName:'',//radio or checkbox 的字段名
+		singleSelect:true,// 禁止多选
 		columns:[{
 			checkbox:true,
 			width:'5%'//宽度
@@ -218,9 +221,9 @@ function editCustodian(){
 
 // 修改检测人员弹框
 function editDetector(data){
-	console.log(data);
 	taskManID = data;
 	$('#sampleCode').text(factoryCode);
+	$('#assignType').text('1');
 	
 	var departmentID = $('#departmentID').text();
 	
@@ -251,6 +254,7 @@ function editDetector(data){
 		    	  	},
 	  	queryParamsType: "limit", //参数格式,发送标准的RESTFul类型的参数请求
 		selectItemName:'',//radio or checkbox 的字段名
+		singleSelect:true,// 禁止多选
 		columns:[{
 			checkbox:true,
 			width:'5%'//宽度
@@ -310,8 +314,18 @@ function editDetector(data){
 	$('#assignPeopleModal').modal('show');
 }
 
-// 修改监督员按钮 
-$('#assignCustodian').click(function(){
+//分配方法
+$('#assign').click(function(){
+	var assignType = $('#assignType').text();// 分配人员类型
+	if(assignType === "1"){
+		assignDetector();
+	}else if(assignType === "0"){
+		assignCustodian();
+	}
+});
+
+// 修改监督员 
+function assignCustodian(){
 	var data = $('#assignTable').bootstrapTable('getSelections');
 	
 	if(data.length==0 || data.length>1){
@@ -340,10 +354,10 @@ $('#assignCustodian').click(function(){
 			}
 	  	}
 	});
-});
+};
 
-// 修改检测人员按钮
-$('#assignDetector').click(function(){
+// 修改检测人员
+function assignDetector(){
 	var data = $('#assignTable').bootstrapTable('getSelections');
 	
 	if(data.length==0 || data.length>1){
@@ -372,7 +386,7 @@ $('#assignDetector').click(function(){
 			}
 	  	}
 	});
-});
+};
 
 //返回按钮
 $('#return').click(function(){

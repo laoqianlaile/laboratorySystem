@@ -1,6 +1,7 @@
 package com.cqut.xiji.service.permissionAssign;
 
 import java.util.List;
+
 import com.cqut.xiji.entity.base.BootstrapTreeNode;
 
 
@@ -20,4 +21,8 @@ public interface IPermissionAssignService {
 	
 	
 	public List<BootstrapTreeNode> getPermissionModule(String userID, String level) ;
+
+	public String deletePermission(String roleID, String moduleID); //删除角色对应的模块
+
+	public String addPermission(String roleID, String moduleID);  //新增角色对应的模块
 }

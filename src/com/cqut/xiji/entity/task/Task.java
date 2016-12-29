@@ -26,6 +26,7 @@ public class Task extends Entity{
 	private String requires;
 	private String levelTwo;
 	private String levelThree;
+	private String taskCode;
 	
 	
 	public String getID() {
@@ -158,6 +159,14 @@ public class Task extends Entity{
 
 	public void setLevelThree(String levelThree) {
 		this.levelThree = levelThree;
+	}
+
+	public String getTaskCode() {
+		return taskCode;
+	}
+
+	public void setTaskCode(String taskCode) {
+		this.taskCode = taskCode;
 	}
 
 	@Override

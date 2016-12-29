@@ -141,4 +141,31 @@ public class JouranlAccountService extends SearchService implements IJouranlAcco
 		return result + "";
 	}
 
+	@Override
+	public List<Map<String, Object>> getJouranlAccountDate(
+			String jouranlAccountID) {
+		String	baseEntity = "jouranlAccount";
+		
+		String[] properties = {
+				"jouranlaccount.employeeID as employeeID",
+				"jouranlaccount.invoice",
+				"jouranlaccount.contractID",
+				"company.companyName",
+				"employee.employeeName as employeeName"
+		};
+		
+		String joinEntity = " LEFT JOIN contract on  contract.ID = jouranlaccount.contractID "
+				+ " LEFT JOIN company on company.ID = contract.companyID "
+				+ " LEFT JOIN employee ON employee.ID = jouranlaccount.employeeID ";
+		if(jouranlAccountID == null && jouranlAccountID == ""){
+			System.out.println("没有获取到流水账ID");
+			return null ;
+		}
+		String condition = " 1 = 1 and jouranlaccount.ID = " + jouranlAccountID;
+		List<Map<String, Object>> result = originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false);
+		
+		
+		return result;
+	}
+
 }

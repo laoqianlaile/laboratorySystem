@@ -1,10 +1,12 @@
 package com.cqut.xiji.controller.duty;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
 import net.sf.json.JSONObject;
+import net.sf.json.JSONArray;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,5 +48,18 @@ public class DutyController{
 		String result=service.updDuty(ID, dutyCode, dutyName, introduction);
 		return result;
 		
+	}
+	
+	/**
+	 * @description 获取所有的职务名
+	 * @author Hzz
+	 * @date 2016年12月7日 晚上20:06:01
+	 * @return
+	 */
+	@RequestMapping("/getAllDutyName")
+	@ResponseBody
+	public String getAllDutyName(){
+		List<Map<String, Object>> result = service.getAllDutyName();
+		return JSONArray.fromObject(result).toString();
 	}
 }

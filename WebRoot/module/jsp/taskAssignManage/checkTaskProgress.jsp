@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>查看任务进度</title>
+    <title>西计实验室管理系统</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -46,6 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<h5 id="receiptlistCode">交接单号:&nbsp;<span></span></h5>
 			</div>
 		</div>
+		<br />
 		<!-- 表格 -->
   		<table id="table">
   		</table>

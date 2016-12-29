@@ -43,7 +43,7 @@ $(function () {
 			title:'科室名称',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'25%'//宽度
+			width:'35%'//宽度
 		},{
 			field:'money',//返回值名称
 			title:'金额',//列名
@@ -61,9 +61,9 @@ $(function () {
 			title:'操作',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'25%',//宽度
+			width:'15%',//宽度
 			formatter:function(value,row,index){  
-				var btn_detail = '<button type="button" onclick="viewDetail(\''+ row.ID +'\')" class="btn btn-primary glyphicon glyphicon-show">&nbsp;查看详细</button>&nbsp';
+				var btn_detail = '<span class="glyphicon glyphicon-search" onclick="viewDetail(\''+ row.ID +'\')" data-toggle="tooltip" data-placement="top" title="查看详细" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
 					return btn_detail;  
             } 
 		}]//列配置项,详情请查看 列参数 表格

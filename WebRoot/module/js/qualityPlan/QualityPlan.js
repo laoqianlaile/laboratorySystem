@@ -102,19 +102,25 @@ $(function(){
 	        title:'状态',
 	        align:'center',
 	        valign:'middle',
-	        width:'15%',
+	        width:'10%',
 	    },{
 	        field:'employeeName2',
 	        title:'审核人',
 	        align:'center',
 	        valign:'middle',
-	        width:'15%',
+	        width:'10%',
 	    },{
 	        field:'employeeName',
 	        title:'制定人',
 	        align:'center',
 	        valign:'middle',
-	        width:'15%',
+	        width:'10%',
+	    },{
+	        field:'remark',
+	        title:'备注',
+	        align:'center',
+	        valign:'middle',
+	        width:'12%',
 	    }]
 	});
 	//下拉列表获取内容
@@ -155,7 +161,7 @@ function changevalue(type,value){
 	if(type==1){
 		$('#textspan1').html(value);
 	}
-	else{
+	else{	
 		$('#textspan2').html(value);
 	}
 }
@@ -182,7 +188,14 @@ function onDblClickCell(field,value,row,$element){
 		pubtype = field;
 		switch(field){
 		case "type":getvalue = row.type;
-		$element[0].innerHTML="<input onblur='getobject(this,this.value,"+"pubtype"+")' type='text' class='form-control' value='"+getvalue+"'>";
+		$element[0].innerHTML="<div class=''>"
+			+"<button class='btn btn-default dropdown-toggle' type='button' id='dropdowmlist' data-toggle='dropdown'>"
+			+getvalue+"<span class='caret'></span></button>"
+			+"<ul id='listdata2' class='dropdown-menu ' role='menu' aria-labelledby='dropdownMenu1'>"
+			+"<li onclick ='updatatype(this,this.innerHTML)'>期间核查计划</li>"
+			+"<li onclick ='updatatype(this,this.innerHTML)'>量值溯源计划</li>"
+			+"<li onclick ='updatatype(this,this.innerHTML)'>人员比对计划</li>"
+			+"</ul></div>";
 		;break;
 		case "code":getvalue = row.code;
 		$element[0].innerHTML="<input onblur='getobject(this,this.value,"+"pubtype"+")' type='text' class='form-control' value='"+getvalue+"'>";
@@ -225,6 +238,19 @@ function onDblClickCell(field,value,row,$element){
 	};
 }
 
+function updatatype(dom,value){
+	var parentdom = dom.parentNode;
+	for(var i = 0;;i++){
+		if(parentdom.nodeName == "TD"){
+			parentdom.innerHTML=value;
+			object.type=value;
+			sbtjude = 1;
+			break;
+		}else{
+			parentdom = parentdom.parentNode;
+		}
+	}
+}
 //修改存储值
 function getParentbutton(dom,value,ID){
 	var parentdom = dom.parentNode;
@@ -448,6 +474,8 @@ function getTimeCheckPage(){
 	var getdata = $('#table').bootstrapTable('getSelections');
 	var name = getdata[0].type;
 	if(name =="期间核查计划"){
+		var employee2 = "<%=session.getAttribute('ID')%>";
+		var tableemplyee2 = getdata[0].employee;
 		window.location.href="http://localhost:8080/laboratorySystem/module/jsp/timecheck/TimeCheck.jsp?qualiyPlanId="+getdata[0].ID+"&&code="+getdata[0].code+"&&year="+getdata[0].year;
 	}
 	else if(name =="量值溯源计划"){

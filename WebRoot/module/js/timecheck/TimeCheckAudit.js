@@ -26,7 +26,7 @@ $(function(){
 		cache: false,//禁用 AJAX 数据缓存
 		sortName:'timeCheck.ID',//定义排序列
 		sortOrder:'asc',//定义排序方式
-		url:'timeCheckController/getARTimeCheckWithPaging.do',//服务器数据的加载地址
+		url:'timeCheckController/getTimeCheckWithPaging.do',//服务器数据的加载地址
 		sidePagination:'server',//设置在哪里进行分页
 		contentType:'application/json',//发送到服务器的数据编码类型
 		dataType:'json',//服务器返回的数据类型

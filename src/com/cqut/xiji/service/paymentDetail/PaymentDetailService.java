@@ -1,5 +1,6 @@
 package com.cqut.xiji.service.paymentDetail;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +15,12 @@ import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.paymentDetail.PaymentDetail;
+import com.cqut.xiji.entity.receiptlist.Receiptlist;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.treeNode.Node;
 import com.cqut.xiji.tool.treeNode.NodeList;
 import com.cqut.xiji.tool.util.EntityIDFactory;
+import com.mysql.fabric.xmlrpc.base.Data;
 
 @Service
 public class PaymentDetailService extends SearchService implements IPaymentDetailService{
@@ -80,6 +83,45 @@ public class PaymentDetailService extends SearchService implements IPaymentDetai
 		map.put("rows", result);
 	    
 		return map;
+	}
+
+	@Override
+	public String upPaymentDetail(String payMentDetailID,String receiptlistID,
+			String receiptlistCode, String drawID, String payMoney,String remarks) {
+		
+		PaymentDetail detail = new PaymentDetail();
+		
+		detail.setDrawID(drawID);
+		detail.setPayMoney(Integer.parseInt(payMoney));
+		detail.setRemarks(remarks);
+		
+		int result = entityDao.updatePropByID(detail, payMentDetailID);
+		
+		Receiptlist receiptlist = new Receiptlist();
+		
+		receiptlist.setReceiptlistCode(receiptlistCode);
+		
+		result += entityDao.updatePropByCondition(receiptlist, receiptlistID);
+		
+		return result + "";
+	}
+
+	@Override
+	public String addPaymentDetail(String jouranlAccountID, String employeeID,
+			String drawID, String receiptlistID, String payMoney,String remarks) {
+		PaymentDetail detail = new PaymentDetail();
+		
+		detail.setID(EntityIDFactory.createId());
+		detail.setJouranlAccountID(jouranlAccountID);
+		detail.setEmployeeID(employeeID);
+		detail.setDrawID(drawID);
+		detail.setReceiptlistID(receiptlistID);
+		detail.setPayMoney(Double.parseDouble(payMoney) );
+		detail.setCreateTime(new Date());
+		detail.setRemarks(remarks);
+		
+		int result = entityDao.save(detail);
+		return result + "";
 	}
 	
 }

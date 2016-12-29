@@ -1,6 +1,7 @@
 package com.cqut.xiji.service.role;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
+import com.cqut.xiji.entity.base.BootstrapTreeNode;
 import com.cqut.xiji.entity.role.Role;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.treeNode.Node;
@@ -145,7 +147,15 @@ public class RoleService extends SearchService implements IRoleService{
 	
 	
 	/**
-	 * 角色管理
+	 * 角色分页查询
+	 * @author wzj
+	 * @date 2016年12月23日 上午11:07:33
+	 * @param limit
+	 * @param offset
+	 * @param order
+	 * @param sort
+	 * @param roleName
+	 * @return
 	 */
 	@Override
 	public Map<String, Object> getRoleWithPaging(int limit, int offset,
@@ -153,13 +163,13 @@ public class RoleService extends SearchService implements IRoleService{
 		// TODO Auto-generated method stub
 		System.out.println("limit : "+limit+"  "+offset); //OFFEST 偏移量  首次为0 
 		int index = limit;
-		int pageNum = offset/limit + 1;
+		int pageNum = offset/limit ;
 		String tableName = "role";
 		String[] properties = new String[]{
 				"role.ID",
-				"role.NAME",
-				"employeeName AS CREATOR",
-				"role.CREATETIME",
+				"role.name as roleName",
+				"employeeName AS creator",
+				"date_format(role.createTime, '%Y-%m-%d %H:%i:%s') as createTime",
 				"description"
 		};
 		String contectString = "LEFT JOIN employee ON employee.ID = role.createID"; 
@@ -174,14 +184,14 @@ public class RoleService extends SearchService implements IRoleService{
 	}
 
 	@Override
-	public String addRole(String NAME, String REMARKS, String CREATOR) {
+	public String addRole(String roleName, String description, String creator) {
 		// TODO Auto-generated method stub
 		Role role = new Role();
 		
 		role.setID(EntityIDFactory.createId());
-		role.setName(NAME);
-		role.setCreateID(CREATOR);
-		role.setDescription(REMARKS);
+		role.setName(roleName);
+		role.setCreateID(creator);
+		role.setDescription(description);
 		role.setCreateTime(new Date());
 
 		int result = entityDao.save(role);
@@ -212,4 +222,45 @@ public class RoleService extends SearchService implements IRoleService{
 		return result + "";
 	}
 	
+	@Override
+	public List<BootstrapTreeNode> getRoleTree_w() {
+		
+		List<BootstrapTreeNode> list = new ArrayList<>();
+		BootstrapTreeNode node = new BootstrapTreeNode("", "所有角色");
+		BootstrapTreeNode node1  = null;
+		node.setlevel0("0");
+		node.setBackColor("f2f2f2");
+		node.setIcon("glyphicon glyphicon-th");
+		node.setColor("green");
+		node.setHref("javascript:void(0)");
+		String[] properties = new String[]{
+			"role.ID",
+			"role.Name as roleName"
+		};
+		List<Map<String, Object>> roleList = entityDao.findByCondition(properties, " 1 = 1 order by createTime ", Role.class);
+		for(Map map : roleList){
+		    node1 = new BootstrapTreeNode("", "所有角色");  
+			node1.setText((String)map.get("roleName"));
+			node1.setHref("javascript:void(0)");
+			node1.setId((String)map.get("ID"));
+			node.setChecked(0);
+			node.addChilred(node1);
+		}
+		list.add(node);
+		return list;
+	}
+	
+	/**
+	 * @description 获取所有的角色名
+	 * @author Hzz
+	 * @date 2016年12月7日 晚上20:10:37
+	 */
+	@Override
+	public List<Map<String, Object>> getAllName() {
+		// TODO Auto-generated method stub
+		String[] properties = new String[] {"ID","name"};
+		String condition = "";
+		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Role.class);
+		return result;
+	}
 }

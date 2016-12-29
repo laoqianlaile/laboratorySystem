@@ -1,5 +1,6 @@
 package com.cqut.xiji.service.duty;
 
+import java.util.List;
 import java.util.Map;
 
 public interface IDutyService {
@@ -8,4 +9,5 @@ public interface IDutyService {
 	public String addDuty(String dutyCode,String dutyName,String introduction);
 	public String delDuty(String IDs);
 	public String updDuty(String ID,String dutyCode,String dutyName,String introduction);
+	List<Map<String, Object>> getAllDutyName();
 }
