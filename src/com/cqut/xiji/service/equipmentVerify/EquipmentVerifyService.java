@@ -43,7 +43,7 @@ public class EquipmentVerifyService extends SearchService implements IEquipmentV
 			String departmentName, String employeeName){
 		// TODO Auto-generated method stub
 				int index = limit;
-				int pageNum = offset/limit + 1;
+				int pageNum = offset/limit ;
 				//String tableName = "contract";
 				String[] properties = new String[]{
 						"a.ID",

@@ -51,11 +51,13 @@ public interface ITestProjectService {
 	List<Map<String, Object>> getTestProjectList();
 
 
-/**
- * @param testProjectName
- * @return
- */
- public List<Map<String, Object>> getTestProjectByName(String testProjectName);
+	/**
+	 * @param testProjectName
+	 * @return
+	 */
+	public List<Map<String, Object>> getTestProjectByName(String testProjectName);
 	
- public List<Map<String, Object>> getTestProject(String testProjectNamae);
+	public List<Map<String, Object>> getTestProject(String testProjectNamae);
+
+	public List<Map<String, Object>> getTestProjectById(String testProjectByID);
 }

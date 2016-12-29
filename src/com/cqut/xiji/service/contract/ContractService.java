@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
+import com.cqut.xiji.entity.company.Company;
 import com.cqut.xiji.entity.contract.Contract;
+import com.cqut.xiji.entity.employee.Employee;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
@@ -66,9 +68,10 @@ public class ContractService extends SearchService implements IContractService{
 	public Map<String, Object> getContractWithPaging2(int limit, int offset, String sort, String order, String contractName, String contractCode, String employeeName, String companyName, String startTime, String endTime, String oppositeMen, String linkPhone, int state) {
 		// TODO Auto-generated method stub
 		int index = limit;
-		int pageNum = offset/limit + 1;
+		int pageNum = offset/limit ;
 		String tableName = "contract";
 		String[] properties = new String[]{
+				"contract.ID",
 				"contract.contractCode",
 				"contract.contractName",
 				"company.companyName",
@@ -184,6 +187,46 @@ public class ContractService extends SearchService implements IContractService{
 		System.out.println("result:"+result);
 		return result;
 	}
+	
+	@Override
+	public List<Map<String, Object>> getContractByID(String ID) {
+		// TODO Auto-generated method stub
+		String baseEntity = "contract";
+		String[] properties = new String[]{
+				"contract.ID",
+				"contract.contractCode",
+				"contract.contractName",
+				"contract.companyID",
+				"company.companyName",
+				"company.address",
+				"contract.oppositeMen",
+				"contract.linkPhone",
+				"contract.employeeID",
+				"employee.employeeName",
+				"contract.signAddress",
+				"date_format(contract.signTime,'%Y.%m.%d') as signTime",
+				"date_format(contract.startTime,'%Y.%m.%d') as startTime",
+				"date_format(contract.endTime,'%Y.%m.%d') as endTime",
+				"contract.contractAmount",
+				"contract.isClassified",
+				"contract.classifiedLevel",
+				"case when contract.state = 0 then '未上传合同文件' "
+				+ "when contract.state = 1 then '未提交' "
+				+ "when contract.state = 2 then '审核中' "
+				+ "when contract.state = 3 then '驳回' "
+				+ "when contract.state = 4 then '审核通过' "
+				+ "when contract.state = 5 then '执行中' "
+				+ "when contract.state = 6 then '执行完成' "
+				+ "when contract.state = 7 then '异常终止' end as state"
+		};
+		String joinEntity = " LEFT JOIN company ON contract.companyID = company.ID " +
+				" LEFT JOIN employee ON contract.employeeID = employee.ID ";
+		String condition = "contract.ID='" + ID + "'";
+		List<Map<String, Object>> result = entityDao.searchForeign(properties,baseEntity,joinEntity,null,condition);
+		System.out.println("getContractByID() result:"+result);
+		return result;
+	}
+	
 	/**
 	 * 
 	 * @description 新增合同
@@ -202,18 +245,33 @@ public class ContractService extends SearchService implements IContractService{
 	 * @see com.cqut.xiji.service.contract.IContractService#addContract(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String addContract(String contractName, String companyName, String oppositeMen,String linkPhone, String employeeName, String signAddress,String startTime,String signTime, String endTime) {
+	public int addContract(String contractName, String companyName, String oppositeMen,String linkPhone, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime) {
 		// TODO Auto-generated method stub
+		Company company = new Company();
+		String id = EntityIDFactory.createId();
+		company.setID(id);
+		company.setCompanyName(companyName);
+		company.setAddress(address);
+		company.setMobilephone(linkPhone);
+		company.setLinkMan(oppositeMen);
+		int result = entityDao.save(company);
+	
 		Contract contract = new Contract();
 		String contractCode = "20161010";
+		int isClassified = 0;
+		int classifiedLevel = 3;
+		int state = 0;
 		contract.setID(EntityIDFactory.createId());
 		contract.setContractCode(contractCode);
 		contract.setContractName(contractName);
-		contract.setCompanyID(companyName);
+		contract.setCompanyID(id);
 		contract.setOppositeMen(oppositeMen);
 		contract.setLinkPhone(linkPhone);
 		contract.setEmployeeID(employeeName);
 		contract.setSignAddress(signAddress);
+		contract.setIsClassified(isClassified);
+		contract.setClassifiedLevel(classifiedLevel);
+		contract.setState(state);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
 		Date startTime1 = null;
 		Date signTime1 = null;
@@ -232,8 +290,14 @@ public class ContractService extends SearchService implements IContractService{
 			contract.setEndTime(endTime1);
 		}
 		
-		int result = entityDao.save(contract);
-		return result + "";
+		result = entityDao.save(contract);
+		
+		if(result <= 0){
+			String position = "ID =" + id;
+			result = entityDao.deleteByCondition(position, Company.class);
+			return result;
+		}
+		return result;
 	}
 	
 	/**
@@ -241,18 +305,18 @@ public class ContractService extends SearchService implements IContractService{
 	 * @description 删除合同
 	 * @author hujiajun
 	 * @created 2016-10-21 下午4:45:15
-	 * @param contractCodes
+	 * @param ids
 	 * @return
 	 * @see com.cqut.xiji.service.contract.IContractService#delContract(java.lang.String)
 	 */
 	@Override
-	public String delContract(String contractCodes) {
+	public String delContract(String ID) {
 		// TODO Auto-generated method stub
-		if(contractCodes == null || contractCodes.isEmpty()){
+		if(ID == null || ID.isEmpty()){
 			return 0+"";
 		}
-		String position = contractCodes;
-		int result = entityDao.deleteByCondition(position, Contract.class);
+		System.out.println("删除合同ID是："+ID);
+		int result = entityDao.deleteByID(ID, Contract.class);
 		return result+"";
 	}
 
@@ -264,9 +328,12 @@ public class ContractService extends SearchService implements IContractService{
 	 * @param ID
 	 * @param contractCode
 	 * @param contractName
+	 * @param companyID
 	 * @param companyName
+	 * @param address
 	 * @param oppositeMen
 	 * @param linkPhone
+	 * @param employeeID
 	 * @param employeeName
 	 * @param signAddress
 	 * @param startTime
@@ -280,15 +347,98 @@ public class ContractService extends SearchService implements IContractService{
 	 * @see com.cqut.xiji.service.contract.IContractService#updContract(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, double, int, int, int)
 	 */
 	@Override
-	public String updContract(String ID, String contractCode,String contractName, String companyName, String oppositeMen,String linkPhone, String employeeName, String signAddress,String startTime,String signTime, String endTime,double contractAmount,int isClassified,int classifiedLevel,int state) {
+	public String updContract(String ID, String contractCode, String contractName,
+			String companyID, String companyName, String address,
+			String oppositeMen, String linkPhone, String employeeID,
+			String employeeName, String signAddress, String startTime,
+			String signTime, String endTime, double contractAmount,
+			int isClassified, int classifiedLevel, int state) {
 		// TODO Auto-generated method stub
+		System.out.println("进入updContract");
+		//String[] properties = {"companyName"};
+		
+		String companyid = "";
+		String[] properties = new String[] {"ID"};
+		String condition = "companyName like '%" + companyName + "%'";
+		List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, Company.class);
+		Map<String, Object> temp = list.get(0);
+		
+		for (String obj : temp.keySet()) {
+			
+			Object value = temp.get(obj);
+			// 判断取出来的值是否为空
+			if (value != null && !"".equals(value.toString())) {
+				// 转换为String类型
+				companyid = value.toString();
+				System.out.println("companyid"+companyid);
+			}
+		}
+		
+		if(companyid != null && !"".equals(companyid)){
+			if(companyid.equals(companyID)){
+				Company company = new Company();
+				company.setCompanyName(companyName);
+				company.setAddress(address);
+				company.setMobilephone(linkPhone);
+				company.setLinkMan(oppositeMen);
+				
+				int result = entityDao.updatePropByID(company,companyID);
+			}else{
+				Company company = new Company();
+				company.setCompanyName(companyName);
+				company.setAddress(address);
+				company.setMobilephone(linkPhone);
+				company.setLinkMan(oppositeMen);
+				
+				int result = entityDao.updatePropByID(company,companyid);
+			}
+		}else{
+			Company company = new Company();
+			String id = EntityIDFactory.createId();
+			company.setID(id);
+			company.setCompanyName(companyName);
+			company.setAddress(address);
+			company.setMobilephone(linkPhone);
+			company.setLinkMan(oppositeMen);
+			int result = entityDao.save(company);
+			companyID = id;
+		}
+		
+		String employeeid = "";
+		String[] properties1 = new String[] {"ID"};
+		String condition1 = "employeeName like '%" + employeeName + "%'";
+		
+		List<Map<String, Object>> list1 = entityDao.findByCondition(properties1, condition1, Employee.class);
+		Map<String, Object> temp1 = list1.get(0);
+		
+		for (String obj : temp1.keySet()) {
+			
+			Object value = temp1.get(obj);
+			// 判断取出来的值是否为空
+			if (value != null && !"".equals(value.toString())) {
+				// 转换为String类型
+				employeeid = value.toString();
+				System.out.println("employeeid"+employeeid);
+			}
+		} 
+		
+		if(employeeid != null && !"".equals(employeeid)){
+			if(employeeid.equals(employeeID)){
+				System.out.println(employeeid);
+			}else{
+				employeeID = employeeid;
+			}
+		}else{
+			System.out.println("没有员工,此项不会改变");
+		}
+		
 		Contract contract = new Contract();
 		contract.setContractCode(contractCode);
 		contract.setContractName(contractName);
-		contract.setCompanyID(companyName);
+		contract.setCompanyID(companyID);
 		contract.setOppositeMen(oppositeMen);
 		contract.setLinkPhone(linkPhone);
-		contract.setEmployeeID(employeeName);
+		contract.setEmployeeID(employeeID);
 		contract.setSignAddress(signAddress);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
 		Date startTime1 = null;
@@ -308,9 +458,6 @@ public class ContractService extends SearchService implements IContractService{
 			contract.setSignTime(signTime1);
 			contract.setEndTime(endTime1);
 		}
-//		contract.setStartTime(startTime);
-//		contract.setSignTime(signTime);
-//		contract.setEndTime(endTime);
 		contract.setContractAmount(contractAmount);
 		contract.setIsClassified(isClassified);
 		contract.setClassifiedLevel(classifiedLevel);
@@ -360,7 +507,7 @@ public class ContractService extends SearchService implements IContractService{
 	public Map<String, Object> getContractWithPaging(int limit, int offset,String order,String sort,String contract) {
 		System.out.println("222" + "<br />");
 		int index = limit;
-		int pageNum = offset/limit + 1;
+		int pageNum = offset/limit ;
 		String tablename = "contract";
 		String[] properties = new String[]{
 				"ID",

@@ -162,6 +162,20 @@ public class TestProjectController{
 	}
 	
 	/**
+	 * @description 通过检测项目ID得到检查项目信息
+	 * @author hujiajun
+	 * @created 2016年12月12日19:13:01
+	 * @param testProjectByID
+	 * @return
+	 */
+	@RequestMapping("/getTestProjectById")  
+    @ResponseBody
+	public String getTestProjectById(String testProjectByID){
+		List<Map<String, Object>> result = service.getTestProjectById(testProjectByID);
+		return JSONArray.fromObject(result).toString();
+	}
+	
+	/**
 	 * 
      * @discription 模糊查询获取检测项目名称
      * @author zt       

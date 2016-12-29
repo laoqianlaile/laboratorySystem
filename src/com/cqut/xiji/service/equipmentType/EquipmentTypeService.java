@@ -42,7 +42,7 @@ public class EquipmentTypeService extends SearchService implements IEquipmentTyp
 			String sort, String order, String equipmentTypeCode,
 			String equipmentTypeName){
 		int index = limit;
-		int pageNum = offset/limit + 1;
+		int pageNum = offset/limit ;
 		String tableName = "equipmentType";
 		String[] properties = new String[]{
 				"equipmentType.ID",

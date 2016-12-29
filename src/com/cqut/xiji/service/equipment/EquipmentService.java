@@ -76,7 +76,7 @@ public class EquipmentService extends SearchService implements
 			String sort, String order, String equipmentName,
 			String equipmentType, String departmentName, String buyTime){
 		int index = limit;
-		int pageNum = offset/limit + 1;
+		int pageNum = offset/limit ;
 		String tableName = "equipment";
 		String[] properties = new String[]{
 				"equipment.ID",

@@ -155,12 +155,12 @@ function queryParams(){
  */
 function search(){
 	initData();
-	refresh();
+	$('#table').bootstrapTable('refresh', null);
 }
 
 /* 刷新方法 */
 function refresh(){
-	$('#table').bootstrapTable('refresh', null);
+	window.location.href="module/jsp/equipmentManage/equipmentUseManage.jsp";
 }
 
 
