@@ -1,0 +1,79 @@
+@CHARSET "UTF-8";
+
+.form-control {
+	display: inline-block;
+}
+
+.content {
+	width: 98%;
+	margin: 5px auto;
+}
+
+.hrStyle {
+	border: 1px solid black;
+}
+
+.title label {
+	font-family: cursive;
+	font-size: larger;
+}
+
+.clientInfo .row {
+	margin-top: 10px;
+}
+
+.clientInfo label {
+	width: 20%;
+}
+
+.clientInfo span {
+	width: 70%
+}
+
+.textRequire {
+	width: 98%;
+	margin-left:1%;
+	marigin-right:1%;
+	height: 100px !important;
+	resize: none;
+	background: #fff !important;
+}
+
+.sampleInfo button {
+	margin-left: 10px;
+}
+
+.sampleInfoDiv {
+	width: 100%;
+	margin: 20px auto;
+}
+
+.equipmentList {
+	height: 250px;
+	overflow-y: scroll;
+}
+
+.equipmentList div {
+	margin-top: 10px
+}
+
+.originalNumber .form-control {
+	width: 32%;
+}
+
+.originalNumber,.fileSummary,.remarks {
+	width: 96%;
+	margin: 10px auto;
+}
+
+.fileSummary label,.remarks label {
+	width: 16%;
+	float: left;
+}
+
+.fileSummary textarea,.remarks textarea {
+	width: 75%;
+	height: 100px;
+	resize: none;
+	overflow-y: scroll;
+}
