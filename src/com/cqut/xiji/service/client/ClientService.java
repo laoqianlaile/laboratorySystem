@@ -1,4 +1,4 @@
-package com.cqut.xiji.service.client;
+﻿package com.cqut.xiji.service.client;
 
 
 import java.net.URLDecoder;
@@ -185,6 +185,7 @@ public class ClientService extends SearchService implements IClientService{
 
 	@Override
 	public String clientLogin(Client client, HttpSession session) {
+
 		// TODO Auto-generated method stub
 		if(client != null){
 			List<Client> clients = entityDao.getByCondition(" 1 = 1", Client.class);
