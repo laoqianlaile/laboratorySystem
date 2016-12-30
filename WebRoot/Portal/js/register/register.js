@@ -47,43 +47,43 @@ function checkTextPerson(){
    }
 }
 //执照图上传方法
-$(document).ready(function() {
-   $('#license').fileupload({
-         dataType: 'json',
-         done: function (e, result) {
-              if(result == null) {
-            	  alert("上传失败");
-              }
-              else if(result.result == "false"){
-            	  alert("您上传图片的格式不正确");
-              }
-              else{
-            	  $('#idCard1').val(result.result);
-            	  $("#licensePrompt").html("");
-            	  $('#shang').text("上传成功，点击可更改"); 	 
-              }
-         }
-     });
-});
-//资质图上传方法
-$(document).ready(function() {
-		   $('#aptitude').fileupload({
-		         dataType: 'json',
-		         done: function (e, result) {
-		              if(result == null) {
-		            	  alert("上传失败");
-		              }
-		              else if(result.result == "false"){
-		            	  alert("您上传图片的格式不正确");
-		              }
-		              else{
-		            	  $('#idCard2').val(result.result) ;
-		              	  $("#aptitudePrompt").html("");
-		              	  $('#shangchuan').text("上传成功，点击可更改");
-		              }
-		         }
-		     });
-		});
+function openModal(idCard){
+	var html = "";
+	$("#fileSubtype").find("option").remove();
+	$.post("fileOperateController/getFileTypeName.do", {
+		ID : $("#fileType").find("option:selected").val()
+	}, function(result) {
+		result = JSON.parse(result);
+		for ( var i = 0; i < result.length; i++) {
+			html += "<option>" + result[i].name + "</option>";
+		}
+		$("#fileSubtype").append(html);
+	});
+	
+	fileUploadInit("#file_upload",idCard);
+	$("#addModal").modal("show");
+}
+/*上传 文件*/
+function upfile(){
+	
+	path = ""; // 文件上传路径，如果此参数没有值，则使用firstDirectoryName,secondDirectoryName,thirdDirectoryName
+	type = "1"; // 文件类型       该处默认为模板文件
+	belongID = "";//文件所属ID
+	firstDirectoryName = $('#fileType option:checked').text();// 一级目录
+	secondDirectoryName = $('#fileSubtype option:checked').text(); // 二级目录
+	thirdDirectoryName = ""; //三级目录
+	otherInfo = ""; // 其他参数
+	remarks = $('#add_TemplateRemarks').val(); // 备注
+	
+	fileUpload("#file_upload",path, type, belongID,firstDirectoryName, secondDirectoryName,thirdDirectoryName,
+			otherInfo, remarks);
+
+	// 延迟执行
+	setTimeout("addTemplate()",3000); 
+
+	
+}
+
 
 //人员信息注册方法
 function add(){
@@ -91,15 +91,15 @@ function add(){
     	var parame = {};
 		parame.clientNo = encodeURI($('#clientNo1').val());
 		parame.password = encodeURI($('#password1').val());
-		parame.companyID = encodeURI($('#companyID').val());
-		parame.mobilePhone = encodeURI($('#mobilePhone').val());
-		parame.fixedTelephone = encodeURI($('#fixedTelephone').val());
-		parame.manage = encodeURI($('#manage').val());
-		parame.representative = encodeURI($('#representative').val());
+		parame.companyName = encodeURI($('#companyID').val());
+		parame.address = encodeURI($('#mobilePhone').val());
+		parame.mobilePhone = encodeURI($('#fixedTelephone').val());
+		parame.scope = encodeURI($('#manage').val());
+		parame.legal = encodeURI($('#representative').val());
 		parame.companyType = encodeURI($('#companyType').val());
 		parame.remarks = encodeURI($('#remarks').val());
-		parame.idCardLicense = encodeURI($('#idCard1').val());
-		parame.idCardAptitude =encodeURI($('#idCard2').val());
+		parame.fileID1 = encodeURI($('#idCard1').val());
+		parame.fileID2 =encodeURI($('#idCard2').val());
 		$.ajax({
 		  url:'clientController/addPersonnel.do',
 		  data:parame,

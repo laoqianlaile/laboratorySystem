@@ -73,21 +73,21 @@ public class ClientController{
 	 */
 	@RequestMapping("/addPersonnel")  
     @ResponseBody 
-    public String addPersonnel(String clientNo,String password,String companyID,String mobilePhone,String fixedTelephone,
-    		String manage,String representative,String companyType,String remarks,String idCardLicense,String idCardAptitude) throws UnsupportedEncodingException{
+    public String addPersonnel(String clientNo,String password,String companyName,String mobilePhone,String address,
+    		String scope,String legal,String companyType,String remarks,String fileID1,String fileID2) throws UnsupportedEncodingException{
 		clientNo = URLDecoder.decode(clientNo,"utf-8");
 		password = URLDecoder.decode(password,"utf-8");
-		companyID = URLDecoder.decode(companyID,"utf-8");
+		companyName = URLDecoder.decode(companyName,"utf-8");
 		mobilePhone = URLDecoder.decode(mobilePhone,"utf-8");
-		fixedTelephone = URLDecoder.decode(fixedTelephone,"utf-8");
-		manage = URLDecoder.decode(manage,"utf-8");
-		representative = URLDecoder.decode(representative,"utf-8");
+		address = URLDecoder.decode(address,"utf-8");
+		scope = URLDecoder.decode(scope,"utf-8");
+		legal = URLDecoder.decode(legal,"utf-8");
 		companyType = URLDecoder.decode(companyType,"utf-8");
 		remarks = URLDecoder.decode(remarks,"utf-8");
-		idCardLicense = URLDecoder.decode(idCardLicense,"utf-8");
-		idCardAptitude = URLDecoder.decode(idCardAptitude,"utf-8");
-		return service.addPersonnel(clientNo,password,companyID,mobilePhone,fixedTelephone,
-	    		 manage,representative,companyType,remarks,idCardLicense,idCardAptitude); 
+		fileID1 = URLDecoder.decode(fileID1,"utf-8");
+		fileID2 = URLDecoder.decode(fileID2,"utf-8");
+		return service.addPersonnel(clientNo,password,companyName,mobilePhone,address,
+				scope,legal,companyType,remarks,fileID1,fileID2); 
 		
 	}
 
@@ -103,7 +103,6 @@ public class ClientController{
 	@ResponseBody
 	public JSONObject getPersonage(String clientNo)
 			throws UnsupportedEncodingException {
-		 System.out.println(clientNo); 
 		if (clientNo != null)
 			clientNo = URLDecoder.decode(clientNo, "utf-8");
 		else {
@@ -140,22 +139,22 @@ public class ClientController{
 	@RequestMapping("/changePersonnel")  
     @ResponseBody 
     public String changePersonnel(String clientNo,String clientID,String clientPassword,String companyID,String companyName,String address,String mobilePhone,
-    		String manage,String representative,String companyType,String remarks,String idCardLicense,String idCardAptitude) throws UnsupportedEncodingException{
+    		String scope,String legal,String companyType,String remarks,String fileID1,String fileID2) throws UnsupportedEncodingException{
 		clientNo = URLDecoder.decode(clientNo,"utf-8");
 		clientID = URLDecoder.decode(clientID,"utf-8");
 		clientPassword = URLDecoder.decode(clientPassword,"utf-8");
 		companyID = URLDecoder.decode(companyID,"utf-8");
 		mobilePhone = URLDecoder.decode(mobilePhone,"utf-8");
 		address = URLDecoder.decode(address,"utf-8");
-		manage = URLDecoder.decode(manage,"utf-8");
-		representative = URLDecoder.decode(representative,"utf-8");
+		scope = URLDecoder.decode(scope,"utf-8");
+		legal = URLDecoder.decode(legal,"utf-8");
 		companyType = URLDecoder.decode(companyType,"utf-8");
 		remarks = URLDecoder.decode(remarks,"utf-8");
 		companyName = URLDecoder.decode(companyName,"utf-8");
-		idCardLicense = URLDecoder.decode(idCardLicense,"utf-8");
-		idCardAptitude = URLDecoder.decode(idCardAptitude,"utf-8");
+		fileID1 = URLDecoder.decode(fileID1,"utf-8");
+		fileID2 = URLDecoder.decode(fileID2,"utf-8");
 		return service.changePersonnel(clientNo,clientID,clientPassword,companyID,companyName,address,mobilePhone,
-	    		 manage,representative,companyType,remarks,idCardLicense,idCardAptitude); 
+	    		 scope,legal,companyType,remarks,fileID1,fileID2); 
 		
 	}
 	
@@ -174,7 +173,7 @@ public class ClientController{
 		client.setClientNo(clientNo);
 		client.setCompanyID(companyID);
 		client.setCreateTime(new Date());
-		client.setReviewStatus("0");
+		client.setReviewStatus("1");
 		client.setID(clientID);
 		client.setPassword(password);
 		
