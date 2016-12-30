@@ -367,4 +367,78 @@ public class TestReportController {
 		boolean result = service.thirdRejectReport(ID, dismissreason);
 		return result;
 	}
+	
+	/**
+	 * 
+     * @discription 检查是否能发送报告
+     * @author zt       
+     * @created 2016-12-29 下午8:47:20     
+     * @param ID
+     * @return
+	 */
+	@RequestMapping("/setReportSendCheck")
+	@ResponseBody
+	public boolean setReportSendCheck(String ID){
+		boolean result = service.setReportSendCheck(ID);
+		return result;
+	}
+	
+	/**
+	 * 
+     * @discription 设置检测报告发送状态等信息
+     * @author zt       
+     * @created 2016-12-29 下午8:21:15     
+     * @param ID
+     * @return
+	 */
+	@RequestMapping("/setReportSendInfo")
+	@ResponseBody
+	public boolean setReportSendInfo(String ID, String receiveMan) {
+		boolean result = service.setReportSendInfo(ID, receiveMan);
+		return result;
+	}
+	
+	/**
+	 * 
+     * @discription 获取已发送的检测报告数据
+     * @author zt       
+     * @created 2016-12-29 下午10:03:03     
+     * @param limit
+     * @param offset
+     * @param order
+     * @param sort
+     * @param receiptlistCode
+     * @param client
+     * @param reportName
+     * @param beginTime
+     * @param endTime
+     * @param receiveManName
+     * @return
+	 */
+	@RequestMapping("/getTestReportSendRecord")
+	@ResponseBody
+	public JSONObject getTestReportSendRecord(int limit, int offset,
+			String order, String sort, String receiptlistCode,
+			String client, String reportName, String beginTime, String endTime,
+			String receiveManName) {
+		Map<String, Object> result = service.getTestReportSendRecord(limit,
+				offset, order, sort, receiptlistCode , client, reportName,
+				beginTime, endTime, receiveManName);
+		return JSONObject.fromObject(result);
+	}
+	
+    /**
+     * 
+     * @discription 设置归档
+     * @author zt       
+     * @created 2016-12-30 上午10:07:13     
+     * @param ID
+     * @return
+     */
+	@RequestMapping("/pigeonholeReport")
+	@ResponseBody
+	public boolean pigeonholeReport(String ID) {
+		boolean result = service.pigeonholeReport(ID);
+		return result;
+	}
 }

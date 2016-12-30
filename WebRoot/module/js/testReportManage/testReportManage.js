@@ -172,12 +172,38 @@ function submitReport() {
 
 //发送报告
 function showSendReportModal(){
-/*	var testReportID = arguments[0]
-	$.post("testReportController/setSendReportInfo",{
-		ID : testReportID
-	},function(result));*/
-	$("#sendReport").modal("show");
+	var testReportID = arguments[0];
+	if(confirm("确定发送报告?")){
+		$.post("testReportController/setReportSendCheck.do",{
+			ID : testReportID
+		},function(result){
+			if(result == true || result == "true"){
+				$("#testReportID").text(testReportID);
+				$("#sendReport").modal("show");
+			}else{
+				alert("不能发送当前报告");
+			}
+		});
+	}
 }
+
+//确定发送
+function sendReportSure(){
+	var receiveMan = $.trim($("#receiveMan").val());
+	$.post("testReportController/setReportSendInfo.do", {
+		ID : $("#testReportID").text(),
+		receiveMan : receiveMan
+	}, function(result) {
+		if (result == true || result == "true") {
+			alert("发送成功");
+		} else {
+			alert("发送失败");
+		}
+		refresh();
+	});
+	$("#sendReport").modal("hide");
+}
+
 
 //重新覆盖
 function recover() {

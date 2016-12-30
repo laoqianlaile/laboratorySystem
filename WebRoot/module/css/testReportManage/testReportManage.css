@@ -5,7 +5,7 @@
 	width: 70%;
 }
 
-.content {
+.content{
 	width: 100%;
 	min-width: 1300px;
 }
@@ -49,7 +49,7 @@
 
 #selectPart {
 	width: 70%;
-	text-align: center
+	text-align: center;
 }
 
 .buttonGroup {
@@ -58,15 +58,25 @@
 	float: right;
 	margin-top: 25px;
 }
+.searchButton{
+	margin-right:350px;
+	margin-top: 25px;
+	float: right;
+}
 
 #recoverReport textarea {
 	resize: none;
-	overflow-y:scroll;
+	overflow-y: scroll;
 }
 
 #recoverReport .form-control {
-	margin-top: 10px
+	margin-top: 10px;
 }
-#receiveMan{
-	
+
+.receiveManLabel{
+	margin-top:5px;
+}
+
+#testReportID {
+	display: none;
 }

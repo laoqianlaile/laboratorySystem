@@ -152,9 +152,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="modal-body">
 					<div class="row">
-					<label class="col-xs-4 col-md-4 col-lg-4">接受人:</label>
-					<span id="receiveMan"></span>
-					<input class="col-xs-8 col-md-8 col-lg-8 form-control" type="text"/>
+					<span id="testReportID"></span>
+					<label class="col-xs-4 col-md-4 col-lg-4 receiveManLabel">接受人:</label>
+					<input class="col-xs-8 col-md-8 col-lg-8 form-control" type="text" name="receiveMan" id="receiveMan"/>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -164,15 +164,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 	</div>
-	
-	
+
+
 	<!-- 表格 -->
 	<table id="table">
 
-		</table>
-	
-	
-	
+	</table>
+
+
+
 	<script src="module/js/testReportManage/testReportManage.js"></script>
 	<script src="module/js/fileManage/fileManage.js"></script>
 	<script type="text/javascript">

@@ -842,6 +842,7 @@ public class TaskService extends SearchService implements ITaskService {
 				tr.setFileID(fileID);
 			}
 			tr.setRemarks(remarks);
+			tr.setSendState(0);
 			Task tk = entityDao.getByID(taskID, Task.class);
 			tk.setTestReportID(testReportID);
 			int saveTereport = baseEntityDao.save(tr);

@@ -54,4 +54,14 @@ public interface ITestReportService {
 
 	public boolean thirdRejectReport(String ID, String dismissreason);
 
+	public boolean setReportSendCheck(String ID);
+
+	public boolean setReportSendInfo(String ID, String receiveMan);
+
+	public Map<String, Object> getTestReportSendRecord(int limit, int offset,
+			String order, String sort, String receiptlistCode, String client,
+			String reportName, String beginTime, String endTime,
+			String receiveManName);
+
+	public boolean pigeonholeReport(String ID);
 }
