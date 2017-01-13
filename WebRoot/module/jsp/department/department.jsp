@@ -105,6 +105,7 @@ textarea {
 }
 
 #form {
+    margin-left: 16%;
 	width: 100%;
 	height: 60px;
 	float: left;
@@ -112,7 +113,7 @@ textarea {
 }
 
 .item {
-	width: 30%;
+	width: 30.5%;;
 	height: 40%;
 	float: left;
 }
@@ -207,26 +208,25 @@ h4,.h4 {
 }
 table {
 	width: 1020px;
-	min-width:1200px;
-/* 	float: left;
-	margin-left: 40px; */
+	min-width:800px;
 }
 #tree{
-min-width: 300px;
-width:20%;
+min-width: 100px;
+width:15%;
 float:left ;
 }
 #moduleTable{
-    min-width: 1200px;
-    /* float: left; */
+    min-width: 500px;
+     float: left; 
     margin-left: 10px;
     display: inline-block;
-    width: 79%;
+    width: 84%;
     margin-top: 10px;
+    
 }
 .container{
    margin : 0 auto;
-  min-width: 1600px;
+  min-width: 100%;
   width: 100%;
 }
 .btn-primary{
@@ -269,25 +269,25 @@ span {
 
 		<div class="col-md-3.5 column">
 			<div style="float: right;margin-right: 16px;">
-				<button id="query" onclick="find()" class="btn btn-prima    ry"
+				<button id="query" onclick="find()" class="btn btn-primary"
 					type="button">
 					<em class="glyphicon glyphicon-search"></em> 查询
 				</button>
-				<button type="button" class="btn btn-info glyphicon glyphicon-plus"
+				<button type="button" class="btn btn-primary"
 					data-toggle="modal" data-target="#addModal">&nbsp;新增</button>
 
-				<button class="btn btn-warning type=" button" id="del"
+				<button class="btn btn-primary" button" id="del"
 					onclick="openModal()">
 					<em class="glyphicon glyphicon-trash"></em> 修改
 				</button>
 
-				<button class="btn btn-d type=" button" id="del" onclick="delData()">
+				<button class="btn btn-primary" button" id="del" onclick="delData()">
 					<em class="glyphicon glyphicon-trash"></em> 删除
 				</button>
 
-				<button class="btn btn-success type=" button" id="refresh"
+				<button class="btn btn-primary" button" id="refresh"
 					onclick="query()">
-					<em class="glyphicon glyphicon-refresh"></em> 全部数据
+					<em class="glyphicon glyphicon-refresh"></em> 全部
 				</button>
 
 			</div>
@@ -473,19 +473,13 @@ span {
 				$('#tree').treeview({
 					data : trees,
 					showIcon : true,
-					levels : 1,
+					levels : 5,
 				});
 			},
 			dataType : 'text'
 		});
 	</script>
-
 	
-	
-	
-	
-
-
 </body>
 
 

@@ -392,6 +392,7 @@ function edit(){
 			  }
 			  $('#editModal').modal('hide');
 			  refresh();
+			  departrefresh();
 		  }
 		});	
 	}else alert("请把信息修改完整");
@@ -409,7 +410,22 @@ function find(){
 		query:parame
 	});
 }
+function departrefresh(){
+	 $.ajax({
+			type : 'POST',
+			url : 'departmentController/getTree.do',
+			success : function(value) {
 
+				var trees = JSON.parse(value);
+				$('#tree').treeview({
+					data : trees,
+					showIcon : true,
+					levels : 5,
+				});
+			},
+			dataType : 'text'
+		});
+}
 
 /* 新增方法 */
 function add(){
@@ -433,6 +449,7 @@ function add(){
 		  }
 		  $('#addModal').modal('hide');
 		  refresh();
+		  departrefresh();
 	  }
 	});
 	}else alert("请把信息填完");
@@ -462,6 +479,7 @@ function delData(){
 			  alert("删除失败");
 		  }
 		  refresh();
+		  departrefresh();
 	  }
 	});
 }
