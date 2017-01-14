@@ -106,7 +106,7 @@ textarea {
 
 #form {
     margin-left: 16%;
-	width: 100%;
+	width: 84%;
 	height: 60px;
 	float: left;
 	margin-top: 8px;
