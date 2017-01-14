@@ -18,57 +18,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="description" content="This is my page">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
-
+    <link rel="stylesheet" type="text/css" href="module/css/uploadify.css">
+    <link rel="stylesheet" type="text/css" href="module/css/taskManage/taskView.css">
 	
 	<script src="module/js/jquery-2.1.1.min.js"></script>
 	<script src="module/js/bootstrap.js"></script>
 	<script src="module/js/bootstrap-table.js"></script>
 	<script src="module/js/bootstrap-table-zh-CN.js"></script>
-	<style>
-	.content {
-		width: 98%;
-		margin: 5px auto;
-	}
-	
-	.hrStyle {
-		border: 1px solid black;
-	}
-	
-	.title label {
-		font-family: cursive;
-		font-size: larger;
-	}
-	
-	.clientInfo .row {
-		margin-top: 10px
-	}
-	
-	.clientInfo label {
-		width: 20%;
-	}
-	
-	.clientInfo span {
-		width: 70%
-	}
-	
-	.textRequire {
-		width: 98%;
-		margin: 0 auto;
-		height: 100px !important;
-		resize: none;
-		background:#fff !important;
-	}
-	
-	.sampleInfo button {
-		margin-left: 10px;
-	}
-	
-	.sampleInfoDiv{
-		width: 100%;
-		margin: 20px auto;
-	}
-	
-	</style>
+    <script src="module/js/jquery.uploadify.min.js"></script>
 </head>
   
   <body>
@@ -113,9 +70,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 
 			<div class="row">
-				<label class="col-xs-6 col-md-6 col-lg-6"></label>
-				<textarea class="form-control textRequire" name="accordingInfo"
-					id="accordingInfo" disabled="disabled"></textarea>
+				<label class="col-xs-6 col-md-6 col-lg-6">依据的技术文件（代号、名称）及客户要求:</label>
+				<textarea class="form-control textRequire" name="accordingInfo" id="accordingInfo" disabled="disabled"></textarea>
 			</div>
 			<hr class="hrStyle">
 		</div>
@@ -132,19 +88,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 				</div>
 				<div class="col-xs-6 col-md-6 col-lg-6">
-					<button type="button" class="btn btn-primary" onclick="">
+					<button type="button" class="btn btn-primary" onclick="equipmentRegister()">
 						<span class="glyphicon glyphicon-edit"></span> 设备登记
 					</button>
 					<button type="button" class="btn btn-primary" onclick="">
 						<span class="glyphicon glyphicon-arrow-down"></span> 下载报告模版
 					</button>
-					<button type="button" class="btn btn-primary" onclick="">
+					<button type="button" class="btn btn-primary" onclick="uploadTestReport()">
 						<span class="glyphicon glyphicon-upload"></span> 上传报告
 					</button>
 					<button type="button" class="btn btn-primary" onclick="">
 						<span class="glyphicon glyphicon-search"></span> 查看报告
 					</button>
-					<button type="button" class="btn btn-primary" onclick="">
+					<button type="button" class="btn btn-primary" onclick="submitReport()">
 						<span class="glyphicon glyphicon-ok-sign"></span> 提交审核
 					</button>
 				</div>
@@ -158,7 +114,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 		<div class="otherFile">
 			<div>
-				<label>其它文件</label>
+				<label>历史文件</label>
 				<hr class="hrStyle">
 				<div>
 					<table id="taskFile">
@@ -167,8 +123,67 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 	</div>
-
 	</div>
+	
+	<div id="equipmentInfo" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
+		<div class="modal-dialog" role="document" style="width:800px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">设备登记</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row equipmentList">  
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="ensure" name="ensure" onclick="sure()">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="uploadReport" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
+		<div class="modal-dialog" role="document" style="width:500px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">上传报告</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div id="files" style="text-align:left">
+							<div id="uploadfileQueue"></div>
+							<input type="file" id="file_upload" name="file_upload" multiple="multiple">
+						</div>
+				<!-- 		<div class="originalNumber">
+							<label>原始记录编号:</label> 
+							<input type="text" class="form-control"> 
+							<label>字&nbsp;&nbsp;&nbsp;&nbsp;第</label> 
+							<input type="text" class="form-control"> 
+							<label>号</label>
+						</div> -->
+						<div class="fileSummary">
+							<label >附件概述:</label> 
+							<textarea class="form-control" name="fileSummaryInfo" id="fileSummaryInfo"></textarea>
+						</div>
+						<div class="remarks">
+							<label >备注:</label> 
+							<textarea class="form-control" name="remarksInfo" id="remarksInfo"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+				
+					<button type="button" class="btn btn-primary" id="ensure"name="ensure"
+						onclick="uploadSure()">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal"
+						onclick="javascript:$('#file_upload').uploadify('cancel','*')">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+		
+	
 	<script src="module/js/taskManage/taskView.js"></script>
 	<script src="module/js/fileManage/fileManage.js"></script>
 </body>

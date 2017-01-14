@@ -23,11 +23,8 @@ public interface IClientService {
 
 	public String clientLogin(Client client,HttpSession session);
 
-	public String addPersonnel(String clientNo, String password, String companyID,
-			String mobilePhone, String fixedTelephone, String manage,
-			String representative, String company, String remarks,
-			String idCard1, String idCard2);
-
+	 public String addPersonnel(String clientNo,String password,String companyName,String mobilePhone,String address,
+	    		String scope,String legal,String companyType,String remarks,String fileID1,String fileID2);
 
 	public Map<String, Object> getPersonage(String articleID);
 

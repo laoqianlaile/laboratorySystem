@@ -40,7 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <label>交接单号：</label>
 			  <input type="text" id="schFactoryCode" name="schFactoryCode" class="form-control " aria-describedby="basic-addon1" style="width:73%">
 			</div>
-				<div class="col-xs-4 col-md-4 col-lg-4">
+			<div class="col-xs-4 col-md-4 col-lg-4">
 			<label>样品名称:</label>
 			<input type="text"  name="sampleName" id="sampleName" class="form-control" aria-describedby="basic-addon1" style="width:73%">
 			</div>

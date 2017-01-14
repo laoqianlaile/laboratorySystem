@@ -1,20 +1,15 @@
 package com.cqut.xiji.controller.task;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
-
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.cqut.xiji.service.task.ITaskService;
-
 @Controller
 @RequestMapping("/taskController")
 public class TaskController{
@@ -333,5 +328,147 @@ public class TaskController{
 	public JSONObject getTaskAuditPersonWithPaging(int limit, int offset, String order,String sort) {
 		Map<String, Object> result = service.getTaskAuditPersonWithPaging(limit,offset,order,sort);
 		return JSONObject.fromObject(result);
+	}
+	
+    /**
+     * 
+     * @discription 检查当前审核状态下是否可以上传检测报告
+     * @author zt       
+     * @created 2016-12-24 下午5:15:18     
+     * @param taskID
+     * @return
+     */
+	@RequestMapping("/recoverFileCheck")
+	@ResponseBody
+	public boolean recoverFileCheck(String taskID) {
+		boolean result = service.recoverFileCheck(taskID);
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @discription 通过任务ID获取对应的项目名字
+	 * @author zt
+	 * @created 2016-12-23 下午5:03:27
+	 * @param taskID
+	 * @return
+	 */
+	@RequestMapping("/getProjectName")
+	@ResponseBody
+	public List<Map<String, Object>> getProjectName(String taskID) {
+		List<Map<String, Object>> result = service.getProjectName(taskID);
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @discription 设置相应任务的检测状态
+	 * @author zt
+	 * @created 2016-12-23 下午9:32:11
+	 * @param taskID
+	 * @return
+	 */
+	@RequestMapping("/setTaskDetectState")
+	@ResponseBody
+	public boolean setTaskDetectState(String taskID) {
+		boolean result = service.setTaskDetectState(taskID);
+		return result;
+	}
+	
+	/**
+	 * 
+     * @discription 设置检测报告信息
+     * @author zt       
+     * @created 2016-12-24 下午5:58:01     
+     * @param taskID
+     * @return
+	 */
+	@RequestMapping("/setTestReportInfo")
+	@ResponseBody
+	public boolean setTestReportInfo(String taskID,String remarks) {
+		boolean result = service.setTestReportInfo(taskID,remarks);
+		return result;
+	}
+	
+    /**
+     * 
+     * @discription 提交审核
+     * @author zt       
+     * @created 2016-12-25 下午5:48:27     
+     * @param taskID
+     * @return
+     */
+	@RequestMapping("/submitReport")
+	@ResponseBody
+	public boolean submitReport(String taskID) {
+		boolean result = service.submitReport(taskID);
+		return result;
+	}
+	
+	/**
+	 * 通过交接单获取任务列表（用于账目支付详细填写列表）
+	 * 
+	 * @author zkl
+	 * @param ReceiptlistID
+	 * @return
+	 */
+	@RequestMapping("/getTaskByRelist")
+	@ResponseBody
+	public String getTaskByRelist(String ReceiptlistID){
+		List<Map<String,Object>> result = service.getTaskByRelist(ReceiptlistID);
+		return JSONArray.fromObject(result).toString();
+	}
+	
+	/**
+	 * @description 获取任务信息
+	 * @author HZZ
+	 * @date 2016年12月26日 17:28:05
+	 * @param limit
+	 * @param offset
+	 * @param order
+	 * @param sort
+	 * @return
+	 */
+	@RequestMapping("/getTaskInfoWithPaging")
+	@ResponseBody
+	public JSONObject getTaskInfoWithPaging(int limit, int offset,
+			String order, String sort) {
+		Map<String, Object> result = service.getTaskInfoWithPaging(limit, offset, order, sort);
+		return JSONObject.fromObject(result);
+	}
+	
+	
+	/**
+	 * @description 获取检测报告
+	 * @author HZZ
+	 * @date 2016年12月27日 晚上21:00:20
+	 * @param limit
+	 * @param offset
+	 * @param order
+	 * @param sort
+	 * @return
+	 */
+	@RequestMapping("/getTaskTestReportWithPaging")
+	@ResponseBody
+	public JSONObject getTaskTestReportWithPaging(int limit, int offset,
+			String order, String sort) {
+		Map<String, Object> result = service.getTaskTestReportWithPaging(limit, offset, order, sort);
+		return JSONObject.fromObject(result);
+	}
+	
+	
+	/**
+	 * @description 获取指定任务信息
+	 * @author HZZ
+	 * @date 2016年12月28日 晚上19:39:35
+	 * @param ID
+	 * @return
+	 */
+	@RequestMapping("/getTaskInfor")  
+	@ResponseBody
+	public String getTaskInfor(String ID){
+		System.out.println(ID);
+		List<Map<String, Object>> result = service.getTaskInfor(ID);
+		return JSONArray.fromObject(result).toString();
 	}
 }

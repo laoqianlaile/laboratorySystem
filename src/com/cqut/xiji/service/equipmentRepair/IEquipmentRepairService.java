@@ -1,5 +1,6 @@
 package com.cqut.xiji.service.equipmentRepair;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -55,5 +56,4 @@ public interface IEquipmentRepairService {
 	public int updEquipmentRepair(String ID, String equipmentID, String repairTime,
 			String employeeID, String beforeStatus, String afterStatus,
 			String mounting, int money, String remarks);
-	
 }

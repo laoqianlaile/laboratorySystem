@@ -18,6 +18,7 @@ import com.cqut.xiji.entity.sample.Sample;
 import com.cqut.xiji.entity.task.Task;
 import com.cqut.xiji.entity.taskMan.TaskMan;
 import com.cqut.xiji.entity.testProject.TestProject;
+import com.cqut.xiji.entity.testReport.TestReport;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
@@ -99,7 +100,6 @@ public class TaskService extends SearchService implements ITaskService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("total", count);
 		map.put("rows", result);
-
 		return map;
 	}
 
@@ -565,7 +565,7 @@ public class TaskService extends SearchService implements ITaskService {
 				 "c.ID AS ID",
 				 "DATE_FORMAT(startTime,'%Y-%m-%d %H:%i:%s') AS startTime",
 				 "DATE_FORMAT(endTime,'%Y-%m-%d %H:%i:%s') AS endTime",
-				 "IF (c.detectstate = 0,'无报告',IF (c.detectstate = 1,'未提交',IF (c.detectstate = 2,'二审中',IF (c.detectstate=3,'二审未通过',IF (c.detectstate = 4,'三审中',"+
+				 "IF (c.detectstate = 0,'无报告',IF (c.detectstate = 1,'未提交',IF (c.detectstate = 2,'二审核中',IF (c.detectstate=3,'二审未通过',IF (c.detectstate = 4,'三审核中',"+
 				 "IF (c.detectstate = 5,'三审未通过',IF (c.detectstate = 6,'审核通过','其它'))))))) AS detectstate",
 				 "c.receiptlistCode AS receiptlistCode",
 				 "c.testProjectName AS testProjectName",
@@ -611,7 +611,7 @@ public class TaskService extends SearchService implements ITaskService {
 
 
 
-@Override
+    @Override
 	public boolean updateTaskAuditPerson(String taskID,String employeeID){
 			Task tk = entityDao.getByID(taskID, Task.class);
 			if (tk == null) {
@@ -736,7 +736,6 @@ public class TaskService extends SearchService implements ITaskService {
 	public Map<String, Object> getTaskAuditPersonWithPaging(int limit, int offset,String order, String sort ) {
 		int index = limit;
 		int pageNum = offset / limit;
-		
 		String tableName = "employee";
 		String[] properties = new String[] {
 				"employee.ID AS ID",
@@ -758,4 +757,253 @@ public class TaskService extends SearchService implements ITaskService {
 		map.put("rows", result);
 		return map;
 	}
+	
+	@Override
+	public boolean recoverFileCheck(String taskID){
+		String tableName = "task";
+		Map<String, Object> result = baseEntityDao.findByID(new String[] { "detectstate" }, taskID, "ID", tableName);
+        if(result==null){
+        	return true;
+        }else{
+        	String detectState = result.get("detectstate").toString();
+        	if(detectState.equals("0")||detectState.equals("1")||detectState.equals("3")||detectState.equals("5")){
+        		return true;
+        	}else{
+        		return false;
+        	}
+        }
+	}
+	
+	@Override
+	public List<Map<String, Object>> getProjectName(String taskID) {
+		String filteCondition = "";
+		if (taskID != null && !taskID.equals("") && !taskID.isEmpty()) {
+			filteCondition += " where task.ID = '" + taskID + "'";
+		}
+		String baseEntiy = " ( "
+				+ " SELECT "
+				+ " contract.fileTypeID AS fileTypeID "
+				+ " FROM "
+				+ " ( "
+				+ " SELECT "
+				+ "task.receiptlistID"
+				+ " FROM "
+				+ " task "
+				+ filteCondition
+				+ " ) AS a "
+				+ " LEFT JOIN receiptlist ON a.receiptlistID = receiptlist.ID "
+				+ " LEFT JOIN contract ON receiptlist.contractID = contract.ID "
+				+ " ) AS b ";
+		String[] properties = new String[] { "filetype.name AS name" };
+		String joinEntity = " LEFT JOIN filetype ON b.fileTypeID = filetype.ID ";
+		List<Map<String, Object>> result = entityDao.searchForeign(properties,
+				baseEntiy, joinEntity, null, null);
+		return result;
+	}
+	
+	@Override
+	public boolean setTaskDetectState(String taskID) {
+		Task tk = entityDao.getByID(taskID, Task.class);
+		if (tk == null) {
+			return false;
+		} else {
+			tk.setDetectstate(1);
+			return baseEntityDao.updatePropByID(tk, taskID) > 0 ? true : false;
+		}
+	}
+	
+	@Override
+	public boolean setTestReportInfo(String taskID, String remarks) {
+		Map<String, Object> result = baseEntityDao.findByID(
+				new String[] { "testReportID,receiptlistID" }, taskID, "ID",
+				"task");
+		String condition = " fileinformation.belongtoID = '" + taskID + "'";
+		List<Map<String, Object>> result1 = entityDao.searchWithpaging(
+				new String[] { "fileinformation.ID AS ID" }, "fileinformation",
+				null, null, condition, null, "fileinformation.uploadTime",
+				"DESC", 1, 0);
+		String fileID = "";
+		if (result1 != null && result1.size() > 0) {
+			fileID = result1.get(0).get("ID").toString();
+		}
+		String testReportID = "";
+		if (result.get("testReportID") == null || result.get("testReportID").equals("") || result.get("testReportID").equals(" ")) {
+			TestReport tr = new TestReport();
+			String receiptlistID = result.get("receiptlistID").toString();
+			testReportID = EntityIDFactory.createId().toString();
+			tr.setID(testReportID);
+			tr.setReceiptlistID(receiptlistID);
+			tr.setTaskID(taskID);
+			/*
+			 * tr.setVersionNumber(""); tr.setVersionInformation("");
+			 */
+			if (fileID != null && !fileID.isEmpty() && !fileID.equals("")) {
+				tr.setState(0);
+				tr.setFileID(fileID);
+			}
+			tr.setRemarks(remarks);
+			tr.setSendState(0);
+			Task tk = entityDao.getByID(taskID, Task.class);
+			tk.setTestReportID(testReportID);
+			int saveTereport = baseEntityDao.save(tr);
+			int updateTask = baseEntityDao.updatePropByID(tk, taskID);
+			int updateSuccessCount = saveTereport + updateTask;
+			return (updateTask + updateSuccessCount) > 1 ? true : false;
+		} else {
+			testReportID = result.get("testReportID").toString();
+			TestReport tr = entityDao.getByID(testReportID, TestReport.class);
+			tr.setFileID(fileID);
+			tr.setRemarks(remarks);
+			return baseEntityDao.updatePropByID(tr, testReportID) > 0 ? true
+					: false;
+		}
+	}
+	
+	@Override
+	public boolean submitReport(String taskID) {
+		Task tk = entityDao.getByID(taskID, Task.class);
+		Map<String, Object> result = baseEntityDao.findByID( new String[] { "detectstate,testReportID" }, taskID, "ID", "task");
+		String detectstate = result.get("detectstate").toString();
+		if (detectstate.equals("1")) {
+			tk.setDetectstate(2);
+			String testReportID = result.get("testReportID").toString();
+			TestReport tr = entityDao.getByID(testReportID, TestReport.class);
+			if (tr != null) {
+				tr.setState(2);
+			}
+			int updateTaskSuccessCount = baseEntityDao.updatePropByID(tk, taskID);
+			int updateReportSuccessCount = baseEntityDao.updatePropByID(tr,testReportID);
+			return (updateTaskSuccessCount + updateReportSuccessCount) > 1 ? true : false;
+			
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public List<Map<String, Object>> getTaskByRelist(String receiptlistID) {
+		
+		String baseEntity = "task";
+		String[] properties = {
+			"task.ID as taskID",
+			"testproject.nameCn"
+		};
+		String joinEntity = " LEFT JOIN testproject ON testproject.ID = task.testProjectID  ";
+		String condition = " 1 = 1 and  task.receiptlistID = " + receiptlistID; 
+		List<Map<String, Object>> result = originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false);
+		return result;
+	}
+	
+	/**
+	 * @description 获取任务信息
+	 * @author HZZ
+	 * @date 2016年12月26日 17:23:23
+	 */
+	@Override
+	public Map<String, Object> getTaskInfoWithPaging(int limit, int offset,
+			String order, String sort) {
+		// TODO Auto-generated method stub
+		int index = limit;
+		int pageNum = offset / limit;
+		String[] properties = new String[] {
+				"task.ID",
+				"task.receiptlistID",
+				"task.taskCode",
+				"sample.factoryCode",
+				"sample.sampleName",
+				"sample.specifications",
+				"IF(testProject.nameEn IS  NULL , testProject.nameCn , "
+						+ " if ( testProject.nameCn is null ,testProject.nameEn,"
+						+ " CONCAT(testProject.nameEn,'(',testProject.nameCn,')') )) as testName ",
+				"employee.employeeName",
+				"case when task.detectState = 0 then '未领样' "
+				+ "when task.detectState = 1 then '检测中'"
+				+ "when task.detectState = 2 then '检测过程完成'"
+				+ "when task.detectState = 3 then '录入原始数据'"
+				+ "when task.detectState = 4 then '数据审核中'"
+				+ "when task.detectState = 5 then '数据审核通过'"
+				+ "when task.detectState = 6 then '录报告'"
+				+ "when task.detectState = 7 then '报告二审中'"
+				+ "when task.detectState = 8 then '报告三审中'"
+				+ "when task.detectState = 9 then '驳回'"
+				+ "when task.detectState = 10 then '签发'end as detectState",};
+		
+		String joinEntity = " left join sample on task.sampleID =sample.ID "
+				+ "left join testProject on task.testProjectID = testProject.ID "
+				+ " left join taskMan on taskMan.taskID = task.ID "
+				+"left join employee on taskMan.detector=employee.ID";
+		String condition = "1 = 1 ";
+		List<Map<String, Object>> result = searchPagingWithJoin(properties,
+				joinEntity, null, condition, false, index, pageNum);
+		int count = getForeignCountWithJoin(joinEntity, null, condition, false);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("total", count);
+		map.put("rows", result);
+
+		return map;
+	}
+
+	/**
+	 * @description 获取检测报告
+	 * @author HZZ
+	 * @date 2016年12月27日 晚上20:58:17
+	 */
+	@Override
+	public Map<String, Object> getTaskTestReportWithPaging(int limit,
+			int offset, String order, String sort) {
+		// TODO Auto-generated method stub
+		int index = limit;
+		int pageNum = offset / limit;
+		int detectState=4;
+		String[] properties = new String[] {
+				"task.ID",
+				"task.taskCode",
+				"receiptlist.receiptlistCode",
+				"fileInformation.fileName",
+				"sample.sampleName",
+				"testReport.versionNumber",
+		};
+		String joinEntity = "left join receiptlist on task.receiptlistID=receiptlist.ID"
+				+" left join sample on task.sampleID =sample.ID "
+				 +"left join testReport on testReport.taskID = task.ID "
+		         +"left join fileInformation on testReport.fileID=fileInformation.belongtoID";
+		String condition = "1 = 1 and task.detectState = "+ detectState;
+		
+		List<Map<String, Object>> result = searchPagingWithJoin(properties,
+				joinEntity, null, condition, false, index, pageNum);
+		int count = getForeignCountWithJoin(joinEntity, null, condition, false);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("total", count);
+		map.put("rows", result);
+
+		return map;
+	}
+
+	/**
+	 * @description 获取指定任务信息
+	 * @author HZZ
+	 * @date 2016年12月29日 晚上19:35:04
+	 */
+	@Override
+	public List<Map<String, Object>> getTaskInfor(String ID) {
+		// TODO Auto-generated method stub
+		String tableName = "task";
+		String[] properties = new String[]{
+			"task.taskCode",
+			"receiptlist.receiptlistCode",
+			"receiptlist.accordingDoc",	
+		};
+		String[] foreignEntitys = new String[]{
+			"receiptlist",
+		};
+		String condition = "task.ID = " + ID
+				+ " and task.receiptlistID = receiptlist.ID ";
+		
+		List<Map<String, Object>> result = entityDao.searchForeign(properties, tableName, null, foreignEntitys, condition);
+		
+		return result;
+	}
+
 }

@@ -103,6 +103,22 @@ public class TestReportController {
 		return JSONObject.fromObject(result);
 	}
 	
+	
+	/**
+	 * 
+     * @discription 检测是否可以重新覆盖
+     * @author zt       
+     * @created 2016-12-26 下午3:25:56     
+     * @param ID
+     * @return
+	 */
+	@RequestMapping("/recoverCheck")
+	@ResponseBody
+	public boolean recoverCheck(String ID) {
+		boolean result = service.recoverCheck(ID);
+		return result;
+	}
+	
 	/**
 	 * 
 	 * @description 重新覆盖
@@ -117,8 +133,8 @@ public class TestReportController {
 	 */
 	@RequestMapping("/updateTestReport")
 	@ResponseBody
-	public boolean updateTestReport(String ID, String fileID,String versionNumber, String versionInfo, String remarks) {
-		boolean result = service.updateTestReport(ID, fileID, versionNumber,versionInfo, remarks);
+	public boolean updateTestReport(String ID,String taskID,String versionNumber,String versionInfo, String remarks) {
+		boolean result = service.updateTestReport(ID,taskID,versionNumber,versionInfo, remarks);
 		return result;
 	}
 
@@ -267,6 +283,14 @@ public class TestReportController {
 	}
 	
 	
+
+	@RequestMapping("/deleteCheck")
+	@ResponseBody
+	public boolean deleteCheck(String ID) {
+		boolean result = service.deleteCheck(ID);
+		return result;
+	}
+	
 	/**
 	 * 
 	 * @discription 删除对应的检测报告数据
@@ -277,8 +301,8 @@ public class TestReportController {
 	 */
 	@RequestMapping("/deleteOtherTableInfo")
 	@ResponseBody
-	public boolean deleteOtherTableInfo(String ID) {
-		boolean result = service.deleteOtherTableInfo(ID);
+	public boolean deleteOtherTableInfo(String ID,String taskID) {
+		boolean result = service.deleteOtherTableInfo(ID,taskID);
 		return result;
 	}
 
@@ -341,6 +365,80 @@ public class TestReportController {
 	@ResponseBody
 	public boolean thirdRejectReport(String ID, String dismissreason) {
 		boolean result = service.thirdRejectReport(ID, dismissreason);
+		return result;
+	}
+	
+	/**
+	 * 
+     * @discription 检查是否能发送报告
+     * @author zt       
+     * @created 2016-12-29 下午8:47:20     
+     * @param ID
+     * @return
+	 */
+	@RequestMapping("/setReportSendCheck")
+	@ResponseBody
+	public boolean setReportSendCheck(String ID){
+		boolean result = service.setReportSendCheck(ID);
+		return result;
+	}
+	
+	/**
+	 * 
+     * @discription 设置检测报告发送状态等信息
+     * @author zt       
+     * @created 2016-12-29 下午8:21:15     
+     * @param ID
+     * @return
+	 */
+	@RequestMapping("/setReportSendInfo")
+	@ResponseBody
+	public boolean setReportSendInfo(String ID, String receiveMan) {
+		boolean result = service.setReportSendInfo(ID, receiveMan);
+		return result;
+	}
+	
+	/**
+	 * 
+     * @discription 获取已发送的检测报告数据
+     * @author zt       
+     * @created 2016-12-29 下午10:03:03     
+     * @param limit
+     * @param offset
+     * @param order
+     * @param sort
+     * @param receiptlistCode
+     * @param client
+     * @param reportName
+     * @param beginTime
+     * @param endTime
+     * @param receiveManName
+     * @return
+	 */
+	@RequestMapping("/getTestReportSendRecord")
+	@ResponseBody
+	public JSONObject getTestReportSendRecord(int limit, int offset,
+			String order, String sort, String receiptlistCode,
+			String client, String reportName, String beginTime, String endTime,
+			String receiveManName) {
+		Map<String, Object> result = service.getTestReportSendRecord(limit,
+				offset, order, sort, receiptlistCode , client, reportName,
+				beginTime, endTime, receiveManName);
+		return JSONObject.fromObject(result);
+	}
+	
+    /**
+     * 
+     * @discription 设置归档
+     * @author zt       
+     * @created 2016-12-30 上午10:07:13     
+     * @param ID
+     * @return
+     */
+	@RequestMapping("/pigeonholeReport")
+	@ResponseBody
+	public boolean pigeonholeReport(String ID) {
+		boolean result = service.pigeonholeReport(ID);
 		return result;
 	}
 }

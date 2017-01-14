@@ -27,4 +27,16 @@ public interface IContractFineItemService {
 	 */
 	public Map<String, Object> getContractFileItemWithPaging(String ID, int limit,
 			int offset, String order, String sort);
+	
+	public int addContractFineItem(String fineItemCode, String testProjectID,
+			int isOutsourcing, int calculateType, int number, double price,
+			int hour, double money, String departmentID,
+			String remarks, String contractID);
+	
+	public int delContractFineItem(String itemID);
+	
+	public int updContractFineItem(String ID, String fineItemCode,
+			String testProjectID, int isOutsourcing, int calculateType,
+			int number, double price, int hour, double money,
+			String departmentID, String remarks);
 }

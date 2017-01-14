@@ -76,7 +76,7 @@ public class EquipmentService extends SearchService implements
 			String sort, String order, String equipmentName,
 			String equipmentType, String departmentName, String buyTime){
 		int index = limit;
-		int pageNum = offset/limit + 1;
+		int pageNum = offset/limit ;
 		String tableName = "equipment";
 		String[] properties = new String[]{
 				"equipment.ID",
@@ -307,6 +307,15 @@ public class EquipmentService extends SearchService implements
         } else {    
             return min;    
         }    
+	}
+	
+	@Override
+	public List<Map<String, Object>> getEquipmentInfo() {
+		String tableName = "equipment";
+		String[] properties = new String[] { "ID,IF (factoryCode IS NULL,equipmentName,CONCAT(equipmentName,'(',factoryCode,')')) AS equipmentInfo" };
+		List<Map<String, Object>> result = entityDao.searchForeign(properties,
+				tableName, null, null, null);
+		return result;
 	}
 }
 	

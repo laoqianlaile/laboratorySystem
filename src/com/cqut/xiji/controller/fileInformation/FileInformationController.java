@@ -126,10 +126,10 @@ public class FileInformationController{
      * @param order
      * @return
 	 */
-	@RequestMapping("/getFileInSampleWithPaging")  
+	@RequestMapping("/getFileInTaskViewWithPaging")  
     @ResponseBody
-	public JSONObject getFileInSampleWithPaging(String taskID, int limit, int offset, String sort, String order){
-		Map<String, Object> result = service.getFileInSampleWithPaging(taskID,limit,offset,sort,order);
+	public JSONObject getFileInTaskViewWithPaging(String taskID, int limit, int offset, String sort, String order){
+		Map<String, Object> result = service.getFileInTaskViewWithPaging(taskID,limit,offset,sort,order);
 		return JSONObject.fromObject(result);
 	}
 }

@@ -169,16 +169,18 @@ function checkReport() {
 //三审通过
 function thirdAuditPass() {
 	var keyID = arguments[0];
-	$.post("testReportController/thirdPassReport.do", {
-		ID : keyID
-	}, function(result) {
-		if (result == true || result == "true") {
-			alert("审核通过成功");
-		} else {
-			alert("通过审核失败");
-		}
-		refresh();
-	});
+	if (confirm("是否通过审核?")) {
+		$.post("testReportController/thirdPassReport.do", {
+			ID : keyID
+		}, function(result) {
+			if (result == true || result == "true") {
+				alert("审核通过成功");
+			} else {
+				alert("通过审核失败");
+			}
+			refresh();
+		});
+	}
 }
 
 //三次审核驳回

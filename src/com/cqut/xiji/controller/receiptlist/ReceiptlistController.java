@@ -297,7 +297,38 @@ public class ReceiptlistController{
 	public String updRelistInforInReturn(String reID,String conID,String linkMan,String createTime,String linkPhone) throws UnsupportedEncodingException{
 		linkMan=URLDecoder.decode(linkMan,"utf-8");
 		String result = service.updRelistInforInReturn(reID, conID, linkMan, createTime, linkPhone);
-		return result;
+		return result; 
 	}
+	/**
+	 * 样品管理员-获取合同-交接单数据信息
+	 * @author wzj
+	 * @date 2016年12月28日 下午3:03:33
+	 * @param limit
+	 * @param offset
+	 * @param sort
+	 * @param order
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	@RequestMapping("/getReceiptlistAll")  
+	@ResponseBody
+	public JSONObject getReceiptlistAll(int limit, int offset, String sort, String order) throws UnsupportedEncodingException{
+		return JSONObject.fromObject(service.getReceiptlistAll(   limit,   offset,   sort,   order));
+	}
+	
 
+	/**
+	 * 获取交接单数据 通过合同ID
+	 * 
+	 * @author zkl
+	 * @return
+	 */
+	@RequestMapping("/getReceiptlistInfo")
+	@ResponseBody
+	public String getReceiptlistInfo(String contractID){
+		List<Map<String, Object>> result = service.getReceiptlistInfo(contractID);
+		return JSONArray.fromObject(result).toString();
+	}
+	
+	
 }

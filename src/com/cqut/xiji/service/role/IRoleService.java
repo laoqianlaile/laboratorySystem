@@ -3,6 +3,7 @@ package com.cqut.xiji.service.role;
 import java.util.List;
 import java.util.Map;
 
+import com.cqut.xiji.entity.base.BootstrapTreeNode;
 import com.cqut.xiji.entity.role.Role;
 import com.cqut.xiji.tool.treeNode.NodeList;
 
@@ -24,7 +25,10 @@ public interface IRoleService {
 	
 	public String getRole(String roleID);
 	
-	public String addRole(String NAME, String REMARKS, String CREATOR);
+	public String addRole(String roleName, String description, String creator);
 	public String delRole(String roleIDs);
-	public String updRole(String ROLEID, String NAME, String REMARKS);
+	public String updRole(String roleID, String roleName, String description);
+	List<BootstrapTreeNode> getRoleTree_w();
+	
+	List<Map<String, Object>> getAllName();
 }

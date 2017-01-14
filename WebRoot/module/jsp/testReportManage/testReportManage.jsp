@@ -82,13 +82,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="col-xs-4 col-md-4 col-lg-4">
 					<label>审核状态:</label> 
 					<select class="form-control" name="selectPart" id="selectPart">
-						<option value="6">所有情况</option>
+						<option value="5">所有情况</option>
 						<option value="0">未提交</option>
 						<option value="1">审核中</option>
 						<option value="2">审核未通过</option>
 						<option value="3">审核通过</option>
 						<option value="4">归档</option>
-						<option value="5">报告未上传</option>
 					</select>
 				</div>
 			</div>
@@ -109,10 +108,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 	
 	<div id="recoverReport" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
-		<div class="modal-dialog" role="document" style="width:350px">
+		<div class="modal-dialog" role="document" style="width:450px">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title">上传检测报告</h4>
+					<h4 class="modal-title">重新覆盖检测报告</h4>
 				</div>
 				<div class="modal-body">
 					<div class="row">
@@ -145,13 +144,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	</div>
 	
+		<div id="sendReport" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
+		<div class="modal-dialog" role="document" style="width:450px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">发送报告</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+					<span id="testReportID"></span>
+					<label class="col-xs-4 col-md-4 col-lg-4 receiveManLabel">接受人:</label>
+					<input class="col-xs-8 col-md-8 col-lg-8 form-control" type="text" name="receiveMan" id="receiveMan"/>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="sendReportSure()">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 	<!-- 表格 -->
 	<table id="table">
 
-		</table>
-	
-	
-	
+	</table>
+
+
+
 	<script src="module/js/testReportManage/testReportManage.js"></script>
 	<script src="module/js/fileManage/fileManage.js"></script>
 	<script type="text/javascript">

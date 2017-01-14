@@ -21,6 +21,7 @@ public class Receiptlist extends Entity{
 	private Date completeTime;
 	private int receiptlistType;
 	private String accordingDoc;
+	private int allotState;
 	
 	public String getID() {
 		return ID;
@@ -118,9 +119,17 @@ public class Receiptlist extends Entity{
 		this.accordingDoc = accordingDoc;
 	}
 
+	public int getAllotState() {
+		return allotState;
+	}
+
+	public void setAllotState(int allotState) {
+		this.allotState = allotState;
+	}
+
 	@Override
 	public String toString() {
-		return "Receiptlist [" +  "ID=" + ID  + ", " +  "contractID=" + contractID  + ", " +  "projectID=" + projectID  + ", " +  "linkMan=" + linkMan  + ", " +  "linkPhone=" + linkPhone  + ", " +  "receiptlistCode=" + receiptlistCode  + ", " +  "employeeID=" + employeeID  + ", " +  "createTime=" + createTime  + ", " +  "state=" + state  + ", " +  "isEditSample=" + isEditSample + ", " +  "completeTime=" + completeTime + ", " +  "receiptlistType=" + receiptlistType + ", " +  "accordingDoc=" + accordingDoc +"]";
+		return "Receiptlist [" +  "ID=" + ID  + ", " +  "contractID=" + contractID  + ", " +  "projectID=" + projectID  + ", " +  "linkMan=" + linkMan  + ", " +  "linkPhone=" + linkPhone  + ", " +  "receiptlistCode=" + receiptlistCode  + ", " +  "employeeID=" + employeeID  + ", " +  "createTime=" + createTime  + ", " +  "state=" + state  + ", " +  "isEditSample=" + isEditSample + ", " +  "completeTime=" + completeTime + ", " +  "receiptlistType=" + receiptlistType + ", " +  "accordingDoc=" + accordingDoc +  "allotState=" + allotState +"]";
 	}
 	
 	@Override

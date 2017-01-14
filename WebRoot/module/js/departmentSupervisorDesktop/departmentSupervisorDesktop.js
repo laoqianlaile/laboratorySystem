@@ -15,7 +15,14 @@ $(function () {
 	
 	// 查看报告按钮点击事件
 	$('#viewReport').click(function (){
+		var data = $('#table').bootstrapTable('getSelections');
 		
+		if(data.length==0 || data.length>1){
+			alert("请选中一条数据");
+			return;
+		}
+		var receiptlistID = data[0].ID;
+		window.location.href = window.location.href.replace('departmentSupervisorDesktop/departmentSupervisorDesktop.jsp','testReportManage/testReportManage.jsp') + '?ID='+receiptlistID;
 	});
 	
 	// 工作量统计按钮点击事件
@@ -42,6 +49,41 @@ $(function () {
 		
 		var ID = data[0].ID;
 		window.location.href = window.location.href.replace('departmentSupervisorDesktop/departmentSupervisorDesktop.jsp','taskAssignManage/taskAssign.jsp') + '?ID='+ID;
+	});
+	
+	// 查看文档按钮点击事件
+	$('#viewFile').click(function() {
+		var data = $('#fileTable').bootstrapTable('getSelections');
+		
+		if (data.length == 0 || data.length > 1) {
+			alert("请选择一个文档查看");
+			return;
+		} else {
+			// todo...
+		}
+	});
+	
+	// 下载文档按钮点击事件
+	$('#downloadFile').click(function() {
+		var data = $('#fileTable').bootstrapTable('getSelections');
+		
+		if (data.length == 0) {
+			alert("请选择一个或多个文件下载");
+			return;
+		}
+		if (data.length == 1) {
+			var fileID = data[0].fileID;
+			downOneFile(fileID);
+			return;
+		} else {
+			var ids = [];
+			var fileIDs = [];
+			for ( var i = 0; i < data.length; i++) {
+				ids.push(data[i].fileID);
+			}
+			fileDownAll(ids);
+		}
+		refresh();
 	});
 	
 });
@@ -154,7 +196,6 @@ function refreshFileTable(receiptlistID){
 		    	  	},
 	  	queryParamsType: "limit", //参数格式,发送标准的RESTFul类型的参数请求
 		selectItemName:'',//radio or checkbox 的字段名
-		singleSelect:true,//禁止多选
 		columns:[{
 			checkbox:true,
 			width:'5%'//宽度

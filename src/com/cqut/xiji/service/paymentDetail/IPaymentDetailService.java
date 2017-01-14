@@ -8,5 +8,11 @@ public interface IPaymentDetailService {
 
 	Map<String, Object> getPaymentDetailWithPaging(String jouranlAccountsID,int limit, int offset,
 			String order, String sort);
+
+	String upPaymentDetail(String payMentDetailID,String receiptlistID, String receiptlistCode,
+			String drawID, String payMoney, String remarks);
+
+	String addPaymentDetail(String jouranlAccountID, String employeeID,
+			String drawID, String receiptlistID, String payMoney, String remarks);
 	
 }

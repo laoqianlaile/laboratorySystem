@@ -1,5 +1,7 @@
 package com.cqut.xiji.entity.testReport;
 
+import java.util.Date;
+
 import com.cqut.xiji.entity.base.Entity;
 import com.cqut.xiji.service.tableCreator.ID;
 
@@ -16,6 +18,10 @@ public class TestReport extends Entity{
 	private String dismissreason2;
 	private String dismissreason3;
 	private String remarks;
+	private int sendState;
+	private String sendMan;
+	private String receiveMan;
+	private Date sendTime;
 	
 	public String getID() {
 		return ID;
@@ -88,6 +94,38 @@ public class TestReport extends Entity{
 		this.remarks = remarks;
 	}
 	
+	public int getSendState() {
+		return sendState;
+	}
+
+	public void setSendState(int sendState) {
+		this.sendState = sendState;
+	}
+
+	public String getSendMan() {
+		return sendMan;
+	}
+
+	public void setSendMan(String sendMan) {
+		this.sendMan = sendMan;
+	}
+
+	public String getReceiveMan() {
+		return receiveMan;
+	}
+
+	public void setReceiveMan(String receiveMan) {
+		this.receiveMan = receiveMan;
+	}
+
+	public Date getSendTime() {
+		return sendTime;
+	}
+
+	public void setSendTime(Date sendTime) {
+		this.sendTime = sendTime;
+	}
+
 	@Override
 	public String toString() {
 		return "TestReport [" +  "ID=" + ID  + ", " +  "receiptlistID=" + receiptlistID  + ", " +  "taskID=" + taskID  + ", " +  "fileID=" + fileID  + ", " +  "versionNumber=" + versionNumber  + ", " +  "versionInformation=" + versionInformation  + ", " +  "state=" + state  + ", " +  "dismissreason2=" + dismissreason2  + ", " +  "dismissreason3=" + dismissreason3  + ", " +  "remarks=" + remarks  + ", "   + "]";

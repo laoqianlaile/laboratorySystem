@@ -39,6 +39,13 @@ function initData(){
 			width : "10%",// 宽度
 			
 		},{
+			field : 'taskID',// 返回值名称
+			title : '任务ID',// 列名
+			align : 'center',// 水平居中显示
+		    valign : 'middle',// 垂直居中显示
+			width : "10%",// 宽度
+			visible : false
+		},{
 			field : 'fileID',// 返回值名称
 			title : '文件ID',// 列名
 			align : 'center',// 水平居中显示
@@ -108,7 +115,8 @@ function initData(){
 			formatter : function(value, row, index) {
 				return "<span  onclick='fileDown(\""+row.ID+"\")'  title='下载报告' class='glyphicon glyphicon-arrow-down' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
 				+"<span  onclick='submitReport(\""+row.ID+"\")'  title='提交审核' class='glyphicon glyphicon-ok-sign' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
-				}
+				+"<span  onclick='showSendReportModal(\""+row.ID+"\")'  title='发送报告' class='glyphicon glyphicon-log-out' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
+			}
 		}]
 	});
 }
@@ -135,29 +143,67 @@ function queryParams() {
 	};
 	return searchCondition;
 }
+
 //提交审核
 function submitReport() {
 	var keyID = arguments[0];
-	$.post("testReportController/submitReportCheck.do", {
-		ID : keyID
+	if (confirm("是否提交审核")) {
+		$.post("testReportController/submitReportCheck.do", {
+			ID : keyID
+		}, function(result) {
+			if (result == true || result == "true") {
+				$.post("testReportController/submitReport.do", {
+					ID : keyID,
+				}, function(result) {
+					if (result == true || result == "true") {
+						alert("提交成功");
+					} else {
+						alert("提交失败");
+					}
+					refresh();
+				});
+			} else {
+				alert("此报告不可提交审核");
+				refresh();
+			}
+		});
+	}
+}
+
+//发送报告
+function showSendReportModal(){
+	var testReportID = arguments[0];
+	if(confirm("确定发送报告?")){
+		$.post("testReportController/setReportSendCheck.do",{
+			ID : testReportID
+		},function(result){
+			if(result == true || result == "true"){
+				$("#testReportID").text(testReportID);
+				$("#sendReport").modal("show");
+			}else{
+				alert("不能发送当前报告");
+			}
+		});
+	}
+}
+
+//确定发送
+function sendReportSure(){
+	var receiveMan = $.trim($("#receiveMan").val());
+	$.post("testReportController/setReportSendInfo.do", {
+		ID : $("#testReportID").text(),
+		receiveMan : receiveMan
 	}, function(result) {
 		if (result == true || result == "true") {
-			$.post("testReportController/submitReport.do", {
-				ID : keyID,
-			}, function(result) {
-				if (result == true || result == "true") {
-					alert("提交成功");
-				} else {
-					alert("提交失败");
-				}
-				refresh();
-			});
+			alert("发送成功");
 		} else {
-			alert("此报告不可提交审核");
-			refresh();
+			alert("发送失败");
 		}
+		refresh();
 	});
+	$("#sendReport").modal("hide");
 }
+
 
 //重新覆盖
 function recover() {
@@ -171,24 +217,23 @@ function recover() {
 		return;
 	}
 	else{
-		fileUploadInit("#file_upload");
-		$("#recoverReport").modal("show");
+		$.post("testReportController/recoverCheck.do", {
+			ID : rows[0].ID
+		}, function(result) {
+			if (result == true || result == "true") {
+				fileUploadInit("#file_upload");
+				$("#recoverReport").modal("show");
+			}else{
+				alert("当前审核状态不可以重新覆盖");
+			}
+		});
 	}
 }
 
 // 确认覆盖
 function recoverSure() {
-	var fileTurnID;
 	var rows = $("#table").bootstrapTable('getSelections');
-	if (rows[0].fileID == "" || rows[0].fileID == " " || rows[0].fileID == undefined || rows[0].fileID == null) {
-		$.post("testReportController/getProjectName.do", {
-			ID : rows[0].ID
-		}, function(result) {
-			result = JSON.parse(result);
-			var secondDirectory = result[0].name;
-			fileUpload("#file_upload","", 2,"","项目文件", secondDirectory, "报告文件");
-		});
-	} else {
+	if (rows[0].fileID != "" || rows[0].fileID != " " || rows[0].fileID != undefined || rows[0].fileID != null){
 		$.post("fileOperateController/getFilesInfo.do", {
 			ID : rows[0].fileID
 		}, function(result) {
@@ -199,42 +244,30 @@ function recoverSure() {
 				var path = result[0].path;
 				var i = path.lastIndexOf("\\");
 				path = path.substring(i + 1, length);
-				var type = result[0].type;
-				fileUpload("#file_upload",path, type);
+				fileUpload("#file_upload", path, result[0].type,rows[0].taskID);
 			}
 		});
 	}
 	setTimeout(function() {
-		$("#recoverReport").modal("hide");
-		fileTurnID = fielIdReturn();
+		var rows = $("#table").bootstrapTable('getSelections');
 		var fileVersionNumber = $("#fileVersionNumber").val();
 		var fileVersionInfo = $("#fileVersionInfo").val();
 		var fileRemarks = $("#fileRemarks").val();
 		$.post("testReportController/updateTestReport.do", {
 			ID : rows[0].ID,
-			async : "false",
-			fileID : fileTurnID[0],
+			taskID : rows[0].taskID,
 			versionNumber : fileVersionNumber,
 			versionInfo : fileVersionInfo,
 			remarks : fileRemarks
-		}, function(result) {
+		},function(result){
 			if (result == true || result == "true") {
-				$.post("testReportController/setFileBelongID.do", {
-					ID : rows[0].ID,
-					fileID : fileTurnID[0]
-				}, function(result) {
-					if (result == false || result == "false") {
-						alert("未成功设置文件覆盖");
-						refresh();
-					}
-				});
-			} else {
-				alert("上传失败");
+				alert("重新覆盖成功");
+			}else{
+				alert("重新覆盖失败");
 			}
 		});
-		refresh();
-	}, 1500);
-
+		$("#recoverReport").modal("hide");
+	},1500);
 }
 
 //查看检测报告

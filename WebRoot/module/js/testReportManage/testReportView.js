@@ -114,6 +114,13 @@ $(function() {
 			width : '10%',// 宽度
 			visible : false
 		},{
+			field : 'taskID',// 返回值名称
+			title : '任务ID',// 列名
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width : '10%',// 宽度
+			visible : false
+		},{
 			field : 'fileName',// 返回值名称
 			title : '文件名',// 列名
 			align : 'center',// 水平居中显示
@@ -167,7 +174,7 @@ $(function() {
 					        "<button type='button' title='查看'  class='btn btn-default' onclick='onlineView(\""+row.fileID+"\")'>"+
 					          "<span class='glyphicon glyphicon-download'>查看</span>"+
 					        "</button>&nbsp;"+
-					        "<button type='button' title='删除'  class='btn btn-default' onclick='deleteTestReport(\""+row.fileID+"\",\""+row.ID+"\")'>"+
+					        "<button type='button' title='删除'  class='btn btn-default' onclick='deleteTestReport(\""+row.fileID+"\",\""+row.ID+"\",\""+row.taskID+"\")'>"+
 						      "<span class='glyphicon glyphicon-download'>删除</span>"+
 					        "</button>"
 				}
@@ -214,15 +221,14 @@ function onlineView() {
 					filePath : path
 				}, function(result) {
 					 result = result.replace(re,"");
-					 if (result != null && result!="null"&& result != "")
-						{
+					 if (result != null && result != "null" && result != "") {
 						 window.location.href = "module/jsp/documentOnlineView.jsp";
 						 }
-					 else{
+					 else {
 						 alert("无法查看");
 						 }
 					 });
-				}else{
+				} else {
 					alert("无法查看");
 					}
 			});
@@ -233,16 +239,28 @@ function onlineView() {
 function deleteTestReport() {
 	var fileID = arguments[0];
 	var testReportID = arguments[1];
-	deleteFile(fileID);
-	$.post("testReportController/deleteOtherTableInfo.do", {
-		ID : fileID
-	}, function(result) {
-		if (result == true || result == "true") {
-			alert("删除成功");
-		} else {
-			alert("删除失败");
-		}
-	});
+	var taskID = arguments[2];
+	if (confirm("确定删除?")) {
+		$.post("testReportController/deleteCheck.do", {
+			ID : testReportID
+		}, function(result) {
+			if (result == true || result == "true") {
+				deleteFile(fileID);
+				$.post("testReportController/deleteOtherTableInfo.do", {
+					ID : testReportID,
+					taskID : taskID
+				}, function(result) {
+					if (result == true || result == "true") {
+						alert("删除成功");
+					} else {
+						alert("删除失败");
+					}
+				});
+			} else {
+				alert("当前审核状态不能删除");
+			}
+		});
+	}
 	refresh();
 }
 

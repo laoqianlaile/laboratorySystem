@@ -1,5 +1,6 @@
 package com.cqut.xiji.service.jouranlAccount;
 
+import java.util.List;
 import java.util.Map;
 
 import com.cqut.xiji.entity.jouranlAccount.JouranlAccount;
@@ -17,5 +18,7 @@ public interface IJouranlAccountService {
 			int isIncome, String remarks);
 
 	String delJouranlAccounts(String jouranlAccountsID);
+
+	List<Map<String, Object>> getJouranlAccountDate(String jouranlAccountID);
 	
 }

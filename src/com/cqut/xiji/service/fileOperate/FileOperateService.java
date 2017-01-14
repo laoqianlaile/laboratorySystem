@@ -109,7 +109,7 @@ public class FileOperateService extends SearchService implements
 			}
 		}
 		String condition = " ID IN " + " ( " + filesids + " )";
-		result = baseEntityDao.findByCondition(new String[] { "path","type",
+		result = baseEntityDao.findByCondition(new String[] { "path", "type",
 				"fileName" }, condition, "fileInformation");
 		return result;
 	}

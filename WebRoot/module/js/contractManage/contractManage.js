@@ -39,92 +39,92 @@ function initData(){
 			title:'合同编号',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10',//宽度
+			width:'9%',//宽度
 //			visible:false
 		},{
 			field:'contractName',//返回值名称
 			title:'合同名称',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'9%'//宽度
 		},{
 			field:'companyName',//返回值名称
 			title:'甲方',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'10%'//宽度
 		},{
 			field:'oppositeMen',//返回值名称
-			title:'甲方代表人/代理人',//列名
+			title:'甲方代表',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
-		},{
-			field:'employeeName',//返回值名称
-			title:'乙方代表人/代理人',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'6%'//宽度
 		},{
 			field:'linkPhone',//返回值名称
 			title:'联系电话',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'7%'//宽度
+		},{
+			field:'employeeName',//返回值名称
+			title:'乙方代表',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:'6%'//宽度
 		},{
 			field:'signAddress',//返回值名称
 			title:'签订地点',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'10%'//宽度
 		},{
 			field:'signTime',//返回值名称
 			title:'签订时间',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'7%'//宽度
 		},{
 			field:'startTime',//返回值名称
 			title:'履行开始时间',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'7%'//宽度
 		},{
 			field:'endTime',//返回值名称
 			title:'履行结束时间',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'7%'//宽度
 		},{
 			field:'contractAmount',//返回值名称
 			title:'合同金额',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'4%'//宽度
 		},{
 			field:'isClassified',//返回值名称
 			title:'是否涉密',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'4%'//宽度
 		},{
 			field:'classifiedLevel',//返回值名称
 			title:'涉密等级',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'4%'//宽度
 		},{
 			field:'state',//返回值名称
 			title:'合同状态',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'4%'//宽度
 		},{
 			field:'viewpoint',//返回值名称
 			title:'审核意见',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'6%'//宽度
 		}/*,{
 			title : '操作',// 列名
 			align : 'center',// 水平居中显示
@@ -165,12 +165,12 @@ function queryParams(){
  */
 function searchContract(){
 	initData();
-	refresh();
+	$('#table').bootstrapTable('refresh', null);
 }
 
 /* 刷新方法 */
 function refresh(){
-	$('#table').bootstrapTable('refresh', null);
+	window.location.href="module/jsp/contractManage/contractManage.jsp";
 }
 
 /* 删除方法 */
@@ -246,7 +246,7 @@ function add(){
 			return;
 		}
 		else {
-			var reg = /^1[3|4|5|7|8][0-9]\\d{8}$/;
+			var reg = /^1(3|4|5|7|8)\d{9}$/;
 			 if (!reg.test(linkPhone)) {
 				 alert("联系电话格式错误！");
 				 return;
@@ -296,185 +296,6 @@ function add(){
 		}
 }
 
-
-/**
- * 改变公司名触发修改相关信息的方法(新增时)
- *//*
-function addChangeInfo(){ 
-	var name = $('#add_companyName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
-	{ 
-		$(".companyName").hide();
-		 
-	}else {
-		alert(name);
-		var parame = {};
-		parame.companyName = name;
-		
-		$.ajax({  
-		    url:'companyController/getCompanyMsg.do',// 跳转到 action
-		    type:'post', 
-		    data:parame,
-		    dataType:'json',
-		    success:function(data){  
-		    	if (data) { 
-		    		var link,phone,address;
-		    		var myobj = JSON.parse(data);
-		    		var htmlElement1 = "";//定义HTML
-		    		var htmlElement2 = "";//定义HTML
-		    		var htmlElement3 = "";//定义HTML
-		    		link = $("#add_LinkMen");
-		    		phone = $("#add_Phone");
-		    		address = $("#add_Address");
-		    		 
-		    		htmlElement1 += "<input type='text' id='add_oppositeMen' value='" + myobj[0].linkMan + "' name='oppositeMen' class='form-control' aria-describedby='basic-addon1'></input>";
-		    		$("#add_oppositeMen").remove();
-		    		link.append(htmlElement1);
-		    		 
-		    		htmlElement2 += "<input type='text' id='add_linkPhone' value='" + myobj[0].mobilePhone + "' name='linkPhone' class='form-control' aria-describedby='basic-addon1'></input>";
-		    		$("#add_linkPhone").remove();
-		    	    phone.append(htmlElement2);
-		    	     
-		    	    htmlElement3 += "<input type='text' id='add_signAddress' value='" + myobj[0].address + "' name='signAddress' class='form-control' aria-describedby='basic-addon1'></input>";
-		    	    $("#add_signAddress").remove();
-		    	    address.append(htmlElement3);
-	 		    }
-			}
-		});
-	}
-}
-*/
-/**
- * 改变公司名触发修改相关信息的方法(修改时)
- */
-function editChangeInfo(){ 
-	var name = $('#edit_companyName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
-	{ 
-		$(".companyName").hide();
-		 
-	}else {
-		alert(name);
-		var parame = {};
-		parame.companyName = name;
-		
-		$.ajax({  
-		    url:'companyController/getCompanyMsg.do',// 跳转到 action
-		    type:'post', 
-		    data:parame,
-		    dataType:'json',
-		    success:function(data){  
-		    	if (data) { 
-		    		var link,phone,address;
-		    		var myobj = JSON.parse(data);
-		    		var htmlElement1 = "";//定义HTML
-		    		var htmlElement2 = "";//定义HTML
-		    		var htmlElement3 = "";//定义HTML
-		    		link = $("#edit_LinkMen");
-		    		phone = $("#edit_Phone");
-		    		address = $("#edit_Address");
-		    		 
-		    		htmlElement1 += "<input type='text' id='edit_oppositeMen' value='" + myobj[0].linkMan + "' name='oppositeMen' class='form-control' aria-describedby='basic-addon1'></input>";
-		    		$("#edit_oppositeMen").remove();
-		    		link.append(htmlElement1);
-		    		 
-		    		htmlElement2 += "<input type='text' id='edit_linkPhone' value='" + myobj[0].mobilePhone + "' name='linkPhone' class='form-control' aria-describedby='basic-addon1'></input>";
-		    		$("#edit_linkPhone").remove();
-		    	    phone.append(htmlElement2);
-		    	     
-		    	    htmlElement3 += "<input type='text' id='edit_signAddress' value='" + myobj[0].address + "' name='signAddress' class='form-control' aria-describedby='basic-addon1'></input>";
-		    	    $("#edit_signAddress").remove();
-		    	    address.append(htmlElement3);
-	 		    }
-			}
-		});
-	}
-}
-
-/**
- * 改变信息触发相关提示信息的方法(add)
- *//*
-function addShowMsg(){ 
-	var name = $('#add_companyName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
-	{
-		$(".companyName").hide();
-	}else {
-		var parame = {};
-		parame.companyName = name;
-		
-		$.ajax({  
-		    url:'companyController/getCompanyMsg.do',// 跳转到 action
-		    type:'post', 
-		    data:parame,
-		    dataType:'json',
-		    success:function(data){  
-		    	if (data) { 
-		    		var company,length;
-		    		var myobj = JSON.parse(data);
-		    		var htmlElement = "";//定义HTML
-		    		company = $(".companyName");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else{
-		    			length = myobj.length;
-		    		}
-		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].companyName + "'>" + myobj[i].companyName + "</li></ul>";
-		    		}
-		    		 
-		    		company.show();
-		    		company.empty();
-		    		company.append(htmlElement);
-		    		addClick();
-		    	}
-		    }
-		});
-	}
-}
-*/
-/**
- * 改变信息触发相关提示信息的方法(edit)
- */
-function editShowMsg(){ 
-	var name = $('#edit_companyName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
-	{ 
-		$(".companyName").hide();
-	}else {
-		var parame = {};
-		parame.companyName = name;
-		
-		$.ajax({  
-		    url:'companyController/getCompanyMsg.do',// 跳转到 action
-		    type:'post', 
-		    data:parame,
-		    dataType:'json',
-		    success:function(data){  
-		    	if (data) { 
-		    		var company,length;
-		    		var myobj = JSON.parse(data);
-		    		var htmlElement = "";//定义HTML
-		    		company = $(".companyName");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else{
-		    			length = myobj.length;
-		    		}
-		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].companyName + "'>" + myobj[i].companyName + "</li></ul>";
-		    		}
-		    		 
-		    		company.show();
-		    		company.empty();
-		    		company.append(htmlElement);
-		    		editClick();
-		    	}
-		    }
-		});
-	}
-}
-
 /**
  * 改变信息触发相关提示信息的方法(add)
  */
@@ -517,48 +338,6 @@ function addGetEName(){
 	}
 }
 
-/**
- * 改变信息触发相关提示信息的方法(edit)
- */
-function editGetEName(){
-	var name = $('#edit_employeeName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
-	{
-		$(".employeeName").hide();
-	}else {
-		var parame = {};
-		parame.employeeName = name;
-		
-		$.ajax({  
-		    url:'employeeController/getEmployeeName.do',// 跳转到 action  
-		    type:'post',
-		    data:parame,
-		    dataType:'json',
-		    success:function(data){  
-		    	if (data) { 
-		    		var employee,length;
-		    		var myobj = JSON.parse(data);
-		    		var htmlElement = "";//定义HTML    
-		    		employee = $(".employeeName");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else{
-		    			length = myobj.length;
-		    		}
-		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].employeeName + "'>" + myobj[i].employeeName + "</li></ul>";
-		    		}
-		    		
-		    		employee.show();
-		    		employee.empty();
-		    		employee.append(htmlElement);
-		    		editClick();
-			    }
-			}
-		});
-	}
-}
-
 //点击事件(add)
 function addClick(){ 
 	//给input赋值
@@ -569,32 +348,6 @@ function addClick(){
 	
 	//隐藏提示框
 	$("#addModal").click(function(){
-		 $(".employeeName").hide();
-	});
-}
-
-//点击事件(edit)
-function editClick(){ 
-	//给input赋值
-	$(".companyName ul li").click(function(){
-		 var name =  $(this).attr("value");
-		 $("#edit_companyName").val(name);
-		 addChangeInfo();
-	});
-	
-	//隐藏提示框
-	$("#editModal").click(function(){
-		 $(".companyName").hide();
-	});
-	
-	//给input赋值
-	$(".employeeName ul li").click(function(){
-		 var name =  $(this).attr("value");
-		 $("#edit_employeeName").val(name);
-	});
-	
-	//隐藏提示框
-	$("#editModal").click(function(){
 		 $(".employeeName").hide();
 	});
 }
@@ -638,51 +391,3 @@ function EditContract(){
 		window.location.href="module/jsp/contractManage/EditContract.jsp?ID="+ ID;
 	}
 }
-
-
- /*//修改方法 
-function edit(){
-	var code = $('#edit_contractCode').val(); 
-	if (!code && typeof(code)!="undefined" && code=='') 
-	{ 
-		alert("合同编号不能为空！"); 
-	}else {
-		var parame = {};
-		parame.ID = $('#ContractID').val();
-		parame.contractCode = $('#edit_contractCode').val();
-		parame.state = $('#edit_state').val();
-		parame.contractName = $('#edit_contractName').val();
-		parame.signAddress = $('#edit_signAddress').val();
-		parame.companyName = $('#edit_companyName').val();
-		parame.oppositeMen = $('#edit_oppositeMen').val();
-		parame.linkPhone = $('#edit_linkPhone').val();
-		parame.startTime = $('#edit_startTime').val();
-		parame.endTime = $('#edit_endTime').val();
-		parame.employeeName = $('#edit_employeeName').val();
-		parame.signTime = $('#edit_signTime').val();
-		parame.contractAmount = $('#edit_contractAmount').val();
-		parame.isClassified = $('#edit_isClassified').val();
-		if($('#edit_isClassified').val() == 0){
-			parame.classifiedLevel = 3;
-		}
-		else{
-			parame.classifiedLevel = $('#edit_classifiedLevel').val();
-		}
-		//parame.classifiedLevel = $('#edit_classifiedLevel').val();
-		$.ajax({
-		  url:'contractController/updContract.do',
-		  type:'post', 
-		  data:parame,
-		  dataType:'json',
-		  success:function(o){
-			  if(o<=0){
-				  alert("修改失败");
-			  }
-			  $('#editModal').modal('hide');
-			  refresh();
-		  },
-		  error:function(o){
-			  console.log(o);
-		  }
-		});
-	}}*/

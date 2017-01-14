@@ -163,6 +163,7 @@ public class ReceiptlistService extends SearchService implements
 				"a.coID",
 				"a.companyID AS comID", 
 				"a.reCode",
+				"a.coState",
 				"company.companyName",
 				"a.linkMan", 
 				"a.startTime",
@@ -175,6 +176,7 @@ public class ReceiptlistService extends SearchService implements
 				+ "( SELECT receiptlist.ID,"
 				+ "contract.contractCode,"
 				+ "contract.ID AS coID,"
+				+ "contract.state AS coState,"
 				+ "receiptlist.receiptlistCode AS reCode,"
 				+ "contract.companyID,"
 				+ "receiptlist.linkMan,"
@@ -199,7 +201,7 @@ public class ReceiptlistService extends SearchService implements
 		}
 		 //异常数据判断 并加上搜索条件
 		if (reType != null && !reType.equals("")) {
-			if (!reType.equals("2"))
+			if (!reType.equals("2"))  //2--所有类型的交接单数据
 				joinEntity += " and receiptlistType = " + reType + "  ";
 
 		}
@@ -209,7 +211,7 @@ public class ReceiptlistService extends SearchService implements
 		}
 		//异常数据判断 并加上搜索条件
 		if (state != null && !state.equals("")) {
-		//	if (!state.equals("4"))   //看异常终止的交接单是否能够查看
+			if (!state.equals("4"))   //4---看所有的交接单
 				joinEntity += " and receiptlist.state = " + state + "  ";
 		}
         //时间的三种方式查询
@@ -233,9 +235,10 @@ public class ReceiptlistService extends SearchService implements
 			condition += " and company.companyName like '%" + companyName
 					+ "%' ";
 		}
+		//获取数据
 		List<Map<String, Object>> list = entityDao.searchWithpaging(properties,
 				null, joinEntity, null, condition, null, sort, order, pageNum,
-				pageIndex);  //获取数据
+				pageIndex);  
 		 //获取总的记录数
 		int count = entityDao.searchForeign(properties, null, joinEntity, null,
 				condition).size();
@@ -733,5 +736,56 @@ public class ReceiptlistService extends SearchService implements
 			receiptlist.setContractID(conID);
 			
 			return entityDao.updatePropByID(receiptlist,reID)==1?"true":"false";
+		}
+		/**
+		 * 
+		 * 样品管理员桌面--合同交接单信息
+		 * @author wzj
+		 * @date 2016年12月27日 下午5:43:19
+		 *
+		 */
+		@Override
+		public Map<String, Object> getReceiptlistAll(int limit, int offset, String sort, String order) {
+			int pageNum = limit;
+			int pageIndex = offset / limit ; //分页查询数据限制
+			
+			String[] properties = new String[] { 
+				
+			"contract.ID AS cID",
+			"contract.contractCode as cCode",
+			"contract.contractName as cName",
+			"receiptlist.ID as reID",
+			"receiptlist.receiptlistCode AS reCode ",
+			"contract.state AS cState",
+			"IF ( receiptlist.state IS NULL, '无交接单', " + 
+			"IF ( receiptlist.state = 0 , '未检测', "+
+			"IF ( receiptlist.state = 1, '检测中', " +
+			"IF ( receiptlist.state = 2, '检测完成', '异常终止' )))) AS reState "
+		};
+	
+			String baseEntity = " contract ";  //主表
+			String joinEntity = " LEFT JOIN receiptlist ON contract.ID = receiptlist.contractID "; //关联条件
+	 		String condition = " contract.state >= 4  "; //查询条件
+
+			List<Map<String, Object>> list = entityDao.searchWithpaging(properties, baseEntity, joinEntity, null, condition, null, " contract.signTime  ", " DESC ", pageNum, pageIndex);
+	 		int count = entityDao.searchForeign(properties, baseEntity, joinEntity, null, condition).size();
+			Map<String, Object> map = new HashMap<String, Object>();
+		 	map.put("total", count);
+		 	map.put("rows", list);
+		 	return map;
+		}
+		@Override
+		public List<Map<String, Object>> getReceiptlistInfo(String contractID) {
+			String baseEntity = "receiptlist";
+			
+			String[] properties = {
+					"receiptlist.ID",
+					"receiptlist.receiptlistCode"
+			};
+			String joinEntity = "LEFT JOIN contract on contract.ID = receiptlist.contractID ";
+			String condition = " 1 = 1 and receiptlist.contractID = " + contractID ;
+			List<Map<String, Object>> result =	originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false);
+			
+			return result;
 		}
 }

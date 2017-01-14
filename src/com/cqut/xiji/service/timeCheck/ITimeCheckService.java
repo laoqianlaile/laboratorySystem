@@ -13,6 +13,7 @@ import org.springframework.ui.ModelMap;
 import net.sf.json.JSONArray;
 
 import com.cqut.xiji.entity.fileInformation.FileInformation;
+import com.cqut.xiji.entity.timeCheck.TimeCheck;
 
 public interface ITimeCheckService {
 	

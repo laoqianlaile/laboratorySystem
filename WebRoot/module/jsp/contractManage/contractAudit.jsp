@@ -97,20 +97,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<table id="table">
   	</table>
   </body>
-  <script src="module/js/contractManage/contractAudit.js"></script>
- <script type="text/javascript">
-	$('.form_datetime').datetimepicker({
-	    language: 'zh-CN',
-	    weekStart: 1,
-	    todayBtn: 1,
-	    autoclose: 1,
-	    todayHighlight: 1,
-	    startView: 2,
-	    minView: 2,
-	    forceParse: 0,
-	    format: 'yyyy.mm.dd'
-	});
-	</script>
   <script src="module/js/contractManage/contractManage.js"></script>
   <script src="module/js/contractManage/contractAudit.js"></script>
  </html>

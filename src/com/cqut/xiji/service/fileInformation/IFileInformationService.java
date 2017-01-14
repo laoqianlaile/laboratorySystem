@@ -40,6 +40,6 @@ public interface IFileInformationService {
 	    
 	public Map<String, Object> getContractFileWithPaging(int limit, int offset,
 			String order, String sort, String ID);
-	public Map<String, Object> getFileInSampleWithPaging(String taskID, int limit, int offset, String sort, String order);
+	public Map<String, Object> getFileInTaskViewWithPaging(String taskID, int limit, int offset, String sort, String order);
 
 }
