@@ -141,6 +141,7 @@ textarea {
 }
 
 .overChoose {
+
 	display: none;
 	height: 300px;
 	    left: 480px;
