@@ -1,4 +1,13 @@
-﻿var jouranlAccountID = window.location.search.match(/\d+/i)[0];
+﻿/* 获取 地址栏参数值*/
+function GetQueryString(sProp) {
+	var re = new RegExp("[&,?]"+sProp + "=([^\\&]*)", "i");
+	var a = re.exec(document.location.search); 
+	if (a == null)
+	return "";
+	return a[1]; 
+}
+var jouranlAccountID = window.location.search.match(/\d+/i)[0];
+var contractID = GetQueryString("contractIDs");
 /* 全局数据  */
 var  JouranlAccountDate = {};
 JouranlAccountDate.data = getJouranlAccount(); // 流水账信息
@@ -53,6 +62,27 @@ function init(){
 			},{
 				field:'contractID',// 返回值名称
 				title:'合同ID',// 列名
+				align:'center',// 水平居中显示
+				valign:'middle',// 垂直居中显示
+				width:'0',// 宽度
+				visible:false
+			},{
+				field:'paymentdetailID',// 返回值名称
+				title:'支付详情ID',// 列名
+				align:'center',// 水平居中显示
+				valign:'middle',// 垂直居中显示
+				width:'0',// 宽度
+				visible:false
+			},{
+				field:'receiptlistID',// 返回值名称
+				title:'交接单ID',// 列名
+				align:'center',// 水平居中显示
+				valign:'middle',// 垂直居中显示
+				width:'0',// 宽度
+				visible:false
+			},{
+				field:'drawID',// 返回值名称
+				title:'领取人ID',// 列名
 				align:'center',// 水平居中显示
 				valign:'middle',// 垂直居中显示
 				width:'0',// 宽度
@@ -119,7 +149,7 @@ function init(){
 				width:'20%',
 				 formatter:function(value,row,index){    
 	                 var a = "<button  onclick='openEditModal("+JSON.stringify(row)+")'"+" title='修改'  class='glyphicon glyphicon-edit' style='cursor:pointer;color: rgb(10, 78, 143);margin-right:8px;'></button>";
-	                 var d = "<button  onclick='delAccounts(\""+row.accountsID+"\")' data-toggle='tooltip'  title='删除'  class='glyphicon glyphicon-remove-sign' style='color: rgb(10, 78, 143);margin-right:8px;'></button>";
+	                 var d = "<button  onclick='delPaymentDetail(\""+row.paymentdetailID+"\")' data-toggle='tooltip'  title='删除'  class='glyphicon glyphicon-remove-sign' style='color: rgb(10, 78, 143);margin-right:8px;'></button>";
 	                 return a+d;
 	             }   
 			}]// 列配置项,详情请查看 列参数 表格
@@ -127,7 +157,24 @@ function init(){
 		});
 	});
 }
-
+/* 删除方法 */
+function delPaymentDetail(){
+	if(confirm("确定要删除？")){
+		paymentDetailID = arguments[0];
+		 $.ajax({
+				url: 'paymentDetailController/delPaymentDetail.do',
+				data:{
+					paymentDetailID : paymentDetailID
+				},
+				success:function(o){
+					if(o <= 0){
+						alert("删除失败");
+					}
+					refresh();
+				}
+        });
+	 }     
+}
 /* 刷新方法 */
 function refresh(){
 	$('#table').bootstrapTable('refresh', null);
@@ -159,7 +206,6 @@ function openAddModal(){
 	$('#add_invoice').val(JouranlAccountDate.data[0].invoice);
 	data = getReceiptlistInfo();
 	var html = "";
-	console.log(data.length);
 	for(var i = 0 ; i < data.length; i++){
 		html += "<option class='form-control' value ='"+ data[i].ID+"'>" +data[i].receiptlistCode+"</option>"
 	}
@@ -175,7 +221,7 @@ function addPaymentDetail(){
 	parame.drawID = $('#add_drawID').val();//领取人ID
 	parame.receiptlistID = $('#add_receiptlistID').val();//交接单ID
 	parame.payMoney = $('#add_payMoney').val(); // 支付金额
-	parame.remarks = "";
+	parame.remarks = $('#add_remarks').val();
 	
 	$.ajax({
 		  url:'paymentDetailController/addPaymentDetail.do',
@@ -192,17 +238,21 @@ function addPaymentDetail(){
 }
 /* 得到焦点时显示数据 */
 $('#add_drawName').focus(function(){
-	matchEmployee();
+	matchEmployee("add");
+});
+$('#edit_drawName').focus(function(){
+	matchEmployee("edit");
 });
 /* 失去焦点时隐藏数据  */
 //$('#add_drawName').blur(function(){
 //	$('#draw').css("display","none");
 //});
 /* 领取人  */
-function matchEmployee(){
-	$('#draw').css("display","block");
-	var matchName = $('#add_drawName').val();
-	drawName = matchName.split("(")[0];
+function matchEmployee(Type){
+	$('#'+Type+'Draw').css("display","block");
+	var matchName = $('#'+Type+'_drawName').val();
+	drawName = matchName.split("-")[0];
+	console.log(drawName);
 	var data;
 	$.ajax({
 		url : 'employeeController/getEmployeeData.do?matchName=' + drawName,
@@ -228,33 +278,56 @@ function fullDrawMan(data){
 	var html = "<div class='form-control' >";
 	if(data.length < 4){
 		for(var i = 0; i < data.length ; i++){
-			html += "<option class='form-control' value ='"+data[i].ID+"' onclick='getDrawMan(this)'>" + data[i].employeeName +"("+ data[i].departmentName  + ")"+ " </option>";
+			html += "<option class='form-control' value ='"+data[i].ID+"' onclick='getDrawMan(this)'>" + data[i].employeeName +"-"+ data[i].departmentName  + " </option>";
 		}
 	}
 	else{
 		for(var i = 0; i < 4 ; i++){
-			html += "<option class='form-control' value ='"+data[i].ID+"' onclick='getDrawMan(this)'>" + data[i].employeeName +"("+ data[i].departmentName  + ")"+ " </option>";
+			html += "<option class='form-control' value ='"+data[i].ID+"' onclick='getDrawMan(this)'>" + data[i].employeeName +"-"+ data[i].departmentName  + " </option>";
 		}
 	}
 		
 	html +="</div>"
-	$('#draw').html(html);
+	if($("#editModal").is(":visible")){
+		$('#editDraw').html(html);
+	}
+	if($("#addModal").is(":visible")){
+		$('#addDraw').html(html);
+	}
 }
 /* 得到领取人  */
 function getDrawMan(d){
 	console.log("getDrawMan is used");
-	$('#draw').css("display","none");
-	$('#add_drawName').val(d.text);
-	$('#add_drawID').val(d.value);
+	if($("#editModal").is(":visible")){
+		$('#editDraw').css("display","none");
+		$('#edit_drawName').val(d.text);
+		$('#edit_drawID').val(d.value);
+	}
+	if($("#addModal").is(":visible")){
+		$('#addDraw').css("display","none");
+		$('#add_drawName').val(d.text);
+		$('#add_drawID').val(d.value);
+	}
+	
 }
 /* 修改弹窗 */
 function openEditModal(){
 	
-	$('#edit_receiptlistCode').val(arguments[0].receiptlistCode);
+	$('#payMentDetailID').val(arguments[0].paymentdetailID);
+	$('#receiptlistID').val(arguments[0].receiptlistID);
+	data = getReceiptlistInfo();
+	var html = "";
+	for(var i = 0 ; i < data.length; i++){
+		html += "<option class='form-control' value ='"+ data[i].ID+"'>" +data[i].receiptlistCode+"</option>"
+	}
+	$('#edit_receiptlistCode').html(html);
+	console.log();
+	$("#edit_receiptlistCode option[text='"+arguments[0].receiptlistCode+"']").attr("selected", true); 
 	$('#edit_companyName').val(arguments[0].companyName);
-	$('#edit_drawID').val(arguments[0].drawName);
 	$('#edit_invoice').val(arguments[0].invoice);
 	$('#edit_payMoney').val(arguments[0].payMoney);
+	$('#edit_drawName').val(arguments[0].drawName);
+	$('#edit_drawID').val(arguments[0].drawID);
 	$('#edit_remarks').val(arguments[0].remarks);
 	
 	$('#editModal').modal('show');
@@ -262,8 +335,29 @@ function openEditModal(){
 
 function editPaymentDetail(){
 	var parame = {};
-	parame.receiptlistCode
+	parame.payMentDetailID = $('#payMentDetailID').val();
+	parame.receiptlistID = $('#edit_receiptlistCode').val();
+	parame.drawID = $('#edit_drawID').val();
+	parame.PayMoney = $('#edit_payMoney').val();
+	parame.remarks = $('#edit_remarks').val();
+	$.ajax({
+		  url:'paymentDetailController/upPaymentDetail.do',
+		  data:parame,
+		  success:function(o){
+			  if(o<=0){
+				  alert("新增失败");
+			  }
+			  $('#editModal').modal('hide');
+			  refresh();
+		  }
+		});
 }
+
+/* 回退操作 */
+function backstep(){
+	window.location.href= window.location.href.split("?")[0].replace('paymentDetail.jsp','jouranlAccounts.jsp')+'?ID='+contractID;
+}
+
 /* 获取合同数据 */
 function getReceiptlistInfo(){
 	var data;
@@ -306,3 +400,4 @@ function getJouranlAccount(){
 	}
 	return data;
 }
+

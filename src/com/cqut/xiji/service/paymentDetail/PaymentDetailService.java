@@ -16,6 +16,7 @@ import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.paymentDetail.PaymentDetail;
 import com.cqut.xiji.entity.receiptlist.Receiptlist;
+import com.cqut.xiji.entity.standard.Standard;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.treeNode.Node;
 import com.cqut.xiji.tool.treeNode.NodeList;
@@ -53,10 +54,12 @@ public class PaymentDetailService extends SearchService implements IPaymentDetai
 		String[] properties = {
 				"paymentdetail.ID as paymentdetailID",
 				"paymentdetail.employeeID as createrID",
+				"paymentdetail.receiptlistID",
 				"receiptlist.receiptlistCode",
 				"company.companyName",
 				"contract.contractCode",
 				"contract.contractName",
+				"paymentdetail.drawID",
 				"drawEmployee.employeeName AS drawName",
 				"jouranlaccount.invoice",
 				"paymentdetail.payMoney",
@@ -87,22 +90,16 @@ public class PaymentDetailService extends SearchService implements IPaymentDetai
 
 	@Override
 	public String upPaymentDetail(String payMentDetailID,String receiptlistID,
-			String receiptlistCode, String drawID, String payMoney,String remarks) {
+			String drawID, String payMoney,String remarks) {
 		
 		PaymentDetail detail = new PaymentDetail();
 		
 		detail.setDrawID(drawID);
 		detail.setPayMoney(Integer.parseInt(payMoney));
 		detail.setRemarks(remarks);
+		detail.setReceiptlistID(receiptlistID);
 		
 		int result = entityDao.updatePropByID(detail, payMentDetailID);
-		
-		Receiptlist receiptlist = new Receiptlist();
-		
-		receiptlist.setReceiptlistCode(receiptlistCode);
-		
-		result += entityDao.updatePropByCondition(receiptlist, receiptlistID);
-		
 		return result + "";
 	}
 
@@ -122,6 +119,15 @@ public class PaymentDetailService extends SearchService implements IPaymentDetai
 		
 		int result = entityDao.save(detail);
 		return result + "";
+	}
+
+	@Override
+	public String delPaymentDetail(String paymentDetailID) {
+		if(paymentDetailID == null || paymentDetailID.isEmpty()){
+			return 0+"";
+		}
+		int result = entityDao.deleteByID(paymentDetailID, PaymentDetail.class);
+		return result+"";
 	}
 	
 }

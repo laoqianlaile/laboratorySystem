@@ -39,4 +39,6 @@ public interface IContractFineItemService {
 			String testProjectID, int isOutsourcing, int calculateType,
 			int number, double price, int hour, double money,
 			String departmentID, String remarks);
+	/*通过合同ID 获取合同所以有关的合同细项*/
+	List<Map<String, Object>> getContractFineItemByContractIDs(String contractID);
 }

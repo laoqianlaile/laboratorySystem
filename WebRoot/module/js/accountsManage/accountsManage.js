@@ -139,6 +139,7 @@ function isLogin(){
 		 return true;
 	 }
 }
+/* 流水账目跳转  */
 function viewDetailed(){
 	window.location.href = window.location.href.replace('accountsManage.jsp','jouranlAccounts.jsp') + '?ID='+arguments[0];
 }
