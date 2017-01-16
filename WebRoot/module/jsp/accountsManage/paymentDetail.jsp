@@ -68,13 +68,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	width:200px;
 	display: inline-block;
 }
-#draw option{
+#editDraw option , #addDraw option{
 	width:200px;
 	margin:0xp;
 	padding:0px;
 	z-index: 100;
 }
-#draw div{
+#editDraw div , #addDraw div{
 
 	position: relative;
 	width:200px;
@@ -87,7 +87,7 @@ option.form-control:hover {
 	background-color: #ccc;
     color: #6fb3e0;
 }
-#draw ul:hover{
+#editDraw ul:hover ,#addDraw ul:hover{
 	color:red;
 }
 </style>
@@ -96,6 +96,9 @@ option.form-control:hover {
 		<div class="row">
 				<div class="">
 					<div style="float: right;">
+						<button class="btn btn-warning" type=" button" onclick="backstep()">
+							<em class="glyphicon glyphicon-arrow-left"></em> 返回
+						</button>
 						<button class="btn btn-primary type=" button" id="refresh"
 							onclick="openAddModal()">
 							<em class="glyphicon glyphicon-refresh"></em> 新增
@@ -144,20 +147,16 @@ option.form-control:hover {
 						</div>
 						<div class ="col-xs-6 col-md-6">
 							<label>领取人：　</label> 
-							<input type="hidden" id="add_drawID" name="drawID">
-							<input type="text" id="add_drawName" name="drawName"   class="form-control" aria-describedby="basic-addon1" oninput="matchEmployee()"
-									onpropertychange="matchEmployee()"/>
-							<div id = "draw" style="position: fixed;">
+							<input type="hidden" id="add_drawID" name="add_drawID">
+							<input type="text" id="add_drawName" name="add_drawName"   class="form-control" aria-describedby="basic-addon1" oninput="matchEmployee('add')"
+									onpropertychange="matchEmployee('add')"/>
+							<div id = "addDraw" style="position: fixed;">
 							</div>
 						</div>
 						<div class ="col-xs-6 col-md-6">
-							
-						</div>
-						<!-- <div class ="col-xs-12 col-md-12">
 							<label>备注：　　</label> 
 							<input type="text" id="add_remarks" name="remarks"  class="form-control" aria-describedby="basic-addon1"/>
 						</div>
-						 -->
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -180,27 +179,33 @@ option.form-control:hover {
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class ="col-xs-6 col-md-6">
-							<label>交接单号：</label>
-							<input type="text" id="edit_receiptlistCode" name="receiptlistCode"  class="form-control" aria-describedby="basic-addon1"/>
-						</div>
+						<input type ="hidden" id = "payMentDetailID">
+						<input type ="hidden" id = "receiptlistID">
 						<div class ="col-xs-6 col-md-6">
 							<label>委托单位：</label> 
 							<input type="text" id="edit_companyName" name="companyName" disabled="disabled" class="form-control" aria-describedby="basic-addon1"/>
-						</div>
-						<div class ="col-xs-6 col-md-6">
-							<label>领取人：　</label> 
-							<input type="text" id="edit_drawID" name="drawID"   class="form-control" aria-describedby="basic-addon1"/>
 						</div>
 						<div class ="col-xs-6 col-md-6">
 							<label>发票编号：</label> 
 							<input type="text" id="edit_invoice" name="invoice"  disabled="disabled" class="form-control" aria-describedby="basic-addon1"/>
 						</div>
 						<div class ="col-xs-6 col-md-6">
+							<label>交接单号：</label>
+							<select id = "edit_receiptlistCode" name="receiptlistCode"  class="form-control"></select>
+						</div>
+						<div class ="col-xs-6 col-md-6">
 							<label>支付金额：</label> 
 							<input type="text" id="edit_payMoney" name="payMoney"  class="form-control" aria-describedby="basic-addon1"/>
 						</div>
-						<div class ="col-xs-12 col-md-12">
+						<div class ="col-xs-6 col-md-6">
+							<label>领取人：　</label> 
+							<input type="hidden" id="edit_drawID" name="edit_drawID">
+							<input type="text" id="edit_drawName" name="edit_drawName"   class="form-control" aria-describedby="basic-addon1" oninput="matchEmployee('edit')"
+									onpropertychange="matchEmployee('edit')"/>
+							<div id = "editDraw" style="position: fixed;">
+							</div>
+						</div>
+						<div class ="col-xs-6 col-md-6">
 							<label>备注：　　</label> 
 							<input type="text" id="edit_remarks" name="remarks"  class="form-control" aria-describedby="basic-addon1"/>
 						</div>

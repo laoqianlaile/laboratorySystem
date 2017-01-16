@@ -105,14 +105,15 @@ textarea {
 }
 
 #form {
-	width: 100%;
+    margin-left: 16%;
+	width: 84%;
 	height: 60px;
 	float: left;
 	margin-top: 8px;
 }
 
 .item {
-	width: 30%;
+	width: 30.5%;;
 	height: 40%;
 	float: left;
 }
@@ -127,7 +128,7 @@ textarea {
 	float: left;
 }
 .dropdown-menu{
-		width: 159px;
+	width: 159px;
     height: 77px;
     overflow: hidden;
     overflow-y: scroll;
@@ -140,6 +141,7 @@ textarea {
 }
 
 .overChoose {
+
 	display: none;
 	height: 300px;
 	    left: 480px;
@@ -207,26 +209,25 @@ h4,.h4 {
 }
 table {
 	width: 1020px;
-	min-width:1200px;
-/* 	float: left;
-	margin-left: 40px; */
+	min-width:800px;
 }
 #tree{
-min-width: 300px;
-width:20%;
+min-width: 100px;
+width:15%;
 float:left ;
 }
 #moduleTable{
-    min-width: 1200px;
-    /* float: left; */
+    min-width: 500px;
+     float: left; 
     margin-left: 10px;
     display: inline-block;
-    width: 79%;
+    width: 84%;
     margin-top: 10px;
+    
 }
 .container{
    margin : 0 auto;
-  min-width: 1600px;
+  min-width: 100%;
   width: 100%;
 }
 .btn-primary{
@@ -242,6 +243,30 @@ span {
 #edit_department{
 	margin-top:8px
 }
+	.employeeN{
+	 	width:568px;
+	 	display:none;
+	 	border:1px solid #ccc;
+	 	border-top:none;
+	 	border-radius:3px;
+	}
+	.employeeN ul {
+		width:567px;
+		height:30px;
+		border:none;
+		margin:0;
+		margin-left:-40px;
+	}
+	.employeeN ul li{
+		width:567px;
+		height:30px;
+		line-height: 30px;
+		list-style-type: none;
+		text-indent: 12px;
+	}
+	.employeeN ul li:hover{
+		background-color:#dcdcdc;
+	}
 
 		
 </style>
@@ -269,25 +294,25 @@ span {
 
 		<div class="col-md-3.5 column">
 			<div style="float: right;margin-right: 16px;">
-				<button id="query" onclick="find()" class="btn btn-prima    ry"
+				<button id="query" onclick="find()" class="btn btn-primary"
 					type="button">
 					<em class="glyphicon glyphicon-search"></em> 查询
 				</button>
-				<button type="button" class="btn btn-info glyphicon glyphicon-plus"
+				<button type="button" class="btn btn-primary"
 					data-toggle="modal" data-target="#addModal">&nbsp;新增</button>
 
-				<button class="btn btn-warning type=" button" id="del"
+				<button class="btn btn-primary" button" id="del"
 					onclick="openModal()">
 					<em class="glyphicon glyphicon-trash"></em> 修改
 				</button>
 
-				<button class="btn btn-d type=" button" id="del" onclick="delData()">
+				<button class="btn btn-primary" button" id="del" onclick="delData()">
 					<em class="glyphicon glyphicon-trash"></em> 删除
 				</button>
 
-				<button class="btn btn-success type=" button" id="refresh"
+				<button class="btn btn-primary" button" id="refresh"
 					onclick="query()">
-					<em class="glyphicon glyphicon-refresh"></em> 全部数据
+					<em class="glyphicon glyphicon-refresh"></em> 全部
 				</button>
 
 			</div>
@@ -342,18 +367,13 @@ span {
 						<div class="col-xs-12 col-md-12">
 							<h4>负责人：</h4>
 							<input type="text" id="add_responsibleMan" name="responsibleMan"
-								class="form-control" aria-describedby="basic-addon1" />
+								oninput="addGetEMName()" onpropertychange="addGetEMName()" class="form-control" aria-describedby="basic-addon1" />
+								<div class="employeeN">
+	                   
+                   </div>
 						</div>
-						<div style="display: none;"class="col-xs-12 col-md-12">
-							<h4>负责人：</h4>
-							<input type="text" id="add_employeeID" name="responsibleMan"
-								class="form-control" aria-describedby="basic-addon1" />
-						</div>
-						<!-- <div class="col-xs-12 col-md-12">
-							<h4>上级部门：</h4>
-							<input type="text" id="add_parent" name="parent" class="form-control"
-								aria-describedby="basic-addon1" />
-						</div> -->
+						
+						
 						<div class="col-xs-12 col-md-12" id="add_department">
 							<span class="spanstyle">上级部门:</span>
 							<div class="btn-group">
@@ -413,15 +433,14 @@ span {
 							<textarea rows="6" cols="40" id="edit_remarks"></textarea>
 							<input id="ID" type="hidden"></input>
 						</div>
-						<div style="display: none;"class="col-xs-12 col-md-12">
-							<h4>负责人：</h4>
-							<input type="text" id="edit_employeeID" name="EemployeeID"
-								class="form-control" aria-describedby="basic-addon1" />
-						</div>
+						
 						<div class="col-xs-12 col-md-12">
 							<h4>负责人：</h4>
 							<input type="text" id="edit_employee" name="Eemployee"
-								class="form-control" aria-describedby="basic-addon1" />
+								oninput="editGetEMName()" onpropertychange="editGetEMName()" class="form-control" aria-describedby="basic-addon1" />
+								<div class="employeeN">
+	                   
+                   </div>
 						</div>
 						<div class="col-xs-12 col-md-12"id="edit_department">
 							<span class="spanstyle">上级部门:</span>
@@ -473,19 +492,13 @@ span {
 				$('#tree').treeview({
 					data : trees,
 					showIcon : true,
-					levels : 1,
+					levels : 5,
 				});
 			},
 			dataType : 'text'
 		});
 	</script>
-
 	
-	
-	
-	
-
-
 </body>
 
 

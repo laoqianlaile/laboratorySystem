@@ -1,5 +1,6 @@
 package com.cqut.xiji.service.message;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.message.Message;
+import com.cqut.xiji.entity.messageNotice.MessageNotice;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.treeNode.Node;
 import com.cqut.xiji.tool.treeNode.NodeList;
@@ -82,6 +84,26 @@ public class MessageService extends SearchService implements IMessageService{
 		
 		return map;
 		
+	}
+	/**
+	 * 
+	 * 确认查看信息
+	 * @author wzj
+	 * @date 2017年1月16日 上午11:18:34
+	 *
+	 */
+	@Override
+	public void readedMessageByID(String messageID) {
+		if(messageID != null &&  !messageID.equals("")){
+			MessageNotice messageNotice = entityDao.getByID(messageID, MessageNotice.class);
+			if(messageNotice != null){
+				messageNotice.setState(1);
+				messageNotice.setLookTime(new Date());
+				entityDao.updatePropByID(messageNotice, messageID);
+			}
+		}
+		
+			
 	}
 	
 }

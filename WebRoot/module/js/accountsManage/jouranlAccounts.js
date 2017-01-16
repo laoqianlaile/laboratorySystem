@@ -171,8 +171,36 @@ function delJouranlAccounts(){
         });
 	 }     
 }
+
+/* 新增选择  */
+
+function  openChooseModal(){
+	$('#addChooseModal').modal('show');
+}
+
+/* 新增收入  */
+function addIncome(){
+	openAddModal("Income");
+}
+
+/* 新增支出 */
+function addPayMent(){
+	openAddModal("PayMent");
+}
+/* 拼接合同细项  */
+function playFineItem(){
+	var FineItemData = getContractFineItem();
+	if(FineItemData === null || FineItemData === "" ||FineItemData.length === 0 ){
+		return null;
+	}
+	var html = "";
+	for(var i = 0; i < FineItemData.length; i++){
+		html += "<option class= 'form-control' value='"+FineItemData[i].ID+"'>"+FineItemData[i].fineItemCode+"</option>"
+	}
+	return html;
+}
 /* 新增弹窗 */
-function openAddModal(){
+function openAddModal(isIncome){
 	for(var i = 0 ; i < ContractInfo.data.length; i++){
 		if(ContractInfo.contractID === ContractInfo.data[i].contractID){ //填充数据;
 			$('#add_contractCode').val(ContractInfo.data[i].contractCode);
@@ -180,6 +208,19 @@ function openAddModal(){
 			break;
 		}
 	}
+	var FineItemhtml = playFineItem();
+	if(FineItemhtml === null){
+		alert("没有合同细项,请确认是否操作正确");
+		return;
+	}
+	$('#add_contractFineItem').html(FineItemhtml);
+	if(isIncome === "Income"){
+		$("#displayFineItem").hide();
+	}
+	else{
+		$('#displayFineItem').show();
+	}
+	
 	$('#addModal').modal('show');
 }
 
@@ -191,7 +232,13 @@ function addJouranlAccounts(){
 	parame.employeeID = $('#employeeID').val();
 	parame.invoice = $('#add_invoice').val();
 	parame.money = $('#add_money').val();
-	parame.isIncome = $('input[name="add_isIncome"]:checked').val();
+	//是否隐藏 
+	if($("#displayFineItem").is(":hidden")){
+		parame.isIncome = 0;
+	}
+	else{
+		parame.isIncome = 1;
+	}
 	parame.remarks = $('#add_remarks').val();
 	
 	$.ajax({
@@ -202,6 +249,7 @@ function addJouranlAccounts(){
 			  alert("新增失败");
 		  }
 		  $('#addModal').modal('hide');
+		  $('#addChooseModal').modal('hide');
 		  refresh();
 	  }
 	});
@@ -274,16 +322,36 @@ function isLogin(){
 		 return true;
 	 }
 }
+/* 详细跳转 */
 function viewDetailed(){
-	alert(arguments[0]);
-	console.log(arguments[0]);
-	window.location.href= window.location.href.split("?")[0].replace('jouranlAccounts.jsp','paymentDetail.jsp') + '?jouranlAccountID='+arguments[0];
+	window.location.href= window.location.href.split("?")[0].replace('jouranlAccounts.jsp','paymentDetail.jsp') + '?jouranlAccountID='+arguments[0]+'&contractIDs='+ContractInfo.contractID;
+}
+/* 回退操作 */
+function backstep(){
+	window.location.href= window.location.href.split("?")[0].replace('jouranlAccounts.jsp','accountsManage.jsp');
 }
 /* 获取合同数据 */
 function getContract(){
 	var data;
 	$.ajax({
 		url : 'contractController/getContract.do',
+		dataType : "json",
+		async : false,
+		data : {},
+		success : function(o) {
+			data = JSON.parse(o);
+		},
+		error : function() {
+			return false;
+		}
+	});
+	return data;
+}
+/* 获取合同细项  */
+function getContractFineItem(){
+	var data;
+	$.ajax({
+		url : 'contractFineItemController/getContractFineItemByContractIDs.do?ContractID='+ContractInfo.contractID,
 		dataType : "json",
 		async : false,
 		data : {},

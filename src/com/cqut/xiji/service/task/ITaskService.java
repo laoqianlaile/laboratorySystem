@@ -63,4 +63,10 @@ public interface ITaskService {
 
 	public boolean setTestReportInfo(String taskID,String remarks);
 	public boolean submitReport(String taskID);
+	
+	public Map<String, Object> getTaskInfoWithPaging(int limit, int offset,
+			String order, String sort);
+	public Map<String, Object> getTaskTestReportWithPaging(int limit, int offset,
+			String order, String sort);
+	List<Map<String,Object>> getTaskInfor(String ID);
 }

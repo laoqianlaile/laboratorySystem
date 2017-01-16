@@ -166,7 +166,6 @@ public class ClientService extends SearchService implements IClientService{
 		return result+"";
 	}
 
-
 	@Override
 	public String clientLogin(Client client, HttpSession session) {
 		// TODO Auto-generated method stub

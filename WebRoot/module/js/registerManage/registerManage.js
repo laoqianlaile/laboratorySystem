@@ -60,17 +60,17 @@ function initTable(){
 			title:'审核状态',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-		},{
-			field:'businessLicence',//返回值名称
+		},/*{
+			field:'fileID1',//返回值名称
 			title:'执照图',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 		},{
-			field:'legal',///返回值名称
+			field:'fileID2',///返回值名称
 			title:'资质图',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-		},{
+		},*/{
 			field:'mobilePhone',///返回值名称
 			title:'联系电话',//列名
 			align:'center',//水平居中显示
@@ -81,17 +81,17 @@ function initTable(){
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 		},{
-			field:'qulicationPic',///返回值名称
+			field:'legal',///返回值名称
 			title:'法定代表',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 		},{
-			field:'type',///返回值名称
+			field:'companyType',///返回值名称
 			title:'公司类型',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 		},{
-			field:'remarks',///返回值名称
+			field:'companyRemarks',///返回值名称
 			title:'备注',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
@@ -173,10 +173,10 @@ function registerModal(){
 	$('#phoneNumber').val(data[0].mobilePhone);
 	$('#scope').val(data[0].scope);
 	$('#legal').val(data[0].legal);
-	$('#type').val(data[0].type);
-	$("#show_qulicationPic").attr('src',data[0].qulicationPic);
-	$("#show_businessLicence").attr('src',data[0].businessLicence);
-	$('#remarks').val(data[0].remarks);
+	$('#type').val(data[0].companyType);
+	$("#show_qulicationPic").attr('src',data[0].path1);
+	$("#show_businessLicence").attr('src',data[0].path2);
+	$('#remarks').val(data[0].companyRemarks);
 	$('#contactModal').modal('show');
    $('#contactModal').modal({ show: true, backdrop: 'static' });
 }
@@ -204,11 +204,11 @@ function checkModal(){
 	$('#check_password').val(data[0].password);
 	$('#check_phoneNumber').val(data[0].mobilePhone);
 	$('#check_scope').val(data[0].scope);
-	$('#check_legal').val(data[0].qulicationPic);
-	$('#check_type').val(data[0].type);
-	$('#check_remarks').val(data[0].remarks);
-	$("#check_qulicationPic").attr('src',data[0].legal);
-	$("#check_businessLicence").attr('src',data[0].businessLicence);
+	$('#check_legal').val(data[0].legal);
+	$('#check_type').val(data[0].companyType);
+	$('#check_remarks').val(data[0].companyRemarks);
+	$("#check_qulicationPic").attr('src',data[0].path2);
+	$("#check_businessLicence").attr('src',data[0].path1);
 	$('#checkModal').modal('show');
    $('#checkModal').modal({ show: true, backdrop: 'static' });
 }

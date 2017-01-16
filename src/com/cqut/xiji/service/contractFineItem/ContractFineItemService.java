@@ -12,6 +12,7 @@ import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.contractFineItem.ContractFineItem;
+import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
@@ -673,5 +674,21 @@ public class ContractFineItemService extends SearchService implements IContractF
 				
 		int results = entityDao.updatePropByID(contractFineItem,ID);
 		return results;
+	}
+
+	@Override
+	public List<Map<String, Object>> getContractFineItemByContractIDs(
+			String contractID) {
+		String[] properties = new String[] {
+				"contractfineitem.ID",
+				"contractfineitem.fineItemCode",
+				"contractfineitem.fineItemNameCn",
+				"contractfineitem.isOutsourcing"
+		};
+		String condition = " 1 = 1 AND contractID = " + contractID;
+		List<Map<String, Object>> list = entityDao.findByCondition(properties,
+				condition, ContractFineItem.class);
+		return list;
+		
 	}
 }
