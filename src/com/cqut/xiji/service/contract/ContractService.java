@@ -252,7 +252,7 @@ public class ContractService extends SearchService implements IContractService{
 		company.setID(id);
 		company.setCompanyName(companyName);
 		company.setAddress(address);
-		company.setMobilephone(linkPhone);
+//		company.setMobilephone(linkPhone);
 		company.setLinkMan(oppositeMen);
 		int result = entityDao.save(company);
 	
@@ -379,7 +379,7 @@ public class ContractService extends SearchService implements IContractService{
 				Company company = new Company();
 				company.setCompanyName(companyName);
 				company.setAddress(address);
-				company.setMobilephone(linkPhone);
+//				company.setMobilephone(linkPhone);
 				company.setLinkMan(oppositeMen);
 				
 				int result = entityDao.updatePropByID(company,companyID);
@@ -387,7 +387,7 @@ public class ContractService extends SearchService implements IContractService{
 				Company company = new Company();
 				company.setCompanyName(companyName);
 				company.setAddress(address);
-				company.setMobilephone(linkPhone);
+//				company.setMobilephone(linkPhone);
 				company.setLinkMan(oppositeMen);
 				
 				int result = entityDao.updatePropByID(company,companyid);
@@ -398,7 +398,7 @@ public class ContractService extends SearchService implements IContractService{
 			company.setID(id);
 			company.setCompanyName(companyName);
 			company.setAddress(address);
-			company.setMobilephone(linkPhone);
+//			company.setMobilephone(linkPhone);
 			company.setLinkMan(oppositeMen);
 			int result = entityDao.save(company);
 			companyID = id;
