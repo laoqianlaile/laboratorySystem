@@ -126,7 +126,7 @@ public class DocConverter {
 
 	static String loadStream(InputStream in) throws IOException {
 		int ptr = 0;
-		// 把InputStream字节流 替换为BufferedReader字符流 
+		// 把InputStream字节流 替换为BufferedReader字符流
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 		StringBuilder buffer = new StringBuilder();
 		while ((ptr = reader.read()) != -1) {

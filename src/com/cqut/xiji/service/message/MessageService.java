@@ -66,7 +66,7 @@ public class MessageService extends SearchService implements IMessageService{
 	
 		String baseEntity = " message , messagenotice ";
 		String condition = " messagenotice.messageID = message.ID AND messagenotice.state = 0 ";
-		userID = "1";
+//		userID = "1";
 		if(userID != null && !userID.equals("")){
 			condition += " and messagenotice.employeeID = '"+userID+"'";
 			sql += " and messagenotice.employeeID = '"+userID+"'";

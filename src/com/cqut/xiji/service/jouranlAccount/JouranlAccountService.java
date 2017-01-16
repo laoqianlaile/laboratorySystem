@@ -1,4 +1,4 @@
-﻿package com.cqut.xiji.service.jouranlAccount;
+package com.cqut.xiji.service.jouranlAccount;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -23,13 +23,13 @@ import com.cqut.xiji.tool.util.EntityIDFactory;
 
 @Service
 public class JouranlAccountService extends SearchService implements IJouranlAccountService{
-	
+
 	@Resource(name="entityDao")
 	EntityDao entityDao;
-	
+
 	@Resource(name="searchDao")
 	SearchDao searchDao;
-	
+
 	@Resource(name="baseEntityDao")
 	BaseEntityDao baseEntityDao;
 
@@ -47,13 +47,13 @@ public class JouranlAccountService extends SearchService implements IJouranlAcco
 	public Map<String, Object> getJouranlAccountsWithPaging(String contractID,String invoice,
 			String state, String checkinTime1, String checkinTime2, int limit,
 			int offset, String order, String sort) {
-		
+
 
 		int index = limit;
 		int pageNum = offset/limit;
-		
+
 		String baseEntity = "jouranlAccount";
-		
+
 		String[] properties ={
 				"jouranlaccount.ID as jouranlAccountID",
 				"jouranlaccount.invoice",
@@ -72,13 +72,13 @@ public class JouranlAccountService extends SearchService implements IJouranlAcco
 		String joinEntity = " LEFT JOIN contract ON contract.ID = jouranlaccount.contractID "
 				+" LEFT JOIN employee ON employee.ID = jouranlaccount.employeeID ";
 		Map<String,Object> map = new HashMap<String, Object>();
-		
+
 		if(contractID == null && contractID == ""){
 			System.out.println("没有获取到合同ID");
 			return map ;
 		}
 		String condition = " 1 = 1 and jouranlaccount.contractID = " + contractID;
-		
+
 		if(invoice != null && invoice != ""){
 			condition += " and jouranlaccount.invoice like '%" + invoice + "%' ";
 		}
@@ -93,23 +93,23 @@ public class JouranlAccountService extends SearchService implements IJouranlAcco
 	    int count = getForeignCountWithJoin(joinEntity, null, condition, false);
 		map.put("total", count);
 		map.put("rows", result);
-		
+
 		return map;
 	}
 
 	@Override
 	public String upJouranlAccounts(String jouranlAccountsID, String invoice,
 			String money, int isIncome, String remarks) {
-		
-		
+
+
 		JouranlAccount jouranlAccount = new JouranlAccount();
 		jouranlAccount.setInvoice(invoice);
 		jouranlAccount.setMoney(Integer.parseInt(money));
 		jouranlAccount.setIsIncome(isIncome);
 		jouranlAccount.setRemarks(remarks);
-		
+
 		int result = entityDao.updatePropByID(jouranlAccount, jouranlAccountsID);
-		
+
 		return result + "";
 	}
 
@@ -117,7 +117,7 @@ public class JouranlAccountService extends SearchService implements IJouranlAcco
 	public String addJouranlAccounts(String contractID,String employeeID, String invoice,
 			String money, int isIncome, String remarks) {
 		JouranlAccount jouranlAccount = new JouranlAccount();
-		
+
 		jouranlAccount.setID(EntityIDFactory.createId());
 		jouranlAccount.setContractID(contractID);
 		jouranlAccount.setInvoice(invoice);
@@ -126,9 +126,9 @@ public class JouranlAccountService extends SearchService implements IJouranlAcco
 		jouranlAccount.setRemarks(remarks);
 		jouranlAccount.setEmployeeID(employeeID);
 		jouranlAccount.setCheckinTime(new Date());
-		
+
 		int result = entityDao.save(jouranlAccount);
-		
+
 		return result + "";
 	}
 
@@ -145,7 +145,7 @@ public class JouranlAccountService extends SearchService implements IJouranlAcco
 	public List<Map<String, Object>> getJouranlAccountDate(
 			String jouranlAccountID) {
 		String	baseEntity = "jouranlAccount";
-		
+
 		String[] properties = {
 				"jouranlaccount.employeeID as employeeID",
 				"jouranlaccount.invoice",
@@ -153,7 +153,7 @@ public class JouranlAccountService extends SearchService implements IJouranlAcco
 				"company.companyName",
 				"employee.employeeName as employeeName"
 		};
-		
+
 		String joinEntity = " LEFT JOIN contract on  contract.ID = jouranlaccount.contractID "
 				+ " LEFT JOIN company on company.ID = contract.companyID "
 				+ " LEFT JOIN employee ON employee.ID = jouranlaccount.employeeID ";
@@ -163,8 +163,8 @@ public class JouranlAccountService extends SearchService implements IJouranlAcco
 		}
 		String condition = " 1 = 1 and jouranlaccount.ID = " + jouranlAccountID;
 		List<Map<String, Object>> result = originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false);
-		
-		
+
+
 		return result;
 	}
 
