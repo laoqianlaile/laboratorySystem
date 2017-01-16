@@ -105,6 +105,7 @@ function add(){
 		
 		$.ajax({
 		  url:'roleController/addRole.do',
+		  dataType:"json",
 		  data:parame,
 		  success:function(o){
 			  if(o<=0){

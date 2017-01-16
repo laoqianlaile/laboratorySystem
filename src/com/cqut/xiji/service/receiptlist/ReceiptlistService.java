@@ -419,6 +419,7 @@ public class ReceiptlistService extends SearchService implements
 				task.setReceiptlistID(reID);
 				task.setSampleID(sampleID);
 				task.setStartTime(new Date());
+				task.setTaskCode(sampleCode+"-"+"");
 				task.setAllotstate(0);
 				task.setDetectstate(0);
 				System.out.println("任务检测项目：" + i + "  " + testProjectIDs[i]);
