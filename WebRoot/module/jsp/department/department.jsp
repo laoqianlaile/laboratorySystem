@@ -243,6 +243,30 @@ span {
 #edit_department{
 	margin-top:8px
 }
+	.employeeN{
+	 	width:568px;
+	 	display:none;
+	 	border:1px solid #ccc;
+	 	border-top:none;
+	 	border-radius:3px;
+	}
+	.employeeN ul {
+		width:567px;
+		height:30px;
+		border:none;
+		margin:0;
+		margin-left:-40px;
+	}
+	.employeeN ul li{
+		width:567px;
+		height:30px;
+		line-height: 30px;
+		list-style-type: none;
+		text-indent: 12px;
+	}
+	.employeeN ul li:hover{
+		background-color:#dcdcdc;
+	}
 
 		
 </style>
@@ -343,18 +367,13 @@ span {
 						<div class="col-xs-12 col-md-12">
 							<h4>负责人：</h4>
 							<input type="text" id="add_responsibleMan" name="responsibleMan"
-								class="form-control" aria-describedby="basic-addon1" />
+								oninput="addGetEMName()" onpropertychange="addGetEMName()" class="form-control" aria-describedby="basic-addon1" />
+								<div class="employeeN">
+	                   
+                   </div>
 						</div>
-						<div style="display: none;"class="col-xs-12 col-md-12">
-							<h4>负责人：</h4>
-							<input type="text" id="add_employeeID" name="responsibleMan"
-								class="form-control" aria-describedby="basic-addon1" />
-						</div>
-						<!-- <div class="col-xs-12 col-md-12">
-							<h4>上级部门：</h4>
-							<input type="text" id="add_parent" name="parent" class="form-control"
-								aria-describedby="basic-addon1" />
-						</div> -->
+						
+						
 						<div class="col-xs-12 col-md-12" id="add_department">
 							<span class="spanstyle">上级部门:</span>
 							<div class="btn-group">
@@ -414,15 +433,14 @@ span {
 							<textarea rows="6" cols="40" id="edit_remarks"></textarea>
 							<input id="ID" type="hidden"></input>
 						</div>
-						<div style="display: none;"class="col-xs-12 col-md-12">
-							<h4>负责人：</h4>
-							<input type="text" id="edit_employeeID" name="EemployeeID"
-								class="form-control" aria-describedby="basic-addon1" />
-						</div>
+						
 						<div class="col-xs-12 col-md-12">
 							<h4>负责人：</h4>
 							<input type="text" id="edit_employee" name="Eemployee"
-								class="form-control" aria-describedby="basic-addon1" />
+								oninput="editGetEMName()" onpropertychange="editGetEMName()" class="form-control" aria-describedby="basic-addon1" />
+								<div class="employeeN">
+	                   
+                   </div>
 						</div>
 						<div class="col-xs-12 col-md-12"id="edit_department">
 							<span class="spanstyle">上级部门:</span>
