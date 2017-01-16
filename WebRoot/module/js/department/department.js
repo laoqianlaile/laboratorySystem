@@ -212,6 +212,8 @@ function addClick(){
 		 $(".employeeN").hide();
 	})
 }
+
+
 function editGetEMName(){
 	var name = $('#edit_employee').val();
 	if (!name && typeof(name)!="undefined" && name=='') 
