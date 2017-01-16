@@ -307,8 +307,6 @@
 						</script>
 
 						<ul class="breadcrumb">
-							<li><i class="icon-home home-icon"></i> <a href="#">首页</a></li>
-							<li class="active">角色</li>
 						</ul>
 
 						<div class="nav-search" id="nav-search">
@@ -325,11 +323,6 @@
 
 					<!-- 	<div class="page-content"> -->
 					<div class="page-header">
-						<h1>
-							<label id="navName">角色</label> <small> <i
-								class="icon-double-angle-right"></i> <label>查看</label>
-							</small>
-						</h1>
 					</div>
 
 
