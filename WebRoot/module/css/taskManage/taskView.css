@@ -1,5 +1,9 @@
 @CHARSET "UTF-8";
 
+body {
+	min-width: 1300px;
+}
+
 .form-control {
 	display: inline-block;
 }
@@ -32,8 +36,8 @@
 
 .textRequire {
 	width: 98%;
-	margin-left:1%;
-	marigin-right:1%;
+	margin-left: 1%;
+	marigin-right: 1%;
 	height: 100px !important;
 	resize: none;
 	background: #fff !important;

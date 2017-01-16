@@ -105,8 +105,7 @@ textarea {
 }
 
 #form {
-    margin-left: 16%;
-	width: 84%;
+	width: 100%;
 	height: 60px;
 	float: left;
 	margin-top: 8px;
@@ -320,22 +319,7 @@ span {
 	</div>
 	
 	
-<!--小弹框  -->
-							<div class="over" id="addOver">
-									<div class="overChoose">
-										<!-- 隐藏滑动条 -->
-										<div class="choose">
-											<div class="row">
-												
 
-											</div>
-										</div>
-									</div>
-								</div>
-
-	
-	
-	<!-- 新增弹框 -->
 	<div id="addModal" class="modal fade" role="dialog"
 		aria-labelledby="gridSystemModalLabel">
 		<div class="modal-dialog" role="document">

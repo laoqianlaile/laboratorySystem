@@ -5,9 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.jacob.activeX.ActiveXComponent;
-import com.jacob.com.Dispatch;
-import com.jacob.com.Variant;
+
+import org.apache.tomcat.jni.Thread;
+
+import com.jacob.activeX.ActiveXComponent;  
+import com.jacob.com.ComThread;
+import com.jacob.com.Dispatch;  
+import com.jacob.com.Variant;  
+
+
 
 /**
  * @author Administrator
@@ -279,6 +285,7 @@ public class WordProcess {
         Dispatch.call(Dispatch.get(selection, "InLineShapes").toDispatch(),
                 "AddPicture", imagePath);
     }
+
 
 
     // 插入图片,可以设置图片大小

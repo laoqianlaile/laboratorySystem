@@ -113,262 +113,233 @@
 function refresh(){
 	$('#table').bootstrapTable('refresh', null);
 }
-
-
-//领样人选取
-	$(document).on("click", "#addOver", function(event) {
-		event.stopPropagation();
-		$(".over").css("display", "none");
-		$(".over").css("width", "0");
-		$(".over").css("height", "0");
-		$("#add_getMan1").val("");
-
-	});
-	
-	$(document).on("click", ".chooseInput", function(event) {
-	
-		event.stopPropagation();
-	
+function addGetEMName(){
+	var name = $('#add_getMan').val();
+	if (!name && typeof(name)!="undefined" && name=='') 
+	{
+		$(".employeeN").hide();
+	}else {
+		var parame = {};
+		parame.employeeName = name;
 		
-	});
-	$(document).on("click", ".fontStyle", function(event) {
-		event.stopPropagation();
-		console.log($(this).text());
-		$("#add_getMan1").val($(this).text());
-		$("#add_getMan").val($(this).prev().val());
+		$.ajax({  
+		    url:'employeeController/getEmployeeName.do',// 跳转到 action  
+		    type:'post',
+		    data:parame,
+		    dataType:'json',
+		    success:function(data){  
+		    	if (data) { 
+		    		var employee,length;
+		    		var myobj = JSON.parse(data);
+		    		var htmlElement = "";//定义HTML    
+		    		employee = $(".employeeN");
+		    		if(myobj.length > 4){
+		    			length = 4;
+		    		}else{
+		    			length = myobj.length;
+		    		}
+		    		for(var i=0; i < length; i++){
+		    			htmlElement += "<ul><li value='" + myobj[i].employeeName + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + "</li></ul>";
+		    		}
+		    		
+		    		employee.show();
+		    		employee.empty();
+		    		employee.append(htmlElement);
+		    		addClick();
+			    }
+			}
+		});
+	}
+}
+function addClick(){ 
 	
-		// this == event.target
-		$(event.target).prev().click();
-		$(".overChoose").hide();
+	
+	//给input赋值
+	$(".employeeN ul li").click(function(){
+		 var name =  $(this).attr("value");
+		 $("#add_getMan").val(name);
+		 var ID =  $(this).attr("class");
+		 $('#add_getMan').attr({'name' : "" + ID + ""});
+		 $('#add_getMan').attr({'value' : "" + name + ""});
+		 $(".employeeN").hide();
+	})
+
+	//隐藏提示框
+	$("#addContent").click(function(){
+		 $(".employeeN").hide();
+	})
+}
+function addGetEMName1(){
+	var name = $('#add_returnMan').val();
+	if (!name && typeof(name)!="undefined" && name=='') 
+	{
+		$(".employeeN1").hide();
+	}else {
+		var parame = {};
+		parame.employeeName = name;
 		
+		$.ajax({  
+		    url:'employeeController/getEmployeeName.do',// 跳转到 action  
+		    type:'post',
+		    data:parame,
+		    dataType:'json',
+		    success:function(data){  
+		    	if (data) { 
+		    		var employee,length;
+		    		var myobj = JSON.parse(data);
+		    		var htmlElement = "";//定义HTML    
+		    		employee = $(".employeeN1");
+		    		if(myobj.length > 4){
+		    			length = 4;
+		    		}else{
+		    			length = myobj.length;
+		    		}
+		    		for(var i=0; i < length; i++){
+		    			htmlElement += "<ul><li value='" + myobj[i].employeeName + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + "</li></ul>";
+		    		}
+		    		
+		    		employee.show();
+		    		employee.empty();
+		    		employee.append(htmlElement);
+		    		addClick1();
+			    }
+			}
+		});
+	}
+}
+function addClick1(){ 
+	
+	
+	//给input赋值
+	$(".employeeN1 ul li").click(function(){
+		 var name =  $(this).attr("value");
+		 $("#add_returnMan").val(name);
+		 var ID =  $(this).attr("class");
+		 $('#add_returnMan').attr({'name' : "" + ID + ""});
+		 $('#add_returnMan').attr({'value' : "" + name + ""});
+		 $(".employeeN1").hide();
+	})
+
+	//隐藏提示框
+	$("#addContent").click(function(){
+		 $(".employeeN1").hide();
+	})
+}
+
+function editGetEMName(){
+	var name = $('#edit_getMan').val();
+	if (!name && typeof(name)!="undefined" && name=='') 
+	{
+		$(".employeeN").hide();
+	}else {
+		var parame = {};
+		parame.employeeName = name;
 		
-	});
-	/*
-	 * $(document).on("click",".choose .row .col-xs-12",function(event){
-	 * $(this).children("input.chooseInput").click(); event.stopPropagation();
-	 * });
-	 */
-	$(".choose  .row  .col-xs-12").click(function(event) {
-		$(this).children("input.chooseInput").click();
-		event.stopPropagation();
-	});
+		$.ajax({  
+		    url:'employeeController/getEmployeeName.do',// 跳转到 action  
+		    type:'post',
+		    data:parame,
+		    dataType:'json',
+		    success:function(data){  
+		    	if (data) { 
+		    		var employee,length;
+		    		var myobj = JSON.parse(data);
+		    		var htmlElement = "";//定义HTML    
+		    		employee = $(".employeeN");
+		    		if(myobj.length > 4){
+		    			length = 4;
+		    		}else{
+		    			length = myobj.length;
+		    		}
+		    		for(var i=0; i < length; i++){
+		    			htmlElement += "<ul><li value='" + myobj[i].employeeName + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + "</li></ul>";
+		    		}
+		    		
+		    		employee.show();
+		    		employee.empty();
+		    		employee.append(htmlElement);
+		    		editClick();
+			    }
+			}
+		});
+	}
+}
+function editClick(){ 
+	//给input赋值
+	$(".employeeN ul li").click(function(){
+		 var name =  $(this).attr("value");
+		 $("#edit_getMan").val(name);
+		 var ID =  $(this).attr("class");
+		 $('#edit_getMan').attr({'name' : "" + ID + ""});
+		 $('#edit_getMan').attr({'value' : "" + name + ""});
+		 $(".employeeN").hide();
+	})
 
-	// 检测项目的选取
-	$("#add_getMan1").focus(function(event) {
-		var testNamevalue = $("#add_getMan").val();
-		var data = getdataLisk(); // 获取检测项目列表
-		var htmlP = "";
-		if (data != false) {
-			htmlP = playTestProjectHtml(data, testNamevalue, "add");// 拼装项目列表html
-			$("#addOver .overChoose .choose .row ").empty(); // 清空子元素
-			$("#addOver .overChoose .choose .row ").html(htmlP);
-		}
-		// 显示第二层遮罩
-		$(".overChoose").css("display", "block");
-		$(".over").css("display", "block");
-		var docWidth = $("#addTaskModal .modal-dialog").width();
-		var docHeight = $("#addTaskModal .modal-dialog").height();
-		$(".over").css("width", docWidth);
-		$(".over").css("height", docHeight);
-
-	});
-	
-	
-	
-	//退样人选取
-	$(document).on("click", "#addOver", function(event) {
-		event.stopPropagation();
-		$(".over").css("display", "none");
-		$(".over").css("width", "0");
-		$(".over").css("height", "0");
-		$("#add_returnMan").val("");
-
-	});
-	
-	$(document).on("click", ".chooseInput", function(event) {
-	
-		event.stopPropagation();
-	
+	//隐藏提示框
+	$("#editContent").click(function(){
+		 $(".employeeN").hide();
+	})
+}
+function editGetEMName1(){
+	var name = $('#edit_returnMan').val();
+	if (!name && typeof(name)!="undefined" && name=='') 
+	{
+		$(".employeeN1").hide();
+	}else {
+		var parame = {};
+		parame.employeeName = name;
 		
-	});
-	$(document).on("click", ".fontStyle1", function(event) {
-		event.stopPropagation();
-		$("#add_returnMan1").val($(this).text());
-		$("#add_returnMan").val($(this).prev().val());
-	
-		// this == event.target
-		$(event.target).prev().click();
-		$(".overChoose").hide();
-		
-		
-	});
-	/*
-	 * $(document).on("click",".choose .row .col-xs-12",function(event){
-	 * $(this).children("input.chooseInput").click(); event.stopPropagation();
-	 * });
-	 */
-	$(".choose  .row  .col-xs-12").click(function(event) {
-		$(this).children("input.chooseInput").click();
-		event.stopPropagation();
-	});
+		$.ajax({  
+		    url:'employeeController/getEmployeeName.do',// 跳转到 action  
+		    type:'post',
+		    data:parame,
+		    dataType:'json',
+		    success:function(data){  
+		    	if (data) { 
+		    		var employee,length;
+		    		var myobj = JSON.parse(data);
+		    		var htmlElement = "";//定义HTML    
+		    		employee = $(".employeeN1");
+		    		if(myobj.length > 4){
+		    			length = 4;
+		    		}else{
+		    			length = myobj.length;
+		    		}
+		    		for(var i=0; i < length; i++){
+		    			htmlElement += "<ul><li value='" + myobj[i].employeeName + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + "</li></ul>";
+		    		}
+		    		
+		    		employee.show();
+		    		employee.empty();
+		    		employee.append(htmlElement);
+		    		editClick1();
+			    }
+			}
+		});
+	}
+}
+function editClick1(){ 
+	//给input赋值
+	$(".employeeN1 ul li").click(function(){
+		 var name =  $(this).attr("value");
+		 $("#edit_returnMan").val(name);
+		 var ID =  $(this).attr("class");
+		 $('#edit_returnMan').attr({'name' : "" + ID + ""});
+		 $('#edit_returnMan').attr({'value' : "" + name + ""});
+		 $(".employeeN1").hide();
+	})
 
-	// 检测项目的选取
-	$("#add_returnMan1").focus(function(event) {
-		var testNamevalue = $("#add_returnMan").val();
-		var data = getdataLisk(); // 获取检测项目列表
-		var htmlP = "";
-		if (data != false) {
-			htmlP = playTestProjectHtml1(data, testNamevalue, "add");// 拼装项目列表html
-			$("#addOver .overChoose .choose .row ").empty(); // 清空子元素
-			$("#addOver .overChoose .choose .row ").html(htmlP);
-		}
-		// 显示第二层遮罩
-		$(".overChoose").css("display", "block");
-		$(".over").css("display", "block");
-		var docWidth = $("#addTaskModal .modal-dialog").width();
-		var docHeight = $("#addTaskModal .modal-dialog").height();
-		$(".over").css("width", docWidth);
-		$(".over").css("height", docHeight);
+	//隐藏提示框
+	$("#editContent").click(function(){
+		 $(".employeeN1").hide();
+	})
+}
 
-	});
-	//修改领样人
-	$(document).on("click", "#addOver", function(event) {
-		event.stopPropagation();
-		$(".over").css("display", "none");
-		$(".over").css("width", "0");
-		$(".over").css("height", "0");
-		$("#edit_getMan").val("");
 
-	});
-	
-	$(document).on("click", ".chooseInput", function(event) {
-	
-		event.stopPropagation();
-	
-		
-	});
-	
-	$(document).on("click", ".fontStyle1", function(event) {
-		event.stopPropagation();
-		$("#edit_getMan1").val($(this).text());
-		$("#edit_getMan").val($(this).prev().val());
-	
-		// this == event.target
-		$(event.target).prev().click();
-		$(".overChoose").hide();
-		
-		
-	});
-	/*
-	 * $(document).on("click",".choose .row .col-xs-12",function(event){
-	 * $(this).children("input.chooseInput").click(); event.stopPropagation();
-	 * });
-	 */
-	$(".choose  .row  .col-xs-12").click(function(event) {
-		$(this).children("input.chooseInput").click();
-		event.stopPropagation();
-	});
 
-	// 检测项目的选取
-	$("#edit_getMan1").focus(function(event) {
-		var testNamevalue = $("#edit_getMan").val();
-		var data = getdataLisk(); // 获取检测项目列表
-		var htmlP = "";
-		if (data != false) {
-			htmlP = playTestProjectHtml1(data, testNamevalue, "add");// 拼装项目列表html
-			$("#addOver .overChoose .choose .row ").empty(); // 清空子元素
-			$("#addOver .overChoose .choose .row ").html(htmlP);
-		}
-		// 显示第二层遮罩
-		$(".overChoose").css("display", "block");
-		$(".over").css("display", "block");
-		var docWidth = $("#addTaskModal .modal-dialog").width();
-		var docHeight = $("#addTaskModal .modal-dialog").height();
-		$(".over").css("width", docWidth);
-		$(".over").css("height", docHeight);
 
-	});
-	//修改退样人
-	$(document).on("click", "#addOver", function(event) {
-		event.stopPropagation();
-		$(".over").css("display", "none");
-		$(".over").css("width", "0");
-		$(".over").css("height", "0");
-		//$("#edit_returnMan").val("");
-
-	});
-	
-	$(document).on("click", ".chooseInput", function(event) {
-	
-		event.stopPropagation();
-	
-		
-	});
-	$(document).on("click", ".fontStyle", function(event) {
-		event.stopPropagation();
-		$("#edit_returnMan1").val($(this).text());
-		$("#edit_returnMan").val($(this).prev().val());
-	
-		// this == event.target
-		$(event.target).prev().click();
-		$(".overChoose").hide();
-		
-		
-	});
-	/*
-	 * $(document).on("click",".choose .row .col-xs-12",function(event){
-	 * $(this).children("input.chooseInput").click(); event.stopPropagation();
-	 * });
-	 */
-	$(".choose  .row  .col-xs-12").click(function(event) {
-		$(this).children("input.chooseInput").click();
-		event.stopPropagation();
-	});
-
-	// 检测项目的选取
-	$("#edit_returnMan1").focus(function(event) {
-		var testNamevalue = $("#edit_returnMan").val();
-		var data = getdataLisk(); // 获取检测项目列表
-		var htmlP = "";
-		if (data != false) {
-			htmlP = playTestProjectHtml(data, testNamevalue, "add");// 拼装项目列表html
-			$("#addOver .overChoose .choose .row ").empty(); // 清空子元素
-			$("#addOver .overChoose .choose .row ").html(htmlP);
-		}
-		// 显示第二层遮罩
-		$(".overChoose").css("display", "block");
-		$(".over").css("display", "block");
-		var docWidth = $("#addTaskModal .modal-dialog").width();
-		var docHeight = $("#addTaskModal .modal-dialog").height();
-		$(".over").css("width", docWidth);
-		$(".over").css("height", docHeight);
-
-	});
-	
-	$(document).click(function(){
-	    $(".overChoose").hide();
-
-	});
-	$("#add_getMan1").click(function(event){
-	    event.stopPropagation();
-
-	});
-	$("#add_returnMan1").click(function(event){
-	    event.stopPropagation();
-
-	});
-	$("#edit_getMan1").click(function(event){
-	    event.stopPropagation();
-
-	});
-	$("#edit_returnMan1").click(function(event){
-	    event.stopPropagation();
-
-	});
 	
 	
-	
-
 
 	
 function isContains(str, substr) {
@@ -444,9 +415,9 @@ function add(){
 	parame.factoryCode = $('#add_factoryCode').val();
 	parame.sampleName = $('#add_sampleName').val();
 	parame.specifications = $('#add_specifications').val();
-	parame.getMan = $('#add_getMan').val();
+	parame.getMan = $('#add_getMan').attr('name');
 	parame.getTime = $('#add_getTime').val();
-	parame.returnMan = $('#add_returnMan').val();
+	parame.returnMan = $('#add_returnMan').attr('name');
 	parame.returnTime = $('#add_returnTime').val();
 	parame.remarks = $('#add_remarks').val();
 	$("input").val("");
@@ -517,11 +488,11 @@ function openModal(){
 	$('#edit_factoryCode').val(data[0].factoryCode);
 	$('#edit_sampleName').val(data[0].sampleName);
 	$('#edit_specifications').val(data[0].specifications);
-	$('#edit_getMan').val(data[0].getManID);
-	$('#edit_getMan1').val(data[0].getMan);
+	$('#edit_getMan').val(data[0].getMan);
+	//$('#edit_getMan1').val(data[0].getMan);
 	$('#edit_getTime').val(data[0].getTime);
-	$('#edit_returnMan1').val(data[0].returnMan);
-	$('#edit_returnMan').val(data[0].returnManID);
+	//$('#edit_returnMan1').val(data[0].returnMan);
+	$('#edit_returnMan').val(data[0].returnMan);
 	$('#edit_returnTime').val(data[0].returnTime);
 	$('#edit_remarks').val(data[0].remarks);
 	$('#editModal').modal('show');
@@ -601,9 +572,9 @@ function edit(){
 	parame.factoryCode = $('#edit_factoryCode').val();
 	parame.sampleName = $('#edit_sampleName').val();
 	parame.specifications = $('#edit_specifications').val();
-	parame.getManID = $('#edit_getMan').val();
+	parame.getManID =  $('#edit_getMan').attr('name');
 	parame.getTime = $('#edit_getTime').val();
-	parame.returnManID = $('#edit_returnMan').val();
+	parame.returnManID = $('#edit_returnMan').attr('name');
 	parame.returnTime = $('#edit_returnTime').val();
 	parame.remarks = $('#edit_remarks').val();
 	
