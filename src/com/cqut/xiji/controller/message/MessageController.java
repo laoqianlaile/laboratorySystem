@@ -23,7 +23,7 @@ public class MessageController{
 	IMessageService service;
 	
 	/**
-	 * 样品管理员获取自己的信息
+	 * 登录人员获取自己的信息
 	 * @author wzj
 	 * @date 2016年12月28日 下午3:13:23
 	 * @param contractID
@@ -35,5 +35,17 @@ public class MessageController{
 		
 		 Map<String, Object>  result = service.getMessageByUserID((String)request.getSession().getAttribute("EMPLOYEEID"), limit,  offset,  sort,  order);
 		return JSONObject.fromObject(result);
+	}
+	/**
+	 * 确认查看信息
+	 * @author wzj
+	 * @date 2017年1月16日 上午11:15:55
+	 * @param messageNoticeID
+	 */
+	@RequestMapping("/readedMessageByID")
+	@ResponseBody
+	public void readedMessageByID(String messageNoticeID ){
+	
+		 service.readedMessageByID(messageNoticeID);
 	}
 }

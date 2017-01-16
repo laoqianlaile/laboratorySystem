@@ -1,4 +1,4 @@
-﻿package com.cqut.xiji.controller.template;
+package com.cqut.xiji.controller.template;
 
 import java.util.Map;
 
@@ -24,7 +24,7 @@ import com.cqut.xiji.service.template.ITemplateService;
 
 /**
  * 模板管理
- * 
+ *
  * @author zkl
  *
  */
@@ -32,29 +32,29 @@ import com.cqut.xiji.service.template.ITemplateService;
 @Controller
 @RequestMapping("/templateController")
 public class TemplateController{
-	
+
 	@Resource(name="templateService")
 	ITemplateService service;
-	
-	
+
+
 	/**
 	 * 查询分页展示
-	 * 
+	 *
 	 * @author zkl
 	 * @param NAME   模板名称
 	 * @param UPLOADTIME1  上传时间
 	 * @param UPLOADTIME2  上传时间
 	 * @return
 	 */
-	
+
 	@RequestMapping ("/getTemplateWithPage")
-	@ResponseBody 
+	@ResponseBody
 	public JSONObject getTemplateWithPage(String nAME ,String STATE,String uPLOADTIME1, String uPLOADTIME2,int limit, int offset, String order, String sort){
 		Map<String, Object> result = service.getTemplateWithPage(nAME,STATE, uPLOADTIME1, uPLOADTIME2, limit, offset, order, sort);
 		return JSONObject.fromObject(result);
 	}
-	
-	
+
+
 	/**
 	 * 通过模板ID删除模板记录（可删除多个）
 	 * @author zkl
@@ -67,11 +67,11 @@ public class TemplateController{
 		String result = service.delTemplate(templateIDs);
 		return result;
 	}
-	
-	
+
+
 	/**
 	 * 上传模板
-	 * 
+	 *
 	 * @author zkl
 	 * @param TEMPLATENAME
 	 * @return  上传成功返回正数，失败返回0
@@ -83,7 +83,7 @@ public class TemplateController{
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @param ID
 	 * @param SUGGEST
 	 * @author wj
@@ -94,10 +94,10 @@ public class TemplateController{
 	public String updNoPasstemplate(String ID,String SUGGEST,String verifyMan){
 		String result = service.updNoPasstemplate(ID,SUGGEST,verifyMan);
 		return result;
-		
+
 	}
 	/**
-	 * 
+	 *
 	 * @param ID
 	 * @param SUGGEST
 	 * @author wj
@@ -108,6 +108,6 @@ public class TemplateController{
 	public String updPasstemplate(String ID,String SUGGEST,String verifyMan){
 		String result = service.updPasstemplate(ID,SUGGEST,verifyMan);
 		return result;
-		
+
 	}
 }
