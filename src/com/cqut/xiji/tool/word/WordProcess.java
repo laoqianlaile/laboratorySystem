@@ -27,6 +27,7 @@ public class WordProcess {
     // 选定的范围或插入点
     private Dispatch selection;
 
+    // 退出是否保存
     private boolean saveOnExit = true;
 
     public WordProcess(boolean visible) throws Exception {
@@ -61,7 +62,7 @@ public class WordProcess {
     /**
      * 打开一个已存在的文档
      *
-     * @param docPath
+     * @param docPath -文件全名
      */
     public void openDocument(String docPath) {
         closeDocument();
@@ -168,6 +169,7 @@ public class WordProcess {
             selection = Dispatch.get(word, "Selection").toDispatch();
         Dispatch.call(selection, "TypeParagraph");
     }
+    
     /**
      * 从选定内容或插入点开始查找文本
      *
@@ -175,7 +177,6 @@ public class WordProcess {
      *            要查找的文本
      * @return boolean true-查找到并选中该文本，false-未查找到文本
      */
-    @SuppressWarnings("static-access")
     public boolean find(String toFindText) {
         if (toFindText == null || toFindText.equals(""))
             return false;
@@ -488,7 +489,6 @@ public class WordProcess {
         	List<Map<String, Object>> result = list;
             Dispatch tables = Dispatch.get(doc, "Tables").toDispatch();
             Dispatch range = Dispatch.get(selection, "Range").toDispatch();
-            @SuppressWarnings("unused")
             Dispatch newTable = Dispatch.call(tables, "Add", range,
                     new Variant(numRows), new Variant(numCols),new Variant(1)).toDispatch();
             Dispatch.call(selection, "MoveRight");
