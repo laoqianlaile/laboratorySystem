@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.tomcat.jni.Thread;
+
 import com.jacob.activeX.ActiveXComponent;  
+import com.jacob.com.ComThread;
 import com.jacob.com.Dispatch;  
 import com.jacob.com.Variant;  
   
@@ -30,13 +33,15 @@ public class WordProcess {
     private boolean saveOnExit = true;  
   
     public WordProcess(boolean visible) throws Exception {  
-        if (word == null) {  
-            word = new ActiveXComponent("Word.Application");  
-            word.setProperty("Visible", new Variant(visible)); // 不可见打开word  
-            word.setProperty("AutomationSecurity", new Variant(3)); // 禁用宏  
-        }  
-        if (documents == null)  
-            documents = word.getProperty("Documents").toDispatch();  
+    	//ComThread.InitSTA();// 线程启动
+    	
+		if (word == null) {
+			word = new ActiveXComponent("Word.Application");
+			word.setProperty("Visible", new Variant(visible)); // 是否可见打开word
+			word.setProperty("AutomationSecurity", new Variant(3)); // 禁用宏
+		}
+		if (documents == null)
+			documents = word.getProperty("Documents").toDispatch();
     }  
   
     /** 
