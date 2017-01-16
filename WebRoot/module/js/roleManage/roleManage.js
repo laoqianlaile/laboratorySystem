@@ -108,8 +108,8 @@ function add(){
 		  dataType:"json",
 		  data:parame,
 		  success:function(o){
-			  if(o<=0){
-				  alert("新增失败");
+			  if(o == "该角色已经存在"){
+				  alert("该角色已经存在");
 			  }
 			  $('#addModal').modal('hide');
 			  refresh();
