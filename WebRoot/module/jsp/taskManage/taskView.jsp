@@ -91,7 +91,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<button type="button" class="btn btn-primary" onclick="equipmentRegister()">
 						<span class="glyphicon glyphicon-edit"></span> 设备登记
 					</button>
-					<button type="button" class="btn btn-primary" onclick="">
+					<button type="button" class="btn btn-primary" onclick="downReportTemplate()">
 						<span class="glyphicon glyphicon-arrow-down"></span> 下载报告模版
 					</button>
 					<button type="button" class="btn btn-primary" onclick="uploadTestReport()">

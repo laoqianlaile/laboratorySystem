@@ -420,6 +420,18 @@ public class TaskController{
 	}
 	
 	/**
+*
+	 * 
+	 */
+	@RequestMapping("/downReportTemplate")
+	@ResponseBody
+	public String downReportTemplate(String taskID, String projectName) {
+		String result = service.downReportTemplate(taskID, projectName);
+		return result;
+	}
+
+
+    /**
 	 * @description 获取任务信息
 	 * @author HZZ
 	 * @date 2016年12月26日 17:28:05
@@ -472,3 +484,4 @@ public class TaskController{
 		return JSONArray.fromObject(result).toString();
 	}
 }
+
