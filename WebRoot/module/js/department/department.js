@@ -139,164 +139,7 @@ function getdepartment(){
 	});
 }
 
-function changevalue(type,value){
-	
-		$('#textspan1').html(value);
-	
-	
-}
-function changevalue2(type,value){
-	
-	$('#textspan2').html(value);
 
-
-}
-$(document).on("click", "#addOver", function(event) {
-	event.stopPropagation();
-	$(".over").css("display", "none");
-	$(".over").css("width", "0");
-	$(".over").css("height", "0");
-	$("#add_responsibleMan").val("");
-	$("#add_employeeID").val("");
-	$("#edit_employeeID").val("");
-	$("#edit_employee").val("");
-	
-
-});
-
-$(document).on("click", ".chooseInput", function(event) {
-
-	event.stopPropagation();
-
-	
-});
-$(document).on("click", ".fontStyle", function(event) {
-	event.stopPropagation();
-	console.log($(this).text());
-	$("#add_employeeID").val("");
-	$("#add_responsibleMan").val($(this).text());
-	$("#add_employeeID").val($(this).prev().val());
-
-	// this == event.target
-	$(event.target).prev().click();
-	$(".overChoose").hide();
-	
-	
-});
-
-$(".choose  .row  .col-xs-12").click(function(event) {
-	$(this).children("input.chooseInput").click();
-	event.stopPropagation();
-});
-
-// 人的选取
-$("#add_responsibleMan").focus(function(event) {
-	var testNamevalue = $("#add_responsibleMan").val();
-	var data = getdataLisk(); // 获取检测项目列表
-	var htmlP = "";
-	if (data != false) {
-		htmlP = playTestProjectHtml(data, testNamevalue, "add");// 拼装项目列表html
-		$("#addOver .overChoose .choose .row ").empty(); // 清空子元素
-		$("#addOver .overChoose .choose .row ").html(htmlP);
-	}
-	// 显示第二层遮罩
-	$(".overChoose").css("display", "block");
-	$(".over").css("display", "block");
-	var docWidth = $("#addTaskModal .modal-dialog").width();
-	var docHeight = $("#addTaskModal .modal-dialog").height();
-	$(".over").css("width", docWidth);
-	$(".over").css("height", docHeight);
-
-});
-//修改负责人
-$(document).on("click", ".fontStyle1", function(event) {
-	event.stopPropagation();
-	console.log($(this).text());
-
-	$("#edit_employee").val($(this).text());
-	$("#edit_employeeID").val($(this).prev().val());
-
-	// this == event.target
-	$(event.target).prev().click();
-	$(".overChoose").hide();
-	
-	
-});
-
-$(".choose  .row  .col-xs-12").click(function(event) {
-	$(this).children("input.chooseInput").click();
-	event.stopPropagation();
-});
-
-// 人的选取
-$("#edit_employee").focus(function(event) {
-	var testNamevalue = $("#edit_employee").val();
-	var data = getdataLisk(); // 获取检测项目列表
-	var htmlP = "";
-	if (data != false) {
-		htmlP = playTestProjectHtml1(data, testNamevalue, "add");// 拼装项目列表html
-		$("#addOver .overChoose .choose .row ").empty(); // 清空子元素
-		$("#addOver .overChoose .choose .row ").html(htmlP);
-	}
-	// 显示第二层遮罩
-	$(".overChoose").css("display", "block");
-	$(".over").css("display", "block");
-	var docWidth = $("#addTaskModal .modal-dialog").width();
-	var docHeight = $("#addTaskModal .modal-dialog").height();
-	$(".over").css("width", docWidth);
-	$(".over").css("height", docHeight);
-
-});
-
-
-
-
-
-function isContains(str, substr) {
-	return str.indexOf(substr) >= 0;
-}
-	
-
-function playTestProjectHtml(data, testNamevalue, isAdd) {
-
-	var html = "";
-	var checkName = "";
-	
-	for (var i = 0; i < data.length; i++) {
-		html += "<div class='col-xs-12  col-md-12' style='text-align:center' >";
-		if (isContains(testNamevalue, data[i].employeeName))
-			html += '<input type="hidden"  checked="chenked" value="'
-					+ data[i].ID + '" name="' + checkName + '"'
-					+ 'class="chooseInput" ><label class="fontStyle">'
-					+ data[i].employeeName + '</label></div>';
-		else
-			html += '<input type="hidden"   value="' + data[i].ID
-					+ '" name="' + checkName + '"'
-					+ 'class="chooseInput" ><label class="fontStyle" >'
-					+ data[i].employeeName + '</label></div>';
-	}
-	return html;
-}
-function playTestProjectHtml1(data, testNamevalue, isAdd) {
-
-	var html = "";
-	var checkName = "";
-	
-	for (var i = 0; i < data.length; i++) {
-		html += "<div class='col-xs-12  col-md-12' style='text-align:center' >";
-		if (isContains(testNamevalue, data[i].employeeName))
-			html += '<input type="hidden"  checked="chenked" value="'
-					+ data[i].ID + '" name="' + checkName + '"'
-					+ 'class="chooseInput" ><label class="fontStyle1">'
-					+ data[i].testName + '</label></div>';
-		else
-			html += '<input type="hidden"   value="' + data[i].ID
-					+ '" name="' + checkName + '"'
-					+ 'class="chooseInput" ><label class="fontStyle1" >'
-					+ data[i].employeeName + '</label></div>';
-	}
-	return html;
-}
 function getdataLisk() {
 	var data;
 	$.ajax({
@@ -313,18 +156,117 @@ function getdataLisk() {
 	});
 	return data;
 }
-$(document).click(function(){
-    $(".overChoose").hide();
+function addGetEMName(){
+	var name = $('#add_responsibleMan').val();
+	if (!name && typeof(name)!="undefined" && name=='') 
+	{
+		$(".employeeN").hide();
+	}else {
+		var parame = {};
+		parame.employeeName = name;
+		
+		$.ajax({  
+		    url:'employeeController/getEmployeeName.do',// 跳转到 action  
+		    type:'post',
+		    data:parame,
+		    dataType:'json',
+		    success:function(data){  
+		    	if (data) { 
+		    		var employee,length;
+		    		var myobj = JSON.parse(data);
+		    		var htmlElement = "";//定义HTML    
+		    		employee = $(".employeeN");
+		    		if(myobj.length > 4){
+		    			length = 4;
+		    		}else{
+		    			length = myobj.length;
+		    		}
+		    		for(var i=0; i < length; i++){
+		    			htmlElement += "<ul><li value='" + myobj[i].employeeName + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + "</li></ul>";
+		    		}
+		    		
+		    		employee.show();
+		    		employee.empty();
+		    		employee.append(htmlElement);
+		    		addClick();
+			    }
+			}
+		});
+	}
+}
+function addClick(){ 
+	
+	
+	//给input赋值
+	$(".employeeN ul li").click(function(){
+		 var name =  $(this).attr("value");
+		 $("#add_responsibleMan").val(name);
+		 var ID =  $(this).attr("class");
+		 $('#add_responsibleMan').attr({'name' : "" + ID + ""});
+		 $('#add_responsibleMan').attr({'value' : "" + name + ""});
+		 $(".employeeN").hide();
+	})
 
-});
-$("#add_responsibleMan").click(function(event){
-    event.stopPropagation();
+	//隐藏提示框
+	$("#addContent").click(function(){
+		 $(".employeeN").hide();
+	})
+}
+function editGetEMName(){
+	var name = $('#edit_employee').val();
+	if (!name && typeof(name)!="undefined" && name=='') 
+	{
+		$(".employeeN").hide();
+	}else {
+		var parame = {};
+		parame.employeeName = name;
+		
+		$.ajax({  
+		    url:'employeeController/getEmployeeName.do',// 跳转到 action  
+		    type:'post',
+		    data:parame,
+		    dataType:'json',
+		    success:function(data){  
+		    	if (data) { 
+		    		var employee,length;
+		    		var myobj = JSON.parse(data);
+		    		var htmlElement = "";//定义HTML    
+		    		employee = $(".employeeN");
+		    		if(myobj.length > 4){
+		    			length = 4;
+		    		}else{
+		    			length = myobj.length;
+		    		}
+		    		for(var i=0; i < length; i++){
+		    			htmlElement += "<ul><li value='" + myobj[i].employeeName + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + "</li></ul>";
+		    		}
+		    		
+		    		employee.show();
+		    		employee.empty();
+		    		employee.append(htmlElement);
+		    		editClick();
+			    }
+			}
+		});
+	}
+}
+function editClick(){ 
+	//给input赋值
+	$(".employeeN ul li").click(function(){
+		 var name =  $(this).attr("value");
+		 $("#edit_employee").val(name);
+		 var ID =  $(this).attr("class");
+		 $('#edit_employee').attr({'name' : "" + ID + ""});
+		 $('#edit_employee').attr({'value' : "" + name + ""});
+		 $(".employeeN").hide();
+	})
 
-});
-$("#edit_employee").click(function(event){
-    event.stopPropagation();
+	//隐藏提示框
+	$("#editContent").click(function(){
+		 $(".employeeN").hide();
+	})
+}
 
-});
 
 
 
@@ -368,7 +310,7 @@ function openModal(){
 	$('#edit_departmentCode').val(data[0].departmentCode);
 	$('#edit_departmentName').val(data[0].departmentName);
 	$('#edit_remarks').val(data[0].remarks);
-	$('#edit_employeeID').val(data[0].employeeID);
+	$('#edit_employee').val(data[0].employeeName);
 	$('#textspan2').text(data[0].Pdepartment);
 	
 	$('#editModal').modal('show');
@@ -379,7 +321,7 @@ function edit(){
 	parame.departmentName = $('#edit_departmentName').val();
 	parame.departmentCode = $('#edit_departmentCode').val();
 	parame.remarks = $('#edit_remarks').val();
-	parame.employeeID = $('#edit_employeeID').val();
+	parame.employeeID = $('#edit_employee').attr('name');
 	parame.parent = $('#textspan2').text();
 	if($('#edit_departmentName').val()!=$('#textspan2').text()){
 	if($('#edit_departmentName').val()!=""&&$('#edit_departmentCode').val()!=""){
@@ -433,7 +375,7 @@ function add(){
 	parame.departmentName = $('#add_departmentName').val();
 	parame.departmentCode = $('#add_departmentCode').val();
 	parame.remarks = $('#add_remarks').val();
-	parame.employeeID = $('#add_employeeID').val();
+	parame.employeeID =  $('#add_responsibleMan').attr('name');
 	parame.parent = $('#textspan1').text();
 	if($('#add_departmentName').val()!=""&&$('#add_departmentCode').val()!=""){
 	$('#add_remarks').val("");
