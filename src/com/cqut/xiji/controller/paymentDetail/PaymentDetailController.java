@@ -52,8 +52,8 @@ public class PaymentDetailController{
 	 */
 	@RequestMapping("/upPaymentDetail")
 	@ResponseBody
-	public String upPaymentDetail(String payMentDetailID,String receiptlistID, String receiptlistCode,String drawID,String PayMoney,String remarks){
-		String result = service.upPaymentDetail(payMentDetailID,receiptlistID,receiptlistCode,drawID,PayMoney,remarks);
+	public String upPaymentDetail(String payMentDetailID,String receiptlistID,String drawID,String PayMoney,String remarks){
+		String result = service.upPaymentDetail(payMentDetailID,receiptlistID,drawID,PayMoney,remarks);
 		return result;
 	}
 	
@@ -73,6 +73,21 @@ public class PaymentDetailController{
 	@ResponseBody
 	public String addPaymentDetail(String jouranlAccountID,String employeeID,String drawID,String receiptlistID,String payMoney,String remarks){
 		String result = service.addPaymentDetail(jouranlAccountID,employeeID,drawID,receiptlistID,payMoney,remarks);
+		return result;
+	}
+	
+	
+	/**
+	 * 删除支付详情
+	 * 
+	 * @author zkl
+	 * @param paymentDetailID
+	 * @return
+	 */
+	@RequestMapping("/delPaymentDetail")
+	@ResponseBody
+	public String delPaymentDetail(String paymentDetailID){
+		String result = service.delPaymentDetail(paymentDetailID);
 		return result;
 	}
 }

@@ -15,19 +15,20 @@ $(function(){
 			success:function(o) {// 后台处理数据成功后的回调函数
 				var obj = new Array();//jsonO[0].stuName[0].name
 				obj = eval(o);
+				alert(obj.client[0].path1);
 				$('#clientNo1').val(obj.client[0].clientNo);
 				$('#companyName').val(obj.client[0].companyName);
 				$('#mobilePhone').val(obj.client[0].address);
 				$('#fixedTelephone').val(obj.client[0].mobilePhone);	
 				$('#manage').val(obj.client[0].scope);
-				$('#representative').val(obj.client[0].qulicationPic);
-				$('#companyType').val(obj.client[0].type);
-				$('#idCard1').val(obj.client[0].businessLicence);
-				$('#idCard2').val(obj.client[0].legal);
-				$('#remarks').val(obj.client[0].remarks);
+				$('#representative').val(obj.client[0].legal);
+				$('#companyType').val(obj.client[0].companyType);
+				$('#idCard1').val(obj.client[0].fileID1);
+				$('#idCard2').val(obj.client[0].fileID2);
+				$('#remarks').val(obj.client[0].companyRemarks);
 				$('#companyID').val(obj.client[0].companyID);
-				$("#image1").attr("src",obj.client[0].businessLicence);
-				$("#image2").attr("src",obj.client[0].legal);
+				$("#image1").attr("src",obj.client[0].path1);
+				$("#image2").attr("src",obj.client[0].path2);
 				$('#clientPassword').val(obj.client[0].password);
 				$('#clientID').val(obj.client[0].ID);
 			},
@@ -36,37 +37,40 @@ $(function(){
 });
 
 //执照图上传方法
-$(document).ready(function() {
-   $('#license').fileupload({
-         dataType: 'json',
-         done: function (e, result) {
-              if(result != null) {
-            	  $('#idCard1').val(result.result);
-                  /*$("#image1").attr("src",obj.client[0].legal);*/
-            	  $("#licensePrompt").html("");
-            	  $('#shang').text("上传成功，点击可更改");
-              }
-              else
-            	  alert("上传失败！");
-         }
-     });
-});
-//资质图上传方法
-$(document).ready(function() {
-		   $('#aptitude').fileupload({
-		         dataType: 'json',
-		         done: function (e, result) {
-		              if(result != null) {
-		              		$('#idCard2').val(result.result) ;
-		              		$("#aptitudePrompt").html("");
-		              		$('#shangchuan').text("上传成功，点击可更改");
-		              }
-		              else
-		            	  alert("上传失败！");
-		         }
-		     });
-		});
+function openModal(idCard){
+	var html = "";
+	$("#fileSubtype").find("option").remove();
+	$.post("fileOperateController/getFileTypeName.do", {
+		ID : $("#fileType").find("option:selected").val()
+	}, function(result) {
+		result = JSON.parse(result);
+		for ( var i = 0; i < result.length; i++) {
+			html += "<option>" + result[i].name + "</option>";
+		}
+		$("#fileSubtype").append(html);
+	});
+	
+	fileUploadInit("#file_upload",idCard);
+	$("#addModal").modal("show");
+}
+/*上传 文件*/
+function upfile(){
+	
+	path = ""; // 文件上传路径，如果此参数没有值，则使用firstDirectoryName,secondDirectoryName,thirdDirectoryName
+	type = "1"; // 文件类型       该处默认为模板文件
+	belongID = "";//文件所属ID
+	firstDirectoryName = $('#fileType option:checked').text();// 一级目录
+	secondDirectoryName = $('#fileSubtype option:checked').text(); // 二级目录
+	thirdDirectoryName = ""; //三级目录
+	otherInfo = ""; // 其他参数
+	remarks = $('#add_TemplateRemarks').val(); // 备注
+	
+	fileUpload("#file_upload",path, type, belongID,firstDirectoryName, secondDirectoryName,thirdDirectoryName,
+			otherInfo, remarks);
 
+	// 延迟执行
+	setTimeout("addTemplate()",3000); 	
+}
 
 //提交修改的个人信息
 function change(){
@@ -79,12 +83,12 @@ function change(){
 		parame.companyName = encodeURI($('#companyName').val());
 		parame.address = encodeURI($('#mobilePhone').val());
 		parame.mobilePhone = encodeURI($('#fixedTelephone').val());
-		parame.manage = encodeURI($('#manage').val());
-		parame.representative = encodeURI($('#representative').val());
+		parame.scope = encodeURI($('#manage').val());
+		parame.legal = encodeURI($('#representative').val());
 		parame.companyType = encodeURI($('#companyType').val());
 		parame.remarks = encodeURI($('#remarks').val());
-		parame.idCardLicense = encodeURI($('#idCard1').val());
-		parame.idCardAptitude = encodeURI($('#idCard2').val());
+		parame.fileID1 = encodeURI($('#idCard1').val());
+		parame.fileID2 = encodeURI($('#idCard2').val());
 		$.ajax({
 		  url:'clientController/changePersonnel.do',
 		  data:parame,

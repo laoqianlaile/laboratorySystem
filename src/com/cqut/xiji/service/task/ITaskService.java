@@ -66,5 +66,14 @@ public interface ITaskService {
 
 	public boolean submitReport(String taskID);
 
+
 	public String downReportTemplate(String taskID, String projectName);
+
+	
+	public Map<String, Object> getTaskInfoWithPaging(int limit, int offset,
+			String order, String sort);
+	public Map<String, Object> getTaskTestReportWithPaging(int limit, int offset,
+			String order, String sort);
+	List<Map<String,Object>> getTaskInfor(String ID);
+
 }

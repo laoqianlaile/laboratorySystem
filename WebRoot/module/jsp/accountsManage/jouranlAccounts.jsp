@@ -68,6 +68,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	width:200px;
 	display: inline-block;
 }
+#addChooseModal .modal-body button{
+	width: 200px;
+    height: 150px;
+    border-radius: 40px;
+}
 </style>
   <body>
   	<div class="container" style="width:100%;">
@@ -114,12 +119,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="">
 					<div style="float: right;">
-						<button class="btn btn-primary type=" button" id="refresh"
+						<button class="btn btn-warning" type=" button" onclick="backstep()">
+							<em class="glyphicon glyphicon-arrow-left"></em> 返回
+						</button>
+						<button class="btn btn-primary " type=" button" 
 							onclick="query()">
 							<em class="glyphicon glyphicon-refresh"></em> 查询
 						</button>
-						<button class="btn btn-primary type=" button" id="refresh"
-							onclick="openAddModal()">
+						<button class="btn btn-primary "type=" button" 
+							onclick="openChooseModal()">
 							<em class="glyphicon glyphicon-refresh"></em> 新增
 						</button>
 						<button class="btn btn-primary" type="button">
@@ -133,7 +141,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							onclick="reSetRefresh()">
 							<em class="glyphicon glyphicon-refresh"></em> 刷新
 						</button>
-
+						
 					</div>
 			</div>
 			<table id="table" class="table table-hover table-striped table-bordered">
@@ -142,6 +150,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 	<!-- 获取当前操作人的ID -->
 	<input type="hidden"  id="employeeID" name="employeeID" value="<%=session.getAttribute("EMPLOYEEID")%>"/>
+	<!-- 新增选择弹窗 -->
+	<div id="addChooseModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="  close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">新增</h4>
+				</div>
+				<div class="modal-body" style="text-align: center;">
+					<button type="button" class="btn btn-info" onclick="addIncome()">收入</button>
+					<button type="button" class="btn btn btn-warning" onclick="addPayMent()">支出</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- 新增弹窗 -->
 	<div id="addModal" class="modal fade">
 		<div class="modal-dialog">
@@ -171,9 +197,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<label>金额：　　</label> 
 							<input type="text" id="add_money" name="money"  class="form-control" aria-describedby="basic-addon1"/>
 						</div>
-						<div class ="col-xs-12 col-md-12">
-							<label><input name="add_isIncome" type="radio" value="0" />收入 </label>
-							<label><input name="add_isIncome" type="radio" value="1" />支出 </label> 
+						<div id = "displayFineItem" class ="col-xs-6 col-md-6">
+							<label>合同细项：</label>
+							<select id="add_contractFineItem" name="contractFineItem" class="form-control">
+							</select>
 						</div>
 						<div class ="col-xs-12 col-md-12">
 							<label>备注：　　</label> 

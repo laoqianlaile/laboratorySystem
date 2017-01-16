@@ -1,4 +1,4 @@
-﻿package com.cqut.xiji.controller.jouranlAccount;
+package com.cqut.xiji.controller.jouranlAccount;
 
 import java.util.List;
 import java.util.Map;
@@ -17,13 +17,13 @@ import com.cqut.xiji.service.jouranlAccount.IJouranlAccountService;
 @Controller
 @RequestMapping("/jouranlAccountController")
 public class JouranlAccountController{
-	
+
 	@Resource(name="jouranlAccountService")
 	IJouranlAccountService service;
-	
+
 	/**
 	 * 流水账分页查询
-	 * 
+	 *
 	 * @author zkl
 	 * @param contractID
 	 * @param invoice
@@ -42,10 +42,10 @@ public class JouranlAccountController{
 		Map<String, Object> result = service.getJouranlAccountsWithPaging(contractID,invoice,state,checkinTime1,checkinTime2,limit,offset,order,sort);
 		return JSONObject.fromObject(result);
 	}
-	
+
 	/**
 	 * 更新流水账
-	 * 
+	 *
 	 * @author zkl
 	 * @param jouranlAccountsID
 	 * @param invoice
@@ -60,11 +60,11 @@ public class JouranlAccountController{
 		String result = service.upJouranlAccounts(jouranlAccountsID,invoice,money,isIncome,remarks);
 		return result;
 	}
-	
-	
+
+
 	/**
 	 * 添加流水账
-	 * 
+	 *
 	 * @author zkl
 	 * @param contractID
 	 * @param employeeID
@@ -81,9 +81,9 @@ public class JouranlAccountController{
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * 删除流水账目
-	 * 
+	 *
 	 * @author zkl
 	 * @param jouranlAccountsID
 	 * @return
@@ -94,13 +94,13 @@ public class JouranlAccountController{
 		String result = service.delJouranlAccounts(jouranlAccountsID);
 		return result;
 	}
-	
-	
+
+
 	/**
 	 * 获取报账专员信息，公司名称（委托单位）
-	 * 
+	 *
 	 * @author zkl
-	 * @param jouranlAccountID 
+	 * @param jouranlAccountID
 	 * @return
 	 */
 	@RequestMapping("/getJouranlAccountDate")

@@ -897,6 +897,7 @@ public class TaskService extends SearchService implements ITaskService {
 		return result;
 	}
 	
+
 	@Override
 	public String downReportTemplate(String taskID, String projectName) {
 		Map<String, Object> taskInfoResult = baseEntityDao.findByID(
@@ -1099,6 +1100,119 @@ public class TaskService extends SearchService implements ITaskService {
 				return null;
 			}
 		}
+	}
+
+	/**
+	 * @description 获取任务信息
+	 * @author HZZ
+	 * @date 2016年12月26日 17:23:23
+	 */
+	@Override
+	public Map<String, Object> getTaskInfoWithPaging(int limit, int offset,
+			String order, String sort) {
+		// TODO Auto-generated method stub
+		int index = limit;
+		int pageNum = offset / limit;
+		String[] properties = new String[] {
+				"task.ID",
+				"task.receiptlistID",
+				"task.taskCode",
+				"sample.factoryCode",
+				"sample.sampleName",
+				"sample.specifications",
+				"IF(testProject.nameEn IS  NULL , testProject.nameCn , "
+						+ " if ( testProject.nameCn is null ,testProject.nameEn,"
+						+ " CONCAT(testProject.nameEn,'(',testProject.nameCn,')') )) as testName ",
+				"employee.employeeName",
+				"case when task.detectState = 0 then '未领样' "
+				+ "when task.detectState = 1 then '检测中'"
+				+ "when task.detectState = 2 then '检测过程完成'"
+				+ "when task.detectState = 3 then '录入原始数据'"
+				+ "when task.detectState = 4 then '数据审核中'"
+				+ "when task.detectState = 5 then '数据审核通过'"
+				+ "when task.detectState = 6 then '录报告'"
+				+ "when task.detectState = 7 then '报告二审中'"
+				+ "when task.detectState = 8 then '报告三审中'"
+				+ "when task.detectState = 9 then '驳回'"
+				+ "when task.detectState = 10 then '签发'end as detectState",};
+		
+		String joinEntity = " left join sample on task.sampleID =sample.ID "
+				+ "left join testProject on task.testProjectID = testProject.ID "
+				+ " left join taskMan on taskMan.taskID = task.ID "
+				+"left join employee on taskMan.detector=employee.ID";
+		String condition = "1 = 1 ";
+		List<Map<String, Object>> result = searchPagingWithJoin(properties,
+				joinEntity, null, condition, false, index, pageNum);
+		int count = getForeignCountWithJoin(joinEntity, null, condition, false);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("total", count);
+		map.put("rows", result);
+
+		return map;
+	}
+
+	/**
+	 * @description 获取检测报告
+	 * @author HZZ
+	 * @date 2016年12月27日 晚上20:58:17
+	 */
+	@Override
+	public Map<String, Object> getTaskTestReportWithPaging(int limit,
+			int offset, String order, String sort) {
+		// TODO Auto-generated method stub
+		int index = limit;
+		int pageNum = offset / limit;
+		int detectState=4;
+		String[] properties = new String[] {
+				"task.ID",
+				"task.taskCode",
+				"receiptlist.receiptlistCode",
+				"fileInformation.fileName",
+				"sample.sampleName",
+				"testReport.versionNumber",
+		};
+		String joinEntity = "left join receiptlist on task.receiptlistID=receiptlist.ID"
+				+" left join sample on task.sampleID =sample.ID "
+				 +"left join testReport on testReport.taskID = task.ID "
+		         +"left join fileInformation on testReport.fileID=fileInformation.belongtoID";
+		String condition = "1 = 1 and task.detectState = "+ detectState;
+		
+		List<Map<String, Object>> result = searchPagingWithJoin(properties,
+				joinEntity, null, condition, false, index, pageNum);
+		int count = getForeignCountWithJoin(joinEntity, null, condition, false);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("total", count);
+		map.put("rows", result);
+
+		return map;
+	}
+
+	/**
+	 * @description 获取指定任务信息
+	 * @author HZZ
+	 * @date 2016年12月29日 晚上19:35:04
+	 */
+	@Override
+	public List<Map<String, Object>> getTaskInfor(String ID) {
+		// TODO Auto-generated method stub
+		String tableName = "task";
+		String[] properties = new String[]{
+			"task.taskCode",
+			"receiptlist.receiptlistCode",
+			"receiptlist.accordingDoc",	
+		};
+		String[] foreignEntitys = new String[]{
+			"receiptlist",
+		};
+		String condition = "task.ID = " + ID
+				+ " and task.receiptlistID = receiptlist.ID ";
+		
+		List<Map<String, Object>> result = entityDao.searchForeign(properties, tableName, null, foreignEntitys, condition);
+		
+		return result;
+
 	}
 
 }

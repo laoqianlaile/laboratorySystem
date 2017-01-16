@@ -1,4 +1,4 @@
-﻿package com.cqut.xiji.service.employee;
+package com.cqut.xiji.service.employee;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -26,24 +26,24 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 
 	@Resource(name="entityDao")
 	EntityDao entityDao;
-	
+
 	@Resource(name="searchDao")
 	SearchDao searchDao;
-	
+
 	@Override
 	public String getBaseEntityName() {
 		return "employee";
 	}
-	
+
 	@Override
 	public String getBasePrimaryKey() {
 		return "employee.ID";
 	}
-	
+
 		//员工登录，加入COOKIEs
 		@Override
 		public String employeeLogin(Boolean autoLogin,String LOGINNAME,String PASSWORD,String codeValue,HttpServletRequest request,HttpServletResponse response) throws Exception{
-			 
+
 			HttpSession session = request.getSession();
 		    Object sessionCode = session.getAttribute("RANDOMCODEKEY");
 		    System.out.println("进入判断是否存到cookie");
@@ -69,16 +69,16 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 	       }
 	       //加密密码
 	       //PASSWORD = MD5.GetMD5Code(PASSWORD);
-	       
+
 	       //操作对应的操作员
 	       String condition = "LOGINNAME = '"+LOGINNAME+"'";
 	       List<Employee> employee = entityDao.getByCondition(condition, Employee.class);
-	       
+
 	       //没找到对应用户
 	       if(employee.size()==0){
 	    	   return "-1";
 	       }
-	       
+
 	       Employee employee2 = employee.get(0);
 	       //禁用
 	       if(employee2 == null || employee2.getState() == 0){
@@ -87,21 +87,21 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 	       //密码错误
 	       if(employee2 == null||!employee2.getPassword().equals(PASSWORD.toString())){
 	    	   return "-3";
-	    	 
+
 	       }
-	       
+
 	       //未分配用户
 	       if( employee2.getID()==null){
 	    	   return "-5";
 	       }
-	   
+
 	       System.out.println("用户单次"+employee2.getEmployeeName()+"登录");
 	       session.setAttribute("ID", employee2.getID());
 	       session.setAttribute("EMPLOYEEID", employee2.getID());
 	       session.setAttribute("LOGINNAME", employee2.getLoginName());
-		
+
 		return "1";
-		
+
 		}
 		//用户注销
 		@Override
@@ -110,10 +110,10 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			  System.out.println("用户"+session.getAttribute("LOGINNAME")+"请求退出");
 			  session.setAttribute("LOGINNAME", "");
 			  session.setAttribute("EMPLOYEEID","");
-			 
+
 			return "1";
 		}
-		
+
 		@Override
 		public List<String> getEmployeeRole(String userID) {
 			// TODO Auto-generated method stub
@@ -121,7 +121,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 					"roleID"
 			};
 			Employee employee = entityDao.getByID(userID, Employee.class);
-			
+
 			if(employee == null )
 				return null;
 			String roleIDS = employee.getRoleID();
@@ -132,9 +132,9 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 	            return list;
 			}
 			else return null;
-			
+
 		}
-		
+
 		@Override
 		public Map<String, Object> getEmployeeWithPagingInTaskAssign(String ID,int limit,int offset,String sort,String order){
 			int index = limit;
@@ -153,23 +153,23 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 				"case when employee.state =  0 then '启用' "
 				+ "when employee.state =  1 then '禁用' end as state",
 			};
-			
+
 			String joinEntity = " left join duty on employee.dutyID = duty.ID "
 					+ " left join role on employee.roleID = role.ID ";
-			
+
 			String condition = " 1 = 1 and employee.departmentID = '" + ID + "'";
-			
+
 			List<Map<String, Object>> result = originalSearchWithpaging(properties, getBaseEntityName(), joinEntity, null, condition, false, null, sort, order, index, pageNum);
 			int count = getForeignCountWithJoin(joinEntity, null, condition, false);
-			
+
 			Map<String,Object> map = new HashMap<String, Object>();
 			map.put("total", count);
 			map.put("rows", result);
-			
+
 			return map;
-			
+
 		}
-		
+
 		@Override
 		public List<Map<String, Object>> getEmployeeName(String employeeName) {
 			String[] properties = new String[] {"ID","employeeName"};
@@ -177,7 +177,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Employee.class);
 			return result;
 		}
-		
+
 		@Override
 		public String getDepartmentID(HttpSession session){
 			String userID = (String) session.getAttribute("ID");//获取用户ID
@@ -186,14 +186,14 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 					"employee.ID as employeeID",//用户ID
 					"departmentID",//部门ID
 					"departmentName",//部门名称
-				}, "employee", 
+				}, "employee",
 				" join department on department.ID = employee.departmentID", null, null, condition);
 			return JSONArray.fromObject(list).toString();
 		}
-		
-		
+
+
 		/**
-		 * 
+		 *
 		 * @description 获取当前登录员工的ID
 		 * @author chenyubo
 		 * @created 2016年11月24日 下午3:39:15
@@ -206,9 +206,9 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			String ID = (String) session.getAttribute("EMPLOYEEID");//获取用户ID
 			return ID;
 		}
-		
+
 		/**
-		 * 
+		 *
 		 * @description 分配任务时获取当前人员所在部门的ID和名称
 		 * @author chenyubo
 		 * @created 2016年11月28日 下午10:12:06
@@ -222,10 +222,10 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 					"department.ID",
 					"department.departmentName"
 			};
-			
+
 			String joinEntity =  " left join department on department.ID = employee.departmentID ";
 			String condtion = " 1 = 1 and employee.ID = '" + ID +"' ";
-			
+
 			List<Map<String,Object>> result = this.searchForeignWithJoin(properties, joinEntity, null, condtion, false);
 			return result;
 		}
@@ -246,8 +246,8 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			List<Map<String, Object>> result = originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false);
 			return result;
 		}
-		
-		
+
+
 		/**
 		 * @descriptlion 获取员工信息
 		 * @author Hzz
@@ -279,16 +279,16 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 					"duty.dutyName",
 					"case when employee.sex = 0 then '女'"
 					+ "when employee.sex = 1 then '男' end as sex",
-					
+
 					"case when employee.state = 0 then '禁用'"
 					+ "when employee.state = 1 then '启用' end as state",
 			};
-			
+
 			String condition=" 1 = 1 "
 					+ "and employee.departmentID = department.ID "
 					+ "and employee.roleID = role.ID "
 					+ "and employee.dutyID = duty.ID";
-			
+
 			if (employeeName != null && !employeeName.equals("")) {
 				condition += " and employee.employeeName like '%"
 						+ employeeName + "%'";
@@ -307,10 +307,10 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			if (departmentName != null && !departmentName.equals("")) {
 				condition += " and department.departmentName like '%" + departmentName + "%'";
 			}
-			
+
 			String[] foreignEntitys = new String[] { "role", "department",
 			"duty" };
-			
+
 			List<Map<String, Object>> result = originalSearchWithpaging(properties,
 					tableName, null, foreignEntitys, condition, false, null, sort,
 					order, index, pageNum);
@@ -333,7 +333,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 				int sex, String email, String phoneNumber, String address,
 				String dutyID, String roleID, String departmentID) {
 			// TODO Auto-generated method stub
-			
+
 			Employee employee = new Employee();
 			employee.setID(EntityIDFactory.createId());
 			employee.setEmployeeName(employeeName);
@@ -378,7 +378,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 				int sex, String email, String phoneNumber, String address,
 				String dutyID, String roleID, String departmentID) {
 			// TODO Auto-generated method stub
-			
+
 			if(ID == null  || ID.equals("")){
 				return "false";
 			}
@@ -394,7 +394,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			employee.setDutyID(dutyID);
 			employee.setDepartmentID(departmentID);
 			employee.setRoleID(roleID);
-			
+
 			return entityDao.updatePropByID(employee,ID)==1?"true":"false";
 		}
 
@@ -413,8 +413,8 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			if(employee == null )
 				return "false";
 			employee.setState(state);
-			
+
 			return entityDao.updatePropByID(employee,ID)==1?"true":"false";
 		}
-		
+
 }

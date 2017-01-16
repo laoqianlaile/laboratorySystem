@@ -1,21 +1,15 @@
 package com.cqut.xiji.controller.task;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.cqut.xiji.service.task.ITaskService;
-
 @Controller
 @RequestMapping("/taskController")
 public class TaskController{
@@ -336,7 +330,6 @@ public class TaskController{
 		return JSONObject.fromObject(result);
 	}
 	
-
     /**
      * 
      * @discription 检查当前审核状态下是否可以上传检测报告
@@ -427,6 +420,7 @@ public class TaskController{
 	}
 	
 	/**
+*
 	 * 
 	 */
 	@RequestMapping("/downReportTemplate")
@@ -435,4 +429,59 @@ public class TaskController{
 		String result = service.downReportTemplate(taskID, projectName);
 		return result;
 	}
+
+
+    /**
+	 * @description 获取任务信息
+	 * @author HZZ
+	 * @date 2016年12月26日 17:28:05
+	 * @param limit
+	 * @param offset
+	 * @param order
+	 * @param sort
+	 * @return
+	 */
+	@RequestMapping("/getTaskInfoWithPaging")
+	@ResponseBody
+	public JSONObject getTaskInfoWithPaging(int limit, int offset,
+			String order, String sort) {
+		Map<String, Object> result = service.getTaskInfoWithPaging(limit, offset, order, sort);
+		return JSONObject.fromObject(result);
+	}
+	
+	
+	/**
+	 * @description 获取检测报告
+	 * @author HZZ
+	 * @date 2016年12月27日 晚上21:00:20
+	 * @param limit
+	 * @param offset
+	 * @param order
+	 * @param sort
+	 * @return
+	 */
+	@RequestMapping("/getTaskTestReportWithPaging")
+	@ResponseBody
+	public JSONObject getTaskTestReportWithPaging(int limit, int offset,
+			String order, String sort) {
+		Map<String, Object> result = service.getTaskTestReportWithPaging(limit, offset, order, sort);
+		return JSONObject.fromObject(result);
+	}
+	
+	
+	/**
+	 * @description 获取指定任务信息
+	 * @author HZZ
+	 * @date 2016年12月28日 晚上19:39:35
+	 * @param ID
+	 * @return
+	 */
+	@RequestMapping("/getTaskInfor")  
+	@ResponseBody
+	public String getTaskInfor(String ID){
+		System.out.println(ID);
+		List<Map<String, Object>> result = service.getTaskInfor(ID);
+		return JSONArray.fromObject(result).toString();
+	}
 }
+

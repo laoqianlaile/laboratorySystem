@@ -34,7 +34,7 @@
 	-->
 <style type="text/css">
 #container {
-	min-width: 1200px;
+	min-width: 1400px;
 }
 
 .row {

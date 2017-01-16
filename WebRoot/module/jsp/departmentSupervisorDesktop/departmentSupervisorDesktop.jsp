@@ -64,23 +64,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</table>
 	</div>
 	<span id="departmentID" style="display:none"></span>
-	<div id="right" class="container" style="width:40%;float:right">
-		<div class="row">
-			<div class="col-xs-2 col-md-2 col-lg-2">
-				<h4>文档: </h4>
+	<div id="right" style="width:40%;float:right">
+		<div class="container" style="height:350px;width:100%;">
+			<div class="row">
+				<div class="col-xs-2 col-md-2 col-lg-2">
+					<h4>文档: </h4>
+				</div>
+				<div class="col-xs-6 col-md-6 col-lg-6"></div>
+				<div class="col-xs-2 col-md-2 col-lg-2">
+					<button type="button" id="viewFile" class="btn btn-primary">查看</button>
+				</div>
+				<div class="col-xs-2 col-md-2 col-lg-2">
+					<button type="button" id="downloadFile" class="btn btn-primary">下载</button>
+				</div>
 			</div>
-			<div class="col-xs-6 col-md-6 col-lg-6"></div>
-			<div class="col-xs-2 col-md-2 col-lg-2">
-				<button type="button" id="viewFile" class="btn btn-primary">查看</button>
-			</div>
-			<div class="col-xs-2 col-md-2 col-lg-2">
-				<button type="button" id="downloadFile" class="btn btn-primary">下载</button>
-			</div>
+			<hr />
+			<!-- 文件表格 -->
+	  		<table id="fileTable">
+	  		</table>
 		</div>
-		<hr />
-		<!-- 文件表格 -->
-  		<table id="fileTable">
-  		</table>
+		<div class="container" style="width:100%;">
+			<!-- 提醒消息表格 -->
+	  		<table id="messageTable">
+	  		</table>
+		</div>
 	</div>
   </body>
   
