@@ -53,6 +53,7 @@ public interface ITaskService {
 
 	public Map<String, Object> getSampleInfoWithPaging(int limit, int offset,
 			String order, String sort, String taskID);
+
 	List<Map<String, Object>> getTaskByRelist(String receiptlistID);
 
 	public List<Map<String, Object>> getProjectName(String taskID);
@@ -61,6 +62,9 @@ public interface ITaskService {
 
 	public boolean recoverFileCheck(String taskID);
 
-	public boolean setTestReportInfo(String taskID,String remarks);
+	public boolean setTestReportInfo(String taskID, String remarks);
+
 	public boolean submitReport(String taskID);
+
+	public String downReportTemplate(String taskID, String projectName);
 }

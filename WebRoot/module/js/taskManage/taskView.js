@@ -252,6 +252,32 @@ function equipmentRegister(){
 	$("#equipmentInfo").modal("show");	
 }
 
+//下载报告模版
+function downReportTemplate() {
+	var ID = getUrlParam("taskID");
+	$.post("taskController/getProjectName.do", {
+		taskID : ID
+	}, function(result) {
+		if (result != null && result != "null" && result != "") {
+			result = JSON.parse(result);
+			$.post("taskController/downReportTemplate.do", {
+				taskID : ID,
+				projectName : result[0].name
+			}, function(fileID) {
+				if (fileID != null && fileID != "null" && fileID != "") {
+					var re = new RegExp("\"", "g");
+					fileID = fileID.replace(re, "");
+					downOneFile(fileID);
+				}else{
+					alert("下载模版出错");
+				}
+			});
+		} else {
+			alert("没有找到相关项目,不能下载模版");
+		}
+	});
+}
+
 // 上传报告
 function uploadTestReport() {
 	fileUploadInit("#file_upload");

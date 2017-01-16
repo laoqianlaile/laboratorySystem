@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
+import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.entity.sample.Sample;
 import com.cqut.xiji.entity.task.Task;
 import com.cqut.xiji.entity.taskMan.TaskMan;
@@ -21,6 +22,8 @@ import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.entity.testReport.TestReport;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
+import com.cqut.xiji.tool.util.PropertiesTool;
+import com.cqut.xiji.tool.word.WordProcess;
 
 @Service
 public class TaskService extends SearchService implements ITaskService {
@@ -869,7 +872,7 @@ public class TaskService extends SearchService implements ITaskService {
 			String testReportID = result.get("testReportID").toString();
 			TestReport tr = entityDao.getByID(testReportID, TestReport.class);
 			if (tr != null) {
-				tr.setState(2);
+				tr.setState(1);
 			}
 			int updateTaskSuccessCount = baseEntityDao.updatePropByID(tk, taskID);
 			int updateReportSuccessCount = baseEntityDao.updatePropByID(tr,testReportID);
@@ -892,6 +895,210 @@ public class TaskService extends SearchService implements ITaskService {
 		String condition = " 1 = 1 and  task.receiptlistID = " + receiptlistID; 
 		List<Map<String, Object>> result = originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false);
 		return result;
+	}
+	
+	@Override
+	public String downReportTemplate(String taskID, String projectName) {
+		Map<String, Object> taskInfoResult = baseEntityDao.findByID(
+				new String[] { "testReportID,receiptlistID" }, taskID, "ID", "task");
+		String filteCondition = "";
+		String testReportID = "";
+		String baseEntiy = "";
+		String[] properties = null;
+		String joinEntity = "";
+		if (taskInfoResult.get("testReportID") == null) {
+		    filteCondition = " where task.ID = '" + taskID + "'";
+			 baseEntiy = " ( "
+					+ " SELECT "
+					+ " template.fileID AS fileID "
+					+ " FROM "
+					+ " ( "
+					+ " SELECT "
+					+ " testproject.templateID AS templateID "
+					+ " FROM "
+					+ " ( "
+					+ " SELECT "
+					+ " task.testProjectID AS testProjectID "
+					+ " FROM "
+					+ " task "
+					+ filteCondition
+					+ " ) AS a "
+					+ " LEFT JOIN testproject ON a.testProjectID = testproject.ID "
+					+ " ) AS b "
+					+ " LEFT JOIN template ON b.templateID = template.ID "
+					+ " ) AS c ";
+			properties = new String[] { "fileinformation.path AS path" };
+			joinEntity  = " LEFT JOIN fileinformation ON c.fileID = fileinformation.ID ";
+			List<Map<String, Object>> result = entityDao.searchForeign(
+					properties, baseEntiy, joinEntity, null, null);
+			if (result == null) {
+				return null;
+			} else {
+				String filePath = result.get(0).get("path").toString();
+				System.out.println("filePath : " + filePath);
+				try {
+					baseEntiy = " ( "
+							+ " SELECT "
+							+ "b.sampleName AS sampleName,"
+							+ "b.specifications AS specifications,"
+							+ "b.requires AS requires,"
+							+ "b.testProjectName AS testProjectName,"
+							+ "b.accordingDoc AS accordingDoc,"
+							+ "b.createTime AS createTime,"
+							+ "contract.companyID AS companyID"
+							+ " FROM "
+							+ " ( "
+							+ " SELECT "
+							+ "a.sampleName AS sampleName,"
+							+ "a.specifications AS specifications,"
+							+ "a.requires AS requires,"
+							+
+							" IF ( "
+							+ "testproject.nameCn IS NULL,"
+							+ "testproject.nameEn,"
+							+
+							" IF ( "
+							+ "testproject.nameEn IS NULL,"
+							+ "testproject.nameCn,"
+							+ "CONCAT(testproject.nameCn,'(',testproject.nameEn,')'))) AS testProjectName,"
+							+ "receiptlist.contractID AS contractID,"
+							+ "receiptlist.accordingDoc AS accordingDoc,"
+							+ "DATE_FORMAT(receiptlist.createTime,'%Y-%m-%d %H:%i:%s') AS createTime"
+							+ " FROM "
+							+ " ( "
+							+ " SELECT "
+							+ "sample.sampleName AS sampleName,"
+							+ "sample.specifications AS specifications,"
+							+ "task.receiptlistID AS receiptlistID,"
+							+ "task.testProjectID AS testProjectID,"
+							+ "task.requires AS requires,"
+							+ "task.ID AS ID"
+							+ " FROM "
+							+ " task "
+							+ " LEFT JOIN sample ON task.sampleID = sample.ID "
+							+ filteCondition
+							+ " ) AS a "
+							+ " LEFT JOIN testproject ON a.testProjectID = testproject.ID "
+							+ " LEFT JOIN receiptlist ON a.receiptlistID = receiptlist.ID "
+							+ " ) AS b "
+							+ " LEFT JOIN contract ON b.contractID = contract.ID "
+							+ " ) AS c ";
+					properties = new String[] { "c.sampleName AS sampleName",
+							"c.specifications AS specifications",
+							"c.requires AS requires",
+							"c.testProjectName AS testProjectName",
+							"c.accordingDoc AS accordingDoc",
+							"c.createTime AS createTime",
+							"company.companyName AS companyName",
+							"company.address AS address" };
+					joinEntity = " LEFT JOIN company ON c.companyID = company.ID ";
+					List<Map<String, Object>> wordData = entityDao
+							.searchForeign(properties, baseEntiy, joinEntity,
+									null, null);
+					if (wordData != null) {
+						WordProcess wp = new WordProcess(false);
+						wp.openDocument(filePath);
+						if (wordData.get(0).get("sampleName") != null)
+							wp.replaceText("{样品名称}",
+									wordData.get(0).get("sampleName")
+											.toString());
+						if (wordData.get(0).get("specifications") != null)
+							wp.replaceText("{样品型号}",
+									wordData.get(0).get("specifications")
+											.toString());
+						if (wordData.get(0).get("companyName") != null)
+							wp.replaceText("{委托方}",
+									wordData.get(0).get("companyName")
+											.toString());
+						if (wordData.get(0).get("address") != null)
+							wp.replaceText("{委托方地址}",
+									wordData.get(0).get("address").toString());
+						if (wordData.get(0).get("createTime") != null)
+							wp.replaceText("{接收日期}",
+									wordData.get(0).get("createTime")
+											.toString());
+						if (wordData.get(0).get("requires") != null)
+							wp.replaceText("{任务的要求描述}",
+									wordData.get(0).get("requires").toString());
+						if (wordData.get(0).get("testProjectName") != null)
+							wp.replaceText("{检测项目的检测方法}",
+									wordData.get(0).get("testProjectName")
+											.toString());
+						if (wordData.get(0).get("accordingDoc") != null)
+							wp.replaceText("{交接单的依据文件}",
+									wordData.get(0).get("accordingDoc")
+											.toString());
+						PropertiesTool pt = new PropertiesTool();
+						String path = pt.getSystemPram("filePath") + "\\"
+								+ "项目文件\\" + projectName + "\\" + "报告文件\\";
+						String fileName = "";
+						if (wordData.get(0).get("sampleName") != null) {
+							fileName += wordData.get(0).get("sampleName")
+									.toString();
+						}
+						if (wordData.get(0).get("testProjectName") != null) {
+							fileName += "的"
+									+ wordData.get(0).get("testProjectName")
+											.toString();
+						}
+						
+					    testReportID = EntityIDFactory.createId();
+						fileName += "_" + testReportID + ".docx";
+						path += fileName;
+						wp.save(path);
+						wp.close();
+						Task tk = entityDao.getByID(taskID, Task.class);
+						tk.setDetectstate(1);
+						tk.setTestReportID(testReportID);
+						baseEntityDao.updatePropByID(tk, taskID);
+						
+						FileInformation fi = new FileInformation();
+						String fileID = EntityIDFactory.createId();
+						fi.setID(fileID);
+						fi.setBelongtoID(taskID);
+						fi.setFileName(fileName);
+						fi.setPath(path);
+						Date now = new Date(System.currentTimeMillis());
+						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						fi.setUploadTime(dateFormat.parse(dateFormat.format(now)));
+						fi.setState(0);
+						fi.setType(2);
+					    baseEntityDao.save(fi);
+
+						TestReport tr = new TestReport();
+						String receiptlistID = taskInfoResult.get("receiptlistID").toString();
+						tr.setID(testReportID);
+						tr.setReceiptlistID(receiptlistID);
+						tr.setTaskID(taskID);
+					 // tr.setVersionNumber(""); tr.setVersionInformation("");
+							tr.setState(0);
+							tr.setFileID(fileID);
+						tr.setSendState(0);
+					    baseEntityDao.save(tr);
+						return fileID;
+					} else {
+						return null;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return null;
+			}
+		} else {
+			testReportID = taskInfoResult.get("testReportID").toString();
+			baseEntiy = " fileinformation ";
+			properties = new String[] { "fileinformation.ID AS ID" };
+			joinEntity = " LEFT JOIN testreport ON fileinformation.ID = testreport.fileID ";
+			filteCondition = " testreport.ID = '" + testReportID + "'";
+			List<Map<String, Object>> result = entityDao.searchForeign(
+					properties, baseEntiy, joinEntity, null, filteCondition);
+			if (result != null) {
+				String fileID = result.get(0).get("ID").toString();
+				return fileID;
+			} else {
+				return null;
+			}
+		}
 	}
 
 }

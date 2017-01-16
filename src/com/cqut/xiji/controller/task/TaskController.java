@@ -425,4 +425,14 @@ public class TaskController{
 		List<Map<String,Object>> result = service.getTaskByRelist(ReceiptlistID);
 		return JSONArray.fromObject(result).toString();
 	}
+	
+	/**
+	 * 
+	 */
+	@RequestMapping("/downReportTemplate")
+	@ResponseBody
+	public String downReportTemplate(String taskID, String projectName) {
+		String result = service.downReportTemplate(taskID, projectName);
+		return result;
+	}
 }
