@@ -12,6 +12,11 @@
 
 # -classpath
 *.classpath
+.classpath
+.settings/com.genuitec.runtime.libraries.xml
+WebRoot/WEB-INF/lib/jacob-1.14.3.jar
+.settings/org.eclipse.jdt.core.prefs
+.settings/org.eclipse.wst.common.project.facet.core.xml
 .settings/com.genuitec.eclipse.migration.prefs
 .settings/org.eclipse.jdt.core.prefs
 .settings/org.eclipse.wst.common.project.facet.core.xml
