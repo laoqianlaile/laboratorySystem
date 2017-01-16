@@ -139,54 +139,54 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					class="form-control" aria-describedby="basic-addon1">
 			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="col-xs-3 col-md-3 col-lg-3">
-			<div class="timeLabelDiv">
-				<label class="control-label">委托时间:</label>
-			</div>
-			<div class="input-group date form_datetime timeChooseDiv">
-				<input class="form-control" id="acceptSampleTime_start" size="16"
-					type="text" value="" readonly="true"> <span
-					class="input-group-addon"><span
-					class="glyphicon glyphicon-remove"></span></span> <span
-					class="input-group-addon"><span
-					class="glyphicon glyphicon-calendar"></span></span>
-			</div>
-		</div>
-		<div class="col-xs-3 col-md-3 col-lg-3">
-			<div class="timeLabelDiv">
-				<label class="control-label">至:</label>
-			</div>
-			<div class="input-group date form_datetime timeChooseDiv">
-				<input class="form-control" id="acceptSampleTime_end" size="16"
-					type="text" value="" readonly="true"> <span
-					class="input-group-addon"><span
-					class="glyphicon glyphicon-remove"></span></span> <span
-					class="input-group-addon"><span
-					class="glyphicon glyphicon-calendar"></span></span>
-			</div>
-		</div>
-		<div class="col-xs-3 col-md-3 col-lg-3">
-			<label>检测/校准进度：</label><select id="state" name="state"
-				class="form-control" aria-describedby="basic-addon1">
-				<option value="-1"></option>
-				<option value="1">检测中</option>
-				<option value="2">已完成</option>
-			</select>
-		</div>
-		<div class="col-xs-3 col-md-3 col-lg-3">
-			<label>分配状态：</label><select id="assignState" name="assignState"
-				class="form-control" aria-describedby="basic-addon1">
-				<option value="-1"></option>
-				<option value="1">未分配</option>
-				<option value="2">已分配</option>
-			</select>
-		</div>
 		<div class="row">
-			<div class="<col-xs-11></col-xs-11> col-md-11 col-lg-11"></div>
-			<div class="col-xs-1 col-md-1 col-lg-1">
-				<button type="button" id="search" class="btn btn-primary">查询</button>
+			<div class="col-xs-3 col-md-3 col-lg-3">
+				<div class="timeLabelDiv">
+					<label class="control-label">委托时间:</label>
+				</div>
+				<div class="input-group date form_datetime timeChooseDiv">
+					<input class="form-control" id="acceptSampleTime_start" size="16"
+						type="text" value="" readonly="true"> <span
+						class="input-group-addon"><span
+						class="glyphicon glyphicon-remove"></span></span> <span
+						class="input-group-addon"><span
+						class="glyphicon glyphicon-calendar"></span></span>
+				</div>
+			</div>
+			<div class="col-xs-3 col-md-3 col-lg-3">
+				<div class="timeLabelDiv">
+					<label class="control-label">至:</label>
+				</div>
+				<div class="input-group date form_datetime timeChooseDiv">
+					<input class="form-control" id="acceptSampleTime_end" size="16"
+						type="text" value="" readonly="true"> <span
+						class="input-group-addon"><span
+						class="glyphicon glyphicon-remove"></span></span> <span
+						class="input-group-addon"><span
+						class="glyphicon glyphicon-calendar"></span></span>
+				</div>
+			</div>
+			<div class="col-xs-3 col-md-3 col-lg-3">
+				<label>检测/校准进度：</label><select id="state" name="state"
+					class="form-control" aria-describedby="basic-addon1">
+					<option value="-1"></option>
+					<option value="1">检测中</option>
+					<option value="2">已完成</option>
+				</select>
+			</div>
+			<div class="col-xs-3 col-md-3 col-lg-3">
+				<label>分配状态：</label><select id="assignState" name="assignState"
+					class="form-control" aria-describedby="basic-addon1">
+					<option value="-1"></option>
+					<option value="1">未分配</option>
+					<option value="2">已分配</option>
+				</select>
+			</div>
+			<div class="row">
+				<div class="<col-xs-11></col-xs-11> col-md-11 col-lg-11"></div>
+				<div class="col-xs-1 col-md-1 col-lg-1">
+					<button type="button" id="search" class="btn btn-primary">查询</button>
+				</div>
 			</div>
 		</div>
 	</div>
