@@ -8,8 +8,8 @@
 <!-- basic styles -->
 <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/font-awesome.min.css" />
+<link rel="stylesheet" href="assets/css/font-awesome-4.7.min.css" />
 
-<!-- <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" /> -->
 <link rel="stylesheet" href="assets/css/font-OpenSans.css" />
 <link rel="stylesheet" href="assets/css/ace.min.css" />
 <link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
@@ -159,7 +159,7 @@
 							class="dropdown-toggle"> <img class="nav-user-photo"
 								src="assets/avatars/user.jpg" alt="Jason's Photo" /> <span
 								class="user-info"> <small>欢迎光临,</small> Jason
-							</span> <i class="icon-caret-down"></i>
+							</span> <i class="fa fa-caret-down"></i>
 						</a>
 
 							<ul
@@ -216,11 +216,11 @@
 							</button>
 
 							<button class="btn btn-warning">
-								<i class="icon-group"></i>
+								<i class="icon-users"></i>
 							</button>
 
 							<button class="btn btn-danger">
-								<i class="icon-cogs"></i>
+								<i class="fa fa-cogs"></i>
 							</button>
 						</div>
 
@@ -284,9 +284,9 @@
 					</ul>
 					<!-- 左边菜单栏下面，右藏功能 -->
 					<div class="sidebar-collapse" id="sidebar-collapse">
-						<i class="icon-double-angle-left"
-							data-icon1="icon-double-angle-left"
-							data-icon2="icon-double-angle-right"></i>
+						<i class="icon-angle-double-left"
+							data-icon1="icon-angle-double-left"
+							data-icon2="icon-angle-double-right"></i>
 					</div>
 
 					<script type="text/javascript">
@@ -328,7 +328,7 @@
 
 					<div class="alert alert-block alert-success">
 						<button type="button" class="close" data-dismiss="alert">
-							<i class="icon-remove"></i>
+							<i class="fa fa-remove"></i>
 						</button>
 
 						<i class="icon-ok green"></i> 欢迎使用 <strong class="green">
@@ -401,7 +401,7 @@
 			<!-- 设置整体部分-->
 			<a href="#" id="btn-scroll-up"
 				class="btn-scroll-up btn btn-sm btn-inverse"> <i
-				class="icon-double-angle-up icon-only bigger-110"></i>
+				class="fa fa-angle-double-up fa-only bigger-110"></i>
 			</a>
 		</div>
 		<!-- /.main-container -->
@@ -457,7 +457,7 @@
 		<script src="assets/js/jquery.slimscroll.min.js"></script>
 		<script src="assets/js/jquery.easy-pie-chart.min.js"></script>
 		<script src="assets/js/jquery.sparkline.min.js"></script>
-		<script src="assets/js/flot/jquery.flot.min.js"></script>
+		<script src="assets/js/flot/jquery.flot.min.js"></script><!--  -->
 		<script src="assets/js/flot/jquery.flot.pie.min.js"></script>
 		<script src="assets/js/flot/jquery.flot.resize.min.js"></script>
 
