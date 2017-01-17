@@ -20,7 +20,7 @@ function initData(){
 function initContractTable(){
 	
 	$('.contractTable').bootstrapTable({
-						// 定义表格的高度height: 500,
+					
 				striped : true,// 隔行变色效果
 				pagination : true,// 在表格底部显示分页条
 				pageSize : 5,// 页面数据条数
@@ -215,6 +215,7 @@ function initTidingsTable(){
 	$('.tidingsTable').bootstrapTable( 
 			{
 						// 定义表格的高度height: 500,
+		
 				striped : true,// 隔行变色效果
 				pagination : true,// 在表格底部显示分页条
 				pageSize : 5,// 页面数据条数
