@@ -126,11 +126,8 @@
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div style="display: none;" class="col-xs-12 col-md-12">
-							<h4>ID：</h4>
-							<input type="text" id="StandardID" name="StandardID"
-								class="form-control" aria-describedby="basic-addon1" ></input>
-						</div>
+							<input type="hidden" id="StandardID" name="StandardID"
+								class="form-control" aria-describedby="basic-addon1" />
 						<div class="col-xs-12 col-md-12">
 							<h4>原因：</h4>
 							<textarea id="Suggest" name="Suggest"

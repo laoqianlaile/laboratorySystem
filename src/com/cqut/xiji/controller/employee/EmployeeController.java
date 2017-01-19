@@ -246,4 +246,56 @@ public class EmployeeController {
 			String result = service.updEmployeeState(ID, state);
 			return result;
 		}
+		
+		/**
+		 * 
+		 * 获取当前session值中员工信息
+		 * 
+		 * @author zkl
+		 * @param employeeID 员工ID
+		 * @return
+		 */
+		@RequestMapping("/getEmployeeinfo")
+		@ResponseBody
+		public String getEmployeeinfo(String employeeID){
+			List<Map<String, Object>> result = service.getEmployeeinfo(employeeID);
+			return JSONArray.fromObject(result).toString();
+		}
+		
+		/**
+		 * 
+		 * 个人信息设置
+		 * 
+		 * @author zkl
+		 * @param employeeID
+		 * @param employeeName
+		 * @param sex
+		 * @param phoneNumber
+		 * @param email
+		 * @param address
+		 * @return
+		 */
+		@RequestMapping("/editInfo")
+		@ResponseBody
+		public String editInfo(String employeeID,String employeeName,String sex,String phoneNumber,String email,String address){
+			String result = service.editInfo(employeeID,employeeName,sex,phoneNumber,email,address);
+			return result;
+		}
+		
+		
+		/**
+		 * 
+		 * 员工修改登录密码
+		 * 
+		 * @author zkl
+		 * @param employeeID
+		 * @param newpwd
+		 * @return
+		 */
+		@RequestMapping("/editEmployeePwd")
+		@ResponseBody
+		public String editEmployeePwd(String employeeID,String newpwd){
+			String result = service.editEmployeePwd(employeeID,newpwd);
+			return result;
+		}
 }
