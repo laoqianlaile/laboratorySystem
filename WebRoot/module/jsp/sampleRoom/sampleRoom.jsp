@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>西计实验室管理系统</title>
 <link rel="stylesheet" type="text/css" href="../../css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="../../css/bootstrap-table.css">
 
@@ -101,6 +101,9 @@
 	border-radius:5px;
 	background: rgba(182, 176, 176, 0.3);
 }
+.fixed-table-body #table .bs-checkbox {
+vertical-align: middle;
+}   
 </style>
 </head>
 <body>

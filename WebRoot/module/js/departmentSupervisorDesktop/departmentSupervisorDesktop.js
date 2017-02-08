@@ -293,9 +293,9 @@ function initMessageTable() {
 			formatter : function(value, row, index) {
 				if (value == "未查看")
 					var look = "", edit = "", download = "";
-				look = '<button onclick= "lookMessage(\''
-						+ row.ID
-						+ '\')" data-toggle="tooltip" data-placement="top" title="确认查看"  class="icon-eye-open" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></button>';
+				look = '<span onclick= "lookMessage(\''
+						+ row.mnID
+						+ '\')" data-toggle="tooltip" data-placement="top" title="确认查看"  class="icon-eye-open" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
 				return look;
 			}
 		}]
@@ -303,25 +303,25 @@ function initMessageTable() {
 }
 
 function lookMessage(ID){
-	alert('查看!');
-//	var isLook = confirm("确认已经查看信息！");
-//	if(isLook == true){
-//		$.ajax({
-//			url : '/laboratorySystem/receiptlistController/addTaskAndSampleWithEdit.do',
-//			dataType : "json",
-//			type : "post",
-//			contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
-//			async : false,
-//			data : {
-//				ID:ID
-//			},
-//			success : function(o) {
-//				$('.fileTable').bootstrapTable( 'refresh',null);
-//			},
-//			error : function() {
-//			}
-//		});
-//	}
+	var isLook = confirm("确认已经查看信息！");
+	if(isLook == true){
+		$.ajax({
+			url : 'messageController/readedMessageByID.do',
+			dataType : "json",
+			type : "post",
+			contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
+			async : false,
+			data : {
+				messageNoticeID:ID
+			},
+			success : function(o) {
+				
+			},
+			error : function() {
+			}
+		});
+		$('#messageTable').bootstrapTable( 'refresh',null);
+	}
 }
 
 //验证提示信息数据

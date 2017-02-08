@@ -5,11 +5,12 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>西计实验室管理系统</title>
 <!-- basic styles -->
 <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/font-awesome.min.css" />
+<link rel="stylesheet" href="assets/css/font-awesome-4.7.min.css" />
 
-<!-- <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" /> -->
 <link rel="stylesheet" href="assets/css/font-OpenSans.css" />
 <link rel="stylesheet" href="assets/css/ace.min.css" />
 <link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
@@ -34,9 +35,26 @@
 	border: 1px solid #ccc;
 	border-width: 0 1px 0 0;
 	background-color: #f2f2f2; */
-	top: 45px;
+	/* top: 45px; */
+    height: auto;
+    position: static;
 }
 
+
+
+
+.sidebar:before {
+    content: "";
+    display: block;
+    width: 190px;
+    position: absolute;
+    bottom: 0px;
+    top: 0;
+    z-index: -1;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-width: 0 1px 0 0;
+}
 .sidebar.display {
 	/* display: block;
 	padding-bottom: 0; */
@@ -69,67 +87,16 @@
 #navName {
 	font-size: 22px;
 }
-/* .tree {
-    min-height:20px;
-    padding:19px;
-    margin-bottom:20px;
-    background-color:#fbfbfb;
-    border:1px solid #999;
-    -webkit-border-radius:4px;
-    -moz-border-radius:4px;
-    border-radius:4px;
-    -webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
-    -moz-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
-    box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05)
+#content_frame{
+	
+	width: 100%;
 }
-.tree li {
-    list-style-type:none;
-    margin:0;
-    padding:10px 5px 0 5px;
-    position:relative
+.col-xs-12-w{
+margin-left: 5px;
 }
-.tree li::before, .tree li::after {
-    content:'';
-    left:-20px;
-    position:absolute;
-    right:auto
-}
-.tree li::before {
-    border-left:1px solid #999;
-    bottom:50px;
-    height:100%;
-    top:0;
-    width:1px
-}
-.tree li::after {
-    border-top:1px solid #999;
-    height:20px;
-    top:25px;
-    width:25px
-}
-.tree li span {
-    -moz-border-radius:5px;
-    -webkit-border-radius:5px;
-    border:1px solid #999;
-    border-radius:5px;
-    display:inline-block;
-    padding:3px 8px;
-    text-decoration:none
-}
-.tree li.parent_li>span {
-    cursor:pointer
-}
-.tree>ul>li::before, .tree>ul>li::after {
-    border:0
-}
-.tree li:last-child::before {
-    height:30px
-}
-.tree li.parent_li>span:hover, .tree li.parent_li>span:hover+ul li span {
-    background:#eee;
-    border:1px solid #94a0b4;
-    color:#000
-} */
+.fixed-table-body #table .bs-checkbox {
+vertical-align: middle;
+}   
 </style>
 
 </head>
@@ -159,7 +126,7 @@
 							class="dropdown-toggle"> <img class="nav-user-photo"
 								src="assets/avatars/user.jpg" alt="Jason's Photo" /> <span
 								class="user-info"> <small>欢迎光临,</small> Jason
-							</span> <i class="icon-caret-down"></i>
+							</span> <i class="fa fa-caret-down"></i>
 						</a>
 
 							<ul
@@ -216,11 +183,11 @@
 							</button>
 
 							<button class="btn btn-warning">
-								<i class="icon-group"></i>
+								<i class="icon-users"></i>
 							</button>
 
 							<button class="btn btn-danger">
-								<i class="icon-cogs"></i>
+								<i class="fa fa-cogs"></i>
 							</button>
 						</div>
 
@@ -284,9 +251,9 @@
 					</ul>
 					<!-- 左边菜单栏下面，右藏功能 -->
 					<div class="sidebar-collapse" id="sidebar-collapse">
-						<i class="icon-double-angle-left"
-							data-icon1="icon-double-angle-left"
-							data-icon2="icon-double-angle-right"></i>
+						<i class="icon-angle-double-left"
+							data-icon1="icon-angle-double-left"
+							data-icon2="icon-angle-double-right"></i>
 					</div>
 
 					<script type="text/javascript">
@@ -328,16 +295,16 @@
 
 					<div class="alert alert-block alert-success">
 						<button type="button" class="close" data-dismiss="alert">
-							<i class="icon-remove"></i>
+							<i class="fa fa-remove"></i>
 						</button>
 
 						<i class="icon-ok green"></i> 欢迎使用 <strong class="green">
 							西计后台管理系统 <small>(v1.2)</small>
 						</strong> ,轻量级好用的后台管理系统.
 					</div>
-					<div class="col-xs-12">
+					<div class="col-xs-12-w">
 						<div class="datagrid">
-							<iframe id="content_frame" name="aa" width=100% height=800
+							<iframe id="content_frame" name="aa" 
 								frameborder=0 scrolling=auto></iframe>
 						</div>
 					</div>
@@ -401,7 +368,7 @@
 			<!-- 设置整体部分-->
 			<a href="#" id="btn-scroll-up"
 				class="btn-scroll-up btn btn-sm btn-inverse"> <i
-				class="icon-double-angle-up icon-only bigger-110"></i>
+				class="fa fa-angle-double-up fa-only bigger-110"></i>
 			</a>
 		</div>
 		<!-- /.main-container -->
@@ -457,7 +424,7 @@
 		<script src="assets/js/jquery.slimscroll.min.js"></script>
 		<script src="assets/js/jquery.easy-pie-chart.min.js"></script>
 		<script src="assets/js/jquery.sparkline.min.js"></script>
-		<script src="assets/js/flot/jquery.flot.min.js"></script>
+		<script src="assets/js/flot/jquery.flot.min.js"></script><!--  -->
 		<script src="assets/js/flot/jquery.flot.pie.min.js"></script>
 		<script src="assets/js/flot/jquery.flot.resize.min.js"></script>
 
