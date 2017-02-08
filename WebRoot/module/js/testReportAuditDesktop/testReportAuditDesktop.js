@@ -13,6 +13,9 @@ $(function () {
 	// 初始化交接单表格
 	initTable();
 	
+	// 初始化提醒信息表格
+	initMessageTable()
+	
 	// 查看检测报告列表按钮点击事件
 	$('#viewReportList').click(function (){
 		var data = $('#table').bootstrapTable('getSelections');
@@ -32,12 +35,11 @@ $(function () {
 		if(data.length==0 || data.length>1){
 			alert("请选中一条数据");
 			return;
-			
 		}
 		
 		var ID = data[0].ID;
-		alert('审核检测报告');
-//		window.location.href = window.location.href.replace('departmentSupervisorDesktop.jsp','workloadStatistical.jsp') + '?ID='+ID;
+		alert('审核检测报告' + ID);
+		window.location.href = window.location.href.replace('testReportAuditDesktop/testReportAuditDesktop.jsp','testReportSecondAuditManage/testReportSecondAuditManage.jsp') + '?ID='+ID;
 	});
 	
 	// 打印报告按钮点击事件
@@ -50,7 +52,7 @@ $(function () {
 		}
 		
 		var ID = data[0].ID;
-		alert('打印报告');
+		alert('打印报告' + ID);
 //		window.location.href = window.location.href.replace('departmentSupervisorDesktop/departmentSupervisorDesktop.jsp','taskAssignManage/taskAssign.jsp') + '?ID='+ID;
 	});
 	
@@ -234,4 +236,118 @@ function refreshFileTable(receiptlistID){
 	});
 }
 
+//初始化提醒信息表格
+function initMessageTable() {
+	var order = 1;
+	$('#messageTable').bootstrapTable({
+		//定义表格的高度height: 500,
+		striped: true,// 隔行变色效果
+		pagination: true,//在表格底部显示分页条
+		pageSize: 10,//页面数据条数
+		pageNumber:1,//首页页码
+		pageList: [5, 10],//设置可供选择的页面数据条数
+		clickToSelect:true,//设置true 将在点击行时，自动选择rediobox 和 checkbox
+		cache: false,//禁用 AJAX 数据缓存
+//		sortName:'message.ID',//定义排序列
+		sortOrder:'asc',//定义排序方式
+		url:'messageController/getMessageByUserID.do',//服务器数据的加载地址
+		sidePagination:'server',//设置在哪里进行分页
+		contentType:'application/json',//发送到服务器的数据编码类型
+		dataType:'json',//服务器返回的数据类型
+		queryParamsType: "limit", //参数格式,发送标准的RESTFul类型的参数请求
+		selectItemName:'',//radio or checkbox 的字段名
+		singleSelect:true,//禁止多选
+		columns : [{
+			title : '序号 ',// 列名
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width : '5%',// 宽度
+			visible : true,
+			formatter : function(value, row, index) {
+				checkDataTiding(row);
+				return order++;
+			}
+		},{
+			field : 'mnID',// 返回值名称
+			title : 'messageNoticeID',// 列名
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width : '0',// 宽度
+			visible : false
+		},{
+			field : 'mID',// 返回值名称
+			title : 'message ID',// 列名
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width : '0',// 宽度
+			visible : false
+		},{
+			field : 'content',// 返回值名称
+			title : '消息内容',// 列名
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width : '50%',// 宽度
+		},{
+			field : 'createTime',// 返回值名称
+			title : '时间',// 列名
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width : '35%'// 宽度
+		},{
+			field : 'state',// 返回值名称
+			title : '操作',// 列名
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width : '10%',// 宽度
+			formatter : function(value, row, index) {
+				if (value == "未查看")
+					var look = "", edit = "", download = "";
+				look = '<span onclick= "lookMessage(\''
+						+ row.mnID
+						+ '\')" data-toggle="tooltip" data-placement="top" title="确认查看"  class="icon-eye-open" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
+				return look;
+			}
+		}]
+	});
+}
 
+function lookMessage(ID){
+	var isLook = confirm("确认已经查看信息！");
+	if(isLook == true){
+		$.ajax({
+			url : 'messageController/readedMessageByID.do',
+			dataType : "json",
+			type : "post",
+			contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
+			async : false,
+			data : {
+				messageNoticeID:ID
+			},
+			success : function(o) {
+				
+			},
+			error : function() {
+			}
+		});
+		$('#messageTable').bootstrapTable( 'refresh',null);
+	}
+}
+//验证提示信息数据
+function checkDataTiding(dataObj){
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
+			|| dataObj.ID.trim() == "NULL") {
+		dataObj.ID = "";
+	}
+	if (!dataObj.hasOwnProperty("content") || dataObj.content == null
+			|| dataObj.content.trim() == "NULL") {
+		dataObj.content = "";
+	}
+	if (!dataObj.hasOwnProperty("createTime") || dataObj.createTime == null
+			|| dataObj.createTime.trim() == "NULL") {
+		dataObj.createTime = "";
+	}
+	if (!dataObj.hasOwnProperty("state") || dataObj.state == null
+			|| dataObj.state.trim() == "NULL") {
+		dataObj.remarks = "未查看";
+	}
+}

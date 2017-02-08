@@ -1,4 +1,4 @@
-﻿package com.cqut.xiji.service.template;
+package com.cqut.xiji.service.template;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,13 +19,13 @@ import com.cqut.xiji.tool.util.EntityIDFactory;
 
 @Service
 public class TemplateService extends SearchService implements ITemplateService{
-	
+
 	@Resource(name="entityDao")
 	EntityDao entityDao;
-	
+
 	@Resource(name="searchDao")
 	SearchDao searchDao;
-	
+
 	@Resource(name="baseEntityDao")
 	BaseEntityDao baseEntityDao;
 
@@ -47,7 +47,7 @@ public class TemplateService extends SearchService implements ITemplateService{
 		int pageNum = offset / limit;
 
 		String tableName = "template";
-		String[] properties = new String[] { 
+		String[] properties = new String[] {
 				"template.ID",
 				"template.NAME",
 				"template.fileID",
@@ -60,14 +60,14 @@ public class TemplateService extends SearchService implements ITemplateService{
 						+"when template.TEMPLATETYPE = 1 then '合同附件'"
 						+"when template.TEMPLATETYPE = 2 then '交接单文件'"
 						+"when template.TEMPLATETYPE = 3 then '报告文件' end as TEMPLATETYPE",
-						
+
 				"DATE_FORMAT(fileInformation.UPLOADTIME,'%Y-%m-%d') as UPLOADTIME ",
-				
+
 				"case when template.STATE = 0 then '待审核'"
 						+ "when template.STATE = 1 then '通过'"
 						+ "when template.STATE = 2 then '已废弃'"
 						+ "when template.STATE = 3 then '驳回' end as STATE"
-				
+
 		};
 
 		String condition = " 1 = 1  ";
@@ -82,16 +82,16 @@ public class TemplateService extends SearchService implements ITemplateService{
 			condition += " and UPLOADTIME between '" + uPLOADTIME1
 					+ "' and '" + uPLOADTIME2 +"'";
 		}
-		
+
 		String joinEntity = "LEFT JOIN fileInformation ON template.fileID = fileInformation.ID  "
 				+ "LEFT JOIN employee AS EMPLOYEE1 ON template.verifyMan = employee1.ID  "
 				+ "LEFT JOIN employee AS EMPLOYEE2 ON fileInformation.uploaderID = employee2.ID ";
-		
+
 		List<Map<String, Object>> result = originalSearchWithpaging(properties,
 				tableName, joinEntity, null, condition, false, null,
 				sort,order, index, pageNum);
 
-		
+
 		//int count = getForeignCount(null, condition, false);
 		int count = getForeignCountWithJoin(joinEntity, null, condition, false);
 
@@ -99,12 +99,12 @@ public class TemplateService extends SearchService implements ITemplateService{
 		map.put("total", count);
 		map.put("rows", result);
 		return map;
-		
+
 	}
 
 	@Override
 	public String delTemplate(String templateIDs) {
-		
+
 		if(templateIDs == null || templateIDs.isEmpty()){
 			return 0+"";
 		}
@@ -116,21 +116,21 @@ public class TemplateService extends SearchService implements ITemplateService{
 	@Override
 	public String addTemplate(String TemplateName, String TemplateRemarks,
 			String TemplateType, String TestProjectID,String fileID,String uploaderID) {
-		
+
 		int result = 0;
-		
+
 		Template template = new Template();
-		
-		
+
+
 		template.setID(EntityIDFactory.createId()); // 生成ID
 		template.setName(TemplateName);
 		template.setFileID(fileID);
 		template.setTemplateType(Integer.parseInt(TemplateType));
 		template.setRemarks(TemplateRemarks);
 		template.setState(0);//信上传的模板都是默认待审核（0）
-		
+
 		result += entityDao.save(template);
-		
+
 		// 文件所属ID
 		FileInformation fileInformation = new FileInformation();
 		fileInformation.setRemarks(TemplateRemarks);
@@ -138,14 +138,14 @@ public class TemplateService extends SearchService implements ITemplateService{
 		fileInformation.setUploaderID(uploaderID);
 
 		result += entityDao.updatePropByID(fileInformation, fileID);
-		
+
 		//关联检测项目
-		
-		
+
+
 		TestProject project = new TestProject();
-		
+
 		project.setTemplateID(template.getID());
-		
+
 		result += entityDao.updatePropByID(project, TestProjectID);
 		return result +"";
 	}
@@ -157,7 +157,7 @@ public class TemplateService extends SearchService implements ITemplateService{
 		template.setVerifyMan(verifyMan);
 		int result = entityDao.updatePropByID(template, ID);
 		return result+"";
-		
+
 	}
 	@Override
 	public String updPasstemplate(String ID,String SUGGEST,String verifyMan){
@@ -167,7 +167,7 @@ public class TemplateService extends SearchService implements ITemplateService{
 		template.setVerifyMan(verifyMan);
 		int result = entityDao.updatePropByID(template, ID);
 		return result+"";
-		
+
 	}
-	
+
 }

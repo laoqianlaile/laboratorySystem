@@ -16,7 +16,7 @@ $(function() {
 			$("#secretLevel").text(result[0].classifiedLevel);
 			$("#accordingInfo").text(result[0].requires);
 		}
-	})
+	});
 	
 
 	$.post("taskController/getSampleManageInfo.do",{
@@ -44,7 +44,6 @@ $(function() {
 	    queryParamsType: "limit", 
 		selectItemName : '',// radio or checkbox 的字段名
 		columns : [{
-
 			checkbox : true,
 			width :"1%"// 宽度
 		},{
@@ -123,21 +122,33 @@ $(function() {
 	    return searchCondition;
 	}
 	
-	// 得到交接单对应文件的信息
+
+	var param = {
+		taskID : ID
+	};
+	
+	// 得到任务对应文件的信息
 	$("#taskFile").bootstrapTable({
 		striped : true,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
      	pageSize : 5,// 页面数据条数
 		pageNumber : 1,// 首页页码
+		pageList : [ 5, 10 ],
 		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache : false,// 禁用 AJAX 数据缓存
-    	sortName : 'ID',// 定义排序列
+    	sortName : 'uploadTime',// 定义排序列
     	sortOrder : 'DESC',// 定义排序方式
 		url : 'fileInformationController/getFileInTaskViewWithPaging.do',// 服务器数据的加载地址
 		sidePagination : 'server',// 设置在哪里进行分页
 		contentType : 'application/json',// 发送到服务器的数据编码类型
 		dataType : 'json',// 服务器返回的数据类型
-		queryParams : search,
+		queryParams : function queryParams(params) { //请求服务器数据时,添加一些额外的参数
+			param.limit = params.limit;// 页面大小
+			param.offset = params.offset; // 偏移量
+			param.sort = params.sort; // 排序列名
+			param.order = params.order; // 排位方式
+			return param;
+		},
 		queryParamsType : "limit", // 参数格式,发送标准的RESTFul类型的参数请求
 		columns : [ {
 			checkbox : true,
@@ -252,6 +263,32 @@ function equipmentRegister(){
 	$("#equipmentInfo").modal("show");	
 }
 
+//下载报告模版
+function downReportTemplate() {
+	var ID = getUrlParam("taskID");
+	$.post("taskController/getProjectName.do", {
+		taskID : ID
+	}, function(result) {
+		if (result != null && result != "null" && result != "") {
+			result = JSON.parse(result);
+			$.post("taskController/downReportTemplate.do", {
+				taskID : ID,
+				projectName : result[0].name
+			}, function(fileID) {
+				if (fileID != null && fileID != "null" && fileID != "") {
+					var re = new RegExp("\"", "g");
+					fileID = fileID.replace(re, "");
+					downOneFile(fileID);
+				}else{
+					alert("下载模版出错");
+				}
+			});
+		} else {
+			alert("没有找到相关项目,不能下载模版");
+		}
+	});
+}
+
 // 上传报告
 function uploadTestReport() {
 	fileUploadInit("#file_upload");
@@ -293,6 +330,33 @@ function uploadSure() {
 		setTestReportInfo(ID,remarksInfo);
 	}, 1500);
 }
+
+// 查看报告
+function onlineViewReport() {
+	var ID = getUrlParam("taskID");
+	$.post("taskController/getReportPath.do", {
+		taskID : ID
+	}, function(path) {
+		if (path != null && path != "null" && path != "") {
+			var re = new RegExp("\"", "g");
+			path = path.replace(re, "");
+			$.post("fileOperateController/onlinePreview.do", {
+				filePath : path
+			}, function(result) {
+				var re = new RegExp("\"", "g");
+				result = result.replace(re, "");
+				if (result != null && result != "null" && result != "") {
+					window.location.href = "module/jsp/documentOnlineView.jsp";
+				} else {
+					alert("无法查看");
+				}
+			});
+		} else {
+			alert("无法查看");
+		}
+	});
+}
+
 
 // 添加或更新检测报告信息
 function setTestReportInfo() {

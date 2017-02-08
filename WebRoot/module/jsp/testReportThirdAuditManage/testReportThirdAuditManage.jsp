@@ -97,6 +97,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				&nbsp;
 				<button type="button" class="btn btn-primary glyphicon glyphicon-arrow-down" onclick="filelDown()">下载</button>
 				&nbsp;
+				<button type="button" class="btn btn-primary glyphicon glyphicon-refresh" onclick="refresh()">刷新</button>
 			</div>
 		</div>
 	</div>

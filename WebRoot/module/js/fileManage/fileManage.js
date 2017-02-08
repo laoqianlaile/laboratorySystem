@@ -1,4 +1,3 @@
-var re = new RegExp("\"", "g");
 var array =[];
 
 // 文件上传
@@ -63,6 +62,7 @@ function fileUploadInit(selectorName){
             'queueSizeLimit':3,//允许上传的文件的最大数量。当达到或超过这个数字，onSelectError事件被触发。
 
             'onUploadSuccess' : function(file, data, response) {
+            	var re = new RegExp("\"", "g");
     			data = data.replace(re, "");
     			array.push(data);
     		},

@@ -2,7 +2,8 @@
  * 
  */
 var obj = {
-		reID:"20161126113025319"
+		reID:"20161126113025319",
+		order:0 
 }
 $(function(){
 	initData();
@@ -17,9 +18,9 @@ function initData(){
 	initTidingsTable();
 }
 function initContractTable(){
-	var order ;
+	
 	$('.contractTable').bootstrapTable({
-						// 定义表格的高度height: 500,
+					
 				striped : true,// 隔行变色效果
 				pagination : true,// 在表格底部显示分页条
 				pageSize : 5,// 页面数据条数
@@ -40,13 +41,14 @@ function initContractTable(){
 					// params.offset; //偏移量
 					param.search = "";
 					param.offset = params.offset;
-					order = params.offset + 1; // 偏移量是从0开始
+					obj.order = params.offset + 1; // 偏移量是从0开始
 					param.sort = params.sort; // 排序列名
 					param.order = params.order;// 排位命令（desc，asc）
 					return param;
 				}, // 请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
 				selectItemName : '',// radio or checkbox 的字段名
 				onClickRow : function(row,$element,field){
+					$(".leftArea .row span").eq(1).text(row.cCode);
 					getCurrentFile(row.reID);
 					/*console.log(row);
 					console.log($element);
@@ -55,6 +57,11 @@ function initContractTable(){
 				},
 				onLoadSuccess : function(data) {
 					console.log(data);
+					 if(data.total == 0)
+						{
+							  $(".leftArea .row span").eq(1).text("无");
+							 
+						}
 				},
 				columns : [
 						{
@@ -65,7 +72,13 @@ function initContractTable(){
 							visible : true,
 							formatter : function(value, row, index) {
 								checkData("cAndRe",row);
-								return order++;
+								
+							 if(index == 0 && row != null)
+								{
+									  $(".leftArea .row span").eq(1).text(row.cCode);
+									  obj.reID = row.reID;
+								}
+								return obj.order++;
 							}
 						},{
 							field : 'reID',// 返回值名称
@@ -148,15 +161,22 @@ function initFileTable(){
 					// params.offset; //偏移量
 					param.search = "";
 					param.offset = params.offset;
-					order = params.offset + 1; // 偏移量是从0开始
+					obj.order = params.offset + 1; // 偏移量是从0开始
 					param.sort = params.sort; // 排序列名
 					param.order = params.order;// 排位命令（desc，asc）
 					param.reID = obj.reID;
 					return param;
 				}, // 请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
 				selectItemName : '',// radio or checkbox 的字段名
+				onClickRow : function(row,$element,field){
+					$(".RightArea .row .col-xs-7 span").eq(1).text(row.fileName);
+				
+				},
 				onLoadSuccess : function(data) {
 					console.log(data);
+					if(data.total == 0){
+						$(".RightArea .row .col-xs-7 span").eq(1).text("无");
+					}
 				},
 				columns : [
 						{
@@ -167,7 +187,12 @@ function initFileTable(){
 							visible : true,
 							formatter : function(value, row, index) {
 								checkData("file",row);
-								return order++;
+							    if(index == 0 && row != null)
+									{
+										$(".RightArea .row .col-xs-7 span").eq(1).text(row.fileName);
+									}
+								
+								return obj.order++;
 							}
 						},
 						{
@@ -214,6 +239,7 @@ function initTidingsTable(){
 	$('.tidingsTable').bootstrapTable( 
 			{
 						// 定义表格的高度height: 500,
+		
 				striped : true,// 隔行变色效果
 				pagination : true,// 在表格底部显示分页条
 				pageSize : 5,// 页面数据条数
@@ -235,7 +261,7 @@ function initTidingsTable(){
 					// params.offset; //偏移量
 					param.search = "";
 					param.offset = params.offset;
-					order = params.offset + 1; // 偏移量是从0开始
+					obj.order = params.offset + 1; // 偏移量是从0开始
 					param.sort = params.sort; // 排序列名
 					param.order = params.order;// 排位命令（desc，asc）
 					return param;
@@ -253,7 +279,7 @@ function initTidingsTable(){
 							visible : true,
 							formatter : function(value, row, index) {
 								checkData("tiding",row);
-								return order++;
+								return obj.order++;
 							}
 						},
 						{
@@ -266,7 +292,7 @@ function initTidingsTable(){
 						},
 						{
 							field : 'mID',// 返回值名称
-							title : 'message ID',// 列名
+							title : 'messageID',// 列名
 							align : 'center',// 水平居中显示
 							valign : 'middle',// 垂直居中显示
 							width : '10%',// 宽度
@@ -281,7 +307,7 @@ function initTidingsTable(){
 						},
 						{
 							field : 'createTime',// 返回值名称
-							title : '时间',// 列名
+							title : '通知时间',// 列名
 							align : 'center',// 水平居中显示
 							valign : 'middle',// 垂直居中显示
 							width : '20%'// 宽度
@@ -295,9 +321,9 @@ function initTidingsTable(){
 							formatter : function(value, row, index) {
 								if(value == "未查看")
 								var look = "", edit = "", download = "";
-								look = '<button onclick= "lookMessage(\''
-										+ row.ID
-										+ '\')" data-toggle="tooltip" data-placement="top" title="确认查看"  class="icon-eye-open" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></button>';
+								look = '<span onclick= "lookMessage(\''
+										+ row.mnID
+										+ '\')" data-toggle="tooltip" data-placement="top" title="确认查看"  class="glyphicon glyphicon-eye-open" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
 								return look;
 							}
 						} ]
@@ -306,7 +332,12 @@ function initTidingsTable(){
 			});
 }
 function getCurrentFile(reID){
-	$('.fileTable').bootstrapTable( 'refresh',
+	if(reID == "" || reID == undefined || reID == null){
+		
+	}
+	else {
+		obj.reID = reID;
+		$('.fileTable').bootstrapTable( 'refresh',
 			{
 				silent : false,
 				url : "/laboratorySystem/receiptlistController/getReFiletByReID.do",
@@ -315,6 +346,7 @@ function getCurrentFile(reID){
 				}
 	
 			});
+	}
 }
 function initEvent(){
 	
@@ -323,20 +355,21 @@ function lookMessage(ID){
 	var isLook = confirm("确认已经查看信息！");
 	if(isLook == true){
 		$.ajax({
-			url : '/laboratorySystem/receiptlistController/addTaskAndSampleWithEdit.do',
+			url : '/laboratorySystem/messageController/readedMessageByID.do',
 			dataType : "json",
 			type : "post",
 			contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
 			async : false,
 			data : {
-				ID:ID
+				messageNoticeID:ID
 			},
 			success : function(o) {
-				$('.fileTable').bootstrapTable( 'refresh',null);
+				
 			},
 			error : function() {
 			}
 		});
+		$('.tidingsTable').bootstrapTable( 'refresh',null);
 	}
 }
 function checkData(who,dataObj){
@@ -416,7 +449,7 @@ function checkDataTiding(dataObj){
 		dataObj.createTime = "";
 	}
 	if (!dataObj.hasOwnProperty("state") || dataObj.state == null
-			|| dataObj.state.trim() == "NULL") {
+			|| typeof dataObj.state == undefined) {
 		dataObj.remarks = "未查看";
 	}
 }

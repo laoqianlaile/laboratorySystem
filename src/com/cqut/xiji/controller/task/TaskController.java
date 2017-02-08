@@ -390,6 +390,21 @@ public class TaskController{
 		return result;
 	}
 	
+	/**
+	 * 
+     * @discription 获取检测报告路径
+     * @author zt       
+     * @created 2017-1-19 下午7:47:57     
+     * @param taskID
+     * @return
+	 */
+	@RequestMapping("/getReportPath")
+	@ResponseBody
+	public String getReportPath(String taskID) {
+		String result = service.getReportPath(taskID);
+		return result;
+	}
+	
     /**
      * 
      * @discription 提交审核
@@ -420,6 +435,18 @@ public class TaskController{
 	}
 	
 	/**
+*
+	 * 
+	 */
+	@RequestMapping("/downReportTemplate")
+	@ResponseBody
+	public String downReportTemplate(String taskID, String projectName) {
+		String result = service.downReportTemplate(taskID, projectName);
+		return result;
+	}
+
+
+    /**
 	 * @description 获取任务信息
 	 * @author HZZ
 	 * @date 2016年12月26日 17:28:05
@@ -472,3 +499,4 @@ public class TaskController{
 		return JSONArray.fromObject(result).toString();
 	}
 }
+

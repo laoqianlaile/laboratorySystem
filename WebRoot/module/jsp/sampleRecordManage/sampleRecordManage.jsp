@@ -51,64 +51,55 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		#search {
 			float:left;
 		}
-		.choose {
-	height: 300px;
-	overflow-x: hidden;
-	overflow-y: scroll;
-	width: 290px;
-}
-
-.overChoose {
-	display: none;
-	height: 300px;
-	    left: 480px;
-	margin: 0 auto;
-	min-width: 124px;
-	overflow: hidden;
-	position: absolute;
-	top: 150px;
-	width: 260px;
-	z-index: 9999;
-	/* color: #fff; */
-	background: #fff;
-}
-
-.over {
-	background: #808080 none repeat scroll 0 0;
-	color: #333;
-	display: block;
-	opacity: 1;
-	position: fixed;
-	top: 0px;
-	z-index: 9999;
-}
-
-.col-xs-12 input,.col-md-12 input,.col-xs-12 select {
-	display: block;
-	width: 100%;
-	display: block;
-	width: 90%;
-	height: 34px;
-}
-
-h4,.h4 {
-	font-size: 20px;
-	font-weight: bold;
-}
-
-.col-xs-12 input.chooseInput,.col-md-12 input.chooseInput {
-	width: 20px;
-	display: inline-block;
-	vertical-align: middle;
-	margin-left: 70px;
-}
-
-.col-xs-12 label.fontStyle,.col-md-12 label.fontStyle {
-	margin: 10px 0 0;
-}
-.col-xs-12 label.fontStyle1,.col-md-12 label.fontStyle1 {
-	margin: 10px 0 0;
-}
+	
+		.employeeN{
+	 	width:568px;
+	 	display:none;
+	 	border:1px solid #ccc;
+	 	border-top:none;
+	 	border-radius:3px;
+	}
+	.employeeN ul {
+		width:567px;
+		height:30px;
+		border:none;
+		margin:0;
+		margin-left:-40px;
+	}
+	.employeeN ul li{
+		width:567px;
+		height:30px;
+		line-height: 30px;
+		list-style-type: none;
+		text-indent: 12px;
+	}
+	.employeeN ul li:hover{
+		background-color:#dcdcdc;
+	}
+	.employeeN1{
+	 	width:568px;
+	 	display:none;
+	 	border:1px solid #ccc;
+	 	border-top:none;
+	 	border-radius:3px;
+	}
+	.employeeN1 ul {
+		width:567px;
+		height:30px;
+		border:none;
+		margin:0;
+		margin-left:-40px;
+	}
+	.employeeN1 ul li{
+		width:567px;
+		height:30px;
+		line-height: 30px;
+		list-style-type: none;
+		text-indent: 12px;
+	}
+	.employeeN1 ul li:hover{
+		background-color:#dcdcdc;
+	}
 		
 		
 		
@@ -196,16 +187,15 @@ h4,.h4 {
 							<input type="text" id="add_specifications" name="specifications" class="form-control"
 								aria-describedby="basic-addon1" readOnly="true"/>
 						</div>
-						<div style="display: none;"class="col-xs-12 col-md-12">
-							<h4>领样人：</h4>
-							<input type="text" id="add_getMan" name="getMan" class="form-control"
-								aria-describedby="basic-addon1" />
-						</div>
 						<div class="col-xs-12 col-md-12">
 							<h4>领样人：</h4>
-							<input type="text" id="add_getMan1" name="getMan" class="form-control"
-								aria-describedby="basic-addon1" />
+							<input type="text" id="add_getMan" name="getMan" oninput="addGetEMName()" onpropertychange="addGetEMName()"  
+							class="form-control" aria-describedby="basic-addon1" />
+							<div class="employeeN">
+	                   
+                   </div>
 						</div>
+						
 						<div class="col-xs-12 col-md-12">
 							<h4>领样时间:</h4>
 							<div class="input-group date form_datetime col-md-12">
@@ -217,16 +207,15 @@ h4,.h4 {
 									class="glyphicon glyphicon-th"></span></span>
 							</div>
 						</div>
-						<div style="display: none;"class="col-xs-12 col-md-12">
-							<h4>退样人：</h4>
-							<input type="text" id="add_returnMan" name="returnMan"
-								class="form-control" aria-describedby="basic-addon1" />
-						</div>
 						<div class="col-xs-12 col-md-12">
 							<h4>退样人：</h4>
-							<input type="text" id="add_returnMan1" name="returnMan"
+							<input type="text" id="add_returnMan" name="returnMan" oninput="addGetEMName1()" onpropertychange="addGetEMName1()"
 								class="form-control" aria-describedby="basic-addon1" />
+								<div class="employeeN1">
+	                   
+                   </div>
 						</div>
+						
 						<div class="col-xs-12 col-md-12">
 							<h4>退样时间:</h4>
 							<div class="input-group date form_datetime col-md-12">
@@ -252,20 +241,7 @@ h4,.h4 {
 			</div>
 		</div>
 	</div>
-	<!--小弹框  -->
-							<div class="over" id="addOver">
-									<div class="overChoose">
-										<!-- 隐藏滑动条 -->
-										<div class="choose">
-											<div class="row">
-												
-
-											</div>
-										</div>
-									</div>
-								</div>
-
-	<!-- 修改弹框 -->
+	
 	<div id="editModal" class="modal fade" role="dialog"
 		aria-labelledby="gridSystemModalLabel">
 		<div class="modal-dialog" role="document">
@@ -304,16 +280,15 @@ h4,.h4 {
 							<input type="text" id="edit_specifications" name="specifications"
 								class="form-control" aria-describedby="basic-addon1"readOnly="true" />
 						</div>
-						<div style="display: none;"class="col-xs-12 col-md-12">
-							<h4>领样人：</h4>
-							<input type="text" id="edit_getMan" name="getMan" class="form-control"
-								aria-describedby="basic-addon1" />
-						</div>
 						<div class="col-xs-12 col-md-12">
 							<h4>领样人：</h4>
-							<input type="text" id="edit_getMan1" name="getMan" class="form-control"
+							<input type="text" id="edit_getMan" name="getMan" oninput="editGetEMName()" onpropertychange="editGetEMName()"  class="form-control"
 								aria-describedby="basic-addon1" />
+								<div class="employeeN">
+	                   
+                   </div>
 						</div>
+						
 						<div class="col-xs-12 col-md-12">
 							<h4>领样时间:</h4>
 							<div class="input-group date form_datetime col-md-12">
@@ -325,16 +300,15 @@ h4,.h4 {
 									class="glyphicon glyphicon-th"></span></span>
 							</div>
 						</div>
-						<div style="display: none;"class="col-xs-12 col-md-12">
-							<h4>退样人：</h4>
-							<input type="text" id="edit_returnMan" name="returnMan"
-								class="form-control" aria-describedby="basic-addon1" />
-						</div>
 						<div class="col-xs-12 col-md-12">
 							<h4>退样人：</h4>
-							<input type="text" id="edit_returnMan1" name="returnMan"
+							<input type="text" id="edit_returnMan" name="returnMan" oninput="editGetEMName1()" onpropertychange="editGetEMName1()"
 								class="form-control" aria-describedby="basic-addon1" />
+								<div class="employeeN1">
+	                   
+                   </div>
 						</div>
+						
 						<div class="col-xs-12 col-md-12">
 							<h4>退样时间:</h4>
 							<div class="input-group date form_datetime col-md-12">

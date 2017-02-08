@@ -127,8 +127,7 @@
 
 	<div id="right" class="container" style="width:30%;float:right">
 		<div class="footer">
-			<button type="button" class="btn btn-primary glyphicon "
-				onclick="flesh()">提醒消息</button>
+			<sapn>消息提示</sapn>
 			<table id="messageTable"></table>
 		</div>
 	</div>

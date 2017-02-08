@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.enterprise.inject.New;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -18,8 +19,12 @@ import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.company.Company;
 import com.cqut.xiji.entity.contract.Contract;
+import com.cqut.xiji.entity.employee.Employee;
+import com.cqut.xiji.entity.message.Message;
+import com.cqut.xiji.entity.messageNotice.MessageNotice;
 import com.cqut.xiji.entity.project.Project;
 import com.cqut.xiji.entity.receiptlist.Receiptlist;
+import com.cqut.xiji.entity.role.Role;
 import com.cqut.xiji.entity.sample.Sample;
 import com.cqut.xiji.entity.task.Task;
 import com.cqut.xiji.service.base.SearchService;
@@ -419,6 +424,9 @@ public class ReceiptlistService extends SearchService implements
 				task.setReceiptlistID(reID);
 				task.setSampleID(sampleID);
 				task.setStartTime(new Date());
+				SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd");
+				format.format(new Date());
+				task.setTaskCode(sampleCode+":"+""+format.format(new Date())+":"+(int)(Math.random()*100 ));
 				task.setAllotstate(0);
 				task.setDetectstate(0);
 				System.out.println("任务检测项目：" + i + "  " + testProjectIDs[i]);
@@ -492,6 +500,29 @@ public class ReceiptlistService extends SearchService implements
 			receiptlist.setIsEditSample(0);
 		} else {  //提交交接单
 			receiptlist.setIsEditSample(1);
+			//推送消息--给科室主管
+			List<Role> listRole = entityDao.getByCondition(" roleName='科室主管' ", Role.class);
+			if(listRole != null && listRole.size() > 0){
+				System.out.println("推送的科室主管角色ID为："+listRole.toString());
+				//产生消息
+				Message message = new Message();
+				message.setID(EntityIDFactory.createId());
+				message.setCreateTime(new Date());
+				message.setContent("交接单编号："+receiptlist.getReceiptlistCode()+"需要查看");
+				//查询角色对应的人
+				List<Employee> listemployee = entityDao.getByCondition(" roleID like '%"+listRole.get(0).getID().trim()+"%' ", Employee.class);
+				if(listemployee != null && listemployee.size() > 0){
+					for (int i = 0; i < listemployee.size(); i++) {
+						MessageNotice messageNotice = new MessageNotice();
+						messageNotice.setMessageID(message.getID());
+						messageNotice.setID(EntityIDFactory.createId());
+						messageNotice.setEmployeeID(listemployee.get(i).getID());
+						messageNotice.setState(0);
+						entityDao.save(messageNotice);
+					}
+					
+				}
+			}
 		}
 		return entityDao.updatePropByID(receiptlist, reID) == 1 ? "true"
 				: "false";
