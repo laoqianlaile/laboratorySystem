@@ -86,10 +86,13 @@
 #navName {
 	font-size: 22px;
 }
+<<<<<<< HEAD
 
 #editpwdModal .col-xs-3{
 	text-align: right;
 }
+=======
+>>>>>>> b347682e59e1797e379c23c7998908711652b9bd
 #content_frame{
 	
 	width: 100%;
@@ -128,6 +131,7 @@ vertical-align: middle;
 						<li class="light-blue"><a data-toggle="dropdown" href="#"
 							class="dropdown-toggle"> <img class="nav-user-photo"
 								src="assets/avatars/user.jpg" alt="Jason's Photo" /> <span
+<<<<<<< HEAD
 								class="user-info"> 
 								<%if(request.getSession().getAttribute("EMPLOYEENAME") == null || 
 								request.getSession().getAttribute("EMPLOYEEID") == null||
@@ -144,6 +148,11 @@ vertical-align: middle;
 									<input type="hidden" id="LoginID" value="<%=request.getSession().getAttribute("EMPLOYEEID")%>"/>
 								
 							</span> <i class="icon-caret-down"></i>
+=======
+								class="user-info"> <small>欢迎光临,</small> Jason
+							</span> <i class="fa fa-caret-down"></i>
+						</a>
+>>>>>>> b347682e59e1797e379c23c7998908711652b9bd
 
 								class="user-info"> <small>欢迎光临,</small> Jason
 							</span> <i class="fa fa-caret-down"></i>

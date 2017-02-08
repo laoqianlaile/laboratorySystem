@@ -110,6 +110,7 @@ function getTree(){
 	            t.tree("loadData", [root]);
 	        },'json');
 	    };
+<<<<<<< HEAD
 
  }
  /* 注销 */
@@ -269,3 +270,7 @@ function getTree(){
  function login(){
 	 window.location.href = window.location.href.replace('index.jsp','login.jsp');
  }
+=======
+}
+ 
+>>>>>>> b347682e59e1797e379c23c7998908711652b9bd
