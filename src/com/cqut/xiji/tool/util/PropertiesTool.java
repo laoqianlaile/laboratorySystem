@@ -37,7 +37,7 @@ public class PropertiesTool {
 		}
 	}
 
-	public static  String getSystemPram(String key) {
+	public String getSystemPram(String key) {
 		if (propMap.containsKey(key))
 			return propMap.get(key);
 		else {
@@ -52,12 +52,11 @@ public class PropertiesTool {
 		}
 	}
 
-	public static String getSeparatorChar() {
+	public String getSeparatorChar() {
 		String os = System.getProperty("os.name").toUpperCase();
 		if (os.toLowerCase().startsWith("WIN")) {
 			return "\\";
 		}
 		return "/";
-
 	}
 }
