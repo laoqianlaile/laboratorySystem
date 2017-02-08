@@ -5,6 +5,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>西计实验室管理系统</title>
 <!-- basic styles -->
 <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/font-awesome.min.css" />
@@ -87,12 +88,15 @@
 	font-size: 22px;
 }
 #content_frame{
-	height:500px;
+	
 	width: 100%;
 }
 .col-xs-12-w{
 margin-left: 5px;
 }
+.fixed-table-body #table .bs-checkbox {
+vertical-align: middle;
+}   
 </style>
 
 </head>

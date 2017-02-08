@@ -11,7 +11,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>My JSP 'sampleDesktop.jsp' starting page</title>
+<title>西计实验室管理系统</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -40,7 +40,7 @@
 }
 
 .tableArea {
-	min-width: 850px;
+	width: 900px;
 }
 
 .row {
@@ -88,66 +88,31 @@
 
 .leftArea {
 	width: 60%;
-	float: left;
-	margin-right: 10px;
+    display: inline-block;
+    margin-right: 20px;
+    float: left;
 }
 
 .RightArea {
-	float: left;
+	display:inline-block;
 	width: 38%;
+}
+.fixed-table-body #table .bs-checkbox {
+vertical-align: middle;
+}   
+.RightArea .row .col-xs-7 span + sapn, .leftArea .row span + sapn{
+    font-style: italic;
+    font-family: fantasy;
+}
+
+.leftArea .row span:FIRST-CHILD {
+	font-size: 18;
 }
 </style>
 </head>
 
 <body>
 	<div id="container">
-		<!-- <div class="row curentNav">
-			<div class="col-xs-7 col-md-7 col-lg-7">
-				<span index="0">当前合同编号：</span> <span index="1">XJHJ-226-14-1013-PAT</span>
-		 -->
-		<!-- 	<div class="col-xs-3 col-md-3 col-lg-3">
-				<span index="0">当前文档名称：</span> <span index="1">XJHJ-226-14-1013-PAT</span>
-			</div>
-			<div class="col-xs-1 col-md-1 col-lg-1">
-				<button class="btn btn-primary  ">查看</button>
-			</div>
-			<div class="col-xs-1 col-md-1 col-lg-1">
-				<button class="btn btn-primary  ">下载</button>
-			</div>
-			</div> -->
-		<!-- <div class="row">
-				<div class="col-xs-7 col-md-7 col-lg-7">
-					<div class="list-button">
-						<div class="row">
-							<button class="btn btn-primary">查看交接单</button>
-							<button class="btn btn-primary">领样</button>
-							<button class="btn btn-primary">退样</button>
-							<button class="btn btn-primary">新增交接单</button>
-							<button class="btn btn-primary">查看报告列表</button>
-							<button class="btn btn-primary">打印报告</button>
-						</div>
-						<div class="row">
-							<button class="btn btn-primary">修改交接单</button>
-							<button class="btn btn-primary">还样</button>
-							<button class="btn btn-primary">发报告</button>
-							<button class="btn btn-primary">退还交接单</button>
-							<button class="btn btn-primary">查看检测进度</button>
-							<button class="btn btn-primary">无合同新增交接单</button>
-						</div>
-					</div>
-					<div class="tableArea">
-						<div class="contractTable"></div>
-					</div>
-				</div>
-				<div class="col-xs-5 col-md-5 col-lg-5">
-					<div class="fileTable"></div>
-					<div class="tidings">
-					     <div class="tidingHead">提示信息</div>
-					     <div class="tidingsTable"></div>
-					</div>
-				</div>
-			</div> -->
-
 		<div class="leftArea">
 			<div class="row">
 				<span index="0">当前合同编号：</span> <span index="1">XJHJ-226-14-1013-PAT</span>
@@ -170,9 +135,9 @@
 					<button class="btn btn-primary">无合同新增交接单</button>
 				</div>
 			</div>
-			<div class="tableArea">
+			
 				<div class="contractTable"></div>
-			</div>
+			
 		</div>
 		<div class="RightArea">
 			<div class="row">

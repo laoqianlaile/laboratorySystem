@@ -93,7 +93,7 @@ function refresh(){
 				data : trees,
 				showIcon : true,
 				collapsed:false,
-				levels : 2,
+				levels : 2
 			});
 		},
 		dataType : 'text'

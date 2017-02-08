@@ -48,6 +48,7 @@ function initContractTable(){
 				}, // 请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
 				selectItemName : '',// radio or checkbox 的字段名
 				onClickRow : function(row,$element,field){
+					$(".leftArea .row span").eq(1).text(row.cCode);
 					getCurrentFile(row.reID);
 					/*console.log(row);
 					console.log($element);
@@ -56,6 +57,11 @@ function initContractTable(){
 				},
 				onLoadSuccess : function(data) {
 					console.log(data);
+					 if(data.total == 0)
+						{
+							  $(".leftArea .row span").eq(1).text("无");
+							 
+						}
 				},
 				columns : [
 						{
@@ -66,6 +72,12 @@ function initContractTable(){
 							visible : true,
 							formatter : function(value, row, index) {
 								checkData("cAndRe",row);
+								
+							 if(index == 0 && row != null)
+								{
+									  $(".leftArea .row span").eq(1).text(row.cCode);
+									  obj.reID = row.reID;
+								}
 								return obj.order++;
 							}
 						},{
@@ -156,8 +168,15 @@ function initFileTable(){
 					return param;
 				}, // 请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
 				selectItemName : '',// radio or checkbox 的字段名
+				onClickRow : function(row,$element,field){
+					$(".RightArea .row .col-xs-7 span").eq(1).text(row.fileName);
+				
+				},
 				onLoadSuccess : function(data) {
 					console.log(data);
+					if(data.total == 0){
+						$(".RightArea .row .col-xs-7 span").eq(1).text("无");
+					}
 				},
 				columns : [
 						{
@@ -168,6 +187,11 @@ function initFileTable(){
 							visible : true,
 							formatter : function(value, row, index) {
 								checkData("file",row);
+							    if(index == 0 && row != null)
+									{
+										$(".RightArea .row .col-xs-7 span").eq(1).text(row.fileName);
+									}
+								
 								return obj.order++;
 							}
 						},
@@ -308,7 +332,12 @@ function initTidingsTable(){
 			});
 }
 function getCurrentFile(reID){
-	$('.fileTable').bootstrapTable( 'refresh',
+	if(reID == "" || reID == undefined || reID == null){
+		
+	}
+	else {
+		obj.reID = reID;
+		$('.fileTable').bootstrapTable( 'refresh',
 			{
 				silent : false,
 				url : "/laboratorySystem/receiptlistController/getReFiletByReID.do",
@@ -317,6 +346,7 @@ function getCurrentFile(reID){
 				}
 	
 			});
+	}
 }
 function initEvent(){
 	
