@@ -220,6 +220,7 @@ function onlineView() {
 				$.post("fileOperateController/onlinePreview.do", {
 					filePath : path
 				}, function(result) {
+					var re = new RegExp("\"", "g");
 					 result = result.replace(re,"");
 					 if (result != null && result != "null" && result != "") {
 						 window.location.href = "module/jsp/documentOnlineView.jsp";

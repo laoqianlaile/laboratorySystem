@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
+import com.cqut.xiji.entity.contract.Contract;
 import com.cqut.xiji.entity.employee.Employee;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
@@ -99,6 +101,10 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 	       session.setAttribute("ID", employee2.getID());
 	       session.setAttribute("EMPLOYEEID", employee2.getID());
 	       session.setAttribute("LOGINNAME", employee2.getLoginName());
+<<<<<<< HEAD
+	       session.setAttribute("EMPLOYEENAME", employee2.getEmployeeName());
+=======
+>>>>>>> b347682e59e1797e379c23c7998908711652b9bd
 
 		return "1";
 
@@ -110,7 +116,12 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			  System.out.println("用户"+session.getAttribute("LOGINNAME")+"请求退出");
 			  session.setAttribute("LOGINNAME", "");
 			  session.setAttribute("EMPLOYEEID","");
+<<<<<<< HEAD
+			  session.setAttribute("EMPLOYEENAME", "");
+			 
+=======
 
+>>>>>>> b347682e59e1797e379c23c7998908711652b9bd
 			return "1";
 		}
 
@@ -417,4 +428,62 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			return entityDao.updatePropByID(employee,ID)==1?"true":"false";
 		}
 
+<<<<<<< HEAD
+		@Override
+		public List<Map<String, Object>> getEmployeeinfo(String employeeID) {
+			String baseEntity = "employee";
+			String[] properties = new String[] {
+					"employee.employeeCode",
+					"employee.loginName",
+					"employee.`password`",
+					"employee.employeeName",
+					"employee.sex",
+					"employee.phoneNumber",
+					"employee.email",
+					"employee.address",
+					"case WHEN employee.`level` = 0 then '初级'"
+					+ "when employee.`level` = 1 then '中级'"
+					+ "	when employee.`level` = 2 then '高级' end as level",
+					"department.departmentName",
+					"duty.dutyName"
+					
+					};
+			String joinEntity = " LEFT JOIN department ON department.ID = employee.departmentID "
+					+" LEFT JOIN duty ON duty.ID = employee.dutyID ";
+			if(employeeID == null || employeeID.isEmpty()){
+				return null;
+			}
+			String condition = " 1 = 1 AND employee.ID = " + employeeID;
+			List<Map<String, Object>> result = originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false);
+			return result;
+		}
+
+		@Override
+		public String editInfo(String employeeID, String employeeName,
+				String sex, String phoneNumber, String email, String address) {
+			Employee employee = entityDao.getByID(employeeID, Employee.class);
+			
+			employee.setEmployeeName(employeeName);
+			employee.setSex(Integer.parseInt(sex));
+			employee.setPhoneNumber(phoneNumber);
+			employee.setEmail(email);
+			employee.setAddress(address);
+			
+			int result = entityDao.updatePropByID(employee, employeeID);
+			return result+"";
+		}
+
+		@Override
+		public String editEmployeePwd(String employeeID, String newpwd) {
+			
+			Employee  employee = entityDao.getByID(employeeID,Employee.class);
+			employee.setPassword(newpwd);
+			
+			int result = entityDao.updatePropByID(employee,employeeID);
+
+			return result +"";
+		}
+		
+=======
+>>>>>>> b347682e59e1797e379c23c7998908711652b9bd
 }

@@ -22,7 +22,10 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:spring-mybatis.xml</param-value>
 	</context-param>
-	
+	 <context-param> 
+	<param-name>contextActiviti</param-name> 
+	<param-value>classpath:activiti.cfg.xml</param-value> 
+	</context-param>
 	<!-- 编码过滤器 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
@@ -90,10 +93,6 @@
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.swf</url-pattern>
-    </servlet-mapping> 
-     <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>*.html</url-pattern>
     </servlet-mapping> 
     <servlet-mapping>
         <servlet-name>default</servlet-name>

@@ -23,7 +23,10 @@ WebRoot/WEB-INF/lib/jacob-1.14.3.jar
 WebRoot/module/css/testReportManage/testReportManage.css
 resources/jdbc.properties
 
-
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 /target/
+
+# IEDA ignore file
+*.iml
+*idea/

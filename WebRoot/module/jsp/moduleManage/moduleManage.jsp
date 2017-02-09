@@ -11,7 +11,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>模块管理</title>
+<title>西计实验室管理系统</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -42,6 +42,7 @@
 <script src="module/js/bootstrap-table-zh-CN.js"></script>
 <script src="module/js/bootstrap-treeview.js"></script>
 <script src="module/js/moduleManage/jquery.fonticonpicker.min.js"></script>
+<script src="assets/js/autoPage.js"></script>
 <style type="text/css">
 .fip-box i {
 	display: block;
@@ -84,7 +85,10 @@ float:left ;
 }
 .btn-primary{
 margin-left: 3px;
-}    
+} 
+.fixed-table-body #table .bs-checkbox {
+vertical-align: middle;
+}   
 </style>
 </head>
 
@@ -414,7 +418,7 @@ margin-left: 3px;
 				$('#tree').treeview({
 					data : trees,
 					showIcon : true,
-					levels : 1,
+					levels : 2
 				});
 			},
 			dataType : 'text'

@@ -55,14 +55,7 @@ function deepCopy(source) {
 	   }
 	   return result; 
 }
-//自动适应本窗口的大小
-function autoHeightWidth(){
-	var docHeight = $(this.document).height();
-	var docWidth = $(this.document).width();
-	//console.log(window.top.frames.document.getElementById("content_frame"));
-	$(window.top.frames.document.getElementById("content_frame")).css("widht",docWidth); 
-	$(window.top.frames.document.getElementById("content_frame")).css("height",docHeight+150);
-}
+
 //显示加载图片
 function loadingData(){
 	if($("#loading").size() == 0){

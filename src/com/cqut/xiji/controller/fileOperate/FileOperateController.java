@@ -475,12 +475,15 @@ public class FileOperateController {
 	@RequestMapping("/onlinePreview")
 	@ResponseBody
 	public String onlinePreview(String filePath, HttpServletRequest request) {
-		String outputPath = System.getProperty("user.dir").replace("bin","webapps")+ "\\" + "SVPE" + "\\";
+		// String outputPath = System.getProperty("user.dir").replace("bin","webapps")+ "\\" + "SVPE" + "\\";
+		PropertiesTool pe = new PropertiesTool();
+		String outputPath = pe.getSystemPram("swfPath") + "\\";
 		if (filePath != null && !filePath.isEmpty() && !filePath.equals(" ")) {
 			DocConverter dc = new DocConverter(filePath, outputPath);
 			dc.conver();
 			String swfFilePath = dc.getswfPath();
-			if (swfFilePath != null && !swfFilePath.isEmpty()&& !swfFilePath.equals(" ")) {
+			if (swfFilePath != null && !swfFilePath.isEmpty()
+					&& !swfFilePath.equals(" ")) {
 				swfFilePath = swfFilePath.substring(2).replace("\\", "/");
 				HttpSession session = request.getSession();
 				session.setAttribute("swfFilePath", swfFilePath);
@@ -503,16 +506,20 @@ public class FileOperateController {
 	@RequestMapping("/deleteOnlinePreviewFile")
 	@ResponseBody
 	public void deleteOnlinePreviewFile(HttpServletRequest request) {
-		String outputPath = System.getProperty("user.dir").replace("bin","webapps")+ "\\" + "SVPE" + "\\";
-		String swfFilePath = (String) request.getSession().getAttribute("swfFilePath");
-		int index = swfFilePath.lastIndexOf("/");
-		index++;
-		String swfFileName = swfFilePath.substring(index);
-		String filePath = outputPath + swfFileName;
-		File file = new File(filePath);
-		if (file.exists()) {
-			file.delete();
-			request.getSession().removeAttribute("swfFilePath");
+		PropertiesTool pe = new PropertiesTool();
+		String outputPath = pe.getSystemPram("swfPath") + "\\";
+		Object swfFileSession = request.getSession().getAttribute("swfFilePath");
+		if (swfFileSession != null) {
+			String swfFilePath = (String) swfFileSession;
+			int index = swfFilePath.lastIndexOf("/");
+			index++;
+			String swfFileName = swfFilePath.substring(index);
+			String filePath = outputPath + swfFileName;
+			File file = new File(filePath);
+			if (file.exists()) {
+				file.delete();
+				request.getSession().removeAttribute("swfFilePath");
+			}
 		}
 	}
 }

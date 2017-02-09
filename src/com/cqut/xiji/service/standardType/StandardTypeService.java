@@ -98,7 +98,7 @@ public class StandardTypeService extends SearchService implements
 	@Override
 	public String upStandardType(String standardTypeID ,String standardTypeCode,
 			String standardTypeName) {
-		StandardType standardType = new StandardType();
+		StandardType standardType = entityDao.getByID(standardTypeID, StandardType.class);
 		
 		standardType.setStandardTypeCode(standardTypeCode);
 		standardType.setStandardTypeName(standardTypeName);
