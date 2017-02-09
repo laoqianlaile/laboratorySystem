@@ -1,40 +1,27 @@
 package com.cqut.xiji.tool.word;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
-import org.apache.tomcat.jni.Thread;
-
 import com.jacob.activeX.ActiveXComponent;  
 import com.jacob.com.ComThread;
 import com.jacob.com.Dispatch;  
 import com.jacob.com.Variant;  
-
-
-
 /**
  * @author Administrator
  *
  */
 public class WordProcess {
-
     // word文档
     private Dispatch doc;
-
     // word运行程序对象
     private ActiveXComponent word;
-
     // 所有word文档集合
     private Dispatch documents;
-
     // 选定的范围或插入点
     private Dispatch selection;
-
+    // 退出是否保存
     private boolean saveOnExit = true;
-
     public WordProcess(boolean visible) throws Exception {
         if (word == null) {
             word = new ActiveXComponent("Word.Application");
@@ -44,7 +31,6 @@ public class WordProcess {
         if (documents == null)
             documents = word.getProperty("Documents").toDispatch();
     }
-
     /**
      * 设置退出时参数
      *
@@ -54,7 +40,6 @@ public class WordProcess {
     public void setSaveOnExit(boolean saveOnExit) {
         this.saveOnExit = saveOnExit;
     }
-
     /**
      * 创建一个新的word文档
      *
@@ -63,18 +48,16 @@ public class WordProcess {
         doc = Dispatch.call(documents, "Add").toDispatch();
         selection = Dispatch.get(word, "Selection").toDispatch();
     }
-
     /**
      * 打开一个已存在的文档
      *
-     * @param docPath
+     * @param docPath -文件全名
      */
     public void openDocument(String docPath) {
         closeDocument();
         doc = Dispatch.call(documents, "Open", docPath).toDispatch();
         selection = Dispatch.get(word, "Selection").toDispatch();
     }
-
     /**
      * 打开一个保护文档,
      *
@@ -94,7 +77,6 @@ public class WordProcess {
                 .toDispatch();
         selection = Dispatch.get(word, "Selection").toDispatch();
     }
-
     public void openDocument(String docPath, String pwd) throws Exception {
         closeDocument();
         doc = Dispatch.callN(
@@ -104,7 +86,6 @@ public class WordProcess {
                         new Variant(true), pwd }).toDispatch();
         selection = Dispatch.get(word, "Selection").toDispatch();
     }
-
     /**
      * 把选定的内容或插入点向上移动
      *
@@ -116,9 +97,7 @@ public class WordProcess {
             selection = Dispatch.get(word, "Selection").toDispatch();
         for (int i = 0; i < pos; i++)
             Dispatch.call(selection, "MoveUp");
-
     }
-
     /**
      * 把选定的内容或者插入点向下移动
      *
@@ -131,7 +110,6 @@ public class WordProcess {
         for (int i = 0; i < pos; i++)
             Dispatch.call(selection, "MoveDown");
     }
-
     /**
      * 把选定的内容或者插入点向左移动
      *
@@ -145,7 +123,6 @@ public class WordProcess {
             Dispatch.call(selection, "MoveLeft");
         }
     }
-
     /**
      * 把选定的内容或者插入点向右移动
      *
@@ -158,7 +135,6 @@ public class WordProcess {
         for (int i = 0; i < pos; i++)
             Dispatch.call(selection, "MoveRight");
     }
-
     /**
      * 把插入点移动到文件首位置
      *
@@ -168,12 +144,12 @@ public class WordProcess {
             selection = Dispatch.get(word, "Selection").toDispatch();
         Dispatch.call(selection, "HomeKey", new Variant(6));
     }
-
     public void enterStart(){
         if (selection == null)
             selection = Dispatch.get(word, "Selection").toDispatch();
         Dispatch.call(selection, "TypeParagraph");
     }
+    
     /**
      * 从选定内容或插入点开始查找文本
      *
@@ -181,7 +157,6 @@ public class WordProcess {
      *            要查找的文本
      * @return boolean true-查找到并选中该文本，false-未查找到文本
      */
-    @SuppressWarnings("static-access")
     public boolean find(String toFindText) {
         if (toFindText == null || toFindText.equals(""))
             return false;
@@ -200,7 +175,6 @@ public class WordProcess {
         // 查找并选中
         return Dispatch.call(find, "Execute").getBoolean();
     }
-
     /**
      * 把选定选定内容设定为替换文本
      *
@@ -216,7 +190,6 @@ public class WordProcess {
         Dispatch.put(selection, "Text", newText);
         return true;
     }
-
     /**
      * 全局替换文本
      *
@@ -231,7 +204,6 @@ public class WordProcess {
             Dispatch.call(selection, "MoveRight");
         }
     }
-
     /**
      * 在当前插入点插入字符串
      *
@@ -241,7 +213,6 @@ public class WordProcess {
     public void insertText(String newText) {
         Dispatch.put(selection, "Text", newText);
     }
-
     /**
      *
      * @param toFindText
@@ -257,7 +228,6 @@ public class WordProcess {
                 "AddPicture", imagePath);
         return true;
     }
-
     /**
      * 全局替换图片
      *
@@ -273,7 +243,6 @@ public class WordProcess {
             Dispatch.call(selection, "MoveRight");
         }
     }
-
     /**
      * 在当前插入点插入图片
      *
@@ -284,12 +253,8 @@ public class WordProcess {
         Dispatch.call(Dispatch.get(selection, "InLineShapes").toDispatch(),
                 "AddPicture", imagePath);
     }
-
-
-
     // 插入图片,可以设置图片大小
     public void insertImage(String toFindText, String imagePath, int width, int height){
-
     	if(find(toFindText)){
     	Dispatch picture = Dispatch.call(Dispatch.get(selection, "InLineShapes").toDispatch(), "AddPicture", imagePath).toDispatch();
     	Dispatch.call(picture, "Select");
@@ -297,8 +262,6 @@ public class WordProcess {
     	Dispatch.put(picture, "Height", new Variant(height));
     	}
     	}
-
-
       /**
      * 合并当前表格指定的单元格 如果需要一次合并几个单元格只需要指出第一个单元格和最后一个单元格
      *
@@ -326,7 +289,6 @@ public class WordProcess {
                 .toDispatch();
         Dispatch.call(fstCell, "Merge", secCell);
     }
-
     /**
      * 在指定的单元格里填写数据
      *
@@ -347,7 +309,6 @@ public class WordProcess {
         Dispatch.call(cell, "Select");
         Dispatch.put(selection, "Text", txt);
     }
-
     /**
      * 获得指定的单元格里数据
      *
@@ -370,7 +331,6 @@ public class WordProcess {
         ret = ret.substring(0, ret.length() - 1); // 去掉最后的回车符;
         return ret;
     }
-
     /**
      * 在当前文档拷贝剪贴板数据
      *
@@ -383,7 +343,6 @@ public class WordProcess {
             Dispatch.call(textRange, "Paste");
         }
     }
-
     /**
      * 在当前文档指定的位置拷贝表格
      *
@@ -405,7 +364,6 @@ public class WordProcess {
             Dispatch.call(textRange, "Paste");
         }
     }
-
     /**
      * 在当前文档指定的位置拷贝来自另一个文档中的表格
      *
@@ -443,7 +401,6 @@ public class WordProcess {
             }
         }
     }
-
     /**
      * 在当前文档指定的位置拷贝来自另一个文档中的图片
      *
@@ -479,7 +436,6 @@ public class WordProcess {
             }
         }
     }
-
     /**
      * 创建表格
      *
@@ -495,11 +451,9 @@ public class WordProcess {
         	List<Map<String, Object>> result = list;
             Dispatch tables = Dispatch.get(doc, "Tables").toDispatch();
             Dispatch range = Dispatch.get(selection, "Range").toDispatch();
-            @SuppressWarnings("unused")
             Dispatch newTable = Dispatch.call(tables, "Add", range,
                     new Variant(numRows), new Variant(numCols),new Variant(1)).toDispatch();
             Dispatch.call(selection, "MoveRight");
-
             // 为表格填入数据
     		for(int i=1;  i<=list.size(); i++)
     			for(int j=1; j<=list.get(0).size(); j++){
@@ -508,7 +462,6 @@ public class WordProcess {
     			        Dispatch.call(cell, "Select");
     			        Dispatch.put(selection, "Text", list.get( i).values());
     			}
-
         } else {
             Dispatch tables = Dispatch.get(doc, "Tables").toDispatch();
             Dispatch range = Dispatch.get(selection, "Range").toDispatch();
@@ -518,7 +471,6 @@ public class WordProcess {
             Dispatch.call(selection, "MoveRight");
         }
     }
-
     /**
      * 在指定行前面增加行
      *
@@ -539,7 +491,6 @@ public class WordProcess {
                 .toDispatch();
         Dispatch.call(rows, "Add", new Variant(row));
     }
-
     /**
      * 在第1行前增加一行
      *
@@ -557,7 +508,6 @@ public class WordProcess {
         Dispatch row = Dispatch.get(rows, "First").toDispatch();
         Dispatch.call(rows, "Add", new Variant(row));
     }
-
     /**
      * 在最后1行前增加一行
      *
@@ -575,7 +525,6 @@ public class WordProcess {
         Dispatch row = Dispatch.get(rows, "Last").toDispatch();
         Dispatch.call(rows, "Add", new Variant(row));
     }
-
     /**
      * 增加一行
      *
@@ -591,7 +540,6 @@ public class WordProcess {
         Dispatch rows = Dispatch.get(table, "Rows").toDispatch();
         Dispatch.call(rows, "Add");
     }
-
     /**
      * 增加一列
      *
@@ -609,7 +557,6 @@ public class WordProcess {
         Dispatch.call(cols, "Add").toDispatch();
         Dispatch.call(cols, "AutoFit");
     }
-
     /**
      * 在指定列前面增加表格的列
      *
@@ -633,7 +580,6 @@ public class WordProcess {
         Dispatch.call(cols, "Add", col).toDispatch();
         Dispatch.call(cols, "AutoFit");
     }
-
     /**
      * 在第1列前增加一列
      *
@@ -651,7 +597,6 @@ public class WordProcess {
         Dispatch.call(cols, "Add", col).toDispatch();
         Dispatch.call(cols, "AutoFit");
     }
-
     /**
      * 在最后一列前增加一列
      *
@@ -669,7 +614,6 @@ public class WordProcess {
         Dispatch.call(cols, "Add", col).toDispatch();
         Dispatch.call(cols, "AutoFit");
     }
-
     /**
      * 自动调整表格
      *
@@ -684,7 +628,6 @@ public class WordProcess {
             Dispatch.call(cols, "AutoFit");
         }
     }
-
     /**
      * 调用word里的宏以调整表格的宽度,其中宏保存在document下
      *
@@ -704,7 +647,6 @@ public class WordProcess {
             Dispatch.call(word, "Run", "tableFitContent");
         }
     }
-
     /**
      * 设置当前选定内容的字体
      *
@@ -728,7 +670,6 @@ public class WordProcess {
         Dispatch.put(font, "Underline", new Variant(underLine));
         Dispatch.put(font, "Size", size);
     }
-
     /**
      * 设置单元格被选中
      *
@@ -745,7 +686,6 @@ public class WordProcess {
                 new Variant(cellColIdx)).toDispatch();
         Dispatch.call(cell, "Select");
     }
-
     /**
      * 设置选定单元格的垂直对起方式, 请使用setTableCellSelected选中一个单元格
      *
@@ -756,7 +696,6 @@ public class WordProcess {
         Dispatch cells = Dispatch.get(selection, "Cells").toDispatch();
         Dispatch.put(cells, "VerticalAlignment", new Variant(verticalAlign));
     }
-
     /**
      * 设置当前文档中所有表格水平居中方式及其它一些格式,用在将word文件转化为html中,针对申报表
      */
@@ -770,7 +709,6 @@ public class WordProcess {
             Dispatch table = Dispatch.call(tables, "Item", new Variant(i))
                     .toDispatch();
             Dispatch rows = Dispatch.get(table, "Rows").toDispatch();
-
             if (i == 1) {
                 Dispatch.put(rows, "Alignment", new Variant(2)); // 1-居中,2-Right
                 continue;
@@ -788,7 +726,6 @@ public class WordProcess {
             // System.out.println("Algin:" + oldAlign);
         }
     }
-
     /**
      * 设置段落格式
      *
@@ -812,7 +749,6 @@ public class WordProcess {
         Dispatch.put(paragraphs, "CharacterUnitFirstLineIndent", new Variant(
                 characterUnitFirstLineIndent)); // 首行缩进字符数
     }
-
     /**
      * 设置当前段落格式, 使用前,请先选中段落
      */
@@ -827,7 +763,6 @@ public class WordProcess {
         val = Dispatch.get(paragraphs, "CharacterUnitFirstLineIndent")
                 .toString(); // 首行缩进字符数
     }
-
     /**
      * 文件保存或另存为
      *
@@ -838,7 +773,6 @@ public class WordProcess {
         Dispatch.call((Dispatch) Dispatch.call(word, "WordBasic").getDispatch(),
                 "FileSaveAs", savePath);
     }
-
     /**
      * 文件保存为html格式
      *
@@ -849,7 +783,6 @@ public class WordProcess {
         Dispatch.invoke(doc, "SaveAs", Dispatch.Method, new Object[] {
                 htmlPath, new Variant(8) }, new int[1]);
     }
-
     /**
      * 关闭文档
      *
@@ -860,7 +793,6 @@ public class WordProcess {
         Dispatch.call(doc, "Close", new Variant(val));
         doc = null;
     }
-
     /**
      * 关闭当前word文档
      *
@@ -872,14 +804,12 @@ public class WordProcess {
             doc = null;
         }
     }
-
     public void closeDocumentWithoutSave() {
         if (doc != null) {
             Dispatch.call(doc, "Close", new Variant(false));
             doc = null;
         }
     }
-
     /**
      * 关闭全部应用
      *
@@ -893,7 +823,6 @@ public class WordProcess {
         selection = null;
         documents = null;
     }
-
     /**
      * 打印当前word文档
      *
@@ -903,7 +832,6 @@ public class WordProcess {
             Dispatch.call(doc, "PrintOut");
         }
     }
-
     /**
      * 保护当前档,如果不存在, 使用expression.Protect(Type, NoReset, Password)
      *
@@ -922,7 +850,6 @@ public class WordProcess {
                     pwd);
         }
     }
-
     /**
      * 解除文档保护,如果存在
      *
@@ -939,7 +866,6 @@ public class WordProcess {
             Dispatch.call(doc, "Unprotect", pwd);
         }
     }
-
     /**
      * 设置word文档安全级别
      *
@@ -952,7 +878,6 @@ public class WordProcess {
     public void setAutomationSecurity(int value) {
         word.setProperty("AutomationSecurity", new Variant(value));
     }
-
     /**
      * 读取文档中第paragraphsIndex段文字的内容;
      *
@@ -973,7 +898,6 @@ public class WordProcess {
         }
         return ret;
     }
-
     /**
      * 设置页眉文字
      *
@@ -991,23 +915,19 @@ public class WordProcess {
         Dispatch view = Dispatch.get(activeWindow, "View").toDispatch();
         // Dispatch seekView = Dispatch.get(view, "SeekView").toDispatch();
         Dispatch.put(view, "SeekView", new Variant(9)); // wdSeekCurrentPageHeader-9
-
         Dispatch headerFooter = Dispatch.get(selection, "HeaderFooter")
                 .toDispatch();
         Dispatch range = Dispatch.get(headerFooter, "Range").toDispatch();
         Dispatch.put(range, "Text", new Variant(cont));
         // String content = Dispatch.get(range, "Text").toString();
         Dispatch font = Dispatch.get(range, "Font").toDispatch();
-
         Dispatch.put(font, "Name", new Variant("宋体 (中文正文)"));
         Dispatch.put(font, "Bold", new Variant(false));
         // Dispatch.put(font, "Italic", new Variant(true));
         // Dispatch.put(font, "Underline", new Variant(true));
         Dispatch.put(font, "Size", 9);
-
         Dispatch.put(view, "SeekView", new Variant(0)); // wdSeekMainDocument-0恢复视图;
     }
-
     /***
 	 * 获取word里面指定表格的内容
 	 * @param tableIndex 代表第几个表格
@@ -1051,5 +971,4 @@ public class WordProcess {
 		moveStart();
         return wordTextLists;
 	}
-
 }
