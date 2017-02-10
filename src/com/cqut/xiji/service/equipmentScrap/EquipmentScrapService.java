@@ -49,7 +49,7 @@ public class EquipmentScrapService extends SearchService implements IEquipmentSc
 				String[] properties = new String[]{
 						"b.ID", 
 						"b.equipmentID",
-						"b.equipmentCode", 
+						"b.factoryCode", 
 						"b.equipmentName", 
 						"b.model",
 						"b.departmentID", 
@@ -61,7 +61,7 @@ public class EquipmentScrapService extends SearchService implements IEquipmentSc
 						"b.useTime", 
 						"b.remarks"
 				};
-				String baseEntity = "(select a.*,equipment.equipmentCode,equipment.equipmentName," +
+				String baseEntity = "(select a.*,equipment.factoryCode,equipment.equipmentName," +
 											"equipment.model,equipment.departmentID " +
 									"from (select equipmentscrap.*,employee.employeeName " +
 										  "from equipmentscrap " + 
@@ -73,7 +73,7 @@ public class EquipmentScrapService extends SearchService implements IEquipmentSc
 					condition += " and b.equipmentName like '%" + equipmentName+ "%'";
 				}if (model != null && !model.isEmpty()) {
 					condition += " and b.model like '%" + model + "%'";
-				}if (!departmentID.equals("0")) {
+				}if (!departmentID.equals("0") && departmentID != null && !departmentID.isEmpty()) {
 					condition += " and b.departmentID ='" + departmentID + "'";
 				}
 				List<Map<String, Object>> result = entityDao.searchWithpaging(

@@ -182,11 +182,11 @@ function delData(){
 	}
 	var ID = "";
 	for(var i=0; i<data.length; i++){
-		ID += data[i].ID + ",";
+		ID += "ID = '" + data[i].ID + "' or ";
 	}
-	alert(ID.substring(0, (ID.length-1)));
+	alert(ID.substring(0, (ID.length-3)));
 	var ajaxParameter = {
-			ID:ID.substring(0, (ID.length-1))	
+			ids:ID.substring(0, (ID.length-3))	
 	};
 	
 	$.ajax({
@@ -210,7 +210,8 @@ function add(){
 		var address = $('#add_Address').val();
 		var oppositeMen = $('#add_oppositeMen').val();
 		var linkPhone = $('#add_linkPhone').val();
-		var employeeName = $('#add_employeeName').val();
+		var employeeName = $('#add_employeeName').attr("name");
+		alert(employeeName);
 		var signAddress = $('#add_signAddress').val();
 		var signTime = $('#add_signTime').val();
 		var startTime = $('#add_startTime').val();
@@ -303,7 +304,7 @@ function addGetEName(){
 	var name = $('#add_employeeName').val();
 	if (!name && typeof(name)!="undefined" && name=='') 
 	{
-		$(".employeeName").hide();
+		$(".employeeN").hide();
 	}else {
 		var parame = {};
 		parame.employeeName = name;
@@ -325,7 +326,7 @@ function addGetEName(){
 		    			length = myobj.length;
 		    		}
 		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].employeeName + "'>" + myobj[i].employeeName + "</li></ul>";
+		    			htmlElement += "<ul><li value='" + myobj[i].employeeName + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + "</li></ul>";
 		    		}
 		    		
 		    		employee.show();
@@ -344,12 +345,16 @@ function addClick(){
 	$(".employeeName ul li").click(function(){
 		 var name =  $(this).attr("value");
 		 $("#add_employeeName").val(name);
-	});
-	
-	//隐藏提示框
-	$("#addModal").click(function(){
+		 var ID =  $(this).attr("class");
+		 $('#add_employeeName').attr({'name' : "" + ID + ""});
+		 $('#add_employeeName').attr({'value' : "" + name + ""});
 		 $(".employeeName").hide();
-	});
+	})
+
+	//隐藏提示框
+	$("#showContract").click(function(){
+		 $(".employeeName").hide();
+	})
 }
 
 /**

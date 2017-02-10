@@ -39,7 +39,7 @@ public class EquipmentVerifyService extends SearchService implements IEquipmentV
 	
 	@Override
 	public Map<String, Object> getEquipmentVerifyWithPaging(int limit, int offset,
-			String sort, String order, String equipmentCode,String equipmentName, 
+			String sort, String order,String equipmentName, 
 			String departmentName, String employeeName){
 		// TODO Auto-generated method stub
 				int index = limit;
@@ -54,7 +54,7 @@ public class EquipmentVerifyService extends SearchService implements IEquipmentV
 						"case when a.result = 0 then '不合格' " + 
 						"when a.result = 1 then '合格' end as result",
 						"a.equipmentID",
-						"a.equipmentCode",
+						"a.factoryCode",
 						"a.equipmentName",
 						"a.departmentID",
 						"a.departmentName",
@@ -63,7 +63,7 @@ public class EquipmentVerifyService extends SearchService implements IEquipmentV
 						"a.testProjectID",
 						"testProject.nameCn"
 				};
-				String baseEntity = "(select equipmentVerify.*,equipment.equipmentCode," + 
+				String baseEntity = "(select equipmentVerify.*,equipment.factoryCode," + 
 									 		 "equipment.equipmentName,department.departmentName " +
 									 "from equipmentVerify " +
 									 "LEFT JOIN equipment ON equipmentVerify.equipmentID = equipment.ID " +
@@ -73,9 +73,7 @@ public class EquipmentVerifyService extends SearchService implements IEquipmentV
 				String condition = " 1 = 1 "; 
 				if (equipmentName != null && !equipmentName.isEmpty()) {
 					condition += " and a.equipmentName like '%" + equipmentName+ "%'";
-				}if (equipmentCode != null && !equipmentCode.isEmpty()) {
-					condition += " and a.equipmentCode like '%" + equipmentCode + "%'";
-				}if (!departmentName.equals("0")) {
+				}if (!departmentName.equals("0") && departmentName != null && !departmentName.isEmpty()) {
 					condition += " and a.departmentID ='" + departmentName + "'";
 				}if (employeeName != null && !employeeName.isEmpty()) {
 					condition += " and employee.employeeName like '%" + employeeName + "%'";

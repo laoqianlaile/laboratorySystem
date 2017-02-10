@@ -36,7 +36,6 @@ public class EquipmentController {
 	
 	/**
 	 * 
-	 * @param equipmentCode
 	 * @param equipmentName
 	 * @param number
 	 * @param equipmentType
@@ -49,8 +48,8 @@ public class EquipmentController {
 	 */
 	@RequestMapping("/addEquipment")  
     @ResponseBody
-	public int addEquipment(String equipmentCode, String equipmentName, String equipmentType, String model, String department, String buyTime, int useYear, String factoryCode, String credentials, String effectiveTime,  String employeeID, String remarks){
-		int result = service.addEquipment(equipmentCode, equipmentName, equipmentType, model, department, buyTime, useYear, factoryCode, credentials, effectiveTime, employeeID, remarks);
+	public int addEquipment(String equipmentName, String equipmentType, String model, String department, String buyTime, int useYear, String factoryCode, String credentials, String effectiveTime,  String employeeID, String remarks){
+		int result = service.addEquipment(equipmentName, equipmentType, model, department, buyTime, useYear, factoryCode, credentials, effectiveTime, employeeID, remarks);
 		return result;
 	}
 	
@@ -58,13 +57,13 @@ public class EquipmentController {
 	 * @description 删除设备
 	 * @author hujiajun
 	 * @created 2016-10-17 下午9:31:13
-	 * @param contractCodes
+	 * @param equipmentIds
 	 * @return
 	 */
 	@RequestMapping("/delEquipment")  
     @ResponseBody
-	public int delEquipment(String equipmentCodes){
-		int result = service.delEquipment(equipmentCodes);
+	public int delEquipment(String equipmentIds){
+		int result = service.delEquipment(equipmentIds);
 		return result;
 	}
 	
@@ -128,8 +127,8 @@ public class EquipmentController {
 	 */
 	@RequestMapping("/updEquipment")  
     @ResponseBody
-	public String updEquipment(String ID, String equipmentCode, String equipmentName, String equipmentType, String model, String department, String buyTime, int useYear, String factoryCode, String credentials, String effectiveTime,  String employeeID, String remarks){
-		String result = service.updEquipment(ID, equipmentCode, equipmentName, equipmentType, model, department, buyTime, useYear, factoryCode, credentials, effectiveTime, employeeID, remarks);
+	public String updEquipment(String ID, String equipmentName, String equipmentType, String model, String department, String buyTime, int useYear, String factoryCode, String credentials, String effectiveTime,  String employeeID, String remarks){
+		String result = service.updEquipment(ID, equipmentName, equipmentType, model, department, buyTime, useYear, factoryCode, credentials, effectiveTime, employeeID, remarks);
 		return result;
 	}
 
@@ -167,18 +166,11 @@ public class EquipmentController {
 		return JSONObject.fromObject(map);
 	}
 	
-	/**
-	 * 
-     * @discription 获取设备的名称、出厂编号信息
-     * @author zt       
-     * @created 2016-12-21 下午5:19:26     
-     * @return
-	 */
-	@RequestMapping("/getEquipmentInfo")
+	@RequestMapping("/dateDiff")
 	@ResponseBody
-	public List<Map<String,Object>> getEquipmentInfo() {
-		List<Map<String, Object>> result = service.getEquipmentInfo();
-		return result;
+	public Long dateDiff(String startTime, String endTime,  String format, String str) {   
+        Long time = service.dateDiff(startTime, endTime, format, str);
+        System.out.println(time);
+        return time;
 	}
-	
 }

@@ -101,10 +101,8 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 	       session.setAttribute("ID", employee2.getID());
 	       session.setAttribute("EMPLOYEEID", employee2.getID());
 	       session.setAttribute("LOGINNAME", employee2.getLoginName());
-<<<<<<< HEAD
 	       session.setAttribute("EMPLOYEENAME", employee2.getEmployeeName());
-=======
->>>>>>> b347682e59e1797e379c23c7998908711652b9bd
+
 
 		return "1";
 
@@ -116,12 +114,8 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			  System.out.println("用户"+session.getAttribute("LOGINNAME")+"请求退出");
 			  session.setAttribute("LOGINNAME", "");
 			  session.setAttribute("EMPLOYEEID","");
-<<<<<<< HEAD
 			  session.setAttribute("EMPLOYEENAME", "");
 			 
-=======
-
->>>>>>> b347682e59e1797e379c23c7998908711652b9bd
 			return "1";
 		}
 
@@ -428,7 +422,6 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			return entityDao.updatePropByID(employee,ID)==1?"true":"false";
 		}
 
-<<<<<<< HEAD
 		@Override
 		public List<Map<String, Object>> getEmployeeinfo(String employeeID) {
 			String baseEntity = "employee";
@@ -484,6 +477,4 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			return result +"";
 		}
 		
-=======
->>>>>>> b347682e59e1797e379c23c7998908711652b9bd
 }

@@ -120,9 +120,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<span>设备名称：</span><input type="text" id="schEquipmentName" name="schEquipmentName" class="form-control" >
 			<span>检测部门：</span>
 		    <select id="schDepartment" name="schDepartment" class="form-control" >
-		    	<option value="0">所有科室</option>
-		    	<option value="1">物理实验室</option>
-				<option value="2">化学实验室</option>
 			</select>
 		</div>
 	</div>
@@ -144,10 +141,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      </div>
 	      <div class="modal-body">
 	      	<div id="addContent" class="row">
-	      		<div class="col-xs-12 col-md-12">
-                   	<label class="control-label" style="margin:8px 0 0 0;">设备编号：</label>
-                   	<input type="text" id="add_equipmentCode" name="equipmentCode" class="form-control" />
-               	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">设备名称：</label>
                    	<input type="text" id="add_equipmentName" name="equipmentName" oninput="addGetEQName()" onpropertychange="addGetEQName()" class="form-control" />
@@ -156,12 +149,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    </div>
                 </div>
                 <div class="col-xs-12 col-md-12">
-                  	<label class="control-label" style="margin:8px 0 0 0;">设备购入时间：</label>
-                   	<div class="input-group date form_datetime">
-		   				<input id="add_buyTime" class="form-control" size="16" type="text" value="" readonly>
-		    			<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-						<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-					</div>
+                   	<label class="control-label" style="margin:8px 0 0 0;">设备出厂编号：</label>
+                   	<input type="text" id="add_factoryCode" name="factoryCode" class="form-control" />
+               	</div>
+               	<div class="col-xs-12 col-md-12">
+                   	<label class="control-label" style="margin:8px 0 0 0;">设备购入时间：</label>
+                   	<input type="text" id="add_buyTime" name="buyTime" class="form-control" />
                	</div>
                 <div class="col-xs-12 col-md-12">
                   	<label class="control-label" style="margin:8px 0 0 0;">设备报销登记时间：</label>
@@ -171,12 +164,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
 					</div>
                	</div>
-               	<!-- <div class="col-xs-12 col-md-12">
-                   	<label class="control-label" style="margin:8px 0 0 0;">所属科室：</label>
-                   	<select id="add_departmentName" name="departmentName" class="form-control">
-						
-		           	</select>
-               	</div> -->
                	<div class="col-xs-12 col-md-12">
                	   	<label class="control-label" style="margin:8px 0 0 0;">检测员:</label>
                	   	<input type="text" id="add_employeeName" name="employeeName" oninput="addGetEMName()" onpropertychange="addGetEMName()"  class="form-control"/>
@@ -208,10 +195,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      </div>
 	      <div class="modal-body">
 	      	<div id="editContent" class="row">
-	      		<div class="col-xs-12 col-md-12">
-                   	<label class="control-label" style="margin:8px 0 0 0;">设备编号：</label>
-                   	<input type="text" id="edit_equipmentCode" name="equipmentCode" class="form-control" />
-               	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">设备名称：</label>
                    	<input type="text" id="edit_equipmentName" name="equipmentName" oninput="editGetEQName()" onpropertychange="editGetEQName()" class="form-control" />
@@ -220,12 +203,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    </div>
                 </div>
                 <div class="col-xs-12 col-md-12">
-                  	<label class="control-label" style="margin:8px 0 0 0;">设备购入时间：</label>
-                   	<div class="input-group date form_datetime">
-		   				<input id="edit_buyTime" class="form-control" size="16" type="text" value="" readonly>
-		    			<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-						<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-					</div>
+                   	<label class="control-label" style="margin:8px 0 0 0;">设备出厂编号：</label>
+                   	<input type="text" id="edit_factoryCode" name="factoryCode" class="form-control" readonly/>
+               	</div>
+                <div class="col-xs-12 col-md-12">
+                   	<label class="control-label" style="margin:8px 0 0 0;">设备购入时间：</label>
+                   	<input type="text" id="edit_buyTime" name="buyTime" class="form-control" readonly/>
                	</div>
                 <div class="col-xs-12 col-md-12">
                   	<label class="control-label" style="margin:8px 0 0 0;">设备报销登记时间：</label>
@@ -235,15 +218,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
 					</div>
                	</div>
-               	<!-- <div class="col-xs-12 col-md-12">
-                   	<label class="control-label" style="margin:8px 0 0 0;">所属科室：</label>
-                   	<select id="edit_departmentName" name="departmentName" class="form-control">
-						
-		           	</select>
-               	</div> -->
                	<div class="col-xs-12 col-md-12">
                	   	<label class="control-label" style="margin:8px 0 0 0;">检测员:</label>
-               	   	<input type="text" id="edit_employeeName" name="employeeName" oninput="editGetEMName()" onpropertychange="editGetEMName()"  class="form-control"/>
+               	   	<input type="text" id="edit_employeeName" name="employeeName" oninput="editGetEMName()" onpropertychange="editGetEMName()" class="form-control"/>
                    <div class="employeeN">
 	                   
                    </div>
