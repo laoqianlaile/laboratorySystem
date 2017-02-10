@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.enterprise.inject.New;
 
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,8 @@ import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
+import com.cqut.xiji.entity.message.Message;
+import com.cqut.xiji.entity.messageNotice.MessageNotice;
 import com.cqut.xiji.entity.sample.Sample;
 import com.cqut.xiji.entity.task.Task;
 import com.cqut.xiji.entity.taskMan.TaskMan;
@@ -172,8 +175,36 @@ public class TaskService extends SearchService implements ITaskService {
 					result = -1;
 				}
 			}
+			
+			addMessage(temp, taskID); // 添加消息
 		}
 		return result;
+	}
+	
+	public void addMessage(String[] IDS, String taskID) {
+		Task task = entityDao.getByID(taskID, Task.class);
+		
+		String content = task.getID() + "任务需要检测!"; // 消息记录内容
+		
+		// 设置消息记录
+		Message message = new Message();
+		String messageID = EntityIDFactory.createId();
+		message.setID(messageID);
+		message.setContent(content);
+		message.setCreateTime(new Date());
+		entityDao.save(message);
+		
+		// 设置消息通知
+		int len = IDS.length;
+		MessageNotice[] messageNotices = new MessageNotice[len];
+		
+		for(int i = 0; i < len; i++) {
+			messageNotices[i] = new MessageNotice();
+			messageNotices[i].setID(EntityIDFactory.createId());
+			messageNotices[i].setMessageID(messageID);
+			messageNotices[i].setEmployeeID(IDS[i]);
+		}
+		entityDao.saveEntities(messageNotices);
 	}
 
 	/**
