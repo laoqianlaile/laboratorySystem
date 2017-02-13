@@ -110,8 +110,6 @@ function getTree(){
 	            t.tree("loadData", [root]);
 	        },'json');
 	    };
-<<<<<<< HEAD
-
  }
  /* 注销 */
  function exit(){
@@ -134,7 +132,13 @@ function getTree(){
 	 $('#edit_department').val(employeeInfo[0].departmentName);
 	 $('#edit_level').val(employeeInfo[0].level);
 	 $('#edit_duty').val(employeeInfo[0].dutyName);
-	 $('#edit_sex').val(employeeInfo[0].sex);
+	 
+	 if(employeeInfo[0].sex == 1){
+		 $('#edit_sex input[value="1"]').attr("checked",true);
+	 }
+	 else{
+		 $('#edit_sex input[value="0"]').attr("checked",true);
+	 }
 	 $('#edit_phone').val(employeeInfo[0].phoneNumber);
 	 $('#edit_email').val(employeeInfo[0].email);
 	 $('#edit_address').val(employeeInfo[0].address);
@@ -148,7 +152,7 @@ function getTree(){
 	 var parame = {};
 	 parame.employeeID = $('#LoginID').val();
 	 parame.employeeName =  $('#edit_Name').val();
-	 parame.sex = $('#edit_sex').val();
+	 parame.sex =  $('#edit_sex input[name="sex"]:checked').val()
 	 parame.phoneNumber = $('#edit_phone').val();
 	 parame.email = $('#edit_email').val();
 	 parame.address = $('#edit_address').val();
@@ -270,7 +274,4 @@ function getTree(){
  function login(){
 	 window.location.href = window.location.href.replace('index.jsp','login.jsp');
  }
-=======
-}
  
->>>>>>> b347682e59e1797e379c23c7998908711652b9bd

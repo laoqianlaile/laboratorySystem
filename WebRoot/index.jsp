@@ -86,16 +86,14 @@
 #navName {
 	font-size: 22px;
 }
-<<<<<<< HEAD
 
 #editpwdModal .col-xs-3{
 	text-align: right;
 }
-=======
->>>>>>> b347682e59e1797e379c23c7998908711652b9bd
 #content_frame{
 	
 	width: 100%;
+	min-height:710px;
 }
 .col-xs-12-w{
 margin-left: 5px;
@@ -131,7 +129,6 @@ vertical-align: middle;
 						<li class="light-blue"><a data-toggle="dropdown" href="#"
 							class="dropdown-toggle"> <img class="nav-user-photo"
 								src="assets/avatars/user.jpg" alt="Jason's Photo" /> <span
-<<<<<<< HEAD
 								class="user-info"> 
 								<%if(request.getSession().getAttribute("EMPLOYEENAME") == null || 
 								request.getSession().getAttribute("EMPLOYEEID") == null||
@@ -146,17 +143,7 @@ vertical-align: middle;
 								else{%>
 									<small>欢迎光临,</small> <%=request.getSession().getAttribute("EMPLOYEENAME")%>
 									<input type="hidden" id="LoginID" value="<%=request.getSession().getAttribute("EMPLOYEEID")%>"/>
-								
 							</span> <i class="icon-caret-down"></i>
-=======
-								class="user-info"> <small>欢迎光临,</small> Jason
-							</span> <i class="fa fa-caret-down"></i>
-						</a>
->>>>>>> b347682e59e1797e379c23c7998908711652b9bd
-
-								class="user-info"> <small>欢迎光临,</small> Jason
-							</span> <i class="fa fa-caret-down"></i>
-						</a>
 
 							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 								<li onclick = "openEditpwd()"><a> <i class="icon-cog"></i> 修改密码</a></li>
@@ -770,10 +757,10 @@ vertical-align: middle;
 							<label>职务名称：</label>
 							<input type="text" id="edit_duty" name="duty" class="from-control" disabled="disabled"/>
 						</div>
-						<div class ="col-xs-6 col-md-6">
+						<div id = "edit_sex" class ="col-xs-6 col-md-6">
 							<label>性别:</label>
-							<input type="radio"  id="edit_sex" name ="sex" value="0"/>女
-							<input type="radio"  id="edit_sex"  name ="sex" value="1"/>男
+							<input type="radio"   name ="sex" value="0"/>女
+							<input type="radio"   name ="sex" value="1"/>男
 						</div>
 						<div class ="col-xs-6 col-md-6">
 							<label>手机号：</label>
