@@ -11,7 +11,6 @@ public class Message extends Entity{
 	private String ID;
 	private String content;
 	private Date createTime;
-	private Date checkinTime;
 	private String remarks;
 	
 	public String getID() {

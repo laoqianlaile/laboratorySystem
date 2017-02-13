@@ -11,7 +11,6 @@ public class MessageNotice extends Entity{
 	private String ID;
 	private String messageID;
 	private String employeeID;
-	private String roleID;
 	private int state;
 	private Date lookTime;
 	
