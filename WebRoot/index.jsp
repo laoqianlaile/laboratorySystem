@@ -5,6 +5,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>西计实验室管理系统</title>
 <!-- basic styles -->
 <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/font-awesome.min.css" />
@@ -87,12 +88,15 @@
 	font-size: 22px;
 }
 #content_frame{
-	height:500px;
+	
 	width: 100%;
 }
 .col-xs-12-w{
 margin-left: 5px;
 }
+.fixed-table-body #table .bs-checkbox {
+vertical-align: middle;
+}   
 </style>
 
 </head>
@@ -289,7 +293,7 @@ margin-left: 5px;
 					</div>
 
 
-					<div class="alert alert-block alert-success">
+				<!-- 	<div class="alert alert-block alert-success">
 						<button type="button" class="close" data-dismiss="alert">
 							<i class="fa fa-remove"></i>
 						</button>
@@ -297,7 +301,7 @@ margin-left: 5px;
 						<i class="icon-ok green"></i> 欢迎使用 <strong class="green">
 							西计后台管理系统 <small>(v1.2)</small>
 						</strong> ,轻量级好用的后台管理系统.
-					</div>
+					</div> -->
 					<div class="col-xs-12-w">
 						<div class="datagrid">
 							<iframe id="content_frame" name="aa" 
