@@ -140,16 +140,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  	 <!-- 功能按钮 -->
  	 <div id="searcherArea">
 		<div class="list-searcher">
-			<span>设备编号：</span><input type="text" id="schEquipmentCode" name="schEquipmentCode" class="form-control" >
 			<span>设备名称：</span><input type="text" id="schEquipmentName" name="schEquipmentName" class="form-control" >
-		</div>
-		<div class="list-searcher">
 		    <span>检测部门：</span>
 		    <select id="schDepartment" name="schDepartment" class="form-control" >
-		    	<option value="0">所有科室</option>
-		    	<option value="1">物理实验室</option>
-				<option value="2">化学实验室</option>
-				<option value="3">光学实验室</option>
 			</select>
 			<span>检测员：</span><input type="text" id="schEmployeeName" name="schEmployeeName" class="form-control" >
 		</div>
@@ -172,10 +165,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      </div>
 	      <div class="modal-body">
 	      	<div id="addContent" class="row">
-	      		<div class="col-xs-12 col-md-12">
-                   	<label class="control-label" style="margin:8px 0 0 0;">设备编号：</label>
-                   	<input type="text" id="add_equipmentCode" name="equipmentCode" class="form-control" />
-               	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">设备名称：</label>
                    	<input type="text" id="add_equipmentName" name="equipmentName" oninput="addGetEQName()" onpropertychange="addGetEQName()" class="form-control" />
@@ -183,6 +172,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                   
                    </div>
                 </div>
+                <div class="col-xs-12 col-md-12">
+                   	<label class="control-label" style="margin:8px 0 0 0;">设备编号：</label>
+                   	<input type="text" id="add_factoryCode" name="factoryCode" class="form-control" />
+               	</div>
                 <div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">检测项目：</label>
                    	<input type="text" id="add_testProjectName" name="testProjectName" oninput="addGetTPName()" onpropertychange="addGetTPName()" class="form-control" />
@@ -193,7 +186,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">检测精度：</label>
                    	<select id="add_accuracy" name="accuracy" class="form-control">
-						<option class="accuracy"></option>
 						<option value="0">低</option>
 						<option value="1">中</option>
 						<option value="2">高</option>
@@ -243,10 +235,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      </div>
 	      <div class="modal-body">
 	      	<div id="editContent" class="row">
-	      		<div class="col-xs-12 col-md-12">
-                   	<label class="control-label" style="margin:8px 0 0 0;">设备编号：</label>
-                   	<input type="text" id="edit_equipmentCode" name="equipmentCode" class="form-control" />
-               	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">设备名称：</label>
                    	<input type="text" id="edit_equipmentName" name="equipmentName" oninput="editGetEQName()" onpropertychange="editGetEQName()" class="form-control" />
@@ -254,6 +242,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                   
                    </div>
                 </div>
+                <div class="col-xs-12 col-md-12">
+                   	<label class="control-label" style="margin:8px 0 0 0;">设备编号：</label>
+                   	<input type="text" id="edit_factoryCode" name="factoryCode" class="form-control" readonly/>
+               	</div>
                 <div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">检测项目：</label>
                    	<input type="text" id="edit_testProjectName" name="testProjectName"  oninput="editGetTPName()" onpropertychange="editGetTPName()" class="form-control" />
@@ -264,7 +256,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">检测精度：</label>
                    	<select id="edit_accuracy" name="accuracy" class="form-control">
-						<option class="accuracy"></option>
 						<option value="0">低</option>
 						<option value="1">中</option>
 						<option value="2">高</option>
@@ -286,7 +277,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">检测结果：</label>
                    	<select id="edit_result" name="result" class="form-control">
-						<option class="result"></option>
 						<option value="0">不合格</option>
 						<option value="1">合格</option>
 		           	</select>

@@ -139,10 +139,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      </div>
 	      <div class="modal-body">
 	      	<div id="addContent" class="row">
-	      		<div class="col-xs-12 col-md-12">
-                   	<label class="control-label" style="margin:8px 0 0 0;">设备编号：</label>
-                   	<input type="text" id="add_equipmentCode" name="equipmentCode" class="form-control" />
-               	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">设备名称：</label>
                    	<input type="text" id="add_equipmentName" name="equipmentName" oninput="addGetEQName()" onpropertychange="addGetEQName()" class="form-control" />
@@ -150,6 +146,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                   
                    </div>
                 </div>
+                <div class="col-xs-12 col-md-12">
+                   	<label class="control-label" style="margin:8px 0 0 0;">设备出厂编号：</label>
+                   	<input type="text" id="add_factoryCode" name="factoryCode" class="form-control" />
+               	</div>
                 <div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">维修前状态：</label>
                    	<input type="text" id="add_beforeStatus" name="beforeStatus" class="form-control" />
@@ -179,7 +179,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">维修费用:</label>
-				   	<input type="text" id="add_money" name="money" class="form-control"/>
+				   	<input type="text" id="add_money" name="money" class="form-control" onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}" onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
                	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">备注:</label>
@@ -205,10 +205,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      </div>
 	      <div class="modal-body">
 	      	<div id="editContent" class="row">
-	      		<div class="col-xs-12 col-md-12">
-                   	<label class="control-label" style="margin:8px 0 0 0;">设备编号：</label>
-                   	<input type="text" id="edit_equipmentCode" name="equipmentCode" class="form-control" />
-               	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">设备名称：</label>
                    	<input type="text" id="edit_equipmentName" name="equipmentName" oninput="editGetEQName()" onpropertychange="editGetEQName()" class="form-control" />
@@ -216,6 +212,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                   
                    </div>
                 </div>
+                <div class="col-xs-12 col-md-12">
+                   	<label class="control-label" style="margin:8px 0 0 0;">设备出厂编号：</label>
+                   	<input type="text" id="edit_factoryCode" name="factoryCode" class="form-control" />
+               	</div>
                 <div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">维修前状态：</label>
                    	<input type="text" id="edit_beforeStatus" name="beforeStatus" class="form-control" />
@@ -245,7 +245,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">维修费用:</label>
-				   	<input type="text" id="edit_money" name="money" class="form-control"/>
+				   	<input type="text" id="edit_money" name="money" class="form-control" onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}" onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
                	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">备注:</label>

@@ -42,8 +42,8 @@ function initData(){
 			width:'10',//宽度
 			visible:false
 		},{
-			field:'equipmentCode',//返回值名称
-			title:'设备编号',//列名
+			field:'factoryCode',//返回值名称
+			title:'设备出厂编号',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'10',//宽度
@@ -126,7 +126,7 @@ function queryParams(){
 	var searchCondition = {
 		limit : 10,
 		offset : 0,
-		sort : 'equipmentCode',
+		sort : 'factoryCode',
 		order : 'asc',
 		model : $.trim($('#schModel').val()),
 		equipmentName : $.trim($('#schEquipmentName').val()),
@@ -207,7 +207,7 @@ function addGetEQName(){
 		    			length = myobj.length;
 		    		}
 		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].equipmentName + "' class='" + myobj[i].ID + "' title='" + myobj[i].equipmentCode + "'>" + myobj[i].equipmentName + "</li></ul>";
+		    			htmlElement += "<ul><li value='" + myobj[i].equipmentName + "' class='" + myobj[i].ID + "' title='" + myobj[i].factoryCode + "'>" + myobj[i].equipmentName + " | " + myobj[i].factoryCode + "</li></ul>";
 		    		}
 		    		 
 		    		equipment.show();
@@ -271,7 +271,8 @@ function addClick(){
 		 var ID =  $(this).attr("class");
 		 var code =  $(this).attr("title");
 		 $('#add_equipmentName').attr({'name' : "" + ID + ""});
-		 $('#add_equipmentCode').attr({'value' : "" + code + ""});
+		 $('#add_factoryCode').attr({'value' : "" + code + ""});
+		 $('#add_factoryCode').attr("disabled",true);
 		 $('#add_equipmentName').attr({'value' : "" + name + ""});
 		 $(".equipmentName").hide();
 	})
@@ -327,7 +328,7 @@ function editGetEQName(){
 		    			length = myobj.length;
 		    		}
 		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].equipmentName + "' class='" + myobj[i].ID + "' title='" + myobj[i].equipmentCode + "'>" + myobj[i].equipmentName + "</li></ul>";
+		    			htmlElement += "<ul><li value='" + myobj[i].equipmentName + "' class='" + myobj[i].ID + "' title='" + myobj[i].factoryCode + "'>" + myobj[i].equipmentName + " | " + myobj[i].factoryCode + "</li></ul>";
 		    		}
 		    		 
 		    		equipment.show();
@@ -391,7 +392,8 @@ function editClick(){
 		 var ID =  $(this).attr("class");
 		 var code =  $(this).attr("title");
 		 $('#edit_equipmentName').attr({'name' : "" + ID + ""});
-		 $('#edit_equipmentCode').attr({'value' : "" + code + ""});
+		 $('#edit_factoryCode').attr({'value' : "" + code + ""});
+		 $('#edit_factoryCode').attr("disabled",true);
 		 $('#edit_equipmentName').attr({'value' : "" + name + ""});
 		 $(".equipmentName").hide();
 	})
@@ -424,7 +426,7 @@ function add(){
 	alert("add");
 	
 	var parame = {};
-	var equipmentCode = $('#add_equipmentCode').val();
+	var factoryCode = $('#add_factoryCode').val();
 	var equipmentName = $('#add_equipmentName').val();
 	var equipmentID = $('#add_equipmentName').attr("name");
 	var beforeStatus = $('#add_beforeStatus').val();
@@ -436,9 +438,9 @@ function add(){
 	var money = $('#add_money').val();
 	var remarks = $('#add_remarks').val();
 		
-	if (!equipmentCode && typeof(equipmentCode)!="undefined" && equipmentCode=='') 
+	if (!factoryCode && typeof(factoryCode)!="undefined" && factoryCode=='') 
 	{ 
-		alert("仪器设备编号不能为空！"); 
+		alert("设备出厂编号不能为空！"); 
 		return;
 	}
 	if (!equipmentName && typeof(equipmentName)!="undefined" && equipmentName=='') 
@@ -511,7 +513,7 @@ function openModal(){
 		alert("请选中一条数据");
 		return;
 	}
-	$('#edit_equipmentCode').val(data[0].equipmentCode);
+	$('#edit_factoryCode').val(data[0].factoryCode);
 	
 	$('#edit_equipmentName').attr({'name' : "" + data[0].equipmentID + ""});
 	$('#edit_equipmentName').attr({'value' : "" + data[0].equipmentName + ""});
@@ -538,7 +540,7 @@ function edit(){
 		alert("仪器设备检验记录ID不能为空！"); 
 	}else {
 		var parame = {};
-		var equipmentCode = $('#edit_equipmentCode').val();
+		var factoryCode = $('#edit_factoryCode').val();
 		var equipmentName = $('#edit_equipmentName').val();
 		var equipmentID = $('#edit_equipmentName').attr("name");
 		var beforeStatus = $('#edit_beforeStatus').val();
@@ -550,7 +552,7 @@ function edit(){
 		var money = $('#edit_money').val();
 		var remarks = $('#edit_remarks').val();
 			
-		if (!equipmentCode && typeof(equipmentCode)!="undefined" && equipmentCode=='') 
+		if (!factoryCode && typeof(factoryCode)!="undefined" && factoryCode=='') 
 		{ 
 			alert("仪器设备编号不能为空！"); 
 			return;

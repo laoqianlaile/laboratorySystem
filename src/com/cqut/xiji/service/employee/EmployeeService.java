@@ -102,7 +102,6 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 	       session.setAttribute("EMPLOYEEID", employee2.getID());
 	       session.setAttribute("LOGINNAME", employee2.getLoginName());
 	       session.setAttribute("EMPLOYEENAME", employee2.getEmployeeName());
-
 		return "1";
 
 		}
@@ -114,7 +113,6 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			  session.setAttribute("LOGINNAME", "");
 			  session.setAttribute("EMPLOYEEID","");
 			  session.setAttribute("EMPLOYEENAME", "");
-
 			return "1";
 		}
 

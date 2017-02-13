@@ -117,6 +117,18 @@ function getdepartment1(){
 		}
 	});
 }
+function changevalue(type,value){
+	
+		$('#textspan1').html(value);
+	
+	
+}
+function changevalue2(type,value){
+	
+	$('#textspan2').html(value);
+
+
+}
 function getdepartment(){
 	$.ajax({
 		url:'departmentController/getdatalist.do',
@@ -138,6 +150,7 @@ function getdepartment(){
 		}
 	});
 }
+
 
 
 function getdataLisk() {
@@ -325,10 +338,11 @@ function edit(){
 	parame.remarks = $('#edit_remarks').val();
 	parame.employeeID = $('#edit_employee').attr('name');
 	parame.parent = $('#textspan2').text();
+	alert(parame.employeeID);
 	if($('#edit_departmentName').val()!=$('#textspan2').text()){
 	if($('#edit_departmentName').val()!=""&&$('#edit_departmentCode').val()!=""){
-	$.ajax({	
-		  url:'departmentController/updDepartment.do',
+	$.ajax({		  
+		url:'departmentController/updDepartment.do',
 		  data:parame,
 		  success:function(o){
 			  if(o<=0){
@@ -339,6 +353,7 @@ function edit(){
 			  departrefresh();
 		  }
 		});	
+	
 	}else alert("请把信息修改完整");
 	}else alert("不能把自己作为上级部门");
 }

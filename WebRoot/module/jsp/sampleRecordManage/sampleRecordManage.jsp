@@ -154,7 +154,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<button id="del" onclick="lookData()" type="button"
 			class="btn btn-primary glyphicon glyphicon-zoom-in">&nbsp;查看</button>
 		<button id="refresh" onclick="refresh()" type="button"
-			class="btn btn-primary glyphicon glyphicon-refresh">&nbsp;全部数据</button>
+			class="btn btn-primary glyphicon glyphicon-refresh">&nbsp;全部</button>
 	</div>
 	</div>
 

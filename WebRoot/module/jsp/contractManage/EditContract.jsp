@@ -23,8 +23,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
 	
 	<script src="assets/js/jquery-2.0.3.min.js"></script>
-	<script src="module/js/jquery.uploadify.min.js" type="text/javascript"></script>
 	<script src="module/js/contractManage/fileUpload.js" type="text/javascript"></script>
+	<script src="module/js/jquery.uploadify.min.js" type="text/javascript"></script>
 	<script src="module/js/bootstrap.js"></script>
 	<script src="module/js/bootstrap-table.js"></script>
 	<script src="module/js/bootstrap-table-zh-CN.js"></script>
@@ -78,7 +78,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="signAddress">
 					<label class="control-label fl">签约地点：</label> <input type="text"
-						id="edit_signAddress" name="signAddress" class="form-control fl" />
+						id="edit_signAddress" name="signAddress" class="form-control fl"/>
 				</div>
 				<div class="employeeName">
 					<label class="control-label fl">乙方法定代表人或代理人：</label> <input
@@ -128,17 +128,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="isClassified">
 					<label class="control-label fl">是否涉密：</label>
-					<input id="r1" type="radio" value="1" name="isClassified" /><span>是</span>
-					<input id="r2" type="radio" value="0" name="isClassified" /><span>否</span>
+					<input id="r1" type="radio" value="1" name="isClassified" onclick="classifiedSth()" /><span>是</span>
+					<input id="r2" type="radio" value="0" name="isClassified" onclick="classifiedSth()" /><span>否</span>
 				</div>
 				<div class="classifiedLevel">
 					<label class="control-label fl">涉密等级：</label> <select
 						id="edit_classifiedLevel" name="classifiedLevel"
 						class="form-control fl">
-						<option value="3">无密级</option>
-						<option value="0">秘密</option>
-						<option value="1">机密</option>
-						<option value="2">绝密</option>
+						<option id="Level3" value="3">无密级</option>
+						<option class="Level3" value="0">秘密</option>
+						<option class="Level3" value="1">机密</option>
+						<option class="Level3" value="2">绝密</option>
 					</select>
 				</div>
 			</div>
@@ -217,17 +217,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                   
                    </div>
                 </div>
-                <!-- <div class="col-xs-12 col-md-12 nameEn" style="display: none;">
-                   	<label class="control-label" style="margin:8px 0 0 0;">检测项目(English)：</label>
-                   	<input type="text" id="add_testProjectNameEn" name="testProjectName"  oninput="addGetTPName()" onpropertychange="addGetTPName()" class="form-control" />
-                   	<div class="testProjectName">
-	                   
-                   </div>
-                </div> -->
-                <!-- <div class="col-xs-12 col-md-12">
-                   	<input type="radio" value="1" checked="checked" name="language1" onclick="languageChange()" style="margin:8px 0 0 155px;"/><span>中文</span>
-					<input type="radio" value="0" name="language1" onclick="languageChange()" style="margin:8px 0 0 127px;"/><span>英文</span>
-                </div> -->
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">是否外包：</label>
                    	<input type="radio" value="0" checked="checked" name="isOutsourcing1" onclick="outChange()"  style="margin:8px 0 0 80px;"/><span>内测</span>
@@ -240,15 +229,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 </div>
                 <div class="col-xs-12 col-md-12 add_number" >
                    	<label class="control-label fl" style="margin:8px 0 0 30px;">数量/台：</label>
-                   	<input type="text" id="add_number" name="number" class="form-control fl" style="width:160px;"/>
-                   	<label class="control-label fl" style="margin:8px 0 0 50px;">单价/元：</label>
-                   	<input type="text" id="add_price1" name="price" class="form-control fl" style="width:160px;"/>
+                   	<input type="text" id="add_number" name="number" class="form-control fl" style="width:160px;"
+                   	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
+						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
+                   	<label class="control-label fl" style="margin:8px 0 0 50px;" >单价/元：</label>
+                   	<input type="text" id="add_price1" name="price" class="form-control fl" style="width:160px;" 
+                   	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
+						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
                	</div>
                	<div class="col-xs-12 col-md-12 add_hour" style="display: none;">
                    	<label class="control-label fl" style="margin:8px 0 0 30px;">时间/时：</label>
-                   	<input type="text" id="add_hour" name="hour" class="form-control fl" style="width:160px;"/>
+                   	<input type="text" id="add_hour" name="hour" class="form-control fl" style="width:160px;" 
+                   	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
+						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
                    	<label class="control-label fl" style="margin:8px 0 0 50px;">单价/元：</label>
-                   	<input type="text" id="add_price2" name="price" class="form-control fl" style="width:160px;"/>
+                   	<input type="text" id="add_price2" name="price" class="form-control fl" style="width:160px;" 
+                   	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
+						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
                 </div>
                	<div class="col-xs-12 col-md-12 departmentName0">
                    	<label class="control-label" style="margin:8px 0 0 0;">检测单位：</label>
@@ -259,7 +256,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                	<div class="col-xs-12 col-md-12 departmentName1" style="display: none;">
                    	<label class="control-label" style="margin:8px 0 0 0;">外包单位：</label>
                    	<select id="add_departmentName2" name="departmentName" class="form-control">
-						<option class='depart'>虚拟部门</option>
+						<option value='11'>虚拟部门</option>
 		           	</select>
                	</div>
                	<div class="col-xs-12 col-md-12">
@@ -313,15 +310,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 </div>
                 <div class="col-xs-12 col-md-12 edit_number" >
                    	<label class="control-label fl" style="margin:8px 0 0 30px;">数量/台：</label>
-                   	<input type="text" id="edit_number" name="number" class="form-control fl" style="width:160px;"/>
+                   	<input type="text" id="edit_number" name="number" class="form-control fl" style="width:160px;" 
+                   	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
+						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
                    	<label class="control-label fl" style="margin:8px 0 0 50px;">单价/元：</label>
-                   	<input type="text" id="edit_price1" name="price" class="form-control fl" style="width:160px;"/>
+                   	<input type="text" id="edit_price1" name="price" class="form-control fl" style="width:160px;" 
+                   	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
+						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
                	</div>
                	<div class="col-xs-12 col-md-12 edit_hour" style="display: none;">
                    	<label class="control-label fl" style="margin:8px 0 0 30px;">时间/时：</label>
-                   	<input type="text" id="edit_hour" name="hour" class="form-control fl" style="width:160px;"/>
+                   	<input type="text" id="edit_hour" name="hour" class="form-control fl" style="width:160px;" 
+                   	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
+						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
                    	<label class="control-label fl" style="margin:8px 0 0 50px;">单价/元：</label>
-                   	<input type="text" id="edit_price2" name="price" class="form-control fl" style="width:160px;"/>
+                   	<input type="text" id="edit_price2" name="price" class="form-control fl" style="width:160px;" 
+                   	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
+						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
                 </div>
                	<div class="col-xs-12 col-md-12 departmentName3">
                    	<label class="control-label" style="margin:8px 0 0 0;">检测单位：</label>

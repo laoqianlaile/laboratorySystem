@@ -109,23 +109,23 @@ textarea {
 
 		<div class="col-md-3.5 column">
 			<div style="float: right;margin-right: 16px;">
-				<button id="query" onclick="find()" class="btn btn-prima    ry"
+				<button id="query" onclick="find()" class="btn btn-primary"
 					type="button">
 					<em class="glyphicon glyphicon-search"></em> 查询
 				</button>
-				<button type="button" class="btn btn-info glyphicon glyphicon-plus"
+				<button type="button" class="btn btn-primary"
 					data-toggle="modal" data-target="#addModal">&nbsp;新增</button>
 
-				<button class="btn btn-warning type=" button" id="del"
+				<button class="btn btn-primary" button" id="del"
 					onclick="openModal()">
 					<em class="glyphicon glyphicon-trash"></em> 修改
 				</button>
 
-				<button class="btn btn-d type=" button" id="del" onclick="delData()">
+				<button class="btn btn-primary" button" id="del" onclick="delData()">
 					<em class="glyphicon glyphicon-trash"></em> 删除
 				</button>
 
-				<button class="btn btn-success type=" button" id="refresh"
+				<button class="btn btn-primary" button" id="refresh"
 					onclick="refresh()">
 					<em class="glyphicon glyphicon-refresh"></em> 全部数据
 				</button>

@@ -160,7 +160,7 @@ public class ModuleService extends SearchService implements IModuleService{
 		}
 
 		tree += "]}]";*/
-		List<BootstrapTreeNode> bootsrapTree = new ArrayList<>();
+		List<BootstrapTreeNode> bootsrapTree = new ArrayList<BootstrapTreeNode>();
 		bootsrapTree.add(TreeNode);
 		return bootsrapTree;
 	}

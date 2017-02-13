@@ -9,15 +9,14 @@ public interface IEquipmentVerifyService {
 	 * @param offset
 	 * @param sort
 	 * @param order
-	 * @param equipmentCode
+	 * @param employeeName
 	 * @param equipmentName
 	 * @param departmentName
-	 * @param employeeName
 	 * @return
 	 */
 	public Map<String, Object> getEquipmentVerifyWithPaging(int limit, int offset,
-			String sort, String order, String equipmentCode,
-			String equipmentName, String departmentName, String employeeName);
+			String sort, String order, String employeeName,
+			String equipmentName, String departmentName);
 
 	/**
 	 * @param equipmentID

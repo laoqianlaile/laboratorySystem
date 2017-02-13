@@ -54,6 +54,7 @@ public class ContractController{
 	@RequestMapping("/getContractWithPaging2")  
     @ResponseBody
 	public JSONObject getContractWithPaging2(int limit, int offset, String sort, String order, String contractName, String contractCode, String employeeName, String companyName, String startTime, String endTime, String oppositeMen, String linkPhone, int state){
+		System.out.println(oppositeMen);
 		Map<String, Object> result = service.getContractWithPaging2(limit,offset,sort,order,contractName,contractCode,employeeName,companyName,startTime,endTime,oppositeMen,linkPhone,state);
 		return JSONObject.fromObject(result);
 	}
@@ -81,13 +82,13 @@ public class ContractController{
 	 * @description 删除合同
 	 * @author hujiajun
 	 * @created 2016-10-17 下午9:31:13
-	 * @param ID
+	 * @param ids
 	 * @return
 	 */
 	@RequestMapping("/delContract")  
     @ResponseBody
-	public String delContract(String ID){
-		String result = service.delContract(ID);
+	public int delContract(String ids){
+		int result = service.delContract(ids);
 		return result;
 	}
 	

@@ -10,7 +10,6 @@
 <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="assets/css/font-awesome.min.css" />
 <link rel="stylesheet" href="assets/css/font-awesome-4.7.min.css" />
-
 <link rel="stylesheet" href="assets/css/font-OpenSans.css" />
 <link rel="stylesheet" href="assets/css/ace.min.css" />
 <link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
@@ -18,19 +17,16 @@
 <link rel="stylesheet" type="text/css" href="module/css/fontello.css" />
 <link rel="stylesheet" type="text/css" href="module/css/fontello-7275ca86/css/fontello.css" />
 <link href="module/css/bootstrap-treeview.css" rel="stylesheet">
-
 <script src="assets/js/ace-extra.min.js"></script>
 <style type="text/css">
 .contairw {
 	min-width: 1300px;
 }
-
 .sidebar {
 	/* width: 190px;
 	float: left;
 	height: 100%;
 	position: absolute;
-
 	border: 1px solid #ccc;
 	border-width: 0 1px 0 0;
 	background-color: #f2f2f2; */
@@ -38,10 +34,6 @@
     height: auto;
     position: static;
 }
-
-
-
-
 .sidebar:before {
     content: "";
     display: block;
@@ -59,34 +51,27 @@
 	padding-bottom: 0; */
 	
 }
-
 .sidebar-shortcuts {
 	/*  margin-top: 45px; */
 	
 }
-
 .page-header {
 	height: 50px;
 }
-
 .ace-settings-container {
 	top: 90px;
 }
-
 .treeview {
 	margin-top: -21px;
 	margin-bottom: -20px;
 }
-
 .list-group {
 	margin-left: 0px;
 	padding-left: 0;
 }
-
 #navName {
 	font-size: 22px;
 }
-
 #editpwdModal .col-xs-3{
 	text-align: right;
 }
@@ -102,9 +87,7 @@ margin-left: 5px;
 vertical-align: middle;
 }   
 </style>
-
 </head>
-
 <body>
 	<div class="contairw">
 		<!--  标题栏logo -->
@@ -115,7 +98,6 @@ vertical-align: middle;
 				} catch (e) {
 				}
 			</script>
-
 			<div class="navbar-container" id="navbar-container">
 				<div class="navbar-header pull-left">
 					<a href="#" class="navbar-brand"> <small> <i
@@ -125,7 +107,6 @@ vertical-align: middle;
 				</div>
 				<div class="navbar-header pull-right" role="navigation">
 					<ul class="nav ace-nav">
-
 						<li class="light-blue"><a data-toggle="dropdown" href="#"
 							class="dropdown-toggle"> <img class="nav-user-photo"
 								src="assets/avatars/user.jpg" alt="Jason's Photo" /> <span
@@ -144,10 +125,8 @@ vertical-align: middle;
 									<small>欢迎光临,</small> <%=request.getSession().getAttribute("EMPLOYEENAME")%>
 									<input type="hidden" id="LoginID" value="<%=request.getSession().getAttribute("EMPLOYEEID")%>"/>
 							</span> <i class="icon-caret-down"></i>
-
 							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 								<li onclick = "openEditpwd()"><a> <i class="icon-cog"></i> 修改密码</a></li>
-
 								<li  onclick="openPersonModal()"><a href="#"> <i class="icon-user"></i> 个人资料</a></li>
 								
 								<li class="divider"></li>
@@ -191,23 +170,18 @@ vertical-align: middle;
 							<button class="btn btn-success">
 								<i class="icon-signal"></i>
 							</button>
-
 							<button class="btn btn-info">
 								<i class="icon-pencil"></i>
 							</button>
-
 							<button class="btn btn-warning">
 								<i class="icon-users"></i>
 							</button>
-
 							<button class="btn btn-danger">
 								<i class="fa fa-cogs"></i>
 							</button>
 						</div>
-
 						<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
 							<span class="btn btn-success"></span> <span class="btn btn-info"></span>
-
 							<span class="btn btn-warning"></span> <span
 								class="btn btn-danger"></span>
 						</div>
@@ -221,12 +195,10 @@ vertical-align: middle;
 								class="icon-text-width"></i> <span class="menu-text">
 									标准审核管理 </span>
 						</a></li>
-
 						<li><a href="module/jsp/standardManage/standardType.jsp"
 							target="aa"> <i class="icon-text-width"></i> <span
 								class="menu-text">标准类型管理 </span>
 						</a></li>
-
 						<li><a href="module/jsp/standardManage/standard.jsp"
 							class="dropdown-toggle" target="aa"> <i class="icon-desktop"></i>
 								<span class="menu-text"> 标准管理 </span>
@@ -235,7 +207,6 @@ vertical-align: middle;
 							target="aa"> <i class="icon-desktop"></i> <span
 								class="menu-text"> 检测项目管理 </span>
 						</a></li>
-
 						<li><a
 							href="module/jsp/template/template.jsp"
 							target="aa"> <i class="icon-desktop"></i> <span
@@ -252,7 +223,6 @@ vertical-align: middle;
 							data-icon1="icon-angle-double-left"
 							data-icon2="icon-angle-double-right"></i>
 					</div>
-
 					<script type="text/javascript">
 						try {
 							ace.settings.check('sidebar', 'collapsed')
@@ -269,10 +239,8 @@ vertical-align: middle;
 							} catch (e) {
 							}
 						</script>
-
 						<ul class="breadcrumb">
 						</ul>
-
 						<div class="nav-search" id="nav-search">
 							<form class="form-search">
 								<span class="input-icon"> <input type="text"
@@ -284,17 +252,13 @@ vertical-align: middle;
 						</div>
 						<!-- #nav-search -->
 					</div>
-
 					<!-- 	<div class="page-content"> -->
 					<div class="page-header">
 					</div>
-
-
 					<div class="alert alert-block alert-success">
 						<button type="button" class="close" data-dismiss="alert">
 							<i class="fa fa-remove"></i>
 						</button>
-
 						<i class="icon-ok green"></i> 欢迎使用 <strong class="green">
 							西计后台管理系统 <small>(v1.2)</small>
 						</strong> ,轻量级好用的后台管理系统.
@@ -305,7 +269,6 @@ vertical-align: middle;
 								frameborder=0 scrolling=auto></iframe>
 						</div>
 					</div>
-
 				</div>
 				<!-- 右边界面设置区域 -->
 				<div class="ace-settings-container" id="ace-settings-container">
@@ -313,7 +276,6 @@ vertical-align: middle;
 						id="ace-settings-btn">
 						<i class="icon-cog bigger-150"></i>
 					</div>
-
 					<div class="ace-settings-box" id="ace-settings-box">
 						<div>
 							<div class="pull-left">
@@ -326,31 +288,26 @@ vertical-align: middle;
 							</div>
 							<span>&nbsp; 选择皮肤</span>
 						</div>
-
 						<div>
 							<input type="checkbox" class="ace ace-checkbox-2"
 								id="ace-settings-navbar" /> <label class="lbl"
 								for="ace-settings-navbar"> 固定导航条</label>
 						</div>
-
 						<div>
 							<input type="checkbox" class="ace ace-checkbox-2"
 								id="ace-settings-sidebar" /> <label class="lbl"
 								for="ace-settings-sidebar"> 固定滑动条</label>
 						</div>
-
 						<div>
 							<input type="checkbox" class="ace ace-checkbox-2"
 								id="ace-settings-breadcrumbs" /> <label class="lbl"
 								for="ace-settings-breadcrumbs">固定面包屑</label>
 						</div>
-
 						<div>
 							<input type="checkbox" class="ace ace-checkbox-2"
 								id="ace-settings-rtl" /> <label class="lbl"
 								for="ace-settings-rtl">切换到左边</label>
 						</div>
-
 						<div>
 							<input type="checkbox" class="ace ace-checkbox-2"
 								id="ace-settings-add-container" /> <label class="lbl"
@@ -369,38 +326,28 @@ vertical-align: middle;
 			</a>
 		</div>
 		<!-- /.main-container -->
-
 		<!-- basic scripts -->
-
 		<!--[if !IE]> -->
-
 		<!-- <script
 			src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script> -->
 		<!-- 隐藏掉 -->
-
 		<!-- <![endif]-->
-
 		<!--[if IE]>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <![endif]-->
-
 		<!--[if !IE]> -->
-
 		<script type="text/javascript">
 			window.jQuery
 					|| document
 							.write("<script src='assets/js/jquery-2.0.3.min.js'>"
 									+ "<"+"script>");
 		</script>
-
 		<!-- <![endif]-->
-
 		<!--[if IE]>
 <script type="text/javascript">
  window.jQuery || document.write("<script src='assets/js/jquery-1.10.2.min.js'>"+"<"+"script>");
 </script>
 <![endif]-->
-
 		<script type="text/javascript">
 			if ("ontouchend" in document)
 				document
@@ -409,13 +356,10 @@ vertical-align: middle;
 		</script>
 		<script src="assets/js/bootstrap.min.js"></script>
 		<script src="assets/js/typeahead-bs2.min.js"></script>
-
 		<!-- page specific plugin scripts -->
-
 		<!--[if lte IE 8]>
 		  <script src="assets/js/excanvas.min.js"></script>
 		<![endif]-->
-
 		<script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
 		<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
 		<script src="assets/js/jquery.slimscroll.min.js"></script>
@@ -424,14 +368,11 @@ vertical-align: middle;
 		<script src="assets/js/flot/jquery.flot.min.js"></script><!--  -->
 		<script src="assets/js/flot/jquery.flot.pie.min.js"></script>
 		<script src="assets/js/flot/jquery.flot.resize.min.js"></script>
-
 		<!-- ace scripts -->
-
 		<script src="assets/js/ace-elements.min.js"></script>
 		<script src="assets/js/ace.min.js"></script>
 		<script src="module/js/index/index.js"></script>
 		<!-- inline scripts related to this page -->
-
 		<script type="text/javascript">
 			jQuery(
 					function($) {
@@ -465,7 +406,6 @@ vertical-align: middle;
 																size : size
 															});
 										})
-
 						$('.sparkline')
 								.each(
 										function() {
@@ -488,7 +428,6 @@ vertical-align: middle;
 																				'min') || 0
 															});
 										});
-
 						var placeholder = $('#piechart-placeholder').css({
 							'width' : '90%',
 							'min-height' : '150px'
@@ -543,19 +482,16 @@ vertical-align: middle;
 							})
 						}
 						drawPieChart(placeholder, data);
-
 						/**
 						we saved the drawing function and the data to redraw with different position later when switching to RTL mode dynamically
 						so that's not needed actually.
 						 */
 						placeholder.data('chart', data);
 						placeholder.data('draw', drawPieChart);
-
 						var $tooltip = $(
 								"<div class='tooltip top in'><div class='tooltip-inner'></div></div>")
 								.hide().appendTo('body');
 						var previousPoint = null;
-
 						placeholder.on('plothover', function(event, pos, item) {
 							if (item) {
 								if (previousPoint != item.seriesIndex) {
@@ -572,24 +508,19 @@ vertical-align: middle;
 								$tooltip.hide();
 								previousPoint = null;
 							}
-
 						});
-
 						var d1 = [];
 						for (var i = 0; i < Math.PI * 2; i += 0.5) {
 							d1.push([ i, Math.sin(i) ]);
 						}
-
 						var d2 = [];
 						for (var i = 0; i < Math.PI * 2; i += 0.5) {
 							d2.push([ i, Math.cos(i) ]);
 						}
-
 						var d3 = [];
 						for (var i = 0; i < Math.PI * 2; i += 0.2) {
 							d3.push([ i, Math.tan(i) ]);
 						}
-
 						var sales_charts = $('#sales-charts').css({
 							'width' : '100%',
 							'height' : '220px'
@@ -631,7 +562,6 @@ vertical-align: middle;
 								borderColor : '#555'
 							}
 						});
-
 						$('#recent-box [data-rel="tooltip"]').tooltip({
 							placement : tooltip_placement
 						});
@@ -640,20 +570,16 @@ vertical-align: middle;
 							var $parent = $source.closest('.tab-content')
 							var off1 = $parent.offset();
 							var w1 = $parent.width();
-
 							var off2 = $source.offset();
 							var w2 = $source.width();
-
 							if (parseInt(off2.left) < parseInt(off1.left)
 									+ parseInt(w1 / 2))
 								return 'right';
 							return 'left';
 						}
-
 						$('.dialogs,.comments').slimScroll({
 							height : '300px'
 						});
-
 						//Android's default browser somehow is confused when tapping on label which will lead to dragging the task
 						//so disable dragging when clicking on label
 						var agent = navigator.userAgent.toLowerCase();
@@ -673,7 +599,6 @@ vertical-align: middle;
 												|| $.contains(label, e.target))
 											e.stopImmediatePropagation();
 									});
-
 						$('#tasks').sortable({
 							opacity : 0.8,
 							revert : true,
@@ -696,7 +621,6 @@ vertical-align: middle;
 										$(this).closest('li').removeClass(
 												'selected');
 								});
-
 					})
 		</script>
 		<script type="text/javascript">
@@ -726,7 +650,6 @@ vertical-align: middle;
 			<!-- 隐藏掉 -->
 		</div>
 	</div>
-
 	<!--个人信息弹窗 -->
 	<div id="PersonalModal" class="modal fade"">
 		<div class="modal-dialog">
@@ -852,7 +775,5 @@ vertical-align: middle;
 	<script src="module/js/index/index.js"></script>
 	<script src="module/js/bootstrap-treeview.js"></script>
 	<!-- 	<script src="module/js/bootstrap-treeview.min.js"></script> -->
-
 </body>
 </html>
-

@@ -50,7 +50,7 @@ public class EquipmentRepairService extends SearchService implements IEquipmentR
 				String[] properties = new String[]{
 						"a.ID", 
 						"a.equipmentID",
-						"equipment.equipmentCode", 
+						"equipment.factoryCode", 
 						"equipment.equipmentName", 
 						"equipment.model", 
 						"equipment.useYear",
