@@ -257,8 +257,7 @@ function addstandard(){
 	parame.fileID = "";
 	fileIDs = fielIdReturn();
 	if(fileIDs.length == 0){
-		alert("出错了");
-		
+		alert("出错了，没有获取到文件ID，正在全力解决");
 		return;
 	}
 	else if(fileIDs.length == 1 ){
@@ -269,7 +268,7 @@ function addstandard(){
 			parame.fileID += fileIDs[i] + ",";
 		}
 	}
-	
+	var Content = "有新的标准:"+parame.STANDARDNAME+"(标准名称)"+"-"+parame.STANDARDCODE+"(标准编码)需要审核。";
 	$.ajax({
 		  url:'standardController/addStandard.do',
 		  data:parame,
@@ -277,6 +276,7 @@ function addstandard(){
 			  if(o <= 2){
 				  alert("新增失败");
 			  }
+			  sendMessage(Content,"标准审核人");
 			  $('#addModal').modal('hide');
 			  refresh();
 		  }
@@ -424,10 +424,42 @@ function openEditModal(){
 		
 		$('#editModal').modal('show');
 	}
-	
-	
 }
-/**/
+// 消息推送
+function  sendMessage(Content,recipient){
+	$.ajax({
+		url:'messageController/addMessage.do',
+		data:{
+			content:Content
+		},
+		success:function(o){
+			  if(o == ""){
+				 alert("信息新增失败（1）");
+			  }
+			  else{
+				  var messageID = o;
+				  messageID = messageID.substring(1,messageID.length-1);
+				  alert(messageID);
+				  $.ajax({
+					  url:'messageNoticeController/addMessageNotice.do?MessageID='+messageID+'&recipient='+recipient,
+					  success:function(s){
+						  if(s <= 0){
+							  if(s == -1){
+								  alert("信息新增失败（2）:不存在该角色名"+recipient);
+							  }
+							  else{
+								  alert("未知错误");
+							  }
+						  }
+					  }
+				  });
+			  }
+		  }
+	});
+}
+	
+
+/* 修改*/
 function edit(){
 	var parame = {};
 	parame.ID = $('#edit_STANDARDID').val();

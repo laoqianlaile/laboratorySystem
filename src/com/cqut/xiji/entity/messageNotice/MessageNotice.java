@@ -54,14 +54,6 @@ public class MessageNotice extends Entity{
 		this.lookTime = lookTime;
 	}
 
-	public String getRoleID() {
-		return roleID;
-	}
-
-	public void setRoleID(String roleID) {
-		this.roleID = roleID;
-	}
-
 	@Override
 	public String getTableName() {
 		// TODO Auto-generated method stub

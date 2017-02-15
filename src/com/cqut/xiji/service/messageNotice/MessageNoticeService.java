@@ -1,5 +1,8 @@
 package com.cqut.xiji.service.messageNotice;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
@@ -48,12 +51,32 @@ public class MessageNoticeService extends SearchService implements IMessageNotic
 	@Override
 	public String addMessageNotice(String messageID, String recipient) {
 		
-		MessageNotice messageNotice = new MessageNotice();
-		messageNotice.setID(EntityIDFactory.createId());
-		messageNotice.setMessageID(messageID);
-		messageNotice.setEmployeeID(recipient);
-		messageNotice.setState(0);
-		int result = entityDao.save(messageNotice);
+		int result = 0;
+		// 获取需要推送的员工ID
+		String baseEntity = "employee";
+		String[] properties = {
+				"employee.ID as employeeID",
+				"employee.roleID",
+				"employee.employeeName",
+				"role.`name`"
+		};
+		String joinEntity = "LEFT JOIN role on role.ID = employee.roleID ";
+		String condition = " 1 = 1 AND role.`name`='" + recipient+"'";
+		List<Map<String, Object>>  employeeIDs = originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false);
+		
+		if(employeeIDs.size() == 0){
+			return -1 +"";
+		}
+		else{
+			for (Map<String, Object> m : employeeIDs) {
+			    	MessageNotice messageNotice = new MessageNotice();
+					messageNotice.setID(EntityIDFactory.createId());
+					messageNotice.setMessageID(messageID);
+					messageNotice.setEmployeeID((String)m.get("employeeID"));
+					messageNotice.setState(0);
+					result += entityDao.save(messageNotice);
+			}
+		}
 		return result +"";
 	}
 	

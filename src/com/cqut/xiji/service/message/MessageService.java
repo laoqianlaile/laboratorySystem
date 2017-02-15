@@ -120,9 +120,10 @@ public class MessageService extends SearchService implements IMessageService{
 		message.setContent(content);
 		message.setRemarks(remarks);
 		message.setCreateTime(new Date());
+		entityDao.save(message);
+		String result = message.getID();
 		
-		int result = entityDao.save(message);
-		return result +"";
+		return result;
 	}
 	
 }

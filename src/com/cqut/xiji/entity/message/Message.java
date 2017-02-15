@@ -36,15 +36,6 @@ public class Message extends Entity{
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-
-	public Date getCheckinTime() {
-		return checkinTime;
-	}
-
-	public void setCheckinTime(Date checkinTime) {
-		this.checkinTime = checkinTime;
-	}
-
 	public String getRemarks() {
 		return remarks;
 	}
