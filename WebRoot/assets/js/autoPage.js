@@ -22,51 +22,59 @@ $(function(){
         var frame_content = $(this);
         timer = setInterval(function(){
         	main_height = frame_content.contents().find("body").height();
-            console.warn("pre:"+pre_height);
-            console.warn("new:"+main_height);
-            if (main_height - 3 != pre_height){
+          /*  console.warn("pre:"+pre_height);
+            console.warn("new:"+main_height);*/
+            if (main_height -17 != pre_height){ ///17留的多的 横向滑动条
             	
             	pre_height = main_height;
             	autoHeightWidth();
                
                /* frame_content.height(Math.max(mainheight,350));*/
              }
-        },500);//每0.5秒检查一次
+        },1000);//每0.5秒检查一次
     });
 });
 
 //自动适应本窗口的大小--高度
 function autoHeightWidth(){
-	console.error("upload");
+	
 	var iframe_element = window.top.frames.document.getElementById("content_frame");
 	var iframe_document =iframe_element.contentWindow.document;
 	var left_element = window.top.frames.document.getElementById("sidebar");
-	var window_top = window.top.window;
+	var window_top = window.top;
 	
-	var window_height = $(window_top).height();//获取浏览器显示区域的高度；
+	var window_height = $(window_top).height();//获取浏览器显示区域的高度；documentElement.offsetHeight是获取该页面的html的高度
 	var window_width = $(window_top).width();//获取浏览器显示区域的宽度；
  
 	var irfame_document_Height =$(window.top.frames.document.getElementById("content_frame").contentWindow.document).height(); //获取文档高度  $(iframe_document).height()
 	 
 	var irfame_document_Width = $(window.top.frames.document.getElementById("content_frame").contentWindow.document).width();//获取文档宽度
 	
-	console.log("irfame_document_Width");
-	/*console.log("w H:"+window_height);
-	console.log("d H1:"+irfame_document_Height);*/
+	var slider_height = 0;
+	/*console.log("irfame_document_Width");
+	console.log("w H:"+window_height);
+	console.log("d H1:"+irfame_document_Height);
+	console.log("w w:"+window_width);
+	console.log("d w:"+irfame_document_Width);*/
 	/*irfame_document_Height = $(window.top.frames.document.getElementById("content_frame").contentWindow.document).height();*/
 	/*console.log("d H2:"+irfame_document_Height);*/
-
-	if(irfame_document_Height + 221 + 5>= window_height ){ //    221? 53+20  50+12 41 45 --5不可视化
+    if(irfame_document_Width+5 + 190 > window_width){ //5 datagrid：margin
+    	slider_height = 17;
+    }else{
+    	slider_height = 0;
+    }
+	if(irfame_document_Height + 148 + 5 + slider_height >= window_height ){ //    148?   50+12 41 45 --5不可视化
 	  
-		$(iframe_element).css("height",irfame_document_Height+20);
+		$(iframe_element).css("height",irfame_document_Height+slider_height);  //17留的多的 横向滑动条
 		
-		$(left_element).css("height", irfame_document_Height+(221 - 45));
+		$(left_element).css("height", irfame_document_Height+(148 - 45) + slider_height);//17留的多的 横向滑动条
 	 
 	}else{
 	
-		$(iframe_element).css("height",window_height - 221 - 5); // col-xs-12 有一个5
+		
+		$(iframe_element).css("height",window_height - 148 - 5 ); // col-xs-12 有一个5 //17留的多的 横向滑动条
 	
-		$(left_element).css("height", window_height  - 45 ); //   logo 45
+		$(left_element).css("height", window_height  - 45  ); //   logo 45 //17留的多的 横向滑动条
 	 
 	}
 	/*console.log(window_top.innerWidth);

@@ -255,14 +255,16 @@ vertical-align: middle;
 					<!-- 	<div class="page-content"> -->
 					<div class="page-header">
 					</div>
-					<div class="alert alert-block alert-success">
+
+
+				<!-- 	<div class="alert alert-block alert-success">
 						<button type="button" class="close" data-dismiss="alert">
 							<i class="fa fa-remove"></i>
 						</button>
 						<i class="icon-ok green"></i> 欢迎使用 <strong class="green">
 							西计后台管理系统 <small>(v1.2)</small>
 						</strong> ,轻量级好用的后台管理系统.
-					</div>
+					</div> -->
 					<div class="col-xs-12-w">
 						<div class="datagrid">
 							<iframe id="content_frame" name="aa" 
