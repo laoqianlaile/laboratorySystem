@@ -75,6 +75,7 @@
 	margin-right: 5px;
 	padding: 6px 0px;
 	margin-right: 5px;
+	width: 15%;
 }
 
 .tidings {
