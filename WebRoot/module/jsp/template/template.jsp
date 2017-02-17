@@ -169,7 +169,7 @@ span {
 					<h4 class="modal-title">上传</h4>
 				</div>
 				<div class="modal-body">
-					<input type= "hidden" id = "EMPLOYEEID" value = "<%=session.getAttribute("EMPLOYEEID")  %>" />
+					<input type= "hidden" id = "EMPLOYEEID" value = "<%=session.getAttribute("EMPLOYEEID")%>" />
 					<div class="row">
 						<div class ="col-md-6 column">
 							<label>模板名称：</label> <input type="text" id="add_TemplateName"

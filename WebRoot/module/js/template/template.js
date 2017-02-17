@@ -267,21 +267,27 @@ function delData() {
 }
 
 function openModal() {
-	var html = "";
-	$("#fileSubtype").find("option").remove();
-	$.post("fileOperateController/getFileTypeName.do", {
-		ID : $("#fileType").find("option:selected").val()
-	}, function(result) {
-		result = JSON.parse(result);
-		for (var i = 0; i < result.length; i++) {
-			html += "<option>" + result[i].name + "</option>";
-		}
-		$("#fileSubtype").append(html);
-	});
+	if(!isLogin()){
+		return;
+	}
+	else{
+		var html = "";
+		$("#fileSubtype").find("option").remove();
+		$.post("fileOperateController/getFileTypeName.do", {
+			ID : $("#fileType").find("option:selected").val()
+		}, function(result) {
+			result = JSON.parse(result);
+			for (var i = 0; i < result.length; i++) {
+				html += "<option>" + result[i].name + "</option>";
+			}
+			$("#fileSubtype").append(html);
+		});
 
-	fileUploadInit("#file_upload");
+		fileUploadInit("#file_upload");
 
-	$("#addModal").modal("show");
+		$("#addModal").modal("show");
+	}
+	
 }
 
 /* 上传 文件 */
@@ -309,10 +315,10 @@ function addTemplate() {
 	var parame = {};
 	parame.TemplateName = $('#add_TemplateName').val();
 	parame.TemplateRemarks = $('#add_TemplateRemarks').val();
-	parame.uploaderID = $('#uploaderID').val();
+	parame.uploaderID = $('#EMPLOYEEID').val();//上传人ID
 	parame.TestProjectID = $('#add_TestProjectID').val();
 	
-	var templateTypeString = $('#fileType option:checked').text();
+	var templateTypeString = $('#fileSubtype option:checked').text();
 
 	if (templateTypeString === "合同模板") {
 		parame.TemplateType = 0;
@@ -336,8 +342,7 @@ function addTemplate() {
 			parame.fileID += fileIDs[i] + ",";
 		}
 	}
-	alert("上传成功");
-	var Content = "新的"+templateTypeString+":"+parame.TemplateName+"(模板名称)需要审核人。"
+	var Content = "新的"+templateTypeString+":"+parame.TemplateName+"(模板名称)需要审核。"
 	
 	$.ajax({
 		url : 'templateController/addTemplate.do',
@@ -345,10 +350,14 @@ function addTemplate() {
 		success : function(o) {
 			if (o <= 0) {
 				alert("新增失败");
+				return;
 			}
-			sendMessage(Content, "模板审核人");
-			$('#addModal').modal('hide');
-			refresh();
+			else{
+				sendMessage(Content, "模板审核人");
+				alert("上传成功");
+				$('#addModal').modal('hide');
+				refresh();
+			}
 		}
 	});
 }
