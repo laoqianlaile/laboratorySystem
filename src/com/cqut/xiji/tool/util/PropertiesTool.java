@@ -37,7 +37,7 @@ public class PropertiesTool {
 		}
 	}
 
-	public String getSystemPram(String key) {
+	public static String getSystemPram(String key) {
 		if (propMap.containsKey(key))
 			return propMap.get(key);
 		else {
