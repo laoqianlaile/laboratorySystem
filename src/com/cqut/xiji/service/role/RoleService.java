@@ -187,7 +187,7 @@ public class RoleService extends SearchService implements IRoleService{
 	public String addRole(String roleName, String description, String creator) {
 		// TODO Auto-generated method stub
 		
-		List<Role> role2 = entityDao.getByCondition(" roleName ='"+roleName+"'  ", Role.class);
+		List<Role> role2 = entityDao.getByCondition(" name ='"+roleName+"'  ", Role.class);
 		if(role2 != null && role2.size() > 0){
 			return "该角色已经存在"; 
 		}
