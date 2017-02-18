@@ -11,6 +11,7 @@ $(function(){
     var timer;
   //ss  setTimeout(autoHeightWidth, 1000);
     var iframe_element = window.top.frames.document.getElementById("content_frame");
+
     $(iframe_element).load(function(){
     	//console.log("sucess load");
         if (timer){

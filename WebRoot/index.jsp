@@ -304,7 +304,7 @@ vertical-align: middle;
 					</div> -->
 					<div class="col-xs-12-w">
 						<div class="datagrid">
-							<iframe id="content_frame" name="aa" 
+							<iframe id="content_frame" name="aa"  height="500px"
 								frameborder=0 scrolling=auto></iframe>
 						</div>
 					</div>
