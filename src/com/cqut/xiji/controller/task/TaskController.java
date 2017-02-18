@@ -390,6 +390,21 @@ public class TaskController{
 		return result;
 	}
 	
+	/**
+	 * 
+     * @discription 获取检测报告路径
+     * @author zt       
+     * @created 2017-1-19 下午7:47:57     
+     * @param taskID
+     * @return
+	 */
+	@RequestMapping("/getReportPath")
+	@ResponseBody
+	public String getReportPath(String taskID) {
+		String result = service.getReportPath(taskID);
+		return result;
+	}
+	
     /**
      * 
      * @discription 提交审核

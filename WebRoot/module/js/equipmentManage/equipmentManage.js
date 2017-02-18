@@ -1,6 +1,7 @@
 
 $(function() {
 	initData();
+	searchSth();
 });
 
 //初始化数据
@@ -35,18 +36,24 @@ function initData(){
 			width:'10',//宽度
 			visible:false
 		},{
-			field:'equipmentCode',//返回值名称
-			title:'设备编号',//列名
+			field:'factoryCode',//返回值名称
+			title:'设备出厂编号',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10',//宽度
-//			visible:false
+			width:'10'//宽度
 		},{
 			field:'equipmentName',//返回值名称
 			title:'设备名称',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'10'//宽度
+		},{
+			field:'equipmentTypeID',//返回值名称
+			title:'设备类型ID',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:'10',//宽度
+			visible:false
 		},{
 			field:'name',//返回值名称
 			title:'设备类型',//列名
@@ -59,6 +66,13 @@ function initData(){
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'10'//宽度
+		},{
+			field:'departmentID',//返回值名称
+			title:'所属科室ID',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:'10',//宽度
+			visible:false
 		},{
 			field:'departmentName',//返回值名称
 			title:'所属科室',//列名
@@ -74,12 +88,6 @@ function initData(){
 		},{
 			field:'useYear',//返回值名称
 			title:'使用年限(年)',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-			width:'10'//宽度
-		},{
-			field:'factoryCode',//返回值名称
-			title:'出厂编号',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'10'//宽度
@@ -119,7 +127,7 @@ function queryParams(){
 	var searchCondition = {
 		limit : 10,
 		offset : 0,
-		sort : 'equipmentCode',
+		sort : 'factoryCode',
 		order : 'asc',
 		equipmentType : $.trim($('#schEquipmentType').val()),
 		equipmentName : $.trim($('#schEquipmentName').val()),
@@ -132,7 +140,7 @@ function queryParams(){
 /**
  * 搜索方法
  */
-function searchContract(){
+function searchEquipment(){
 	initData();
 	$('#table').bootstrapTable('refresh', null);
 }
@@ -149,13 +157,13 @@ function delData(){
 		alert("请至少选中一条数据");
 		return;
 	}
-	var Codes = "";
+	var Ids = "";
 	for(var i=0; i<data.length; i++){
-		Codes += "equipmentCode= '" + data[i].equipmentCode + "' or ";
+		Ids += "ID = '" + data[i].ID + "' or ";
 	}
-	alert(Codes.substring(0, (Codes.length-3)));
+	alert(Ids.substring(0, (Codes.length-3)));
 	var ajaxParameter = {
-			equipmentCodes:Codes.substring(0, (Codes.length-3))	
+			equipmentIds:Ids.substring(0, (Codes.length-3))	
 	};
 	
 	$.ajax({
@@ -171,6 +179,47 @@ function delData(){
 	});
 }
 
+/**
+ * 搜索时得到相关信息方法
+ */
+function searchSth(){ 
+	 $.ajax({  
+	     url:'departmentController/getDepartmentName.do',// 跳转到 action  
+	     type:'post',  
+	     dataType:'json',
+	     success:function(data){  
+	    	 if (data) { 
+	    		 var department;
+	    		 var myobj = JSON.parse(data);
+	    		 var htmlElement = "<option value='0'>所有科室</option>";//定义HTML    
+	    		 department=$("#schDepartment");
+	    		 for(var i=0;i<myobj.length;i++){
+	    			 htmlElement += "<option value='" + myobj[i].ID + "'>" + myobj[i].departmentName + "</option>";
+	    		 }
+	    		 department.append(htmlElement);
+ 		    }
+		}
+	 });
+	 
+	 $.ajax({  
+	     url:'equipmentTypeController/getEquipmentTypeName.do',// 跳转到 action  
+	     type:'post',  
+	     dataType:'json',
+	     success:function(data){  
+	    	 if (data) { 
+	    		 var equipmentType;
+	    		 var myobj = JSON.parse(data);
+	    		 var htmlElement = "<option value='0'>所有类型</option>";//定义HTML    
+	    		 equipmentType=$("#schEquipmentType");
+	    		 for(var i=0;i<myobj.length;i++){
+	    			 htmlElement += "<option value='" + myobj[i].ID + "'>" + myobj[i].name + "</option>";
+	    		 }
+	    		 equipmentType.append(htmlElement);
+ 		    }
+		}
+	 });
+}
+
 /* 新增方法 */
 function add(){
 	alert("add");
@@ -180,7 +229,6 @@ function add(){
 		alert("仪器设备名称不能为空！"); 
 	}else {
 		var parame = {};
-		var equipmentCode = $('#add_equipmentCode').val();
 		var equipmentName = $('#add_equipmentName').val();
 		var department = $('#add_departmentName').val();
 		var equipmentType = $('#add_equipmentTypeName').val();
@@ -192,11 +240,6 @@ function add(){
 		var effectiveTime = $('#add_effectiveTime').val();
 		var remarks = $('#add_remarks').val();
 		
-		if (!equipmentCode && typeof(equipmentCode)!="undefined" && equipmentCode=='') 
-		{ 
-			alert("仪器设备编号不能为空！"); 
-			return;
-		}
 		if (!equipmentName && typeof(equipmentName)!="undefined" && equipmentName=='') 
 		{ 
 			alert("仪器设备名称不能为空！");
@@ -227,7 +270,7 @@ function add(){
 			return;
 		}if (!factoryCode && typeof(factoryCode)!="undefined" && factoryCode=='') 
 		{ 
-			alert("出厂编号不能为空！"); 
+			alert("设备出厂编号不能为空！"); 
 			return;
 		}
 		if (!credentials && typeof(credentials)!="undefined" && credentials=='') 
@@ -246,7 +289,6 @@ function add(){
 			remarks = "";
 		}
 		
-		parame.equipmentCode = equipmentCode;
 		parame.equipmentName = equipmentName;
 		parame.department = department;
 		parame.equipmentType = equipmentType;
@@ -285,7 +327,7 @@ function showSth(){
 	    	 if (data) { 
 	    		 var department;
 	    		 var myobj = JSON.parse(data);
-	    		 var htmlElement = "<option></option>";//定义HTML    
+	    		 var htmlElement = "";//定义HTML    
 	    		 department=$("#add_departmentName");
 	    		 for(var i=0;i<myobj.length;i++){
 	    			 htmlElement += "<option value='" + myobj[i].ID + "'>" + myobj[i].departmentName + "</option>";
@@ -302,7 +344,7 @@ function showSth(){
 	    	 if (data) { 
 	    		 var equipmentType;
 	    		 var myobj = JSON.parse(data);
-	    		 var htmlElement = "<option></option>";//定义HTML    
+	    		 var htmlElement = "";//定义HTML    
 	    		 equipmentType=$("#add_equipmentTypeName");
 	    		 for(var i=0;i<myobj.length;i++){
 	    			 htmlElement += "<option value='" + myobj[i].ID + "'>" + myobj[i].name + "</option>";
@@ -314,7 +356,7 @@ function showSth(){
 }
 
 /**
- * 新增时得到相关信息方法
+ * 修改时得到相关信息方法
  */
 function editSth(){ 
 	 $.ajax({  
@@ -325,7 +367,7 @@ function editSth(){
 	    	 if (data) { 
 	    		 var department;
 	    		 var myobj = JSON.parse(data);
-	    		 var htmlElement = "<option class='depart'></option>";//定义HTML    
+	    		 var htmlElement = "";//定义HTML    
 	    		 department=$("#edit_departmentName");
 	    		 for(var i=0;i<myobj.length;i++){
 	    			 htmlElement += "<option value='" + myobj[i].ID + "'>" + myobj[i].departmentName + "</option>";
@@ -342,7 +384,7 @@ function editSth(){
 	    	 if (data) { 
 	    		 var equipmentType;
 	    		 var myobj = JSON.parse(data);
-	    		 var htmlElement = "<option class='equip'></option>";//定义HTML    
+	    		 var htmlElement = "";//定义HTML    
 	    		 equipmentType=$("#edit_equipmentTypeName");
 	    		 for(var i=0;i<myobj.length;i++){
 	    			 htmlElement += "<option value='" + myobj[i].ID + "'>" + myobj[i].name + "</option>";
@@ -360,32 +402,12 @@ function openModal(){
 		alert("请选中一条数据");
 		return;
 	}
-	$('#edit_equipmentCode').val(data[0].equipmentCode);
 	$('#edit_equipmentName').val(data[0].equipmentName);
 	
-	var depart = data[0].departmentName;
-	switch (depart) {
-	case "物理实验室": $('#edit_departmentName .depart').text(data[0].departmentName);
-					$('#edit_departmentName .depart').val("1");break;
-	case "化学实验室": $('#edit_departmentName .depart').text(data[0].departmentName);
-					$('#edit_departmentName .depart').val("2");break;
-	case "光学实验室": $('#edit_departmentName .depart').text(data[0].departmentName);
-					$('#edit_departmentName .depart').val("3");break;
-	default:
-		break;
-	}
 	
-	var equip = data[0].name;
-	switch (equip) {
-	case "A类检测/校准设备": $('#edit_equipmentTypeName .equip').text(data[0].name);
-					$('#edit_equipmentTypeName .equip').val("1");break;
-	case "B类检测/校准设备": $('#edit_equipmentTypeName .equip').text(data[0].name);
-					$('#edit_equipmentTypeName .equip').val("2");break;
-	case "C类检测/校准设备": $('#edit_equipmentTypeName .equip').text(data[0].name);
-					$('#edit_equipmentTypeName .equip').val("3");break;
-	default:
-		break;
-	}
+	$('#edit_departmentName').val(data[0].departmentID);
+	$('#edit_equipmentTypeName').val(data[0].equipmentTypeID);
+	
 	$('#edit_model').val(data[0].model);
 	$('#edit_buyTime').val(data[0].buyTime);
 	$('#edit_useYear').val(data[0].useYear);
@@ -407,7 +429,6 @@ function edit(){
 		alert("仪器设备编号不能为空！"); 
 	}else {
 		var parame = {};
-		var equipmentCode = $('#edit_equipmentCode').val();
 		var equipmentName = $('#edit_equipmentName').val();
 		var department = $('#edit_departmentName').val();
 		var equipmentType = $('#edit_equipmentTypeName').val();
@@ -419,11 +440,6 @@ function edit(){
 		var effectiveTime = $('#edit_effectiveTime').val();
 		var remarks = $('#edit_remarks').val();
 		
-		if (!equipmentCode && typeof(equipmentCode)!="undefined" && equipmentCode=='') 
-		{ 
-			alert("仪器设备编号不能为空！"); 
-			return;
-		}
 		if (!equipmentName && typeof(equipmentName)!="undefined" && equipmentName=='') 
 		{ 
 			alert("仪器设备名称不能为空！");
@@ -475,7 +491,6 @@ function edit(){
 		
 		parame.ID = data[0].ID;
 		alert(data[0].ID);
-		parame.equipmentCode = equipmentCode;
 		parame.equipmentName = equipmentName;
 		parame.department = department;
 		parame.equipmentType = equipmentType;

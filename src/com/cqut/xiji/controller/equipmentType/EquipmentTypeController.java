@@ -21,10 +21,10 @@ public class EquipmentTypeController{
 	@Resource(name="equipmentTypeService")
 	IEquipmentTypeService service;
 	
-	@RequestMapping("/getEquipmentWithPaging")  
+	@RequestMapping("/getEquipmentTypeWithPaging")  
     @ResponseBody
-	public JSONObject getEquipmentWithPaging(int limit, int offset, String sort, String order, String equipmentTypeCode, String equipmentTypeName){
-		Map<String, Object> result = service.getEquipmentWithPaging(limit,offset,sort,order,equipmentTypeCode,equipmentTypeName);
+	public JSONObject getEquipmentTypeWithPaging(int limit, int offset, String sort, String order, String equipmentTypeCode, String equipmentTypeName){
+		Map<String, Object> result = service.getEquipmentTypeWithPaging(limit,offset,sort,order,equipmentTypeCode,equipmentTypeName);
 		return JSONObject.fromObject(result);
 	}
 	
@@ -61,13 +61,29 @@ public class EquipmentTypeController{
 	 * @description 删除仪器类型信息
 	 * @author hujiajun
 	 * @created 2016-11-17 下午9:31:59
-	 * @param equipmentTypeCodes
+	 * @param equipmentTypeIds
 	 * @return
 	 */
 	@RequestMapping("/delEquipmentType")  
     @ResponseBody
-	public int delEquipmentType(String equipmentTypeCodes){
-		int result = service.delEquipmentType(equipmentTypeCodes);
+	public int delEquipmentType(String equipmentTypeIds){
+		int result = service.delEquipmentType(equipmentTypeIds);
+		return result;
+	}
+	
+	@RequestMapping("/isCodeExist")  
+    @ResponseBody
+	public int isCodeExist(String equipmentTypeCode){
+		int result = service.isCodeExist(equipmentTypeCode);
+		System.out.println("isCodeExist;"+result);
+		return result;
+	}
+	
+	@RequestMapping("/isTypeExist")  
+    @ResponseBody
+	public int isTypeExist(String equipmentTypeName){
+		int result = service.isTypeExist(equipmentTypeName);
+		System.out.println("isTypeExist;"+result);
 		return result;
 	}
 	

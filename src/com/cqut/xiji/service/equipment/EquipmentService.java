@@ -80,12 +80,13 @@ public class EquipmentService extends SearchService implements
 		String tableName = "equipment";
 		String[] properties = new String[]{
 				"equipment.ID",
-				"equipment.equipmentCode",
 				"equipment.equipmentName",
 				"equipment.model",
+				"department.ID as departmentID",
 				"department.departmentName",
 				"date_format(equipment.buyTime,'%Y.%m.%d') as buyTime",
 				"equipment.useYear",
+				"equipmentType.ID as equipmentTypeID",
 				"equipmentType.name",
 				"employee.employeeName",
 				"equipment.factoryCode",
@@ -122,13 +123,12 @@ public class EquipmentService extends SearchService implements
 	}
 	
 	@Override
-	public int addEquipment(String equipmentCode, String equipmentName,
+	public int addEquipment(String equipmentName,
 			String equipmentType, String model, String department,
 			String buyTime, int useYear, String factoryCode, String credentials,
 			String effectiveTime, String employeeID, String remarks){
 		Equipment equipment = new Equipment();
 		equipment.setID(EntityIDFactory.createId());
-		equipment.setEquipmentCode(equipmentCode);
 		equipment.setEquipmentName(equipmentName);
 		equipment.setEquipmentTypeID(equipmentType);
 		equipment.setModel(model);
@@ -165,18 +165,18 @@ public class EquipmentService extends SearchService implements
 	 * @description 删除设备
 	 * @author hujiajun
 	 * @created 2016-10-21 下午4:45:15
-	 * @param equipmentCodes
+	 * @param equipmentIds
 	 * @return
 	 * @see com.cqut.xiji.service.equipment.IEquipmentService#delEquipment(java.lang.String)
 	 */
 	@Override
-	public int delEquipment(String equipmentCodes) {
+	public int delEquipment(String equipmentIds) {
 		// TODO Auto-generated method stub
-		if(equipmentCodes == null || equipmentCodes.isEmpty()){
+		if(equipmentIds == null || equipmentIds.isEmpty()){
 			return 0;
 		}
 		
-		String position = equipmentCodes;
+		String position = equipmentIds;
 		int result = entityDao.deleteByCondition(position, Equipment.class);
 		return result;
 	}
@@ -207,7 +207,7 @@ public class EquipmentService extends SearchService implements
 	 */
 	@Override
 	public List<Map<String, Object>> getEquipmentByName(String equipmentName){
-		String[] properties = new String[] {"ID","equipmentCode","equipmentName","buyTime","departmentID"};
+		String[] properties = new String[] {"ID","factoryCode","equipmentName","date_format(buyTime,'%Y.%m.%d') as buyTime","departmentID"};
 		String condition = "equipmentName like '%" + equipmentName + "%'";
 		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Equipment.class);
 		return result;
@@ -221,14 +221,14 @@ public class EquipmentService extends SearchService implements
 	 */
 	@Override
 	public List<Map<String, Object>> getEquipmentById(String ID){
-		String[] properties = new String[] {"ID","equipmentCode","equipmentName","date_format(buyTime,'%Y.%m.%d') as buyTime","departmentID"};
+		String[] properties = new String[] {"ID","factoryCode","equipmentName","date_format(buyTime,'%Y.%m.%d') as buyTime","departmentID"};
 		String condition = "ID = '" + ID + "'";
 		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Equipment.class);
 		return result;
 	}
 	
 	@Override
-	public String updEquipment(String ID, String equipmentCode,
+	public String updEquipment(String ID,
 			String equipmentName, String equipmentType, String model,
 			String department, String buyTime, int useYear, String factoryCode,
 			String credentials, String effectiveTime, String employeeID,
@@ -236,7 +236,6 @@ public class EquipmentService extends SearchService implements
 		// TODO Auto-generated method stub
 		Equipment equipment = new Equipment();
 		
-		equipment.setEquipmentCode(equipmentCode);
 		equipment.setEquipmentName(equipmentName);
 		equipment.setEquipmentTypeID(equipmentType);
 		equipment.setModel(model);

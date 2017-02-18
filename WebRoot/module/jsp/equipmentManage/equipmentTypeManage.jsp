@@ -83,11 +83,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      	<div id="adDcontent" class="row">
 	      		<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">设备类型编号：</label>
-                   	<input type="text" id="add_equipmentTypeCode" name="equipmentTypeCode" class="form-control" />
+                   	<input type="text" id="add_equipmentTypeCode" name="equipmentTypeCode" onblur="isCodeExistA()" class="form-control" />
                	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">设备类型名称：</label>
-                   	<input type="text" id="add_equipmentTypeName" name="equipmentTypeName" class="form-control" />
+                   	<input type="text" id="add_equipmentTypeName" name="equipmentTypeName" onblur="isTypeExistA()" class="form-control" />
                 </div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">备注:</label>
@@ -115,11 +115,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      	<div id="IDid" class="row">
 	      		<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">设备类型编号：</label>
-                   	<input type="text" id="edit_equipmentTypeCode" name="equipmentTypeCode" class="form-control" />
+                   	<input type="text" id="edit_equipmentTypeCode" name="equipmentTypeCode" onblur="isCodeExistE()" class="form-control" />
                	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">设备类型名称：</label>
-                   	<input type="text" id="edit_equipmentTypeName" name="equipmentTypeName" class="form-control" />
+                   	<input type="text" id="edit_equipmentTypeName" name="equipmentTypeName" onblur="isTypeExistE()" class="form-control" />
                 </div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">备注:</label>

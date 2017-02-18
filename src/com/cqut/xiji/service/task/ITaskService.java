@@ -64,6 +64,8 @@ public interface ITaskService {
 
 	public boolean setTestReportInfo(String taskID, String remarks);
 
+    public String getReportPath(String taskID);
+    
 	public boolean submitReport(String taskID);
 
 

@@ -19,8 +19,8 @@ public interface IEquipmentTypeService {
 	 * @param equipmentTypeName
 	 * @return
 	 */
-	public Map<String, Object> getEquipmentWithPaging(int limit, int offset,
-			String sort, String order, String equipmentTypeCode,
+	public Map<String, Object> getEquipmentTypeWithPaging(int limit,
+			int offset, String sort, String order, String equipmentTypeCode,
 			String equipmentTypeName);
 
 	/**
@@ -33,10 +33,10 @@ public interface IEquipmentTypeService {
 			String equipmentTypeName, String remarks);
 
 	/**
-	 * @param equipmentTypeCodes
+	 * @param equipmentTypeIds
 	 * @return
 	 */
-	public int delEquipmentType(String equipmentTypeCodes);
+	public int delEquipmentType(String equipmentTypeIds);
 
 	/**
 	 * @param equipmentTypeCode
@@ -53,5 +53,9 @@ public interface IEquipmentTypeService {
 	 */
 	public int updEquipmentType(String iD, String equipmentTypeCode,
 			String equipmentTypeName, String remarks);
+
+	public int isCodeExist(String equipmentTypeCode);
+
+	public int isTypeExist(String equipmentTypeName);
 	
 }

@@ -267,21 +267,27 @@ function delData() {
 }
 
 function openModal() {
-	var html = "";
-	$("#fileSubtype").find("option").remove();
-	$.post("fileOperateController/getFileTypeName.do", {
-		ID : $("#fileType").find("option:selected").val()
-	}, function(result) {
-		result = JSON.parse(result);
-		for (var i = 0; i < result.length; i++) {
-			html += "<option>" + result[i].name + "</option>";
-		}
-		$("#fileSubtype").append(html);
-	});
+	if(!isLogin()){
+		return;
+	}
+	else{
+		var html = "";
+		$("#fileSubtype").find("option").remove();
+		$.post("fileOperateController/getFileTypeName.do", {
+			ID : $("#fileType").find("option:selected").val()
+		}, function(result) {
+			result = JSON.parse(result);
+			for (var i = 0; i < result.length; i++) {
+				html += "<option>" + result[i].name + "</option>";
+			}
+			$("#fileSubtype").append(html);
+		});
 
-	fileUploadInit("#file_upload");
+		fileUploadInit("#file_upload");
 
-	$("#addModal").modal("show");
+		$("#addModal").modal("show");
+	}
+	
 }
 
 /* 上传 文件 */
@@ -309,26 +315,25 @@ function addTemplate() {
 	var parame = {};
 	parame.TemplateName = $('#add_TemplateName').val();
 	parame.TemplateRemarks = $('#add_TemplateRemarks').val();
-	parame.uploaderID = $('#uploaderID').val();
+	parame.uploaderID = $('#EMPLOYEEID').val();//上传人ID
 	parame.TestProjectID = $('#add_TestProjectID').val();
 	
-	var templateTypeString = $('#fileType option:checked').text();
+	var templateTypeString = $('#fileSubtype option:checked').text();
 
-	if (templateTypeString === "标准文件") {
+	if (templateTypeString === "合同模板") {
 		parame.TemplateType = 0;
 	}
-	if (templateTypeString === "模板文件") {
+	if (templateTypeString === "报告文件模板") {
 		parame.TemplateType = 1;
 	}
-	if (templateTypeString === "项目文件") {
+	if (templateTypeString === "交接单文件模板") {
 		parame.TemplateType = 2;
 	}
 
 	parame.fileID = "";
 	fileIDs = fielIdReturn();
 	if (fileIDs.length == 0) {
-		alert("出错了");
-
+		alert("请选中一个文件。");
 		return;
 	} else if (fileIDs.length == 1) {
 		parame.fileID = fileIDs[0];
@@ -337,17 +342,22 @@ function addTemplate() {
 			parame.fileID += fileIDs[i] + ",";
 		}
 	}
-	alert("上传成功");
-
+	var Content = "新的"+templateTypeString+":"+parame.TemplateName+"(模板名称)需要审核。"
+	
 	$.ajax({
 		url : 'templateController/addTemplate.do',
 		data : parame,
 		success : function(o) {
 			if (o <= 0) {
 				alert("新增失败");
+				return;
 			}
-			$('#addModal').modal('hide');
-			refresh();
+			else{
+				sendMessage(Content, "模板审核人");
+				alert("上传成功");
+				$('#addModal').modal('hide');
+				refresh();
+			}
 		}
 	});
 }
@@ -364,6 +374,39 @@ function downFile(fileID) {
 	return;
 
 }
+//消息推送
+function  sendMessage(Content,recipient){
+	$.ajax({
+		url:'messageController/addMessage.do',
+		data:{
+			content:Content
+		},
+		success:function(o){
+			  if(o == ""){
+				 alert("信息新增失败（1）");
+			  }
+			  else{
+				  var messageID = o;
+				  messageID = messageID.substring(1,messageID.length-1);
+				  alert(messageID);
+				  $.ajax({
+					  url:'messageNoticeController/addMessageNotice.do?MessageID='+messageID+'&recipient='+recipient,
+					  success:function(s){
+						  if(s <= 0){
+							  if(s == -1){
+								  alert("信息新增失败（2）:不存在该角色名"+recipient);
+							  }
+							  else{
+								  alert("未知错误");
+							  }
+						  }
+					  }
+				  });
+			  }
+		  }
+	});
+}
+// 报告文件模板选项
 function testProjectModal() {
 
 	$('#testProject')
@@ -516,8 +559,9 @@ function testProjectModal() {
 	$('#testProjectModal').modal('show');
 
 }
+//判断
 function isReport(){
-	if($('#fileSubtype option:checked').text() === "报告模板"){
+	if($('#fileSubtype option:checked').text() === "报告文件模板"){
 		testProjectModal();
 	}
 }

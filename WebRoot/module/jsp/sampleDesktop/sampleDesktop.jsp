@@ -187,6 +187,17 @@ color
 .RightArea .row .col-xs-7 span:FIRST-CHILD {
 	font-size: 18;
 }
+.fixed-table-body #table .bs-checkbox {
+vertical-align: middle;
+}   
+.RightArea .row .col-xs-7 span + sapn, .leftArea .row span + sapn{
+    font-style: italic;
+    font-family: fantasy;
+}
+
+.leftArea .row span:FIRST-CHILD {
+	font-size: 18;
+}
 </style>
 </head>
 
@@ -214,9 +225,7 @@ color
 					<button class="btn btn-primary">无合同新增交接单</button>
 				</div>
 			</div>
-
 			<div class="contractTable"></div>
-
 		</div>
 		<div class="RightArea">
 			<div class="Right_content">

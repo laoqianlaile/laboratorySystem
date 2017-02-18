@@ -56,7 +56,7 @@ body {
 
 </head>
 
-<body>
+<body onunload="cloase()">
 
 	<div id="onlineViewFile">
 		<h3>在线预览</h3>

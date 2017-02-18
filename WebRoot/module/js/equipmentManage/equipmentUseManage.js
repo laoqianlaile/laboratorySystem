@@ -42,8 +42,8 @@ function initData(){
 			width:'10',//宽度
 			visible:false
 		},{
-			field:'equipmentCode',//返回值名称
-			title:'设备编号',//列名
+			field:'equipmentFactoryCode',//返回值名称
+			title:'设备出厂编号',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'14%',//宽度
@@ -138,7 +138,7 @@ function queryParams(){
 	var searchCondition = {
 		limit : 10,
 		offset : 0,
-		sort : 'equipmentCode',
+		sort : 'equipmentFactoryCode',
 		order : 'asc',
 		sampleName : $.trim($('#schSampleName').val()),
 		equipmentName : $.trim($('#schEquipmentName').val()),

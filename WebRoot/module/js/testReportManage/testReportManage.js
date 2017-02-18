@@ -1,24 +1,29 @@
-var re = new RegExp("\"", "g");
+// 请求数据时的额外参数
+var param = {};
+
+// 初始化数据
 $(function() {
-	initData();
-});
-//初始化数据
-function initData(){
 	$("#table").bootstrapTable({
 		striped : true,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
-	//	pageSize : 10,// 页面数据条数
+		pageSize : 10,// 页面数据条数
 		pageNumber : 1,// 首页页码
-		pageList : [ 5, 10,15 ],// 设置可供选择的页面数据条数
+		pageList : [ 5, 10 ],// 设置可供选择的页面数据条数
 		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache : false,// 禁用 AJAX 数据缓存
-	//	sortName : 'ID',// 定义排序列
-	//	sortOrder : 'DESC',// 定义排序方式
+		sortName : 'ID',// 定义排序列
+		sortOrder : 'ASC',// 定义排序方式
 		url : 'testReportController/getTestReportWithPaging.do',// 服务器数据的加载地址
 		sidePagination : 'server',// 设置在哪里进行分页
 		contentType : 'application/json',// 发送到服务器的数据编码类型
 		dataType : 'json',// 服务器返回的数据类型
-		queryParams: queryParams, //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
+		queryParams: function queryParams(params) { //请求服务器数据时,添加一些额外的参数
+			param.limit = params.limit;// 页面大小
+			param.offset = params.offset; // 偏移量
+			param.sort = params.sort; // 排序列名
+			param.order = params.order; // 排位方式
+			return param;
+		},
 	    queryParamsType: "limit", 
 		selectItemName : '',// radio or checkbox 的字段名
 		columns : [ {
@@ -119,21 +124,12 @@ function initData(){
 			}
 		}]
 	});
-}
+
+});
 
 //查询
-function search(){
-	initData();
-	refresh();
-}
-
-//请求数据时的额外参数
-function queryParams() {
-	var searchCondition = {
-		limit : 10,
-		offset : 0,
-		sort : 'ID',
-		order : 'desc',
+function search() {
+	var additionalCondition = {
 		receiptlistCode : $.trim($('#transitreceiptNumber').val()),
 		client : $.trim($('#client').val()),
 		reportName : $.trim($('#reportName').val()),
@@ -141,10 +137,14 @@ function queryParams() {
 		endTime : $.trim($('#endTime').val()),
 		selectPart : $.trim($('#selectPart').val()),
 	};
-	return searchCondition;
+	$('#table').bootstrapTable('refresh', {
+		silent : true,
+		url : "testReportController/getTestReportWithPaging.do",
+		query : additionalCondition
+	});
 }
 
-//提交审核
+// 提交审核
 function submitReport() {
 	var keyID = arguments[0];
 	if (confirm("是否提交审核")) {
@@ -170,25 +170,25 @@ function submitReport() {
 	}
 }
 
-//发送报告
-function showSendReportModal(){
+// 发送报告
+function showSendReportModal() {
 	var testReportID = arguments[0];
-	if(confirm("确定发送报告?")){
-		$.post("testReportController/setReportSendCheck.do",{
+	if (confirm("确定发送报告?")) {
+		$.post("testReportController/setReportSendCheck.do", {
 			ID : testReportID
-		},function(result){
-			if(result == true || result == "true"){
+		}, function(result) {
+			if (result == true || result == "true") {
 				$("#testReportID").text(testReportID);
 				$("#sendReport").modal("show");
-			}else{
+			} else {
 				alert("不能发送当前报告");
 			}
 		});
 	}
 }
 
-//确定发送
-function sendReportSure(){
+// 确定发送
+function sendReportSure() {
 	var receiveMan = $.trim($("#receiveMan").val());
 	$.post("testReportController/setReportSendInfo.do", {
 		ID : $("#testReportID").text(),
@@ -204,8 +204,7 @@ function sendReportSure(){
 	$("#sendReport").modal("hide");
 }
 
-
-//重新覆盖
+// 重新覆盖
 function recover() {
 	var rows = $("#table").bootstrapTable('getSelections');
 	if (rows.length == 0) {
@@ -215,15 +214,14 @@ function recover() {
 	if (rows.length > 1) {
 		alert("请选择一条数据");
 		return;
-	}
-	else{
+	} else {
 		$.post("testReportController/recoverCheck.do", {
 			ID : rows[0].ID
 		}, function(result) {
 			if (result == true || result == "true") {
 				fileUploadInit("#file_upload");
 				$("#recoverReport").modal("show");
-			}else{
+			} else {
 				alert("当前审核状态不可以重新覆盖");
 			}
 		});
@@ -233,10 +231,11 @@ function recover() {
 // 确认覆盖
 function recoverSure() {
 	var rows = $("#table").bootstrapTable('getSelections');
-	if (rows[0].fileID != "" || rows[0].fileID != " " || rows[0].fileID != undefined || rows[0].fileID != null){
+	if (rows[0].fileID != "" || rows[0].fileID != " "
+			|| rows[0].fileID != undefined || rows[0].fileID != null) {
 		$.post("fileOperateController/getFilesInfo.do", {
 			ID : rows[0].fileID
-		}, function(result) {
+		},function(result) {
 			result = JSON.parse(result);
 			if (result == null || result == "null") {
 				alert("没有记录");
@@ -244,10 +243,12 @@ function recoverSure() {
 				var path = result[0].path;
 				var i = path.lastIndexOf("\\");
 				path = path.substring(i + 1, length);
-				fileUpload("#file_upload", path, result[0].type,rows[0].taskID);
+				fileUpload("#file_upload", path, result[0].type,
+						rows[0].taskID);
 			}
 		});
 	}
+		
 	setTimeout(function() {
 		var rows = $("#table").bootstrapTable('getSelections');
 		var fileVersionNumber = $("#fileVersionNumber").val();
@@ -259,18 +260,18 @@ function recoverSure() {
 			versionNumber : fileVersionNumber,
 			versionInfo : fileVersionInfo,
 			remarks : fileRemarks
-		},function(result){
+		}, function(result) {
 			if (result == true || result == "true") {
 				alert("重新覆盖成功");
-			}else{
+			} else {
 				alert("重新覆盖失败");
 			}
 		});
 		$("#recoverReport").modal("hide");
-	},1500);
+	}, 1500);
 }
 
-//查看检测报告
+// 查看检测报告
 function checkReport() {
 	var rows = $("#table").bootstrapTable('getSelections');
 	if (rows.length == 0) {
@@ -282,8 +283,10 @@ function checkReport() {
 		return;
 	} else {
 		var testReportID = rows[0].ID;
-		if (testReportID != null && testReportID != undefined && testReportID != "") {
-			window.location.href = "module/jsp/testReportManage/testReportView.jsp?testReportID=" + testReportID;
+		if (testReportID != null && testReportID != undefined
+				&& testReportID != "") {
+			window.location.href = "module/jsp/testReportManage/testReportView.jsp?testReportID="
+					+ testReportID;
 		}
 	}
 }
@@ -294,16 +297,19 @@ function fileDown() {
 	$.post("testReportController/getFileID.do", {
 		ID : keyID
 	},function(result) {
+		var re = new RegExp("\"", "g");
 		result = result.replace(re, "");
-		if (result == null || result == "null" || result == ""|| result == " ") {
+		if (result == null || result == "null" || result == ""
+				|| result == " ") {
 			if (confirm("未找到相应文件，是否下载默认模版")) {
 				$.post("testReportController/getTemplateFileID.do", {
 					ID : keyID
 				}, function(result) {
 					result = JSON.parse(result);
-					if(result == null || result == undefined || result == "null" || result == ""){
+					if (result == null || result == undefined
+							|| result == "null" || result == "") {
 						alert("未找到相应模版");
-					}else{
+					} else {
 						downOneFile(result[0].fileID);
 					}
 				});
@@ -316,5 +322,17 @@ function fileDown() {
 
 //刷新页面
 function refresh() {
-	$('#table').bootstrapTable('refresh', null);
+	var additionalCondition = {
+		receiptlistCode : "",
+		client : "",
+		reportName : "",
+		beginTime : "",
+		endTime : "",
+		selectPart : "",
+	};
+	$("#table").bootstrapTable('refresh', {
+		silent : true,
+		url : "testReportController/getTestReportWithPaging.do",
+		query : additionalCondition
+	});
 }

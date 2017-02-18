@@ -211,6 +211,7 @@ table {
 	min-width:800px;
 }
 #tree{
+margin-top: 10px;
 min-width: 100px;
 width:15%;
 float:left ;
@@ -243,21 +244,21 @@ span {
 	margin-top:8px
 }
 	.employeeN{
-	 	width:568px;
+	 	width:509px;
 	 	display:none;
 	 	border:1px solid #ccc;
 	 	border-top:none;
 	 	border-radius:3px;
 	}
 	.employeeN ul {
-		width:567px;
+		width:509px;
 		height:30px;
 		border:none;
 		margin:0;
 		margin-left:-40px;
 	}
 	.employeeN ul li{
-		width:567px;
+		width:509px;
 		height:30px;
 		line-height: 30px;
 		list-style-type: none;

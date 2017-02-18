@@ -83,9 +83,9 @@ function initContractFile(){
 			valign:'middle',
 			width:'16%',
 			 formatter:function(value,row,index){    
-                 var a = '<button  onclick="downFile('+row.ID+')"  title="下载" class="glyphicon glyphicon-save" style="cursor:pointer;color: rgb(10, 78, 143);margin-right:8px;"></button>';
-                 var b = "<button  onclick='openFile("+row.ID+")'"+" title='查看'  class='glyphicon glyphicon-log-in' style='cursor:pointer;color: rgb(10, 78, 143);margin-right:8px;'></button>";
-                 var c = "<button  onclick='delFile("+ row.ID +")'"+" title='删除'  class='glyphicon glyphicon-remove-sign' style='cursor:pointer;color: rgb(10, 78, 143);margin-right:8px;'></button>";
+                 var a = "<button  onclick='downFile("+row.ID+")' title='下载' class='glyphicon glyphicon-save' style='cursor:pointer;color: rgb(10, 78, 143);margin-right:8px;'></button>";
+                 var b = "<button  onclick='openFile("+row.ID+")' title='查看'  class='glyphicon glyphicon-log-in' style='cursor:pointer;color: rgb(10, 78, 143);margin-right:8px;'></button>";
+                 var c = "<button  onclick='delFile("+ row.ID +")' title='删除'  class='glyphicon glyphicon-remove-sign' style='cursor:pointer;color: rgb(10, 78, 143);margin-right:8px;'></button>";
                  return a+b+c;    
              }   
 		}]////列配置项,详情请查看 列参数 表格
@@ -188,10 +188,14 @@ function getContractByID(){
 	}
 }
 
+/**
+ * 下载文件
+ * @param id
+ */
 function downFile(id){
 	alert("downFile:" + id);
+	downOneFile(id);
 }
-
 
 function openFile(id){
 	alert("openFile:" + id);
@@ -200,7 +204,8 @@ function openFile(id){
 
 //删除合同的文件
 function delFile(id) {
-	var data ;
+	alert(id);
+	var data;
    $.ajax({
 	url : 'fileInformationController/deleteFileByID.do',
 	dataType : "json",
@@ -210,7 +215,7 @@ function delFile(id) {
 	},
 	success : function(o) {
 		 data = JSON.parse(o); // error
-		if (data == true) {
+		if (data == "true") {
 			alert("delete sunceesul");
 		} else {
 			alert("delete faire");
@@ -372,84 +377,27 @@ function submitFile(){
 	//文件上传
 	 fileUpload(fileObj.filePath, fileObj.fileTypeNumber, fileObj.firstDirectoryName, fileObj.secondDirectoryName,fileObj.thirdDirectoryName,
 			 fileObj.belongtoID, fileObj.otherInfo, fileObj.remarks) ;
-	 
+
 	 refresh();
+	 //旋转图片延缓
+	//setTimeout("dealUploadFile()",5000);
+	/* $.ajaxSetup({
+			global:false,
+			cache:false,
+			beforeSend:function(){
+				loadingData();
+			},
+			complete:function(){
+				removeLoadingData();
+				$('#fileTable').bootstrapTable('refresh',null);
+			},
+			timeout:10000,
+		});*/
 }
 
-/*//下载合同文件
-function download(fileID){
-	downOneFile(fileID) ;
-}*/
-
-/*function chooseFileNum(edu){
-	alert($(edu).val());
-	console.log(edu);
-	alert(edu.val());
-	alert(edu.value());
-}
-
-//删除交接单的文件
-function deleteFile(fileID) {
-	var data ;
-   $.ajax({
-	url : '/laboratorySystem/fileInformationController/deleteFileByID.do',
-	dataType : "json",
-	async : false,
-	data : {
-		fileID : fileID
-	},
-	success : function(o) {
-		 data = JSON.parse(o); // error
-		if (data == true) {
-			alert("delete sunceesul");
-		} else {
-			alert("delete faire");
-		}
-	},
-	error : function() {
-		return false;
-	}
-   });
-   $('#fileTable').bootstrapTable('refresh',null);
-
-}
-
-//编辑任务弹框确认
-function editFileModel() {
-	var param = {};
-	var data ;
-	param.fileID = $("#editFileID").val();
-	param.remarks = $("#fileRemarks").val();
-	$
-			.ajax({
-				url : '/laboratorySystem/fileInformationController/updateRemarksByID.do',
-				dataType : "json",
-				type : "post",
-				async : false,
-				contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
-				data : param,
-				success : function(o) {
-			 		data = JSON.parse(o);
-					if (data == true) {
-						{
-							$('#editFileModal').modal('hide');
-							alert("sucueessful");
-						}
-					} else
-						alert("FILE faire");
-				},
-				error : function() {
-					return false;
-				}
-
-			});
-	  $('#fileTable').bootstrapTable('refresh',null);
-	// 获取ID
-	// 返回结果
-}
-
-*/
-
+/*
+ * 改变计算方式
+ */
 function calculateType(){
 	var Type1 = $('input[name="calculateType1"]:checked').val();
 	if(Type1 == "0"){
@@ -470,6 +418,9 @@ function calculateType(){
 	}
 }
 
+/*
+ * 是否外包
+ */
 function outChange(){
 	var out1 = $('input[name="isOutsourcing1"]:checked').val();
 	if(out1 == "0"){
@@ -692,6 +643,23 @@ function goback(){
 	window.location.href="module/jsp/contractManage/contractManage.jsp";
 }
 
+/*
+ * 修改是否保密响应
+ */
+function classifiedSth(){
+	var isClassified = $('input[name="isClassified"]:checked').val();
+	alert(isClassified);
+	if(isClassified == "0"){
+		$('#edit_classifiedLevel').val("3");
+		$('#edit_classifiedLevel #Level3').show();
+		$('#edit_classifiedLevel .Level3').hide();
+	}else if(isClassified == "1"){
+		$('#edit_classifiedLevel').val("0");
+		$('#edit_classifiedLevel .Level3').show();
+		$('#edit_classifiedLevel #Level3').hide();
+	}
+}
+
 /**
  * 改变信息触发相关提示信息的方法(edit)
  */
@@ -721,7 +689,7 @@ function editShowMsg(){
 		    			length = myobj.length;
 		    		}
 		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].companyName + "' class='" + myobj[i].ID + "'>" + myobj[i].companyName + "</li></ul>";
+		    			htmlElement += "<ul><li id='" + myobj[i].mobilePhone +"' value='" + myobj[i].companyName + "' name='" + myobj[i].linkMan + "' title='" + myobj[i].address + "' class='" + myobj[i].ID + "'>" + myobj[i].companyName + "</li></ul>";
 		    		}
 		    		 
 		    		company.show();
@@ -783,8 +751,17 @@ function editClick(){
 		 var name = $(this).attr("value");
 		 $("#edit_companyName").val(name);
 		 var ID =  $(this).attr("class");
+		 var mobilePhone =  $(this).attr("id");
+		 var linkMan =  $(this).attr("name");
+		 var address =  $(this).attr("title");
 		 $('#edit_companyName').attr({'name' : "" + ID + ""});
 		 $('#edit_companyName').attr({'value' : "" + name + ""});
+		 //$("#edit_oppositeMen").val(linkMan);
+		 $('#edit_oppositeMen').attr("disabled",true);
+		 //$("#edit_linkPhone").val(mobilePhone);
+		 $('#edit_linkPhone').attr("disabled",true);
+		 //$("#edit_address").val(address);
+		 $('#edit_address').attr("disabled",true);
 		 $(".companyN").hide();
 	})
 	
@@ -846,7 +823,6 @@ function edit(){
 		var startTime = $('#edit_startTime').val();
 		var endTime = $('#edit_endTime').val();
 		var employeeID = $('#edit_employeeName').attr("name");
-		alert(employeeID);
 		var employeeName = $('#edit_employeeName').val();
 		var signTime = $('#edit_signTime').val();
 		var contractAmount = $('#edit_contractAmount').val();
@@ -913,7 +889,7 @@ function edit(){
 		{ 
 			alert("合同截至日期不能为空！"); 
 			return;
-		}//employeeID，employeeName，contractAmount，isClassified，classifiedLevel
+		}
 		if (!contractAmount && typeof(contractAmount)!="undefined" && contractAmount=='') 
 		{ 
 			alert("合同金额不能为空！");

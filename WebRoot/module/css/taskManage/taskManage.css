@@ -40,6 +40,13 @@
 	background-color: #fff;
 }
 
+.button_group {
+	float: right;
+	margin-top: 30px;
+	margin-right: 100px;
+	display: inline-block;
+}
+
 #testItemDiv {
 	width: 73%;
 	display: inline-block;

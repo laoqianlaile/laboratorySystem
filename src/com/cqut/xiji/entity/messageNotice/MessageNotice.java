@@ -11,7 +11,6 @@ public class MessageNotice extends Entity{
 	private String ID;
 	private String messageID;
 	private String employeeID;
-	private String roleID;
 	private int state;
 	private Date lookTime;
 	
@@ -53,14 +52,6 @@ public class MessageNotice extends Entity{
 
 	public void setLookTime(Date lookTime) {
 		this.lookTime = lookTime;
-	}
-
-	public String getRoleID() {
-		return roleID;
-	}
-
-	public void setRoleID(String roleID) {
-		this.roleID = roleID;
 	}
 
 	@Override

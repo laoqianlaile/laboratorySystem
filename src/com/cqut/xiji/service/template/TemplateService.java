@@ -132,21 +132,21 @@ public class TemplateService extends SearchService implements ITemplateService{
 		result += entityDao.save(template);
 
 		// 文件所属ID
-		FileInformation fileInformation = new FileInformation();
+		
+		FileInformation fileInformation = entityDao.getByID(fileID, FileInformation.class);
 		fileInformation.setRemarks(TemplateRemarks);
 		fileInformation.setBelongtoID(template.getID());
 		fileInformation.setUploaderID(uploaderID);
 
 		result += entityDao.updatePropByID(fileInformation, fileID);
 
-		//关联检测项目
-
-
-		TestProject project = new TestProject();
-
-		project.setTemplateID(template.getID());
-
-		result += entityDao.updatePropByID(project, TestProjectID);
+		//当只是报告文件模板时有值
+		if(TestProjectID != null && TestProjectID != ""){
+			TestProject project = entityDao.getByID(TestProjectID,TestProject.class);
+			project.setTemplateID(template.getID());
+			result += entityDao.updatePropByID(project, TestProjectID);
+		}
+		
 		return result +"";
 	}
 	@Override

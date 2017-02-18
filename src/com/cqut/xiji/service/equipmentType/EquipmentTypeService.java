@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
@@ -38,8 +39,8 @@ public class EquipmentTypeService extends SearchService implements IEquipmentTyp
 	}
 	
 	@Override
-	public Map<String, Object> getEquipmentWithPaging(int limit, int offset,
-			String sort, String order, String equipmentTypeCode,
+	public Map<String, Object> getEquipmentTypeWithPaging(int limit,
+			int offset, String sort, String order, String equipmentTypeCode,
 			String equipmentTypeName){
 		int index = limit;
 		int pageNum = offset/limit ;
@@ -96,25 +97,25 @@ public class EquipmentTypeService extends SearchService implements IEquipmentTyp
 	 * @description 删除设备
 	 * @author hujiajun
 	 * @created 2016-10-21 下午4:45:15
-	 * @param equipmentTypeCodes
+	 * @param equipmentTypeIds
 	 * @return
 	 * @see com.cqut.xiji.service.equipmentType.IEquipmentTypeService#delEquipmentType(java.lang.String)
 	 */
 	@Override
-	public int delEquipmentType(String equipmentTypeCodes) {
+	public int delEquipmentType(String equipmentTypeIds) {
 		// TODO Auto-generated method stub
-		if(equipmentTypeCodes == null || equipmentTypeCodes.isEmpty()){
+		if(equipmentTypeIds == null || equipmentTypeIds.isEmpty()){
 			return 0;
 		}
 		
-		String position = equipmentTypeCodes;
+		String position = equipmentTypeIds;
 		int result = entityDao.deleteByCondition(position, EquipmentType.class);
 		return result;
 	}
 	
 	/**
 	 * 
-	 * @description 通过仪器编号获得合同ID
+	 * @description 通过编号获得ID
 	 * @author hujiajun
 	 * @created 2016-10-21 下午4:47:01
 	 * @param equipmentCode
@@ -143,4 +144,28 @@ public class EquipmentTypeService extends SearchService implements IEquipmentTyp
 		int result = entityDao.updatePropByID(equipmentType,ID);
 		return result;
 	}
+
+	@Override
+	public int isCodeExist(String equipmentTypeCode){
+		String condition = " typeCode = '" + equipmentTypeCode + "'";
+		int count = entityDao.getByCondition(condition, EquipmentType.class).size();
+		System.out.println("countcode:" + count);
+		if(count > 0){
+			return 1;
+		}else{
+			return -1;
+		}
+	};
+
+	@Override
+	public int isTypeExist(String equipmentTypeName){
+		String condition = " name = '" + equipmentTypeName + "'";
+		int count = entityDao.getByCondition(condition, EquipmentType.class).size();
+		System.out.println("counttype:" + count);
+		if(count > 0){
+			return 1;
+		}else{
+			return -1;
+		}
+	};
 }

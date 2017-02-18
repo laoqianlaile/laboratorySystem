@@ -71,7 +71,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="list-searcher">
 		    <span>设备名称：</span><input type="text" id="schEquipmentName" name="schEquipmentName" class="form-control" >
 			<span>使用时间：</span><input type="date" id="schStartTime" name="schStartTime" class="form-control" > 
-			<span>至</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="schEndTime" name="schEndTime" class="form-control" >
+			<span> 至  </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="schEndTime" name="schEndTime" class="form-control" >
 		</div>
 	</div>
   	 <div class="input-group" style="float: right;margin-bottom: 10px;">

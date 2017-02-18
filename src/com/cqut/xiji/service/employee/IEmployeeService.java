@@ -42,6 +42,13 @@ public interface IEmployeeService {
 	public String updEmployee(String ID,String employeeName, String employeeCode, int sex,String email,String phoneNumber,String address,String dutyID,String roleID,String departmentID);
 
 	public String updEmployeeState(String ID,int state);
+
+	List<Map<String, Object>> getEmployeeinfo(String employeeID);
+
+	String editInfo(String employeeID, String employeeName, String sex,
+			String phoneNumber, String email, String address);
+
+	String editEmployeePwd(String employeeID, String newpwd);
 }
 
 

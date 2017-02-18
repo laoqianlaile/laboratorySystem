@@ -11,11 +11,14 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
+import com.cqut.xiji.entity.message.Message;
+import com.cqut.xiji.entity.messageNotice.MessageNotice;
 import com.cqut.xiji.entity.standard.Standard;
 import com.cqut.xiji.entity.standardType.StandardType;
 import com.cqut.xiji.service.base.SearchService;
@@ -81,10 +84,22 @@ public class StandardService extends SearchService implements IStandardService{
 		
 		int result = entityDao.save(standard);
 		
-		FileInformation fileInformation = new FileInformation();
+		FileInformation fileInformation = entityDao.getByID(fileID, FileInformation.class);
 		
 		fileInformation.setBelongtoID(standard.getID());
 		fileInformation.setUploaderID(uploaderID);
+		
+		//消息推送
+		Message message = new Message();
+		
+		message.setID(EntityIDFactory.createId());
+		message.setContent("有新的标准需要审核！");
+		message.setCreateTime(new Date());
+		
+		MessageNotice messageNotice = new MessageNotice();
+		
+		messageNotice.setID(EntityIDFactory.createId());
+		messageNotice.setMessageID(message.getID());
 		
 		result += entityDao.updatePropByID(fileInformation, fileID);
 		
@@ -159,7 +174,7 @@ public class StandardService extends SearchService implements IStandardService{
 			String TYPE, String SCOPE, String APPLICATIONTYPE,
 			String EDITSTATE,String SUGGEST, String STATE, String ABANDONAPPLYMAN,
 			String ABANDONAPPLYTIME, String ABANDONAPPLYREASON) {
-		Standard standard = new Standard();
+		Standard standard = entityDao.getByID(ID, Standard.class);
 		
 		if(STANDARDCODE !=null && STANDARDCODE != "" ){
 			standard.setStandardCode(STANDARDCODE);
