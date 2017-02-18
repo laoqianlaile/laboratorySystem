@@ -50,7 +50,7 @@ public class EquipmentUseService extends SearchService implements IEquipmentUseS
 						"b.testProjectID",
 						"b.application",
 						"date_format(b.applyTime,'%Y.%m.%d') as applyTime",
-						"b.equipmentCode",
+						"b.equipmentFactoryCode",
 						"b.equipmentName",
 						"b.model",
 						"b.employeeName",
@@ -59,11 +59,11 @@ public class EquipmentUseService extends SearchService implements IEquipmentUseS
 						"sample.factoryCode",
 						"sample.sampleName"
 				};
-				String baseEntity = "(select a.ID,a.equipmentID,a.sampleID,a.testProjectID,a.application,a.applyTime,a.equipmentCode," +
+				String baseEntity = "(select a.ID,a.equipmentID,a.sampleID,a.testProjectID,a.application,a.applyTime,a.equipmentFactoryCode," +
 											"a.equipmentName,a.model,a.employeeName,department.departmentName " +
 									"from (select equipmentuse.ID,equipmentuse.equipmentID,equipmentuse.sampleID," +
 												 "equipmentuse.testProjectID,equipmentuse.application,equipmentuse.applyTime," +
-												 "equipment.equipmentCode,equipment.equipmentName,equipment.model," +
+												 "equipment.factoryCode as equipmentFactoryCode,equipment.equipmentName,equipment.model," +
 												 "employee.employeeName,employee.departmentID " +
 												 "from equipmentuse " +
 												 "LEFT JOIN employee ON equipmentuse.application = employee.ID " +
@@ -83,7 +83,7 @@ public class EquipmentUseService extends SearchService implements IEquipmentUseS
 				}if (sampleName != null && !sampleName.isEmpty()) {
 					condition += " and sample.sampleName like '%" + sampleName + "%'";
 				}if (applicat != null && !applicat.isEmpty()) {
-					condition += " and b.application like '%" + applicat + "%'";
+					condition += " and b.employeeName like '%" + applicat + "%'";
 				}
 				List<Map<String, Object>> result = entityDao.searchWithpaging(
 						properties, baseEntity, joinEntity, null, condition, null,sort,

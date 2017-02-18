@@ -1,5 +1,6 @@
 
 $(function() {
+	searchSth();
 	initData();
 });
 
@@ -42,8 +43,8 @@ function initData(){
 			width:'10',//宽度
 			visible:false
 		},{
-			field:'equipmentCode',//返回值名称
-			title:'设备编号',//列名
+			field:'factoryCode',//返回值名称
+			title:'设备出厂编号',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'17%',//宽度
@@ -113,7 +114,6 @@ function initData(){
 		}]//列配置项,详情请查看 列参数 表格
 		/*事件*/
 	});
-	//editSth();
 	//showSth();
 }
 
@@ -122,7 +122,7 @@ function queryParams(){
 	var searchCondition = {
 		limit : 10,
 		offset : 0,
-		sort : 'equipmentCode',
+		sort : 'factoryCode',
 		order : 'asc',
 		model : $.trim($('#schModel').val()),
 		equipmentName : $.trim($('#schEquipmentName').val()),
@@ -174,6 +174,29 @@ function delData(){
 }
 
 /**
+ * 搜索时得到相关信息方法
+ */
+function searchSth(){ 
+	 $.ajax({  
+	     url:'departmentController/getDepartmentName.do',// 跳转到 action  
+	     type:'post',  
+	     dataType:'json',
+	     success:function(data){  
+	    	 if (data) { 
+	    		 var department;
+	    		 var myobj = JSON.parse(data);
+	    		 var htmlElement = "<option value='0'>所有科室</option>";//定义HTML    
+	    		 department=$("#schDepartment");
+	    		 for(var i=0;i<myobj.length;i++){
+	    			 htmlElement += "<option value='" + myobj[i].ID + "'>" + myobj[i].departmentName + "</option>";
+	    		 }
+	    		 department.append(htmlElement);
+ 		    }
+		}
+	 });
+}
+
+/**
  * 改变信息触发相关提示信息的方法(add)
  * editGetTPName
  */
@@ -203,7 +226,7 @@ function addGetEQName(){
 		    			length = myobj.length;
 		    		}
 		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].equipmentName + "' class='" + myobj[i].ID + "'>" + myobj[i].equipmentName + myobj[i].equipmentCode + "</li></ul>";
+		    			htmlElement += "<ul><li value='" + myobj[i].equipmentName + "' class='" + myobj[i].ID + "'>" + myobj[i].equipmentName + " | " + myobj[i].factoryCode + "</li></ul>";
 		    		}
 		    		 
 		    		equipment.show();
@@ -276,8 +299,10 @@ function addFillEQName(){
 		success:function(data){  
 			if (data) { 
 				var myobj = JSON.parse(data);
-				$("#add_equipmentCode").val(myobj[0].equipmentCode);
+				$("#add_factoryCode").val(myobj[0].factoryCode);
+				$('#add_factoryCode').attr("disabled",true);
 				$("#add_buyTime").val(myobj[0].buyTime);
+				$('#add_buyTime').attr("disabled",true);
 		    }
 		}
 	});	
@@ -378,7 +403,7 @@ function editGetEQName(){
 		    			length = myobj.length;
 		    		}
 		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].equipmentName + "' class='" + myobj[i].ID + "' title='" + myobj[i].equipmentCode + "'>" + myobj[i].equipmentName + "</li></ul>";
+		    			htmlElement += "<ul><li value='" + myobj[i].equipmentName + "' class='" + myobj[i].ID + "' title='" + myobj[i].factoryCode + "'>" + myobj[i].equipmentName + " | " + myobj[i].factoryCode + "</li></ul>";
 		    		}
 		    		 
 		    		equipment.show();
@@ -493,8 +518,10 @@ function editFillEQName(){
 		success:function(data){  
 			if (data) { 
 				var myobj = JSON.parse(data);
-				$("#edit_equipmentCode").val(myobj[0].equipmentCode);
+				$("#edit_factoryCode").val(myobj[0].factoryCode);
+				$('#edit_factoryCode').attr("disabled",true);
 				$("#edit_buyTime").val(myobj[0].buyTime);
+				$('#edit_buyTime').attr("disabled",true);
 		    }
 		}
 	});	
@@ -617,7 +644,7 @@ function add(){
 	alert("add");
 	
 	var parame = {};
-	var equipmentCode = $('#add_equipmentCode').val();
+	var factoryCode = $('#add_factoryCode').val();
 	var equipmentName = $('#add_equipmentName').val();
 	var equipmentID = $('#add_equipmentName').attr("name");
 	alert("equipmentID" + equipmentID);
@@ -628,9 +655,9 @@ function add(){
 	var employeeName = $('#add_employeeName').val();
 	var remarks = $('#add_remarks').val();
 		
-	if (!equipmentCode && typeof(equipmentCode)!="undefined" && equipmentCode=='') 
+	if (!factoryCode && typeof(factoryCode)!="undefined" && factoryCode=='') 
 	{ 
-		alert("仪器设备编号不能为空！"); 
+		alert("仪器设备出厂编号不能为空！"); 
 		return;
 	}
 	if (!equipmentName && typeof(equipmentName)!="undefined" && equipmentName=='') 
@@ -691,7 +718,7 @@ function openModal(){
 		alert("请选中一条数据");
 		return;
 	}
-	$('#edit_equipmentCode').val(data[0].equipmentCode);
+	$('#edit_factoryCode').val(data[0].factoryCode);
 	
 	$('#edit_equipmentName').attr({'name' : "" + data[0].equipmentID + ""});
 	$('#edit_equipmentName').attr({'value' : "" + data[0].equipmentName + ""});
@@ -716,7 +743,7 @@ function edit(){
 	}else {
 		
 		var parame = {};
-		var equipmentCode = $('#edit_equipmentCode').val();
+		var factoryCode = $('#edit_factoryCode').val();
 		var equipmentName = $('#edit_equipmentName').val();
 		var equipmentID = $('#edit_equipmentName').attr("name");
 		alert("equipmentID" + equipmentID);
@@ -727,9 +754,9 @@ function edit(){
 		var employeeName = $('#edit_employeeName').val();
 		var remarks = $('#edit_remarks').val();
 			
-		if (!equipmentCode && typeof(equipmentCode)!="undefined" && equipmentCode=='') 
+		if (!factoryCode && typeof(factoryCode)!="undefined" && factoryCode=='') 
 		{ 
-			alert("仪器设备编号不能为空！"); 
+			alert("仪器设备出厂编号不能为空！"); 
 			return;
 		}
 		if (!equipmentName && typeof(equipmentName)!="undefined" && equipmentName=='') 

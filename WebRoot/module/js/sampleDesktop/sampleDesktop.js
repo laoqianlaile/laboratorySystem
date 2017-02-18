@@ -2,8 +2,11 @@
  * 
  */
 var obj = {
-		reID:"20161126113025319",
-		order:0 
+		reID:"",
+		order_c:0 ,
+		order_f:0 ,
+		order_t:0
+		
 }
 $(function(){
 	initData();
@@ -41,7 +44,7 @@ function initContractTable(){
 					// params.offset; //偏移量
 					param.search = "";
 					param.offset = params.offset;
-					obj.order = params.offset + 1; // 偏移量是从0开始
+					obj.order_c = params.offset + 1; // 偏移量是从0开始
 					param.sort = params.sort; // 排序列名
 					param.order = params.order;// 排位命令（desc，asc）
 					return param;
@@ -70,15 +73,16 @@ function initContractTable(){
 							valign : 'middle',// 垂直居中显示
 							width : '5%',// 宽度
 							visible : true,
-							formatter : function(value, row, index) {
+							formatter : function(value, row, index) { 
 								checkData("cAndRe",row);
 								
 							 if(index == 0 && row != null)
 								{
 									  $(".leftArea .row span").eq(1).text(row.cCode);
 									  obj.reID = row.reID;
+									  getCurrentFile(obj.reID);
 								}
-								return obj.order++;
+								return obj.order_c++;
 							}
 						},{
 							field : 'reID',// 返回值名称
@@ -161,7 +165,7 @@ function initFileTable(){
 					// params.offset; //偏移量
 					param.search = "";
 					param.offset = params.offset;
-					obj.order = params.offset + 1; // 偏移量是从0开始
+					obj.order_f = params.offset + 1; // 偏移量是从0开始
 					param.sort = params.sort; // 排序列名
 					param.order = params.order;// 排位命令（desc，asc）
 					param.reID = obj.reID;
@@ -192,7 +196,7 @@ function initFileTable(){
 										$(".RightArea .row .col-xs-7 span").eq(1).text(row.fileName);
 									}
 								
-								return obj.order++;
+								return obj.order_f++;
 							}
 						},
 						{
@@ -261,7 +265,7 @@ function initTidingsTable(){
 					// params.offset; //偏移量
 					param.search = "";
 					param.offset = params.offset;
-					obj.order = params.offset + 1; // 偏移量是从0开始
+					obj.order_t = params.offset + 1; // 偏移量是从0开始
 					param.sort = params.sort; // 排序列名
 					param.order = params.order;// 排位命令（desc，asc）
 					return param;
@@ -279,7 +283,7 @@ function initTidingsTable(){
 							visible : true,
 							formatter : function(value, row, index) {
 								checkData("tiding",row);
-								return obj.order++;
+								return obj.order_t++;
 							}
 						},
 						{

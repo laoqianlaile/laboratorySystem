@@ -113,13 +113,13 @@ label{
 							<div class="col-md-3.5 column">
 								<div style="float: right;">
 									<button id="query" onclick="find()"
-										class="btn btn-prima    ry" type="button">
+										class="btn btn-primary" type="button">
 										<em class="glyphicon glyphicon-search"></em> 查询
 									</button>
 
 									
 
-									<button class="btn btn-info type=" button" id="look"
+									<button class="btn btn-primary" button" id="look"
 										onclick="lookfile()">
 										<em class="glyphicon glyphicon-search"></em> 查看模板
 									</button>
@@ -136,7 +136,7 @@ label{
 									
 									
 
-									<button class="btn btn-success type=" button" id="refresh"
+									<button class="btn btn-primary" button" id="refresh"
 										onclick="refresh()">
 										<em class="glyphicon glyphicon-refresh"></em> 刷新
 									</button>

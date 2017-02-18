@@ -1,5 +1,6 @@
 
 $(function() {
+	searchSth();
 	initData();
 });
 
@@ -42,8 +43,8 @@ function initData(){
 			width:'10',//宽度
 			visible:false
 		},{
-			field:'equipmentCode',//返回值名称
-			title:'设备编号',//列名
+			field:'factoryCode',//返回值名称
+			title:'设备出厂编号',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'10',//宽度
@@ -123,9 +124,8 @@ function queryParams(){
 	var searchCondition = {
 		limit : 10,
 		offset : 0,
-		sort : 'equipmentCode',
+		sort : 'factoryCode',
 		order : 'asc',
-		equipmentCode : $.trim($('#schEquipmentCode').val()),
 		equipmentName : $.trim($('#schEquipmentName').val()),
 		departmentName : $.trim($('#schDepartment').val()),
 		employeeName : $.trim($('#schEmployeeName').val()),
@@ -176,190 +176,30 @@ function delData(){
 }
 
 /**
- * 改变信息触发相关提示信息的方法(add)
- *//*
-function addGetEQName(){
-	var name = $('#add_equipmentName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
-	{
-		$(".equipmentName").hide();
-	}else {
-		var parame = {};
-		parame.equipmentName = name;
-		
-		$.ajax({  
-		    url:'equipmentController/getEequipmentName.do',// 跳转到 action  
-		    type:'post',
-		    data:parame,
-		    dataType:'json',
-		    success:function(data){  
-		    	if (data) { 
-		    		var employee,length;
-		    		var myobj = JSON.parse(data);
-		    		var htmlElement = "";//定义HTML    
-		    		equipment = $(".equipmentName");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else{
-		    			length = myobj.length;
-		    		}
-		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].equipmentName + "'>" + myobj[i].equipmentName + "</li></ul>";
-		    		}
-		    		
-		    		equipment.show();
-		    		equipment.empty();
-		    		equipment.append(htmlElement);
-		    		addClick();
-			    }
-			}
-		});
-	}
+ * 搜索时得到相关信息方法
+ */
+function searchSth(){ 
+	 $.ajax({  
+	     url:'departmentController/getDepartmentName.do',// 跳转到 action  
+	     type:'post',  
+	     dataType:'json',
+	     success:function(data){  
+	    	 if (data) { 
+	    		 var department;
+	    		 var myobj = JSON.parse(data);
+	    		 var htmlElement = "<option value='0'>所有科室</option>";//定义HTML    
+	    		 department=$("#schDepartment");
+	    		 for(var i=0;i<myobj.length;i++){
+	    			 htmlElement += "<option value='" + myobj[i].ID + "'>" + myobj[i].departmentName + "</option>";
+	    		 }
+	    		 department.append(htmlElement);
+ 		    }
+		}
+	 });
 }
-
-*//**
- * 改变信息触发相关提示信息的方法(edit)
- *//*
-function editGetEQName(){
-	var name = $('#edit_equipmentName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
-	{
-		$(".equipmentName").hide();
-	}else {
-		var parame = {};
-parame.equipmentName = name;
-		
-		$.ajax({  
-		    url:'equipmentController/getEequipmentName.do',// 跳转到 action  
-		    type:'post',
-		    data:parame,
-		    dataType:'json',
-		    success:function(data){  
-		    	if (data) { 
-		    		var employee,length;
-		    		var myobj = JSON.parse(data);
-		    		var htmlElement = "";//定义HTML    
-		    		employee = $(".equipmentName");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else{
-		    			length = myobj.length;
-		    		}
-		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].employeeName + "'>" + myobj[i].employeeName + "</li></ul>";
-		    		}
-		    		
-		    		employee.show();
-		    		employee.empty();
-		    		employee.append(htmlElement);
-		    		addClick();
-			    }
-			}
-		});
-	}
-}
-
-*//**
- * 改变信息触发相关提示信息的方法(add)
- *//*
-function addGetEMName(){
-	var name = $('#add_employeeName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
-	{
-		$(".employeeName").hide();
-	}else {
-		var parame = {};
-		parame.employeeName = name;
-		
-		$.ajax({  
-		    url:'employeeController/getEmployeeName.do',// 跳转到 action  
-		    type:'post',
-		    data:parame,
-		    dataType:'json',
-		    success:function(data){  
-		    	if (data) { 
-		    		var employee,length;
-		    		var myobj = JSON.parse(data);
-		    		var htmlElement = "";//定义HTML    
-		    		employee = $(".employeeName");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else{
-		    			length = myobj.length;
-		    		}
-		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].employeeName + "'>" + myobj[i].employeeName + "</li></ul>";
-		    		}
-		    		
-		    		employee.show();
-		    		employee.empty();
-		    		employee.append(htmlElement);
-		    		addClick();
-			    }
-			}
-		});
-	}
-}
-
-*//**
- * 改变信息触发相关提示信息的方法(edit)
- *//*
-function editGetEMName(){
-	var name = $('#edit_employeeName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
-	{
-		$(".employeeName").hide();
-	}else {
-		var parame = {};
-		parame.employeeName = name;
-		
-		$.ajax({  
-		    url:'employeeController/getEmployeeName.do',// 跳转到 action  
-		    type:'post',
-		    data:parame,
-		    dataType:'json',
-		    success:function(data){  
-		    	if (data) { 
-		    		var employee,length;
-		    		var myobj = JSON.parse(data);
-		    		var htmlElement = "";//定义HTML    
-		    		employee = $(".employeeName");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else{
-		    			length = myobj.length;
-		    		}
-		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].employeeName + "'>" + myobj[i].employeeName + "</li></ul>";
-		    		}
-		    		
-		    		employee.show();
-		    		employee.empty();
-		    		employee.append(htmlElement);
-		    		editClick();
-			    }
-			}
-		});
-	}
-}
-
-//点击事件(add)
-function addClick(){ 
-	//给input赋值
-	$(".employeeName ul li").click(function(){
-		 var name =  $(this).attr("value");
-		 $("#add_employeeName").val(name);
-	});
-	
-	//隐藏提示框
-	$("#addModal").click(function(){
-		 $(".employeeName").hide();
-	});
-}*/
 
 /**
  * 改变信息触发相关提示信息的方法(add)
- * editGetTPName
  */
 function addGetEQName(){ 
 	var name = $('#add_equipmentName').val();
@@ -387,7 +227,7 @@ function addGetEQName(){
 		    			length = myobj.length;
 		    		}
 		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].equipmentName + "' class='" + myobj[i].ID + "' title='" + myobj[i].equipmentCode + "'>" + myobj[i].equipmentName + "</li></ul>";
+		    			htmlElement += "<ul><li value='" + myobj[i].equipmentName + "' class='" + myobj[i].ID + "' title='" + myobj[i].factoryCode + "'>" + myobj[i].equipmentName + " | " + myobj[i].factoryCode + "</li></ul>";
 		    		}
 		    		 
 		    		equipment.show();
@@ -430,7 +270,7 @@ function addGetTPName(){
 		    			length = myobj.length;
 		    		}
 		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].nameCn + "' class='" + myobj[i].ID + "'>" + myobj[i].nameCn + "</li></ul>";
+		    			htmlElement += "<ul><li value='" + myobj[i].nameCn + "' class='" + myobj[i].ID + "'>" + myobj[i].nameCn + " | " + myobj[i].nameEn + "</li></ul>";
 		    		}
 		    		 
 		    		testProject.show();
@@ -494,7 +334,8 @@ function addClick(){
 		 var ID =  $(this).attr("class");
 		 var code =  $(this).attr("title");
 		 $('#add_equipmentName').attr({'name' : "" + ID + ""});
-		 $('#add_equipmentCode').attr({'value' : "" + code + ""});
+		 $('#add_factoryCode').attr({'value' : "" + code + ""});
+		 $('#add_factoryCode').attr("disabled",true);
 		 $('#add_equipmentName').attr({'value' : "" + name + ""});
 		 $(".equipmentName").hide();
 	})
@@ -565,7 +406,7 @@ function editGetEQName(){
 		    			length = myobj.length;
 		    		}
 		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].equipmentName + "' class='" + myobj[i].ID + "' title='" + myobj[i].equipmentCode + "'>" + myobj[i].equipmentName + "</li></ul>";
+		    			htmlElement += "<ul><li value='" + myobj[i].equipmentName + "' class='" + myobj[i].ID + "' title='" + myobj[i].factoryCode + "'>" + myobj[i].equipmentName + " | " + myobj[i].factoryCode + "</li></ul>";
 		    		}
 		    		 
 		    		equipment.show();
@@ -608,7 +449,7 @@ function editGetTPName(){
 		    			length = myobj.length;
 		    		}
 		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].nameCn + "' class='" + myobj[i].ID + "'>" + myobj[i].nameCn + "</li></ul>";
+		    			htmlElement += "<ul><li value='" + myobj[i].nameCn + "' class='" + myobj[i].ID + "'>" + myobj[i].nameCn + " | " + myobj[i].nameEn + "</li></ul>";
 		    		}
 		    		 
 		    		testProject.show();
@@ -672,7 +513,8 @@ function editClick(){
 		 var ID =  $(this).attr("class");
 		 var code =  $(this).attr("title");
 		 $('#edit_equipmentName').attr({'name' : "" + ID + ""});
-		 $('#edit_equipmentCode').attr({'value' : "" + code + ""});
+		 $('#edit_factoryCode').attr({'value' : "" + code + ""});
+		 $('#add_factoryCode').attr("disabled",true);
 		 $('#edit_equipmentName').attr({'value' : "" + name + ""});
 		 $(".equipmentName").hide();
 	})
@@ -720,22 +562,19 @@ function add(){
 	alert("add");
 	
 	var parame = {};
-	var equipmentCode = $('#add_equipmentCode').val();
+	var factoryCode = $('#add_factoryCode').val();
 	var equipmentName = $('#add_equipmentName').val();
 	var equipmentID = $('#add_equipmentName').attr("name");
-	alert("equipmentID" + equipmentID);
 	var testProjectID = $('#add_testProjectName').attr("name");
-	alert("testProjectID" + testProjectID);
 	var testProjectName = $('#add_testProjectName').val();
 	var accuracy = $('#add_accuracy').val();
 	var departmentID = $('#add_departmentName').val();
-	alert("departmentID" + departmentID);
 	var employeeID = $('#add_employeeName').attr("name");
 	var employeeName = $('#add_employeeName').val();
 	var result = $('#add_result').val();
 	var remarks = $('#add_remarks').val();
 		
-	if (!equipmentCode && typeof(equipmentCode)!="undefined" && equipmentCode=='') 
+	if (!factoryCode && typeof(factoryCode)!="undefined" && factoryCode=='') 
 	{ 
 		alert("仪器设备编号不能为空！"); 
 		return;
@@ -809,7 +648,7 @@ function showSth(){
 	    	 if (data) { 
 	    		 var department;
 	    		 var myobj = JSON.parse(data);
-	    		 var htmlElement = "<option></option>";//定义HTML    
+	    		 var htmlElement = "";//定义HTML    
 	    		 department=$("#add_departmentName");
 	    		 for(var i=0;i<myobj.length;i++){
 	    			 htmlElement += "<option value='" + myobj[i].ID + "'>" + myobj[i].departmentName + "</option>";
@@ -832,7 +671,7 @@ function editSth(){
 	    	 if (data) { 
 	    		 var department;
 	    		 var myobj = JSON.parse(data);
-	    		 var htmlElement = "<option class='depart'></option>";//定义HTML    
+	    		 var htmlElement = "";//定义HTML    
 	    		 department=$("#edit_departmentName");
 	    		 for(var i=0;i<myobj.length;i++){
 	    			 htmlElement += "<option value='" + myobj[i].ID + "'>" + myobj[i].departmentName + "</option>";
@@ -850,7 +689,7 @@ function openModal(){
 		alert("请选中一条数据");
 		return;
 	}
-	$('#edit_equipmentCode').val(data[0].equipmentCode);
+	$('#edit_factoryCode').val(data[0].factoryCode);
 	
 	$('#edit_equipmentName').attr({'name' : "" + data[0].equipmentID + ""});
 	$('#edit_equipmentName').attr({'value' : "" + data[0].equipmentName + ""});
@@ -859,18 +698,14 @@ function openModal(){
 	
 	var accuracy = data[0].accuracy;
 	switch (accuracy) {
-	case "低": $('#edit_accuracy .accuracy').text(data[0].accuracy);
-					$('#edit_accuracy .accuracy').val("0");break;
-	case "中": $('#edit_accuracy .accuracy').text(data[0].accuracy);
-					$('#edit_accuracy .accuracy').val("1");break;
-	case "高": $('#edit_accuracy .accuracy').text(data[0].accuracy);
-					$('#edit_accuracy .accuracy').val("2");break;
+	case "低": $('#edit_accuracy').val("0");break;
+	case "中": $('#edit_accuracy').val("1");break;
+	case "高": $('#edit_accuracy').val("2");break;
 	default:
 		break;
 	}
 	
-	$('#edit_departmentName .depart').text(data[0].departmentName);
-	$('#edit_departmentName .depart').val(data[0].departmentID);
+	$('#edit_departmentName').val(data[0].departmentID);
 	
 	$('#edit_testProjectName').attr({'name' : "" + data[0].testProjectID + ""});
 	$('#edit_testProjectName').attr({'value' : "" + data[0].nameCn + ""});
@@ -880,10 +715,8 @@ function openModal(){
 	
 	var result = data[0].result;
 	switch (result) {
-	case "不合格": $('#edit_result .result').text(data[0].result);
-					$('#edit_result .result').val("0");break;
-	case "合格": $('#edit_result .result').text(data[0].result);
-					$('#edit_result .result').val("1");break;
+	case "不合格": $('#edit_result').val("0");break;
+	case "合格": $('#edit_result').val("1");break;
 	default:
 		break;
 	}
@@ -903,25 +736,21 @@ function edit(){
 		alert("仪器设备检验记录ID不能为空！"); 
 	}else {
 		var parame = {};
-		var equipmentCode = $('#edit_equipmentCode').val();
+		var factoryCode = $('#edit_factoryCode').val();
 		var equipmentName = $('#edit_equipmentName').val();
 		var equipmentID = $('#edit_equipmentName').attr("name");
-		alert("equipmentID" + equipmentID);
 		var testProjectID = $('#edit_testProjectName').attr("name");
-		alert("testProjectID" + testProjectID);
 		var testProjectName = $('#edit_testProjectName').val();
 		var accuracy = $('#edit_accuracy').val();
 		var departmentID = $('#edit_departmentName').val();
-		alert("departmentID" + departmentID);
 		var employeeID = $('#edit_employeeName').attr("name");
-		alert("employeeID" + employeeID);
 		var employeeName = $('#edit_employeeName').val();
 		var result = $('#edit_result').val();
 		var remarks = $('#edit_remarks').val();
 		
-		if (!equipmentCode && typeof(equipmentCode)!="undefined" && equipmentCode=='') 
+		if (!factoryCode && typeof(factoryCode)!="undefined" && factoryCode=='') 
 		{ 
-			alert("仪器设备编号不能为空！"); 
+			alert("仪器设备出厂编号不能为空！"); 
 			return;
 		}
 		if (!equipmentName && typeof(equipmentName)!="undefined" && equipmentName=='') 

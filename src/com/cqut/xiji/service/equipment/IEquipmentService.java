@@ -21,12 +21,11 @@ public interface IEquipmentService {
 			String equipmentType, String departmentName, String buyTime);
 
 	/**
-	 * @param equipmentCode
 	 * @param equipmentName
 	 * @param equipmentType
 	 * @param model
 	 * @param department
-	 * @param buyTime
+	 * @param buyTime 
 	 * @param useYear
 	 * @param factoryCode
 	 * @param credentials
@@ -35,17 +34,17 @@ public interface IEquipmentService {
 	 * @param remarks
 	 * @return
 	 */
-	public int addEquipment(String equipmentCode, String equipmentName,
+	public int addEquipment(String equipmentName,
 			String equipmentType, String model, String department,
 			String buyTime, int useYear, String factoryCode,
 			String credentials, String effectiveTime, String employeeID,
 			String remarks);
 	
 	/**
-	 * @param equipmentCodes
+	 * @param equipmentIds
 	 * @return
 	 */
-	public int delEquipment(String equipmentCodes);
+	public int delEquipment(String equipmentIds);
 
 	/**
 	 * @param equipmentCode
@@ -60,7 +59,6 @@ public interface IEquipmentService {
 	 * @param equipmentType
 	 * @param model
 	 * @param department
-	 * @param buyTime
 	 * @param useYear
 	 * @param factoryCode
 	 * @param credentials
@@ -71,7 +69,7 @@ public interface IEquipmentService {
 	 */
 	public String updEquipment(String ID, String equipmentCode,
 			String equipmentName, String equipmentType, String model,
-			String department, String buyTime, int useYear, String factoryCode,
+			String department, int useYear, String factoryCode,
 			String credentials, String effectiveTime, String employeeID,
 			String remarks);
 

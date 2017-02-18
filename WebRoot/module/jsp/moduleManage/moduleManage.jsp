@@ -29,7 +29,6 @@
 
 
 <link rel="stylesheet" type="text/css" href="module/css/jquery.fonticonpicker.min.css" />
-<link rel="stylesheet" type="text/css" href="module/css/fontello.css" />
 <link rel="stylesheet" type="text/css" href="module/css/fontello-7275ca86/css/fontello.css" />
 <link rel="stylesheet" type="text/css" href="module/css/themes/grey-theme/jquery.fonticonpicker.grey.min.css" />
 <link rel="stylesheet" type="text/css" href="module/css/themes/dark-grey-theme/jquery.fonticonpicker.darkgrey.min.css" />

@@ -146,8 +146,6 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 	}
 	@Override
 	public JSONArray getdatalist(int type){
-		System.out.print("进图这里");
-		System.out.println(type);
 		if (type==1){
 			String[] properties =new String[]{
 					"departmentName",
@@ -168,17 +166,27 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 		department.setDepartmentCode(departmentCode);
 		department.setRemarks(remarks);
 		department.setEmployeeID(employeeID);
-		String[] properties = new String[] { "department.ID"};
+		String[] properties = new String[] { "department.ID","department.level"};
 
 		String condition = "1 = 1 " + "and department.departmentName= '"
 				+ parent + "'";
 		// String str=(String)entityDao.findByCondition(properties,
 		// condition, Sample.class).get(0).get("ID");
 		List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, Department.class);
+		System.out.println(list.size());
 		if (list != null  && list.size() >0) {
 			Map<String, Object> parentID=list.get(0);
           department.setParentID((String) parentID.get("ID"));
 		} else  department.setParentID("");
+		
+		if(parent!=null&&!parent.equals("")){
+			if(list != null  && list.size() >0){
+				Map<String, Object> LEVEL=list.get(0);
+				department.setLevel((Integer) LEVEL.get("level")+1);
+			}
+		}else{
+			department.setLevel(1);
+		}
 		int result = entityDao.updatePropByID(department, ID);
 		return result+"";
 	}

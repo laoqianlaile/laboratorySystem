@@ -124,7 +124,7 @@ public class QualityPlanService extends SearchService implements IQualityPlanSer
 		qualityPlan.setID(id);
 		qualityPlan.setType(type);
 		qualityPlan.setCode(code);
-		qualityPlan.setState("待审核");
+		qualityPlan.setState("寰呭鏍�");
 		qualityPlan.setYear(year);
 		qualityPlan.setEmployeeID1(session.getAttribute("ID").toString());
 		qualityPlan.setEmployeeID2(employeeName2);

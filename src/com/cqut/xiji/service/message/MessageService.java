@@ -106,4 +106,24 @@ public class MessageService extends SearchService implements IMessageService{
 			
 	}
 	
+	/**
+	 * 新增消息推送
+	 * @author zkl
+	 * @data 2017年2月13日 下午4:45:29
+	 * @param content 信息内容
+	 */
+	@Override
+	public String addMessage(String content,String remarks) {
+		
+		Message message = new Message();
+		message.setID(EntityIDFactory.createId());
+		message.setContent(content);
+		message.setRemarks(remarks);
+		message.setCreateTime(new Date());
+		entityDao.save(message);
+		String result = message.getID();
+		
+		return result;
+	}
+	
 }

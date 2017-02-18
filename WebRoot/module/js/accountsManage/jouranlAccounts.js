@@ -209,7 +209,7 @@ function openAddModal(isIncome){
 		}
 	}
 	var FineItemhtml = playFineItem();
-	if(FineItemhtml === null){
+	if(isIncome !== "Income" && FineItemhtml === null ){
 		alert("没有合同细项,请确认是否操作正确");
 		return;
 	}

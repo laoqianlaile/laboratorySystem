@@ -94,20 +94,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="list-searcher">
 			<span>设备类型：</span>
 			<select id="schEquipmentType" name="schEquipmentType" class="form-control" >
-		    	<option value="0">所有型号</option>
-		    	<option value="1">A类检测/校准设备</option>
-				<option value="2">B类检测/校准设备</option>
-				<option value="3">C类检测/校准设备</option>
 			</select>
 			<span>设备名称：</span><input type="text" id="schEquipmentName" name="schEquipmentName" class="form-control" >
 		</div>
 		<div class="list-searcher">
 		    <span>所属科室：</span>
 		    <select id="schDepartment" name="schDepartment" class="form-control" >
-		    	<option value="0">所有科室</option>
-		    	<option value="1">物理实验室</option>
-				<option value="2">化学实验室</option>
-				<option value="3">光学实验室</option>
 			</select>
 			<span>购入时间：</span><input type="date" id="schBuyTime" name="schBuyTime" class="form-control" >
 		</div>
@@ -130,14 +122,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      </div>
 	      <div class="modal-body">
 	      	<div id="adDcontent" class="row">
-	      		<div class="col-xs-12 col-md-12">
-                   	<label class="control-label" style="margin:8px 0 0 0;">设备编号：</label>
-                   	<input type="text" id="add_equipmentCode" name="equipmentCode" class="form-control" />
-               	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">设备名称：</label>
                    	<input type="text" id="add_equipmentName" name="equipmentName" class="form-control" />
                 </div>
+                <div class="col-xs-12 col-md-12">
+                   	<label class="control-label" style="margin:8px 0 0 0;">设备出厂编号:</label>
+				   	<input type="text" id="add_factoryCode" name="factoryCode" class="form-control"/>
+               	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">所属科室：</label>
                    	<select id="add_departmentName" name="departmentName" class="form-control">
@@ -167,10 +159,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				   	<input type="text" id="add_useYear" name="useYear" class="form-control" onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}" onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
                	</div>
                	<div class="col-xs-12 col-md-12">
-                   	<label class="control-label" style="margin:8px 0 0 0;">出厂编号:</label>
-				   	<input type="text" id="add_factoryCode" name="factoryCode" class="form-control"/>
-               	</div>
-               	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">证书编号：</label>
                    	<input type="text" id="add_credentials" name="credentials" class="form-control" />
                	</div>
@@ -182,13 +170,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
 					</div>
                	</div>
-               	<!-- <div class="col-xs-12 col-md-12">
-               	   	<label class="control-label" style="margin:8px 0 0 0;">经办人:</label>
-               	   	<input type="text" id="add_employeeName" name="employeeName" oninput="addGetEName()" onpropertychange="addGetEName()"  class="form-control"/>
-                   <div class="employeeName">
-	                   
-                   </div>
-               	</div> -->
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">备注:</label>
 				   	<input type="text" id="add_remarks" name="remarks" class="form-control"/>
@@ -213,14 +194,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      </div>
 	      <div class="modal-body">
 	      	<div id="IDid" class="row">
-	      		<div class="col-xs-12 col-md-12">
-                   	<label class="control-label" style="margin:8px 0 0 0;">设备编号：</label>
-                   	<input type="text" id="edit_equipmentCode" name="equipmentCode" class="form-control" />
-               	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">设备名称：</label>
                    	<input type="text" id="edit_equipmentName" name="equipmentName" class="form-control" />
                 </div>
+                <div class="col-xs-12 col-md-12">
+                   	<label class="control-label" style="margin:8px 0 0 0;">设备出厂编号:</label>
+				   	<input type="text" id="edit_factoryCode" name="factoryCode" class="form-control"/>
+               	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">所属科室：</label>
                    	<select id="edit_departmentName" name="departmentName" class="form-control">
@@ -250,10 +231,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				   	<input type="text" id="edit_useYear" name="useYear" class="form-control" onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}" onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
                	</div>
                	<div class="col-xs-12 col-md-12">
-                   	<label class="control-label" style="margin:8px 0 0 0;">出厂编号:</label>
-				   	<input type="text" id="edit_factoryCode" name="factoryCode" class="form-control"/>
-               	</div>
-               	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">证书编号：</label>
                    	<input type="text" id="edit_credentials" name="credentials" class="form-control" />
                	</div>
@@ -265,13 +242,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
 					</div>
                	</div>
-               	<!-- <div class="col-xs-12 col-md-12">
-               	   	<label class="control-label" style="margin:8px 0 0 0;">经办人:</label>
-               	   	<input type="text" id="edit_employeeName" name="employeeName" oninput="editGetEName()" onpropertychange="editGetEName()" class="form-control"/>
-               	   	<div class="employeeName">
-	                   
-                   </div>
-               	</div> -->
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">备注:</label>
 				   	<input type="text" id="edit_remarks" name="remarks" class="form-control"/>

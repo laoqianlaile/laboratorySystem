@@ -48,4 +48,19 @@ public class MessageController{
 	
 		 service.readedMessageByID(messageNoticeID);
 	}
+	
+	/**
+	 * 新增推送消息
+	 * @author zkl
+	 * @data 2017年2月15日 上午10:47:48
+	 * @param content (接收人（例如：标准审核人）)
+	 * @param remarks 备注
+	 * @return
+	 */
+	@RequestMapping("/addMessage")
+	@ResponseBody
+	public String addMessage(String content,String remarks){
+		String result = service.addMessage(content, remarks);
+		return result;
+	}
 }

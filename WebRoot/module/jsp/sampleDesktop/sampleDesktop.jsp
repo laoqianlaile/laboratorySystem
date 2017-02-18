@@ -36,7 +36,8 @@
 	-->
 <style type="text/css">
 #container {
-	min-width: 1400px;
+	width: 100%;
+	float: left;
 }
 
 .tableArea {
@@ -70,8 +71,11 @@
 }
 
 .list-button .row .btn-primary {
-	min-width: 120px;
+	min-width: 78px;
 	margin-right: 5px;
+	padding: 6px 0px;
+	margin-right: 5px;
+	width: 15%;
 }
 
 .tidings {
@@ -88,14 +92,100 @@
 
 .leftArea {
 	width: 60%;
-    display: inline-block;
-    margin-right: 20px;
-    float: left;
+	display: inline-block;
+	float: left;
 }
 
 .RightArea {
-	display:inline-block;
-	width: 38%;
+	display: inline-block;
+	width: 40%;
+}
+
+.Right_content {
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.fixed-table-body #table .bs-checkbox {
+	vertical-align: middle;
+}
+
+.RightArea
+ 
+.row
+ 
+.col-xs-7
+ 
+span
+:not
+ 
+(
+:FIRST-CHILD
+ 
+){
+font-style
+:
+ 
+italic
+;
+
+	
+font-family
+:
+ 
+fantasy
+;
+
+	
+color
+:
+ 
+#333
+;
+
+
+}
+.leftArea
+ 
+.row
+ 
+span
+:not
+ 
+(
+:FIRST-CHILD
+ 
+){
+font-style
+:
+ 
+italic
+;
+
+	
+font-family
+:
+ 
+fantasy
+;
+
+	
+color
+:
+ 
+#333
+;
+
+
+}
+.leftArea .row span:FIRST-CHILD {
+	font-size: 18;
+}
+
+.RightArea .row .col-xs-7 span:FIRST-CHILD {
+	font-size: 18;
 }
 .fixed-table-body #table .bs-checkbox {
 vertical-align: middle;
@@ -135,28 +225,27 @@ vertical-align: middle;
 					<button class="btn btn-primary">无合同新增交接单</button>
 				</div>
 			</div>
-			
-				<div class="contractTable"></div>
-			
+			<div class="contractTable"></div>
 		</div>
 		<div class="RightArea">
-			<div class="row">
-				<div class="col-xs-7 col-md-7 col-lg-7">
-					<span index="0">当前文档名称：</span> <span index="1">XJHJ-226-14-1013-PAT</span>
+			<div class="Right_content">
+				<div class="row">
+					<div class="col-xs-7 col-md-7 col-lg-7">
+						<span index="0">当前文档名称：</span> <span index="1">XJHJ-226-14-1013-PAT</span>
+					</div>
+					<div class="col-xs-3 col-md-3 col-lg-3">
+						<button class="btn btn-primary  ">查看</button>
+					</div>
+					<div class="col-xs-1 col-md-1 col-lg-1">
+						<button class="btn btn-primary  ">下载</button>
+					</div>
 				</div>
-				<div class="col-xs-3 col-md-3 col-lg-3">
-					<button class="btn btn-primary  ">查看</button>
-				</div>
-				<div class="col-xs-1 col-md-1 col-lg-1">
-					<button class="btn btn-primary  ">下载</button>
+				<div class="fileTable"></div>
+				<div class="tidings">
+					<div class="tidingHead">提示信息</div>
+					<div class="tidingsTable"></div>
 				</div>
 			</div>
-			<div class="fileTable"></div>
-			<div class="tidings">
-				<div class="tidingHead">提示信息</div>
-				<div class="tidingsTable"></div>
-			</div>
-
 		</div>
 	</div>
 </body>

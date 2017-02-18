@@ -18,6 +18,7 @@ import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.company.Company;
 import com.cqut.xiji.entity.contract.Contract;
 import com.cqut.xiji.entity.employee.Employee;
+import com.cqut.xiji.entity.equipment.Equipment;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
@@ -252,7 +253,7 @@ public class ContractService extends SearchService implements IContractService{
 		company.setID(id);
 		company.setCompanyName(companyName);
 		company.setAddress(address);
-//		company.setMobilephone(linkPhone);
+		company.setMobilePhone(linkPhone);
 		company.setLinkMan(oppositeMen);
 		int result = entityDao.save(company);
 	
@@ -310,14 +311,14 @@ public class ContractService extends SearchService implements IContractService{
 	 * @see com.cqut.xiji.service.contract.IContractService#delContract(java.lang.String)
 	 */
 	@Override
-	public String delContract(String ID) {
+	public int delContract(String ids) {
 		// TODO Auto-generated method stub
-		if(ID == null || ID.isEmpty()){
-			return 0+"";
+		if(ids == null || ids.isEmpty()){
+			return 0;
 		}
-		System.out.println("删除合同ID是："+ID);
-		int result = entityDao.deleteByID(ID, Contract.class);
-		return result+"";
+		System.out.println("删除合同ID是："+ids);
+		int result = entityDao.deleteByCondition(ids, Contract.class);
+		return result;
 	}
 
 	/**

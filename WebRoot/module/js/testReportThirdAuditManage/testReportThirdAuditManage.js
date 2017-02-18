@@ -1,26 +1,28 @@
-var re = new RegExp("\"", "g");
+// 请求数据时的额外参数
+var param = {};
+
 $(function() {
-	initData();
-});
-//初始化数据
-function initData(){
 	$("#table").bootstrapTable({
-		height : 600,// 定义表格的高度
 		striped : true,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
-	//	pageSize : 10,// 页面数据条数
+		pageSize : 10,// 页面数据条数
 		pageNumber : 1,// 首页页码
-		pageList : [ 5, 10,15 ],// 设置可供选择的页面数据条数
+		pageList : [ 5, 10 ],// 设置可供选择的页面数据条数
 		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache : false,// 禁用 AJAX 数据缓存
-	//	sortName : 'ID',// 定义排序列
-	//	sortOrder : 'asc',// 定义排序方式
+		sortName : 'ID',// 定义排序列
+		sortOrder : 'ASC',// 定义排序方式
 		url : 'testReportController/getTestReporThirdtAuditWithPaging.do',// 服务器数据的加载地址
 		sidePagination : 'server',// 设置在哪里进行分页
 		contentType : 'application/json',// 发送到服务器的数据编码类型
 		dataType : 'json',// 服务器返回的数据类型
-	    //queryParams:search,//请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
-		queryParams: queryParams, //参数
+		queryParams: function queryParams(params) { //请求服务器数据时,添加一些额外的参数
+			param.limit = params.limit;// 页面大小
+			param.offset = params.offset; // 偏移量
+			param.sort = params.sort; // 排序列名
+			param.order = params.order; // 排位方式
+			return param;
+		},
 	    queryParamsType: "limit", 
 		selectItemName : '',// radio or checkbox 的字段名
 		columns : [ {
@@ -31,7 +33,6 @@ function initData(){
 			title : '检测报告ID',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-	//		width : '10px',// 宽度
 			visible : false
 		},{
 			field : 'receiptlistCode',// 返回值名称
@@ -45,7 +46,6 @@ function initData(){
 			title : '文件ID',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-		//	width : '10px',// 宽度
 			visible : false
 	    },{
 			field : 'fileName',// 返回值名称
@@ -97,33 +97,27 @@ function initData(){
 			width : '10%',// 宽度
 			formatter : function(value, row, index) {
 						return "<span  onclick='thirdAuditPass(\""+row.ID+"\")'  title='通过审核' class='glyphicon glyphicon-ok-sign' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
-					+"<span  onclick='thirdAuditReject(\""+row.ID+"\")'  title='驳回检测报告' class='glyphicon glyphicon-remove' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
+					+"<span  onclick='thirdAuditReject(\""+row.ID+"\")'  title='驳回检测报告' class='glyphicon glyphicon-remove' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> ";
 					
 			}
 		}]
 	});
-}
+});
 
 // 查询
 function search() {
-	initData();
-	refresh();
-}
-
-// 请求数据时的额外参数
-function queryParams() {
-	var searchCondition = {
-		limit : 10,
-		offset : 0,
-		sort : 'ID',
-		order : 'asc',
+	var additionalCondition = {
 		receiptlistCode : $.trim($('#transitreceiptNumber').val()),
 		client : $.trim($('#client').val()),
 		reportName : $.trim($('#reportName').val()),
 		beginTime : $.trim($('#beginTime').val()),
 		endTime : $.trim($('#endTime').val()),
 	};
-	return searchCondition;
+	$('#table').bootstrapTable('refresh', {
+		silent : true,
+		url : "testReportController/getTestReporThirdtAuditWithPaging.do",
+		query : additionalCondition
+	});
 }
 
 //下载文件
@@ -166,7 +160,7 @@ function checkReport() {
 	}
 }
 
-//三审通过
+// 三审通过
 function thirdAuditPass() {
 	var keyID = arguments[0];
 	if (confirm("是否通过审核?")) {
@@ -183,14 +177,14 @@ function thirdAuditPass() {
 	}
 }
 
-//三次审核驳回
+// 三次审核驳回
 function thirdAuditReject() {
 	var keyID = arguments[0];
 	$("#testReportID").text(keyID);
 	$("#thirdAuditRejectModal").modal("show");
 }
 
-//确认驳回
+// 确认驳回
 function thirdAuditRejectSure() {
 	var keyID = $("#testReportID").text();
 	$.post("testReportController/thirdRejectReport.do", {
@@ -209,5 +203,16 @@ function thirdAuditRejectSure() {
 
 //刷新页面
 function refresh() {
-	$('#table').bootstrapTable('refresh', null);
+	var additionalCondition = {
+		receiptlistCode : "",
+		client : "",
+		reportName : "",
+		beginTime : "",
+		endTime : "",
+	};
+	$("#table").bootstrapTable('refresh', {
+		silent : true,
+		url : "testReportController/getTestReporThirdtAuditWithPaging.do",
+		query : additionalCondition
+	});
 }

@@ -894,6 +894,30 @@ public class TaskService extends SearchService implements ITaskService {
 	}
 	
 	@Override
+	public String getReportPath(String taskID){
+		String filteCondition = "";
+		if (taskID != null && !taskID.equals("") && !taskID.isEmpty()) {
+			filteCondition += " where task.ID = '" + taskID + "'";
+		}
+		String baseEntiy = " ( " + " SELECT " + "testreport.fileID AS fileID "
+				+ " FROM " + " ( " + " SELECT "
+				+ "task.testReportID AS testReportID " + " FROM " + " task "
+				+ filteCondition + " ) AS a "
+				+ " LEFT JOIN testreport ON a.testReportID = testreport.ID "
+				+ " ) AS b ";
+		String[] properties = new String[] { "fileinformation.path" };
+		String joinEntity = " LEFT JOIN fileinformation ON b.fileID = fileinformation.ID ";
+		List<Map<String, Object>> result = entityDao.searchForeign(properties,
+				baseEntiy, joinEntity, null, null);
+		if (result == null) {
+			return null;
+		} else {
+			String filePath = result.get(0).get("path").toString();
+			return filePath;
+		}
+	}
+
+	@Override
 	public boolean submitReport(String taskID) {
 		Task tk = entityDao.getByID(taskID, Task.class);
 		Map<String, Object> result = baseEntityDao.findByID( new String[] { "detectstate,testReportID" }, taskID, "ID", "task");

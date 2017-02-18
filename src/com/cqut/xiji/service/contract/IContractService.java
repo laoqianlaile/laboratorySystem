@@ -15,7 +15,7 @@ public interface IContractService {
 	
 	public List<Map<String, Object>> getIdByCode(String contractCode);
 	
-	public String delContract(String ID);
+	public int delContract(String ids);
 	
 	public String updContract(String ID, String contractCode, String contractName,
 			String companyID, String companyName, String address,

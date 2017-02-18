@@ -448,7 +448,6 @@ function openEditModal(){
 	$('#edit_testStandardID').val(arguments[0].testStandardID);
 	$('#edit_testInstumentID').val(arguments[0].testInstumentID);
 	
-	alert(arguments[0].testInstumentID);
 	$('#edit_NAMECN').val(arguments[0].NAMECN);
 	$('#edit_NAMEEN').val(arguments[0].NAMEEN);
 	$('#edit_ENVIRONMENTALREQUIREMENTS').val(arguments[0].ENVIRONMENTALREQUIREMENTS);
