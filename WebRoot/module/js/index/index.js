@@ -77,10 +77,10 @@ function getTree(){
 				if(result ){
 			     data =  eval (result);
 //			     console.log(data);
-			      return data;
+//			      return data;
 				}
 				else{
-					alert(result.message);
+					alert("no data ");
 					return ;
 				}
 			}
