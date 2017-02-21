@@ -191,31 +191,7 @@ vertical-align: middle;
 					<ul class="nav nav-list">
 						<label for="tree"></label>
 						<div class="tree"></div>
-						<li><a href="module/jsp/standardManage/standardReview.jsp" target="aa"> <i
-								class="icon-text-width"></i> <span class="menu-text">
-									标准审核管理 </span>
-						</a></li>
-						<li><a href="module/jsp/standardManage/standardType.jsp"
-							target="aa"> <i class="icon-text-width"></i> <span
-								class="menu-text">标准类型管理 </span>
-						</a></li>
-						<li><a href="module/jsp/permissionAssign/permissionAssign.jsp"
-							class="dropdown-toggle" target="aa"> <i class="icon-desktop"></i>
-								<span class="menu-text">权限分配管理 </span>
-						</a></li>
-						<li><a href="module/jsp/testProject/testProject.jsp" class="dropdown-toggle"
-							target="aa"> <i class="icon-desktop"></i> <span
-								class="menu-text"> 检测项目管理 </span>
-						</a></li>
-						<li><a
-							href="module/jsp/template/template.jsp"
-							target="aa"> <i class="icon-desktop"></i> <span
-								class="menu-text">模板管理 </span>
-						</a></li>
-						<li><a href="module/jsp/accountsManage/accountsManage.jsp"
-							target="aa"> <i class="icon-desktop"></i> <span
-								class="menu-text">账目管理</span>
-						</a></li>
+					
 					</ul>
 					<!-- 左边菜单栏下面，右藏功能 -->
 					<div class="sidebar-collapse" id="sidebar-collapse">

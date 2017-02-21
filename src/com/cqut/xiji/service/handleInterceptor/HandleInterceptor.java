@@ -19,6 +19,12 @@ public class HandleInterceptor implements  HandlerInterceptor{
             String contextPath = request.getContextPath();  
             String url = requestUri.substring(contextPath.length());  
             
+            if(requestUri.indexOf("getRandcode.do")>0){  //获取验证码
+                return true;  
+            }  
+            if(requestUri.indexOf("employeeLogin.do")>0){  //点击登录按钮验证
+                return true;  
+            }  
             String userID =  (String)request.getSession().getAttribute("EMPLOYEEID");    //获取用户
             if(userID == null){  
             	System.out.println("Interceptor：跳转到login页面！");  
