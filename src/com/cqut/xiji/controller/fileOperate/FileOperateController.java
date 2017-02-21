@@ -99,8 +99,8 @@ public class FileOperateController {
 		ID = EntityIDFactory.createId();
 		fileName = file.getOriginalFilename();
 		fileNames = fileName.split("\\.");
-//		path = System.getProperty("user.dir").replace("bin", "webapps") + "\\" + "files" + "\\";// 获取tomcat下webapps的目录
-		PropertiesTool pe = new PropertiesTool();
+    //	path = System.getProperty("user.dir").replace("bin", "webapps") + "\\" + "files" + "\\";// 获取tomcat下webapps的目录
+	    PropertiesTool pe = new PropertiesTool();
 		path= pe.getSystemPram("filePath")+"\\" ;
 		if (filePath != null && !filePath.isEmpty() && !filePath.equals("")) {
 			path = filePath;
@@ -480,7 +480,7 @@ public class FileOperateController {
 	@ResponseBody
 	public String onlinePreview(String filePath, HttpServletRequest request) {
 		// String outputPath = System.getProperty("user.dir").replace("bin","webapps")+ "\\" + "SVPE" + "\\";
-		PropertiesTool pe = new PropertiesTool();
+		 PropertiesTool pe = new PropertiesTool();
 		String outputPath = pe.getSystemPram("swfPath") + "\\";
 		if (filePath != null && !filePath.isEmpty() && !filePath.equals(" ")) {
 			DocConverter dc = new DocConverter(filePath, outputPath);

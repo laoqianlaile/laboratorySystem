@@ -100,7 +100,7 @@ public class TestReportService extends SearchService implements
 				"c.taskID AS taskID",
 				"c.fileID AS fileID",
 				"c.versionNumber AS versionNumber",
-				"IF (c.state = 0,'未提交',IF (c.state = 1,'二审核中',IF (c.state = 2,'二审未通过',IF (c.state = 3,'三审核中',IF (c.state = 4,'三审未通过',IF (c.state = 5,'审核通过',IF(c.state = 6,'归档','其它'))))))) AS state",
+				"IF (c.state = 0,'未提交',IF (c.state = 1,'二审核中',IF (c.state = 2,'二审未通过',IF (c.state = 3,'三审核中',IF (c.state = 4,'三审未通过',IF (c.state = 5,'审核通过',IF(c.state = 6,'`','其它'))))))) AS state",
 				"c.companyName AS companyName",
 				"fileinformation.fileName AS fileName",
 				"DATE_FORMAT(uploadTime,'%Y-%m-%d %H:%i:%s') AS uploadTime",
@@ -161,6 +161,7 @@ public class TestReportService extends SearchService implements
 		String baseEntity = " ( "
 				+ " SELECT "
 				+ "b.ID AS ID,"
+				+ "b.taskID AS taskID,"
 				+ "b.receiptlistCode AS receiptlistCode,"
 				+ "b.fileID AS fileID,"
 				+ "b.versionNumber AS versionNumber,"
@@ -171,6 +172,7 @@ public class TestReportService extends SearchService implements
 				+ " ( "
 				+ " SELECT "
 				+ "a.ID AS ID,"
+				+ "a.taskID AS taskID,"
 				+ "a.receiptlistCode AS receiptlistCode,"
 				+ "a.fileID AS fileID,"
 				+ "a.versionNumber AS versionNumber,"
@@ -181,6 +183,7 @@ public class TestReportService extends SearchService implements
 				+ " ( "
 				+ " SELECT "
 				+ "testreport.ID AS ID,"
+				+ "testreport.taskID AS taskID,"
 				+ "receiptlist.receiptlistCode AS receiptlistCode,"
 				+ "receiptlist.contractID AS contractID,"
 				+ "fileID,"
@@ -198,6 +201,7 @@ public class TestReportService extends SearchService implements
 				+ " ) AS c ";
 		String[] properties = new String[] { 
 				"c.ID AS ID",
+				"c.taskID AS taskID",
 				"c.receiptlistCode AS receiptlistCode",
 				"c.fileID AS fileID",
 				"c.versionNumber AS versionNumber",
@@ -245,6 +249,7 @@ public class TestReportService extends SearchService implements
 		String baseEntity = " ( "
 				+ " SELECT "
 				+ "b.ID AS ID,"
+				+ "b.taskID AS taskID,"
 				+ "b.receiptlistCode AS receiptlistCode,"
 				+ "b.fileID AS fileID,"
 				+ "b.versionNumber AS versionNumber,"
@@ -255,6 +260,7 @@ public class TestReportService extends SearchService implements
 				+ " ( "
 				+ " SELECT "
 				+ "a.ID AS ID,"
+				+ "a.taskID as taskID,"
 				+ "a.receiptlistCode AS receiptlistCode,"
 				+ "a.fileID AS fileID,"
 				+ "a.versionNumber AS versionNumber,"
@@ -265,6 +271,7 @@ public class TestReportService extends SearchService implements
 				+ " ( "
 				+ " SELECT "
 				+ "testreport.ID AS ID,"
+				+ "testreport.taskID AS taskID,"
 				+ "receiptlist.receiptlistCode AS receiptlistCode,"
 				+ "receiptlist.contractID AS contractID,"
 				+ "fileID,"
@@ -282,6 +289,7 @@ public class TestReportService extends SearchService implements
 				+ " ) AS c ";
 		String[] properties = new String[] { 
 				"c.ID AS ID",
+				"c.taskID AS taskID",
 				"c.receiptlistCode AS receiptlistCode",
 				"c.fileID AS fileID",
 				"c.versionNumber AS versionNumber",
@@ -373,7 +381,7 @@ public class TestReportService extends SearchService implements
 					tr.setVersionNumber(versionNumber);
 					tr.setVersionInformation(versionInfo);
 					tr.setRemarks(remarks);
-					tr.setState(1);
+					tr.setState(0);
 					tk.setDetectstate(1);
 					int updateTaskCount =  baseEntityDao.updatePropByID(tr, ID);
 					int updateTestReportCount =  baseEntityDao.updatePropByID(tk, taskID);
@@ -387,7 +395,8 @@ public class TestReportService extends SearchService implements
 	@Override
 	public boolean submitReportCheck(String ID) {
 		String baseEntity = "testreport";
-		Map<String, Object> result1 = baseEntityDao.findByID(new String[] { "fileID" }, ID, "ID", baseEntity);
+		Map<String, Object> result1 = baseEntityDao.findByID(
+				new String[] { "fileID" }, ID, "ID", baseEntity);
 		if (result1 == null) {
 			return false;
 		} else {
@@ -395,27 +404,26 @@ public class TestReportService extends SearchService implements
 			if (fileID == null || fileID == "" || fileID.isEmpty()) {
 				return false;
 			} else {
-				Map<String, Object> result = baseEntityDao.findByID(new String[] { "state" }, ID, "ID", baseEntity);
+				Map<String, Object> result = baseEntityDao.findByID(
+						new String[] { "state" }, ID, "ID", baseEntity);
 				String state = result.get("state").toString();
-				if (state.equals("0")) {
+				String tanleName = " task ";
+				String[] properties = new String[] { "	task.levelTwo as levelTwo" };
+				String joinEntity = " LEFT JOIN testreport ON task.ID = testreport.taskID ";
+				String condition = " 1 = 1";
+				if (!ID.isEmpty() || ID != "" || ID != null) {
+					condition += " AND testReport.ID ='" + ID + "'";
+				}
+				List<Map<String, Object>> auditPersonIsExist = entityDao
+						.searchForeign(properties, tanleName, joinEntity, null,
+								condition);
+				if (state.equals("0") && auditPersonIsExist.get(0) != null) {
 					return true;
 				} else {
 					return false;
 				}
 			}
 		}
-	}
-			
-	@Override
-	public boolean setFileBelongID(String ID, String fileID) {
-		FileInformation fr = entityDao.getByID(fileID, FileInformation.class);
-		if (fr == null) {
-			return false;
-		} else {
-			fr.setBelongtoID(ID);
-			return baseEntityDao.updatePropByID(fr, fileID) > 0 ? true : false;
-		}
-
 	}
 
 	@Override
@@ -457,13 +465,17 @@ public class TestReportService extends SearchService implements
 	}
 
 	@Override
-	public boolean submitReport(String ID) {
+	public boolean submitReport(String ID, String taskID) {
 		TestReport tr = entityDao.getByID(ID, TestReport.class);
+		Task tk = entityDao.getByID(taskID, Task.class);
 		if (tr == null) {
 			return false;
 		} else {
-			tr.setState(2);
-			return baseEntityDao.updatePropByID(tr, ID) > 0 ? true : false;
+			tr.setState(1);
+			tk.setDetectstate(2);
+			int updateReportCount = baseEntityDao.updatePropByID(tr, ID);
+			int updateTaskCount = baseEntityDao.updatePropByID(tk, taskID);
+			return (updateReportCount + updateTaskCount) > 1 ? true : false;
 		}
 	}
 
@@ -671,48 +683,64 @@ public class TestReportService extends SearchService implements
 	}
 
 	@Override
-	public boolean secondPassReport(String ID) {
+	public boolean secondPassReport(String ID, String taskID) {
 		TestReport tr = entityDao.getByID(ID, TestReport.class);
+		Task tk = entityDao.getByID(taskID, Task.class);
 		if (tr == null) {
 			return false;
 		} else {
 			tr.setState(3);
-			return baseEntityDao.updatePropByID(tr, ID) > 0 ? true : false;
+			tk.setDetectstate(4);
+			int updateReportCount = baseEntityDao.updatePropByID(tr, ID);
+			int updateTaskCount = baseEntityDao.updatePropByID(tk, taskID);
+			return (updateReportCount + updateTaskCount) > 0 ? true : false;
 		}
 	}
 
 	@Override
-	public boolean secondRejectReport(String ID, String dismissreason) {
+	public boolean secondRejectReport(String ID, String taskID,String dismissreason) {
 		TestReport tr = entityDao.getByID(ID, TestReport.class);
+		Task tk = entityDao.getByID(taskID, Task.class);
 		if (tr == null) {
 			return false;
 		} else {
 			tr.setState(2);
 			tr.setDismissreason2(dismissreason);
-			return baseEntityDao.updatePropByID(tr, ID) > 0 ? true : false;
+			tk.setDetectstate(3);
+			int updateReportCount = baseEntityDao.updatePropByID(tr, ID);
+			int updateTaskCount = baseEntityDao.updatePropByID(tk, taskID);
+			return (updateReportCount + updateTaskCount) > 0 ? true : false;
 		}
 	}
 
 	@Override
-	public boolean thirdPassReport(String ID) {
+	public boolean thirdPassReport(String ID, String taskID) {
 		TestReport tr = entityDao.getByID(ID, TestReport.class);
+		Task tk = entityDao.getByID(taskID, Task.class);
 		if (tr == null) {
 			return false;
 		} else {
 			tr.setState(5);
-			return baseEntityDao.updatePropByID(tr, ID) > 0 ? true : false;
+			tk.setDetectstate(6);
+			int updateReportCount = baseEntityDao.updatePropByID(tr, ID);
+			int updateTaskCount = baseEntityDao.updatePropByID(tk, taskID);
+			return (updateReportCount + updateTaskCount) > 0 ? true : false;
 		}
 	}
 	
 	@Override
-	public boolean thirdRejectReport(String ID, String dismissreason) {
+	public boolean thirdRejectReport(String ID, String taskID,String dismissreason) {
 		TestReport tr = entityDao.getByID(ID, TestReport.class);
+		Task tk = entityDao.getByID(taskID, Task.class);
 		if (tr == null) {
 			return false;
 		} else {
 			tr.setState(4);
 			tr.setDismissreason3(dismissreason);
-			return baseEntityDao.updatePropByID(tr, ID) > 0 ? true : false;
+			tk.setDetectstate(5);
+			int updateReportCount = baseEntityDao.updatePropByID(tr, ID);
+			int updateTaskCount = baseEntityDao.updatePropByID(tk, taskID);
+			return (updateReportCount + updateTaskCount) > 0 ? true : false;
 		}
 	}
 	
@@ -863,5 +891,28 @@ public class TestReportService extends SearchService implements
 		} else {
 			return false;
 		}
+	}
+	
+	@Override
+	public List<Map<String, Object>> getReportInfo(String taskID) {
+
+		String filteCondition = "";
+		if (!taskID.isEmpty() || !taskID.equals("") || taskID != null) {
+			filteCondition = " WHERE task.ID  = '" + taskID + "'";
+		}
+		String baseEntity = " ( " + " SELECT " + "a.levelTwo AS levelTwo,"
+				+ "testreport.fileID AS fileID" + " FROM " + " ( " + " SELECT "
+				+ "task.testReportID," + "task.levelTwo" + " FROM " + " task "
+				+ filteCondition + " ) AS a "
+				+ " LEFT JOIN testreport ON a.testReportID = testreport.ID "
+				+ " ) AS b ";
+
+		String[] properties = new String[] { "fileinformation.fileName",
+				"b.levelTwo AS levelTwo" };
+		String joinEntity = " LEFT JOIN fileinformation ON b.fileID = fileinformation.ID ";
+		String condition = " 1=1 ";
+		List<Map<String, Object>> result = entityDao.searchForeign(properties,
+				baseEntity, joinEntity, null, condition);
+		return result;
 	}
 }

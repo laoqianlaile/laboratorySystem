@@ -1,5 +1,8 @@
 package com.cqut.xiji.service.messageNotice;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -80,4 +83,91 @@ public class MessageNoticeService extends SearchService implements IMessageNotic
 		return result +"";
 	}
 	
+	@Override
+	public boolean addReportAuditMessageNotice(String messageID,
+			String testreportID) {
+		String filterCondition = "";
+		if (testreportID != null && !testreportID.equals("")
+				&& !testreportID.equals(" ") && !testreportID.isEmpty()) {
+			filterCondition = " WHERE testreport.ID = '" + testreportID + "'";
+		}
+		String baseEntity = " ( " + " SELECT " + "testreport.fileID AS fileID"
+				+ " FROM " + " testreport " + filterCondition + " ) AS a ";
+		String[] properties = new String[] { "fileinformation.uploaderID" };
+		String joinEntity = " LEFT JOIN fileinformation ON a.fileID = fileinformation.ID ";
+		String condition = " 1 = 1";
+		List<Map<String, Object>> result = entityDao.searchForeign(properties,
+				baseEntity, joinEntity, null, condition);
+		String employeeID = "";
+		if (result.get(0) != null) {
+			employeeID = result.get(0).get("uploaderID").toString();
+		}
+		MessageNotice messageNotice = new MessageNotice();
+		messageNotice.setID(EntityIDFactory.createId());
+		messageNotice.setMessageID(messageID);
+		messageNotice.setEmployeeID(employeeID);
+		messageNotice.setState(0);
+		Date now = new Date(System.currentTimeMillis());
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd HH:mm:ss");
+		try {
+			messageNotice.setLookTime(dateFormat.parse(dateFormat.format(now)));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		boolean flag = entityDao.save(messageNotice) > 0 ? true : false;
+		return flag;
+	}
+	
+	@Override
+	public boolean addReportAuditPersonMessageNotice(String messageID,
+			String employeeID) {
+		MessageNotice messageNotice = new MessageNotice();
+		messageNotice.setID(EntityIDFactory.createId());
+		messageNotice.setMessageID(messageID);
+		messageNotice.setEmployeeID(employeeID);
+		messageNotice.setState(0);
+		Date now = new Date(System.currentTimeMillis());
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd HH:mm:ss");
+		try {
+			messageNotice.setLookTime(dateFormat.parse(dateFormat.format(now)));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		boolean flag = entityDao.save(messageNotice) > 0 ? true : false;
+		return flag;
+	}
+	
+	@Override
+	public boolean addReportThridAuditPersonMessageNotice(String messageID) {
+		String baseEntity = "employee";
+		String[] properties = { "employee.ID AS ID" };
+		String joinEntity = " LEFT JOIN role ON employee.roleID = role.ID ";
+		String condition = " 1 = 1 AND role.`name` = '签发人' ";
+		List<Map<String, Object>> employeeIDs = originalSearchForeign(
+				properties, baseEntity, joinEntity, null, condition, false);
+		if (employeeIDs.size() == 0) {
+			return false;
+		} else {
+			for (Map<String, Object> m : employeeIDs) {
+				MessageNotice messageNotice = new MessageNotice();
+				messageNotice.setID(EntityIDFactory.createId());
+				messageNotice.setMessageID(messageID);
+				messageNotice.setEmployeeID(m.get("ID").toString());
+				messageNotice.setState(0);
+				Date now = new Date(System.currentTimeMillis());
+				SimpleDateFormat dateFormat = new SimpleDateFormat(
+						"yyyy-MM-dd HH:mm:ss");
+				try {
+					messageNotice.setLookTime(dateFormat.parse(dateFormat
+							.format(now)));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				entityDao.save(messageNotice);
+			}
+			return true;
+		}
+	}
 }

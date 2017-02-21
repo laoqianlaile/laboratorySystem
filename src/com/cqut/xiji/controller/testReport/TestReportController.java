@@ -181,25 +181,8 @@ public class TestReportController {
 	 */
 	@RequestMapping("/submitReport")
 	@ResponseBody
-	public boolean submitReport(String ID) {
-		boolean result = service.submitReport(ID);
-		return result;
-
-	}
-
-	/**
-	 * 
-	 * @discription 设置文件的belongID
-	 * @author zt
-	 * @created 2016-11-21 下午9:13:06
-	 * @param ID
-	 * @param fileID
-	 * @return
-	 */
-	@RequestMapping("/setFileBelongID")
-	@ResponseBody
-	public boolean setFileBelongID(String ID, String fileID) {
-		boolean result = service.setFileBelongID(ID, fileID);
+	public boolean submitReport(String ID,String taskID) {
+		boolean result = service.submitReport(ID,taskID);
 		return result;
 
 	}
@@ -316,8 +299,8 @@ public class TestReportController {
 	 */
 	@RequestMapping("/secondPassReport")
 	@ResponseBody
-	public boolean secondPassReport(String ID) {
-		boolean result = service.secondPassReport(ID);
+	public boolean secondPassReport(String ID,String taskID) {
+		boolean result = service.secondPassReport(ID,taskID);
 		return result;
 	}
 
@@ -332,8 +315,8 @@ public class TestReportController {
 	 */
 	@RequestMapping("/secondRejectReport")
 	@ResponseBody
-	public boolean secondRejectReport(String ID, String dismissreason) {
-		boolean result = service.secondRejectReport(ID, dismissreason);
+	public boolean secondRejectReport(String ID,String taskID, String dismissreason) {
+		boolean result = service.secondRejectReport(ID, taskID,dismissreason);
 		return result;
 	}
 
@@ -347,8 +330,8 @@ public class TestReportController {
 	 */
 	@RequestMapping("/thirdPassReport")
 	@ResponseBody
-	public boolean thirdPassReport(String ID) {
-		boolean result = service.thirdPassReport(ID);
+	public boolean thirdPassReport(String ID, String taskID) {
+		boolean result = service.thirdPassReport(ID, taskID);
 		return result;
 	}
 
@@ -363,8 +346,8 @@ public class TestReportController {
 	 */
 	@RequestMapping("/thirdRejectReport")
 	@ResponseBody
-	public boolean thirdRejectReport(String ID, String dismissreason) {
-		boolean result = service.thirdRejectReport(ID, dismissreason);
+	public boolean thirdRejectReport(String ID, String taskID, String dismissreason) {
+		boolean result = service.thirdRejectReport(ID, taskID, dismissreason);
 		return result;
 	}
 	
@@ -440,5 +423,21 @@ public class TestReportController {
 	public boolean pigeonholeReport(String ID) {
 		boolean result = service.pigeonholeReport(ID);
 		return result;
+	}
+	
+	/**
+	 * 
+	 * @discription 获取报告的名字和报告审核人的信息
+	 * @author zt
+	 * @created 2017-2-21 下午4:57:29
+	 * @param taskID
+	 * @return
+	 */
+	@RequestMapping("/getReportInfo")
+	@ResponseBody
+	public List<Map<String, Object>> getReportInfo(String taskID) {
+		List<Map<String, Object>> result = service.getReportInfo(taskID);
+		return result;
+
 	}
 }

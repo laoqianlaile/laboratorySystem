@@ -119,7 +119,7 @@ $(function() {
 			width : "10%",// 宽度
 			formatter : function(value, row, index) {
 				return "<span  onclick='fileDown(\""+row.ID+"\")'  title='下载报告' class='glyphicon glyphicon-arrow-down' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
-				+"<span  onclick='submitReport(\""+row.ID+"\")'  title='提交审核' class='glyphicon glyphicon-ok-sign' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
+				+"<span  onclick='submitReport(\""+row.ID+"\",\""+row.taskID+"\")'   title='提交审核' class='glyphicon glyphicon-ok-sign' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
 				+"<span  onclick='showSendReportModal(\""+row.ID+"\")'  title='发送报告' class='glyphicon glyphicon-log-out' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
 			}
 		}]
@@ -127,7 +127,7 @@ $(function() {
 
 });
 
-//查询
+// 查询
 function search() {
 	var additionalCondition = {
 		receiptlistCode : $.trim($('#transitreceiptNumber').val()),
@@ -147,6 +147,7 @@ function search() {
 // 提交审核
 function submitReport() {
 	var keyID = arguments[0];
+	var taskID = arguments[1];
 	if (confirm("是否提交审核")) {
 		$.post("testReportController/submitReportCheck.do", {
 			ID : keyID
@@ -154,17 +155,19 @@ function submitReport() {
 			if (result == true || result == "true") {
 				$.post("testReportController/submitReport.do", {
 					ID : keyID,
+					taskID : taskID
 				}, function(result) {
 					if (result == true || result == "true") {
+						refresh();
 						alert("提交成功");
 					} else {
+						refresh();
 						alert("提交失败");
 					}
-					refresh();
 				});
 			} else {
-				alert("此报告不可提交审核");
 				refresh();
+				alert("当前报告不可提交审核！请核对报告检测状态或是指定报告审核人");
 			}
 		});
 	}
@@ -231,24 +234,22 @@ function recover() {
 // 确认覆盖
 function recoverSure() {
 	var rows = $("#table").bootstrapTable('getSelections');
-	if (rows[0].fileID != "" || rows[0].fileID != " "
-			|| rows[0].fileID != undefined || rows[0].fileID != null) {
+	if (rows[0].fileID != "" || rows[0].fileID != " " || rows[0].fileID != undefined || rows[0].fileID != null) {
 		$.post("fileOperateController/getFilesInfo.do", {
 			ID : rows[0].fileID
 		},function(result) {
-			result = JSON.parse(result);
-			if (result == null || result == "null") {
-				alert("没有记录");
-			} else {
-				var path = result[0].path;
-				var i = path.lastIndexOf("\\");
-				path = path.substring(i + 1, length);
-				fileUpload("#file_upload", path, result[0].type,
-						rows[0].taskID);
-			}
-		});
+					result = JSON.parse(result);
+					if (result == null || result == "null") {
+						alert("没有记录");
+					} else {
+						var path = result[0].path;
+						var i = path.lastIndexOf("\\");
+						path = path.substring(i + 1, length);
+						fileUpload("#file_upload", path, result[0].type, rows[0].taskID);
+					}
+				});
 	}
-		
+
 	setTimeout(function() {
 		var rows = $("#table").bootstrapTable('getSelections');
 		var fileVersionNumber = $("#fileVersionNumber").val();
@@ -262,8 +263,10 @@ function recoverSure() {
 			remarks : fileRemarks
 		}, function(result) {
 			if (result == true || result == "true") {
+				refresh();
 				alert("重新覆盖成功");
 			} else {
+				refresh();
 				alert("重新覆盖失败");
 			}
 		});
@@ -297,30 +300,30 @@ function fileDown() {
 	$.post("testReportController/getFileID.do", {
 		ID : keyID
 	},function(result) {
-		var re = new RegExp("\"", "g");
-		result = result.replace(re, "");
-		if (result == null || result == "null" || result == ""
-				|| result == " ") {
-			if (confirm("未找到相应文件，是否下载默认模版")) {
-				$.post("testReportController/getTemplateFileID.do", {
-					ID : keyID
-				}, function(result) {
-					result = JSON.parse(result);
-					if (result == null || result == undefined
-							|| result == "null" || result == "") {
-						alert("未找到相应模版");
-					} else {
-						downOneFile(result[0].fileID);
+				var re = new RegExp("\"", "g");
+				result = result.replace(re, "");
+				if (result == null || result == "null" || result == ""
+						|| result == " ") {
+					if (confirm("未找到相应文件，是否下载默认模版")) {
+						$.post("testReportController/getTemplateFileID.do", {
+							ID : keyID
+						}, function(result) {
+							result = JSON.parse(result);
+							if (result == null || result == undefined
+									|| result == "null" || result == "") {
+								alert("未找到相应模版");
+							} else {
+								downOneFile(result[0].fileID);
+							}
+						});
 					}
-				});
-			}
-		} else {
-			downOneFile(result);
-		}
-	});
+				} else {
+					downOneFile(result);
+				}
+			});
 }
 
-//刷新页面
+// 刷新页面
 function refresh() {
 	var additionalCondition = {
 		receiptlistCode : "",
