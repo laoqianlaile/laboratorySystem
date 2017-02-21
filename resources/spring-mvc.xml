@@ -29,22 +29,34 @@
 			</list>
 		</property>
 	</bean>
-	<!-- 定义跳转的文件的前后缀 ，视图模式配置-->
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<!-- 定义跳转的文件的前后缀 ，视图模式配置 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<!-- 这里的配置我的理解是自动给后面action的方法return的字符串加上前缀和后缀，变成一个 可用的url地址 -->
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	
-	<!-- 配置文件上传，如果没有使用文件上传可以不用配置，当然如果不配，那么配置文件中也不必引入上传组件包 -->
-	<bean id="multipartResolver"  
-        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
-        <!-- 默认编码 -->
-        <property name="defaultEncoding" value="utf-8" />  
-        <!-- 文件大小最大值 -->
-        <property name="maxUploadSize" value="10485760000" />  
-        <!-- 内存中的最大值 -->
-        <property name="maxInMemorySize" value="40960" />  
-    </bean> 
 
+	<!-- 配置文件上传，如果没有使用文件上传可以不用配置，当然如果不配，那么配置文件中也不必引入上传组件包 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 默认编码 -->
+		<property name="defaultEncoding" value="utf-8" />
+		<!-- 文件大小最大值 -->
+		<property name="maxUploadSize" value="10485760000" />
+		<!-- 内存中的最大值 -->
+		<property name="maxInMemorySize" value="40960" />
+	</bean>
+
+	<!-- 配置拦截器 -->
+	<mvc:interceptors>
+		<!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求 -->
+	
+		<mvc:interceptor>
+			<!-- 匹配的是url路径， 如果不配置或/**,将拦截所有的Controller 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->
+			<mvc:mapping path="/**" />  <!-- *表示该路径下的资源，不包含子目录的内容，**表示该目录下的资源，包含子目录（递归） -->
+			<bean id="loginInterceptor" class="com.cqut.xiji.service.handleInterceptor.HandleInterceptor"></bean>
+		</mvc:interceptor>
+		<!-- 当设置多个拦截器时，先按顺序调用preHandle方法，然后逆序调用每个拦截器的postHandle和afterCompletion方法 -->
+	</mvc:interceptors>
 </beans>

@@ -7,12 +7,15 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import net.sf.json.JSONArray;
+
 import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.base.BootstrapTreeNode;
+import com.cqut.xiji.entity.module.Module;
 import com.cqut.xiji.entity.permissionAssign.PermissionAssign;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.service.employee.IEmployeeService;
@@ -20,7 +23,7 @@ import com.cqut.xiji.tool.util.EntityIDFactory;
 import com.mysql.fabric.xmlrpc.base.Data;
 
 /**
- * @author zx 鏉冮檺鍒嗛厤
+ * @author zx 权限分配
  */
 @Service
 public class PermissionAssignService extends SearchService implements
@@ -49,16 +52,16 @@ public class PermissionAssignService extends SearchService implements
 	}
 
 	/*
-	 * //鏍规嵁 operatorCode鏉�鏌ユ壘涓�骇妯″潡
+	 * //根据 operatorCode来 查找一级模块
 	 * 
 	 * @Override public List<Node> getChiefMenu(String userID){
 	 * 
 	 * String ownerCondtion = getOwnerCondtion(userID);
 	 * 
-	 * if(ownerCondtion == null){ System.out.println("娌℃湁鎵惧埌瀵瑰簲瑙掕壊"); return null; }
+	 * if(ownerCondtion == null){ System.out.println("没有找到对应角色"); return null; }
 	 * else {
 	 * 
-	 * ////SHOWMENUPAGE=0琛ㄧず涓嶅睍绀猴紝=1琛ㄧず灞曠ず List<Map<String, Object>> modules =
+	 * ////SHOWMENUPAGE=0表示不展示，=1表示展示 List<Map<String, Object>> modules =
 	 * this.searchForeign(new String[]{"MODULECODE","MODULENAME"} , new
 	 * String[]{"Module"} , "OWNERCODE = '" + roleCodes +
 	 * "' and LEVEL0 = '0' and SHOWMENUPAGE = 1 ORDER BY ModuleCode",true);
@@ -81,7 +84,7 @@ public class PermissionAssignService extends SearchService implements
 	 * 
 	 * 
 	 * 
-	 * ////////////////瀛愯彍鍗�//鏍规嵁 operatorCode鏉�鏌ユ壘瀵瑰簲module xiangjunchao
+	 * ////////////////子菜单 //根据 operatorCode来 查找对应module xiangjunchao
 	 * 
 	 * @Override public List<Node> getPermissionModule(String userID, String
 	 * level) {
@@ -89,7 +92,7 @@ public class PermissionAssignService extends SearchService implements
 	 * 
 	 * String ownerCondtion = getOwnerCondtion(userID);
 	 * 
-	 * if(ownerCondtion == null){ System.out.println("   娌℃湁鎵惧埌鏉冮檺ID"); return
+	 * if(ownerCondtion == null){ System.out.println("   没有找到权限ID"); return
 	 * null; } else {
 	 * 
 	 * List<Map<String, Object>> allModules = this.searchForeign(new
@@ -115,13 +118,13 @@ public class PermissionAssignService extends SearchService implements
 	 * Object>>();
 	 * 
 	 * for(Map<String, Object> module : allModules) {
-	 * if("1".equals(module.get("LEVEL0").toString())){ //绗簩绾�Node node = new
+	 * if("1".equals(module.get("LEVEL0").toString())){ //第二级 Node node = new
 	 * Node(module.get("MODULECODE").toString(), module.get("text").toString(),
 	 * null,null==module.get("iconCls")?"":module.get("iconCls").toString());
 	 * node.setCreateID(false);
 	 * 
 	 * parents.put(module.get("MODULECODE").toString(), node);
-	 * nodes.addNode(node); } else { //绗笁绾�
+	 * nodes.addNode(node); } else { //第三级
 	 * if(parents.containsKey(module.get("PARENT").toString())) { Node node =
 	 * new Node(module.get("URL") == null ? "":module.get("URL").toString()
 	 * ,module.get("text") == null ? "" : module.get("text").toString(),
@@ -139,7 +142,7 @@ public class PermissionAssignService extends SearchService implements
 	 * null,null==module.get("iconCls")?"":module.get("iconCls").toString());
 	 * node.setCreateID(false);
 	 * parents.get(module.get("PARENT").toString()).addChildren(node); } else {
-	 * System.out.println("鍑洪敊锛� + module.get("text").toString()); } } }
+	 * System.out.println("出错，" + module.get("text").toString()); } } }
 	 * 
 	 * return nodes.getNodes(); } }
 	 * 
@@ -184,7 +187,7 @@ public class PermissionAssignService extends SearchService implements
 	 * permissionAssign.setID(EntityIDFactory.createId()); return
 	 * dao.save(permissionAssign); }
 	 *//**
-	 * 鑾峰彇鐖惰妭鐐筩ode
+	 * 获取父节点code
 	 * 
 	 * @author fm
 	 */
@@ -216,9 +219,9 @@ public class PermissionAssignService extends SearchService implements
 	 * return true; }
 	 */
 
-	// 鏍规嵁UserID寰楀埌瀵瑰簲鐨勬ā鍧楁煡璇㈣鍙�
+	// 根据UserID得到对应的模块查询语句
 	public String getOwnerCondtion(String userID) {
-		// 鏌ユ壘瀵瑰簲鐨勮鑹�娉ㄦ剰锛氭牴鎹敤鎴稩D鏌ユ壘鐢ㄦ埛瀵瑰簲鐨勮鑹诧紝涓�釜鐢ㄦ埛鍙互鏈夊涓鑹�
+		// 查找对应的角色 注意：根据用户ID查找用户对应的角色，一个用户可以有多个角色
 		List<String> roleCodes = employeeService.getEmployeeRole(userID);
 
 		if (roleCodes == null || roleCodes.size() == 0)
@@ -238,20 +241,20 @@ public class PermissionAssignService extends SearchService implements
 	}
   /**
    * 
-   * 鏍规嵁 operatorCode鏉�鏌ユ壘瀵瑰簲module zhijun
+   * 根据 operatorCode来 查找对应module zhijun
    * @author wzj
-   * @date 2016骞�1鏈�0鏃�涓嬪崍3:45:40
+   * @date 2016年11月30日 下午3:45:40
    *
    */
 	@Override
-	public List<BootstrapTreeNode> getPermissionModule(String userID,String level) {
+	public List<BootstrapTreeNode> getPermissionModule(String userID,String level,String loginName) {
 		String ownerCondtion = getOwnerCondtion(userID);
 		List<BootstrapTreeNode> TreeNode = new ArrayList<BootstrapTreeNode>();
 		Map<String, BootstrapTreeNode> parentOne = new HashMap<String, BootstrapTreeNode>();
 		Map<String, BootstrapTreeNode> parentTwo = new HashMap<String, BootstrapTreeNode>();
-		// 鑾峰彇鎵�湁鍒楄〃
+		// 获取所有列表
 		if (ownerCondtion == null) {
-			System.out.println("   娌℃湁鎮ㄦ壘鍒版潈闄愯处鎴�");
+			System.out.println("   没有您找到权限账户");
 			return null;
 		} else {
 			String[]  properties = new String[]{ 
@@ -275,7 +278,7 @@ public class PermissionAssignService extends SearchService implements
 				String levelString = module.get("LEVEL0").toString();
 				String modulParentID = module.get("PARENT").toString();
 			
-				if ("1".equals(levelString)) { // 绗竴绾�
+				if ("1".equals(levelString)) { // 第一级
 					BootstrapTreeNode node = new BootstrapTreeNode("", module.get("text").toString());
 					node.setId(module.get("ID").toString());
 					node.setBackColor(module.get("backColor"));
@@ -286,7 +289,7 @@ public class PermissionAssignService extends SearchService implements
 					TreeNode.add(node);
 					parentOne.put(module.get("ID").toString(), node);
 
-				} else if ("2".equals(levelString)) { // 绗簩绾�
+				} else if ("2".equals(levelString)) { // 第二级
 
 					BootstrapTreeNode node = new BootstrapTreeNode("", module.get("text").toString());
 					node.setId(module.get("ID").toString());
@@ -321,14 +324,48 @@ public class PermissionAssignService extends SearchService implements
 			}
 
 		}
+		if (loginName != null  && loginName.equals("superc102")){
+			 List<Module> module_list = entityDao.getByCondition("  module.text ='模块管理'", Module.class);
+			 if(module_list == null  || module_list.size() == 0){
+				 Module module2 =  new Module();
+				 module2.setID(EntityIDFactory.createId());
+				 module2.setHref("module/jsp/moduleManage/moduleManage.jsp");
+				 module2.setParent("0");
+				 module2.setLevel0(1);
+				 module2.setModuleCode("0000");
+				 module2.setIcon("icon-bell");
+				 entityDao.save(module2);
+				 
+					BootstrapTreeNode node = new BootstrapTreeNode(module2.getID(), "模块管理");
+					node.setlevel0(module2.getLevel0()+"");
+					node.setIcon(module2.getIcon());
+					node.setColor(module2.getColor());
+					node.setHref(module2.getHref());
+					TreeNode.add(node);
+				 
+			 }else{
+				 
+			        Module module = module_list.get(0);
+					BootstrapTreeNode node = new BootstrapTreeNode(module.getID(), "模块管理");
+				
+					node.setBackColor(module.getBackColor());
+					node.setlevel0(module.getLevel0()+"");
+					node.setIcon(module.getIcon());
+					node.setColor(module.getColor());
+					node.setHref(module.getHref());
+					TreeNode.add(node);
+					
+			 }
+		}
+		
 		System.out.println(TreeNode.toArray().toString());
 		return TreeNode;
 	}
 /**
  * 
- *  鍒犻櫎瑙掕壊瀵瑰簲妯″潡
+ *  删除角色对应模块
  * @author wzj
- * @date 2016骞�2鏈�4鏃�涓嬪崍5:37:20
+ * @date 2016年12月24日 下午5:37:20
  *
  */
 @Override
@@ -346,9 +383,9 @@ public String deletePermission(String roleID, String moduleID) {
 }
 /**
  * 
- * 鏂板瑙掕壊瀵瑰簲妯″潡
+ * 新增角色对应模块
  * @author wzj
- * @date 2016骞�2鏈�4鏃�涓嬪崍5:36:58
+ * @date 2016年12月24日 下午5:36:58
  *
  */
 @Override
@@ -356,7 +393,7 @@ public String addPermission(String roleID, String moduleID) {
 	// TODO Auto-generated method stub
 List<PermissionAssign>  list = 	entityDao.getByCondition(" ownerCode='"+roleID+"' and permissionCode='"+moduleID+"'", PermissionAssign.class);
   if(list != null && list.size() > 0){
-	 return "true" ; //宸茬粡鏈夛紝鏃犻渶鎿嶄綔
+	 return "true" ; //已经有，无需操作
   }
   else if(roleID != null && !roleID.equals("")){
 		  PermissionAssign permissionAssign = new PermissionAssign();

@@ -129,7 +129,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			String roleIDS = employee.getRoleID();
 			if(roleIDS != null && roleIDS.length() > 0)
 			{
-				String[]  roleID = 	entityDao.getByID(userID, Employee.class).getRoleID().split(",");
+				String[]  roleID = 	employee.getRoleID().split(",");
 	            List<String> list =Arrays.asList(roleID);
 	            return list;
 			}

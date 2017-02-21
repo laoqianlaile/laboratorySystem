@@ -118,7 +118,7 @@ vertical-align: middle;
 									<small>请先登录！</small> 
 										</span> <i class="icon-caret-down"></i>
 							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-								<li onclick = "login()"><a> <i class="glyphicon glyphicon-log-in"></i> 登录</a></li>
+								<li onclick = "login()"><a href="./login.jsp"> <i class="glyphicon glyphicon-log-in"></i> 登录</a></li>
 							</ul>
 								<%}
 								else{%>
@@ -189,8 +189,8 @@ vertical-align: middle;
 					<!-- #sidebar-shortcuts -->
 					<!--  左边菜单栏树-->
 					<ul class="nav nav-list">
-						<label for="treeview"></label>
-						<div id="treeview"></div>
+						<label for="tree"></label>
+						<div class="tree"></div>
 						<li><a href="module/jsp/standardManage/standardReview.jsp" target="aa"> <i
 								class="icon-text-width"></i> <span class="menu-text">
 									标准审核管理 </span>
@@ -199,9 +199,9 @@ vertical-align: middle;
 							target="aa"> <i class="icon-text-width"></i> <span
 								class="menu-text">标准类型管理 </span>
 						</a></li>
-						<li><a href="module/jsp/standardManage/standard.jsp"
+						<li><a href="module/jsp/permissionAssign/permissionAssign.jsp"
 							class="dropdown-toggle" target="aa"> <i class="icon-desktop"></i>
-								<span class="menu-text"> 标准管理 </span>
+								<span class="menu-text">权限分配管理 </span>
 						</a></li>
 						<li><a href="module/jsp/testProject/testProject.jsp" class="dropdown-toggle"
 							target="aa"> <i class="icon-desktop"></i> <span
