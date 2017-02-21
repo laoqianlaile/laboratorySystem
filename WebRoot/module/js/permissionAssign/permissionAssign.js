@@ -154,8 +154,10 @@ function initModuleTree(){
 				var thisId = node.nodeId;
 				var thisParentId = node.parentId;
 				var total = "";
-				
-				if(node.id == undefined || node.id == ""){ //是头节点
+				if(permission_global.roleID == "" ||  permission_global.roleID == null){
+					alert("请先选择角色");
+				} 
+				else if(node.id == undefined || node.id == ""){ //是头节点
 					 $('#treeModule').treeview('checkAll', { silent: false });
                      //没有父节点的不需要处理
 				}else {  
@@ -189,9 +191,10 @@ function initModuleTree(){
 								if(node.nodes != null && node.nodes.length != 0)//没有孩子节点却有孩子数组
 								{    
 									 console.log(node.nodes);
-									 temp = node.nodes[temp.nodes.length-1]; //数组最后一个
+									 temp = node.nodes[temp.nodes.length-1]; //数组最后一个  是前一个数组的最后
 									 console.log(temp);
 									 total = temp.nodeId;
+									 node = temp ; 
 								}
 								
 							}
@@ -206,10 +209,17 @@ function initModuleTree(){
 		        	console.log(permission_global);
 					var thisParentId = node.parentId;
 					var total = ""; //最后一个节点才用
-					if(node.id == undefined || node.id == ""){ //所有节点
-						$('#treeRole').treeview('uncheckAll', { silent: true }); //可以直接赋值空 
-						 permission_global.moduleIDs = "";
+					if(permission_global.roleID == "" ||  permission_global.roleID == null){
+						alert("请先选择角色");
+					} else	if(node.id == undefined || node.id == ""){ //所有节点
+						
+					
+							$('#treeRole').treeview('uncheckAll', { silent: true }); //选择的勾不会去掉
+						 permission_global.moduleIDs = ""; //可以直接赋值空 
 						 deletePermission(permission_global.roleID ,"all"); //分配权限
+							initModuleTree();
+							return ;
+						
 	                     //没有父节点的不需要处理
 					}else {      
 						if(thisId != null && thisId != ""){
@@ -226,6 +236,7 @@ function initModuleTree(){
 									 temp = node.nodes[temp.nodes.length-1]; //数组最后一个
 									 console.log(temp);
 									 total = temp.nodeId;
+									 node = temp ;
 								}
 								$('#treeModule').treeview('expandNode', [ thisId, { levels: 5, silent: true } ]);  //自己选中的节点也展开
 								unSelectedModuleChilred(thisId+1,total); //展开和不选中
