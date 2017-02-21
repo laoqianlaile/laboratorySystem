@@ -14,8 +14,8 @@ import javax.servlet.http.HttpSession;
 
 public class LoginFilter implements Filter {
 
-	public static final String index_page = "index.jsp";
-	public static final String login_page = "login.jsp";
+	public static final String index_page = "/laboratorySystem/index.jsp";
+	public static final String login_page = "/laboratorySystem/login.jsp";
     
 	
 	@Override

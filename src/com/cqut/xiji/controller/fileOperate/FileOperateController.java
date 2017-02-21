@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.cqut.xiji.entity.fileInformation.FileInformation;
+import com.cqut.xiji.tool.fileEncrypt.FileEncrypt;
 import com.cqut.xiji.tool.util.DocConverter;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 import com.cqut.xiji.tool.util.JToolWeb;
@@ -155,6 +156,9 @@ public class FileOperateController {
 			e.printStackTrace();
 		}
 		service.saveFiles(fr);
+		FileEncrypt fe = new FileEncrypt();
+		fe.encryptPath(path, ID);
+
 		return ID;
 
 	}
