@@ -1,5 +1,7 @@
 package com.cqut.xiji.service.message;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -126,4 +128,141 @@ public class MessageService extends SearchService implements IMessageService{
 		return result;
 	}
 	
+	@Override
+	public String addReportSecondAuditPassMessage(String fileName) {
+		String content = "您有一份报告 ";
+		if (fileName != null && !fileName.equals("") && !fileName.isEmpty()) {
+			content += fileName;
+		}
+		content += " 二次审核通过";
+		Message message = new Message();
+		message.setID(EntityIDFactory.createId());
+		message.setContent(content);
+		Date now = new Date(System.currentTimeMillis());
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd HH:mm:ss");
+		try {
+			message.setCreateTime(dateFormat.parse(dateFormat.format(now)));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		entityDao.save(message);
+		String result = message.getID();
+		return result;
+	}
+	
+	@Override
+	public String addReportThirdAuditPassMessage(String fileName) {
+		String content = "您有一份报告 ";
+		if (fileName != null && !fileName.equals("") && !fileName.isEmpty()) {
+			content += fileName;
+		}
+		content += " 三次审核通过";
+		Message message = new Message();
+		message.setID(EntityIDFactory.createId());
+		message.setContent(content);
+		Date now = new Date(System.currentTimeMillis());
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd HH:mm:ss");
+		try {
+			message.setCreateTime(dateFormat.parse(dateFormat.format(now)));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		entityDao.save(message);
+		String result = message.getID();
+		return result;
+	}
+	
+	@Override
+	public String addReportSecondAuditRejectMessage(String fileName){
+		String content = "您有一份报告 ";
+		if (fileName != null && !fileName.equals("") && !fileName.isEmpty()) {
+			content += fileName;
+		}
+		content += " 二次审核失败";
+		Message message = new Message();
+		message.setID(EntityIDFactory.createId());
+		message.setContent(content);
+		Date now = new Date(System.currentTimeMillis());
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd HH:mm:ss");
+		try {
+			message.setCreateTime(dateFormat.parse(dateFormat.format(now)));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		entityDao.save(message);
+		String result = message.getID();
+		return result;
+	}
+	
+	@Override
+	public String addReportThirdAuditRejectMessage(String fileName) {
+		String content = "您有一份报告 ";
+		if (fileName != null && !fileName.equals("") && !fileName.isEmpty()) {
+			content += fileName;
+		}
+		content += " 三次审核失败";
+		Message message = new Message();
+		message.setID(EntityIDFactory.createId());
+		message.setContent(content);
+		Date now = new Date(System.currentTimeMillis());
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd HH:mm:ss");
+		try {
+			message.setCreateTime(dateFormat.parse(dateFormat.format(now)));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		entityDao.save(message);
+		String result = message.getID();
+		return result;
+	}
+	
+	@Override
+	public String addReportAudiPersontMessage(String fileName) {
+		String content = "您有一份报告 ";
+		if (fileName != null && !fileName.equals("") && !fileName.isEmpty()) {
+			content += fileName;
+		}
+		content += " 需要审核";
+		Message message = new Message();
+		message.setID(EntityIDFactory.createId());
+		message.setContent(content);
+		Date now = new Date(System.currentTimeMillis());
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd HH:mm:ss");
+		try {
+			message.setCreateTime(dateFormat.parse(dateFormat.format(now)));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		entityDao.save(message);
+		String result = message.getID();
+		return result;
+	}
+	
+	@Override
+	public String addWaitThirdAuditReportMessage(String fileName){
+		String content = "报告 ";
+		if (fileName != null && !fileName.equals("") && !fileName.isEmpty()) {
+			content += fileName;
+		}
+		content += " 待三次审核";
+		Message message = new Message();
+		message.setID(EntityIDFactory.createId());
+		message.setContent(content);
+		Date now = new Date(System.currentTimeMillis());
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd HH:mm:ss");
+		try {
+			message.setCreateTime(dateFormat.parse(dateFormat.format(now)));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		entityDao.save(message);
+		String result = message.getID();
+		return result;
+	}
 }

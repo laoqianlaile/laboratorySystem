@@ -31,4 +31,52 @@ public class MessageNoticeController{
 		String result = service.addMessageNotice(MessageID,recipient);
 		return result ;
 	}
+	
+	/**
+	 * 
+	 * @discription 添加报告审核状态消息通知
+	 * @author zt
+	 * @created 2017-2-20 下午5:43:57
+	 * @param messageID
+	 * @param testreportID
+	 * @return
+	 */
+	@RequestMapping("addReportAuditMessageNotice")
+	@ResponseBody
+	public boolean addReportAuditMessageNotice(String messageID,String testreportID) {
+		boolean result = service.addReportAuditMessageNotice(messageID,testreportID);
+		return result;
+	}
+	
+	/**
+	 * 
+     * @discription 添加报告审核人，提交审核后，为审核人推送消息
+     * @author zt       
+     * @created 2017-2-21 下午7:11:54     
+     * @param messageID
+     * @param employeeID
+     * @return
+	 */
+	@RequestMapping("addReportAuditPersonMessageNotice")
+	@ResponseBody
+	public boolean addReportAuditPersonMessageNotice(String messageID,String employeeID) {
+		boolean result = service.addReportAuditPersonMessageNotice(messageID,employeeID);
+		return result;
+	}
+	
+	
+	/**
+	 * 
+     * @discription 二审通过过后，为所有角色为签发人的员工推送三审消息通知
+     * @author zt       
+     * @created 2017-2-21 下午7:17:01     
+     * @param messageID
+     * @return
+	 */
+	@RequestMapping("addReportThridAuditPersonMessageNotice")
+	@ResponseBody
+	public boolean addReportThridAuditPersonMessageNotice(String messageID) {
+		boolean result = service.addReportThridAuditPersonMessageNotice(messageID);
+		return result;
+	}
 }

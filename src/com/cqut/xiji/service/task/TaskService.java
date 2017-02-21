@@ -889,21 +889,27 @@ public class TaskService extends SearchService implements ITaskService {
 	@Override
 	public boolean submitReport(String taskID) {
 		Task tk = entityDao.getByID(taskID, Task.class);
-		Map<String, Object> result = baseEntityDao.findByID( new String[] { "detectstate,testReportID" }, taskID, "ID", "task");
-		String detectstate = result.get("detectstate").toString();
-		if (detectstate.equals("1")) {
-			tk.setDetectstate(2);
-			String testReportID = result.get("testReportID").toString();
-			TestReport tr = entityDao.getByID(testReportID, TestReport.class);
-			if (tr != null) {
-				tr.setState(1);
-			}
-			int updateTaskSuccessCount = baseEntityDao.updatePropByID(tk, taskID);
-			int updateReportSuccessCount = baseEntityDao.updatePropByID(tr,testReportID);
-			return (updateTaskSuccessCount + updateReportSuccessCount) > 1 ? true : false;
-			
-		} else {
+		Map<String, Object> result = baseEntityDao.findByID(
+				new String[] { "detectstate,testReportID,levelTwo" }, taskID,
+				"ID", "task");
+		if (result.get("levelTwo") == null) {
 			return false;
+		} else {
+			String detectstate = result.get("detectstate").toString();
+			if (detectstate.equals("1")) {
+				tk.setDetectstate(2);
+				String testReportID = result.get("testReportID").toString();
+				TestReport tr = entityDao.getByID(testReportID,TestReport.class);
+				if (tr != null) {
+					tr.setState(1);
+				}
+				int updateTaskSuccessCount = baseEntityDao.updatePropByID(tk,taskID);
+				int updateReportSuccessCount = baseEntityDao.updatePropByID(tr,testReportID);
+				return (updateTaskSuccessCount + updateReportSuccessCount) > 1 ? true : false;
+
+			} else {
+				return false;
+			}
 		}
 	}
 
@@ -1117,11 +1123,11 @@ public class TaskService extends SearchService implements ITaskService {
 			filteCondition = " testreport.ID = '" + testReportID + "'";
 			List<Map<String, Object>> result = entityDao.searchForeign(
 					properties, baseEntiy, joinEntity, null, filteCondition);
-			if (result != null) {
+			if (result == null || result.size() == 0) {
+				return null;
+			} else {
 				String fileID = result.get(0).get("ID").toString();
 				return fileID;
-			} else {
-				return null;
 			}
 		}
 	}

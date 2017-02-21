@@ -115,6 +115,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<hr />
 					<div class="row" style="text-align:center">
 						<span id="testReportID" style="display:none"></span>
+						<span id="taskID" style="display:none"></span>
+						<span id="fileName" style="display:none"></span>
 						<textarea id="rejectReason" class="form-control" style="overflow-y:scroll">
 					 </textarea>
 					</div>
