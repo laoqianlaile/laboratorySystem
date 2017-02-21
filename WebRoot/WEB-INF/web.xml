@@ -62,15 +62,15 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:spring-mvc.xml</param-value>
+			<param-value>classpath:spring-mvc.xml</param-value> <!-- 配置上下文 -->
 		</init-param>
-		<load-on-startup>1</load-on-startup>
+		<load-on-startup>1</load-on-startup>  <!-- 代表servlet启动就初始化 -->
 		<async-supported>true</async-supported>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>SpringMVC</servlet-name>
 		<!-- 此处可以可以配置成*.do，对应struts的后缀习惯 -->
-		<url-pattern>*.do</url-pattern>   <!-- //拦截 所有 但是只有后天方法才有处理器(ctroller 才会继续处理-到其他拦截器 ， 没有就会返回） ssm 限制 -->
+		<url-pattern>*.do</url-pattern>   <!-- //匹配规则拦截  -->
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
@@ -118,6 +118,16 @@
 		<filter-name>LoginFilter</filter-name>
 		<!-- //这里表示对所有的以jsp后缀的文件有效，其它的无效 -->
 		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>LoginFilter</filter-name>
+		<!-- //这里表示对所有的以jsp后缀的文件有效，其它的无效 -->
+		<url-pattern>*.htm</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>LoginFilter</filter-name>
+		<!-- //这里表示对所有的以jsp后缀的文件有效，其它的无效 -->
+		<url-pattern>*.html</url-pattern>
 	</filter-mapping>
 	<welcome-file-list>
 		<welcome-file>login.jsp</welcome-file>

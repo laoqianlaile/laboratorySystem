@@ -14,24 +14,28 @@ public class HandleInterceptor implements  HandlerInterceptor{
 		
 		   System.out.println("==============执行顺序: 1、preHandle================");
 		// TODO Auto-generated method stub
-		   System.out.println(handler);
-            handler.toString() ;
-           /* if ("GET".equalsIgnoreCase(request.getMethod())) {  
-                RequestUtil.saveRequest();  
-            }  */
               
-            String requestUri = request.getRequestURI();  
+            String requestUri = request.getRequestURI();   //获取全路径
             String contextPath = request.getContextPath();  
             String url = requestUri.substring(contextPath.length());  
             
-            System.out.println("requestUri:"+requestUri);    
+            String userID =  (String)request.getSession().getAttribute("EMPLOYEEID");    //获取用户
+            if(userID == null){  
+            	System.out.println("Interceptor：跳转到login页面！");  
+                request.getRequestDispatcher("/login.jsp").forward(request, response);  
+                return false;  
+            }else  
+                return true;   
+            
+            
+            /*    System.out.println("requestUri:"+requestUri);    
             System.out.println("contextPath:"+contextPath);    
-            System.out.println("url:"+url);    
+            System.out.println("url:"+url);    */
               
           
             //判断url是否是公开地址（实际使用时将公开地址配置配置文件中）  
             //这里公开地址是登陆提交的地址  
-            if(requestUri.indexOf("login.jsp")>0){   //访问login.jsp
+         /*   if(requestUri.indexOf("login.jsp")>0){   //访问login.jsp
                 return true;  
             }  
             if(requestUri.indexOf("getRandcode.do")>0){  //获取验证码
@@ -48,14 +52,7 @@ public class HandleInterceptor implements  HandlerInterceptor{
             }  
             if(requestUri.indexOf(".js")>0){  
                 return true;  
-            }  
-            String userID =  (String)request.getSession().getAttribute("EMPLOYEEID");   
-            if(userID == null){  
-            	System.out.println("Interceptor：跳转到login页面！");  
-                request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);  
-                return false;  
-            }else  
-                return true;     
+            }  */
 	    	
 	}
 
