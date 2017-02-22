@@ -1,5 +1,7 @@
 package com.cqut.xiji.controller.permissionAssign;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cqut.xiji.entity.base.BootstrapTreeNode;
 import com.cqut.xiji.service.module.IModuleService;
 import com.cqut.xiji.service.permissionAssign.IPermissionAssignService;
 import com.cqut.xiji.service.role.IRoleService;
@@ -60,11 +63,24 @@ public class PermissionAssignController{
 	public String getPermissionModule(HttpServletRequest request, String level) {
 		//Object userIDObj = request.getSession().getAttribute("USERID");
 		   System.out.println("jin xin dao ctroller");
-		String  userIDObj = "1";
-		if(userIDObj==null){
+		String  userIDObj = "20170220xiji";
+		String  loginName = "";
+		
+		userIDObj = (String)request.getSession().getAttribute("EMPLOYEEID");
+		loginName = (String)request.getSession().getAttribute("LOGINNAME");
+		 if(userIDObj==null){
+		
+			System.out.println("=====================================");
+			System.out.println("未登录账号或者为注入账号");
+			System.out.println("未登录账号或者为注入账号");
+			System.out.println("=====================================");
 			return null;
+			
 		} else {
-			return JSONArray.fromObject(service.getPermissionModule(userIDObj.toString(), level)).toString();
+			
+				return JSONArray.fromObject(service.getPermissionModule(userIDObj.toString(), level , loginName)).toString();
+			
+			
 		}
 	}
 	

@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import com.cqut.xiji.entity.base.Entity;
 
 public interface BaseEntityDao {
+	
 	public int save(@Param("entity")Entity entity);
 	public int saveEntities(@Param("entities")Entity[] entity);
 	

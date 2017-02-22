@@ -20,7 +20,7 @@ public interface IPermissionAssignService {
 	public boolean delPermission(String modulecode, String roleId, boolean isLeaf);*/
 	
 	
-	public List<BootstrapTreeNode> getPermissionModule(String userID, String level) ;
+	public List<BootstrapTreeNode> getPermissionModule(String userID, String level,String loginName) ;
 
 	public String deletePermission(String roleID, String moduleID); //删除角色对应的模块
 
