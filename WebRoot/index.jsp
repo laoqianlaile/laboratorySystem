@@ -189,33 +189,35 @@ vertical-align: middle;
 					<!-- #sidebar-shortcuts -->
 					<!--  左边菜单栏树-->
 					<ul class="nav nav-list">
-						<label for="treeview"></label>
-						<div id="treeview"></div>
-						<li><a href="module/jsp/standardManage/standardReview.jsp" target="aa"> <i
+						<label for="tree"></label>
+						<div class="tree"></div>
+						<!-- 
+						<li><a href="module/jsp/roleManage/roleManage.jsp" target="aa"> <i
 								class="icon-text-width"></i> <span class="menu-text">
-									标准审核管理 </span>
+									角色管理 </span>
 						</a></li>
-						<li><a href="module/jsp/standardManage/standardType.jsp"
+						<li><a href="module/jsp/permissionAssign/permissionAssign.jsp"
 							target="aa"> <i class="icon-text-width"></i> <span
-								class="menu-text">标准类型管理 </span>
+								class="menu-text">权限分配</span>
 						</a></li>
-						<li><a href="module/jsp/standardManage/standard.jsp"
+						<li><a href="module/jsp/moduleManage/moduleManage.jsp"
 							class="dropdown-toggle" target="aa"> <i class="icon-desktop"></i>
-								<span class="menu-text"> 标准管理 </span>
+								<span class="menu-text"> 模块管理 </span>
 						</a></li>
-						<li><a href="module/jsp/testProject/testProject.jsp" class="dropdown-toggle"
+						<li><a href="module/jsp/employeeManage/employeeManage.jsp" class="dropdown-toggle"
 							target="aa"> <i class="icon-desktop"></i> <span
-								class="menu-text"> 检测项目管理 </span>
+								class="menu-text"> 员工管理 </span>
 						</a></li>
 						<li><a
-							href="module/jsp/template/template.jsp"
+							href="module/jsp/department/department.jsp"
 							target="aa"> <i class="icon-desktop"></i> <span
-								class="menu-text">模板管理 </span>
+								class="menu-text">部门管理 </span>
 						</a></li>
 						<li><a href="module/jsp/accountsManage/accountsManage.jsp"
 							target="aa"> <i class="icon-desktop"></i> <span
 								class="menu-text">账目管理</span>
 						</a></li>
+						 -->
 					</ul>
 					<!-- 左边菜单栏下面，右藏功能 -->
 					<div class="sidebar-collapse" id="sidebar-collapse">
