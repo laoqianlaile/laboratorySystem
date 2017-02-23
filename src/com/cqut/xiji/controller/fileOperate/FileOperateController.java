@@ -94,14 +94,11 @@ public class FileOperateController {
 			String filePath, String firstDirectory, String secondDirectory,
 			String thirdDirectory, int TypeNumber, String belongtoID,
 			String content, String remark) throws IOException {
-	    String UPLOADER =  (String)req.getSession().getAttribute("EMPLOYEEID");
-	    		if(UPLOADER != null ){
-	    			UPLOADER = UPLOADER.toString();//上传ID,从session里面取出来
-	    		}else{
-	    			UPLOADER = "20170220xiji";
-	    			System.out.println(" emplopyeeid is null");
-	    		}
-		
+		String UPLOADER = (String) req.getSession().getAttribute("EMPLOYEEID");
+		if (UPLOADER != null) {
+			UPLOADER = UPLOADER.toString();// 上传ID,从session里面取出来
+		}
+
 	    long begin = 0;
 		String ID = "";// 文件ID
 		String fileName = "";// 文件名
@@ -170,7 +167,7 @@ public class FileOperateController {
 		service.saveFiles(fr);
 		
 		
-		fileEncryptservice.encryptPath(path, ID);
+//		fileEncryptservice.encryptPath(path, ID);
 		
 
 		return ID;

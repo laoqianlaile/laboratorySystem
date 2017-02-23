@@ -45,7 +45,7 @@ public class TestReportService extends SearchService implements
 	public Map<String, Object> getTestReportWithPaging(int limit, int offset,
 			String order, String sort, String receiptlistCode,
 			String client, String reportName, String beginTime, String endTime,
-			String selectPart) {
+			String selectPart,String uploader) {
 		int index = limit;
 		int pageNum = offset / limit ;
 		String baseEntity = " ( "
@@ -113,19 +113,19 @@ public class TestReportService extends SearchService implements
 			condition += " and receiptlistCode like '%" + receiptlistCode
 					+ "%'";
 		}
-		if (client != null && !client.isEmpty()) {
+		if (client != null && !client.isEmpty() && !client.equals("")) {
 			condition += " and companyName like '%" + client + "%'";
 		}
-		if (reportName != null && !reportName.isEmpty()) {
+		if (reportName != null && !reportName.isEmpty() && !reportName.equals("")) {
 			condition += " and fileName like '%" + reportName + "%'";
 		}
-		if (beginTime != null && !beginTime.isEmpty()) {
+		if (beginTime != null && !beginTime.isEmpty() && !beginTime.equals("")) {
 			condition += " and uploadTime >'" + beginTime + "'";
 		}
-		if (endTime != null && !endTime.isEmpty()) {
+		if (endTime != null && !endTime.isEmpty() && !endTime.equals("")) {
 			condition += " and uploadTime <'" + endTime + "'";
 		}
-		if (selectPart != null && !selectPart.isEmpty()) {
+		if (selectPart != null && !selectPart.isEmpty() && !selectPart.equals("")) {
 			if (selectPart.equals("0")){
 				condition += " and c.state = '0' ";
 			}
@@ -142,6 +142,9 @@ public class TestReportService extends SearchService implements
 				condition += " and c.state = '6' ";
 			}
 		}
+		if (uploader != null && !uploader.isEmpty() && !uploader.equals("")) {
+			condition += " and fileinformation.uploaderID = '" + uploader + "'";
+		}
 		List<Map<String, Object>> result = entityDao.searchWithpaging(
 				properties, baseEntity, joinEntity, null, condition, null, sort,
 				order, index, pageNum);
@@ -155,7 +158,7 @@ public class TestReportService extends SearchService implements
 	@Override
 	public Map<String, Object> getTestReporSecondtAuditWithPaging(int limit,
 			int offset, String order, String sort, String receiptlistCode,
-			String client, String reportName, String beginTime, String endTime) {
+			String client, String reportName, String beginTime, String endTime,String auditPerson) {
 		int index = limit;
 		int pageNum = offset / limit;
 		String baseEntity = " ( "
@@ -194,7 +197,8 @@ public class TestReportService extends SearchService implements
 				+ "testreport"
 				+ " LEFT JOIN task ON testreport.taskID = task.ID "
 				+ " LEFT JOIN receiptlist ON task.receiptlistID = receiptlist.ID "
-				+ " WHERE " + " testreport.state = 1 " + " ) AS a "
+				+ " WHERE " + " testreport.state = 1 AND task.levelTwo = '"
+				+ auditPerson + "'" + " ) AS a "
 				+ " LEFT JOIN contract ON a.contractID = contract.ID "
 				+ " ) AS b "
 				+ " LEFT JOIN company ON b.companyID = company.ID "
@@ -214,20 +218,20 @@ public class TestReportService extends SearchService implements
 
 		String joinEntity = " LEFT JOIN fileinformation ON c.fileID = fileinformation.ID ";
 		String condition = " 1 = 1 AND (fileInformation.state = 0 OR fileInformation.state IS NULL)";
-		if (receiptlistCode != null && !receiptlistCode.isEmpty()) {
+		if (receiptlistCode != null && !receiptlistCode.isEmpty() && !receiptlistCode.equals("")) {
 			condition += " and receiptlistCode like '%" + receiptlistCode
 					+ "%'";
 		}
-		if (client != null && !client.isEmpty()) {
+		if (client != null && !client.isEmpty()&& !client.equals("")) {
 			condition += " and companyName like '%" + client + "%'";
 		}
-		if (reportName != null && !reportName.isEmpty()) {
+		if (reportName != null && !reportName.isEmpty()&& !reportName.equals("")) {
 			condition += " and fileName like '%" + reportName + "%'";
 		}
-		if (beginTime != null && !beginTime.isEmpty()) {
+		if (beginTime != null && !beginTime.isEmpty()&& !beginTime.equals("")) {
 			condition += " and uploadTime >'" + beginTime + "'";
 		}
-		if (endTime != null && !endTime.isEmpty()) {
+		if (endTime != null && !endTime.isEmpty()&& !endTime.equals("")) {
 			condition += " and uploadTime <'" + endTime + "'";
 		}
 		List<Map<String, Object>> result = entityDao.searchWithpaging(
@@ -302,20 +306,20 @@ public class TestReportService extends SearchService implements
 
 		String joinEntity = " LEFT JOIN fileinformation ON c.fileID = fileinformation.ID ";
 		String condition = " 1 = 1  AND fileInformation.state = 0";
-		if (receiptlistCode != null && !receiptlistCode.isEmpty()) {
+		if (receiptlistCode != null && !receiptlistCode.isEmpty() && !receiptlistCode.equals("")) {
 			condition += " and receiptlistCode like '%" + receiptlistCode
 					+ "%'";
 		}
-		if (client != null && !client.isEmpty()) {
+		if (client != null && !client.isEmpty() && !client.equals("")) {
 			condition += " and companyName like '%" + client + "%'";
 		}
-		if (reportName != null && !reportName.isEmpty()) {
+		if (reportName != null && !reportName.isEmpty() && !reportName.equals("")) {
 			condition += " and fileName like '%" + reportName + "%'";
 		}
-		if (beginTime != null && !beginTime.isEmpty()) {
+		if (beginTime != null && !beginTime.isEmpty() && !beginTime.equals("")) {
 			condition += " and uploadTime >'" + beginTime + "'";
 		}
-		if (endTime != null && !endTime.isEmpty()) {
+		if (endTime != null && !endTime.isEmpty() && !endTime.equals("")) {
 			condition += " and uploadTime <'" + endTime + "'";
 		}
 		List<Map<String, Object>> result = entityDao.searchWithpaging(
@@ -329,16 +333,16 @@ public class TestReportService extends SearchService implements
 	}
 
 	public List<Map<String,Object>> getProjectName(String ID){
-		String lefjionCondition = "";
+		String filteCondition = "";
 		if (!ID.isEmpty() || ID != "" || ID != null) {
-			lefjionCondition = " WHERE task.testReportID = " + ID;
+			filteCondition = " WHERE task.testReportID = " + ID;
 		}
 		String baseEntity = " ( " + " SELECT "
 				+ "contract.fileTypeID AS fileTypeID" + " FROM " + " ( "
 				+ " SELECT " + "receiptlist.contractID AS contractID"
 				+ " FROM " + " ( " + " SELECT "
 				+ "task.receiptlistID AS receiptlistID" + " FROM " + " task "
-				+ lefjionCondition + " ) AS a"
+				+ filteCondition + " ) AS a"
 				+ " LEFT JOIN receiptlist ON a.receiptlistID = receiptlist.ID "
 				+ " )  AS b"
 				+ " LEFT JOIN contract ON b.contractID = contract.ID "

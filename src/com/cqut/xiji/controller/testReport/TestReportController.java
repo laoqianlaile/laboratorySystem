@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
@@ -45,10 +47,15 @@ public class TestReportController {
 	public JSONObject getTestReportWithPaging(int limit, int offset,
 			String order, String sort, String receiptlistCode,
 			String client, String reportName, String beginTime, String endTime,
-			String selectPart) {
+			String selectPart,HttpServletRequest req) {
+		Object session = req.getSession().getAttribute("EMPLOYEEID");
+		String uploader = "";
+		if (session != null) {
+			uploader = session.toString();
+		}
 		Map<String, Object> result = service.getTestReportWithPaging(limit,
-				offset, order, sort, receiptlistCode , client, reportName,
-				beginTime, endTime, selectPart);
+				offset, order, sort, receiptlistCode, client, reportName,
+				beginTime, endTime, selectPart, uploader);
 		return JSONObject.fromObject(result);
 	}
 
@@ -73,10 +80,15 @@ public class TestReportController {
 	public JSONObject getTestReporSecondtAuditWithPaging(int limit, int offset,
 			String order, String sort, String receiptlistCode,
 			String client, String reportName, String beginTime, String endTime,
-			String selectPart) {
+			String selectPart,HttpServletRequest req) {
+		Object session = req.getSession().getAttribute("EMPLOYEEID");
+		String auditPerson = "";
+		if (session != null) {
+			auditPerson = session.toString();
+		}
 		Map<String, Object> result = service.getTestReporSecondtAuditWithPaging(
 				limit, offset, order, sort, receiptlistCode, client,
-				reportName, beginTime, endTime);
+				reportName, beginTime, endTime,auditPerson);
 		return JSONObject.fromObject(result);
 	}
 

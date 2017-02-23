@@ -2,8 +2,13 @@ package com.cqut.xiji.service.fileEncrypt;
 
 public interface IFileEncryptService {
 
-	boolean encryptPath(String path, String iD);
+	public boolean encryptPath(String path, String iD);
 
-	String decryptPath(String path, String password);
+	public String decryptPath(String path, String password);
 
+	public boolean encryptFile(String sourcepath, String goalPanth,
+			String fileID);
+
+	public boolean decryptFile(String sourcepath, String goalPanth,
+			String fileID);
 }

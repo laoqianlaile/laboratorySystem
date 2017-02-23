@@ -33,4 +33,6 @@ public interface IFileOperateService {
  * @return
  */
 	public String setBelongtoID(String fileIDS, String belongtoID);
+	
+	public Map<String,Object> getFileDecryptPassword(String ID);
 }
