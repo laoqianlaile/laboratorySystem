@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cqut.xiji.service.fileEncrypt.FileEncryptService;
 import com.cqut.xiji.service.testReport.ITestReportService;
 
 @Controller
@@ -18,6 +19,9 @@ public class TestReportController {
 
 	@Resource(name = "testReportService")
 	ITestReportService service;
+	
+	
+	
 
 	/**
 	 * 
