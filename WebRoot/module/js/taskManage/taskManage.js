@@ -259,18 +259,20 @@ function setAuditPerson() {
 		alert('请选择一条数据');
 		return;
 	} else {
+		var employeeID = rows[0].ID;
 		$.post('taskController/updateTaskAuditPerson.do', {
 			taskID : $('#taskID').text(),
-			employeeID : rows[0].ID
+			employeeID : employeeID
 		}, function(result) {
 			if (result == true || result == 'true') {
+				refresh();
 				alert('设置审核人成功');
 			} else {
+				refresh();
 				alert('设置失败');
 			}
 		});
 		$('#taskAuditPerson').modal('hide');
-		refresh();
 	}
 }
 

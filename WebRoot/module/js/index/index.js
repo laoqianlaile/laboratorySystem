@@ -77,10 +77,10 @@ function getTree(){
 				if(result ){
 			     data =  eval (result);
 //			     console.log(data);
-			      return data;
+//			      return data;
 				}
 				else{
-					alert(result.message);
+					alert("no data ");
 					return ;
 				}
 			}
@@ -272,6 +272,6 @@ function getTree(){
  
  /* 登录跳转  */
  function login(){
-	 window.location.href = window.location.href.replace('index.jsp','login.jsp');
+	 window.location.href = "http://localhost:8080/laboratorySystem/login.jsp";
  }
  

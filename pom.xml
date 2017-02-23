@@ -115,7 +115,13 @@
 			<groupId>net.sf.jacob-project</groupId>
 			<artifactId>jacob</artifactId>
 			<version>1.18</version>
-		</dependency>		
+		</dependency>
+		<dependency>
+			<groupId>org.apache</groupId>
+			<artifactId>apache</artifactId>
+			<version>18</version>
+			<type>pom</type>
+		</dependency>
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
@@ -172,7 +178,7 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
-		
+
 		<!-- 文件查看 zhangtao -->
 		<dependency>
 			<groupId>net.sf.jacob-project</groupId>
@@ -304,7 +310,7 @@
 			<artifactId>commons-cli</artifactId>
 			<version>1.2</version>
 		</dependency>
-	
+
 		<dependency>
 			<groupId>org.openoffice</groupId>
 			<artifactId>unoil</artifactId>

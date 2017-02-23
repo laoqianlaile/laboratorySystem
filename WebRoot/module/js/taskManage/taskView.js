@@ -370,21 +370,48 @@ function setTestReportInfo() {
 }
 
 
-//提交审核
+// 提交审核
 function submitReport() {
 	if (confirm("确定要提交审核?")) {
-		$.post("taskController/submitReport.do", {
-			taskID : getUrlParam("taskID")
-		}, function(result) {
-			if (result == true || result == "true") {
-				alert("提交审核成功");
-			} else {
-				alert("当前状态不能提交审核");
-			}
+    var taskID = getUrlParam("taskID");
+    $.post("taskController/submitReport.do",
+    {
+    	taskID : taskID
+	},function(result) {
+		if (result == true || result == "true") {
+			$.post("testReportController/getReportInfo.do",
+							{
+								taskID : taskID
+							},function(result) {
+								if (result != null && result != "null") {
+									result = JSON.parse(result);
+									$.post("messageController/addReportAudiPersontMessage.do",
+													{
+														fileName : result[0].fileName
+													},function(messageID) {
+														var re = new RegExp("\"","g");
+														messageID = messageID.replace(re,"");
+														$.post("messageNoticeController/addReportAuditMessageNotice.do",
+																		{
+																			messageID : messageID,
+																			employeeID : result[0].levelTwo
+																		});
+													});
+
+								}
+							});
 			refresh();
+			alert("提交审核成功");
+		} else {
+				refresh();
+				alert("当前状态不能提交审核!请核对报告审核状态或者指定审核人");
+				}
 		});
 	}
 }
+				
+				
+
 
 // 下载
 function fileDown() {

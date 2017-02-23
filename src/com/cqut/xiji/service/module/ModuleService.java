@@ -76,7 +76,7 @@ public class ModuleService extends SearchService implements IModuleService{
 				"isEndOfModuleLevel"
 				};
 		
-		List<Map<String, Object>> allModules 	=	entityDao.findByCondition(properties, " 1 = 1 order by level0 , modulecode ", Module.class);
+		List<Map<String, Object>> allModules 	=	entityDao.findByCondition(properties, " 1 = 1 and  isShow = 1  order by level0 , modulecode ", Module.class);
 				
 		for (Map<String, Object> module : allModules) {
 			String levelString = module.get("LEVEL0").toString();
@@ -412,12 +412,7 @@ public class ModuleService extends SearchService implements IModuleService{
 		return (List<Module>) entityDao.getByID(ID, Module.class);
 	}
 
-	@Override
-	public List<Module> getModule() {
-		// TODO Auto-generated method stub
-		
-		return null;
-	}
+	
 	/**
 	 * 
 	 * 获取角色对应的模块IDs
@@ -455,12 +450,18 @@ public class ModuleService extends SearchService implements IModuleService{
 	public String getModuleNum(String condition) {
 		 int num = 0; 
 		 if(condition == null){
-			 return entityDao.getCountByCondition(" 1 = 1", Module.class)+"";
+			 return entityDao.getCountByCondition(" 1 = 1 and isShow = 1", Module.class)+"";
 		 }
 		 else  if(condition != null && !condition.equals("")){
 			 return entityDao.getCountByCondition(condition, Module.class)+"";
 		 }
 		 
 		 else return ""+num;
+	}
+
+	@Override
+	public List<Module> getModule() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
