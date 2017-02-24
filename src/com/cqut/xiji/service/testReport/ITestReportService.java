@@ -7,11 +7,11 @@ public interface ITestReportService {
 	public Map<String, Object> getTestReportWithPaging(int limit, int offset,
 			String order, String sort, String receiptlistCode, String client,
 			String reportName, String beginTime, String endTime,
-			String selectPart);
+			String selectPart, String uploader);
 
 	public Map<String, Object> getTestReporSecondtAuditWithPaging(int limit,
 			int offset, String order, String sort, String receiptlistCode,
-			String client, String reportName, String beginTime, String endTime);
+			String client, String reportName, String beginTime, String endTime,String auditPerson);
 
 	public Map<String, Object> getTestReporThirdtAuditWithPaging(int limit,
 			int offset, String order, String sort, String transitreceiptNumber,
