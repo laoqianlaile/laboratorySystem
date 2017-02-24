@@ -197,5 +197,15 @@ public class FileOperateService extends SearchService implements
 		return map;
 	}
 
+	@Override
+	public Map<String, Object> getFileDecryptPassword(String ID) {
+		Map<String, Object> passwords = baseEntityDao.findByID(new String[] {
+				"filePassword", "pathPassword" }, ID, "ID", "fileinformation");
+		if (passwords != null) {
+			return passwords;
+		} else {
+			return null;
+		}
+	}
 
 }

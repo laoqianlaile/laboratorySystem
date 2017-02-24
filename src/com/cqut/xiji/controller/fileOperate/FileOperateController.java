@@ -30,12 +30,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+
 import com.cqut.xiji.entity.fileInformation.FileInformation;
-import com.cqut.xiji.tool.fileEncrypt.FileEncrypt;
 import com.cqut.xiji.tool.util.DocConverter;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 import com.cqut.xiji.tool.util.JToolWeb;
 import com.cqut.xiji.tool.util.PropertiesTool;
+
+
+import com.cqut.xiji.service.fileEncrypt.IFileEncryptService;
 import com.cqut.xiji.service.fileOperate.IFileOperateService;
 
 @Controller
@@ -44,6 +47,9 @@ public class FileOperateController {
 	@Resource(name = "fileOperateService")
 	IFileOperateService service;
 
+	 
+	@Resource(name = "fileEncryptService")
+	IFileEncryptService fileEncryptservice;
 	/***
 	 * 
 	 * @description 获取文件列表
@@ -88,9 +94,12 @@ public class FileOperateController {
 			String filePath, String firstDirectory, String secondDirectory,
 			String thirdDirectory, int TypeNumber, String belongtoID,
 			String content, String remark) throws IOException {
-		// String UPLOADER =
-		// request.getSession().getAttribute("USERID").toString();//上传ID,从session里面取出来
-		long begin = 0;
+		String UPLOADER = (String) req.getSession().getAttribute("EMPLOYEEID");
+		if (UPLOADER != null) {
+			UPLOADER = UPLOADER.toString();// 上传ID,从session里面取出来
+		}
+
+	    long begin = 0;
 		String ID = "";// 文件ID
 		String fileName = "";// 文件名
 		String[] fileNames = null; // 文件名按"."分割后文件名的集合
@@ -147,7 +156,7 @@ public class FileOperateController {
 		fr.setPath(path);
 		fr.setRemarks(remark);
 		fr.setBelongtoID(belongtoID);
-		// fr.setUploaderID();
+	    fr.setUploaderID(UPLOADER);
 		fr.setType(TypeNumber);
 		fr.setState(0);
 		try {
@@ -156,8 +165,10 @@ public class FileOperateController {
 			e.printStackTrace();
 		}
 		service.saveFiles(fr);
-		FileEncrypt fe = new FileEncrypt();
-		fe.encryptPath(path, ID);
+		
+		
+//		fileEncryptservice.encryptPath(path, ID);
+		
 
 		return ID;
 

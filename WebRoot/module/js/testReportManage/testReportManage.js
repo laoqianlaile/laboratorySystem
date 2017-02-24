@@ -271,7 +271,7 @@ function recoverSure() {
 			}
 		});
 		$("#recoverReport").modal("hide");
-	}, 1500);
+	}, 3000);
 }
 
 // 查看检测报告
