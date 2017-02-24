@@ -231,4 +231,11 @@ public class ContractFineItemController{
 		int results = service.updContractFineItem(ID, fineItemCode, testProjectID, isOutsourcing, calculateType, number, price, hour, money,departmentID, remarks);
 		return results;
 	}
+	
+	@RequestMapping("/getContractFineItemByContractIDs")
+	@ResponseBody
+	public String getContractFineItemByContractIDs(String contractID){
+		List<Map<String,Object>> result = service.getContractFineItemByContractIDs(contractID);
+		return JSONArray.fromObject(result).toString();
+	}
 }

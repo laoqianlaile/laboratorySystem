@@ -26,6 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
   </head>
   <style>
+
 .col-md-4{
 	padding:0px;
 }  
@@ -73,6 +74,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     height: 150px;
     border-radius: 40px;
 }
+#menu{
+    background-color: rgb(232,243,249);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 101%;
+    }
 </style>
   <body>
   	<div class="container" style="width:100%;">
@@ -117,29 +124,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</div>
 					</div>
 				</div>
-				<div class="">
-					<div style="float: right;">
+				<div id= "menu" class="col-md-12 row" >
+					<div>
 						<button class="btn btn-warning" type=" button" onclick="backstep()">
 							<em class="glyphicon glyphicon-arrow-left"></em> 返回
 						</button>
 						<button class="btn btn-primary " type=" button" 
 							onclick="query()">
-							<em class="glyphicon glyphicon-refresh"></em> 查询
+							 查询
 						</button>
 						<button class="btn btn-primary "type=" button" 
 							onclick="openChooseModal()">
-							<em class="glyphicon glyphicon-refresh"></em> 新增
+							新增
 						</button>
 						<button class="btn btn-primary" type="button">
-							<em class="glyphicon glyphicon-circle-arrow-up"></em> 导入
+							 导入
 						</button>
 
 						<button class="btn btn-primary" type="button">
-							<em class="glyphicon glyphicon-circle-arrow-down"></em> 导出
+							 导出
 						</button>
-						<button class="btn btn-primary type=" button" id="refresh"
+						<button  class="btn btn-primary type=" button" id="refresh"
 							onclick="reSetRefresh()">
-							<em class="glyphicon glyphicon-refresh"></em> 刷新
+							 刷新
 						</button>
 						
 					</div>
@@ -162,8 +169,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<h4 class="modal-title">新增</h4>
 				</div>
 				<div class="modal-body" style="text-align: center;">
+					<div id ="IncomeorPayment">
+						<input  type="radio" name = "isIncomeorPayment" value = "0">收入
+						<input  type="radio" name = "isIncomeorPayment" value = "1">支出
+					</div>
+					<!-- 
 					<button type="button" class="btn btn-info" onclick="addIncome()">收入</button>
 					<button type="button" class="btn btn btn-warning" onclick="addPayMent()">支出</button>
+					 -->
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary" onclick="addIncomeorPayment()">确认</button>
 				</div>
 			</div>
 		</div>

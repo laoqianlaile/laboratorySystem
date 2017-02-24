@@ -90,12 +90,18 @@ option.form-control:hover {
 #editDraw ul:hover ,#addDraw ul:hover{
 	color:red;
 }
+#menu{
+    background-color: rgb(232,243,249);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 101%;
+}
 </style>
   <body>
   	<div class="container" style="width:100%;">
 		<div class="row">
-				<div class="">
-					<div style="float: right;">
+				<div id= "menu" class="col-md-12 row" >
+					<div>
 						<button class="btn btn-warning" type=" button" onclick="backstep()">
 							<em class="glyphicon glyphicon-arrow-left"></em> 返回
 						</button>
