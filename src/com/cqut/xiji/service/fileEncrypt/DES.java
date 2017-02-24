@@ -12,6 +12,8 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
+
+
 public class DES {
 	 private SecretKey secretKey;
 
@@ -22,12 +24,13 @@ public class DES {
 		initSecretKey(password);// 生成密匙
 	}
 
+	
 	/**
-	 * 字符串加密
+	 * 字符串加密--use this 
 	 * @param datasource byte[]
 	 * @return byte[]
 	 */
-	public byte[] encryptString(byte[] datasource) {
+	public String encryptString(String datasource) {
 		try {
 			// DES算法要求有一个可信任的随机数源
 			SecureRandom random = new SecureRandom();
@@ -37,21 +40,25 @@ public class DES {
 			cipher.init(Cipher.ENCRYPT_MODE, this.secretKey, random);
 			// 现在，获取数据并加密
 			// 正式执行加密操作
-			return cipher.doFinal(datasource);
+			
+			return new String(cipher.doFinal(datasource.getBytes("ISO-8859-1")),"ISO-8859-1");
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
 
+	
 	/**
 	 * 字符串解密
-	 * @param src byte[]
-	 * @param password String
-	 * @return byte[]
+	 * features or effect
+	 * @author wzj
+	 * @date 2017年2月23日 下午9:19:25
+	 * @param src
+	 * @return
 	 * @throws Exception
 	 */
-	public byte[] decryptString(byte[] src) throws Exception {
+	public String decryptString(String src) throws Exception {
 		// DES算法要求有一个可信任的随机数源
 		SecureRandom random = new SecureRandom();
 		// Cipher对象实际完成解密操作
@@ -59,7 +66,8 @@ public class DES {
 		// 用密匙初始化Cipher对象
 		cipher.init(Cipher.DECRYPT_MODE, this.secretKey, random);
 		// 真正开始解密操作
-		return cipher.doFinal(src);
+		
+		return  new String( cipher.doFinal(src.getBytes("ISO-8859-1")) ,"ISO-8859-1");
 	}
 	
 	/**

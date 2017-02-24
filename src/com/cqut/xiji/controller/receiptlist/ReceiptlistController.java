@@ -329,6 +329,12 @@ public class ReceiptlistController{
 		List<Map<String, Object>> result = service.getReceiptlistInfo(contractID);
 		return JSONArray.fromObject(result).toString();
 	}
+	@RequestMapping("/downloadReceiptFile")
+	@ResponseBody
+	public String downloadReceiptFile(String coID,String reID){
+		
+		return JSONArray.fromObject( service.initReceiptFile(coID,reID)).toString();
+	}
 	
 	
 }

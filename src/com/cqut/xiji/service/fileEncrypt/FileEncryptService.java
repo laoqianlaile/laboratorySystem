@@ -29,7 +29,7 @@ public class FileEncryptService   implements IFileEncryptService {
 		
 	     	String 	 pathPassword = getPassword();
 			DES des = new DES(pathPassword);
-			     byte[] result = des.encryptString(path.getBytes());
+			     String result = des.encryptString(path);
 				FileInformation  fileInformation  = entityDao.getByID(fileID, FileInformation.class);
 				fileInformation.setPath(new String(result));
 				fileInformation.setPathPassword(pathPassword);
@@ -43,9 +43,9 @@ public class FileEncryptService   implements IFileEncryptService {
 			return "";
 		}
 	  DES des = new DES(password);
-	  byte[] decryResult = new byte[1];
+	  String decryResult = "";
 		try {
-			decryResult = des.decryptString(path.getBytes());
+			decryResult = des.decryptString(path);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
