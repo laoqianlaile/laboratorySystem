@@ -3,6 +3,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
@@ -12,16 +13,23 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
+import org.apache.commons.codec.binary.Base64;
+
 
 
 public class DES {
-	 private SecretKey secretKey;
+	private SecretKey secretKey;
+	private   Base64 BASE64 = new Base64();
+	private   Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
+	private   String PREFIX = "XXXXX";
 
+	 
 	public DES(){
 	}
 	
 	public DES(String password) {
-		initSecretKey(password);// 生成密匙
+		PREFIX = password ;//字符串
+		initSecretKey(password);// 生成密匙 文件
 	}
 
 	
@@ -30,7 +38,7 @@ public class DES {
 	 * @param datasource byte[]
 	 * @return byte[]
 	 */
-	public String encryptString(String datasource) {
+	/*public String encryptString(String datasource) {
 		try {
 			// DES算法要求有一个可信任的随机数源
 			SecureRandom random = new SecureRandom();
@@ -41,14 +49,51 @@ public class DES {
 			// 现在，获取数据并加密
 			// 正式执行加密操作
 			
-			return new String(cipher.doFinal(datasource.getBytes("ISO-8859-1")),"ISO-8859-1");
+			return new String(cipher.doFinal(datasource.getBytes("ISO-8859-1")));
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 		return null;
-	}
+	}*/
+      /**
+       * 
+       * 字符串加密
+       * @author wzj
+       * @date 2017年2月24日 下午10:22:20
+       * @param source
+       * @return
+       */
+	   public  String encryptString(String source) {
+	        if (!isEmpty(source)) {
+	            new Base64();
+	            String target = PREFIX + source;
+	            byte[] bytes = BASE64.encode(target.getBytes(DEFAULT_CHARSET));
+	            return new String(bytes, DEFAULT_CHARSET);
+	        }
 
-	
+	        return source;
+	    }
+       /**
+        * 字符串解密
+        * features or effect
+        * @author wzj
+        * @date 2017年2月24日 下午10:22:38
+        * @param source
+        * @return
+        */
+	    public  String decryptString(String source) {
+	        if (!isEmpty(source)) {
+	            byte[] bytes = BASE64.decode(source.getBytes(DEFAULT_CHARSET));
+	            String target = new String(bytes, DEFAULT_CHARSET);
+	            return target.startsWith(PREFIX) ? target.substring(PREFIX.length()) : target;
+	        }
+
+	        return source;
+	    }
+	    private  boolean isEmpty(String str) {
+	        return str == null || str.length() == 0;
+	    }
+
 	/**
 	 * 字符串解密
 	 * features or effect
@@ -58,7 +103,7 @@ public class DES {
 	 * @return
 	 * @throws Exception
 	 */
-	public String decryptString(String src) throws Exception {
+	/*public String decryptString(String src) throws Exception {
 		// DES算法要求有一个可信任的随机数源
 		SecureRandom random = new SecureRandom();
 		// Cipher对象实际完成解密操作
@@ -67,9 +112,9 @@ public class DES {
 		cipher.init(Cipher.DECRYPT_MODE, this.secretKey, random);
 		// 真正开始解密操作
 		
-		return  new String( cipher.doFinal(src.getBytes("ISO-8859-1")) ,"ISO-8859-1");
+		return  new String( cipher.doFinal(src.getBytes("ISO-8859-1")) );
 	}
-	
+	*/
 	/**
 	 * 文件加密
 	 * 文件file进行加密并保存目标文件destFile中
