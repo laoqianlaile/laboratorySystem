@@ -35,7 +35,12 @@
 	width:150px;
 	display:inline-block;
 }
-	
+#menu{
+    background-color: rgb(232,243,249);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 101%;
+}
 </style>
 
 <body>
@@ -85,29 +90,29 @@
 								</select>
 							</div>
 						</div>
-						<div class="col-md-3.5 column">
-							<div style="float: right;">
+						<div id = "menu" class="col-md-3.5 column">
+							<div>
 								<button id="query" onclick="query()" class="btn btn-primary"
 									type="button">
 									<em class="glyphicon glyphicon-search"></em> 查询
 								</button>
 
-								<button class="btn btn-warning type="
+								<button class="btn btn-primary type="
 									button" data-toggle="modal" onclick="openAddmodal('upfile')">
 									<em class="glyphicon glyphicon-arrow-up"></em> 上传文件
 								</button>
 
-								<button class="btn btn-info" type="button" data-toggle="modal"
+								<button class="btn btn-primary" type="button" data-toggle="modal"
 									onclick="openAddmodal('add')">
 									<em class="glyphicon glyphicon-plus"></em> 新增标准
 								</button>
 
-								<button class="btn btn-danger type=" button" id="del"
+								<button class="btn btn-primary type=" button" id="del"
 									onclick="applyMondal()">
 									<em class="glyphicon glyphicon-trash"></em> 废弃
 								</button>
 
-								<button class="btn btn-success type=" button" id="refresh"
+								<button class="btn btn-primary type=" button" id="refresh"
 									onclick="reSetRefresh()">
 									<em class="glyphicon glyphicon-refresh"></em> 刷新
 								</button>

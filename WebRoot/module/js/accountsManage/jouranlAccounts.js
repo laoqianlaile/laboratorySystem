@@ -127,7 +127,7 @@ function init(){
 					 var a = "<img src = 'module/img/edit_icon.png'  onclick='openEditModal("+JSON.stringify(row)+")'"+" title='修改'  style='cursor:pointer;color: rgb(10, 78, 143);margin-right:8px;' />"
 					 var d = "<img src = 'module/img/delete_icon.png'   onclick='delJouranlAccounts(\""+row.jouranlAccountID+"\")'   title='删除'   style='cursor:pointer;color: rgb(10, 78, 143);margin-right:8px;'/>"
 					 if(row.isIncome === "支出"){
-						 var e = "<img src ='module/img/contractDetail_icon.png' onclick = 'viewDetailed(\""+row.jouranlAccountID+"\")' title='查看详细' style='cursor:pointer;margin-right:8px'/>"
+						 var e = "<img src ='module/img/view_icon.png' onclick = 'viewDetailed(\""+row.jouranlAccountID+"\")' title='查看详细' style='cursor:pointer;margin-right:8px'/>"
 						 return e + a + d;
 					 }
 	                
