@@ -29,6 +29,7 @@ import com.cqut.xiji.entity.sample.Sample;
 import com.cqut.xiji.entity.task.Task;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
+import com.cqut.xiji.tool.util.PropertiesTool;
 import com.cqut.xiji.tool.word.WordProcess;
 
 @Service
@@ -814,7 +815,7 @@ public class ReceiptlistService extends SearchService implements
 
 		return result;
 	}
-
+	@SuppressWarnings("static-access")
 	@Override
 	public String initReceiptFile(String coID, String reID) {
 		// TODO Auto-generated method stub
@@ -824,7 +825,7 @@ public class ReceiptlistService extends SearchService implements
 
 			try {
 				WordProcess wordProcess = new WordProcess(false);
-				String gogalPath = "E:\\liabrary\\XIJI\\testFileSources\\交接单文件.docx";
+				String gogalPath = "E:\\liabrary\\XIJI\\testFileSources\\交接单模板.docx";
 				wordProcess.openDocument(gogalPath);
 				// 获取公司信息
 				String[] properties = new String[] { 
@@ -852,8 +853,68 @@ public class ReceiptlistService extends SearchService implements
 				}
 				
 				//获取样品信息
-				
-
+				String[] properties1 = new String[] { 
+						"sample.sampleName ", 
+						"sample.factoryCode as sampleCode",
+						"sample.specifications as style",
+						"contractfineitem.price "
+						};
+			String baseEntity1 = " SELECT "
+					+ " task.ID , "
+					+ " task.sampleID ,"
+					+ " task.testProjectID "
+			        + " FROM task WHERE "
+			        + " task.receiptlistID = '"+reID+"' ) a "
+			        +" LEFT JOIN sample ON sample.ID = a.sampleID "
+			        +" LEFT JOIN contractfineitem on contractfineitem.testProjectID = a.testProjectID ";
+			List<Map<String, Object>> sampleInfo = originalSearchForeign(
+					properties1, baseEntity1, null, null, null, false);
+			for (int i = 0; i < sampleInfo.size(); i++) {
+                    wordProcess.replaceText("companyName-甲", (String)companyInfo.get(0).get("companyName"));
+                    wordProcess.replaceText("linkman-甲", (String)companyInfo.get(0).get("linkman"));
+                    wordProcess.replaceText("mobilephone-甲", (String)companyInfo.get(0).get("mobilephone"));
+                    wordProcess.replaceText("address-甲", (String)companyInfo.get(0).get("address"));
+                    wordProcess.replaceText("fax-甲", (String)companyInfo.get(0).get("fax"));
+                    wordProcess.replaceText("emailbox-甲", (String)companyInfo.get(0).get("emailbox"));
+			}
+			for (int i = 0; i < sampleInfo.size(); i++) {
+				wordProcess.addTableRow(1, 12);
+				wordProcess.putTxtToCell(1, 11, 1, "序号"+i);
+				wordProcess.putTxtToCell(1, 11, 2, "仪表名称"+i);
+				wordProcess.putTxtToCell(1, 11, 3, "规格型号3"+i);
+				wordProcess.putTxtToCell(1, 11, 4, "编号4"+i);
+				wordProcess.putTxtToCell(1, 11, 5, "虚焦指标5"+i);
+				wordProcess.putTxtToCell(1, 11, 6, "数量6"+i);
+				wordProcess.putTxtToCell(1, 11, 7, "备注"+i);
+				wordProcess.putTxtToCell(1, 11, 8, "单价"+i);
+			}
+			//填充个人公司信息
+		   /**
+		    * moban
+		    */
+			PropertiesTool pt = new PropertiesTool();
+			String ourCompanyName = pt.getSystemPram("ourCompanyName") ;
+			String ourLinkCompanyName = pt.getSystemPram("ourLinkCompanyName") ;
+			String ourCompanyAddress = pt.getSystemPram("ourCompanyAddress") ;
+			String ourAccount = pt.getSystemPram("ourAccount") ;
+			String ourAccountProxy = pt.getSystemPram("ourAccountProxy") ;
+			String ourFinancePhone = pt.getSystemPram("ourFinancePhone") ;
+			String ourEamile = pt.getSystemPram("ourEamile") ;
+			String ourFax = pt.getSystemPram("ourFax") ;
+			String ourLinkMan = pt.getSystemPram("ourLinkMan") ;
+			
+			wordProcess.replaceText("ourCompanyName", ourCompanyName);
+			wordProcess.replaceText("ourLinkCompanyName", ourLinkCompanyName);
+			wordProcess.replaceAllText("ourCompanyAddress", ourCompanyAddress);
+			wordProcess.replaceText("ourAccount", ourAccount);
+			wordProcess.replaceText("ourAccountProxy", ourAccountProxy);
+			wordProcess.replaceText("ourFinancePhone", ourFinancePhone);
+			wordProcess.replaceText("ourEamile", ourEamile);
+			wordProcess.replaceText("ourFax", ourFax);
+			wordProcess.replaceText("ourLinkMan", ourLinkMan);
+			
+			wordProcess.save(savePath);
+			wordProcess.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
