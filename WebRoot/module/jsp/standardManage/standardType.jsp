@@ -29,7 +29,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	display:inline-block;
 
 }
-	
+
+#menu{
+    background-color: rgb(232,243,249);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 101%;
+}
 </style>
   <body>
    	<body>
@@ -50,17 +56,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									onpropertychange="query()" type="text">
 							</div>
 						</div>
-						<div class="row clearfix">
-							<div class="col-md-3.5 column">
-								<div style="float: right; padding-right:"20px;">
+						<div id ="menu">
+							<div  class="col-md-3.5 column">
+								<div >
 									<button id = "query"  onclick = "query()" class="btn btn-primary" type="button">
 										<em class="glyphicon glyphicon-search"></em> 查询
 									</button>
-									<button class="btn btn-info" type="button" data-toggle="modal"
+									<button class="btn btn-primary" type="button" data-toggle="modal"
 									data-target="#addModal">
 										<em class="glyphicon glyphicon-plus"></em> 新增
 									</button>
-									<button class="btn btn-success type=" button" id="refresh"
+									<button class="btn btn-primary type=" button" id="refresh"
 									onclick="reSetRefresh()">
 										<em class="glyphicon glyphicon-refresh"></em> 刷新
 								</button>

@@ -52,7 +52,12 @@ span {
 	z-index: 2;
 	float: right;
 }
-
+#menu{
+    background-color: rgb(232,243,249);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 101%;
+}
 </style>
 
 <body>
@@ -62,7 +67,7 @@ span {
 				<div class="row clearfix">
 					<div class="col-md-12 column">
 						<div class="row clearfix">
-							<div class="col-md-3 column" style="text-align: center;">
+							<div class="col-md-3 column" >
 								<label>模板名称： </label>
 								<input id="query_templateName" name="templateName"
 									class="form-control" type="text" oninput="query()"
@@ -92,21 +97,21 @@ span {
 									<i class="glyphicon glyphicon-calendar"></i></span>
 							</div>
 						</div>
-						<div class="row clearfix">
+						<div id="menu">
 
 							<div class="col-md-3.5 column">
-								<div style="float: right;">
+								<div >
 									<button id="query" onclick="query()"
 										class="btn btn-primary" type="button">
 										<em class="glyphicon glyphicon-search"></em> 查询
 									</button>
 
-									<button class="btn btn-info" type="button" id="addmodel"
+									<button class="btn btn-primary" type="button" id="addmodel"
 										onclick="openModal()">
 										<em class="glyphicon glyphicon-plus"></em> 上传
 									</button>
 
-									<button class="btn btn-warning type=" button" id=""
+									<button class="btn btn-primary type=" button" id=""
 										onclick="">
 										<em class="glyphicon glyphicon-trash"></em> 查看
 									</button>
@@ -115,7 +120,7 @@ span {
 										<em class="glyphicon glyphicon-trash"></em> 删除
 									</button>
 
-									<button class="btn btn-success type=" button" id="refresh"
+									<button class="btn btn-primary type=" button" id="refresh"
 										onclick="reSetRefresh()">
 										<em class="glyphicon glyphicon-refresh"></em> 刷新
 									</button>

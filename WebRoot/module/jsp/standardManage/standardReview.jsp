@@ -36,7 +36,13 @@
 	width:150px;
 	display:inline-block;
 }
-	
+#menu{
+    background-color: rgb(232,243,249);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 101%;
+}
+
 </style>
 
 <body>
@@ -88,18 +94,18 @@
 								</select>
 							</div>
 						</div>
-						<div class="col-md-3.5 column">
-							<div style="float: right;">
+						<div id = "menu"class="col-md-3.5 column">
+							<div >
 								<button id="query" onclick="query()" class="btn btn-primary"
 									type="button">
 									<em class="glyphicon glyphicon-search"></em> 查询
 								</button>
 
-								<button class="btn btn-info" type="button">
+								<button class="btn btn-primary" type="button">
 									<em class="glyphicon glyphicon-plus"></em> 查看
 								</button>
 
-								<button class="btn btn-success type=" button" id="refresh"
+								<button class="btn btn-primary type=" button" id="refresh"
 									onclick="reSetRefresh()">
 									<em class="glyphicon glyphicon-refresh"></em> 刷新
 								</button>
