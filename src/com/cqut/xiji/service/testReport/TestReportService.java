@@ -100,7 +100,7 @@ public class TestReportService extends SearchService implements
 				"c.taskID AS taskID",
 				"c.fileID AS fileID",
 				"c.versionNumber AS versionNumber",
-				"IF (c.state = 0,'未提交',IF (c.state = 1,'二审核中',IF (c.state = 2,'二审未通过',IF (c.state = 3,'三审核中',IF (c.state = 4,'三审未通过',IF (c.state = 5,'审核通过',IF(c.state = 6,'`','其它'))))))) AS state",
+				"IF (c.state = 0,'未提交',IF (c.state = 1,'二审核中',IF (c.state = 2,'二审未通过',IF (c.state = 3,'三审核中',IF (c.state = 4,'三审未通过',IF (c.state = 5,'审核通过',IF(c.state = 6,'归档','其它'))))))) AS state",
 				"c.companyName AS companyName",
 				"fileinformation.fileName AS fileName",
 				"DATE_FORMAT(uploadTime,'%Y-%m-%d %H:%i:%s') AS uploadTime",
@@ -142,9 +142,7 @@ public class TestReportService extends SearchService implements
 				condition += " and c.state = '6' ";
 			}
 		}
-		if (uploader != null && !uploader.isEmpty() && !uploader.equals("")) {
-			condition += " and fileinformation.uploaderID = '" + uploader + "'";
-		}
+		condition += " and fileinformation.uploaderID = '" + uploader + "'";
 		List<Map<String, Object>> result = entityDao.searchWithpaging(
 				properties, baseEntity, joinEntity, null, condition, null, sort,
 				order, index, pageNum);
@@ -435,11 +433,11 @@ public class TestReportService extends SearchService implements
 		String baseEntity = "testreport";
 		Map<String, Object> result = baseEntityDao.findByID(new String[] { "fileID" }, ID, "ID", baseEntity);
 		if (result == null) {
-			return "null";
+			return null;
 		} else {
 			String fileID = result.get("fileID").toString();
 			if (fileID == null || fileID == "" || fileID.isEmpty()) {
-				return "null";
+				return null;
 			} else {
 				return fileID;
 			}
@@ -661,9 +659,10 @@ public class TestReportService extends SearchService implements
 	public boolean deleteCheck(String ID) {
 		String baseEntity = "testreport";
 		Map<String, Object> result = baseEntityDao.findByID(new String[] { "state" }, ID, "ID", baseEntity);
-		if (result.get("state") != null) {
+		if (result != null &&  result.size() > 0) {
 			String testState = result.get("state").toString();
-			if (testState.equals("0") || testState.equals("2") || testState.equals("4")) {
+			if (testState.equals("0") || testState.equals("2")
+					|| testState.equals("4")) {
 				return true;
 			} else {
 				return false;

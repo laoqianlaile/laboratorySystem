@@ -2,6 +2,7 @@ package com.cqut.xiji.tool.util;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -38,6 +39,8 @@ public class DocConverter {
 	private void ini(String fileString, String outPath) {
 		fileName = fileString.substring(0, fileString.lastIndexOf("."));
 		String ID = EntityIDFactory.createId();
+		System.out.println("fileString :"+fileString);
+		System.out.println("outPath :"+outPath);
 		docFile = new File(fileString);
 		pdfFile = new File(outPath + ID + ".pdf");
 		swfFile = new File(outPath + ID + ".swf");
@@ -50,7 +53,7 @@ public class DocConverter {
 			// file.delete();
 			// docFile = null;
 		} else {
-			System.out.println("不存在");
+			System.out.println("这里不存在");
 		}
 
 	}

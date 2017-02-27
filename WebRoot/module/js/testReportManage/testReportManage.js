@@ -198,11 +198,12 @@ function sendReportSure() {
 		receiveMan : receiveMan
 	}, function(result) {
 		if (result == true || result == "true") {
+			refresh();
 			alert("发送成功");
 		} else {
+			refresh();
 			alert("发送失败");
 		}
-		refresh();
 	});
 	$("#sendReport").modal("hide");
 }
@@ -234,20 +235,29 @@ function recover() {
 // 确认覆盖
 function recoverSure() {
 	var rows = $("#table").bootstrapTable('getSelections');
-	if (rows[0].fileID != "" || rows[0].fileID != " " || rows[0].fileID != undefined || rows[0].fileID != null) {
-		$.post("fileOperateController/getFilesInfo.do", {
+	if (rows[0].fileID != "" || rows[0].fileID != undefined
+			|| rows[0].fileID != null) {
+		$.post("fileOperateController/getFileDecryptPath.do", {
 			ID : rows[0].fileID
-		},function(result) {
-					result = JSON.parse(result);
-					if (result == null || result == "null") {
-						alert("没有记录");
-					} else {
-						var path = result[0].path;
-						var i = path.lastIndexOf("\\");
-						path = path.substring(i + 1, length);
-						fileUpload("#file_upload", path, result[0].type, rows[0].taskID);
+		}, function(result) {
+			if (result == null || result == "null") {
+				alert("没有记录");
+			} else {
+				result = JSON.parse(result);
+				var path = result[0].path;
+				var i = path.lastIndexOf("\\");
+				path = path.substring(i + 1, length);
+				$.post("fileOperateController/getFilesInfo.do", {
+					ID : rows[0].fileID
+				}, function(fileInfos) {
+					fileInfos = JSON.parse(fileInfos);
+					if (fileInfos != null && fileInfos != "null") {
+						fileUpload("#file_upload", path, fileInfos[0].type,
+								rows[0].taskID);
 					}
 				});
+			}
+		});
 	}
 
 	setTimeout(function() {
@@ -286,10 +296,8 @@ function checkReport() {
 		return;
 	} else {
 		var testReportID = rows[0].ID;
-		if (testReportID != null && testReportID != undefined
-				&& testReportID != "") {
-			window.location.href = "module/jsp/testReportManage/testReportView.jsp?testReportID="
-					+ testReportID;
+		if (testReportID != "") {
+			window.location.href = "module/jsp/testReportManage/testReportView.jsp?testReportID="+ testReportID;
 		}
 	}
 }
@@ -299,28 +307,26 @@ function fileDown() {
 	var keyID = arguments[0];
 	$.post("testReportController/getFileID.do", {
 		ID : keyID
-	},function(result) {
-				var re = new RegExp("\"", "g");
-				result = result.replace(re, "");
-				if (result == null || result == "null" || result == ""
-						|| result == " ") {
-					if (confirm("未找到相应文件，是否下载默认模版")) {
-						$.post("testReportController/getTemplateFileID.do", {
-							ID : keyID
-						}, function(result) {
-							result = JSON.parse(result);
-							if (result == null || result == undefined
-									|| result == "null" || result == "") {
-								alert("未找到相应模版");
-							} else {
-								downOneFile(result[0].fileID);
-							}
-						});
+	}, function(result) {
+		var re = new RegExp("\"", "g");
+		result = result.replace(re, "");
+		if (result == null || result == "null") {
+			if (confirm("未找到相应文件，是否下载默认模版")) {
+				$.post("testReportController/getTemplateFileID.do", {
+					ID : keyID
+				}, function(result) {
+					result = JSON.parse(result);
+					if (result == null || result == "null") {
+						alert("未找到相应模版");
+					} else {
+						downOneFile(result[0].fileID);
 					}
-				} else {
-					downOneFile(result);
-				}
-			});
+				});
+			}
+		} else {
+			downOneFile(result);
+		}
+	});
 }
 
 // 刷新页面

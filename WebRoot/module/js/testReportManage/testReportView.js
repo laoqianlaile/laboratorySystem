@@ -171,7 +171,7 @@ $(function() {
 					return 	"<button type='button' title='下载'  class='btn btn-default' onclick='downTestReport(\""+row.fileID+"\")'>"+
 				              "<span class='glyphicon glyphicon-download'>下载</span>"+
 					        "</button>&nbsp;"+
-					        "<button type='button' title='查看'  class='btn btn-default' onclick='onlineView(\""+row.fileID+"\")'>"+
+					        "<button type='button' title='查看'  class='btn btn-default' onclick='onlineView(\""+row.fileID+"\",\""+row.ID+"\")'>"+
 					          "<span class='glyphicon glyphicon-download'>查看</span>"+
 					        "</button>&nbsp;"+
 					        "<button type='button' title='删除'  class='btn btn-default' onclick='deleteTestReport(\""+row.fileID+"\",\""+row.ID+"\",\""+row.taskID+"\")'>"+
@@ -180,60 +180,38 @@ $(function() {
 				}
 		}]
 	});
-	
-	// 请求数据时的额外参数
-	function search(){
+		// 请求数据时的额外参数
+	function search() {
 		var searchCondition = {
 			limit : 5,
 			offset : 0,
 			sort : 'ID',
 			order : 'asc',
-			testReportID :ID
+			testReportID : ID
 		};
-	    return searchCondition;
+		return searchCondition;
 	}
-	
+
 });
 
-//下载检测报告
+// 下载检测报告
 function downTestReport() {
 	var fileID = arguments[0];
-	if (fileID != null && fileID != undefined && fileID != "" && fileID != " ") {
-		downOneFile(fileID);
-	} else {
-		alert("不可以下载");
-	}
+	downOneFile(fileID);
 }
 
 //预览检测报告
 function onlineView() {
 	var fileID = arguments[0];
-	if (fileID == null || fileID == undefined || fileID == "" || fileID == " ") {
-		alert("无法查看");
-	} else {
-		$.post("fileOperateController/getFilesInfo.do", {
-			ID : fileID
-		}, function(result) {
-			result = JSON.parse(result);
-			if (result[0].path != null && result[0].path != "null" && result[0].path != "") {
-				var path = result[0].path;
-				$.post("fileOperateController/onlinePreview.do", {
-					filePath : path
-				}, function(result) {
-					var re = new RegExp("\"", "g");
-					 result = result.replace(re,"");
-					 if (result != null && result != "null" && result != "") {
-						 window.location.href = "module/jsp/documentOnlineView.jsp";
-						 }
-					 else {
-						 alert("无法查看");
-						 }
-					 });
-				} else {
-					alert("无法查看");
-					}
-			});
+	$.post("fileOperateController/onlinePreview.do", {
+		ID : fileID
+	}, function(result) {
+		if (result != null && result != "null") {
+			window.location.href = "module/jsp/documentOnlineView.jsp";
+		} else {
+			alert("无法查看");
 		}
+	});
 }
 
 // 删除检测报告
@@ -250,12 +228,6 @@ function deleteTestReport() {
 				$.post("testReportController/deleteOtherTableInfo.do", {
 					ID : testReportID,
 					taskID : taskID
-				}, function(result) {
-					if (result == true || result == "true") {
-						alert("删除成功");
-					} else {
-						alert("删除失败");
-					}
 				});
 			} else {
 				alert("当前审核状态不能删除");
@@ -278,5 +250,6 @@ function getUrlParam(name) {
 
 // 刷新页面
 function refresh() {
-	$('#table').bootstrapTable('refresh', null);
+	$('#sampleInfoTable').bootstrapTable('refresh', null);
+	$('#testReportFile').bootstrapTable('refresh', null);
 }

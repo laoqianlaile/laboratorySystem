@@ -1,4 +1,5 @@
 package com.cqut.xiji.service.fileEncrypt;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -138,6 +139,10 @@ public class DES {
 		cis.close();
 		is.close();
 		out.close();
+		File fe = new File(file);
+		if (fe.exists()) {
+			fe.delete();
+		}
 	}
 
 	/**

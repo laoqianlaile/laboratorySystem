@@ -160,7 +160,7 @@ function checkReport() {
 		return;
 	} else {
 		var testReportID = rows[0].ID;
-		if (testReportID != null && testReportID != undefined && testReportID != "") {
+		if (testReportID != "") {
 			window.location.href = "module/jsp/testReportManage/testReportView.jsp?testReportID="
 					+ testReportID;
 		}
