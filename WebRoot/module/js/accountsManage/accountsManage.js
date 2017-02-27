@@ -81,7 +81,7 @@ function init(){
 				valign:'middle',
 				width:'20%',
 				 formatter:function(value,row,index){    
-					 var e = "<img src ='module/img/contractDetail_icon.png' onclick='viewDetailed("+row.contractID+")'  title='查看详细' style='cursor:pointer;margin-right:8px'>"
+					 var e = "<img src ='module/img/view_icon.png' onclick='viewDetailed("+row.contractID+")'  title='查看详细' style='cursor:pointer;margin-right:8px'>"
 					 var a = "<img src ='module/img/edit_icon.png' onclick='openEditModal("+JSON.stringify(row)+")' title='修改' style='cursor:pointer;margin-right:8px;' />"
 					 var d = "<img src ='module/img/delete_icon.png' onclick='delAccounts(\""+row.accountsID+"\")' title='删除' style='cursor:pointer;margin-right:8px;' />"
 	                 return e+a+d;

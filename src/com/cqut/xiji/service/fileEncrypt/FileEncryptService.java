@@ -23,6 +23,7 @@ public class FileEncryptService implements IFileEncryptService {
 				|| fileID.equals("")) {
 			return false;
 		}
+<<<<<<< HEAD
 		
 	     	String 	 pathPassword = getPassword();
 			DES des = new DES(pathPassword);
@@ -38,6 +39,21 @@ public class FileEncryptService implements IFileEncryptService {
 		
 
 		
+=======
+
+
+		String pathPassword = getPassword();
+		DES des = new DES(pathPassword);
+		String result = des.encryptString(path);
+		FileInformation fileInformation = entityDao.getByID(fileID,
+				FileInformation.class);
+		fileInformation.setPath(new String(result));
+		fileInformation.setPathPassword(pathPassword);
+
+		return entityDao.updatePropByID(fileInformation, fileID) == 1 ? true
+				: false;
+
+>>>>>>> ceb91687b77b511eb7caf08b8d9b7c12e319d928
 	}
 
 	@Override
@@ -45,9 +61,16 @@ public class FileEncryptService implements IFileEncryptService {
 		if (path == null || path.equals("")) {
 			return "";
 		}
+<<<<<<< HEAD
 	  DES des = new DES(password);
 	  String decryResult = "";
 		
+=======
+
+	  DES des = new DES(password);
+	  String decryResult = "";
+
+>>>>>>> ceb91687b77b511eb7caf08b8d9b7c12e319d928
 		try {
 			decryResult = des.decryptString(path);
 		} catch (Exception e1) {
