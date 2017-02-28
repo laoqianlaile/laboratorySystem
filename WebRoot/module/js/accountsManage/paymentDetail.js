@@ -148,8 +148,8 @@ function init(){
 				valign:'middle',
 				width:'20%',
 				 formatter:function(value,row,index){    
-	                 var a = "<button  onclick='openEditModal("+JSON.stringify(row)+")'"+" title='修改'  class='glyphicon glyphicon-edit' style='cursor:pointer;color: rgb(10, 78, 143);margin-right:8px;'></button>";
-	                 var d = "<button  onclick='delPaymentDetail(\""+row.paymentdetailID+"\")' data-toggle='tooltip'  title='删除'  class='glyphicon glyphicon-remove-sign' style='color: rgb(10, 78, 143);margin-right:8px;'></button>";
+					 var a = "<img src ='module/img/edit_icon.png' onclick='openEditModal("+JSON.stringify(row)+")'  title='修改' style='cursor:pointer;margin-right:8px;' />"
+					 var d = "<img src ='module/img/delete_icon.png' onclick='delPaymentDetail(\""+row.paymentdetailID+"\")'  title='删除' style='cursor:pointer;margin-right:8px;' />"
 	                 return a+d;
 	             }   
 			}]// 列配置项,详情请查看 列参数 表格

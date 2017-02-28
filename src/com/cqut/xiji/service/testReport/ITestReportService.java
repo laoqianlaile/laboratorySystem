@@ -7,11 +7,11 @@ public interface ITestReportService {
 	public Map<String, Object> getTestReportWithPaging(int limit, int offset,
 			String order, String sort, String receiptlistCode, String client,
 			String reportName, String beginTime, String endTime,
-			String selectPart);
+			String selectPart, String uploader);
 
 	public Map<String, Object> getTestReporSecondtAuditWithPaging(int limit,
 			int offset, String order, String sort, String receiptlistCode,
-			String client, String reportName, String beginTime, String endTime);
+			String client, String reportName, String beginTime, String endTime,String auditPerson);
 
 	public Map<String, Object> getTestReporThirdtAuditWithPaging(int limit,
 			int offset, String order, String sort, String transitreceiptNumber,
@@ -26,9 +26,7 @@ public interface ITestReportService {
 
 	public boolean submitReportCheck(String ID);
 
-	public boolean submitReport(String ID);
-
-	public boolean setFileBelongID(String ID, String fileID);
+	public boolean submitReport(String ID, String taskID);
 
 	public String getFileID(String ID);
 
@@ -46,13 +44,15 @@ public interface ITestReportService {
 
 	public boolean deleteOtherTableInfo(String ID, String taskID);
 
-	public boolean secondPassReport(String ID);
+	public boolean secondPassReport(String ID, String taskID);
 
-	public boolean secondRejectReport(String ID, String dismissreason);
+	public boolean secondRejectReport(String ID, String taskID,
+			String dismissreason);
 
-	public boolean thirdPassReport(String ID);
+	public boolean thirdPassReport(String ID, String taskID);
 
-	public boolean thirdRejectReport(String ID, String dismissreason);
+	public boolean thirdRejectReport(String ID, String taskID,
+			String dismissreason);
 
 	public boolean setReportSendCheck(String ID);
 
@@ -64,4 +64,6 @@ public interface ITestReportService {
 			String receiveManName);
 
 	public boolean pigeonholeReport(String ID);
+
+	public List<Map<String, Object>> getReportInfo(String taskID);
 }

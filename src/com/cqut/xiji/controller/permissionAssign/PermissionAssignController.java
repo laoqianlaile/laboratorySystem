@@ -63,6 +63,7 @@ public class PermissionAssignController{
 	public String getPermissionModule(HttpServletRequest request, String level) {
 		//Object userIDObj = request.getSession().getAttribute("USERID");
 		   System.out.println("jin xin dao ctroller");
+
 		String  userIDObj = "20170220xiji";
 		String  loginName = "";
 		
@@ -74,6 +75,7 @@ public class PermissionAssignController{
 			System.out.println("未登录账号或者为注入账号");
 			System.out.println("未登录账号或者为注入账号");
 			System.out.println("=====================================");
+
 			return null;
 			
 		} else {

@@ -4,6 +4,8 @@ import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -392,16 +394,16 @@ public class TaskController{
 	
 	/**
 	 * 
-     * @discription 获取检测报告路径
+     * @discription 获取检测报告对应的文件ID
      * @author zt       
      * @created 2017-1-19 下午7:47:57     
      * @param taskID
      * @return
 	 */
-	@RequestMapping("/getReportPath")
+	@RequestMapping("/getReportFileID")
 	@ResponseBody
-	public String getReportPath(String taskID) {
-		String result = service.getReportPath(taskID);
+	public List<Map<String, Object>> getReportFileID(String taskID) {
+		List<Map<String, Object>> result = service.getReportFileID(taskID);
 		return result;
 	}
 	
@@ -440,11 +442,15 @@ public class TaskController{
 	 */
 	@RequestMapping("/downReportTemplate")
 	@ResponseBody
-	public String downReportTemplate(String taskID, String projectName) {
-		String result = service.downReportTemplate(taskID, projectName);
+	public String downReportTemplate(String taskID, String projectName,HttpServletRequest req) {
+		Object obj = req.getSession().getAttribute("EMPLOYEEID");
+		String UPLOADER = "";
+		if (obj != null) {
+			UPLOADER = (String) obj;// 上传ID,从session里面取出来
+		}
+		String result = service.downReportTemplate(taskID, projectName,UPLOADER);
 		return result;
 	}
-
 
     /**
 	 * @description 获取任务信息

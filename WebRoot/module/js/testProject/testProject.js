@@ -288,8 +288,8 @@ function init() {
 										valign : 'middle',
 										width : '10%',
 										formatter : function(value, row, index) {
-											var d = "<button  onclick='delTestProject(\""+row.testProjectID+"\")' data-toggle='tooltip' data-placement='top' title='删除'  class='glyphicon glyphicon-remove-sign' style='color: rgb(10, 78, 143);margin-right:8px;'></button>";
-											var a = "<button  onclick='openEditModal("+JSON.stringify(row)+")'"+" title='修改'  class='glyphicon glyphicon-edit' style='color: rgb(10, 78, 143);margin-right:8px;'></button>";
+											var d = "<img src ='module/img/download_icon.png' onclick='delTestProject(\""+row.testProjectID+"\")' title='删除' style='cursor:pointer;margin-right:8px;' />"
+											var a = "<img src ='module/img/edit_icon.png' onclick='openEditModal("+JSON.stringify(row)+")'  title='修改'  style='cursor:pointer;margin-right:8px;' />"
 											return  a + d;
 										}
 									} ]

@@ -79,6 +79,12 @@
 	display:inline-block;
 
 }
+#menu{
+    background-color: rgb(232,243,249);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 101%;
+}
 </style>
 <body>
 	<div class="container" style="width: 100%;">
@@ -101,26 +107,26 @@
 								</select>
 							</div>
 						</div>
-						<div class="row clearfix">
+						<div id = "menu">
 
 							<div class="col-md-3.5 column">
-								<div style="float: right;">
+								<div >
 									<button id="query" onclick="query()" class="btn btn-primary"
 										type="button">
 										<em class="glyphicon glyphicon-search"></em> 查询
 									</button>
 
-									<button class="btn btn-info" type="button" id="addmodel"
+									<button class="btn btn-primary" type="button" id="addmodel"
 										onclick="addModal()">
 										<em class="glyphicon glyphicon-plus"></em> 新增
 									</button>
 
-									<button class="btn btn-warning type=" button" id="del"
+									<button class="btn btn-primary type=" button" id="del"
 										onclick="delData()">
 										<em class="glyphicon glyphicon-trash"></em> 删除
 									</button>
 
-									<button class="btn btn-success type=" button" id="refresh"
+									<button class="btn btn-primary type=" button" id="refresh"
 										onclick="reSetRefresh()">
 										<em class="glyphicon glyphicon-refresh"></em> 刷新
 									</button>

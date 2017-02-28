@@ -216,14 +216,38 @@ function getUrlParam(name) {
 	}
 }
 
+// 设备登记
+function equipmentRegister() {
+	$.post("equipmentController/getEquipmentInfo.do",
+			function(result) {
+	                 	result = JSON.parse(result);
+						if (result != null && result != "null" ) {
+							var htmlElement = "";
+							for ( var i = 0; i < result.length; i++) {
+								htmlElement += "<div class='col-xs-4 col-md-4 col-lg-4'>"
+										+ "<input type='checkbox' name='equipment' id='equipment' value="
+										+ result[i].ID
+										+ ">"
+										+ "<label>"
+										+ result[i].equipmentInfo
+										+ "</label>"
+										+ "</div>"
+							}
+							$(".equipmentList").text("");
+							$(".equipmentList").append(htmlElement);
+						}
+					});
+	$("#equipmentInfo").modal("show");
+}
+
 //确定登记的设备
 function sure() {
 	var equipmentArray = [];
 	var ID = getUrlParam("taskID");
-	$(".equipmentList input[type=checkbox]").each(function(){
-	    if(this.checked){
-	    	equipmentArray.push($(this).val());
-	    }
+	$(".equipmentList input[type=checkbox]").each(function() {
+		if (this.checked) {
+			equipmentArray.push($(this).val());
+		}
 	});
 	$.ajax({
 		url : 'taskEquipmentController/saveTaskEquipment.do',
@@ -244,42 +268,24 @@ function sure() {
 	$("#equipmentInfo").modal("hide");
 }
 
-//设备登记
-function equipmentRegister(){
-	$.post("equipmentController/getEquipmentInfo.do",function(result){
-		result = JSON.parse(result);
-		if (result != null && result != "null" && result != "") {
-			var htmlElement = "";
-			for(var i = 0;i<result.length;i++){
-				htmlElement += "<div class='col-xs-4 col-md-4 col-lg-4'>"+
-				                 "<input type='checkbox' name='equipment' name='equipment' value="+result[i].ID+">"+
-				                 "<label>"+result[i].equipmentInfo+"</label>"+
-			                	"</div>"
-			}
-			$(".equipmentList").text("");
-			$(".equipmentList").append(htmlElement);
-		}
-	});
-	$("#equipmentInfo").modal("show");	
-}
-
-//下载报告模版
+// 下载报告模版
 function downReportTemplate() {
 	var ID = getUrlParam("taskID");
 	$.post("taskController/getProjectName.do", {
 		taskID : ID
 	}, function(result) {
-		if (result != null && result != "null" && result != "") {
+		if (result != null && result != "null") {
 			result = JSON.parse(result);
 			$.post("taskController/downReportTemplate.do", {
 				taskID : ID,
 				projectName : result[0].name
 			}, function(fileID) {
-				if (fileID != null && fileID != "null" && fileID != "") {
+				if (fileID != null && fileID != "null") {
 					var re = new RegExp("\"", "g");
 					fileID = fileID.replace(re, "");
 					downOneFile(fileID);
-				}else{
+					refresh();
+				} else {
 					alert("下载模版出错");
 				}
 			});
@@ -298,7 +304,7 @@ function uploadTestReport() {
 	}, function(result) {
 		if (result == true || result == "true") {
 			$("#uploadReport").modal("show");
-		}else{
+		} else {
 			alert("当前审核状态不可以上传报告");
 		}
 	});
@@ -312,14 +318,14 @@ function uploadSure() {
 	$.post("taskController/getProjectName.do", {
 		taskID : ID
 	}, function(result) {
-		if (result != null && result != "null" && result != "") {
+		if (result != null && result != "null") {
 			result = JSON.parse(result);
-			fileUpload("#file_upload", "", 2, ID, "项目文件", result[0].name,"报告文件", "", fileSummaryInfo);
+			fileUpload("#file_upload", "", 2, ID, "项目文件", result[0].name, "报告文件", "", fileSummaryInfo);
 			$.post("taskController/setTaskDetectState.do", {
 				taskID : ID
 			}, function(result) {
 				if (result == false || result == "false") {
-					alert("未成功设置上传的检测报报告");
+					alert("未成功上传或覆盖文件");
 				}
 			});
 		} else {
@@ -327,25 +333,23 @@ function uploadSure() {
 		}
 	});
 	setTimeout(function() {
-		setTestReportInfo(ID,remarksInfo);
+		setTestReportInfo(ID, remarksInfo);
 	}, 1500);
 }
 
 // 查看报告
 function onlineViewReport() {
-	var ID = getUrlParam("taskID");
-	$.post("taskController/getReportPath.do", {
-		taskID : ID
-	}, function(path) {
-		if (path != null && path != "null" && path != "") {
-			var re = new RegExp("\"", "g");
-			path = path.replace(re, "");
+	var taskID = getUrlParam("taskID");
+	$.post("taskController/getReportFileID.do", {
+		taskID : taskID
+	}, function(result) {
+		if (result != null && result != "null") {
+			result = JSON.parse(result);
+			var fileID = result[0].ID;
 			$.post("fileOperateController/onlinePreview.do", {
-				filePath : path
+				ID : fileID
 			}, function(result) {
-				var re = new RegExp("\"", "g");
-				result = result.replace(re, "");
-				if (result != null && result != "null" && result != "") {
+				if (result != null && result != "null") {
 					window.location.href = "module/jsp/documentOnlineView.jsp";
 				} else {
 					alert("无法查看");
@@ -357,41 +361,68 @@ function onlineViewReport() {
 	});
 }
 
-
 // 添加或更新检测报告信息
 function setTestReportInfo() {
 	$.post("taskController/setTestReportInfo.do", {
 		taskID : arguments[0],
 		remarks : arguments[1]
 	}, function(result) {
+		if (result == true || result == "true") {
+			refresh();
+			alert("上传或覆盖成功");
+		}else{
+			refresh();
+			alert("未成功上传或覆盖文件");
+		}
 	});
 	$("#uploadReport").modal("hide");
-	refresh();
 }
 
-
-//提交审核
+// 提交审核
 function submitReport() {
 	if (confirm("确定要提交审核?")) {
-		$.post("taskController/submitReport.do", {
-			taskID : getUrlParam("taskID")
-		}, function(result) {
-			if (result == true || result == "true") {
-				alert("提交审核成功");
-			} else {
-				alert("当前状态不能提交审核");
-			}
+    var taskID = getUrlParam("taskID");
+    $.post("taskController/submitReport.do",
+    {
+    	taskID : taskID
+	},function(result) {
+		if (result == true || result == "true") {
+			$.post("testReportController/getReportInfo.do",
+							{
+								taskID : taskID
+							},function(result) {
+								if (result != null && result != "null") {
+									result = JSON.parse(result);
+									$.post("messageController/addReportAudiPersontMessage.do",
+													{
+														fileName : result[0].fileName
+													},function(messageID) {
+														var re = new RegExp("\"","g");
+														messageID = messageID.replace(re,"");
+														$.post("messageNoticeController/addReportAuditMessageNotice.do",
+																		{
+																			messageID : messageID,
+																			employeeID : result[0].levelTwo
+																		});
+													});
+
+								}
+							});
 			refresh();
+			alert("提交审核成功");
+		} else {
+				refresh();
+				alert("当前状态不能提交审核!请核对报告审核状态或者指定审核人");
+				}
 		});
 	}
 }
-
+				
 // 下载
 function fileDown() {
 	var fileID = arguments[0];
-	if (fileID != null && fileID != undefined && fileID != "" && fileID != " ") {
-		downOneFile(fileID);
-	}
+	downOneFile(fileID);
+
 }
 
 //刷新

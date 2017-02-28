@@ -287,7 +287,7 @@ function getTree(){
  
  /* 登录跳转  */
  function login(){
-	 window.location.href = window.location.href.replace('index.jsp','login.jsp');
+	 window.location.href = "http://localhost:8080/laboratorySystem/login.jsp";
  }
 
 // 动态修改时间

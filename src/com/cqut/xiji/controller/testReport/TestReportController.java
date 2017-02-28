@@ -4,12 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cqut.xiji.service.fileEncrypt.FileEncryptService;
 import com.cqut.xiji.service.testReport.ITestReportService;
 
 @Controller
@@ -18,6 +21,9 @@ public class TestReportController {
 
 	@Resource(name = "testReportService")
 	ITestReportService service;
+	
+	
+	
 
 	/**
 	 * 
@@ -41,10 +47,15 @@ public class TestReportController {
 	public JSONObject getTestReportWithPaging(int limit, int offset,
 			String order, String sort, String receiptlistCode,
 			String client, String reportName, String beginTime, String endTime,
-			String selectPart) {
+			String selectPart,HttpServletRequest req) {
+		Object session = req.getSession().getAttribute("EMPLOYEEID");
+		String uploader = "";
+		if (session != null) {
+			uploader = session.toString();
+		}
 		Map<String, Object> result = service.getTestReportWithPaging(limit,
-				offset, order, sort, receiptlistCode , client, reportName,
-				beginTime, endTime, selectPart);
+				offset, order, sort, receiptlistCode, client, reportName,
+				beginTime, endTime, selectPart, uploader);
 		return JSONObject.fromObject(result);
 	}
 
@@ -69,10 +80,15 @@ public class TestReportController {
 	public JSONObject getTestReporSecondtAuditWithPaging(int limit, int offset,
 			String order, String sort, String receiptlistCode,
 			String client, String reportName, String beginTime, String endTime,
-			String selectPart) {
+			String selectPart,HttpServletRequest req) {
+		Object session = req.getSession().getAttribute("EMPLOYEEID");
+		String auditPerson = "";
+		if (session != null) {
+			auditPerson = session.toString();
+		}
 		Map<String, Object> result = service.getTestReporSecondtAuditWithPaging(
 				limit, offset, order, sort, receiptlistCode, client,
-				reportName, beginTime, endTime);
+				reportName, beginTime, endTime,auditPerson);
 		return JSONObject.fromObject(result);
 	}
 
@@ -181,25 +197,8 @@ public class TestReportController {
 	 */
 	@RequestMapping("/submitReport")
 	@ResponseBody
-	public boolean submitReport(String ID) {
-		boolean result = service.submitReport(ID);
-		return result;
-
-	}
-
-	/**
-	 * 
-	 * @discription 设置文件的belongID
-	 * @author zt
-	 * @created 2016-11-21 下午9:13:06
-	 * @param ID
-	 * @param fileID
-	 * @return
-	 */
-	@RequestMapping("/setFileBelongID")
-	@ResponseBody
-	public boolean setFileBelongID(String ID, String fileID) {
-		boolean result = service.setFileBelongID(ID, fileID);
+	public boolean submitReport(String ID,String taskID) {
+		boolean result = service.submitReport(ID,taskID);
 		return result;
 
 	}
@@ -316,8 +315,8 @@ public class TestReportController {
 	 */
 	@RequestMapping("/secondPassReport")
 	@ResponseBody
-	public boolean secondPassReport(String ID) {
-		boolean result = service.secondPassReport(ID);
+	public boolean secondPassReport(String ID,String taskID) {
+		boolean result = service.secondPassReport(ID,taskID);
 		return result;
 	}
 
@@ -332,8 +331,8 @@ public class TestReportController {
 	 */
 	@RequestMapping("/secondRejectReport")
 	@ResponseBody
-	public boolean secondRejectReport(String ID, String dismissreason) {
-		boolean result = service.secondRejectReport(ID, dismissreason);
+	public boolean secondRejectReport(String ID,String taskID, String dismissreason) {
+		boolean result = service.secondRejectReport(ID, taskID,dismissreason);
 		return result;
 	}
 
@@ -347,8 +346,8 @@ public class TestReportController {
 	 */
 	@RequestMapping("/thirdPassReport")
 	@ResponseBody
-	public boolean thirdPassReport(String ID) {
-		boolean result = service.thirdPassReport(ID);
+	public boolean thirdPassReport(String ID, String taskID) {
+		boolean result = service.thirdPassReport(ID, taskID);
 		return result;
 	}
 
@@ -363,8 +362,8 @@ public class TestReportController {
 	 */
 	@RequestMapping("/thirdRejectReport")
 	@ResponseBody
-	public boolean thirdRejectReport(String ID, String dismissreason) {
-		boolean result = service.thirdRejectReport(ID, dismissreason);
+	public boolean thirdRejectReport(String ID, String taskID, String dismissreason) {
+		boolean result = service.thirdRejectReport(ID, taskID, dismissreason);
 		return result;
 	}
 	
@@ -440,5 +439,21 @@ public class TestReportController {
 	public boolean pigeonholeReport(String ID) {
 		boolean result = service.pigeonholeReport(ID);
 		return result;
+	}
+	
+	/**
+	 * 
+	 * @discription 获取报告的名字和报告审核人的信息
+	 * @author zt
+	 * @created 2017-2-21 下午4:57:29
+	 * @param taskID
+	 * @return
+	 */
+	@RequestMapping("/getReportInfo")
+	@ResponseBody
+	public List<Map<String, Object>> getReportInfo(String taskID) {
+		List<Map<String, Object>> result = service.getReportInfo(taskID);
+		return result;
+
 	}
 }

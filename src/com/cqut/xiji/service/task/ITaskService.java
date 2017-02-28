@@ -64,12 +64,12 @@ public interface ITaskService {
 
 	public boolean setTestReportInfo(String taskID, String remarks);
 
-    public String getReportPath(String taskID);
+    public List<Map<String,Object>> getReportFileID(String taskID);
     
 	public boolean submitReport(String taskID);
 
 
-	public String downReportTemplate(String taskID, String projectName);
+	public String downReportTemplate(String taskID, String projectName, String UPLOADER); 
 
 	
 	public Map<String, Object> getTaskInfoWithPaging(int limit, int offset,

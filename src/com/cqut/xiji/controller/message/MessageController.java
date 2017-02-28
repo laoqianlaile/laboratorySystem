@@ -63,4 +63,92 @@ public class MessageController{
 		String result = service.addMessage(content, remarks);
 		return result;
 	}
+	
+	
+	/**
+	 * 
+     * @discription 新增报告二次审核通过信息
+     * @author zt       
+     * @created 2017-2-20 下午4:26:56     
+     * @return
+	 */
+	@RequestMapping("/addReportSecondAuditPassMessage")
+	@ResponseBody
+	public String addReportSecondAuditPassMessage(String fileName) {
+		String result = service.addReportSecondAuditPassMessage(fileName);
+		return result;
+	}
+	
+    /**
+     * 
+     * @discription 新增报告三次审核通过信息
+     * @author zt       
+     * @created 2017-2-20 下午4:54:12     
+     * @return
+     */
+	@RequestMapping("/addReportThirdAuditPassMessage")
+	@ResponseBody
+	public String addReportThirdAuditPassMessage(String fileName){
+		String result = service.addReportThirdAuditPassMessage(fileName);
+		return result;
+	}
+	
+	/**
+	 * 
+     * @discription 新增报告二次审核失败信息
+     * @author zt       
+     * @created 2017-2-20 下午7:55:06     
+     * @return
+	 */
+	@RequestMapping("/addReportSecondAuditRejectMessage")
+	@ResponseBody
+	public String addReportSecondAuditRejectMessage(String fileName){
+		String result = service.addReportSecondAuditRejectMessage(fileName);
+		return result;
+	}
+	
+	/**
+	 * 
+     * @discription 新增报告三次审核失败信息
+     * @author zt       
+     * @created 2017-2-20 下午7:58:12     
+     * @return
+	 */
+	@RequestMapping("/addReportThirdAuditRejectMessage")
+	@ResponseBody
+	public String addReportThirdAuditRejectMessage(String fileName){
+		String result = service.addReportThirdAuditRejectMessage(fileName);
+		return result;
+	}
+	
+	/**
+	 * 
+     * @discription 新增指定报告审核人信息
+     * @author zt       
+     * @created 2017-2-21 下午4:37:49     
+     * @param fileName
+     * @return
+	 */
+	@RequestMapping("/addReportAudiPersontMessage")
+	@ResponseBody
+	public String addReportAudiPersontMessage(String fileName){
+		String result = service.addReportAudiPersontMessage(fileName);
+		return result;
+	}
+	
+	/**
+	 * 
+     * @discription 添加报告待三审的消息
+     * @author zt       
+     * @created 2017-2-21 下午7:05:48     
+     * @param fileName
+     * @return
+	 */
+	@RequestMapping("/addWaitThirdAuditReportMessage")
+	@ResponseBody
+	public String addWaitThirdAuditReportMessage(String fileName){
+		String result = service.addWaitThirdAuditReportMessage(fileName);
+		return result;
+	}
+	
 }

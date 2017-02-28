@@ -124,10 +124,10 @@ function init(){
 				width:'10%',
 				 formatter:function(value,row,index){ 
 					 console.log(row.isIncome);
-					 var a = "<button  onclick='openEditModal("+JSON.stringify(row)+")'"+" title='修改'  class='glyphicon glyphicon-edit' style='cursor:pointer;color: rgb(10, 78, 143);margin-right:8px;'></button>";
-	                 var d = "<button  onclick='delJouranlAccounts(\""+row.jouranlAccountID+"\")' data-toggle='tooltip'  title='删除'  class='glyphicon glyphicon-remove-sign' style='color: rgb(10, 78, 143);margin-right:8px;'></button>";
+					 var a = "<img src = 'module/img/edit_icon.png'  onclick='openEditModal("+JSON.stringify(row)+")'"+" title='修改'  style='cursor:pointer;color: rgb(10, 78, 143);margin-right:8px;' />"
+					 var d = "<img src = 'module/img/delete_icon.png'   onclick='delJouranlAccounts(\""+row.jouranlAccountID+"\")'   title='删除'   style='cursor:pointer;color: rgb(10, 78, 143);margin-right:8px;'/>"
 					 if(row.isIncome === "支出"){
-						 var e = '<button  onclick="viewDetailed(\''+row.jouranlAccountID+'\')"  title="查看详细" class="glyphicon glyphicon-tasks" style="cursor:pointer;color: rgb(10, 78, 143);margin-right:8px;"></button> ';
+						 var e = "<img src ='module/img/view_icon.png' onclick = 'viewDetailed(\""+row.jouranlAccountID+"\")' title='查看详细' style='cursor:pointer;margin-right:8px'/>"
 						 return e + a + d;
 					 }
 	                
@@ -179,13 +179,19 @@ function  openChooseModal(){
 }
 
 /* 新增收入  */
-function addIncome(){
-	openAddModal("Income");
+function addIncomeorPayment(){
+	isIncomeorPayment = $('#IncomeorPayment input[name = "isIncomeorPayment"]:checked').val();
+	if(isIncomeorPayment == 0){
+		openAddModal("Income");
+	}
+	else{
+		openAddModal("PayMent");
+	}
 }
 
 /* 新增支出 */
 function addPayMent(){
-	openAddModal("PayMent");
+	
 }
 /* 拼接合同细项  */
 function playFineItem(){

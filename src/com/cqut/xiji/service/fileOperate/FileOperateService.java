@@ -1,5 +1,6 @@
 package com.cqut.xiji.service.fileOperate;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +11,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.service.base.SearchService;
+import com.cqut.xiji.service.fileEncrypt.IFileEncryptService;
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
@@ -28,6 +30,10 @@ public class FileOperateService extends SearchService implements
 
 	@Resource(name = "baseEntityDao")
 	BaseEntityDao baseEntityDao;
+	
+
+	@Resource(name = "fileEncryptService")
+	IFileEncryptService fileEncryptservice;
 
 	@Override
 	public String getBaseEntityName() {
@@ -109,8 +115,8 @@ public class FileOperateService extends SearchService implements
 			}
 		}
 		String condition = " ID IN " + " ( " + filesids + " )";
-		result = baseEntityDao.findByCondition(new String[] { "path", "type",
-				"fileName" }, condition, "fileInformation");
+		result = baseEntityDao.findByCondition(new String[] { "ID","path", "type",
+				"fileName","pathPassword"}, condition, "fileInformation");
 		return result;
 	}
 
@@ -131,20 +137,20 @@ public class FileOperateService extends SearchService implements
 				ids += "," + IDs[i];
 			}
 		}
-		for(int i = 0 ;i < IDs.length; i++){
-			FileInformation fr =  entityDao.getByID(IDs[i],FileInformation.class);
+		for (int i = 0; i < IDs.length; i++) {
+			FileInformation fr = entityDao.getByID(IDs[i],FileInformation.class);
 			fr.setState(1);
-			if(baseEntityDao.updatePropByID(fr, IDs[i]) == 1){
+			if (baseEntityDao.updatePropByID(fr, IDs[i]) == 1) {
 				deleteSucessCount++;
-			} 
+			}
 		}
-		if(deleteSucessCount == IDs.length){
+		if (deleteSucessCount == IDs.length) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
-
 	}
+	
     /**
      * 设置文件所属ID
      * @author wzj
@@ -197,5 +203,39 @@ public class FileOperateService extends SearchService implements
 		return map;
 	}
 
-
+	@Override
+	public Map<String, Object> getFileDecryptPassword(String ID) {
+		Map<String, Object> passwords = baseEntityDao.findByID(new String[] {
+				"filePassword", "pathPassword" }, ID, "ID", "fileinformation");
+		if (passwords != null) {
+			return passwords;
+		} else {
+			return null;
+		}
+	}
+	
+	@Override
+	public List<Map<String, Object>> getFileDecryptPath(String ID){
+		Map<String, Object> fileInfo = baseEntityDao.findByID(new String[] { "pathPassword,path" }, ID, "ID","fileinformation");
+		if (fileInfo != null) {
+			String pathPassword = fileInfo.get("pathPassword").toString();
+			String path = fileInfo.get("path").toString();
+			String fileTurePath = fileEncryptservice.decryptPath(path,
+					pathPassword);
+			System.out.println("解密过后的路径  :" + fileTurePath);
+			List<Map<String, Object>> result = null;
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("path", fileTurePath);
+			result = new ArrayList<Map<String, Object>>();
+			result.add(map);
+			return result;
+		} else {
+			return null;
+		}
+		/*List<Map<String, Object>> result = null;
+		String condition = " ID IN " + " ( " + filesids + " )";
+		result = baseEntityDao.findByCondition(new String[] { "ID","path", "type",
+				"fileName","pathPassword"}, condition, "fileInformation");
+		return result;*/
+	}
 }

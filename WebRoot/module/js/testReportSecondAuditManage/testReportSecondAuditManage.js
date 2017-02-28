@@ -35,6 +35,12 @@ $(function() {
 			valign : 'middle',// 垂直居中显示
 			visible : false
 		},{
+			field : 'taskID',// 返回值名称
+			title : '任务ID',// 列名
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			visible : false
+		},{
 			field : 'receiptlistCode',// 返回值名称
 			title : '交接单号',// 列名
 			align : 'center',// 水平居中显示
@@ -96,8 +102,8 @@ $(function() {
 			valign : 'middle',// 垂直居中显示
 			width : '10%',// 宽度
 			formatter : function(value, row, index) {
-						return "<span  onclick='secondAuditPass(\""+row.ID+"\")'  title='通过审核' class='glyphicon glyphicon-ok-sign' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
-					+"<span  onclick='secondAuditReject(\""+row.ID+"\")'  title='驳回检测报告' class='glyphicon glyphicon-remove' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
+						return "<span  onclick='secondAuditPass(\""+row.ID+"\",\""+row.taskID+"\",\""+row.fileName+"\")'   title='通过审核' class='glyphicon glyphicon-ok-sign' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
+					+"<span onclick='secondAuditReject(\""+row.ID+"\",\""+row.taskID+"\",\""+row.fileName+"\")'   title='驳回检测报告' class='glyphicon glyphicon-remove' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
 					
 			}
 		}]
@@ -153,8 +159,7 @@ function checkReport() {
 		return;
 	} else {
 		var testReportID = rows[0].ID;
-		if (testReportID != null && testReportID != undefined
-				&& testReportID != "") {
+		if (testReportID != "") {
 			window.location.href = "module/jsp/testReportManage/testReportView.jsp?testReportID="
 					+ testReportID;
 		}
@@ -164,42 +169,95 @@ function checkReport() {
 // 二次审核通过
 function secondAuditPass() {
 	var keyID = arguments[0];
+	var taskID = arguments[1];
+	var fileName = arguments[2];
 	if (confirm("是否通过审核")) {
-		$.post("testReportController/secondPassReport.do", {
-			ID : keyID
-		}, function(result) {
-			if (result == true || result == "true") {
-				alert("审核通过成功");
-			} else {
-				alert("通过审核失败");
-			}
-			refresh();
-		});
-	}
+		$.post("testReportController/secondPassReport.do",
+						{
+							ID : keyID,
+							taskID : taskID
+						},
+						function(result) {
+							if (result == true || result == "true") {
+								alert("审核通过成功");
+								$.post("messageController/addReportSecondAuditPassMessage.do",
+												{
+                                                    fileName : fileName
+												},
+												function(result) {
+													var re = new RegExp("\"","g");
+													result = result.replace(re,"");
+													$.post("messageNoticeController/addReportAuditMessageNotice.do",
+																	{
+																		messageID : result,
+																		testreportID : keyID
+																	});
+												});
+								$.post("messageController/addWaitThirdAuditReportMessage.do",
+										{
+                                            fileName : fileName
+										},
+										function(result) {
+											var re = new RegExp("\"","g");
+											result = result.replace(re,"");
+											$.post("messageNoticeController/addReportThridAuditPersonMessageNotice.do",
+															{
+																messageID : result
+															});
+										});
+							} else {
+								alert("通过审核失败");
+							}
+							refresh();
+						});
+		}
 }
 
 // 二次审核驳回
 function secondAuditReject() {
 	var keyID = arguments[0];
+	var taskID = arguments[1];
+	var fileName = arguments[2];
 	$("#testReportID").text(keyID);
+	$("#taskID").text(taskID);
+	$("#fileName").text(fileName);
 	$("#secondAuditRejectModal").modal("show");
 }
 
 // 确认驳回
 function secondAuditRejectSure() {
 	var keyID = $("#testReportID").text();
-	$.post("testReportController/secondRejectReport.do", {
-		ID : $("#testReportID").text(),
-		dismissreason : $("#rejectReason").val()
-	}, function(result) {
-		if (result == true || result == "true") {
-			alert("驳回成功");
-		} else {
-			alert("驳回失败");
-		}
-	});
+	var taskID = $("#taskID").text();
+	var fileName = $("#fileName").text();
+	$.post("testReportController/secondRejectReport.do",
+					{
+						ID : keyID,
+						taskID : taskID,
+						dismissreason : $("#rejectReason").val()
+					},
+					function(result) {
+						if (result == true || result == "true") {
+							refresh();
+							alert("驳回成功");
+							$.post("messageController/addReportSecondAuditRejectMessage.do",
+											{
+												fileName : fileName
+											},
+											function(result) {
+												var re = new RegExp("\"", "g");
+												result = result.replace(re, "");
+												$.post("messageNoticeController/addReportAuditMessageNotice.do",
+																{
+																	messageID : result,
+																	testreportID : keyID
+																});
+											});
+						} else {
+							refresh();
+							alert("驳回失败");
+						}
+					});
 	$("#secondAuditRejectModal").modal("hide");
-	refresh();
 }
 
 // 刷新页面

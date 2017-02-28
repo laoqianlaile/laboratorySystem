@@ -14,15 +14,10 @@ import javax.servlet.http.HttpSession;
 
 public class LoginFilter implements Filter {
 
-	public static final String index_page = "index.jsp";
-	public static final String login_page = "login.jsp";
-
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-
-	}
-
+	public static final String index_page = "/laboratorySystem/index.jsp";
+	public static final String login_page = "/laboratorySystem/login.jsp";
+    
+	
 	@Override
 	public void doFilter(ServletRequest servletRequest,
 			ServletResponse servletResponse, FilterChain filterChain)
@@ -36,10 +31,11 @@ public class LoginFilter implements Filter {
 		// 除掉项目名称时访问页面当前路径
 		String targetURL = currentURL.substring(ctxPath.length());
 		HttpSession session = request.getSession(false);
+		
 		System.out.println("targetURL: " + targetURL + "\nctxPath: " + ctxPath
 				+ "\ncurrentURL: " + currentURL);
-		if(targetURL.indexOf("login.jsp") > 0  || targetURL.equals("/")){ //登录页面放过
-			System.out.println("the is login.jsp");
+		if(targetURL.indexOf("login.jsp") > 0  || targetURL.equals("/") ){ //登录页面放过
+		/*	System.out.println("the is login.jsp");*/
 			filterChain.doFilter(request, response); //继续下一步 ，不然这里有问题
 		}
 		else{
@@ -54,6 +50,11 @@ public class LoginFilter implements Filter {
 			}
 		}
 		
+	}
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override

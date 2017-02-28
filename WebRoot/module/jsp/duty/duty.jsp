@@ -113,12 +113,12 @@ textarea {
 					type="button">
 					<em class="glyphicon glyphicon-search"></em> 查询
 				</button>
-				<button type="button" class="btn btn-primary"
+				<button type="button" class="btn btn-primary glyphicon glyphicon-plus"
 					data-toggle="modal" data-target="#addModal">&nbsp;新增</button>
 
 				<button class="btn btn-primary" button" id="del"
 					onclick="openModal()">
-					<em class="glyphicon glyphicon-trash"></em> 修改
+					<em class="glyphicon glyphicon-pencil"></em> 修改
 				</button>
 
 				<button class="btn btn-primary" button" id="del" onclick="delData()">
