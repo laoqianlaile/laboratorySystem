@@ -4,8 +4,11 @@
 var obj ={
 		userID:"1",
 		level:2
-		
-}
+};
+
+var weeks = ['星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+	seasons = ['春季', '夏季', '秋季' , '冬季'],
+	periods = ['早上', '下午', '晚上'];
 
 var nodeId, // 节点id
 	node, // 节点
@@ -16,6 +19,19 @@ $(function(){
 	
 	// 左侧菜单点击事件
 	$(document).on('click', '.list-group-item', changeBreadCrumb);
+	
+//	$('.list-group-item').hover(
+//		function() {
+//			$(this).css('background', '#27354f');
+//		},
+//		function() {
+//			$(this).css('background', '#37475f');
+//		}
+//	);
+	
+	// 动态修改时间
+	changeDateInfo();
+	setInterval(changeDateInfo, 1000);
 });
 
 // 左侧菜单点击改变breadcrumb
@@ -88,7 +104,6 @@ function getTree(){
 		});
 	
 	return data;
-	
 }
  function initTree(){
 	
@@ -274,4 +289,37 @@ function getTree(){
  function login(){
 	 window.location.href = window.location.href.replace('index.jsp','login.jsp');
  }
+
+// 动态修改时间
+function changeDateInfo() {
+	
+	var date = new Date();
+ 
+    var year = date.getFullYear(),
+	 	month = date.getMonth() + 1,
+	 	day = date.getDate(),
+	 	hour = date.getHours(),
+	 	minute = date.getMinutes(),
+	 	second = date.getSeconds();
+   
+    hour = hour < 10 ? '0' + hour : hour;
+ 	minute = minute < 10 ? '0' + minute : minute;
+ 	second = second < 10 ? '0' + second : second;
+ 	
+ 	// 2 3 4 | 5 6 7 | 8 9 10 | 11 0 1
+ 	// 0 1 2 | 3 4 5 | 6 7 8 | 9 -2 -1
+	var week = weeks[date.getDay()];
+	var	season = seasons[Math.floor(date.getMonth() / 3)];
+	var period  = periods[Math.floor(date.getHours() / 8)];
+	 	
+    var time = period + ' ' + hour + ':' + minute + ':' + second;
+	
+	$('.year').text(year);
+	$('.month').text(month);
+	$('.day').text(day);
+	
+	$('.week').text(week);
+	$('.season').text(season);
+	$('.time').text(time);
+}
  

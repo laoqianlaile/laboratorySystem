@@ -22,17 +22,36 @@
 .contairw {
 	min-width: 1300px;
 }
-.sidebar {
-	/* width: 190px;
-	float: left;
-	height: 100%;
+
+.navbar {
+	background: url("module/img/houseBg.png") no-repeat 50%;
+}
+
+.navbar-brand {
+	positive: relative;
+}
+
+.navbar-logo {
 	position: absolute;
-	border: 1px solid #ccc;
-	border-width: 0 1px 0 0;
-	background-color: #f2f2f2; */
-	/* top: 45px; */
+	top: 25px;
+	left: 40px;
+	transform: scale(2.8);
+}
+
+.navbar-cancel {
+	float: right;
+	margin: 12px 20px 12px 0;
+}
+
+.navbar-date-info {
+	float: right;
+	margin: 13px 20px;
+}
+
+.sidebar {
     height: auto;
     position: static;
+    background: #37475f;
 }
 .sidebar:before {
     content: "";
@@ -40,9 +59,9 @@
     width: 190px;
     position: absolute;
     bottom: 0px;
-    top: 0;
+    top: 45px;
     z-index: -1;
-    background-color: #f2f2f2;
+    background-color: #37475f;
     border: 1px solid #ccc;
     border-width: 0 1px 0 0;
 }
@@ -51,24 +70,20 @@
 	padding-bottom: 0; */
 	
 }
-.sidebar-shortcuts {
-	/*  margin-top: 45px; */
-	
-}
+
 .page-header {
 	height: 50px;
 }
 .ace-settings-container {
 	top: 90px;
 }
-.treeview {
+/* .treeview {
 	margin-top: -21px;
 	margin-bottom: -20px;
-}
-.list-group {
-	margin-left: 0px;
-	padding-left: 0;
-}
+} */
+
+
+
 #navName {
 	font-size: 22px;
 }
@@ -85,7 +100,82 @@ margin-left: 5px;
 }
 .fixed-table-body #table .bs-checkbox {
 vertical-align: middle;
-}   
+}  
+
+.sidebar-header {
+	background: url("module/img/personImgBg.png");
+	background-size: cover;
+	height: 150px;
+	position: relative;
+}
+
+.sidebar-header:before {
+	position: absolute;
+	content: "";
+	background: #37475f;
+	width: 100%;
+	height: 100%;
+	line-height:10px;
+	background: 100px;
+	left: 0;
+	top: 0;
+	opacity: .5;
+}
+
+.sidebar-header .avatar {
+	text-align: center;
+	padding-top: 20px;
+}
+
+.sidebar-header .avatar img{
+	border-radius: 50%;
+	border: 3px solid #fff;
+}
+
+.sidebar-header .name {
+	display: inline-block;
+	width: 100%;
+	margin: 10px 60px;
+	color: #fff;
+}
+
+.siderbar .nav-list {
+	background: #37475f;
+	border-top: 1px solid #253347;
+}
+
+.tree {
+	padding: 0;
+}
+
+.tree:before {
+	left: -1px;
+}
+.list-group {
+	margin-left: 0;
+	padding-left: 0;
+	margin-bottom: 5px;
+}
+.list-group-item {
+	background: #37475f;
+	color: #fff;
+	border: 1px solid #253347;
+}
+
+.list-group-item:hover {
+	background: #27354a;
+}
+
+.sidebar-collapse {
+	background: #37475f;
+	border-bottom: none;
+}
+
+.sidebar-collapse:before {
+	border-top: none;
+}
+
+
 </style>
 </head>
 <body>
@@ -100,13 +190,14 @@ vertical-align: middle;
 			</script>
 			<div class="navbar-container" id="navbar-container">
 				<div class="navbar-header pull-left">
-					<a href="#" class="navbar-brand"> <small> <i
-							class="icon-leaf"></i> 西计后台管理系统
+					<a href="#" class="navbar-brand">
+						<img src="module/img/logo.png" alt="logo" height="20px" class="navbar-logo"/>
+						<img src="module/img/systemName.png" alt="systemName" height="23px" style="margin-left: 45px;"/>
 					</small>
 					</a>
 				</div>
 				<div class="navbar-header pull-right" role="navigation">
-					<ul class="nav ace-nav">
+					<ul class="nav ace-nav" style="float:right;">
 						<li class="light-blue"><a data-toggle="dropdown" href="#"
 							class="dropdown-toggle"> <img class="nav-user-photo"
 								src="assets/avatars/user.jpg" alt="Jason's Photo" /> <span
@@ -135,8 +226,21 @@ vertical-align: middle;
 							<%}%>
 						</li>
 					</ul>
-					
 					<!-- /.ace-nav -->
+					<div class="navbar-cancel">
+						<a href="#">
+							<img src="module/img/cancel_icon.png" alt="注销" />&nbsp;注销
+						</a>
+					</div>
+					<div class="navbar-date-info">
+						<span class="year"></span>年
+						<span class="month"></span>月
+						<span class="day"></span>日&nbsp;&nbsp;
+						<span class="week"></span>&nbsp;&nbsp;
+						<span class="season"></span>&nbsp;&nbsp;
+						<span class="time"></span>
+					</div>
+					
 				</div>
 				<!-- /.navbar-header -->
 			</div>
@@ -164,58 +268,20 @@ vertical-align: middle;
 						} catch (e) {
 						}
 					</script>
-					<!-- 左边菜单栏上面的图标区域 -->
-					<div class="sidebar-shortcuts" id="sidebar-shortcuts">
-						<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-							<button class="btn btn-success">
-								<i class="icon-signal"></i>
-							</button>
-							<button class="btn btn-info">
-								<i class="icon-pencil"></i>
-							</button>
-							<button class="btn btn-warning">
-								<i class="icon-users"></i>
-							</button>
-							<button class="btn btn-danger">
-								<i class="fa fa-cogs"></i>
-							</button>
+					
+					<!-- 左边菜单栏上面的头像区域 -->
+					<div class="sidebar-header" id="sidebar-header">
+						<div class="avatar">
+							<img src="module/img/person.png" alt="头像" width="80" height="80"/>
 						</div>
-						<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
-							<span class="btn btn-success"></span> <span class="btn btn-info"></span>
-							<span class="btn btn-warning"></span> <span
-								class="btn btn-danger"></span>
-						</div>
+						<span class="name">李某某<span>&nbsp;,&nbsp;您好！</span></span>
 					</div>
 					<!-- #sidebar-shortcuts -->
+					
 					<!--  左边菜单栏树-->
 					<ul class="nav nav-list">
 						<label for="tree"></label>
 						<div class="tree"></div>
-						<li><a href="module/jsp/standardManage/standardReview.jsp" target="aa"> <i
-								class="icon-text-width"></i> <span class="menu-text">
-									标准审核管理 </span>
-						</a></li>
-						<li><a href="module/jsp/standardManage/standardType.jsp"
-							target="aa"> <i class="icon-text-width"></i> <span
-								class="menu-text">标准类型管理 </span>
-						</a></li>
-						<li><a href="module/jsp/permissionAssign/permissionAssign.jsp"
-							class="dropdown-toggle" target="aa"> <i class="icon-desktop"></i>
-								<span class="menu-text">权限分配管理 </span>
-						</a></li>
-						<li><a href="module/jsp/testProject/testProject.jsp" class="dropdown-toggle"
-							target="aa"> <i class="icon-desktop"></i> <span
-								class="menu-text"> 检测项目管理 </span>
-						</a></li>
-						<li><a
-							href="module/jsp/template/template.jsp"
-							target="aa"> <i class="icon-desktop"></i> <span
-								class="menu-text">模板管理 </span>
-						</a></li>
-						<li><a href="module/jsp/accountsManage/accountsManage.jsp"
-							target="aa"> <i class="icon-desktop"></i> <span
-								class="menu-text">账目管理</span>
-						</a></li>
 					</ul>
 					<!-- 左边菜单栏下面，右藏功能 -->
 					<div class="sidebar-collapse" id="sidebar-collapse">
