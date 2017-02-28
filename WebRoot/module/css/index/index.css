@@ -4,7 +4,7 @@
 }
 
 .navbar {
-	background: url("module/img/houseBg.png") no-repeat 50%;
+	background: url("../../img/houseBg.png") no-repeat 50%;
 }
 
 .navbar-brand {
@@ -95,7 +95,7 @@ vertical-align: middle;
 }  
 
 .sidebar-header {
-	background: url("module/img/personImgBg.png");
+	background: url("../../img/personImgBg.png");
 	background-size: cover;
 	height: 150px;
 	position: relative;
