@@ -32,7 +32,7 @@ $(function(){
                
                /* frame_content.height(Math.max(mainheight,350));*/
              }
-        },1000);//每0.5秒检查一次
+        },1000);//每1秒检查一次
     });
 });
 
