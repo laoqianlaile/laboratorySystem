@@ -245,7 +245,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 		
 		String joinEntity = " left join testProject on contractFineItem.testProjectID = testProject.ID ";
 		
-		String condition = "contractFineItem.departmentID = " + ID;
+		String condition = "contractFineItem.departmentID = '" + ID + "' ";
 		
 		if(testProjectID != null && !testProjectID.equals("-1")){
 			condition += " and testProject.ID = " + testProjectID;
@@ -284,7 +284,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 		
 		String joinEntity = " left join testProject on contractFineItem.testProjectID = testProject.ID ";
 		
-		String condition = "contractFineItem.departmentID = " + ID + " group by testProject.ID";
+		String condition = "contractFineItem.departmentID = '" + ID + "' group by testProject.ID";
 		
 		List<Map<String, Object>> result = originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false);
 		

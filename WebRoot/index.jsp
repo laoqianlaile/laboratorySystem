@@ -126,7 +126,6 @@
 					<ul class="nav nav-list">
 						<label for="tree"></label>
 						<div class="tree"></div>
-	
 					</ul>
 					<!-- 左边菜单栏下面，右藏功能 -->
 					<div class="sidebar-collapse" id="sidebar-collapse">
