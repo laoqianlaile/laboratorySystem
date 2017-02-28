@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="../../css/changeACE.css" />
 <link rel="stylesheet" type="text/css" href="../../css/bootstrap-datetimepicker.css">
 <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="../../css/receiptlistManage/receiptlistManage.css">
 
 <script src="../../js/jquery-2.1.1.min.js"></script>
 <script src="../../js/bootstrap.js"></script>
@@ -23,69 +24,7 @@
 <script src="../../js/bootstrap-datetimepicker.fr.js"></script>
 
 
-<style type="text/css">
-.list-searcher {
-	min-width: 300px;
-	height: 40px;
-}
-.list-searcher input {
-	display: inline-block;
-	margin-right: 20px;
-	width: 200px;
-}
 
-.list-searcher span {
-	display: inline-block;
-	width: 90px;
-}
-
-.fixed-table-container .bs-checkbox {
-    text-align: center;
-    vertical-align: middle;
-}
-#searcherArea{
- min-width: 1300px;
-}
-.bootstrap-table{
- min-width: 1500px;
-}
-.list-searcher select {
-	display: inline-block;
-    width: 200px;
-}
-.input-group{
- margin-top: 10px;
-}
-.input-group .btn{
- margin-left: 3px;
-}
-.form-control {
-	display: inline;
-	width: 70%;
-}
-.row{
-    margin-bottom: 10px;
-    }
-  .row label {
-	width: 20%;
-	min-width: 80px;
-}  
-.timeLabelDiv{
-  float:left;
-  height: 34px;
-  min-width: 80px;
-}
-.timeLabelDiv label{
-  margin-top: 7px;
-}
-.timeChooseDiv{
- width: 70%;
- margin-top: 0px;
-}
-.input-group-addon{
-  background-color: #fff;
- } 
-</style>
 </head>
 <body>
 	
