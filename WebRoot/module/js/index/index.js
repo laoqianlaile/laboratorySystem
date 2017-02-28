@@ -20,15 +20,6 @@ $(function(){
 	// 左侧菜单点击事件
 	$(document).on('click', '.list-group-item', changeBreadCrumb);
 	
-//	$('.list-group-item').hover(
-//		function() {
-//			$(this).css('background', '#27354f');
-//		},
-//		function() {
-//			$(this).css('background', '#37475f');
-//		}
-//	);
-	
 	// 动态修改时间
 	changeDateInfo();
 	setInterval(changeDateInfo, 1000);
@@ -44,8 +35,7 @@ function changeBreadCrumb(){
 	while(node.level0 >= '1'){
 		data.push({
 			text: node.text,
-			href: node.href,
-			icon: node.icon
+			href: node.href
 		});
 		
 		node = $('.tree').treeview('getParent', node);
@@ -58,12 +48,12 @@ function changeBreadCrumb(){
 	// 动态添加breadcrumb结构
 	data.map((item, index) => {
 		if(data.length === 1){
-			html += '<li class="active"><i class="' + item.icon + '" style="padding-right:6px;"></i>' + item.text + '</li>';
+			html += '<li class="active">' + item.text + '</li>';
 		}else {
 			if(index === data.length-1)
-				html += '<li class="active"><i class="' + item.icon + '" style="padding-right:6px;"></i>' + item.text + '</li>';
+				html += '<li class="active">' + item.text + '</li>';
 			else 
-				html += '<li><i class="' + item.icon + '"></i><a href="' + item.href + '">' + item.text + '</a></li>';
+				html += '<li><a href="' + item.href + '">' + item.text + '</a></li>';
 		}
 	});
 	
