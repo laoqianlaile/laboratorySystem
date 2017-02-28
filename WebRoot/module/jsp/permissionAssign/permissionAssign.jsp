@@ -22,60 +22,10 @@
 <link href="module/css/bootstrap.css" rel="stylesheet">
 <link href="module/css/bootstrap-treeview.css" rel="stylesheet">
 <link href="module/css/glyphicons.css" rel="stylesheet">
-<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-<style type="text/css">
-.sortTree{
- min-width: 1300px;
-}
-#treeRole {
-	width: 400px; position : relative;
-	float: left;
-	margin-left: 10px;
-	margin-top: 10px;
-	height: auto;
-	overflow: auto;
-	position: relative;
-}
-
-#treeModule {
-	width: 800px;
-	position: relative;
-	float: left;
-	margin-left: 70px;
-	margin-top: 10px;
-	height: auto;
-	overflow: auto;
-}
-
-.treeview .list-group-item {
-	cursor: pointer
-}
-
-.treeview span.indent {
-	margin-left: 10px;
-	margin-right: 10px
-}
-
-.treeview span.icon {
-	width: 12px;
-	margin-right: 5px
-}
-
-.treeview .node-disabled {
-	color: silver;
-	cursor: not-allowed
-}
-
-.node-treeview-checkable {
+<link href="module/css/permissionAssign/permissionAssign.css" rel="stylesheet">
 	
-}
 
-.node-treeview-checkable:not (.node-disabled ):hover {
-	background-color: #F5F5F5;
-}
-</style>
+
 </head>
 <body>
 	<div class="sortTree">
