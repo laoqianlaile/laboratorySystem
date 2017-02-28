@@ -126,36 +126,7 @@
 					<ul class="nav nav-list">
 						<label for="tree"></label>
 						<div class="tree"></div>
-<<<<<<< HEAD
-=======
-						<!-- 
-						<li><a href="module/jsp/roleManage/roleManage.jsp" target="aa"> <i
-								class="icon-text-width"></i> <span class="menu-text">
-									角色管理 </span>
-						</a></li>
-						<li><a href="module/jsp/permissionAssign/permissionAssign.jsp"
-							target="aa"> <i class="icon-text-width"></i> <span
-								class="menu-text">权限分配</span>
-						</a></li>
-						<li><a href="module/jsp/moduleManage/moduleManage.jsp"
-							class="dropdown-toggle" target="aa"> <i class="icon-desktop"></i>
-								<span class="menu-text"> 模块管理 </span>
-						</a></li>
-						<li><a href="module/jsp/employeeManage/employeeManage.jsp" class="dropdown-toggle"
-							target="aa"> <i class="icon-desktop"></i> <span
-								class="menu-text"> 员工管理 </span>
-						</a></li>
-						<li><a
-							href="module/jsp/department/department.jsp"
-							target="aa"> <i class="icon-desktop"></i> <span
-								class="menu-text">部门管理 </span>
-						</a></li>
-						<li><a href="module/jsp/accountsManage/accountsManage.jsp"
-							target="aa"> <i class="icon-desktop"></i> <span
-								class="menu-text">账目管理</span>
-						</a></li>
-						 -->
->>>>>>> origin/master
+	
 					</ul>
 					<!-- 左边菜单栏下面，右藏功能 -->
 					<div class="sidebar-collapse" id="sidebar-collapse">
