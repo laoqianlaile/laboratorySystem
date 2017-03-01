@@ -130,9 +130,9 @@ $(function() {
 			valign : 'middle',// 垂直居中显示
 			width : "10%",// 宽度
 			formatter : function(value, row, index) {
-				return "<img src ='module/img/download_icon.png'  onclick='fileDown(\""+row.ID+"\")'  title='下载报告' class='glyphicon glyphicon-arrow-down' style='cursor:pointer;padding-right:8px;'></img> "
-				+"<img src ='module/img/edit_icon.png'  onclick='submitReport(\""+row.ID+"\",\""+row.taskID+"\")'   title='提交审核' class='glyphicon glyphicon-ok-sign' style='cursor:pointer;padding-right:8px;'></spimgan> "
-				+"<img src ='module/img/contractDetail_icon.png' onclick='showSendReportModal(\""+row.ID+"\")'  title='发送报告' class='glyphicon glyphicon-log-out' style='cursor:pointer;padding-right:8px;'></img> "
+				return "<img src ='module/img/download_icon.png'  onclick='fileDown(\""+row.ID+"\")'  title='下载报告'  style='cursor:pointer;padding-right:8px;'></img> "
+				+"<img src ='module/img/edit_icon.png'  onclick='submitReport(\""+row.ID+"\",\""+row.taskID+"\")'   title='提交审核'  style='cursor:pointer;padding-right:8px;'></spimgan> "
+				+"<img src ='module/img/contractDetail_icon.png' onclick='showSendReportModal(\""+row.ID+"\")'  title='发送报告'  style='cursor:pointer;padding-right:8px;'></img> "
 			}
 		}]
 	});
@@ -371,7 +371,7 @@ function checkData(dataObj) { // 后台数据字段为空就不会传上来
 	}
 	if (!dataObj.hasOwnProperty("taskID") || dataObj.taskID == null
 			|| dataObj.taskID == undefined) {
-		dataObj.taskID = ""; // 没有合同文件
+		dataObj.taskID = ""; 
 	}
 	if (!dataObj.hasOwnProperty("fileID") || dataObj.fileID == null
 			|| dataObj.fileID.trim() == "NULL") {
@@ -380,7 +380,12 @@ function checkData(dataObj) { // 后台数据字段为空就不会传上来
 	if (!dataObj.hasOwnProperty("versionNumber")
 			|| dataObj.versionNumber == null
 			|| dataObj.versionNumber == undefined) {
-		dataObj.versionNumber = ""; // 能编辑
+		dataObj.versionNumber = ""; 
+	}
+	if (!dataObj.hasOwnProperty("state")
+			|| dataObj.state == null
+			|| dataObj.state == undefined) {
+		dataObj.state = ""; 
 	}
 	if (!dataObj.hasOwnProperty("companyName") || dataObj.companyName == null
 			|| dataObj.companyName.trim() == "NULL") {

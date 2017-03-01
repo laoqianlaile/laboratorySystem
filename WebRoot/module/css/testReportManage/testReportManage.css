@@ -65,11 +65,6 @@
 	background-color: rgb(255, 173, 51);
 }
 
-.searchButton {
-	margin-right: 350px;
-	margin-top: 25px;
-	float: right;
-}
 
 #recoverReport textarea {
 	resize: none;
