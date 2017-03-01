@@ -16,167 +16,11 @@
 <link rel="stylesheet" href="assets/css/ace-skins.min.css" />
 <link rel="stylesheet" type="text/css" href="module/css/fontello.css" />
 <link rel="stylesheet" type="text/css" href="module/css/fontello-7275ca86/css/fontello.css" />
+<link rel="stylesheet" type="text/css" href="module/css/index/index.css" />
+
 <link href="module/css/bootstrap-treeview.css" rel="stylesheet">
 <script src="assets/js/ace-extra.min.js"></script>
-<style type="text/css">
-.contairw {
-	min-width: 1300px;
-}
 
-.navbar {
-	background: url("module/img/houseBg.png") no-repeat 50%;
-}
-
-.navbar-brand {
-	positive: relative;
-}
-
-.navbar-logo {
-	position: absolute;
-	top: 25px;
-	left: 40px;
-	transform: scale(2.8);
-}
-
-.navbar-cancel {
-	float: right;
-	margin: 12px 20px 12px 0;
-}
-
-.navbar-date-info {
-	float: right;
-	margin: 13px 20px;
-}
-
-.sidebar {
-    height: auto;
-    position: static;
-    background: #37475f;
-}
-.sidebar:before {
-    content: "";
-    display: block;
-    width: 190px;
-    position: absolute;
-    bottom: 0px;
-    top: 45px;
-    z-index: -1;
-    background-color: #37475f;
-    border: 1px solid #ccc;
-    border-width: 0 1px 0 0;
-}
-.sidebar.display {
-	/* display: block;
-	padding-bottom: 0; */
-	
-}
-
-.page-header {
-	height: 50px;
-}
-.ace-settings-container {
-	top: 90px;
-}
-/* .treeview {
-	margin-top: -21px;
-	margin-bottom: -20px;
-} */
-
-
-
-#navName {
-	font-size: 22px;
-}
-#editpwdModal .col-xs-3{
-	text-align: right;
-}
-#content_frame{
-	
-	width: 100%;
-	min-height:710px;
-}
-.col-xs-12-w{
-margin-left: 5px;
-}
-.fixed-table-body #table .bs-checkbox {
-vertical-align: middle;
-}  
-
-.sidebar-header {
-	background: url("module/img/personImgBg.png");
-	background-size: cover;
-	height: 150px;
-	position: relative;
-}
-
-.sidebar-header:before {
-	position: absolute;
-	content: "";
-	background: #37475f;
-	width: 100%;
-	height: 100%;
-	line-height:10px;
-	background: 100px;
-	left: 0;
-	top: 0;
-	opacity: .5;
-}
-
-.sidebar-header .avatar {
-	text-align: center;
-	padding-top: 20px;
-}
-
-.sidebar-header .avatar img{
-	border-radius: 50%;
-	border: 3px solid #fff;
-}
-
-.sidebar-header .name {
-	display: inline-block;
-	width: 100%;
-	margin: 10px 60px;
-	color: #fff;
-}
-
-.siderbar .nav-list {
-	background: #37475f;
-	border-top: 1px solid #253347;
-}
-
-.tree {
-	padding: 0;
-}
-
-.tree:before {
-	left: -1px;
-}
-.list-group {
-	margin-left: 0;
-	padding-left: 0;
-	margin-bottom: 5px;
-}
-.list-group-item {
-	background: #37475f;
-	color: #fff;
-	border: 1px solid #253347;
-}
-
-.list-group-item:hover {
-	background: #27354a;
-}
-
-.sidebar-collapse {
-	background: #37475f;
-	border-bottom: none;
-}
-
-.sidebar-collapse:before {
-	border-top: none;
-}
-
-
-</style>
 </head>
 <body>
 	<div class="contairw">
@@ -215,19 +59,16 @@ vertical-align: middle;
 								else{%>
 									<small>欢迎光临,</small> <%=request.getSession().getAttribute("EMPLOYEENAME")%>
 									<input type="hidden" id="LoginID" value="<%=request.getSession().getAttribute("EMPLOYEEID")%>"/>
-							</span> <i class="icon-caret-down"></i>
+							</span> <i class="fa fa-caret-down"></i>
 							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 								<li onclick = "openEditpwd()"><a> <i class="icon-cog"></i> 修改密码</a></li>
-								<li  onclick="openPersonModal()"><a href="#"> <i class="icon-user"></i> 个人资料</a></li>
-								
-								<li class="divider"></li>
-								<li onclick="exit()"><a href="#"> <i class="icon-off"></i> 退出</a></li>
+								<li onclick="openPersonModal()"><a href="#"> <i class="icon-user"></i> 个人资料</a></li>
 							</ul>
 							<%}%>
 						</li>
 					</ul>
 					<!-- /.ace-nav -->
-					<div class="navbar-cancel">
+					<div class="navbar-cancel" onclick="exit()">
 						<a href="#">
 							<img src="module/img/cancel_icon.png" alt="注销" />&nbsp;注销
 						</a>
@@ -274,7 +115,7 @@ vertical-align: middle;
 						<div class="avatar">
 							<img src="module/img/person.png" alt="头像" width="80" height="80"/>
 						</div>
-						<span class="name">李某某<span>&nbsp;,&nbsp;您好！</span></span>
+						<span class="name"><%=request.getSession().getAttribute("EMPLOYEENAME")%><span>&nbsp;,&nbsp;您好！</span></span>
 					</div>
 					<!-- #sidebar-shortcuts -->
 					
@@ -282,43 +123,13 @@ vertical-align: middle;
 					<ul class="nav nav-list">
 						<label for="tree"></label>
 						<div class="tree"></div>
-<<<<<<< HEAD
-=======
-						<!-- 
-						<li><a href="module/jsp/roleManage/roleManage.jsp" target="aa"> <i
-								class="icon-text-width"></i> <span class="menu-text">
-									角色管理 </span>
-						</a></li>
-						<li><a href="module/jsp/permissionAssign/permissionAssign.jsp"
-							target="aa"> <i class="icon-text-width"></i> <span
-								class="menu-text">权限分配</span>
-						</a></li>
-						<li><a href="module/jsp/moduleManage/moduleManage.jsp"
-							class="dropdown-toggle" target="aa"> <i class="icon-desktop"></i>
-								<span class="menu-text"> 模块管理 </span>
-						</a></li>
-						<li><a href="module/jsp/employeeManage/employeeManage.jsp" class="dropdown-toggle"
-							target="aa"> <i class="icon-desktop"></i> <span
-								class="menu-text"> 员工管理 </span>
-						</a></li>
-						<li><a
-							href="module/jsp/department/department.jsp"
-							target="aa"> <i class="icon-desktop"></i> <span
-								class="menu-text">部门管理 </span>
-						</a></li>
-						<li><a href="module/jsp/accountsManage/accountsManage.jsp"
-							target="aa"> <i class="icon-desktop"></i> <span
-								class="menu-text">账目管理</span>
-						</a></li>
-						 -->
->>>>>>> origin/master
 					</ul>
 					<!-- 左边菜单栏下面，右藏功能 -->
-					<div class="sidebar-collapse" id="sidebar-collapse">
+					<!-- <div class="sidebar-collapse" id="sidebar-collapse">
 						<i class="icon-angle-double-left"
 							data-icon1="icon-angle-double-left"
 							data-icon2="icon-angle-double-right"></i>
-					</div>
+					</div> -->
 					<script type="text/javascript">
 						try {
 							ace.settings.check('sidebar', 'collapsed')
@@ -335,6 +146,8 @@ vertical-align: middle;
 							} catch (e) {
 							}
 						</script>
+						<img src="module/img/position_icon.png" width="14" alt="position_icon" style="margin-left: 10px;"/>
+						<span>&nbsp;您的当前位置为：</span>
 						<ul class="breadcrumb">
 						</ul>
 						<div class="nav-search" id="nav-search">

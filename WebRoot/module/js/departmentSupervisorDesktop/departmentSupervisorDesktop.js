@@ -102,7 +102,7 @@ function initTable(){
 	parame.ID = departmentID;
 	
 	$('#table').bootstrapTable({
-		striped: true,// 隔行变色效果
+		striped: false,// 隔行变色效果
 		pagination: true,//在表格底部显示分页条
 		pageSize: 10,//页面数据条数
 		pageNumber:1,//首页页码
@@ -171,7 +171,7 @@ function initTable(){
 function refreshFileTable(receiptlistID){
 	$('#fileTable').bootstrapTable('destroy');
 	$('#fileTable').bootstrapTable({
-		striped: true,// 隔行变色效果
+		striped: false,// 隔行变色效果
 		pagination: true,//在表格底部显示分页条
 		pageSize: 5,//页面数据条数
 		pageNumber:1,//首页页码
@@ -232,7 +232,7 @@ function initMessageTable() {
 	var order = 1;
 	$('#messageTable').bootstrapTable({
 		//定义表格的高度height: 500,
-		striped: true,// 隔行变色效果
+		striped: false,// 隔行变色效果
 		pagination: true,//在表格底部显示分页条
 		pageSize: 10,//页面数据条数
 		pageNumber:1,//首页页码
