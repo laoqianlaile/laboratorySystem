@@ -84,3 +84,9 @@
 	width: 73%;
 	text-align: center
 }
+
+#table thead,.modal-header{
+	background-color:#364760;
+	color:#fff;
+	font-size:blod 14px;
+}

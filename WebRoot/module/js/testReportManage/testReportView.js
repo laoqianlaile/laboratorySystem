@@ -98,7 +98,10 @@ $(function() {
 		queryParamsType : "limit", // 参数格式,发送标准的RESTFul类型的参数请求
 		columns : [ {
 			checkbox : true,
-			width :"1%"// 宽度
+			width :"1%",// 宽度
+			formatter : function(value, row, index) {
+					 checkData(row);	 // 验证数据合理性
+			  }
 		},{
 			field : 'ID',// 返回值名称
 			title : '检测报告ID',// 列名
@@ -252,4 +255,50 @@ function getUrlParam(name) {
 function refresh() {
 	$('#sampleInfoTable').bootstrapTable('refresh', null);
 	$('#testReportFile').bootstrapTable('refresh', null);
+}
+
+function checkData(dataObj) {
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
+			|| dataObj.ID.trim() == "NULL") {
+		dataObj.ID = "";
+	}
+	if (!dataObj.hasOwnProperty("fileID") || dataObj.fileID == null
+			|| dataObj.fileID.trim() == "NULL") {
+		dataObj.fileID = "";
+	}
+	if (!dataObj.hasOwnProperty("versionNumber")
+			|| dataObj.versionNumber == null
+			|| dataObj.versionNumber == undefined) {
+		dataObj.versionNumber = ""; // 没有合同文件
+	}
+	if (!dataObj.hasOwnProperty("versionInformation")
+			|| dataObj.versionInformation == null
+			|| dataObj.versionInformation.trim() == "NULL") {
+		dataObj.versionInformation = "";
+	}
+	if (!dataObj.hasOwnProperty("state") || dataObj.state == null
+			|| dataObj.state == undefined) {
+		dataObj.state = ""; // 能编辑
+	}
+	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null
+			|| dataObj.remarks.trim() == "NULL") {
+		dataObj.remarks = "";
+	}
+	if (!dataObj.hasOwnProperty("taskID") || dataObj.taskID == null
+			|| dataObj.taskID.trim() == "NULL") {
+		dataObj.taskID = "";
+	}
+	if (!dataObj.hasOwnProperty("uploadTime") || dataObj.uploadTime == null
+			|| dataObj.uploadTime.trim() == "NULL") {
+		dataObj.uploadTime = "";
+	}
+	if (!dataObj.hasOwnProperty("fileName") || dataObj.fileName == null
+			|| dataObj.fileName.trim() == "NULL") {
+		dataObj.fileName = "";
+	}
+	if (!dataObj.hasOwnProperty("employeeName") || dataObj.employeeName == null
+			|| dataObj.employeeName.trim() == "NULL") {
+		dataObj.employeeName = "";
+	}
+
 }
