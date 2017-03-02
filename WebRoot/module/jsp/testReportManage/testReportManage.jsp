@@ -1,7 +1,9 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -17,13 +19,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
-<link rel="stylesheet" type="text/css"
-	href="module/css/bootstrap-table.css">
-<link rel="stylesheet" type="text/css"
-	href="module/css/bootstrap-datetimepicker.css">
+<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
+<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
 <link rel="stylesheet" type="text/css" href="module/css/uploadify.css">
-<link rel="stylesheet" type="text/css"
-	href="module/css/testReportManage/testReportManage.css">
+<link rel="stylesheet" type="text/css" href="module/css/testReportManage/testReportManage.css">
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
@@ -43,16 +42,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="col-xs-4 col-md-4 col-lg-4">
 					<label>交接单号:</label> <input type="text" name="transitreceiptNumber"
 						id="transitreceiptNumber" class="form-control"
-						aria-describedby="basic-addon1">
+						aria-describedby="basic-addon1" placeholder="请输入交接单号查找">
 				</div>
 				<div class="col-xs-4 col-md-4 col-lg-4">
 					<label>委托单位:</label> <input type="text" name="client" id="client"
-						class="form-control" aria-describedby="basic-addon1">
+						class="form-control" aria-describedby="basic-addon1"
+						placeholder="请输入委托单位查找">
 				</div>
 				<div class="col-xs-4 col-md-4 col-lg-4">
 					<label>报告名称:</label> <input type="text" name="reportName"
 						id="reportName" class="form-control"
-						aria-describedby="basic-addon1">
+						aria-describedby="basic-addon1" placeholder="请输入报告名称查找">
 				</div>
 			</div>
 
@@ -63,8 +63,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					<div class="input-group date form_datetime timeChooseDiv">
 						<input class="form-control" name="beginTime" id="beginTime"
-							size="16" type="text" value="" readonly="true"> <span
-							class="input-group-addon"><span
+							size="16" type="text" value="" readonly="true"
+							placeholder="请选择委托时间"> <span class="input-group-addon"><span
 							class="glyphicon glyphicon-remove"></span></span> <span
 							class="input-group-addon"><span
 							class="glyphicon glyphicon-calendar"></span></span>
@@ -77,8 +77,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					<div class="input-group date form_datetime timeChooseDiv">
 						<input class="form-control" name="endTime" id="endTime" size="16"
-							type="text" value="" readonly="true"> <span
-							class="input-group-addon"><span
+							type="text" value="" readonly="true" placeholder="请选择委托时间">
+						<span class="input-group-addon"><span
 							class="glyphicon glyphicon-remove"></span></span> <span
 							class="input-group-addon"><span
 							class="glyphicon glyphicon-calendar"></span></span>
@@ -100,22 +100,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 		<div class="buttonGroup">
-			<div style="text-align:center">
-				<button type="button"
-					class="btn btn-primary glyphicon glyphicon-search"
-					onclick="search()">查询</button>
+			<div>
+				<button type="button" class="btn btn-primary " onclick="search()">查询</button>
 				&nbsp;
-				<button type="button"
-					class="btn btn-primary glyphicon glyphicon-eye-open"
-					onclick="checkReport()">查看</button>
+				<button type="button" class="btn btn-primary " onclick="checkReport()">查看</button>
 				&nbsp;
-				<button type="button"
-					class="btn btn-primary glyphicon glyphicon-align-justify"
-					onclick="recoat()">合并</button>
+				<button type="button" class="btn btn-primary " onclick="recoat()">合并</button>
 				&nbsp;
-				<button type="button"
-					class="btn btn-primary glyphicon glyphicon-edit"
-					onclick="recover()">重新覆盖</button>
+				<button type="button" class="btn btn-primary " onclick="recover()">重新覆盖</button>
 			</div>
 		</div>
 	</div>

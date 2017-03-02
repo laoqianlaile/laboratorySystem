@@ -59,19 +59,16 @@
 								else{%>
 									<small>欢迎光临,</small> <%=request.getSession().getAttribute("EMPLOYEENAME")%>
 									<input type="hidden" id="LoginID" value="<%=request.getSession().getAttribute("EMPLOYEEID")%>"/>
-							</span> <i class="icon-caret-down"></i>
+							</span> <i class="fa fa-caret-down"></i>
 							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 								<li onclick = "openEditpwd()"><a> <i class="icon-cog"></i> 修改密码</a></li>
-								<li  onclick="openPersonModal()"><a href="#"> <i class="icon-user"></i> 个人资料</a></li>
-								
-								<li class="divider"></li>
-								<li onclick="exit()"><a href="#"> <i class="icon-off"></i> 退出</a></li>
+								<li onclick="openPersonModal()"><a href="#"> <i class="icon-user"></i> 个人资料</a></li>
 							</ul>
 							<%}%>
 						</li>
 					</ul>
 					<!-- /.ace-nav -->
-					<div class="navbar-cancel">
+					<div class="navbar-cancel" onclick="exit()">
 						<a href="#">
 							<img src="module/img/cancel_icon.png" alt="注销" />&nbsp;注销
 						</a>
@@ -118,7 +115,7 @@
 						<div class="avatar">
 							<img src="module/img/person.png" alt="头像" width="80" height="80"/>
 						</div>
-						<span class="name">李某某<span>&nbsp;,&nbsp;您好！</span></span>
+						<span class="name"><%=request.getSession().getAttribute("EMPLOYEENAME")%><span>&nbsp;,&nbsp;您好！</span></span>
 					</div>
 					<!-- #sidebar-shortcuts -->
 					
@@ -128,11 +125,11 @@
 						<div class="tree"></div>
 					</ul>
 					<!-- 左边菜单栏下面，右藏功能 -->
-					<div class="sidebar-collapse" id="sidebar-collapse">
+					<!-- <div class="sidebar-collapse" id="sidebar-collapse">
 						<i class="icon-angle-double-left"
 							data-icon1="icon-angle-double-left"
 							data-icon2="icon-angle-double-right"></i>
-					</div>
+					</div> -->
 					<script type="text/javascript">
 						try {
 							ace.settings.check('sidebar', 'collapsed')
@@ -149,6 +146,8 @@
 							} catch (e) {
 							}
 						</script>
+						<img src="module/img/position_icon.png" width="14" alt="position_icon" style="margin-left: 10px;"/>
+						<span>&nbsp;您的当前位置为：</span>
 						<ul class="breadcrumb">
 						</ul>
 						<div class="nav-search" id="nav-search">

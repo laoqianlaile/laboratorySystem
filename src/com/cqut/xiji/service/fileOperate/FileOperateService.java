@@ -215,13 +215,14 @@ public class FileOperateService extends SearchService implements
 	}
 	
 	@Override
-	public List<Map<String, Object>> getFileDecryptPath(String ID){
-		Map<String, Object> fileInfo = baseEntityDao.findByID(new String[] { "pathPassword,path" }, ID, "ID","fileinformation");
-		if (fileInfo != null) {
+	public List<Map<String, Object>> getFileDecryptPath(String ID) {
+		Map<String, Object> fileInfo = baseEntityDao.findByID(
+				new String[] { "pathPassword,path" }, ID, "ID",
+				"fileinformation");
+		if (fileInfo != null && fileInfo.size() > 0) {
 			String pathPassword = fileInfo.get("pathPassword").toString();
 			String path = fileInfo.get("path").toString();
-			String fileTurePath = fileEncryptservice.decryptPath(path,
-					pathPassword);
+			String fileTurePath = fileEncryptservice.decryptPath(path, pathPassword);
 			System.out.println("解密过后的路径  :" + fileTurePath);
 			List<Map<String, Object>> result = null;
 			Map<String, Object> map = new HashMap<String, Object>();
@@ -232,10 +233,5 @@ public class FileOperateService extends SearchService implements
 		} else {
 			return null;
 		}
-		/*List<Map<String, Object>> result = null;
-		String condition = " ID IN " + " ( " + filesids + " )";
-		result = baseEntityDao.findByCondition(new String[] { "ID","path", "type",
-				"fileName","pathPassword"}, condition, "fileInformation");
-		return result;*/
 	}
 }
