@@ -289,19 +289,19 @@ function refresh() {
 }
 
 //检查数据合理性
-function checkData(dataObj) { // 后台数据字段为空就不会传上来
+function checkData(dataObj) {
 	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
 			|| dataObj.ID.trim() == "NULL") {
 		dataObj.ID = "";
 	}
-	if (!dataObj.hasOwnProperty("taskID")
-			|| dataObj.taskID == null
+	if (!dataObj.hasOwnProperty("taskID") || dataObj.taskID == null
 			|| dataObj.taskID.trim() == "NULL") {
 		dataObj.taskID = "";
 	}
-	if (!dataObj.hasOwnProperty("receiptlistCode") || dataObj.receiptlistCode == null
+	if (!dataObj.hasOwnProperty("receiptlistCode")
+			|| dataObj.receiptlistCode == null
 			|| dataObj.receiptlistCode == undefined) {
-		dataObj.receiptlistCode = ""; // 没有合同文件
+		dataObj.receiptlistCode = "";
 	}
 	if (!dataObj.hasOwnProperty("fileID") || dataObj.fileID == null
 			|| dataObj.fileID.trim() == "NULL") {
@@ -310,7 +310,7 @@ function checkData(dataObj) { // 后台数据字段为空就不会传上来
 	if (!dataObj.hasOwnProperty("versionNumber")
 			|| dataObj.versionNumber == null
 			|| dataObj.versionNumber == undefined) {
-		dataObj.versionNumber = ""; // 能编辑
+		dataObj.versionNumber = "";
 	}
 	if (!dataObj.hasOwnProperty("state") || dataObj.state == null
 			|| dataObj.state.trim() == "NULL") {
@@ -324,15 +324,12 @@ function checkData(dataObj) { // 后台数据字段为空就不会传上来
 			|| dataObj.fileName.trim() == "NULL") {
 		dataObj.fileName = "";
 	}
-	if (!dataObj.hasOwnProperty("uploadTime")
-			|| dataObj.uploadTime == null
+	if (!dataObj.hasOwnProperty("uploadTime") || dataObj.uploadTime == null
 			|| dataObj.uploadTime.trim() == "NULL") {
 		dataObj.uploadTime = "";
 	}
-	if (!dataObj.hasOwnProperty("remarks")
-			|| dataObj.remarks == null
+	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null
 			|| dataObj.remarks.trim() == "NULL") {
 		dataObj.remarks = "";
 	}
-
 }

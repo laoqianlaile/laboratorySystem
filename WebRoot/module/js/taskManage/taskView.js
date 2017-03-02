@@ -310,7 +310,7 @@ function downReportTemplate() {
 function uploadTestReport() {
 	fileUploadInit("#file_upload");
 	var ID = getUrlParam("taskID");
-	$.post("taskController/recoverFileCheck.do", {
+	$.post("taskController/setTaskDetectState.do", {
 		taskID : ID
 	}, function(result) {
 		if (result == true || result == "true") {
@@ -436,31 +436,29 @@ function fileDown() {
 
 }
 
-//刷新
-function refresh(){
+// 刷新
+function refresh() {
 	$("#taskFile").bootstrapTable("refresh", null);
 	$("#sampleInfoTable").bootstrapTable("refresh", null);
 }
 
 //检查数据合理性
-function checkData(dataObj) { // 后台数据字段为空就不会传上来
+function checkData(dataObj) {
 	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
 			|| dataObj.ID.trim() == "NULL") {
 		dataObj.ID = "";
 	}
-	if (!dataObj.hasOwnProperty("fileName")
-			|| dataObj.fileName == null
+	if (!dataObj.hasOwnProperty("fileName") || dataObj.fileName == null
 			|| dataObj.fileName.trim() == "NULL") {
 		dataObj.fileName = "";
 	}
 	if (!dataObj.hasOwnProperty("uploadTime") || dataObj.uploadTime == null
 			|| dataObj.uploadTime == undefined) {
-		dataObj.uploadTime = ""; 
+		dataObj.uploadTime = "";
 	}
 	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null
 			|| dataObj.remarks.trim() == "NULL") {
 		dataObj.remarks = "";
 	}
-	
 
 }

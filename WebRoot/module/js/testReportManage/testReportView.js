@@ -269,7 +269,7 @@ function checkData(dataObj) {
 	if (!dataObj.hasOwnProperty("versionNumber")
 			|| dataObj.versionNumber == null
 			|| dataObj.versionNumber == undefined) {
-		dataObj.versionNumber = ""; // 没有合同文件
+		dataObj.versionNumber = ""; 
 	}
 	if (!dataObj.hasOwnProperty("versionInformation")
 			|| dataObj.versionInformation == null
@@ -278,7 +278,7 @@ function checkData(dataObj) {
 	}
 	if (!dataObj.hasOwnProperty("state") || dataObj.state == null
 			|| dataObj.state == undefined) {
-		dataObj.state = ""; // 能编辑
+		dataObj.state = ""; 
 	}
 	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null
 			|| dataObj.remarks.trim() == "NULL") {
@@ -300,5 +300,4 @@ function checkData(dataObj) {
 			|| dataObj.employeeName.trim() == "NULL") {
 		dataObj.employeeName = "";
 	}
-
 }

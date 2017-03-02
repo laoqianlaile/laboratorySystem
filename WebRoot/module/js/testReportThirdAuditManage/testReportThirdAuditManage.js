@@ -262,7 +262,7 @@ function thirdAuditRejectSure() {
 }
 
 //检查数据合理性
-function checkData(dataObj) { // 后台数据字段为空就不会传上来
+function checkData(dataObj) {
 	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
 			|| dataObj.ID.trim() == "NULL") {
 		dataObj.ID = "";
@@ -274,7 +274,7 @@ function checkData(dataObj) { // 后台数据字段为空就不会传上来
 	if (!dataObj.hasOwnProperty("receiptlistCode")
 			|| dataObj.receiptlistCode == null
 			|| dataObj.receiptlistCode == undefined) {
-		dataObj.receiptlistCode = ""; // 没有合同文件
+		dataObj.receiptlistCode = "";
 	}
 	if (!dataObj.hasOwnProperty("fileID") || dataObj.fileID == null
 			|| dataObj.fileID.trim() == "NULL") {
@@ -283,7 +283,7 @@ function checkData(dataObj) { // 后台数据字段为空就不会传上来
 	if (!dataObj.hasOwnProperty("versionNumber")
 			|| dataObj.versionNumber == null
 			|| dataObj.versionNumber == undefined) {
-		dataObj.versionNumber = ""; // 能编辑
+		dataObj.versionNumber = "";
 	}
 	if (!dataObj.hasOwnProperty("companyName") || dataObj.companyName == null
 			|| dataObj.companyName.trim() == "NULL") {

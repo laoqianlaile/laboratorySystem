@@ -315,19 +315,18 @@ function refresh() {
 }
 
 //检查数据合理性
-function checkData(dataObj) { // 后台数据字段为空就不会传上来
+function checkData(dataObj) {
 	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
 			|| dataObj.ID.trim() == "NULL") {
 		dataObj.ID = "";
 	}
-	if (!dataObj.hasOwnProperty("startTime")
-			|| dataObj.startTime == null
+	if (!dataObj.hasOwnProperty("startTime") || dataObj.startTime == null
 			|| dataObj.startTime.trim() == "NULL") {
 		dataObj.startTime = "";
 	}
 	if (!dataObj.hasOwnProperty("endTime") || dataObj.endTime == null
 			|| dataObj.endTime == undefined) {
-		dataObj.endTime = ""; 
+		dataObj.endTime = "";
 	}
 	if (!dataObj.hasOwnProperty("detectstate") || dataObj.detectstate == null
 			|| dataObj.detectstate.trim() == "NULL") {
@@ -336,12 +335,12 @@ function checkData(dataObj) { // 后台数据字段为空就不会传上来
 	if (!dataObj.hasOwnProperty("receiptlistCode")
 			|| dataObj.receiptlistCode == null
 			|| dataObj.receiptlistCode == undefined) {
-		dataObj.receiptlistCode = ""; 
+		dataObj.receiptlistCode = "";
 	}
 	if (!dataObj.hasOwnProperty("testProjectName")
 			|| dataObj.testProjectName == null
 			|| dataObj.testProjectName == undefined) {
-		dataObj.testProjectName = ""; 
+		dataObj.testProjectName = "";
 	}
 	if (!dataObj.hasOwnProperty("sampleName") || dataObj.sampleName == null
 			|| dataObj.sampleName.trim() == "NULL") {
@@ -355,10 +354,8 @@ function checkData(dataObj) { // 后台数据字段为空就不会传上来
 			|| dataObj.custodian.trim() == "NULL") {
 		dataObj.custodian = "";
 	}
-	if (!dataObj.hasOwnProperty("levelTwo")
-			|| dataObj.levelTwo == null
+	if (!dataObj.hasOwnProperty("levelTwo") || dataObj.levelTwo == null
 			|| dataObj.levelTwo.trim() == "NULL") {
 		dataObj.levelTwo = "";
 	}
-
 }

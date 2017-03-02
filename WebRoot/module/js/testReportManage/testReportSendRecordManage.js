@@ -181,35 +181,34 @@ function refresh() {
 }
 
 //检查数据合理性
-function checkData(dataObj) { // 后台数据字段为空就不会传上来
+function checkData(dataObj) {
 	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
 			|| dataObj.ID.trim() == "NULL") {
 		dataObj.ID = "";
 	}
-	if (!dataObj.hasOwnProperty("fileID")
-			|| dataObj.fileID == null
+	if (!dataObj.hasOwnProperty("fileID") || dataObj.fileID == null
 			|| dataObj.fileID.trim() == "NULL") {
 		dataObj.fileID = "";
 	}
-	if (!dataObj.hasOwnProperty("versionNumber") || dataObj.versionNumber == null
+	if (!dataObj.hasOwnProperty("versionNumber")
+			|| dataObj.versionNumber == null
 			|| dataObj.versionNumber == undefined) {
-		dataObj.versionNumber = ""; 
+		dataObj.versionNumber = "";
 	}
 	if (!dataObj.hasOwnProperty("sendTime") || dataObj.sendTime == null
 			|| dataObj.sendTime.trim() == "NULL") {
 		dataObj.sendTime = "";
 	}
-	if (!dataObj.hasOwnProperty("receiveMan")
-			|| dataObj.receiveMan == null
+	if (!dataObj.hasOwnProperty("receiveMan") || dataObj.receiveMan == null
 			|| dataObj.receiveMan == undefined) {
-		dataObj.receiveMan = ""; 
+		dataObj.receiveMan = "";
 	}
-	if (!dataObj.hasOwnProperty("sendMan")
-			|| dataObj.sendMan == null
+	if (!dataObj.hasOwnProperty("sendMan") || dataObj.sendMan == null
 			|| dataObj.sendMan == undefined) {
-		dataObj.sendMan = ""; 
+		dataObj.sendMan = "";
 	}
-	if (!dataObj.hasOwnProperty("receiptlistCode") || dataObj.receiptlistCode == null
+	if (!dataObj.hasOwnProperty("receiptlistCode")
+			|| dataObj.receiptlistCode == null
 			|| dataObj.receiptlistCode.trim() == "NULL") {
 		dataObj.receiptlistCode = "";
 	}
