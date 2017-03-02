@@ -28,7 +28,7 @@ $(function() {
 	});
 	
 	$("#sampleInfoTable").bootstrapTable({
-		striped : true,// 隔行变色效果
+		striped : false,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
      	pageSize : 5,// 页面数据条数
 		pageNumber : 1,// 首页页码
@@ -129,7 +129,7 @@ $(function() {
 	
 	// 得到任务对应文件的信息
 	$("#taskFile").bootstrapTable({
-		striped : true,// 隔行变色效果
+		striped : false,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
      	pageSize : 5,// 页面数据条数
 		pageNumber : 1,// 首页页码
@@ -152,7 +152,19 @@ $(function() {
 		queryParamsType : "limit", // 参数格式,发送标准的RESTFul类型的参数请求
 		columns : [ {
 			checkbox : true,
-			width :"1%"// 宽度
+			width :"1%",// 宽度
+			formatter : function(value, row, index) {
+				 checkData(row);	 // 验证数据合理性
+		  }
+		},{
+			field: '',
+	        title: '序号',
+	        width:'1%',
+	        align:'center',
+	        valign:'middle',
+	        formatter: function (value, row, index) {
+	              return index+1;
+	        }
 		},{
 			field : 'ID',// 返回值名称
 			title : '文件ID',// 列名
@@ -165,7 +177,7 @@ $(function() {
 			title : '文件名',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '25%'// 宽度
+			width : '24%'// 宽度
 		}, {
 			field : 'uploadTime',// 返回值名称
 			title : '上传时间',// 列名
@@ -184,9 +196,8 @@ $(function() {
 			valign : 'middle',// 垂直居中显示
 			width : "10%",// 宽度
 			formatter : function(value, row, index) {
-					return 	"<button type='button' title='下载'   class='btn btn-default' onclick='fileDown(\""+row.ID+"\")'>"+
-				   "<span class='glyphicon glyphicon-download'>下载</span>"+
-					"</button>"
+					return 	"<img src ='module/img/download_icon.png' title='下载'  onclick='fileDown(\""+row.ID+"\")' style='cursor:pointer;'>"+ 
+					"</img>"
 				}
 		}]
 	});
@@ -299,7 +310,7 @@ function downReportTemplate() {
 function uploadTestReport() {
 	fileUploadInit("#file_upload");
 	var ID = getUrlParam("taskID");
-	$.post("taskController/recoverFileCheck.do", {
+	$.post("taskController/setTaskDetectState.do", {
 		taskID : ID
 	}, function(result) {
 		if (result == true || result == "true") {
@@ -425,8 +436,29 @@ function fileDown() {
 
 }
 
-//刷新
-function refresh(){
+// 刷新
+function refresh() {
 	$("#taskFile").bootstrapTable("refresh", null);
 	$("#sampleInfoTable").bootstrapTable("refresh", null);
+}
+
+//检查数据合理性
+function checkData(dataObj) {
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
+			|| dataObj.ID.trim() == "NULL") {
+		dataObj.ID = "";
+	}
+	if (!dataObj.hasOwnProperty("fileName") || dataObj.fileName == null
+			|| dataObj.fileName.trim() == "NULL") {
+		dataObj.fileName = "";
+	}
+	if (!dataObj.hasOwnProperty("uploadTime") || dataObj.uploadTime == null
+			|| dataObj.uploadTime == undefined) {
+		dataObj.uploadTime = "";
+	}
+	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null
+			|| dataObj.remarks.trim() == "NULL") {
+		dataObj.remarks = "";
+	}
+
 }

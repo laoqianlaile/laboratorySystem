@@ -3,11 +3,11 @@ var param = {};
 
 $(function() {
 	$('#table').bootstrapTable({
-		striped : true,// 隔行变色效果
+		striped : false,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
 		pageSize : 10,// 页面数据条数
 		pageNumber : 1,// 首页页码
-		pageList : [ 5, 10 ],// 设置可供选择的页面数据条数
+		pageList : [ 10, 20 ],// 设置可供选择的页面数据条数
 		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache : false,// 禁用 AJAX 数据缓存
 		sortName : 'ID',// 定义排序列
@@ -27,7 +27,19 @@ $(function() {
 		selectItemName : '',// radio or checkbox 的字段名
 		columns : [ {
 			checkbox : true,
-			width :'1%'// 宽度
+			width :'1%',// 宽度
+			formatter : function(value, row, index) {
+				 checkData(row);	 // 验证数据合理性
+		  }
+		},{
+			field: '',
+	        title: '序号',
+	        width:'1%',
+	        align:'center',
+	        valign:'middle',
+	        formatter: function (value, row, index) {
+	              return index+1;
+	        }
 		},{
 			field : 'ID',// 返回值名称
 			title : '检测报告ID',// 列名
@@ -102,8 +114,8 @@ $(function() {
 			valign : 'middle',// 垂直居中显示
 			width : '10%',// 宽度
 			formatter : function(value, row, index) {
-						return "<span  onclick='secondAuditPass(\""+row.ID+"\",\""+row.taskID+"\",\""+row.fileName+"\")'   title='通过审核' class='glyphicon glyphicon-ok-sign' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
-					+"<span onclick='secondAuditReject(\""+row.ID+"\",\""+row.taskID+"\",\""+row.fileName+"\")'   title='驳回检测报告' class='glyphicon glyphicon-remove' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
+						return "<img src ='module/img/update_icon.png'  onclick='secondAuditPass(\""+row.ID+"\",\""+row.taskID+"\",\""+row.fileName+"\")'   title='通过审核'  style='cursor:pointer;padding-right:8px;'></img> "
+					+"<img src ='module/img/forbidden_icon.png'  onclick='secondAuditReject(\""+row.ID+"\",\""+row.taskID+"\",\""+row.fileName+"\")'   title='驳回检测报告'  style='cursor:pointer;padding-right:8px;'></img> "
 					
 			}
 		}]
@@ -274,4 +286,50 @@ function refresh() {
 		url : "testReportController/getTestReporSecondtAuditWithPaging.do",
 		query : additionalCondition
 	});
+}
+
+//检查数据合理性
+function checkData(dataObj) {
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
+			|| dataObj.ID.trim() == "NULL") {
+		dataObj.ID = "";
+	}
+	if (!dataObj.hasOwnProperty("taskID") || dataObj.taskID == null
+			|| dataObj.taskID.trim() == "NULL") {
+		dataObj.taskID = "";
+	}
+	if (!dataObj.hasOwnProperty("receiptlistCode")
+			|| dataObj.receiptlistCode == null
+			|| dataObj.receiptlistCode == undefined) {
+		dataObj.receiptlistCode = "";
+	}
+	if (!dataObj.hasOwnProperty("fileID") || dataObj.fileID == null
+			|| dataObj.fileID.trim() == "NULL") {
+		dataObj.fileID = "";
+	}
+	if (!dataObj.hasOwnProperty("versionNumber")
+			|| dataObj.versionNumber == null
+			|| dataObj.versionNumber == undefined) {
+		dataObj.versionNumber = "";
+	}
+	if (!dataObj.hasOwnProperty("state") || dataObj.state == null
+			|| dataObj.state.trim() == "NULL") {
+		dataObj.state = "";
+	}
+	if (!dataObj.hasOwnProperty("companyName") || dataObj.companyName == null
+			|| dataObj.companyName.trim() == "NULL") {
+		dataObj.companyName = "";
+	}
+	if (!dataObj.hasOwnProperty("fileName") || dataObj.fileName == null
+			|| dataObj.fileName.trim() == "NULL") {
+		dataObj.fileName = "";
+	}
+	if (!dataObj.hasOwnProperty("uploadTime") || dataObj.uploadTime == null
+			|| dataObj.uploadTime.trim() == "NULL") {
+		dataObj.uploadTime = "";
+	}
+	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null
+			|| dataObj.remarks.trim() == "NULL") {
+		dataObj.remarks = "";
+	}
 }

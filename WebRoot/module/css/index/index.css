@@ -23,9 +23,21 @@
 	margin: 12px 20px 12px 0;
 }
 
+.navbar-cancel a{
+	color: #393939;
+}
+
 .navbar-date-info {
 	float: right;
 	margin: 13px 20px;
+	color: #3480a6;
+}
+.week, .season, .time {
+	color: #393939;
+}
+
+.ace-nav>li.light-blue>a {
+	background-color: #37475f;
 }
 
 .sidebar {
@@ -115,8 +127,9 @@ vertical-align: middle;
 .sidebar-header .name {
 	display: inline-block;
 	width: 100%;
-	margin: 10px 60px;
+	margin: 25px 0;
 	color: #fff;
+	text-align: center;
 }
 
 .siderbar .nav-list {
@@ -142,8 +155,12 @@ vertical-align: middle;
 	border: 1px solid #253347;
 }
 
+.list-group-item a {
+	padding-left: 10px;
+}
 
-.tree .list-group li:hover {
+.list-group li:hover {
+
 	background: #27354a;
 }
 
@@ -154,5 +171,9 @@ vertical-align: middle;
 
 .sidebar-collapse:before {
 	border-top: none;
+}
+
+.breadcrumb {
+	margin-left: 0;
 }
 

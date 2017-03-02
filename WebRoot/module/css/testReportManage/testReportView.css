@@ -1,8 +1,11 @@
 @CHARSET "UTF-8";
 
+body{
+	width:98%;
+}
 .content,.sampleInfo {
-	width: 98%;
-	margin: 5px auto;
+	width: 100%;
+	margin: 0 auto;
 }
 
 .hrStyle {
@@ -27,6 +30,17 @@
 }
 
 .sampleInfoDiv {
-	width: 100%;
+	width: 98%;
 	margin: 10px auto;
+}
+
+
+#sampleInfoTable thead,#testReportFile thead{
+	background-color:#364760;
+	color:#fff;
+	font-size:blod 14px;
+}
+
+.bs-checkbox{
+	vertical-align:middle !important;
 }

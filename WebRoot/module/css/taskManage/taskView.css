@@ -81,3 +81,13 @@ body {
 	resize: none;
 	overflow-y: scroll;
 }
+
+table thead{
+	background-color: #364760;
+	color: #fff;
+	font-size: blod 14px;
+}
+
+.bs-checkbox {
+	vertical-align: middle !important;
+}
