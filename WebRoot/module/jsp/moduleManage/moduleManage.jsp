@@ -34,6 +34,8 @@
 <link rel="stylesheet" type="text/css" href="module/css/themes/dark-grey-theme/jquery.fonticonpicker.darkgrey.min.css" />
 <link rel="stylesheet" type="text/css" href="module/css/themes/bootstrap-theme/jquery.fonticonpicker.bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="module/css/themes/inverted-theme/jquery.fonticonpicker.inverted.min.css" />
+<link rel="stylesheet" type="text/css" href="module/css/moduleManage/moduleManage.css" />
+<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
@@ -43,51 +45,7 @@
 <script src="module/js/moduleManage/jquery.fonticonpicker.min.js"></script>
 <script src="assets/js/autoPage.js"></script>
 <style type="text/css">
-.fip-box i {
-	display: block;
-	margin-top: 13px;
-}
-.icons-selector .fip-icon-block:BEFORE{
-    margin-top: 10px;
-}
 
-.icons-selector .fip-icon-down-dir:BEFORE {
-    margin-top: 10px;
-}
-
-.icons-selector .fip-icon-search:BEFORE {
-    margin-top: 10px;
-}
-table {
-	width: 1020px;
-	min-width:1200px;
-/* 	float: left;
-	margin-left: 40px; */
-}
-#tree{
-min-width: 300px;
-width:20%;
-float:left ;
-}
-#moduleTable{
-    min-width: 1200px;
-    /* float: left; */
-    margin-left: 10px;
-    display: inline-block;
-    width: 79%;
-    margin-top: 10px;
-}
-.container{
-   margin : 0 auto;
-  min-width: 1600px;
-  width: 100%;
-}
-.btn-primary{
-margin-left: 3px;
-} 
-.fixed-table-body #table .bs-checkbox {
-vertical-align: middle;
-}   
 </style>
 </head>
 

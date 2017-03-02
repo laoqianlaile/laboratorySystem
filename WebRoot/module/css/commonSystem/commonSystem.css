@@ -1,0 +1,12 @@
+@CHARSET "UTF-8";
+*{
+	
+}
+.bootstrap-table .table thead{
+	color:#fff;
+	background:#364760;
+}
+.bootstrap-table .table thead tr{
+	color:#fff;
+	background:#364760;
+}  

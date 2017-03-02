@@ -24,6 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 	
 	<link rel="stylesheet" href="module/css/changeACE.css" />
+	 <link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
 	 
 	<script src="module/js/jquery-2.1.1.min.js"></script>
 	<script src="module/js/bootstrap.js"></script>
@@ -33,6 +34,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    .input-group  .btn-primary{
      margin-right: 5px;
    }
+   .table thread{
+	background:#364760;
+}
+.table thread tr{
+	background:#364760;
+}
    </style>
   </head>
   
