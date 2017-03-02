@@ -267,6 +267,17 @@ span {
 	.employeeN ul li:hover{
 		background-color:#dcdcdc;
 	}
+	#table thead{
+	background-color:#364760 !important;
+	color:#fff;
+	font-szie:blod 14px;
+}
+label {
+   
+    font-size: 16px;
+    color: #333;
+}
+
 
 		
 </style>
