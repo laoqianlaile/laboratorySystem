@@ -8,7 +8,7 @@ function init() {
 		$('#table')
 				.bootstrapTable(
 						{
-							striped : true, // 隔行变色效果
+							striped : false, // 隔行变色效果
 							pagination : true,// 在表格底部显示分页条
 							pageSize : 10,// 页面数据条数
 							pageNumber : 1,// 首页页码
@@ -41,6 +41,13 @@ function init() {
 											formatter : function(value, row, index) {
 												return index + 1;
 											}
+										},{
+											field : 'fileID',// 返回值名称
+											title : '文件ID',// 列名
+											align : 'center',// 水平居中显示
+											valign : 'middle',// 垂直居中显示
+											width : '10%',// 宽度
+											visible : false
 										},
 										{
 											field : 'ID',// 返回值名称
@@ -142,27 +149,31 @@ function query() {
 	refresh();
 
 }
-function lookfile(){
-	var data = $('#table').bootstrapTable('getSelections');
-	if(data.length==0 || data.length>1){
-		alert("请选中一条数据");
+
+
+function lookfile() {
+	var rows = $("#table").bootstrapTable('getSelections');
+	if (rows.length == 0) {
+		alert("请选择要查看的模板");
 		return;
 	}
-		var parame = {};
-		parame.ID = $('#ID').val(data[0].ID);
-
-		$.ajax({	
-			  url:'templateController/lookfiletemplate.do',
-			  data:parame,
-			  success:function(o){
-				  if(o<=0){
-					  alert("查看失败");
-				  }
-			  }
-			});	
-		
-		
+	if (rows.length > 1) {
+		alert("请选择一条数据");
+		return;
+	} else {
+		var fileID = rows[0].fileID;
+		$.post("fileOperateController/onlinePreview.do", {
+			ID : fileID
+		}, function(result) {
+			if (result != null && result != "null") {
+				window.location.href = "module/jsp/documentOnlineView.jsp";
+			} else {
+				alert("无法查看");
+			}
+		});
+	}
 }
+		
 /* 查找方法 */
 function find(){
 	var parame = {};
