@@ -2,7 +2,6 @@
 	pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html lang="en">
-<head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>西计实验室管理系统</title>
@@ -20,8 +19,6 @@
 
 <link href="module/css/bootstrap-treeview.css" rel="stylesheet">
 <script src="assets/js/ace-extra.min.js"></script>
-
-</head>
 <body>
 	<div class="contairw">
 		<!--  标题栏logo -->
@@ -125,11 +122,11 @@
 						<div class="tree"></div>
 					</ul>
 					<!-- 左边菜单栏下面，右藏功能 -->
-					<div class="sidebar-collapse" id="sidebar-collapse">
+					<!-- <div class="sidebar-collapse" id="sidebar-collapse">
 						<i class="icon-angle-double-left"
 							data-icon1="icon-angle-double-left"
 							data-icon2="icon-angle-double-right"></i>
-					</div>
+					</div> -->
 					<script type="text/javascript">
 						try {
 							ace.settings.check('sidebar', 'collapsed')
