@@ -852,22 +852,22 @@ public class TaskService extends SearchService implements ITaskService {
 	
 	@Override
 	public boolean setTestReportInfo(String taskID, String remarks) {
-		Map<String, Object> result = baseEntityDao.findByID(
+		Map<String, Object> testreportInfo = baseEntityDao.findByID(
 				new String[] { "testReportID,receiptlistID" }, taskID, "ID",
 				"task");
 		String condition = " fileinformation.belongtoID = '" + taskID + "'";
-		List<Map<String, Object>> result1 = entityDao.searchWithpaging(
+		List<Map<String, Object>> result = entityDao.searchWithpaging(
 				new String[] { "fileinformation.ID AS ID" }, "fileinformation",
 				null, null, condition, null, "fileinformation.uploadTime",
 				"DESC", 1, 0);
 		String fileID = "";
-		if (result1 != null && result1.size() > 0) {
-			fileID = result1.get(0).get("ID").toString();
+		if (result != null && result.size() > 0) {
+			fileID = result.get(0).get("ID").toString();
 		}
 		String testReportID = "";
-		if (result.get("testReportID") == null || result.get("testReportID").equals("") || result.get("testReportID").equals(" ")) {
+		if (testreportInfo.get("testReportID") == null || testreportInfo.get("testReportID").toString().length() == 0) {
 			TestReport tr = new TestReport();
-			String receiptlistID = result.get("receiptlistID").toString();
+			String receiptlistID = testreportInfo.get("receiptlistID").toString();
 			testReportID = EntityIDFactory.createId().toString();
 			tr.setID(testReportID);
 			tr.setReceiptlistID(receiptlistID);
@@ -888,7 +888,7 @@ public class TaskService extends SearchService implements ITaskService {
 			int updateSuccessCount = saveTereport + updateTask;
 			return (updateTask + updateSuccessCount) > 1 ? true : false;
 		} else {
-			testReportID = result.get("testReportID").toString();
+			testReportID = testreportInfo.get("testReportID").toString();
 			TestReport tr = entityDao.getByID(testReportID, TestReport.class);
 			tr.setFileID(fileID);
 			tr.setRemarks(remarks);

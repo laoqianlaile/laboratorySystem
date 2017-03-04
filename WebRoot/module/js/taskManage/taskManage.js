@@ -11,11 +11,11 @@ $(function() {
 //初始化页面数据
 function initData(){
 	$("#table").bootstrapTable({
-		striped : true,// 隔行变色效果
+		striped : false,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
     	pageSize : 10,// 页面数据条数
 		pageNumber : 1,// 首页页码
-		pageList : [ 5, 10 ],// 设置可供选择的页面数据条数
+		pageList : [ 10,20 ],// 设置可供选择的页面数据条数
 		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache : false,// 禁用 AJAX 数据缓存
      	sortName : 'ID',// 定义排序列
@@ -35,7 +35,19 @@ function initData(){
 		selectItemName : '',// radio or checkbox 的字段名
 		columns : [ {
 			checkbox : true,
-			width :"1%"// 宽度
+			width :"1%",// 宽度
+			formatter : function(value, row, index) {
+				 checkData(row);	 // 验证数据合理性
+		  }
+		},{
+			field: '',
+	        title: '序号',
+	        width:'1%',
+	        align:'center',
+	        valign:'middle',
+	        formatter: function (value, row, index) {
+	              return index+1;
+	        }
 		},{
 			field : 'ID',// 返回值名称
 			title : '任务ID',// 列名
@@ -48,7 +60,7 @@ function initData(){
 			title : '交接单号',// 列名
 			align : 'center',// 水平居中显示
 		    valign : 'middle',// 垂直居中显示
-			width : "10%",// 宽度
+			width : "9%",// 宽度
 			
 		},{
 			field : 'sampleName',// 返回值名称
@@ -104,8 +116,8 @@ function initData(){
 			valign : 'middle',// 垂直居中显示
 			width : "10%",// 宽度
 			formatter : function(value, row, index) {
-				return "<span  onclick='taskView(\""+row.ID+"\")'  title='查看任务' class='glyphicon glyphicon-edit' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
-				+"<span  onclick='taskAssign(\""+row.ID+"\",\""+row.sampleName+"\")'  title='指定审核人' class='glyphicon glyphicon-plus' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
+				return "<img src ='module/img/view_icon.png'  onclick='taskView(\""+row.ID+"\")'  title='查看任务' style='cursor:pointer;padding-right:8px;'></img> "
+				+"<img src ='module/img/roleName_icon.png'  onclick='taskAssign(\""+row.ID+"\",\""+row.sampleName+"\")'  title='指定审核人' style='cursor:pointer;padding-right:8px;'></img> "
 				}
 		}]
 	});
@@ -115,7 +127,7 @@ function initData(){
 function initAuditPerson(){
 	$('#taskAuditPersonTable').bootstrapTable({
 		height : 450,// 定义表格的高度
-		striped : true,// 隔行变色效果
+		striped : false,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
      	pageSize : 5,// 页面数据条数
 		pageNumber : 1,// 首页页码
@@ -133,6 +145,15 @@ function initAuditPerson(){
 			checkbox : true,
 			width :"1%"// 宽度
 		},{
+			field: '',
+	        title: '序号',
+	        width:'1%',
+	        align:'center',
+	        valign:'middle',
+	        formatter: function (value, row, index) {
+	              return index+1;
+	        }
+		},{
 			field : 'ID',// 返回值名称
 			title : '员工ID',// 列名
 			align : 'center',// 水平居中显示
@@ -144,7 +165,7 @@ function initAuditPerson(){
 			title : '员工编号',// 列名
 			align : 'center',// 水平居中显示
 		    valign : 'middle',// 垂直居中显示
-			width : "10%",// 宽度
+			width : "9%",// 宽度
 		},{
 			field : 'employeeName',// 返回值名称
 			title : '员工姓名',// 列名
@@ -291,4 +312,50 @@ function refresh() {
 		url : "taskController/getTaskWithPaging.do",
 		query : additionalCondition
 	});
+}
+
+//检查数据合理性
+function checkData(dataObj) {
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
+			|| dataObj.ID.trim() == "NULL") {
+		dataObj.ID = "";
+	}
+	if (!dataObj.hasOwnProperty("startTime") || dataObj.startTime == null
+			|| dataObj.startTime.trim() == "NULL") {
+		dataObj.startTime = "";
+	}
+	if (!dataObj.hasOwnProperty("endTime") || dataObj.endTime == null
+			|| dataObj.endTime == undefined) {
+		dataObj.endTime = "";
+	}
+	if (!dataObj.hasOwnProperty("detectstate") || dataObj.detectstate == null
+			|| dataObj.detectstate.trim() == "NULL") {
+		dataObj.detectstate = "";
+	}
+	if (!dataObj.hasOwnProperty("receiptlistCode")
+			|| dataObj.receiptlistCode == null
+			|| dataObj.receiptlistCode == undefined) {
+		dataObj.receiptlistCode = "";
+	}
+	if (!dataObj.hasOwnProperty("testProjectName")
+			|| dataObj.testProjectName == null
+			|| dataObj.testProjectName == undefined) {
+		dataObj.testProjectName = "";
+	}
+	if (!dataObj.hasOwnProperty("sampleName") || dataObj.sampleName == null
+			|| dataObj.sampleName.trim() == "NULL") {
+		dataObj.sampleName = "";
+	}
+	if (!dataObj.hasOwnProperty("detector") || dataObj.detector == null
+			|| dataObj.detector.trim() == "NULL") {
+		dataObj.detector = "";
+	}
+	if (!dataObj.hasOwnProperty("custodian") || dataObj.custodian == null
+			|| dataObj.custodian.trim() == "NULL") {
+		dataObj.custodian = "";
+	}
+	if (!dataObj.hasOwnProperty("levelTwo") || dataObj.levelTwo == null
+			|| dataObj.levelTwo.trim() == "NULL") {
+		dataObj.levelTwo = "";
+	}
 }

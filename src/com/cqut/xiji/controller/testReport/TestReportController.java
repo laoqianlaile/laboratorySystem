@@ -392,11 +392,17 @@ public class TestReportController {
 	 */
 	@RequestMapping("/setReportSendInfo")
 	@ResponseBody
-	public boolean setReportSendInfo(String ID, String receiveMan) {
-		boolean result = service.setReportSendInfo(ID, receiveMan);
+	public boolean setReportSendInfo(String ID, String receiveMan,
+			HttpServletRequest req) {
+		Object session = req.getSession().getAttribute("EMPLOYEEID");
+		String uploader = "";
+		if (session != null) {
+			uploader = session.toString();
+		}
+		boolean result = service.setReportSendInfo(ID, receiveMan, uploader);
 		return result;
 	}
-	
+
 	/**
 	 * 
      * @discription 获取已发送的检测报告数据

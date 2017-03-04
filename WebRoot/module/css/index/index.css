@@ -159,9 +159,11 @@ vertical-align: middle;
 	padding-left: 10px;
 }
 
-.list-group li:hover {
+.tree .list-group li:hover {
+
 	background: #27354a;
 }
+
 
 .sidebar-collapse {
 	background: #37475f;

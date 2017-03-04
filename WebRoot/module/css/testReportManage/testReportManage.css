@@ -5,16 +5,16 @@
 	width: 70%;
 }
 
-.content{
+.content {
 	width: 100%;
 	min-width: 1300px;
 }
 
 .searchArea {
-	width: 70%;
+	width: 98%;
 	margin-top: 10px;
-	margin-bottom: 10px;
-	display: inline-block;
+	margin-bottom: 10px
+	
 }
 
 .row {
@@ -53,16 +53,18 @@
 }
 
 .buttonGroup {
-	display: inline-block;
-	width: 30%;
-	float: right;
-	margin-top: 25px;
+	background-color: rgb(232, 243, 249);
+	width: 100%;
+	margin: 20px 0 20px 0;
+	padding: 20px 0 20px 0;
 }
-.searchButton{
-	margin-right:350px;
-	margin-top: 25px;
-	float: right;
+
+.buttonGroup button:hover {
+	border: none;
+	color: #fff;
+	background-color: rgb(255, 173, 51);
 }
+
 
 #recoverReport textarea {
 	resize: none;
@@ -73,10 +75,25 @@
 	margin-top: 10px;
 }
 
-.receiveManLabel{
-	margin-top:5px;
+.receiveManLabel {
+	margin-top: 5px;
 }
 
 #testReportID {
 	display: none;
+}
+
+#table thead,.modal-header {
+	background-color: #364760;
+	color: #fff;
+	font-size: blod 14px;
+}
+
+.bs-checkbox {
+	vertical-align: middle !important;
+}
+
+label {
+	font-size: 16px;
+	color: #333;
 }

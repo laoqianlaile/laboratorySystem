@@ -14,6 +14,8 @@
 <script src="../../js/bootstrap-table-zh-CN.js"></script>
 <link rel="stylesheet" href="../../css/changeACE.css" />
 <link rel="stylesheet" href="../../css/sampleRoom/sampleRoom.css" />
+<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
+
 </head>
 <body>
 

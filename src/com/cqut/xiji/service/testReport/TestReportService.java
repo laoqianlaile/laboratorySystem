@@ -146,6 +146,7 @@ public class TestReportService extends SearchService implements
 		List<Map<String, Object>> result = entityDao.searchWithpaging(
 				properties, baseEntity, joinEntity, null, condition, null, sort,
 				order, index, pageNum);
+		System.out.println("List :" + result);
 		int count = entityDao.searchForeign(properties, baseEntity, joinEntity, null, condition).size();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("total", count);
@@ -356,7 +357,8 @@ public class TestReportService extends SearchService implements
 	
 	@Override
 	public boolean recoverCheck(String ID) {
-		Map<String, Object> stateInfo = baseEntityDao.findByID(new String[] { "state" }, ID, "ID", "testreport");
+		Map<String, Object> stateInfo = baseEntityDao.findByID(
+				new String[] { "state" }, ID, "ID", "testreport");
 		String state = stateInfo.get("state").toString();
 		if (state.equals("0") || state.equals("2") || state.equals("4")) {
 			return true;
@@ -397,34 +399,20 @@ public class TestReportService extends SearchService implements
 	@Override
 	public boolean submitReportCheck(String ID) {
 		String baseEntity = "testreport";
-		Map<String, Object> result1 = baseEntityDao.findByID(
-				new String[] { "fileID" }, ID, "ID", baseEntity);
-		if (result1 == null) {
-			return false;
+		Map<String, Object> result = baseEntityDao.findByID(
+				new String[] { "state" }, ID, "ID", baseEntity);
+		String state = result.get("state").toString();
+		String tanleName = " task ";
+		String[] properties = new String[] { "task.levelTwo as levelTwo" };
+		String joinEntity = " LEFT JOIN testreport ON task.ID = testreport.taskID ";
+		String condition = " 1 = 1 AND testReport.ID ='" + ID + "'";
+		List<Map<String, Object>> auditPersonIsExist = entityDao.searchForeign(
+				properties, tanleName, joinEntity, null, condition);
+		if (state.equals("0") && auditPersonIsExist != null
+				&& auditPersonIsExist.size() > 0) {
+			return true;
 		} else {
-			String fileID = result1.get("fileID").toString();
-			if (fileID == null || fileID == "" || fileID.isEmpty()) {
-				return false;
-			} else {
-				Map<String, Object> result = baseEntityDao.findByID(
-						new String[] { "state" }, ID, "ID", baseEntity);
-				String state = result.get("state").toString();
-				String tanleName = " task ";
-				String[] properties = new String[] { "	task.levelTwo as levelTwo" };
-				String joinEntity = " LEFT JOIN testreport ON task.ID = testreport.taskID ";
-				String condition = " 1 = 1";
-				if (!ID.isEmpty() || ID != "" || ID != null) {
-					condition += " AND testReport.ID ='" + ID + "'";
-				}
-				List<Map<String, Object>> auditPersonIsExist = entityDao
-						.searchForeign(properties, tanleName, joinEntity, null,
-								condition);
-				if (state.equals("0") && auditPersonIsExist.get(0) != null) {
-					return true;
-				} else {
-					return false;
-				}
-			}
+			return false;
 		}
 	}
 
@@ -432,11 +420,11 @@ public class TestReportService extends SearchService implements
 	public String getFileID(String ID) {
 		String baseEntity = "testreport";
 		Map<String, Object> result = baseEntityDao.findByID(new String[] { "fileID" }, ID, "ID", baseEntity);
-		if (result == null) {
+		if (result == null || result.size() == 0) {
 			return null;
 		} else {
 			String fileID = result.get("fileID").toString();
-			if (fileID == null || fileID == "" || fileID.isEmpty()) {
+			if (fileID == null || fileID.equals("") || fileID.isEmpty()) {
 				return null;
 			} else {
 				return fileID;
@@ -748,10 +736,11 @@ public class TestReportService extends SearchService implements
 	}
 	
 	@Override
-	public boolean setReportSendCheck(String ID){
+	public boolean setReportSendCheck(String ID) {
 		String baseEntity = "testreport";
-		Map<String, Object> result = baseEntityDao.findByID(new String[] { "state,sendState" }, ID, "ID", baseEntity);
-		if (result != null) {
+		Map<String, Object> result = baseEntityDao.findByID(
+				new String[] { "state,sendState" }, ID, "ID", baseEntity);
+		if (result != null && result.size() > 0) {
 			String testState = result.get("state").toString();
 			String sendState = result.get("sendState").toString();
 			if (testState.equals("5") && sendState.equals("0")) {
@@ -765,13 +754,13 @@ public class TestReportService extends SearchService implements
 	}
 	
 	@Override
-	public boolean setReportSendInfo(String ID,String receiveMan) {
+	public boolean setReportSendInfo(String ID,String receiveMan,String uploader) {
 		TestReport tr = entityDao.getByID(ID, TestReport.class);
 		if (tr == null) {
 			return false;
 		} else {
 			tr.setSendState(1);
-			tr.setSendMan("13");
+			tr.setSendMan(uploader);
 			tr.setReceiveMan(receiveMan);
 			Date now = new Date(System.currentTimeMillis());
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

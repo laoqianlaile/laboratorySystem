@@ -240,6 +240,8 @@ public class FileOperateController {
 			String filedisplay = relativePath.substring(x, length);// "给用户提供的下载文件名";
 			PropertiesTool pe = new PropertiesTool();
 		    String path = pe.getSystemPram("filePath") + "\\" + relativePath;
+		    
+		    System.out.println("下载地址path :" + path);
 			String cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\" + filedisplay;
 			fileEncryptservice.decryptFile(path, cacheFilePath, ID);
 			if (request.getHeader("User-Agent").toLowerCase()
@@ -338,7 +340,10 @@ public class FileOperateController {
 				path += fileTurePath;
 				
 				fileEncryptservice.decryptFile(path, cacheFilePath, ID);
-			
+			    
+				System.out.println("多文件下载时path: "+path);
+				System.out.println("多文件下载cacheFilePath :"+cacheFilePath);
+				
 				File f = new File(cacheFilePath);
 				if (!f.exists()) {
 					continue;
@@ -540,7 +545,8 @@ public class FileOperateController {
 	@RequestMapping("/onlinePreview")
 	@ResponseBody
 	public String onlinePreview(String ID, HttpServletRequest request) {
-		List<Map<String, Object>> FileDecryptPath = service.getFileDecryptPath(ID);
+		List<Map<String, Object>> FileDecryptPath = service
+				.getFileDecryptPath(ID);
 		if (FileDecryptPath != null) {
 			String filePath = FileDecryptPath.get(0).get("path").toString();
 			PropertiesTool pe = new PropertiesTool();
@@ -554,7 +560,8 @@ public class FileOperateController {
 			cacheFilePath += fileName;
 			path += filePath;
 			fileEncryptservice.decryptFile(path, cacheFilePath, ID);
-			if (cacheFilePath != null && !cacheFilePath.isEmpty() && !cacheFilePath.equals(" ")) {
+			if (cacheFilePath != null && !cacheFilePath.isEmpty()
+					&& !cacheFilePath.equals(" ")) {
 				DocConverter dc = new DocConverter(cacheFilePath, outputPath);
 				dc.conver();
 				String swfFilePath = dc.getswfPath();

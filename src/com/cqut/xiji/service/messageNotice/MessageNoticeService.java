@@ -99,7 +99,7 @@ public class MessageNoticeService extends SearchService implements IMessageNotic
 		List<Map<String, Object>> result = entityDao.searchForeign(properties,
 				baseEntity, joinEntity, null, condition);
 		String employeeID = "";
-		if (result.get(0) != null) {
+		if (result != null && result.size() > 0) {
 			employeeID = result.get(0).get("uploaderID").toString();
 		}
 		MessageNotice messageNotice = new MessageNotice();
@@ -147,7 +147,7 @@ public class MessageNoticeService extends SearchService implements IMessageNotic
 		String condition = " 1 = 1 AND role.`name` = '签发人' ";
 		List<Map<String, Object>> employeeIDs = originalSearchForeign(
 				properties, baseEntity, joinEntity, null, condition, false);
-		if (employeeIDs.size() == 0) {
+		if (employeeIDs == null || employeeIDs.size() == 0) {
 			return false;
 		} else {
 			for (Map<String, Object> m : employeeIDs) {
