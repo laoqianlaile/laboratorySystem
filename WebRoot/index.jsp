@@ -125,11 +125,11 @@
 						<div class="tree"></div>
 					</ul>
 					<!-- 左边菜单栏下面，右藏功能 -->
-					<!-- <div class="sidebar-collapse" id="sidebar-collapse">
+					<div class="sidebar-collapse" id="sidebar-collapse">
 						<i class="icon-angle-double-left"
 							data-icon1="icon-angle-double-left"
 							data-icon2="icon-angle-double-right"></i>
-					</div> -->
+					</div>
 					<script type="text/javascript">
 						try {
 							ace.settings.check('sidebar', 'collapsed')
@@ -147,7 +147,7 @@
 							}
 						</script>
 						<img src="module/img/position_icon.png" width="14" alt="position_icon" style="margin-left: 10px;"/>
-						<span>&nbsp;您的当前位置为：</span>
+						<span>&nbsp;你的当前位置为：</span>
 						<ul class="breadcrumb">
 						</ul>
 						<div class="nav-search" id="nav-search">
