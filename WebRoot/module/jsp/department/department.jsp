@@ -28,10 +28,10 @@
 <link rel="stylesheet" type="text/css" href="module/css/themes/dark-grey-theme/jquery.fonticonpicker.darkgrey.min.css" />
 <link rel="stylesheet" type="text/css" href="module/css/themes/bootstrap-theme/jquery.fonticonpicker.bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="module/css/themes/inverted-theme/jquery.fonticonpicker.inverted.min.css" />
-	<!-- <link rel="stylesheet" type="text/css" href="module/css/timecheck/TimeCheck.css">
- -->	
+<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
+		
 	
-
+<script src="assets/js/autoPage.js"></script>
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/fileManage/fileManage.js"></script>
 <script src="module/js/jquery.uploadify.min.js"></script>
@@ -43,6 +43,8 @@
 <script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="module/js/bootstrap-treeview.js"></script>
 <script src="module/js/moduleManage/jquery.fonticonpicker.min.js"></script>
+
+
 
  
 

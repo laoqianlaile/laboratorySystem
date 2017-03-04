@@ -2,7 +2,6 @@
 	pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html lang="en">
-<head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>西计实验室管理系统</title>
@@ -20,8 +19,6 @@
 
 <link href="module/css/bootstrap-treeview.css" rel="stylesheet">
 <script src="assets/js/ace-extra.min.js"></script>
-
-</head>
 <body>
 	<div class="contairw">
 		<!--  标题栏logo -->
@@ -147,7 +144,7 @@
 							}
 						</script>
 						<img src="module/img/position_icon.png" width="14" alt="position_icon" style="margin-left: 10px;"/>
-						<span>&nbsp;您的当前位置为：</span>
+						<span>&nbsp;你的当前位置为：</span>
 						<ul class="breadcrumb">
 						</ul>
 						<div class="nav-search" id="nav-search">

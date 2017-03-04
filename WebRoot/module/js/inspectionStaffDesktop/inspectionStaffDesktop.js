@@ -1,4 +1,4 @@
-/*³õÊ¼»¯Ò³Ãæ*/
+/*åˆå§‹åŒ–é¡µé¢*/
 $(function() {
 	init();
 	initMessage();
@@ -6,100 +6,100 @@ $(function() {
 });
 function init() {
 	$('#taskTable').bootstrapTable({
-		striped : true,// ¸ôĞĞ±äÉ«Ğ§¹û
-		pagination : true,// ÔÚ±í¸ñµ×²¿ÏÔÊ¾·ÖÒ³Ìõ
-		pageSize : 5,// Ò³ÃæÊı¾İÌõÊı
-		pageNumber : 1,// Ê×Ò³Ò³Âë
-		pageList : [ 3, 5 ],// ÉèÖÃ¿É¹©Ñ¡ÔñµÄÒ³ÃæÊı¾İÌõÊı
-		clickToSelect : true,// ÉèÖÃtrue ½«ÔÚµã»÷ĞĞÊ±£¬×Ô¶¯Ñ¡Ôñrediobox ºÍ checkbox
-		cache : false,// ½ûÓÃ AJAX Êı¾İ»º´æ
-		sortName : 'task.ID',// ¶¨ÒåÅÅĞòÁĞ
-		sortOrder : 'asc',// ¶¨ÒåÅÅĞò·½Ê½
+		striped : true,// éš”è¡Œå˜è‰²æ•ˆæœ
+		pagination : true,// åœ¨è¡¨æ ¼åº•éƒ¨æ˜¾ç¤ºåˆ†é¡µæ¡
+		pageSize : 5,// é¡µé¢æ•°æ®æ¡æ•°
+		pageNumber : 1,// é¦–é¡µé¡µç 
+		pageList : [ 3, 5 ],// è®¾ç½®å¯ä¾›é€‰æ‹©çš„é¡µé¢æ•°æ®æ¡æ•°
+		clickToSelect : true,// è®¾ç½®true å°†åœ¨ç‚¹å‡»è¡Œæ—¶ï¼Œè‡ªåŠ¨é€‰æ‹©rediobox å’Œ checkbox
+		cache : false,// ç¦ç”¨ AJAX æ•°æ®ç¼“å­˜
+		sortName : 'task.ID',// å®šä¹‰æ’åºåˆ—
+		sortOrder : 'asc',// å®šä¹‰æ’åºæ–¹å¼
 		// onDblClickCell : onDblClickCell,
 		onClickRow : onClickRow,
-		url : 'taskController/getTaskInfoWithPaging.do',// ·şÎñÆ÷Êı¾İµÄ¼ÓÔØµØÖ·
-		sidePagination : 'server',// ÉèÖÃÔÚÄÄÀï½øĞĞ·ÖÒ³
-		contentType : 'application/json',// ·¢ËÍµ½·şÎñÆ÷µÄÊı¾İ±àÂëÀàĞÍ
-		dataType : 'json',// ·şÎñÆ÷·µ»ØµÄÊı¾İÀàĞÍ
-		queryParams : function queryParams(params) { // ÇëÇó·şÎñÆ÷Êı¾İÊ±£¬Äã¿ÉÒÔÍ¨¹ıÖØĞ´²ÎÊıµÄ·½Ê½Ìí¼ÓÒ»Ğ©¶îÍâµÄ²ÎÊı
-			var temp = { // ÕâÀïµÄ¼üµÄÃû×ÖºÍ¿ØÖÆÆ÷µÄ±äÁ¿Ãû±ØĞëÒ»Ö±£¬Õâ±ß¸Ä¶¯£¬¿ØÖÆÆ÷Ò²ĞèÒª¸Ä³ÉÒ»ÑùµÄ
-				limit : params.limit, // Ò³Ãæ´óĞ¡
-				offset : params.offset, // Æ«ÒÆÁ¿
-				search : "",// ³õÊ¼»¯ËÑË÷ÎÄ×Ö
-				sort : params.sort, // ÅÅĞòÁĞÃû
-				order : params.order, // ÅÅÎ»ÃüÁî£¨desc£¬asc£©
+		url : 'taskController/getTaskInfoWithPaging.do',// æœåŠ¡å™¨æ•°æ®çš„åŠ è½½åœ°å€
+		sidePagination : 'server',// è®¾ç½®åœ¨å“ªé‡Œè¿›è¡Œåˆ†é¡µ
+		contentType : 'application/json',// å‘é€åˆ°æœåŠ¡å™¨çš„æ•°æ®ç¼–ç ç±»å‹
+		dataType : 'json',// æœåŠ¡å™¨è¿”å›çš„æ•°æ®ç±»å‹
+		queryParams : function queryParams(params) { // è¯·æ±‚æœåŠ¡å™¨æ•°æ®æ—¶ï¼Œä½ å¯ä»¥é€šè¿‡é‡å†™å‚æ•°çš„æ–¹å¼æ·»åŠ ä¸€äº›é¢å¤–çš„å‚æ•°
+			var temp = { // è¿™é‡Œçš„é”®çš„åå­—å’Œæ§åˆ¶å™¨çš„å˜é‡åå¿…é¡»ä¸€ç›´ï¼Œè¿™è¾¹æ”¹åŠ¨ï¼Œæ§åˆ¶å™¨ä¹Ÿéœ€è¦æ”¹æˆä¸€æ ·çš„
+				limit : params.limit, // é¡µé¢å¤§å°
+				offset : params.offset, // åç§»é‡
+				search : "",// åˆå§‹åŒ–æœç´¢æ–‡å­—
+				sort : params.sort, // æ’åºåˆ—å
+				order : params.order, // æ’ä½å‘½ä»¤ï¼ˆdescï¼Œascï¼‰
 			};
 			return temp;
 		},
-		queryParamsType : "limit", // ²ÎÊı¸ñÊ½,·¢ËÍ±ê×¼µÄRESTFulÀàĞÍµÄ²ÎÊıÇëÇó
-		selectItemName : '',// radio or checkbox µÄ×Ö¶ÎÃû
+		queryParamsType : "limit", // å‚æ•°æ ¼å¼,å‘é€æ ‡å‡†çš„RESTFulç±»å‹çš„å‚æ•°è¯·æ±‚
+		selectItemName : '',// radio or checkbox çš„å­—æ®µå
 		columns : [ {
 			radio : true,
-			align : 'center',// Ë®Æ½¾ÓÖĞÏÔÊ¾
-			valign : 'middle',// ´¹Ö±¾ÓÖĞÏÔÊ¾
-			width : '3%'// ¿í¶È
+			align : 'center',// æ°´å¹³å±…ä¸­æ˜¾ç¤º
+			valign : 'middle',// å‚ç›´å±…ä¸­æ˜¾ç¤º
+			width : '3%'// å®½åº¦
 		}, {
-			title : 'ĞòºÅ',
+			title : 'åºå·',
 			field : 'Number',
 			formatter : function(value, row, index) {
 				return index + 1;
 			}
 		}, {
-			field : 'ID',// ·µ»ØÖµÃû³Æ
-			title : 'ID',// ÁĞÃû
-			align : 'center',// Ë®Æ½¾ÓÖĞÏÔÊ¾
-			valign : 'middle',// ´¹Ö±¾ÓÖĞÏÔÊ¾
-			width : 0,// ¿í¶È
+			field : 'ID',// è¿”å›å€¼åç§°
+			title : 'ID',// åˆ—å
+			align : 'center',// æ°´å¹³å±…ä¸­æ˜¾ç¤º
+			valign : 'middle',// å‚ç›´å±…ä¸­æ˜¾ç¤º
+			width : 0,// å®½åº¦
 			visible : false
 		}, {
-			field : 'receiptlistID',// ·µ»ØÖµÃû³Æ
-			title : 'receiptlistID',// ÁĞÃû
-			align : 'center',// Ë®Æ½¾ÓÖĞÏÔÊ¾
-			valign : 'middle',// ´¹Ö±¾ÓÖĞÏÔÊ¾
-			width : 0,// ¿í¶È
+			field : 'receiptlistID',// è¿”å›å€¼åç§°
+			title : 'receiptlistID',// åˆ—å
+			align : 'center',// æ°´å¹³å±…ä¸­æ˜¾ç¤º
+			valign : 'middle',// å‚ç›´å±…ä¸­æ˜¾ç¤º
+			width : 0,// å®½åº¦
 			visible : false
 		}, {
-			field : 'factoryCode',// ·µ»ØÖµÃû³Æ
-			title : 'ÑùÆ·³ö³§±àºÅ',// ÁĞÃû
-			align : 'center',// Ë®Æ½¾ÓÖĞÏÔÊ¾
-			valign : 'middle',// ´¹Ö±¾ÓÖĞÏÔÊ¾
-			width : '16%'// ¿í¶È
+			field : 'factoryCode',// è¿”å›å€¼åç§°
+			title : 'æ ·å“å‡ºå‚ç¼–å·',// åˆ—å
+			align : 'center',// æ°´å¹³å±…ä¸­æ˜¾ç¤º
+			valign : 'middle',// å‚ç›´å±…ä¸­æ˜¾ç¤º
+			width : '16%'// å®½åº¦
 		}, {
-			field : 'sampleName',// ·µ»ØÖµÃû³Æ
-			title : 'ÑùÆ·Ãû³Æ',// ÁĞÃû
-			align : 'center',// Ë®Æ½¾ÓÖĞÏÔÊ¾
-			valign : 'middle',// ´¹Ö±¾ÓÖĞÏÔÊ¾
-			width : '16%'// ¿í¶È
+			field : 'sampleName',// è¿”å›å€¼åç§°
+			title : 'æ ·å“åç§°',// åˆ—å
+			align : 'center',// æ°´å¹³å±…ä¸­æ˜¾ç¤º
+			valign : 'middle',// å‚ç›´å±…ä¸­æ˜¾ç¤º
+			width : '16%'// å®½åº¦
 		}, {
-			field : 'specifications',// ·µ»ØÖµÃû³Æ
-			title : 'ĞÍºÅ',// ÁĞÃû
-			align : 'center',// Ë®Æ½¾ÓÖĞÏÔÊ¾
-			valign : 'middle',// ´¹Ö±¾ÓÖĞÏÔÊ¾
-			width : '16%'// ¿í¶È
+			field : 'specifications',// è¿”å›å€¼åç§°
+			title : 'å‹å·',// åˆ—å
+			align : 'center',// æ°´å¹³å±…ä¸­æ˜¾ç¤º
+			valign : 'middle',// å‚ç›´å±…ä¸­æ˜¾ç¤º
+			width : '16%'// å®½åº¦
 		}, {
-			field : 'testName',// ·µ»ØÖµÃû³Æ
-			title : '¼ì²âÏîÄ¿',// ÁĞÃû
-			align : 'center',// Ë®Æ½¾ÓÖĞÏÔÊ¾
-			valign : 'middle',// ´¹Ö±¾ÓÖĞÏÔÊ¾
-			width : '16%'// ¿í¶È
+			field : 'testName',// è¿”å›å€¼åç§°
+			title : 'æ£€æµ‹é¡¹ç›®',// åˆ—å
+			align : 'center',// æ°´å¹³å±…ä¸­æ˜¾ç¤º
+			valign : 'middle',// å‚ç›´å±…ä¸­æ˜¾ç¤º
+			width : '16%'// å®½åº¦
 		}, {
-			field : 'employeeName',// ·µ»ØÖµÃû³Æ
-			title : '¼ì²âÈË',// ÁĞÃû
-			align : 'center',// Ë®Æ½¾ÓÖĞÏÔÊ¾
-			valign : 'middle',// ´¹Ö±¾ÓÖĞÏÔÊ¾
-			width : '16%'// ¿í¶È
+			field : 'employeeName',// è¿”å›å€¼åç§°
+			title : 'æ£€æµ‹äºº',// åˆ—å
+			align : 'center',// æ°´å¹³å±…ä¸­æ˜¾ç¤º
+			valign : 'middle',// å‚ç›´å±…ä¸­æ˜¾ç¤º
+			width : '16%'// å®½åº¦
 		}, {
-			field : 'detectState',// ·µ»ØÖµÃû³Æ
-			title : '×´Ì¬',// ÁĞÃû
-			align : 'center',// Ë®Æ½¾ÓÖĞÏÔÊ¾
-			valign : 'middle',// ´¹Ö±¾ÓÖĞÏÔÊ¾
-			width : '16%'// ¿í¶È
+			field : 'detectState',// è¿”å›å€¼åç§°
+			title : 'çŠ¶æ€',// åˆ—å
+			align : 'center',// æ°´å¹³å±…ä¸­æ˜¾ç¤º
+			valign : 'middle',// å‚ç›´å±…ä¸­æ˜¾ç¤º
+			width : '16%'// å®½åº¦
 		} ]
-	// ÁĞÅäÖÃÏî,ÏêÇéÇë²é¿´ ÁĞ²ÎÊı ±í¸ñ
-	/* ÊÂ¼ş */
+	// åˆ—é…ç½®é¡¹,è¯¦æƒ…è¯·æŸ¥çœ‹ åˆ—å‚æ•° è¡¨æ ¼
+	/* äº‹ä»¶ */
 	});
 }
-/* ±í¸ñµ¥»÷ÊÂ¼ş */
+/* è¡¨æ ¼å•å‡»äº‹ä»¶ */
 function onClickRow(row) {
 	var ID = row.ID;
 	$.ajax({
@@ -119,80 +119,80 @@ function onClickRow(row) {
 		}
 	});
 }
-/* Éè±¸µÇ¼Ç */
+/* è®¾å¤‡ç™»è®° */
 function register() {
 	var data = $('#taskTable').bootstrapTable('getSelections');
 
 	if (data.length == 0 || data.length > 1) {
-		alert("ÇëÑ¡ÖĞÒ»ÌõÊı¾İ");
+		alert("è¯·é€‰ä¸­ä¸€æ¡æ•°æ®");
 		return;
 	}
 	var taskID = data[0].ID;
 	window.location.href = window.location.href.replace(
-			'inspectionStaffDesktop/inspectionStaffDesktop.jsp',
+			'InspectionStaffDesktop/inspectionStaffDesktop.jsp',
 			'taskManage/taskView.jsp')
 			+ '?taskID=' + taskID;
 }
 
-/* ÏÂÔØ³õÊ¼±¨¸æ */
+/* ä¸‹è½½åˆå§‹æŠ¥å‘Š */
 function download() {
 	var data = $('#taskTable').bootstrapTable('getSelections');
 
 	if (data.length == 0 || data.length > 1) {
-		alert("ÇëÑ¡ÖĞÒ»ÌõÊı¾İ");
+		alert("è¯·é€‰ä¸­ä¸€æ¡æ•°æ®");
 		return;
 	}
 	var taskID = data[0].ID;
 	window.location.href = window.location.href.replace(
-			'inspectionStaffDesktop/inspectionStaffDesktop.jsp',
+			'InspectionStaffDesktop/inspectionStaffDesktop.jsp',
 			'taskManage/taskView.jsp')
 			+ '?taskID=' + taskID;
 }
 
-/* Ìá½»ÉóºË */
+/* æäº¤å®¡æ ¸ */
 function submit() {
 	var data = $('#taskTable').bootstrapTable('getSelections');
 
 	if (data.length == 0 || data.length > 1) {
-		alert("ÇëÑ¡ÖĞÒ»ÌõÊı¾İ");
+		alert("è¯·é€‰ä¸­ä¸€æ¡æ•°æ®");
 		return;
 	}
 	var taskID = data[0].ID;
 	window.location.href = window.location.href.replace(
-			'inspectionStaffDesktop/inspectionStaffDesktop.jsp',
+			'InspectionStaffDesktop/inspectionStaffDesktop.jsp',
 			'taskManage/taskView.jsp')
 			+ '?taskID=' + taskID;
 }
 
-/* ²é¿´ÕıÉóºËÈÎÎñ */
+/* æŸ¥çœ‹æ­£å®¡æ ¸ä»»åŠ¡ */
 function viewTask() {
 	window.location.href = window.location.href.split("?")[0].replace(
 			'inspectionStaffDesktop.jsp', 'viewAuditTask.jsp');
 }
-/* ²é¿´±¨¸æ */
+/* æŸ¥çœ‹æŠ¥å‘Š */
 function viewReport() {
 	var data = $('#taskTable').bootstrapTable('getSelections');
 
 	if (data.length == 0 || data.length > 1) {
-		alert("ÇëÑ¡ÖĞÒ»ÌõÊı¾İ");
+		alert("è¯·é€‰ä¸­ä¸€æ¡æ•°æ®");
 		return;
 	}
 	var taskID = data[0].ID;
 	window.location.href = window.location.href.replace(
-			'inspectionStaffDesktop/inspectionStaffDesktop.jsp',
+			'InspectionStaffDesktop/inspectionStaffDesktop.jsp',
 			'taskManage/taskView.jsp')
 			+ '?taskID=' + taskID;
 }
-/* ÉÏ´«±¨¸æ */
+/* ä¸Šä¼ æŠ¥å‘Š */
 function upload() {
 	var data = $('#taskTable').bootstrapTable('getSelections');
 	if (data.length == 0 || data.length > 1) {
-		alert("ÇëÑ¡ÖĞÒ»ÌõÊı¾İ");
+		alert("è¯·é€‰ä¸­ä¸€æ¡æ•°æ®");
 		return;
 	}
 	var taskID = data[0].ID;
 	window.location.href = window.location.href.replace(
-			'inspectionStaffDesktop/inspectionStaffDesktop.jsp',
+			'InspectionStaffDesktop/inspectionStaffDesktop.jsp',
 			'taskManage/taskView.jsp')
 			+ '?taskID=' + taskID;
 }
@@ -202,30 +202,30 @@ function initMessage() {
 	$('#messageTable')
 			.bootstrapTable(
 					{
-						// ¶¨Òå±í¸ñµÄ¸ß¶Èheight: 500,
-						striped : true,// ¸ôĞĞ±äÉ«Ğ§¹û
-						pagination : true,// ÔÚ±í¸ñµ×²¿ÏÔÊ¾·ÖÒ³Ìõ
-						pageSize : 10,// Ò³ÃæÊı¾İÌõÊı
-						pageNumber : 1,// Ê×Ò³Ò³Âë
-						pageList : [ 5, 10 ],// ÉèÖÃ¿É¹©Ñ¡ÔñµÄÒ³ÃæÊı¾İÌõÊı
-						clickToSelect : true,// ÉèÖÃtrue ½«ÔÚµã»÷ĞĞÊ±£¬×Ô¶¯Ñ¡Ôñrediobox ºÍ
+						// å®šä¹‰è¡¨æ ¼çš„é«˜åº¦height: 500,
+						striped : true,// éš”è¡Œå˜è‰²æ•ˆæœ
+						pagination : true,// åœ¨è¡¨æ ¼åº•éƒ¨æ˜¾ç¤ºåˆ†é¡µæ¡
+						pageSize : 10,// é¡µé¢æ•°æ®æ¡æ•°
+						pageNumber : 1,// é¦–é¡µé¡µç 
+						pageList : [ 5, 10 ],// è®¾ç½®å¯ä¾›é€‰æ‹©çš„é¡µé¢æ•°æ®æ¡æ•°
+						clickToSelect : true,// è®¾ç½®true å°†åœ¨ç‚¹å‡»è¡Œæ—¶ï¼Œè‡ªåŠ¨é€‰æ‹©rediobox å’Œ
 												// checkbox
-						cache : false,// ½ûÓÃ AJAX Êı¾İ»º´æ
-						// sortName:'message.ID',//¶¨ÒåÅÅĞòÁĞ
-						sortOrder : 'asc',// ¶¨ÒåÅÅĞò·½Ê½
-						url : 'messageController/getMessageByUserID.do',// ·şÎñÆ÷Êı¾İµÄ¼ÓÔØµØÖ·
-						sidePagination : 'server',// ÉèÖÃÔÚÄÄÀï½øĞĞ·ÖÒ³
-						contentType : 'application/json',// ·¢ËÍµ½·şÎñÆ÷µÄÊı¾İ±àÂëÀàĞÍ
-						dataType : 'json',// ·şÎñÆ÷·µ»ØµÄÊı¾İÀàĞÍ
-						queryParamsType : "limit", // ²ÎÊı¸ñÊ½,·¢ËÍ±ê×¼µÄRESTFulÀàĞÍµÄ²ÎÊıÇëÇó
-						selectItemName : '',// radio or checkbox µÄ×Ö¶ÎÃû
-						singleSelect : true,// ½ûÖ¹¶àÑ¡
+						cache : false,// ç¦ç”¨ AJAX æ•°æ®ç¼“å­˜
+						// sortName:'message.ID',//å®šä¹‰æ’åºåˆ—
+						sortOrder : 'asc',// å®šä¹‰æ’åºæ–¹å¼
+						url : 'messageController/getMessageByUserID.do',// æœåŠ¡å™¨æ•°æ®çš„åŠ è½½åœ°å€
+						sidePagination : 'server',// è®¾ç½®åœ¨å“ªé‡Œè¿›è¡Œåˆ†é¡µ
+						contentType : 'application/json',// å‘é€åˆ°æœåŠ¡å™¨çš„æ•°æ®ç¼–ç ç±»å‹
+						dataType : 'json',// æœåŠ¡å™¨è¿”å›çš„æ•°æ®ç±»å‹
+						queryParamsType : "limit", // å‚æ•°æ ¼å¼,å‘é€æ ‡å‡†çš„RESTFulç±»å‹çš„å‚æ•°è¯·æ±‚
+						selectItemName : '',// radio or checkbox çš„å­—æ®µå
+						singleSelect : true,// ç¦æ­¢å¤šé€‰
 						columns : [
 								{
-									title : 'ĞòºÅ ',// ÁĞÃû
-									align : 'center',// Ë®Æ½¾ÓÖĞÏÔÊ¾
-									valign : 'middle',// ´¹Ö±¾ÓÖĞÏÔÊ¾
-									width : '5%',// ¿í¶È
+									title : 'åºå· ',// åˆ—å
+									align : 'center',// æ°´å¹³å±…ä¸­æ˜¾ç¤º
+									valign : 'middle',// å‚ç›´å±…ä¸­æ˜¾ç¤º
+									width : '5%',// å®½åº¦
 									visible : true,
 									formatter : function(value, row, index) {
 										checkDataTiding(row);
@@ -233,47 +233,47 @@ function initMessage() {
 									}
 								},
 								{
-									field : 'mnID',// ·µ»ØÖµÃû³Æ
-									title : 'messageNoticeID',// ÁĞÃû
-									align : 'center',// Ë®Æ½¾ÓÖĞÏÔÊ¾
-									valign : 'middle',// ´¹Ö±¾ÓÖĞÏÔÊ¾
-									width : '0',// ¿í¶È
+									field : 'mnID',// è¿”å›å€¼åç§°
+									title : 'messageNoticeID',// åˆ—å
+									align : 'center',// æ°´å¹³å±…ä¸­æ˜¾ç¤º
+									valign : 'middle',// å‚ç›´å±…ä¸­æ˜¾ç¤º
+									width : '0',// å®½åº¦
 									visible : false
 								},
 								{
-									field : 'mID',// ·µ»ØÖµÃû³Æ
-									title : 'message ID',// ÁĞÃû
-									align : 'center',// Ë®Æ½¾ÓÖĞÏÔÊ¾
-									valign : 'middle',// ´¹Ö±¾ÓÖĞÏÔÊ¾
-									width : '0',// ¿í¶È
+									field : 'mID',// è¿”å›å€¼åç§°
+									title : 'message ID',// åˆ—å
+									align : 'center',// æ°´å¹³å±…ä¸­æ˜¾ç¤º
+									valign : 'middle',// å‚ç›´å±…ä¸­æ˜¾ç¤º
+									width : '0',// å®½åº¦
 									visible : false
 								},
 								{
-									field : 'content',// ·µ»ØÖµÃû³Æ
-									title : 'ÏûÏ¢ÄÚÈİ',// ÁĞÃû
-									align : 'center',// Ë®Æ½¾ÓÖĞÏÔÊ¾
-									valign : 'middle',// ´¹Ö±¾ÓÖĞÏÔÊ¾
-									width : '50%',// ¿í¶È
+									field : 'content',// è¿”å›å€¼åç§°
+									title : 'æ¶ˆæ¯å†…å®¹',// åˆ—å
+									align : 'center',// æ°´å¹³å±…ä¸­æ˜¾ç¤º
+									valign : 'middle',// å‚ç›´å±…ä¸­æ˜¾ç¤º
+									width : '50%',// å®½åº¦
 								},
 								{
-									field : 'createTime',// ·µ»ØÖµÃû³Æ
-									title : 'Ê±¼ä',// ÁĞÃû
-									align : 'center',// Ë®Æ½¾ÓÖĞÏÔÊ¾
-									valign : 'middle',// ´¹Ö±¾ÓÖĞÏÔÊ¾
-									width : '35%'// ¿í¶È
+									field : 'createTime',// è¿”å›å€¼åç§°
+									title : 'æ—¶é—´',// åˆ—å
+									align : 'center',// æ°´å¹³å±…ä¸­æ˜¾ç¤º
+									valign : 'middle',// å‚ç›´å±…ä¸­æ˜¾ç¤º
+									width : '35%'// å®½åº¦
 								},
 								{
-									field : 'state',// ·µ»ØÖµÃû³Æ
-									title : '²Ù×÷',// ÁĞÃû
-									align : 'center',// Ë®Æ½¾ÓÖĞÏÔÊ¾
-									valign : 'middle',// ´¹Ö±¾ÓÖĞÏÔÊ¾
-									width : '10%',// ¿í¶È
+									field : 'state',// è¿”å›å€¼åç§°
+									title : 'æ“ä½œ',// åˆ—å
+									align : 'center',// æ°´å¹³å±…ä¸­æ˜¾ç¤º
+									valign : 'middle',// å‚ç›´å±…ä¸­æ˜¾ç¤º
+									width : '10%',// å®½åº¦
 									formatter : function(value, row, index) {
-										if (value == "Î´²é¿´")
+										if (value == "æœªæŸ¥çœ‹")
 											var look = "", edit = "", download = "";
 										look = '<button onclick= "lookMessage(\''
 												+ row.mnID
-												+ '\')" data-toggle="tooltip" data-placement="top" title="È·ÈÏ²é¿´"  class="icon-eye-open" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></button>';
+												+ '\')" data-toggle="tooltip" data-placement="top" title="ç¡®è®¤æŸ¥çœ‹"  class="icon-eye-open" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></button>';
 										return look;
 									}
 								} ]
@@ -295,18 +295,18 @@ function checkDataTiding(dataObj) {
 	}
 	if (!dataObj.hasOwnProperty("state") || dataObj.state == null
 			|| dataObj.state.trim() == "NULL") {
-		dataObj.remarks = "Î´²é¿´";
+		dataObj.remarks = "æœªæŸ¥çœ‹";
 	}
 }
 
 function lookMessage(ID) {
-	var isLook = confirm("È·ÈÏÒÑ¾­²é¿´ĞÅÏ¢£¡");
+	var isLook = confirm("ç¡®è®¤å·²ç»æŸ¥çœ‹ä¿¡æ¯ï¼");
 	if (isLook == true) {
 		$.ajax({
 			url : '/laboratorySystem/messageController/readedMessageByID.do',
 			dataType : "json",
 			type : "post",
-			contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// ·¢ËÍµ½·şÎñÆ÷µÄÊı¾İ±àÂëÀàĞÍ
+			contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// å‘é€åˆ°æœåŠ¡å™¨çš„æ•°æ®ç¼–ç ç±»å‹
 			async : false,
 			data : {
 				messageNoticeID : ID
