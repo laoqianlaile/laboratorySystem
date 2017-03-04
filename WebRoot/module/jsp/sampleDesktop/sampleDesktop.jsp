@@ -47,20 +47,59 @@
 			</div>
 			<div class="list-button">
 				<div class="row">
-					<button class="btn btn-primary">查看交接单</button>
-					<button class="btn btn-primary">领样</button>
-					<button class="btn btn-primary">退样</button>
-					<button class="btn btn-primary">新增交接单</button>
-					<button class="btn btn-primary">查看报告列表</button>
-					<button class="btn btn-primary">打印报告</button>
+					<div class="sample_button sample_button_1">
+						<img src="module/img/receiptDesktop/lookRe.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">查看交接单</a></p>
+					</div>
+					<div class="sample_button sample_button_2">
+						<img src="module/img/receiptDesktop/getSample_icon.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">领样</a></p>
+					</div>
+					<div class="sample_button sample_button_3">
+						<img src="module/img/receiptDesktop/withDrawSample_icon.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">退样</a></p>
+					</div>
+					<div class="sample_button sample_button_4">
+						<img src="module/img/receiptDesktop/newReceipt_icon.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">新增交接单</a></p>
+					</div>
+					<div class="sample_button sample_button_5">
+						<img src="module/img/receiptDesktop/checkReport_icon.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">查看报告列表</a></p>
+					</div>
+					<div class="sample_button sample_button_6">
+						<img src="module/img/receiptDesktop/printReport_icon.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">打印报告</a></p>
+					</div>
+				
 				</div>
 				<div class="row">
-					<button class="btn btn-primary">修改交接单</button>
-					<button class="btn btn-primary">还样</button>
-					<button class="btn btn-primary">发报告</button>
-					<button class="btn btn-primary">退还交接单</button>
-					<button class="btn btn-primary">查看检测进度</button>
-					<button class="btn btn-primary">无合同新增交接单</button>
+				<div class="sample_button sample_button_1">
+						<img src="module/img/receiptDesktop/checkTestSchedule_icon.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">查看检测进度</a></p>
+					</div>
+					<div class="sample_button sample_button_2">
+						<img src="module/img/receiptDesktop/updateReceipt_icon.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">修改交接单</a></p>
+					</div>
+					<div class="sample_button sample_button_3">
+						<img src="module/img/receiptDesktop/rebackSample_icon.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">还样</a></p>
+					</div>
+					<div class="sample_button sample_button_4">
+						<img src="module/img/receiptDesktop/sendReport_icon.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">发报告</a></p>
+					</div>
+					
+					<div class="sample_button sample_button_5">
+						<img src="module/img/receiptDesktop/refundReceipt_icon.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">退还交接单</a></p>
+					</div>
+					<div class="sample_button sample_button_6">
+						<img src="module/img/receiptDesktop/noNewContract_icon.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">无合同新增</a></p>
+					</div>
+				
 				</div>
 			</div>
 			<div class="contractTable"></div>

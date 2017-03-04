@@ -58,7 +58,8 @@ public class LoginFilter  implements Filter {
 					    out.println("alert('您长时间未操作，被迫下线!');"); 
 					    out.println("</body>"); 
 					    out.println("</html>");  
-					
+					    out.flush();
+					    out.close();
 
 					
 					    return ;

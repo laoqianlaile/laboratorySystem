@@ -33,13 +33,63 @@
 	margin-bottom: 5px;
 	min-width: 90px;
 }
+.sample_button{
+	
+    display:inline-block;
+    min-width: 78px;
+    font-size:14px;
+    font-family:'Microsoft YaHei'd;
+	margin-right: 5px;
+	width: 15%; 
+	text-align:center;
+	border:2px solid;
+	border-radius: 5px;
+    
+}
+.sample_button img{
+	margin: 0 auto;
+	width:36px;
+	height:39px;
+    margin-top: 10px;
+}
+.sample_button p{
+	margin: 10px auto;
+}
+.sample_button a{
+	text-decoration: none;
+}
+.sample_button_1 ,.sample_button_1 a{
+	border-color: #198ac8;
+	color:#198ac8;
+}
+.sample_button_2,.sample_button_2 a{
+	border-color: #9d40cd;
+	color: #9d40cd;
+}
+.sample_button_3, .sample_button_3 a{
+	border-color: #eb5a19;
+	color: #eb5a19;
+}
+.sample_button_4 ,.sample_button_4 a{
+	border-color: #fd9421;
+	color:#fd9421;
+}
+.sample_button_5, .sample_button_5 a{
+	border-color: #47da18;
+	color:#47da18;
+}
 
+.sample_button_6, .sample_button_6 a{
+	border-color: #e9df16;
+	color:#e9df16;
+}
 .list-button .row .btn-primary {
 	min-width: 78px;
 	margin-right: 5px;
 	padding: 6px 0px;
 	margin-right: 5px;
 	width: 15%;
+  
 }
 
 .tidings {
