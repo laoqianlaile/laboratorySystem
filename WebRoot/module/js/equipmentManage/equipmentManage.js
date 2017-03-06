@@ -27,7 +27,7 @@ function initData(){
 		selectItemName : '',// radio or checkbox 的字段名
 		columns : [ {
 			checkbox : true,
-			width :5// 宽度
+			width :'3%'// 宽度
 		},{
 			field:'ID',//返回值名称
 			title:'设备ID',//列名
@@ -40,13 +40,13 @@ function initData(){
 			title:'设备出厂编号',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'10%'//宽度
 		},{
 			field:'equipmentName',//返回值名称
 			title:'设备名称',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'10%'//宽度
 		},{
 			field:'equipmentTypeID',//返回值名称
 			title:'设备类型ID',//列名
@@ -59,13 +59,13 @@ function initData(){
 			title:'设备类型',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'10%'//宽度
 		},{
 			field:'model',//返回值名称
 			title:'型号',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'6%'//宽度
 		},{
 			field:'departmentID',//返回值名称
 			title:'所属科室ID',//列名
@@ -78,43 +78,43 @@ function initData(){
 			title:'所属科室',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'8%'//宽度
 		},{
 			field:'buyTime',//返回值名称
 			title:'购入时间',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'10%'//宽度
 		},{
 			field:'useYear',//返回值名称
 			title:'使用年限(年)',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'6%'//宽度
 		},{
 			field:'credentials',//返回值名称
 			title:'证书编号',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'10%'//宽度
 		},{
 			field:'effectiveTime',//返回值名称
 			title:'有效期',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'10%'//宽度
 		},{
 			field:'employeeName',//返回值名称
 			title:'经办人',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'6%'//宽度
 		},{
 			field:'remarks',//返回值名称
 			title:'备注',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'10%'//宽度
 		}]//列配置项,详情请查看 列参数 表格
 		/*事件*/
 	});

@@ -1,9 +1,194 @@
 @CHARSET "UTF-8";
-#table_module {
-	width:900px;
-	float: right;
+
+.form-control {
+	display: inline;
+	width: 70%;
 }
-#tree {
-	width:200px;
+
+.narrow{
+	display: inline;
+	width: 35%;
+}
+.content {
+	width: 100%;
+	min-width: 1300px;
+}
+
+.searchArea {
+	width: 98%;
+	margin-top: 10px;
+	margin-bottom: 10px
+	
+}
+
+.row {
+	margin-bottom: 10px;
+}
+
+.row label {
+	width: 26%;
+	min-wdith: 80px;
+}
+.row label.wide{
+	width: 60%;
+}
+.row1 {
+	margin-bottom: 10px;
+}
+.row1 .form-control{
+	display: inline;
+	width: 78%;
+}
+.row1 label {
+	width:21%;
+}
+.row1 label.wide{
+	width: 35%;
+}
+.row1 .narrow1{
+	display: inline;
+	width: 64%;
+}
+.timeLabelDiv {
 	float:left;
+	height: 32px;
+	line-height:32px;
+	width: 26%;
+}
+
+.timeLabelDiv label{
+	min-width: 74.95px;
+}
+
+.timeLabelDiv1 {
+	float:left;
+	height: 34px;
+	line-height:34px;
+	width: 21%;
+}
+.timeLabelDiv1 label.control-label{
+	width: 100%;
+}
+.timeChooseDiv {
+	width: 70%;
+}
+.timeChooseDiv1 {
+	width: 78%;
+}
+.timeChooseDiv1 .form-control{
+	width: 100%;
+}
+.input-group-addon {
+	background-color: #fff;
+}
+
+#selectPart {
+	width: 70%;
+	text-align: center;
+}
+
+.buttonGroup {
+	background-color: rgb(232, 243, 249);
+	width: 100%;
+	margin: 20px 0 20px 0;
+	padding: 20px 0 20px 0;
+}
+
+.buttonGroup button:hover {
+	border: none;
+	color: #fff;
+	background-color: rgb(255, 173, 51);
+}
+
+
+#recoverReport textarea {
+	resize: none;
+	overflow-y: scroll;
+}
+
+#recoverReport .form-control {
+	margin-top: 10px;
+}
+
+.receiveManLabel {
+	margin-top: 5px;
+}
+
+#contractID {
+	display: none;
+}
+
+#table thead,.modal-header {
+	background-color: #364760;
+	color: #fff;
+	font-size: blod 14px;
+}
+
+.bs-checkbox {
+	vertical-align: middle !important;
+}
+.modal-body{
+	height:390px;
+}
+.modal-footer{
+	padding-right: 43px;
+}
+label {
+	font-size: 16px;
+	color: #333;
+}
+.companyName {
+	width: 568px;
+	display: none;
+	border: 1px solid #ccc;
+	border-top: none;
+	border-radius: 3px;
+}
+
+.companyName ul {
+	width: 567px;
+	height: 30px;
+	border: none;
+	margin: 0;
+	margin-left: -40px;
+}
+
+.companyName ul li {
+	width: 567px;
+	height: 30px;
+	line-height: 30px;
+	list-style-type: none;
+	text-indent: 12px;
+}
+
+.companyName ul li:hover {
+	background-color: #dcdcdc;
+}
+
+.employeeName {
+	width: 568px;
+	display: none;
+	border: 1px solid #ccc;
+	border-top: none;
+	border-radius: 3px;
+}
+
+.employeeName ul {
+	width: 567px;
+	height: 30px;
+	border: none;
+	margin: 0;
+	margin-left: -40px;
+}
+
+.employeeName ul li {
+	width: 567px;
+	height: 30px;
+	line-height: 30px;
+	list-style-type: none;
+	text-indent: 12px;
+}
+
+.employeeName ul li:hover {
+	background-color: #dcdcdc;
 }

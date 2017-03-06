@@ -19,6 +19,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
+	<link rel="stylesheet" type="text/css" href="module/css/equipmentManage/equipmentScrapManage.css">
 	
 	<script src="assets/js/jquery-2.0.3.min.js"></script>
 	<script src="module/js/bootstrap.js"></script>
