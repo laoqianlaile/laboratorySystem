@@ -63,6 +63,10 @@ public class LoginFilter  implements Filter {
 
 					
 					    return ;
+				}else if(targetURL.indexOf("Portal") > 0){
+					
+					filterChain.doFilter(request, response); //门户网站的 放过
+					
 				}else{
 					response.sendRedirect(login_page);
 				}
