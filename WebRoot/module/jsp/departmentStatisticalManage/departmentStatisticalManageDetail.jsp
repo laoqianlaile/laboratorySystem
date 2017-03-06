@@ -23,6 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
+	<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
 	
 	<link rel="stylesheet" href="module/css/changeACE.css" />
 	
@@ -34,7 +35,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
 	<script src="module/js/bootstrap-datetimepicker.fr.js"></script>
 	<script src="module/js/commonTool.js"></script>
-   
+    <script src="assets/js/autoPage.js"></script>
   </head>
   
   <body>

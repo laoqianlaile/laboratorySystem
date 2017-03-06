@@ -18,6 +18,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
+	<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
+		
+	
+<script src="assets/js/autoPage.js"></script>
 
 
 

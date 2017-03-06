@@ -187,7 +187,8 @@ public class WordProcess {
     public boolean replaceText(String toFindText, String newText) {
         if (!find(toFindText))
             return false;
-        Dispatch.put(selection, "Text", newText);
+        if(newText != null)
+            Dispatch.put(selection, "Text", newText);
         return true;
     }
     /**
@@ -200,6 +201,7 @@ public class WordProcess {
      */
     public void replaceAllText(String toFindText, String newText) {
         while (find(toFindText)) {
+        	if(newText != null)
             Dispatch.put(selection, "Text", newText);
             Dispatch.call(selection, "MoveRight");
         }

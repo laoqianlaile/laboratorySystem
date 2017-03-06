@@ -22,6 +22,8 @@
 <link href="module/css/bootstrap.css" rel="stylesheet">
 <link href="./module/css/bootstrap-table.css" rel="stylesheet"
 	type="text/css">
+<link href="module/css/sampleDesktop/sampleDesktop.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
@@ -34,171 +36,7 @@
 <!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-<style type="text/css">
-#container {
-	width: 100%;
-	float: left;
-}
 
-.tableArea {
-	width: 900px;
-}
-
-.row {
-	margin-bottom: 10px;
-	margin-left: 0px;
-}
-
-.curentNav .col-xs-1 .btn-primary {
-	margin-right: 0px;
-	float: right;
-	margin-bottom: 5px;
-	min-width: 90px;
-}
-
-.curentNav .col-md-1 .btn-primary {
-	margin-right: 0px;
-	float: right;
-	margin-bottom: 5px;
-	min-width: 90px;
-}
-
-.curentNav .col-lg-1 .btn-primary {
-	margin-right: 0px;
-	float: right;
-	margin-bottom: 5px;
-	min-width: 90px;
-}
-
-.list-button .row .btn-primary {
-	min-width: 78px;
-	margin-right: 5px;
-	padding: 6px 0px;
-	margin-right: 5px;
-	width: 15%;
-}
-
-.tidings {
-	margin-top: 35PX;
-}
-
-.col-lg-3,.col-xs-4,.col-sm-4,.col-md-4,.col-lg-4,.col-xs-5,.col-sm-5,.col-md-5,.col-lg-5,.col-xs-6,.col-sm-6,.col-md-6,.col-lg-6,.col-xs-7,.col-sm-7,.col-md-7,.col-lg-7,.col-xs-8,.col-sm-8,.col-md-8,.col-lg-8,.col-xs-9,.col-sm-9,.col-md-9,.col-lg-9,.col-xs-10,.col-sm-10,.col-md-10,.col-lg-10,.col-xs-11,.col-sm-11,.col-md-11,.col-lg-11,.col-xs-12,.col-sm-12,.col-md-12,.col-lg-12
-	{
-	position: relative;
-	min-height: 1px;
-	padding-right: 15px;
-	padding-left: 0px;
-}
-
-.leftArea {
-	width: 60%;
-	display: inline-block;
-	float: left;
-}
-
-.RightArea {
-	display: inline-block;
-	width: 40%;
-}
-
-.Right_content {
-	padding-right: 15px;
-	padding-left: 15px;
-	margin-right: auto;
-	margin-left: auto;
-}
-
-.fixed-table-body #table .bs-checkbox {
-	vertical-align: middle;
-}
-
-.RightArea
- 
-.row
- 
-.col-xs-7
- 
-span
-:not
- 
-(
-:FIRST-CHILD
- 
-){
-font-style
-:
- 
-italic
-;
-
-	
-font-family
-:
- 
-fantasy
-;
-
-	
-color
-:
- 
-#333
-;
-
-
-}
-.leftArea
- 
-.row
- 
-span
-:not
- 
-(
-:FIRST-CHILD
- 
-){
-font-style
-:
- 
-italic
-;
-
-	
-font-family
-:
- 
-fantasy
-;
-
-	
-color
-:
- 
-#333
-;
-
-
-}
-.leftArea .row span:FIRST-CHILD {
-	font-size: 18;
-}
-
-.RightArea .row .col-xs-7 span:FIRST-CHILD {
-	font-size: 18;
-}
-.fixed-table-body #table .bs-checkbox {
-vertical-align: middle;
-}   
-.RightArea .row .col-xs-7 span + sapn, .leftArea .row span + sapn{
-    font-style: italic;
-    font-family: fantasy;
-}
-
-.leftArea .row span:FIRST-CHILD {
-	font-size: 18;
-}
-</style>
 </head>
 
 <body>
@@ -209,20 +47,59 @@ vertical-align: middle;
 			</div>
 			<div class="list-button">
 				<div class="row">
-					<button class="btn btn-primary">查看交接单</button>
-					<button class="btn btn-primary">领样</button>
-					<button class="btn btn-primary">退样</button>
-					<button class="btn btn-primary">新增交接单</button>
-					<button class="btn btn-primary">查看报告列表</button>
-					<button class="btn btn-primary">打印报告</button>
+					<div class="sample_button sample_button_1">
+						<img src="module/img/receiptDesktop/lookRe.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">查看交接单</a></p>
+					</div>
+					<div class="sample_button sample_button_2">
+						<img src="module/img/receiptDesktop/getSample_icon.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">领样</a></p>
+					</div>
+					<div class="sample_button sample_button_3">
+						<img src="module/img/receiptDesktop/withDrawSample_icon.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">退样</a></p>
+					</div>
+					<div class="sample_button sample_button_4">
+						<img src="module/img/receiptDesktop/newReceipt_icon.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">新增交接单</a></p>
+					</div>
+					<div class="sample_button sample_button_5">
+						<img src="module/img/receiptDesktop/checkReport_icon.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">查看报告列表</a></p>
+					</div>
+					<div class="sample_button sample_button_6">
+						<img src="module/img/receiptDesktop/printReport_icon.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">打印报告</a></p>
+					</div>
+				
 				</div>
 				<div class="row">
-					<button class="btn btn-primary">修改交接单</button>
-					<button class="btn btn-primary">还样</button>
-					<button class="btn btn-primary">发报告</button>
-					<button class="btn btn-primary">退还交接单</button>
-					<button class="btn btn-primary">查看检测进度</button>
-					<button class="btn btn-primary">无合同新增交接单</button>
+				<div class="sample_button sample_button_1">
+						<img src="module/img/receiptDesktop/checkTestSchedule_icon.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">查看检测进度</a></p>
+					</div>
+					<div class="sample_button sample_button_2">
+						<img src="module/img/receiptDesktop/updateReceipt_icon.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">修改交接单</a></p>
+					</div>
+					<div class="sample_button sample_button_3">
+						<img src="module/img/receiptDesktop/rebackSample_icon.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">还样</a></p>
+					</div>
+					<div class="sample_button sample_button_4">
+						<img src="module/img/receiptDesktop/sendReport_icon.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">发报告</a></p>
+					</div>
+					
+					<div class="sample_button sample_button_5">
+						<img src="module/img/receiptDesktop/refundReceipt_icon.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">退还交接单</a></p>
+					</div>
+					<div class="sample_button sample_button_6">
+						<img src="module/img/receiptDesktop/noNewContract_icon.png">
+						<p><a href="module/receiptlistManage/receiptlistManage.jsp">无合同新增</a></p>
+					</div>
+				
 				</div>
 			</div>
 			<div class="contractTable"></div>

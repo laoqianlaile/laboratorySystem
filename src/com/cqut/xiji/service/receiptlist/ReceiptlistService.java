@@ -27,6 +27,7 @@ import com.cqut.xiji.entity.receiptlist.Receiptlist;
 import com.cqut.xiji.entity.role.Role;
 import com.cqut.xiji.entity.sample.Sample;
 import com.cqut.xiji.entity.task.Task;
+import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 import com.cqut.xiji.tool.util.PropertiesTool;
@@ -373,7 +374,7 @@ public class ReceiptlistService extends SearchService implements
 	@Override
 	public String addTaskAndSampleWithEdit(String taskID, String sampleID,
 			String sampleCode, String sampleName, String sampleStyle,
-			String testProject, String unit, String require, String reID,
+			String testProjects, String unit, String require, String reID,
 			String state) {
 		if (sampleID == null || sampleID.equals("")) {
 			// 样品还不存在
@@ -403,8 +404,8 @@ public class ReceiptlistService extends SearchService implements
 			if (entityDao.deleteByID(taskID, Task.class) != 1)
 				return "false";
 		// 新增任务--选择了检测项目
-		if (testProject != null && !testProject.equals("")) {
-			String[] testProjectIDs = testProject.replaceAll(" ", "")
+		if (testProjects != null && !testProjects.equals("")) {
+			String[] testProjectIDs = testProjects.replaceAll(" ", "")
 					.split(",");
 			int counter = 0;
 			for (int i = 0; i < testProjectIDs.length; i++) {
@@ -424,6 +425,23 @@ public class ReceiptlistService extends SearchService implements
 				task.setTestProjectID(testProjectIDs[i]);
 				counter += entityDao.save(task);
 			}
+			//推送消息
+			for (int j = 0; j < testProjectIDs.length; j++) {
+				TestProject testProject  = entityDao.getByID(testProjectIDs[j], TestProject.class);
+				String manage_MAN = testProject.getDepartmentID();
+				if(manage_MAN != null && ! manage_MAN.equals("")){
+					Message message = new Message();
+					message.setID(EntityIDFactory.createId());
+					message.setCreateTime(new Date());
+					message.setContent(sampleName+"需要用："+testProject.getNameCn()+"__"+testProject.getNameEn()+"---检测");
+				    MessageNotice messageNotice = new MessageNotice();
+				    messageNotice.setState(0);
+				    messageNotice.setID(EntityIDFactory.createId());
+				    messageNotice.setEmployeeID(manage_MAN);
+				}
+			}
+			
+			
 			return counter == testProjectIDs.length ? "true" : "false";
 		} else { // 新增任务--没有选择了检测项目
 			Task task = new Task();
@@ -435,6 +453,8 @@ public class ReceiptlistService extends SearchService implements
 			task.setDetectstate(0);
 			return entityDao.save(task) == 1 ? "true" : "false";
 		}
+		
+		
 	}
 
 	/**
@@ -826,6 +846,7 @@ public class ReceiptlistService extends SearchService implements
 			try {
 				WordProcess wordProcess = new WordProcess(false);
 				String gogalPath = "E:\\liabrary\\XIJI\\testFileSources\\交接单模板.docx";
+				String savePath = "C:\\Users\\jiddar\\Desktop\\";
 				wordProcess.openDocument(gogalPath);
 				// 获取公司信息
 				String[] properties = new String[] { 
@@ -878,19 +899,20 @@ public class ReceiptlistService extends SearchService implements
                     wordProcess.replaceText("emailbox-甲", (String)companyInfo.get(0).get("emailbox"));
 			}
 			for (int i = 0; i < sampleInfo.size(); i++) {
-				wordProcess.addTableRow(1, 12);
-				wordProcess.putTxtToCell(1, 11, 1, "序号"+i);
-				wordProcess.putTxtToCell(1, 11, 2, "仪表名称"+i);
-				wordProcess.putTxtToCell(1, 11, 3, "规格型号3"+i);
-				wordProcess.putTxtToCell(1, 11, 4, "编号4"+i);
-				wordProcess.putTxtToCell(1, 11, 5, "虚焦指标5"+i);
-				wordProcess.putTxtToCell(1, 11, 6, "数量6"+i);
-				wordProcess.putTxtToCell(1, 11, 7, "备注"+i);
-				wordProcess.putTxtToCell(1, 11, 8, "单价"+i);
+				wordProcess.addTableRow(1, 13);
+				Map<String, Object> map = sampleInfo.get(i);
+				wordProcess.putTxtToCell(1, 12, 1, i+1+"");
+				wordProcess.putTxtToCell(1, 12, 2, map.get("sampleName").toString());
+				wordProcess.putTxtToCell(1, 12, 3, map.get("style").toString());
+				wordProcess.putTxtToCell(1, 12, 4, map.get("sampleCode").toString());
+				wordProcess.putTxtToCell(1, 12, 5, "常规校准");
+				wordProcess.putTxtToCell(1, 12, 6, "1");
+				wordProcess.putTxtToCell(1, 12, 7, map.get("price").toString());
+				wordProcess.putTxtToCell(1, 12, 8, map.get("price").toString());
 			}
 			//填充个人公司信息
 		   /**
-		    * moban
+		    * 从配置取出数据
 		    */
 			PropertiesTool pt = new PropertiesTool();
 			String ourCompanyName = pt.getSystemPram("ourCompanyName") ;
@@ -902,6 +924,7 @@ public class ReceiptlistService extends SearchService implements
 			String ourEamile = pt.getSystemPram("ourEamile") ;
 			String ourFax = pt.getSystemPram("ourFax") ;
 			String ourLinkMan = pt.getSystemPram("ourLinkMan") ;
+			String ourLinkPhone = pt.getSystemPram("ourLinkPhone") ;
 			
 			wordProcess.replaceText("ourCompanyName", ourCompanyName);
 			wordProcess.replaceText("ourLinkCompanyName", ourLinkCompanyName);
@@ -911,9 +934,27 @@ public class ReceiptlistService extends SearchService implements
 			wordProcess.replaceText("ourFinancePhone", ourFinancePhone);
 			wordProcess.replaceText("ourEamile", ourEamile);
 			wordProcess.replaceText("ourFax", ourFax);
+			wordProcess.replaceText("ourLinkPhone", ourLinkPhone);
 			wordProcess.replaceText("ourLinkMan", ourLinkMan);
 			
-			wordProcess.save(savePath);
+			
+			/*
+			 * 2016年4月28日  插入时间
+			 */
+			SimpleDateFormat myFmt=new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+			Date now=new Date();
+	        String currentData = myFmt.format(now);
+	        wordProcess.replaceText("currentData", currentData);
+	        
+			/*
+			 * 填出交接单编码
+			 */
+			Receiptlist receiptlist = entityDao.getByID(reID, Receiptlist.class);
+			if(receiptlist != null){
+				
+				wordProcess.replaceText("reCode", receiptlist.getReceiptlistCode());
+			}
+			wordProcess.save(savePath+"交接单生成的文件："+EntityIDFactory.createId());
 			wordProcess.close();
 			} catch (Exception e) {
 				e.printStackTrace();

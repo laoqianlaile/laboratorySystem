@@ -23,7 +23,7 @@
 <link href="module/css/bootstrap-treeview.css" rel="stylesheet">
 <link href="module/css/glyphicons.css" rel="stylesheet">
 <link href="module/css/permissionAssign/permissionAssign.css" rel="stylesheet">
-	
+<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
 
 
 </head>
