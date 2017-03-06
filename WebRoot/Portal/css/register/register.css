@@ -143,3 +143,31 @@ h4{
 .col-sm-2 p{
 	font-size: 16px;
 }
+
+#imask_2{
+	position:relative;
+	background:#000;
+	opacity:0.75;
+	filter:alpha(opacity=75);
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:1000;
+	display:block;
+	}
+.image_box{
+	position:fixed;
+	height:350px;
+	width:400px;
+	z-index:1001;
+	display:none;
+}
+.image_box1{
+	width: 350px;
+	height: 300px;
+	margin-left:58px;
+	margin-top:63px;
+}
+.image_box1 img{
+	
+}

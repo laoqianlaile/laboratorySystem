@@ -1,6 +1,5 @@
 
 $(function () {
-	 alert("刷新页面");
 	// 设置
 	  initTable();
 	 
