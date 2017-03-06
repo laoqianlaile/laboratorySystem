@@ -1,7 +1,7 @@
 $(function() {
 	setTimeout(function() {
 		$.post("fileOperateController/deleteOnlinePreviewFile.do");
-	}, 1500);
+	}, 3000);
 });
 
 function turnBack() {

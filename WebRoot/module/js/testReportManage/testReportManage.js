@@ -130,7 +130,7 @@ $(function() {
 			valign : 'middle',// 垂直居中显示
 			width : "10%",// 宽度
 			formatter : function(value, row, index) {
-				return "<img src ='module/img/download_icon.png'  onclick='fileDown(\""+row.ID+"\")'  title='下载报告'  style='cursor:pointer;padding-right:8px;'></img> "
+				return "<img src ='module/img/download_icon.png'  onclick='fileDown(\""+row.fileID+"\")'  title='下载报告'  style='cursor:pointer;padding-right:8px;'></img> "
 				+"<img src ='module/img/edit_icon.png'  onclick='submitReport(\""+row.ID+"\",\""+row.taskID+"\")'   title='提交审核'  style='cursor:pointer;padding-right:8px;'></spimgan> "
 				+"<img src ='module/img/contractDetail_icon.png' onclick='showSendReportModal(\""+row.ID+"\")'  title='发送报告'  style='cursor:pointer;padding-right:8px;'></img> "
 			}
@@ -316,29 +316,8 @@ function checkReport() {
 
 // 下载文件
 function fileDown() {
-	var keyID = arguments[0];
-	$.post("testReportController/getFileID.do", {
-		ID : keyID
-	}, function(result) {
-		var re = new RegExp("\"", "g");
-		result = result.replace(re, "");
-		if (result == null || result == "null") {
-			if (confirm("未找到相应文件，是否下载默认模版")) {
-				$.post("testReportController/getTemplateFileID.do", {
-					ID : keyID
-				}, function(result) {
-					result = JSON.parse(result);
-					if (result == null || result == "null") {
-						alert("未找到相应模版");
-					} else {
-						downOneFile(result[0].fileID);
-					}
-				});
-			}
-		} else {
-			downOneFile(result);
-		}
-	});
+	var fileID = arguments[0];
+	downOneFile(fileID);
 }
 
 // 刷新页面

@@ -10,7 +10,7 @@ String swfFilePath = (String)request.getSession().getAttribute("swfFilePath");
 <head>
 <base href="<%=basePath%>">
 
-<title>在线预览</title>
+<title>查看文件</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -59,7 +59,7 @@ body {
 <body onunload="cloase()">
 
 	<div id="onlineViewFile">
-		<h3>在线预览</h3>
+		<h3>查看文件</h3>
 		<hr />
 		<div id="onlineViewMainContent">
 			<div id="flashContent"></div>
