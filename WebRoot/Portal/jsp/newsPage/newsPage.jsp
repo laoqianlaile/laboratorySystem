@@ -98,7 +98,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <div class="contentlistfirst">
                     	<div id="contentlist1">
                             <div class="contentlist2">
-                                <span style="color:#198ac8;font-size:16px;">新&nbsp;文</span><span>中心</span>
+                                <span style="color:#198ac8;font-size:16px;">新闻</span><span>中心</span>
                             </div>
                         </div>
                         <div class="contentlist">
