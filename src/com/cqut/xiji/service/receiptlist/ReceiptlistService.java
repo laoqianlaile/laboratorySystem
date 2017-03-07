@@ -27,6 +27,7 @@ import com.cqut.xiji.entity.receiptlist.Receiptlist;
 import com.cqut.xiji.entity.role.Role;
 import com.cqut.xiji.entity.sample.Sample;
 import com.cqut.xiji.entity.task.Task;
+import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 import com.cqut.xiji.tool.util.PropertiesTool;
@@ -373,7 +374,7 @@ public class ReceiptlistService extends SearchService implements
 	@Override
 	public String addTaskAndSampleWithEdit(String taskID, String sampleID,
 			String sampleCode, String sampleName, String sampleStyle,
-			String testProject, String unit, String require, String reID,
+			String testProjects, String unit, String require, String reID,
 			String state) {
 		if (sampleID == null || sampleID.equals("")) {
 			// 样品还不存在
@@ -403,8 +404,8 @@ public class ReceiptlistService extends SearchService implements
 			if (entityDao.deleteByID(taskID, Task.class) != 1)
 				return "false";
 		// 新增任务--选择了检测项目
-		if (testProject != null && !testProject.equals("")) {
-			String[] testProjectIDs = testProject.replaceAll(" ", "")
+		if (testProjects != null && !testProjects.equals("")) {
+			String[] testProjectIDs = testProjects.replaceAll(" ", "")
 					.split(",");
 			int counter = 0;
 			for (int i = 0; i < testProjectIDs.length; i++) {
@@ -424,6 +425,23 @@ public class ReceiptlistService extends SearchService implements
 				task.setTestProjectID(testProjectIDs[i]);
 				counter += entityDao.save(task);
 			}
+			//推送消息
+			for (int j = 0; j < testProjectIDs.length; j++) {
+				TestProject testProject  = entityDao.getByID(testProjectIDs[j], TestProject.class);
+				String manage_MAN = testProject.getDepartmentID();
+				if(manage_MAN != null && ! manage_MAN.equals("")){
+					Message message = new Message();
+					message.setID(EntityIDFactory.createId());
+					message.setCreateTime(new Date());
+					message.setContent(sampleName+"需要用："+testProject.getNameCn()+"__"+testProject.getNameEn()+"---检测");
+				    MessageNotice messageNotice = new MessageNotice();
+				    messageNotice.setState(0);
+				    messageNotice.setID(EntityIDFactory.createId());
+				    messageNotice.setEmployeeID(manage_MAN);
+				}
+			}
+			
+			
 			return counter == testProjectIDs.length ? "true" : "false";
 		} else { // 新增任务--没有选择了检测项目
 			Task task = new Task();
@@ -435,6 +453,8 @@ public class ReceiptlistService extends SearchService implements
 			task.setDetectstate(0);
 			return entityDao.save(task) == 1 ? "true" : "false";
 		}
+		
+		
 	}
 
 	/**

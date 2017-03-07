@@ -350,6 +350,7 @@ function uploadSure() {
 
 // 查看报告
 function onlineViewReport() {
+	displayDiv();
 	var taskID = getUrlParam("taskID");
 	$.post("taskController/getReportFileID.do", {
 		taskID : taskID

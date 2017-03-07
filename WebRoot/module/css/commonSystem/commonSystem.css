@@ -2,13 +2,11 @@
 *{
 	
 }
-.bootstrap-table .table thead{
-	color:#fff;
-	background:#364760;
-}
+
 .bootstrap-table .table thead tr{
 	color:#fff;
 	background:#364760;
+
 }  
 
 .btn-primary {
@@ -22,6 +20,7 @@
 	background: #37475f;
 	color: #fff;
 }
+
 .close {
 	color: #fff;
 	opacity: 1;
@@ -32,3 +31,4 @@
 .modal-footer .btn-primary:hover {
 	background-color: #0677b5;
 }
+

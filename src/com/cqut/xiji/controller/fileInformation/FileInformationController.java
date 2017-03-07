@@ -95,8 +95,8 @@ public class FileInformationController{
 	 */
 	@RequestMapping("/deleteFileByID")
 	@ResponseBody
-	public String deleteFileByID(String fileID ) {
-		String result = service.deleteFileByID( fileID );
+	public String deleteFileByID(String fileID) {
+		String result = service.deleteFileByID(fileID);
 		return result;
 	}
 	@RequestMapping("/getFileInReceiptlistWithPaging")  

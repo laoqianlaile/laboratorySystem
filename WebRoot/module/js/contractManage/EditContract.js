@@ -4,7 +4,7 @@ var array =[];
 $(function() {
 	setID();
 	getContractByID();
-	
+	updateContractFileID();
 });
 
 //初始化数据
@@ -28,66 +28,56 @@ function initContractFile(){
 		queryParams: fileQueryParams, //参数
 	    queryParamsType: "limit", 
 		selectItemName : '',// radio or checkbox 的字段名
-		columns:[/*{
-			checkbox:true,
-			align:'center',//水平居中显示
-			width:'5%'//宽度
-		}*/{
+		columns:[{
 			field:'ID',//返回值名称
 			title:'文件ID',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10',//宽度
+			width:"5%",//宽度
 			visible:false
 		},{
 			field:'fileName',//返回值名称
 			title:'文件名',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'28%',//宽度
+			width:"31%",//宽度
 		},{
 			field:'uploaderID',//返回值名称
 			title:'上传人',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10',//宽度
+			width:"5%",//宽度
 			visible:false
 		},{
 			field:'employeeName',//返回值名称
 			title:'上传人',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10%',//宽度
+			width:"12%",//宽度
 		},{
 			field:'uploadTime',//返回值名称
 			title:'上传时间',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'14%',//宽度
-		},{
-			field:'state',//返回值名称
-			title:'状态',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-			width:'9%',//宽度
+			width:"18%",//宽度
 		},{
 			field:'remarks',//返回值名称
 			title:'备注',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'15%',//宽度
+			width:"17%",//宽度
 		},{
 			field:'',
 			title:'操作',
 			align:'center',
 			valign:'middle',
-			width:'16%',
-			 formatter:function(value,row,index){    
-                 var a = "<button  onclick='downFile("+row.ID+")' title='下载' class='glyphicon glyphicon-save' style='cursor:pointer;color: rgb(10, 78, 143);margin-right:8px;'></button>";
-                 var b = "<button  onclick='openFile("+row.ID+")' title='查看'  class='glyphicon glyphicon-log-in' style='cursor:pointer;color: rgb(10, 78, 143);margin-right:8px;'></button>";
-                 var c = "<button  onclick='delFile("+ row.ID +")' title='删除'  class='glyphicon glyphicon-remove-sign' style='cursor:pointer;color: rgb(10, 78, 143);margin-right:8px;'></button>";
-                 return a+b+c;    
-             }   
+			width:"20%",
+			formatter:function(value,row,index){    
+                 var a = "<img src ='module/img/download_icon.png' onclick='downFile(\""+ row.ID +"\")' title='下载合同文件' style='cursor:pointer;padding-right:8px;'></img>";
+                 var b = "<img src ='module/img/view_icon.png' onclick='openFile(\""+ row.ID +"\")' title='查看合同文件' style='cursor:pointer;padding-right:8px;'></img>";
+                 var c = "<img src ='module/img/delete_icon.png' onclick='delFile(\""+ row.ID +"\")' title='删除合同文件' style='cursor:pointer;padding-right:8px;'></img>";
+                 return a+b+c;
+          }   
 		}]////列配置项,详情请查看 列参数 表格
 		/*事件*/
 	});
@@ -145,10 +135,10 @@ function setID(){
 //得到合同的信息
 function getContractByID(){
 	var ID = $('#edit_contractID').val();
-	alert("ID:" +ID);
+	//alert("ID:" +ID);
 	if (!ID && typeof(ID)!="undefined" && ID=='') 
 	{ 
-		alert("合同ID不能为空！"); 
+		//alert("合同ID不能为空！"); 
 	}else {
 		var parame = {};
 		parame.ID = ID;
@@ -193,13 +183,42 @@ function getContractByID(){
  * @param id
  */
 function downFile(id){
-	alert("downFile:" + id);
+
 	downOneFile(id);
+/*	$.post("testReportController/getFileID.do", {
+		ID : id
+	}, function(result) {
+		var re = new RegExp("\"", "g");
+		result = result.replace(re, "");
+		if (result == null || result == "null") {
+			if (confirm("未找到相应文件，是否下载默认模版")) {
+				$.post("testReportController/getTemplateFileID.do", {
+					ID : id
+				}, function(result) {
+					result = JSON.parse(result);
+					if (result == null || result == "null") {
+						alert("未找到相应文件");
+					} else {
+						downOneFile(result[0].fileID);
+					}
+				});
+			}
+		} else {
+			downOneFile(result);
+		}
+	});*/
 }
 
 function openFile(id){
-	alert("openFile:" + id);
-	window.location.href="module/jsp/contractManage/contractView.jsp?ID=" + id + "&type=0";
+	$.post("fileOperateController/onlinePreview.do", {
+		ID : id
+	}, function(result) {
+		if (result != null && result != "null") {
+			window.location.href = "module/jsp/documentOnlineView.jsp";
+		} else {
+			alert("无法查看");
+		}
+	});
 }
 
 //删除合同的文件
@@ -215,7 +234,8 @@ function delFile(id) {
 	},
 	success : function(o) {
 		 data = JSON.parse(o); // error
-		if (data == "true") {
+		 alert(data);
+		if (data == true) {
 			alert("delete sunceesul");
 		} else {
 			alert("delete faire");
@@ -353,8 +373,13 @@ function initContractFileItem(){
 			valign:'middle',
 			width:'20%',
 			 formatter:function(value,row,index){    
-                 var b = '<button onclick="openEditItemModal(\'' + row.ID + '\',\'' + row.fineItemCode + '\',\'' + row.testProjectID + '\',\'' + row.nameCn + '\',\'' + row.nameEn + '\',\'' + row.number + '\',\'' + row.price + '\',\'' + row.money + '\',\'' + row.departmentID + '\',\'' + row.departmentName + '\',\'' + row.calculateType + '\',\'' + row.isOutsourcing + '\',\'' + row.remarks + '\',\'' + row.hour + '\')"'+' title="修改"  class="glyphicon glyphicon-edit" style="cursor:pointer;color: rgb(10, 78, 143);margin-right:8px;"></button>';
-                 var c = "<button onclick='delFileItem("+ row.ID +")'"+" title='删除'  class='glyphicon glyphicon-remove-sign' style='cursor:pointer;color: rgb(10, 78, 143);margin-right:8px;'></button>";
+                 var b = '<img src ="module/img/update_icon.png" onclick="openEditItemModal(\'' + row.ID + 
+                 '\',\'' + row.fineItemCode + '\',\'' + row.testProjectID + '\',\'' + row.nameCn + '\',\'' + 
+                 row.nameEn + '\',\'' + row.number + '\',\'' + row.price + '\',\'' + row.money + '\',\'' + 
+                 row.departmentID + '\',\'' + row.departmentName + '\',\'' + row.calculateType + '\',\'' + 
+                 row.isOutsourcing + '\',\'' + row.remarks + '\',\'' + row.hour + '\')"'+
+                 ' title="修改" style="cursor:pointer;padding-right:8px;"></img>';
+                 var c = "<img src ='module/img/delete_icon.png' onclick='delFileItem(\""+ row.ID +"\")'"+" title='删除' style='cursor:pointer;padding-right:8px;'></img>";
                  return b+c;    
              }   
 		}]////列配置项,详情请查看 列参数 表格
@@ -366,7 +391,7 @@ function initContractFileItem(){
 //上传文件预处理
 function submitFile(){
 	//loadingData();
-	fileObj.path = "E:/";//filePath; // 文件上传路径，如果此参数没有值，则使用firstDirectoryName,secondDirectoryName,thirdDirectoryName
+//	fileObj.path = "E:/";//filePath; // 文件上传路径，如果此参数没有值，则使用firstDirectoryName,secondDirectoryName,thirdDirectoryName
 	fileObj.fileTypeNumber = "1";//fileTypeNumber; // 文件类型
 	fileObj.firstDirectoryName = "项目文件";//fileFirstDirectory; // 一级目录
 	fileObj.secondDirectoryName = "子项目具体文件";//fileSecondDirectory; // 二级目录
@@ -377,7 +402,7 @@ function submitFile(){
 	//文件上传
 	 fileUpload(fileObj.filePath, fileObj.fileTypeNumber, fileObj.firstDirectoryName, fileObj.secondDirectoryName,fileObj.thirdDirectoryName,
 			 fileObj.belongtoID, fileObj.otherInfo, fileObj.remarks) ;
-
+	 	 
 	 refresh();
 	 //旋转图片延缓
 	//setTimeout("dealUploadFile()",5000);
@@ -394,6 +419,27 @@ function submitFile(){
 			timeout:10000,
 		});*/
 }
+
+function updateContractFileID(){
+	var contractID = $('#edit_contractID').val();
+	if(!contractID && typeof(contractID)!="undefined" && contractID==''){
+		return;
+	}else{
+		$.ajax({  
+		    url:'contractController/updateContractFileID.do',// 跳转到 action
+		    type:'post', 
+		    data:{contractID:contractID},
+		    dataType:'json',
+		    success:function(data){  
+		    	if (data) { 
+		    		var myobj = JSON.parse(data);
+		    	}
+		    }
+		});
+	}
+}
+
+
 
 /*
  * 改变计算方式

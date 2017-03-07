@@ -1,5 +1,5 @@
 $(document).ready(function(){ 
-	getContractByCode();
+	getContractByID();
 }); 
 
 //得到地址栏参数的值
@@ -13,7 +13,7 @@ function GetQueryString(name)
 }
 
 //得到合同的信息
-function getContractByCode(){
+function getContractByID(){
 	var type = GetQueryString("type");
 	var goback = document.getElementById("btn-goback");
 	var writeModal1 = document.getElementById("btn-writeModal1");
@@ -44,7 +44,7 @@ function getContractByCode(){
 		    	 if (data) {
 		    		var myobj = JSON.parse(data);
 		    		alert(myobj[0].contractName);
-		    		$('#show_ID').html(myobj[0].ID);
+		    		$('#fileID').html(myobj[0].fileID);
 		    		$('#show_state').html(myobj[0].state);
 		    		$('#show_contractCode').html(myobj[0].contractCode);
 		    		$('#show_contractName').html(myobj[0].contractName);
@@ -68,6 +68,24 @@ function getContractByCode(){
 //返回函数
 function goback(){
 	window.history.back(-1); 
+}
+
+function showContractFile(){
+	var ID = $('#fileID').html();
+	if (!ID && typeof(ID)!="undefined" && ID=='') 
+	{ 
+		alert("合同ID不能为空！"); 
+	}else{
+		$.post("fileOperateController/onlinePreview.do", {
+			ID : id
+		}, function(result) {
+			if (result != null && result != "null") {
+				window.location.href = "module/jsp/documentOnlineView.jsp";
+			} else {
+				alert("无法查看");
+			}
+		});
+	}
 }
 
 /**

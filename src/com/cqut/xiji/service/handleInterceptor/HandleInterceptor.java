@@ -13,7 +13,7 @@ public class HandleInterceptor implements  HandlerInterceptor{
 			HttpServletResponse response, Object handler) throws Exception {
 		
 		   System.out.println("==============执行顺序: 1、preHandle================");
-		// TODO Auto-generated method stub
+	/*	// TODO Auto-generated method stub
               
             String requestUri = request.getRequestURI();   //获取全路径
             String contextPath = request.getContextPath();  
@@ -30,7 +30,7 @@ public class HandleInterceptor implements  HandlerInterceptor{
             	System.out.println("Interceptor：跳转到login页面！");  
                 request.getRequestDispatcher("/login.jsp").forward(request, response);  
                 return false;  
-            }else  
+            }else  */
                 return true;   
             
             

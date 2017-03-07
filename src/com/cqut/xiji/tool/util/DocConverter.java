@@ -93,6 +93,7 @@ public class DocConverter {
 			}
 			newfile.renameTo(docFile);
 			newfile.delete();
+			docFile.delete();
 		} else {
 			System.out.println("****swf转换器异常，需要转换的文档不存在，无法转换****");
 		}
@@ -108,7 +109,7 @@ public class DocConverter {
 
 				try {
 					// 这里根据SWFTools安装路径需要进行相应更改
-					Process p = r.exec("F:/OnlineView/SWFTools/pdf2swf.exe "
+					Process p = r.exec("F:/ViewFileSoft/SWFTools/pdf2swf.exe "
 							+ pdfFile.getPath() + " -o " + swfFile.getPath()
 							+ " -T 9");
 					System.out.print(loadStream(p.getInputStream()));
