@@ -81,12 +81,23 @@ $(document).ready(function(){
 	     type:'post',  
 	     dataType:'json',
 	     success:function(msg) {  
-    	if(msg){    			    	
+    	if(msg){  
+    			var click={};
 	    		var artcontent= "";
 	    		var myobj=eval(msg);
 	    			artcontent = "<div style='text-indent:20px;'>"+myobj[0].artContent+"</div>";
 	    		var content = document.getElementById("artContent");
 		    	content.innerHTML = artcontent; 
+		    	
+	    		click.articleID = myobj[0].articleID;
+	    		click.artClick = parseInt(myobj[0].artClick)+1+"";
+	    		alert(click.artClick);
+		    	$.ajax({
+					  url:'articleController/updateArticle.do',
+					  data:click,
+					  success:function(e){
+					  }
+		    	});
 	    	}
 	 		}
 	 }); 	
