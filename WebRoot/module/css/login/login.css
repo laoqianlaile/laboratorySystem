@@ -141,10 +141,10 @@ body{
 }
 .btnimg img{
     position: fixed;
-    width: 394px;
-    height: 75px;
-    right: 1017px;
-    left: 474px;
+    width: 382px;
+    height: 51px;
+    right: 0px;
+    left: 483px;
     top: auto;
     bottom: 251.375;
 }

@@ -98,8 +98,8 @@ catch(Exception e){
                <input type="checkbox" name="autoLogin" class="isAuto" value="记住密码" >记住密码
              </div>
              <div class="btnimg">
-             	<img  src="module/img/login/login_bg_shadow.png">
-               <button class="btn btn-info" name="login"  onclick="login()" >登录</button>
+             	
+               <button class="btn btn-info" name="login"  onclick="login()" >	<img  src="module/img/login/login_bg_shadow.png">登录</button>
                
              </div>
            </div>
