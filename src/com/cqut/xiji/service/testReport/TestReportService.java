@@ -45,7 +45,7 @@ public class TestReportService extends SearchService implements
 	public Map<String, Object> getTestReportWithPaging(int limit, int offset,
 			String order, String sort, String receiptlistCode,
 			String client, String reportName, String beginTime, String endTime,
-			String selectPart) {
+			String selectPart,String uploader) {
 		int index = limit;
 		int pageNum = offset / limit ;
 		String baseEntity = " ( "
@@ -100,7 +100,7 @@ public class TestReportService extends SearchService implements
 				"c.taskID AS taskID",
 				"c.fileID AS fileID",
 				"c.versionNumber AS versionNumber",
-				"IF (c.state = 0,'未提交',IF (c.state = 1,'二审核中',IF (c.state = 2,'二审未通过',IF (c.state = 3,'三审核中',IF (c.state = 4,'三审未通过',IF (c.state = 5,'审核通过',IF(c.state = 6,'`','其它'))))))) AS state",
+				"IF (c.state = 0,'未提交',IF (c.state = 1,'二审核中',IF (c.state = 2,'二审未通过',IF (c.state = 3,'三审核中',IF (c.state = 4,'三审未通过',IF (c.state = 5,'审核通过',IF(c.state = 6,'归档','其它'))))))) AS state",
 				"c.companyName AS companyName",
 				"fileinformation.fileName AS fileName",
 				"DATE_FORMAT(uploadTime,'%Y-%m-%d %H:%i:%s') AS uploadTime",
@@ -113,19 +113,19 @@ public class TestReportService extends SearchService implements
 			condition += " and receiptlistCode like '%" + receiptlistCode
 					+ "%'";
 		}
-		if (client != null && !client.isEmpty()) {
+		if (client != null && !client.isEmpty() && !client.equals("")) {
 			condition += " and companyName like '%" + client + "%'";
 		}
-		if (reportName != null && !reportName.isEmpty()) {
+		if (reportName != null && !reportName.isEmpty() && !reportName.equals("")) {
 			condition += " and fileName like '%" + reportName + "%'";
 		}
-		if (beginTime != null && !beginTime.isEmpty()) {
+		if (beginTime != null && !beginTime.isEmpty() && !beginTime.equals("")) {
 			condition += " and uploadTime >'" + beginTime + "'";
 		}
-		if (endTime != null && !endTime.isEmpty()) {
+		if (endTime != null && !endTime.isEmpty() && !endTime.equals("")) {
 			condition += " and uploadTime <'" + endTime + "'";
 		}
-		if (selectPart != null && !selectPart.isEmpty()) {
+		if (selectPart != null && !selectPart.isEmpty() && !selectPart.equals("")) {
 			if (selectPart.equals("0")){
 				condition += " and c.state = '0' ";
 			}
@@ -142,9 +142,11 @@ public class TestReportService extends SearchService implements
 				condition += " and c.state = '6' ";
 			}
 		}
+		condition += " and fileinformation.uploaderID = '" + uploader + "'";
 		List<Map<String, Object>> result = entityDao.searchWithpaging(
 				properties, baseEntity, joinEntity, null, condition, null, sort,
 				order, index, pageNum);
+		System.out.println("List :" + result);
 		int count = entityDao.searchForeign(properties, baseEntity, joinEntity, null, condition).size();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("total", count);
@@ -155,7 +157,7 @@ public class TestReportService extends SearchService implements
 	@Override
 	public Map<String, Object> getTestReporSecondtAuditWithPaging(int limit,
 			int offset, String order, String sort, String receiptlistCode,
-			String client, String reportName, String beginTime, String endTime) {
+			String client, String reportName, String beginTime, String endTime,String auditPerson) {
 		int index = limit;
 		int pageNum = offset / limit;
 		String baseEntity = " ( "
@@ -194,7 +196,8 @@ public class TestReportService extends SearchService implements
 				+ "testreport"
 				+ " LEFT JOIN task ON testreport.taskID = task.ID "
 				+ " LEFT JOIN receiptlist ON task.receiptlistID = receiptlist.ID "
-				+ " WHERE " + " testreport.state = 1 " + " ) AS a "
+				+ " WHERE " + " testreport.state = 1 AND task.levelTwo = '"
+				+ auditPerson + "'" + " ) AS a "
 				+ " LEFT JOIN contract ON a.contractID = contract.ID "
 				+ " ) AS b "
 				+ " LEFT JOIN company ON b.companyID = company.ID "
@@ -214,20 +217,20 @@ public class TestReportService extends SearchService implements
 
 		String joinEntity = " LEFT JOIN fileinformation ON c.fileID = fileinformation.ID ";
 		String condition = " 1 = 1 AND (fileInformation.state = 0 OR fileInformation.state IS NULL)";
-		if (receiptlistCode != null && !receiptlistCode.isEmpty()) {
+		if (receiptlistCode != null && !receiptlistCode.isEmpty() && !receiptlistCode.equals("")) {
 			condition += " and receiptlistCode like '%" + receiptlistCode
 					+ "%'";
 		}
-		if (client != null && !client.isEmpty()) {
+		if (client != null && !client.isEmpty()&& !client.equals("")) {
 			condition += " and companyName like '%" + client + "%'";
 		}
-		if (reportName != null && !reportName.isEmpty()) {
+		if (reportName != null && !reportName.isEmpty()&& !reportName.equals("")) {
 			condition += " and fileName like '%" + reportName + "%'";
 		}
-		if (beginTime != null && !beginTime.isEmpty()) {
+		if (beginTime != null && !beginTime.isEmpty()&& !beginTime.equals("")) {
 			condition += " and uploadTime >'" + beginTime + "'";
 		}
-		if (endTime != null && !endTime.isEmpty()) {
+		if (endTime != null && !endTime.isEmpty()&& !endTime.equals("")) {
 			condition += " and uploadTime <'" + endTime + "'";
 		}
 		List<Map<String, Object>> result = entityDao.searchWithpaging(
@@ -302,20 +305,20 @@ public class TestReportService extends SearchService implements
 
 		String joinEntity = " LEFT JOIN fileinformation ON c.fileID = fileinformation.ID ";
 		String condition = " 1 = 1  AND fileInformation.state = 0";
-		if (receiptlistCode != null && !receiptlistCode.isEmpty()) {
+		if (receiptlistCode != null && !receiptlistCode.isEmpty() && !receiptlistCode.equals("")) {
 			condition += " and receiptlistCode like '%" + receiptlistCode
 					+ "%'";
 		}
-		if (client != null && !client.isEmpty()) {
+		if (client != null && !client.isEmpty() && !client.equals("")) {
 			condition += " and companyName like '%" + client + "%'";
 		}
-		if (reportName != null && !reportName.isEmpty()) {
+		if (reportName != null && !reportName.isEmpty() && !reportName.equals("")) {
 			condition += " and fileName like '%" + reportName + "%'";
 		}
-		if (beginTime != null && !beginTime.isEmpty()) {
+		if (beginTime != null && !beginTime.isEmpty() && !beginTime.equals("")) {
 			condition += " and uploadTime >'" + beginTime + "'";
 		}
-		if (endTime != null && !endTime.isEmpty()) {
+		if (endTime != null && !endTime.isEmpty() && !endTime.equals("")) {
 			condition += " and uploadTime <'" + endTime + "'";
 		}
 		List<Map<String, Object>> result = entityDao.searchWithpaging(
@@ -329,16 +332,16 @@ public class TestReportService extends SearchService implements
 	}
 
 	public List<Map<String,Object>> getProjectName(String ID){
-		String lefjionCondition = "";
+		String filteCondition = "";
 		if (!ID.isEmpty() || ID != "" || ID != null) {
-			lefjionCondition = " WHERE task.testReportID = " + ID;
+			filteCondition = " WHERE task.testReportID = " + ID;
 		}
 		String baseEntity = " ( " + " SELECT "
 				+ "contract.fileTypeID AS fileTypeID" + " FROM " + " ( "
 				+ " SELECT " + "receiptlist.contractID AS contractID"
 				+ " FROM " + " ( " + " SELECT "
 				+ "task.receiptlistID AS receiptlistID" + " FROM " + " task "
-				+ lefjionCondition + " ) AS a"
+				+ filteCondition + " ) AS a"
 				+ " LEFT JOIN receiptlist ON a.receiptlistID = receiptlist.ID "
 				+ " )  AS b"
 				+ " LEFT JOIN contract ON b.contractID = contract.ID "
@@ -354,7 +357,8 @@ public class TestReportService extends SearchService implements
 	
 	@Override
 	public boolean recoverCheck(String ID) {
-		Map<String, Object> stateInfo = baseEntityDao.findByID(new String[] { "state" }, ID, "ID", "testreport");
+		Map<String, Object> stateInfo = baseEntityDao.findByID(
+				new String[] { "state" }, ID, "ID", "testreport");
 		String state = stateInfo.get("state").toString();
 		if (state.equals("0") || state.equals("2") || state.equals("4")) {
 			return true;
@@ -395,34 +399,20 @@ public class TestReportService extends SearchService implements
 	@Override
 	public boolean submitReportCheck(String ID) {
 		String baseEntity = "testreport";
-		Map<String, Object> result1 = baseEntityDao.findByID(
-				new String[] { "fileID" }, ID, "ID", baseEntity);
-		if (result1 == null) {
-			return false;
+		Map<String, Object> result = baseEntityDao.findByID(
+				new String[] { "state" }, ID, "ID", baseEntity);
+		String state = result.get("state").toString();
+		String tanleName = " task ";
+		String[] properties = new String[] { "task.levelTwo as levelTwo" };
+		String joinEntity = " LEFT JOIN testreport ON task.ID = testreport.taskID ";
+		String condition = " 1 = 1 AND testReport.ID ='" + ID + "'";
+		List<Map<String, Object>> auditPersonIsExist = entityDao.searchForeign(
+				properties, tanleName, joinEntity, null, condition);
+		if (state.equals("0") && auditPersonIsExist != null
+				&& auditPersonIsExist.size() > 0) {
+			return true;
 		} else {
-			String fileID = result1.get("fileID").toString();
-			if (fileID == null || fileID == "" || fileID.isEmpty()) {
-				return false;
-			} else {
-				Map<String, Object> result = baseEntityDao.findByID(
-						new String[] { "state" }, ID, "ID", baseEntity);
-				String state = result.get("state").toString();
-				String tanleName = " task ";
-				String[] properties = new String[] { "	task.levelTwo as levelTwo" };
-				String joinEntity = " LEFT JOIN testreport ON task.ID = testreport.taskID ";
-				String condition = " 1 = 1";
-				if (!ID.isEmpty() || ID != "" || ID != null) {
-					condition += " AND testReport.ID ='" + ID + "'";
-				}
-				List<Map<String, Object>> auditPersonIsExist = entityDao
-						.searchForeign(properties, tanleName, joinEntity, null,
-								condition);
-				if (state.equals("0") && auditPersonIsExist.get(0) != null) {
-					return true;
-				} else {
-					return false;
-				}
-			}
+			return false;
 		}
 	}
 
@@ -430,12 +420,12 @@ public class TestReportService extends SearchService implements
 	public String getFileID(String ID) {
 		String baseEntity = "testreport";
 		Map<String, Object> result = baseEntityDao.findByID(new String[] { "fileID" }, ID, "ID", baseEntity);
-		if (result == null) {
-			return "null";
+		if (result == null || result.size() == 0) {
+			return null;
 		} else {
 			String fileID = result.get("fileID").toString();
-			if (fileID == null || fileID == "" || fileID.isEmpty()) {
-				return "null";
+			if (fileID == null || fileID.equals("") || fileID.isEmpty()) {
+				return null;
 			} else {
 				return fileID;
 			}
@@ -657,9 +647,10 @@ public class TestReportService extends SearchService implements
 	public boolean deleteCheck(String ID) {
 		String baseEntity = "testreport";
 		Map<String, Object> result = baseEntityDao.findByID(new String[] { "state" }, ID, "ID", baseEntity);
-		if (result.get("state") != null) {
+		if (result != null &&  result.size() > 0) {
 			String testState = result.get("state").toString();
-			if (testState.equals("0") || testState.equals("2") || testState.equals("4")) {
+			if (testState.equals("0") || testState.equals("2")
+					|| testState.equals("4")) {
 				return true;
 			} else {
 				return false;
@@ -745,10 +736,11 @@ public class TestReportService extends SearchService implements
 	}
 	
 	@Override
-	public boolean setReportSendCheck(String ID){
+	public boolean setReportSendCheck(String ID) {
 		String baseEntity = "testreport";
-		Map<String, Object> result = baseEntityDao.findByID(new String[] { "state,sendState" }, ID, "ID", baseEntity);
-		if (result != null) {
+		Map<String, Object> result = baseEntityDao.findByID(
+				new String[] { "state,sendState" }, ID, "ID", baseEntity);
+		if (result != null && result.size() > 0) {
 			String testState = result.get("state").toString();
 			String sendState = result.get("sendState").toString();
 			if (testState.equals("5") && sendState.equals("0")) {
@@ -762,13 +754,13 @@ public class TestReportService extends SearchService implements
 	}
 	
 	@Override
-	public boolean setReportSendInfo(String ID,String receiveMan) {
+	public boolean setReportSendInfo(String ID,String receiveMan,String uploader) {
 		TestReport tr = entityDao.getByID(ID, TestReport.class);
 		if (tr == null) {
 			return false;
 		} else {
 			tr.setSendState(1);
-			tr.setSendMan("13");
+			tr.setSendMan(uploader);
 			tr.setReceiveMan(receiveMan);
 			Date now = new Date(System.currentTimeMillis());
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

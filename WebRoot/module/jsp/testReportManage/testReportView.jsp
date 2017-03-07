@@ -19,6 +19,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
     <link rel="stylesheet" type="text/css" href="module/css/testReportManage/testReportView.css">
+    <link rel="stylesheet"  type="text/css" href="module/css/wait.css">
     
 	<script src="module/js/jquery-2.1.1.min.js"></script>
 	<script src="module/js/bootstrap.js"></script>
@@ -71,7 +72,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 
 		<div class="sampleInfo">
-			<div class="row">
+			<div >
 				<label>样品信息</label>
 				<div class="row sampleInfoDiv">
 					<table name="sampleInfoTable" id="sampleInfoTable">
@@ -91,8 +92,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</div>
 		</div>
-
 	</div>
+
+	<div id="wait_img">
+		<img src="module/img/wait.jpg" style="width:48px;height:48px;" />
+	</div>
+	<div id="mask"></div>
+	
+	<script src="module/js/wait.js"></script>
 	<script src="module/js/testReportManage/testReportView.js"></script>
 	<script src="module/js/fileManage/fileManage.js"></script>
   </body>

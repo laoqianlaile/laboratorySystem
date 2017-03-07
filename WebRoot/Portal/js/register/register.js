@@ -49,17 +49,6 @@ function checkTextPerson(){
 //执照图上传方法
 function openModal(idCard){
 	var html = "";
-	$("#fileSubtype").find("option").remove();
-	$.post("fileOperateController/getFileTypeName.do", {
-		ID : $("#fileType").find("option:selected").val()
-	}, function(result) {
-		result = JSON.parse(result);
-		for ( var i = 0; i < result.length; i++) {
-			html += "<option>" + result[i].name + "</option>";
-		}
-		$("#fileSubtype").append(html);
-	});
-	
 	fileUploadInit("#file_upload",idCard);
 	$("#addModal").modal("show");
 }
@@ -67,7 +56,7 @@ function openModal(idCard){
 function upfile(){
 	
 	path = ""; // 文件上传路径，如果此参数没有值，则使用firstDirectoryName,secondDirectoryName,thirdDirectoryName
-	type = "1"; // 文件类型       该处默认为模板文件
+	type = "0" // 文件类型       该处默认为模板文件
 	belongID = "";//文件所属ID
 	firstDirectoryName = $('#fileType option:checked').text();// 一级目录
 	secondDirectoryName = $('#fileSubtype option:checked').text(); // 二级目录
@@ -79,7 +68,7 @@ function upfile(){
 			otherInfo, remarks);
 
 	// 延迟执行
-	setTimeout("addTemplate()",3000); 
+	setTimeout("addTemplate()",1500); 
 
 	
 }

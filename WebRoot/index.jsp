@@ -2,7 +2,6 @@
 	pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html lang="en">
-<head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>西计实验室管理系统</title>
@@ -16,78 +15,10 @@
 <link rel="stylesheet" href="assets/css/ace-skins.min.css" />
 <link rel="stylesheet" type="text/css" href="module/css/fontello.css" />
 <link rel="stylesheet" type="text/css" href="module/css/fontello-7275ca86/css/fontello.css" />
+<link rel="stylesheet" type="text/css" href="module/css/index/index.css" />
+
 <link href="module/css/bootstrap-treeview.css" rel="stylesheet">
 <script src="assets/js/ace-extra.min.js"></script>
-<style type="text/css">
-.contairw {
-	min-width: 1300px;
-}
-.sidebar {
-	/* width: 190px;
-	float: left;
-	height: 100%;
-	position: absolute;
-	border: 1px solid #ccc;
-	border-width: 0 1px 0 0;
-	background-color: #f2f2f2; */
-	/* top: 45px; */
-    height: auto;
-    position: static;
-}
-.sidebar:before {
-    content: "";
-    display: block;
-    width: 190px;
-    position: absolute;
-    bottom: 0px;
-    top: 0;
-    z-index: -1;
-    background-color: #f2f2f2;
-    border: 1px solid #ccc;
-    border-width: 0 1px 0 0;
-}
-.sidebar.display {
-	/* display: block;
-	padding-bottom: 0; */
-	
-}
-.sidebar-shortcuts {
-	/*  margin-top: 45px; */
-	
-}
-.page-header {
-	height: 50px;
-}
-.ace-settings-container {
-	top: 90px;
-}
-.treeview {
-	margin-top: -21px;
-	margin-bottom: -20px;
-}
-.list-group {
-	margin-left: 0px;
-	padding-left: 0;
-}
-#navName {
-	font-size: 22px;
-}
-#editpwdModal .col-xs-3{
-	text-align: right;
-}
-#content_frame{
-	
-	width: 100%;
-	min-height:710px;
-}
-.col-xs-12-w{
-margin-left: 5px;
-}
-.fixed-table-body #table .bs-checkbox {
-vertical-align: middle;
-}   
-</style>
-</head>
 <body>
 	<div class="contairw">
 		<!--  标题栏logo -->
@@ -100,13 +31,14 @@ vertical-align: middle;
 			</script>
 			<div class="navbar-container" id="navbar-container">
 				<div class="navbar-header pull-left">
-					<a href="#" class="navbar-brand"> <small> <i
-							class="icon-leaf"></i> 西计后台管理系统
+					<a href="#" class="navbar-brand">
+						<img src="module/img/logo.png" alt="logo" height="20px" class="navbar-logo"/>
+						<img src="module/img/systemName.png" alt="systemName" height="23px" style="margin-left: 45px;"/>
 					</small>
 					</a>
 				</div>
 				<div class="navbar-header pull-right" role="navigation">
-					<ul class="nav ace-nav">
+					<ul class="nav ace-nav" style="float:right;">
 						<li class="light-blue"><a data-toggle="dropdown" href="#"
 							class="dropdown-toggle"> <img class="nav-user-photo"
 								src="assets/avatars/user.jpg" alt="Jason's Photo" /> <span
@@ -124,19 +56,29 @@ vertical-align: middle;
 								else{%>
 									<small>欢迎光临,</small> <%=request.getSession().getAttribute("EMPLOYEENAME")%>
 									<input type="hidden" id="LoginID" value="<%=request.getSession().getAttribute("EMPLOYEEID")%>"/>
-							</span> <i class="icon-caret-down"></i>
+							</span> <i class="fa fa-caret-down"></i>
 							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 								<li onclick = "openEditpwd()"><a> <i class="icon-cog"></i> 修改密码</a></li>
-								<li  onclick="openPersonModal()"><a href="#"> <i class="icon-user"></i> 个人资料</a></li>
-								
-								<li class="divider"></li>
-								<li onclick="exit()"><a href="#"> <i class="icon-off"></i> 退出</a></li>
+								<li onclick="openPersonModal()"><a href="#"> <i class="icon-user"></i> 个人资料</a></li>
 							</ul>
 							<%}%>
 						</li>
 					</ul>
-					
 					<!-- /.ace-nav -->
+					<div class="navbar-cancel" onclick="exit()">
+						<a href="#">
+							<img src="module/img/cancel_icon.png" alt="注销" />&nbsp;注销
+						</a>
+					</div>
+					<div class="navbar-date-info">
+						<span class="year"></span>年
+						<span class="month"></span>月
+						<span class="day"></span>日&nbsp;&nbsp;
+						<span class="week"></span>&nbsp;&nbsp;
+						<span class="season"></span>&nbsp;&nbsp;
+						<span class="time"></span>
+					</div>
+					
 				</div>
 				<!-- /.navbar-header -->
 			</div>
@@ -164,67 +106,27 @@ vertical-align: middle;
 						} catch (e) {
 						}
 					</script>
-					<!-- 左边菜单栏上面的图标区域 -->
-					<div class="sidebar-shortcuts" id="sidebar-shortcuts">
-						<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-							<button class="btn btn-success">
-								<i class="icon-signal"></i>
-							</button>
-							<button class="btn btn-info">
-								<i class="icon-pencil"></i>
-							</button>
-							<button class="btn btn-warning">
-								<i class="icon-users"></i>
-							</button>
-							<button class="btn btn-danger">
-								<i class="fa fa-cogs"></i>
-							</button>
+					
+					<!-- 左边菜单栏上面的头像区域 -->
+					<div class="sidebar-header" id="sidebar-header">
+						<div class="avatar">
+							<img src="module/img/person.png" alt="头像" width="80" height="80"/>
 						</div>
-						<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
-							<span class="btn btn-success"></span> <span class="btn btn-info"></span>
-							<span class="btn btn-warning"></span> <span
-								class="btn btn-danger"></span>
-						</div>
+						<span class="name"><%=request.getSession().getAttribute("EMPLOYEENAME")%><span>&nbsp;,&nbsp;您好！</span></span>
 					</div>
 					<!-- #sidebar-shortcuts -->
+					
 					<!--  左边菜单栏树-->
 					<ul class="nav nav-list">
 						<label for="tree"></label>
 						<div class="tree"></div>
-						<!-- 
-						<li><a href="module/jsp/roleManage/roleManage.jsp" target="aa"> <i
-								class="icon-text-width"></i> <span class="menu-text">
-									角色管理 </span>
-						</a></li>
-						<li><a href="module/jsp/permissionAssign/permissionAssign.jsp"
-							target="aa"> <i class="icon-text-width"></i> <span
-								class="menu-text">权限分配</span>
-						</a></li>
-						<li><a href="module/jsp/moduleManage/moduleManage.jsp"
-							class="dropdown-toggle" target="aa"> <i class="icon-desktop"></i>
-								<span class="menu-text"> 模块管理 </span>
-						</a></li>
-						<li><a href="module/jsp/employeeManage/employeeManage.jsp" class="dropdown-toggle"
-							target="aa"> <i class="icon-desktop"></i> <span
-								class="menu-text"> 员工管理 </span>
-						</a></li>
-						<li><a
-							href="module/jsp/department/department.jsp"
-							target="aa"> <i class="icon-desktop"></i> <span
-								class="menu-text">部门管理 </span>
-						</a></li>
-						<li><a href="module/jsp/accountsManage/accountsManage.jsp"
-							target="aa"> <i class="icon-desktop"></i> <span
-								class="menu-text">账目管理</span>
-						</a></li>
-						 -->
 					</ul>
 					<!-- 左边菜单栏下面，右藏功能 -->
-					<div class="sidebar-collapse" id="sidebar-collapse">
+					<!-- <div class="sidebar-collapse" id="sidebar-collapse">
 						<i class="icon-angle-double-left"
 							data-icon1="icon-angle-double-left"
 							data-icon2="icon-angle-double-right"></i>
-					</div>
+					</div> -->
 					<script type="text/javascript">
 						try {
 							ace.settings.check('sidebar', 'collapsed')
@@ -241,6 +143,8 @@ vertical-align: middle;
 							} catch (e) {
 							}
 						</script>
+						<img src="module/img/position_icon.png" width="14" alt="position_icon" style="margin-left: 10px;"/>
+						<span>&nbsp;你的当前位置为：</span>
 						<ul class="breadcrumb">
 						</ul>
 						<div class="nav-search" id="nav-search">
@@ -270,7 +174,7 @@ vertical-align: middle;
 					<div class="col-xs-12-w">
 						<div class="datagrid">
 							<iframe id="content_frame" name="aa"  height="500px"
-								frameborder=0 scrolling=auto></iframe>
+								frameborder=0 scrolling=auto src="./welcome.jsp"></iframe>
 						</div>
 					</div>
 				</div>

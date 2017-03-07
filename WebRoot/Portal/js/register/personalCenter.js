@@ -15,7 +15,6 @@ $(function(){
 			success:function(o) {// 后台处理数据成功后的回调函数
 				var obj = new Array();//jsonO[0].stuName[0].name
 				obj = eval(o);
-				alert(obj.client[0].path1);
 				$('#clientNo1').val(obj.client[0].clientNo);
 				$('#companyName').val(obj.client[0].companyName);
 				$('#mobilePhone').val(obj.client[0].address);
@@ -36,11 +35,65 @@ $(function(){
 	}
 });
 
+window.onload=function(){
+	
+	window.addEventListener("resize", positionAndSize);  //设置监听器
+	
+	/*加载登陆蒙板弹窗*/
+	var loginbox = document.getElementById("image_box");
+	var imask = document.getElementById("imask_2");
+	
+	var oMask = document.getElementById("imask_2");
+	
+	function positionAndSize(num)   //窗体位置居中，遮面大小始终等于窗体大小
+	{
+		var imageSize = new Image();
+		imageSize.src = document.getElementById("image_" + num).src;
+		$("#image_box").height(imageSize.height + 100);
+    	$("#image_box").width(imageSize.width + 100);
+    	$("#image_box1").height(imageSize.height);
+    	$("#image_box1").width(imageSize.width);
+    	var oVerify = document.getElementById("image_box"); 
+			if(oVerify.offsetWidth != 0 && oVerify.offsetHeight != 0){
+				
+			if(document.documentElement.offsetHeight > window.innerHeight){
+            	oMask.style.height = document.documentElement.offsetHeight + "px";
+        	}else{
+
+            	oMask.style.height = window.innerHeight + "px";
+        	}
+        	oMask.style.width = window.innerWidth + "px";
+        	oVerify.style.left=(window.innerWidth - oVerify.offsetWidth)/2 + "px";
+        	oVerify.style.top=(window.innerHeight - oVerify.offsetHeight)/2 + "px";
+		}
+			
+	}
+	
+	$("#image1").click(function(){
+		loginbox.style.display = "block";
+		imask.style.display = "block";
+		$("#image_1").attr("src",$("#image1")[0].src);
+		$("#image_1").attr("style","display:block");
+		positionAndSize(1);
+		});
+	$("#image2").click(function(){
+		loginbox.style.display = "block";
+		imask.style.display = "block";
+		$("#image_1").attr("src",$("#image2")[0].src);
+		$("#image_1").attr("style","display:block");
+		positionAndSize(1);
+		});
+	$(".image_close").click(function(){
+		loginbox.style.display="none";
+		imask.style.display="none";
+	});
+};
+
 //执照图上传方法
 function openModal(idCard){
 	var html = "";
 	$("#fileSubtype").find("option").remove();
-	$.post("fileOperateController/getFileTypeName.do", {
+	/*$.post("fileOperateController/getFileTypeName.do", {
 		ID : $("#fileType").find("option:selected").val()
 	}, function(result) {
 		result = JSON.parse(result);
@@ -49,7 +102,7 @@ function openModal(idCard){
 		}
 		$("#fileSubtype").append(html);
 	});
-	
+	*/
 	fileUploadInit("#file_upload",idCard);
 	$("#addModal").modal("show");
 }

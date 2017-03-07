@@ -4,11 +4,11 @@ var param = {};
 // 初始化数据
 $(function() {
 	$("#table").bootstrapTable({
-		striped : true,// 隔行变色效果
+		striped : false,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
 		pageSize : 10,// 页面数据条数
 		pageNumber : 1,// 首页页码
-		pageList : [ 5, 10 ],// 设置可供选择的页面数据条数
+		pageList : [ 10 ,20 ],// 设置可供选择的页面数据条数
 		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache : false,// 禁用 AJAX 数据缓存
 		sortName : 'ID',// 定义排序列
@@ -28,7 +28,19 @@ $(function() {
 		selectItemName : '',// radio or checkbox 的字段名
 		columns : [ {
 			checkbox : true,
-			width :"1%"// 宽度
+			width :"1%",// 宽度
+			formatter : function(value, row, index) {
+					 checkData(row);	 // 验证数据合理性
+			  }
+		},{
+			field: '',
+	        title: '序号',
+	        width:'1%',
+	        align:'center',
+	        valign:'middle',
+	        formatter: function (value, row, index) {
+	              return index+1;
+	        }
 		},{
 			field : 'ID',// 返回值名称
 			title : '检测报告ID',// 列名
@@ -41,7 +53,7 @@ $(function() {
 			title : '交接单号',// 列名
 			align : 'center',// 水平居中显示
 		    valign : 'middle',// 垂直居中显示
-			width : "10%",// 宽度
+			width : "9%",// 宽度
 			
 		},{
 			field : 'taskID',// 返回值名称
@@ -118,13 +130,13 @@ $(function() {
 			valign : 'middle',// 垂直居中显示
 			width : "10%",// 宽度
 			formatter : function(value, row, index) {
-				return "<span  onclick='fileDown(\""+row.ID+"\")'  title='下载报告' class='glyphicon glyphicon-arrow-down' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
-				+"<span  onclick='submitReport(\""+row.ID+"\",\""+row.taskID+"\")'   title='提交审核' class='glyphicon glyphicon-ok-sign' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
-				+"<span  onclick='showSendReportModal(\""+row.ID+"\")'  title='发送报告' class='glyphicon glyphicon-log-out' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></span> "
+				return "<img src ='module/img/download_icon.png'  onclick='fileDown(\""+row.fileID+"\")'  title='下载报告'  style='cursor:pointer;padding-right:8px;'></img> "
+				+"<img src ='module/img/edit_icon.png'  onclick='submitReport(\""+row.ID+"\",\""+row.taskID+"\")'   title='提交审核'  style='cursor:pointer;padding-right:8px;'></spimgan> "
+				+"<img src ='module/img/contractDetail_icon.png' onclick='showSendReportModal(\""+row.ID+"\")'  title='发送报告'  style='cursor:pointer;padding-right:8px;'></img> "
 			}
 		}]
 	});
-
+	
 });
 
 // 查询
@@ -198,11 +210,12 @@ function sendReportSure() {
 		receiveMan : receiveMan
 	}, function(result) {
 		if (result == true || result == "true") {
+			refresh();
 			alert("发送成功");
 		} else {
+			refresh();
 			alert("发送失败");
 		}
-		refresh();
 	});
 	$("#sendReport").modal("hide");
 }
@@ -234,20 +247,29 @@ function recover() {
 // 确认覆盖
 function recoverSure() {
 	var rows = $("#table").bootstrapTable('getSelections');
-	if (rows[0].fileID != "" || rows[0].fileID != " " || rows[0].fileID != undefined || rows[0].fileID != null) {
-		$.post("fileOperateController/getFilesInfo.do", {
+	if (rows[0].fileID != "" || rows[0].fileID != undefined
+			|| rows[0].fileID != null) {
+		$.post("fileOperateController/getFileDecryptPath.do", {
 			ID : rows[0].fileID
-		},function(result) {
-					result = JSON.parse(result);
-					if (result == null || result == "null") {
-						alert("没有记录");
-					} else {
-						var path = result[0].path;
-						var i = path.lastIndexOf("\\");
-						path = path.substring(i + 1, length);
-						fileUpload("#file_upload", path, result[0].type, rows[0].taskID);
+		}, function(result) {
+			if (result == null || result == "null") {
+				alert("没有记录");
+			} else {
+				result = JSON.parse(result);
+				var path = result[0].path;
+				var i = path.lastIndexOf("\\");
+				path = path.substring(i + 1, length);
+				$.post("fileOperateController/getFilesInfo.do", {
+					ID : rows[0].fileID
+				}, function(fileInfos) {
+					fileInfos = JSON.parse(fileInfos);
+					if (fileInfos != null && fileInfos != "null") {
+						fileUpload("#file_upload", path, fileInfos[0].type,
+								rows[0].taskID);
 					}
 				});
+			}
+		});
 	}
 
 	setTimeout(function() {
@@ -271,7 +293,7 @@ function recoverSure() {
 			}
 		});
 		$("#recoverReport").modal("hide");
-	}, 1500);
+	}, 3000);
 }
 
 // 查看检测报告
@@ -286,41 +308,16 @@ function checkReport() {
 		return;
 	} else {
 		var testReportID = rows[0].ID;
-		if (testReportID != null && testReportID != undefined
-				&& testReportID != "") {
-			window.location.href = "module/jsp/testReportManage/testReportView.jsp?testReportID="
-					+ testReportID;
+		if (testReportID != "") {
+			window.location.href = "module/jsp/testReportManage/testReportView.jsp?testReportID="+ testReportID;
 		}
 	}
 }
 
 // 下载文件
 function fileDown() {
-	var keyID = arguments[0];
-	$.post("testReportController/getFileID.do", {
-		ID : keyID
-	},function(result) {
-				var re = new RegExp("\"", "g");
-				result = result.replace(re, "");
-				if (result == null || result == "null" || result == ""
-						|| result == " ") {
-					if (confirm("未找到相应文件，是否下载默认模版")) {
-						$.post("testReportController/getTemplateFileID.do", {
-							ID : keyID
-						}, function(result) {
-							result = JSON.parse(result);
-							if (result == null || result == undefined
-									|| result == "null" || result == "") {
-								alert("未找到相应模版");
-							} else {
-								downOneFile(result[0].fileID);
-							}
-						});
-					}
-				} else {
-					downOneFile(result);
-				}
-			});
+	var fileID = arguments[0];
+	downOneFile(fileID);
 }
 
 // 刷新页面
@@ -338,4 +335,60 @@ function refresh() {
 		url : "testReportController/getTestReportWithPaging.do",
 		query : additionalCondition
 	});
+}
+
+// 检查数据合理性
+function checkData(dataObj) {
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
+			|| dataObj.ID.trim() == "NULL") {
+		dataObj.ID = "";
+	}
+	if (!dataObj.hasOwnProperty("receiptlistCode")
+			|| dataObj.receiptlistCode == null
+			|| dataObj.receiptlistCode.trim() == "NULL") {
+		dataObj.receiptlistCode = "";
+	}
+	if (!dataObj.hasOwnProperty("taskID") || dataObj.taskID == null
+			|| dataObj.taskID == undefined) {
+		dataObj.taskID = "";
+	}
+	if (!dataObj.hasOwnProperty("fileID") || dataObj.fileID == null
+			|| dataObj.fileID.trim() == "NULL") {
+		dataObj.fileID = "";
+	}
+	if (!dataObj.hasOwnProperty("versionNumber")
+			|| dataObj.versionNumber == null
+			|| dataObj.versionNumber == undefined) {
+		dataObj.versionNumber = "";
+	}
+	if (!dataObj.hasOwnProperty("state") || dataObj.state == null
+			|| dataObj.state == undefined) {
+		dataObj.state = "";
+	}
+	if (!dataObj.hasOwnProperty("companyName") || dataObj.companyName == null
+			|| dataObj.companyName.trim() == "NULL") {
+		dataObj.companyName = "";
+	}
+	if (!dataObj.hasOwnProperty("fileName") || dataObj.fileName == null
+			|| dataObj.fileName.trim() == "NULL") {
+		dataObj.fileName = "";
+	}
+	if (!dataObj.hasOwnProperty("uploadTime") || dataObj.uploadTime == null
+			|| dataObj.uploadTime.trim() == "NULL") {
+		dataObj.uploadTime = "";
+	}
+	if (!dataObj.hasOwnProperty("dismissreason2")
+			|| dataObj.dismissreason2 == null
+			|| dataObj.dismissreason2.trim() == "NULL") {
+		dataObj.dismissreason2 = "";
+	}
+	if (!dataObj.hasOwnProperty("dismissreason3")
+			|| dataObj.dismissreason3 == null
+			|| dataObj.dismissreason3.trim() == "NULL") {
+		dataObj.dismissreason3 = "";
+	}
+	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null
+			|| dataObj.remarks.trim() == "NULL") {
+		dataObj.remarks = "";
+	}
 }

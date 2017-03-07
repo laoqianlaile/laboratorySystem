@@ -25,6 +25,10 @@
 	href="module/css/fileManage/fileManage.css">
 <link rel="stylesheet" type="text/css"
 	href="module/css/timecheck/suggest.css">
+	<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
+		
+	
+<script src="assets/js/autoPage.js"></script>
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/fileManage/fileManage.js"></script>
@@ -113,12 +117,12 @@ textarea {
 					type="button">
 					<em class="glyphicon glyphicon-search"></em> 查询
 				</button>
-				<button type="button" class="btn btn-primary"
+				<button type="button" class="btn btn-primary glyphicon glyphicon-plus"
 					data-toggle="modal" data-target="#addModal">&nbsp;新增</button>
 
 				<button class="btn btn-primary" button" id="del"
 					onclick="openModal()">
-					<em class="glyphicon glyphicon-trash"></em> 修改
+					<em class="glyphicon glyphicon-pencil"></em> 修改
 				</button>
 
 				<button class="btn btn-primary" button" id="del" onclick="delData()">

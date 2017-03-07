@@ -98,7 +98,10 @@ $(function() {
 		queryParamsType : "limit", // 参数格式,发送标准的RESTFul类型的参数请求
 		columns : [ {
 			checkbox : true,
-			width :"1%"// 宽度
+			width :"1%",// 宽度
+			formatter : function(value, row, index) {
+					 checkData(row);	 // 验证数据合理性
+			  }
 		},{
 			field : 'ID',// 返回值名称
 			title : '检测报告ID',// 列名
@@ -125,7 +128,7 @@ $(function() {
 			title : '文件名',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '12%'// 宽度
+			width : '13%'// 宽度
 		}, {
 			field : 'uploadTime',// 返回值名称
 			title : '上传时间',// 列名
@@ -137,103 +140,81 @@ $(function() {
 			title : '版本号',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '10%'// 宽度
+			width : '12%'// 宽度
 		}, {
 			field : 'versionInformation',// 返回值名称
 			title : '版本信息',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '12%'// 宽度
+			width : '13%'// 宽度
 		}, {
 			field : 'uploadTime',// 返回值名称
 			title : '上传时间',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '12%'// 宽度
+			width : '13%'// 宽度
 		}, {
 			field : 'state',// 返回值名称
 			title : '审核状态',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '12%'// 宽度
+			width : '13%'// 宽度
 		}, {
 			field : 'remarks',// 返回值名称
 			title : '备注信息',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '12%'// 宽度
+			width : '13%'// 宽度
 		},{
 			title : '操作',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '16%',// 宽度
+			width : '10%',// 宽度
 			formatter : function(value, row, index) {
-					return 	"<button type='button' title='下载'  class='btn btn-default' onclick='downTestReport(\""+row.fileID+"\")'>"+
-				              "<span class='glyphicon glyphicon-download'>下载</span>"+
-					        "</button>&nbsp;"+
-					        "<button type='button' title='查看'  class='btn btn-default' onclick='onlineView(\""+row.fileID+"\")'>"+
-					          "<span class='glyphicon glyphicon-download'>查看</span>"+
-					        "</button>&nbsp;"+
-					        "<button type='button' title='删除'  class='btn btn-default' onclick='deleteTestReport(\""+row.fileID+"\",\""+row.ID+"\",\""+row.taskID+"\")'>"+
-						      "<span class='glyphicon glyphicon-download'>删除</span>"+
-					        "</button>"
+					return 	"<img src ='module/img/download_icon.png'  title='下载' style='cursor:pointer;padding-right:8px;' onclick='downTestReport(\""+row.fileID+"\")'>"+
+				             "</img>"+
+					        "</img>&nbsp;"+
+					        "<img src ='module/img/view_icon.png'  title='查看'  style='cursor:pointer;padding-right:8px;' onclick='onlineView(\""+row.fileID+"\",\""+row.ID+"\")'>"+
+					        "</img>"+
+					        "</img>&nbsp;"+
+					        "<img src ='module/img/delete_icon.png' title='删除' style='cursor:pointer;padding-right:8px;' onclick='deleteTestReport(\""+row.fileID+"\",\""+row.ID+"\",\""+row.taskID+"\")'>"+
+					        "</img>"
 				}
 		}]
 	});
-	
-	// 请求数据时的额外参数
-	function search(){
+		// 请求数据时的额外参数
+	function search() {
 		var searchCondition = {
 			limit : 5,
 			offset : 0,
 			sort : 'ID',
 			order : 'asc',
-			testReportID :ID
+			testReportID : ID
 		};
-	    return searchCondition;
+		return searchCondition;
 	}
-	
+
 });
 
-//下载检测报告
+// 下载检测报告
 function downTestReport() {
 	var fileID = arguments[0];
-	if (fileID != null && fileID != undefined && fileID != "" && fileID != " ") {
-		downOneFile(fileID);
-	} else {
-		alert("不可以下载");
-	}
+	downOneFile(fileID);
 }
 
 //预览检测报告
 function onlineView() {
+	displayDiv();
 	var fileID = arguments[0];
-	if (fileID == null || fileID == undefined || fileID == "" || fileID == " ") {
-		alert("无法查看");
-	} else {
-		$.post("fileOperateController/getFilesInfo.do", {
-			ID : fileID
-		}, function(result) {
-			result = JSON.parse(result);
-			if (result[0].path != null && result[0].path != "null" && result[0].path != "") {
-				var path = result[0].path;
-				$.post("fileOperateController/onlinePreview.do", {
-					filePath : path
-				}, function(result) {
-					var re = new RegExp("\"", "g");
-					 result = result.replace(re,"");
-					 if (result != null && result != "null" && result != "") {
-						 window.location.href = "module/jsp/documentOnlineView.jsp";
-						 }
-					 else {
-						 alert("无法查看");
-						 }
-					 });
-				} else {
-					alert("无法查看");
-					}
-			});
+	$.post("fileOperateController/onlinePreview.do", {
+		ID : fileID
+	}, function(result) {
+		if (result != null && result != "null") {
+			window.location.href = "module/jsp/documentOnlineView.jsp";
+		} else {
+			alert("无法查看");
 		}
+	});
 }
 
 // 删除检测报告
@@ -250,12 +231,6 @@ function deleteTestReport() {
 				$.post("testReportController/deleteOtherTableInfo.do", {
 					ID : testReportID,
 					taskID : taskID
-				}, function(result) {
-					if (result == true || result == "true") {
-						alert("删除成功");
-					} else {
-						alert("删除失败");
-					}
 				});
 			} else {
 				alert("当前审核状态不能删除");
@@ -278,5 +253,51 @@ function getUrlParam(name) {
 
 // 刷新页面
 function refresh() {
-	$('#table').bootstrapTable('refresh', null);
+	$('#sampleInfoTable').bootstrapTable('refresh', null);
+	$('#testReportFile').bootstrapTable('refresh', null);
+}
+
+function checkData(dataObj) {
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
+			|| dataObj.ID.trim() == "NULL") {
+		dataObj.ID = "";
+	}
+	if (!dataObj.hasOwnProperty("fileID") || dataObj.fileID == null
+			|| dataObj.fileID.trim() == "NULL") {
+		dataObj.fileID = "";
+	}
+	if (!dataObj.hasOwnProperty("versionNumber")
+			|| dataObj.versionNumber == null
+			|| dataObj.versionNumber == undefined) {
+		dataObj.versionNumber = ""; 
+	}
+	if (!dataObj.hasOwnProperty("versionInformation")
+			|| dataObj.versionInformation == null
+			|| dataObj.versionInformation.trim() == "NULL") {
+		dataObj.versionInformation = "";
+	}
+	if (!dataObj.hasOwnProperty("state") || dataObj.state == null
+			|| dataObj.state == undefined) {
+		dataObj.state = ""; 
+	}
+	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null
+			|| dataObj.remarks.trim() == "NULL") {
+		dataObj.remarks = "";
+	}
+	if (!dataObj.hasOwnProperty("taskID") || dataObj.taskID == null
+			|| dataObj.taskID.trim() == "NULL") {
+		dataObj.taskID = "";
+	}
+	if (!dataObj.hasOwnProperty("uploadTime") || dataObj.uploadTime == null
+			|| dataObj.uploadTime.trim() == "NULL") {
+		dataObj.uploadTime = "";
+	}
+	if (!dataObj.hasOwnProperty("fileName") || dataObj.fileName == null
+			|| dataObj.fileName.trim() == "NULL") {
+		dataObj.fileName = "";
+	}
+	if (!dataObj.hasOwnProperty("employeeName") || dataObj.employeeName == null
+			|| dataObj.employeeName.trim() == "NULL") {
+		dataObj.employeeName = "";
+	}
 }

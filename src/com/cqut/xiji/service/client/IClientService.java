@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import com.cqut.xiji.entity.client.Client;
+import com.cqut.xiji.entity.fileInformation.FileInformation;
 
 
 public interface IClientService {
@@ -44,5 +45,8 @@ public interface IClientService {
 
 
 	public String findPassword(String clientNo1, String phoneNumber);
+
+
+	boolean saveFiles(FileInformation fr);
 
 }

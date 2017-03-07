@@ -2,105 +2,88 @@
 body{
 	margin:0px;
 	padding:0px;
-	background-color:#eee;
+	background-color:#fff;
 }
 .main{
-	min-width:855px;
-	width:1100px;
 	height:600px;
-	background:#fff;
+	//font-family:"Times New Roman",Georgia,Serif;
+	font-size: 16px;
+	background-color:#fff;
 	margin:0 auto;
-	border-radius:7px;
-	-moz-border-radius:7px; /* 老的 Firefox */
-	box-shadow: 0px 0px 10px #333;
-	-moz-box-shadow: 0px 0px 10px #333; /* 老的 Firefox */
 }
-.main .header{
-    min-width:855px;
+
+.showContract{
 	height:200px;
-	margin:20px 50px;
+	margin:20px 10px;
 }
-.main .header .top{
+.showContract label{
+	display: inline;
+	width: 70%;
+	font-weight:normal;
+	color: #333;
+}
+
+label.control-label {
+	margin-left:10px;
+	margin-right:10px;
+	font-weight: bold;
+	color: #000;
+	width: 20%;
+}
+.showContract .top{
 	height:40px;
 	line-height:40px;
-	border-bottom:2px solid #999;
+	border:1px solid #ccc;
 }
-.main .header .top span{
-	font-family:"Times New Roman",Georgia,Serif;
-	font-size:24px;
-	width:200px;
+.contract_title{
+	font-size: 18px;
+	display:inline;
 }
-.contract-title{
+.contract_title img{
+	margin:0 10px;
+}
+.contract-code{
 	float:right;
 }
-.contract-title .state{
+.contract-code .state{
 	display:inline;
-	height:50px;
+	height:40px;
 	width:150px;
 	margin-right:32px;
 }
-.contract-title .contractCode{
+.contract-code .contractCode{
 	display:inline;
-	height:50px;
+	height:40px;
 	width:150px;
+	margin-right:10px;
 }
-.main .header .bottom{
-	width:1000px;
+.main .showContract .bottom{
+	width:99%;
 	float:right;
 	height:164px;
-	border-bottom:2px solid #999;
 }
-.main .header .bottom div{
+.main .showContract .bottom div{
 	height:40px;
 	line-height:40px;
 	float:left;
 }
-.contractName{width:40%;}
-.signAddress{width:60%;}
-.companyName{width:40%;}
-.oppositeMen{width:32%;}
-.linkPhone{width:28%;}
-.Time{width:40%;}
-.employeeName{width:32%;}
-.signTime{width:28%;}
-.contractAmount{width:40%;}
-.isClassified{width:32%;}
-.classifiedLevel{width:28%;}
-.main .content{
-	min-width:855px;
-	width:1000px;
-	height:260px;
-	margin:20px 50px;
-}
-.main .content .top{
-	height:40px;
-	line-height:40px;
-	border-bottom:2px solid #999;
-}
-.content .top span{
-	font-family:"Times New Roman",Georgia,Serif;
-	font-size:24px;
-	width:200px;
-}
-.content .bottom{
-	margin:20px 0px;
-	height:200px;
-	width:1000px;
-	border:1px solid #ccc;
-}
+
 .footer{
 
 }
 .footer button#btn-goback{
 	margin-right:100px;
 }
+.footer button#btn-show{
+	width:120px;
+}
 .footer button{
 	margin-right:20px;
 	float:right;
-	width:68px;
+	width:78px;
 	height:30px;
 	color:#eee;
 	background-color:#5695ff;
-	border:2px outset #89a6ff;
+	border:1px solid #333;
 }
 

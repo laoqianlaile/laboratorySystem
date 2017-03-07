@@ -17,7 +17,16 @@ public class Article extends Entity{
 	private String artContent;
 	private String artPicturegis;
 	private String artRemark;
+	private String artClick = "0";
 	
+	public String getArtClick() {
+		return artClick;
+	}
+
+	public void setArtClick(String artClick) {
+		this.artClick = artClick;
+	}
+
 	public String getArticleID() {
 		return articleID;
 	}	
@@ -84,7 +93,7 @@ public class Article extends Entity{
 	
 	@Override
 	public String toString() {
-		return "Article [" +  "articleID=" + articleID  + ", " +  "artTitle=" + artTitle  + ", " +  "artColumn=" + artColumn  + ", " +  "artCregisattime=" + artCregisattime  + ", " +  "artCaseType=" + artCaseType  + ", " +  "artPublisher=" + artPublisher  + ", " +  "artContent=" + artContent  + ", " +  "artPicturegis=" + artPicturegis  + ", " +  "artRemark=" + artRemark  + ", "   + "]";
+		return "Article [" +  "articleID=" + articleID  + ", " +  "artTitle=" + artTitle  + ", " +  "artColumn=" + artColumn  + ", " +  "artCregisattime=" + artCregisattime  + ", " +  "artCaseType=" + artCaseType  + ", " +  "artPublisher=" + artPublisher  + ", " +  "artContent=" + artContent  + ", " +  "artPicturegis=" + artPicturegis  + ", " +  "artRemark=" + artRemark+ ", " +  "artClick=" + artClick   + "]";
 	}
 	
 	@Override

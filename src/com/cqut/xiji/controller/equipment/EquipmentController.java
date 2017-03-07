@@ -173,4 +173,19 @@ public class EquipmentController {
         System.out.println(time);
         return time;
 	}
+	
+	
+	/**
+	 * 
+	 * @discription 获取设备嘻嘻你
+	 * @author zt
+	 * @created 2017-2-27 下午3:33:04
+	 * @return
+	 */
+	@RequestMapping("/getEquipmentInfo")
+	@ResponseBody
+	public List<Map<String, Object>> getEquipmentInfo() {
+		List<Map<String, Object>> result = service.getEquipmentInfo();
+		return result;
+	}
 }

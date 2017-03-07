@@ -43,4 +43,10 @@ public interface IContractService {
 
 	public List<Map<String, Object>> getContractByID(String ID);
 
+	/**
+	 * @param fileID
+	 * @return
+	 */
+	public int updateContractFileID(String contractID);
+
 }

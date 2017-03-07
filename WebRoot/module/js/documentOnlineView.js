@@ -1,7 +1,11 @@
 $(function() {
 	setTimeout(function() {
 		$.post("fileOperateController/deleteOnlinePreviewFile.do");
-	}, 1500);
+<<<<<<< Updated upstream
+	}, 3000);
+=======
+	}, 4000);
+>>>>>>> Stashed changes
 });
 
 function turnBack() {

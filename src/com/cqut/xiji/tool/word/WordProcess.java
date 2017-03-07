@@ -187,7 +187,8 @@ public class WordProcess {
     public boolean replaceText(String toFindText, String newText) {
         if (!find(toFindText))
             return false;
-        Dispatch.put(selection, "Text", newText);
+        if(newText != null)
+            Dispatch.put(selection, "Text", newText);
         return true;
     }
     /**
@@ -200,6 +201,7 @@ public class WordProcess {
      */
     public void replaceAllText(String toFindText, String newText) {
         while (find(toFindText)) {
+        	if(newText != null)
             Dispatch.put(selection, "Text", newText);
             Dispatch.call(selection, "MoveRight");
         }
@@ -862,9 +864,12 @@ public class WordProcess {
      */
     public void unProtectedWord(String pwd) {
         String protectionType = Dispatch.get(doc, "ProtectionType").toString();
-        if (protectionType.equals("3")) {
+        /*if (protectionType.equals("3")) {
             Dispatch.call(doc, "Unprotect", pwd);
-        }
+        }*/ 
+        if (!protectionType.equals("0")&&!protectionType.equals("-1")) {  
+            Dispatch.call(doc, "Unprotect", pwd);  
+        }  
     }
     /**
      * 设置word文档安全级别

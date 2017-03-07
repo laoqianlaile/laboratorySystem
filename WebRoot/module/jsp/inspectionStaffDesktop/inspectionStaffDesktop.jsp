@@ -60,12 +60,6 @@
 	text-align: center;
 }
 
-#right {
-	position: fixed;
-	right: 0;
-	bottom: 0;
-}
-
 .col-xs-12 textarea {
 	width: 90%;
 }

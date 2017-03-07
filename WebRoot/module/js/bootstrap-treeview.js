@@ -33,8 +33,8 @@
 
 		levels: 2,
 
-		expandIcon: 'glyphicon glyphicon-plus',
-		collapseIcon: 'glyphicon glyphicon-minus',
+		expandIcon: 'fa fa-caret-right',
+		collapseIcon: 'fa fa-caret-down',
 		emptyIcon: 'glyphicon',
 		nodeIcon: '',
 		selectedIcon: '',
@@ -528,18 +528,20 @@
 			// Add expand, collapse or empty spacer icons
 			var classList = [];
 			//wangzhijun 前面的加号和减号
-			/*if (node.nodes) {
-				classList.push('expand-icon');
-				if (node.state.expanded) {
-					classList.push(_this.options.collapseIcon);
-				}
-				else {
-					classList.push(_this.options.expandIcon);
+			if (node.nodes) {
+				if (node.nodes.length !== 0) {
+					classList.push('expand-icon');
+					if (node.state.expanded) {
+						classList.push(_this.options.collapseIcon);
+					}
+					else {
+						classList.push(_this.options.expandIcon);
+					}
 				}
 			}
 			else {
 				classList.push(_this.options.emptyIcon);
-			}*/
+			}
 
 			treeItem
 				.append($(_this.template.icon)

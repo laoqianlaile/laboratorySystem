@@ -23,7 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
-	
+	<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
 	<link rel="stylesheet" href="module/css/changeACE.css" />
 	 
 	<script src="module/js/jquery-2.1.1.min.js"></script>
@@ -33,7 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="module/js/bootstrap-datetimepicker.js"></script>
 	<script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
 	<script src="module/js/bootstrap-datetimepicker.fr.js"></script>
-   
+    <script src="assets/js/autoPage.js"></script>
    <style>
 .list-searcher {
 	min-width: 300px;
@@ -153,4 +153,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </body>
   
   <script src="module/js/departmentSupervisorDesktop/workloadStatistical.js"></script>
+  <script src="assets/js/autoPage.js"></script>
 </html>

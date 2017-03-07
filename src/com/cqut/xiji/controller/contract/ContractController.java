@@ -140,7 +140,13 @@ public class ContractController{
 		String result = service.updContract(ID, contractCode, contractName, companyID, companyName, address, oppositeMen, linkPhone, employeeID, employeeName, signAddress, startTime, signTime, endTime, contractAmount, isClassified, classifiedLevel, state);
 		return result;
 	}
-	
+    
+    @RequestMapping("/updateContractFileID")  
+    @ResponseBody
+	public int updateContractFileID(String contractID){
+		int result = service.updateContractFileID(contractID);
+		return result;
+	}
     /**
      * 
      * @description 添加审核意见

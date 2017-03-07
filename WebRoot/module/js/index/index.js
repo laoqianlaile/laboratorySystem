@@ -4,8 +4,11 @@
 var obj ={
 		userID:"1",
 		level:2
-		
-}
+};
+
+var weeks = ['星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+	seasons = ['春季', '夏季', '秋季' , '冬季'],
+	periods = ['早上', '下午', '晚上'];
 
 var nodeId, // 节点id
 	node, // 节点
@@ -16,6 +19,10 @@ $(function(){
 	
 	// 左侧菜单点击事件
 	$(document).on('click', '.list-group-item', changeBreadCrumb);
+	
+	// 动态修改时间
+	changeDateInfo();
+	setInterval(changeDateInfo, 1000);
 });
 
 // 左侧菜单点击改变breadcrumb
@@ -28,8 +35,7 @@ function changeBreadCrumb(){
 	while(node.level0 >= '1'){
 		data.push({
 			text: node.text,
-			href: node.href,
-			icon: node.icon
+			href: node.href
 		});
 		
 		node = $('.tree').treeview('getParent', node);
@@ -42,12 +48,12 @@ function changeBreadCrumb(){
 	// 动态添加breadcrumb结构
 	data.map((item, index) => {
 		if(data.length === 1){
-			html += '<li class="active"><i class="' + item.icon + '" style="padding-right:6px;"></i>' + item.text + '</li>';
+			html += '<li class="active">' + item.text + '</li>';
 		}else {
 			if(index === data.length-1)
-				html += '<li class="active"><i class="' + item.icon + '" style="padding-right:6px;"></i>' + item.text + '</li>';
+				html += '<li class="active">' + item.text + '</li>';
 			else 
-				html += '<li><i class="' + item.icon + '"></i><a href="' + item.href + '">' + item.text + '</a></li>';
+				html += '<li><a href="' + item.href + '">' + item.text + '</a></li>';
 		}
 	});
 	
@@ -88,7 +94,6 @@ function getTree(){
 		});
 	
 	return data;
-	
 }
  function initTree(){
 	
@@ -274,4 +279,37 @@ function getTree(){
  function login(){
 	 window.location.href = "http://localhost:8080/laboratorySystem/login.jsp";
  }
+
+// 动态修改时间
+function changeDateInfo() {
+	
+	var date = new Date();
+ 
+    var year = date.getFullYear(),
+	 	month = date.getMonth() + 1,
+	 	day = date.getDate(),
+	 	hour = date.getHours(),
+	 	minute = date.getMinutes(),
+	 	second = date.getSeconds();
+   
+    hour = hour < 10 ? '0' + hour : hour;
+ 	minute = minute < 10 ? '0' + minute : minute;
+ 	second = second < 10 ? '0' + second : second;
+ 	
+ 	// 2 3 4 | 5 6 7 | 8 9 10 | 11 0 1
+ 	// 0 1 2 | 3 4 5 | 6 7 8 | 9 -2 -1
+	var week = weeks[date.getDay()];
+	var	season = seasons[Math.floor(date.getMonth() / 3)];
+	var period  = periods[Math.floor(date.getHours() / 8)];
+	 	
+    var time = period + ' ' + hour + ':' + minute + ':' + second;
+	
+	$('.year').text(year);
+	$('.month').text(month);
+	$('.day').text(day);
+	
+	$('.week').text(week);
+	$('.season').text(season);
+	$('.time').text(time);
+}
  

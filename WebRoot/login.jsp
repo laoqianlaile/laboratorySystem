@@ -63,7 +63,7 @@ catch(Exception e){
                 <div class="form-group has-feedback ">
                 		
                 	<span class="glyphicon glyphicon-user form-control-feedback"  style="left:0;color: rgb(0, 0, 0);"></span>
-                    <input class="form-control" name="username"  id="username" required="" type='text' style="border-radius: 10px; padding-left:35px;">
+                    <input class="form-control" name="username"  id="username" required="" type='text' style="border-radius: 10px;padding-left:35px;width: 380.5px;">
           			<label alt='请输入账号' placeholder='账号'></label>
                 </div>
                 <!--<div >
@@ -74,7 +74,7 @@ catch(Exception e){
              <div class="User-info">
                 <div class="input-gruop has-feedback">
                		<span class="glyphicon glyphicon-lock form-control-feedback" style="left:0;color: rgb(0, 0, 0);"></span>
-	                <input class="form-control" required=""  name="password" id="employeeid" type="password" style="border-radius: 10px; padding-left:35px;">
+	                <input class="form-control" required=""  name="password" id="employeeid" type="password" style="border-radius: 10px;padding-left:35px;width: 380.5px;">
 	          		<label alt='请输入密码' placeholder='密码'></label>
                 </div> 
                <!-- <div >
@@ -97,8 +97,10 @@ catch(Exception e){
               <div style="height: 60;line-height:3">
                <input type="checkbox" name="autoLogin" class="isAuto" value="记住密码" >记住密码
              </div>
-             <div>
-               <button class="btn btn-info" name="login"  onclick="login()" style="width:320px;border-radius:10px;font-size:18px;">登录</button>
+             <div class="btnimg">
+             	
+               <button class="btn btn-info" name="login"  onclick="login()" >	<img  src="module/img/login/login_bg_shadow.png">登录</button>
+               
              </div>
            </div>
         </div>

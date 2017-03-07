@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.enterprise.inject.New;
 
 import org.springframework.stereotype.Service;
 
@@ -15,12 +16,15 @@ import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
+import com.cqut.xiji.entity.message.Message;
+import com.cqut.xiji.entity.messageNotice.MessageNotice;
 import com.cqut.xiji.entity.sample.Sample;
 import com.cqut.xiji.entity.task.Task;
 import com.cqut.xiji.entity.taskMan.TaskMan;
 import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.entity.testReport.TestReport;
 import com.cqut.xiji.service.base.SearchService;
+import com.cqut.xiji.service.fileEncrypt.IFileEncryptService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 import com.cqut.xiji.tool.util.PropertiesTool;
 import com.cqut.xiji.tool.word.WordProcess;
@@ -36,7 +40,10 @@ public class TaskService extends SearchService implements ITaskService {
 
 	@Resource(name = "baseEntityDao")
 	BaseEntityDao baseEntityDao;
-
+	
+	@Resource(name = "fileEncryptService")
+	IFileEncryptService fileEncryptservice;
+	
 	public String gettestprojectID = "";
 
 	@Override
@@ -172,8 +179,36 @@ public class TaskService extends SearchService implements ITaskService {
 					result = -1;
 				}
 			}
+			
+			addMessage(temp, taskID); // 添加消息
 		}
 		return result;
+	}
+	
+	public void addMessage(String[] IDS, String taskID) {
+		Task task = entityDao.getByID(taskID, Task.class);
+		
+		String content = task.getID() + "任务需要检测!"; // 消息记录内容
+		
+		// 设置消息记录
+		Message message = new Message();
+		String messageID = EntityIDFactory.createId();
+		message.setID(messageID);
+		message.setContent(content);
+		message.setCreateTime(new Date());
+		entityDao.save(message);
+		
+		// 设置消息通知
+		int len = IDS.length;
+		MessageNotice[] messageNotices = new MessageNotice[len];
+		
+		for(int i = 0; i < len; i++) {
+			messageNotices[i] = new MessageNotice();
+			messageNotices[i].setID(EntityIDFactory.createId());
+			messageNotices[i].setMessageID(messageID);
+			messageNotices[i].setEmployeeID(IDS[i]);
+		}
+		entityDao.saveEntities(messageNotices);
 	}
 
 	/**
@@ -817,22 +852,22 @@ public class TaskService extends SearchService implements ITaskService {
 	
 	@Override
 	public boolean setTestReportInfo(String taskID, String remarks) {
-		Map<String, Object> result = baseEntityDao.findByID(
+		Map<String, Object> testreportInfo = baseEntityDao.findByID(
 				new String[] { "testReportID,receiptlistID" }, taskID, "ID",
 				"task");
 		String condition = " fileinformation.belongtoID = '" + taskID + "'";
-		List<Map<String, Object>> result1 = entityDao.searchWithpaging(
+		List<Map<String, Object>> result = entityDao.searchWithpaging(
 				new String[] { "fileinformation.ID AS ID" }, "fileinformation",
 				null, null, condition, null, "fileinformation.uploadTime",
 				"DESC", 1, 0);
 		String fileID = "";
-		if (result1 != null && result1.size() > 0) {
-			fileID = result1.get(0).get("ID").toString();
+		if (result != null && result.size() > 0) {
+			fileID = result.get(0).get("ID").toString();
 		}
 		String testReportID = "";
-		if (result.get("testReportID") == null || result.get("testReportID").equals("") || result.get("testReportID").equals(" ")) {
+		if (testreportInfo.get("testReportID") == null || testreportInfo.get("testReportID").toString().length() == 0) {
 			TestReport tr = new TestReport();
-			String receiptlistID = result.get("receiptlistID").toString();
+			String receiptlistID = testreportInfo.get("receiptlistID").toString();
 			testReportID = EntityIDFactory.createId().toString();
 			tr.setID(testReportID);
 			tr.setReceiptlistID(receiptlistID);
@@ -853,7 +888,7 @@ public class TaskService extends SearchService implements ITaskService {
 			int updateSuccessCount = saveTereport + updateTask;
 			return (updateTask + updateSuccessCount) > 1 ? true : false;
 		} else {
-			testReportID = result.get("testReportID").toString();
+			testReportID = testreportInfo.get("testReportID").toString();
 			TestReport tr = entityDao.getByID(testReportID, TestReport.class);
 			tr.setFileID(fileID);
 			tr.setRemarks(remarks);
@@ -863,26 +898,26 @@ public class TaskService extends SearchService implements ITaskService {
 	}
 	
 	@Override
-	public String getReportPath(String taskID){
+	public List<Map<String, Object>> getReportFileID(String taskID){
 		String filteCondition = "";
 		if (taskID != null && !taskID.equals("") && !taskID.isEmpty()) {
 			filteCondition += " where task.ID = '" + taskID + "'";
 		}
-		String baseEntiy = " ( " + " SELECT " + "testreport.fileID AS fileID "
+		String baseEntiy = " ( " + " SELECT " + 
+		"testreport.fileID AS fileID"
 				+ " FROM " + " ( " + " SELECT "
 				+ "task.testReportID AS testReportID " + " FROM " + " task "
 				+ filteCondition + " ) AS a "
 				+ " LEFT JOIN testreport ON a.testReportID = testreport.ID "
 				+ " ) AS b ";
-		String[] properties = new String[] { "fileinformation.path" };
+		String[] properties = new String[] { "fileinformation.ID"};
 		String joinEntity = " LEFT JOIN fileinformation ON b.fileID = fileinformation.ID ";
 		List<Map<String, Object>> result = entityDao.searchForeign(properties,
 				baseEntiy, joinEntity, null, null);
 		if (result == null) {
 			return null;
 		} else {
-			String filePath = result.get(0).get("path").toString();
-			return filePath;
+			return result;
 		}
 	}
 
@@ -929,15 +964,16 @@ public class TaskService extends SearchService implements ITaskService {
 	
 
 	@Override
-	public String downReportTemplate(String taskID, String projectName) {
+	public String downReportTemplate(String taskID, String projectName,String UPLOADER) {
 		Map<String, Object> taskInfoResult = baseEntityDao.findByID(
 				new String[] { "testReportID,receiptlistID" }, taskID, "ID", "task");
+		Object map =  taskInfoResult.get("testReportID");
 		String filteCondition = "";
 		String testReportID = "";
 		String baseEntiy = "";
 		String[] properties = null;
 		String joinEntity = "";
-		if (taskInfoResult.get("testReportID") == null) {
+		if (map == null || map.toString().length() == 0) {
 		    filteCondition = " where task.ID = '" + taskID + "'";
 			 baseEntiy = " ( "
 					+ " SELECT "
@@ -1060,23 +1096,34 @@ public class TaskService extends SearchService implements ITaskService {
 									wordData.get(0).get("accordingDoc")
 											.toString());
 						PropertiesTool pt = new PropertiesTool();
-						String path = pt.getSystemPram("filePath") + "\\"
-								+ "项目文件\\" + projectName + "\\" + "报告文件\\";
+						String path = pt.getSystemPram("filePath") + "\\";
+						String relativePath = "项目文件" + "\\" + projectName
+								+ "\\" + "报告文件" + "\\";
+						String cacheFilePath = pt.getSystemPram("cacheFilePath")+"\\";
 						String fileName = "";
+						String memoryName = "";
 						if (wordData.get(0).get("sampleName") != null) {
 							fileName += wordData.get(0).get("sampleName")
+									.toString();
+							memoryName += wordData.get(0).get("sampleName")
 									.toString();
 						}
 						if (wordData.get(0).get("testProjectName") != null) {
 							fileName += "的"
 									+ wordData.get(0).get("testProjectName")
 											.toString();
+							memoryName += "的"
+									+ wordData.get(0).get("testProjectName")
+											.toString();
 						}
 						
 					    testReportID = EntityIDFactory.createId();
 						fileName += "_" + testReportID + ".docx";
-						path += fileName;
-						wp.save(path);
+						memoryName += ".docx";
+						relativePath += fileName;
+						path += relativePath;
+						cacheFilePath += fileName;
+						wp.save(cacheFilePath);
 						wp.close();
 						Task tk = entityDao.getByID(taskID, Task.class);
 						tk.setDetectstate(1);
@@ -1087,21 +1134,27 @@ public class TaskService extends SearchService implements ITaskService {
 						String fileID = EntityIDFactory.createId();
 						fi.setID(fileID);
 						fi.setBelongtoID(taskID);
-						fi.setFileName(fileName);
-						fi.setPath(path);
+						fi.setUploaderID(UPLOADER);
+						fi.setFileName(memoryName);
+						fi.setPath(relativePath);
 						Date now = new Date(System.currentTimeMillis());
 						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 						fi.setUploadTime(dateFormat.parse(dateFormat.format(now)));
 						fi.setState(0);
 						fi.setType(2);
 					    baseEntityDao.save(fi);
-
+					    System.out.println("relativePath :"+relativePath);
+					    System.out.println("cacheFilePath :"+cacheFilePath);
+					    fileEncryptservice.encryptPath(relativePath, fileID);
+						fileEncryptservice.encryptFile(cacheFilePath,path,fileID);
+						
 						TestReport tr = new TestReport();
 						String receiptlistID = taskInfoResult.get("receiptlistID").toString();
 						tr.setID(testReportID);
 						tr.setReceiptlistID(receiptlistID);
 						tr.setTaskID(taskID);
-					 // tr.setVersionNumber(""); tr.setVersionInformation("");
+					    tr.setVersionNumber("1.0"); 
+					 // tr.setVersionInformation("");
 							tr.setState(0);
 							tr.setFileID(fileID);
 						tr.setSendState(0);

@@ -206,7 +206,7 @@ public class FileInformationService extends SearchService implements IFileInform
 	public Map<String, Object> getContractFileWithPaging(int limit, int offset,
 			String order, String sort, String ID){
 		int index = limit;
-		int pageNum = offset/limit + 1;
+		int pageNum = offset/limit;
 		String tableName = "fileInformation";
 		String[] properties = new String[]{
 			"fileInformation.ID",
@@ -214,10 +214,6 @@ public class FileInformationService extends SearchService implements IFileInform
 			"employee.employeeName",
 			"fileInformation.uploaderID",
 			"date_format(fileInformation.uploadTime,'%Y-%m-%e') as uploadTime",
-			"case when fileInformation.state = 0 then '未提交' " + 
-			"when fileInformation.state = 1 then '待审核' " + 
-			"when fileInformation.state = 2 then '通过' " + 
-			"when fileInformation.state = 3 then '驳回' end as state",
 			"fileInformation.remarks"
 		};
 		String joinEntity = " LEFT JOIN employee ON fileInformation.uploaderID = employee.ID ";
@@ -225,7 +221,7 @@ public class FileInformationService extends SearchService implements IFileInform
 		String condition = "1 = 1 ";
 		
 		if(ID != null && !ID.isEmpty()){
-			condition = " and fileInformation.belongToID = " + ID;
+			condition = " and fileInformation.state = 0 and fileInformation.belongToID = " + ID;
 		}
 		
 		List<Map<String, Object>> result  = entityDao.searchWithpaging(properties, tableName, joinEntity, null, condition, null, sort, order, index, pageNum);

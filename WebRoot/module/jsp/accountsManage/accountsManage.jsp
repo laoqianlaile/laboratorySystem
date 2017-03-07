@@ -65,6 +65,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	width:200px;
 	display: inline-block;
 }
+#menu{
+    background-color: rgb(232,243,249);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 101%;
+    }
 </style>
   <body>
   	<div class="container" style="width:100%;">
@@ -106,8 +112,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</div>
 					</div>
 				</div>
-				<div class="">
-					<div style="float: right;">
+				<div id= "menu" class="col-md-12 row" >
+					<div>
 						<button class="btn btn-primary type=" button" id="refresh"
 							onclick="query()">
 							<em class="glyphicon glyphicon-refresh"></em> 查询

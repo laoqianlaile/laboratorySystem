@@ -28,7 +28,7 @@ $(function() {
 	});
 	
 	$("#sampleInfoTable").bootstrapTable({
-		striped : true,// 隔行变色效果
+		striped : false,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
      	pageSize : 5,// 页面数据条数
 		pageNumber : 1,// 首页页码
@@ -129,7 +129,7 @@ $(function() {
 	
 	// 得到任务对应文件的信息
 	$("#taskFile").bootstrapTable({
-		striped : true,// 隔行变色效果
+		striped : false,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
      	pageSize : 5,// 页面数据条数
 		pageNumber : 1,// 首页页码
@@ -152,7 +152,19 @@ $(function() {
 		queryParamsType : "limit", // 参数格式,发送标准的RESTFul类型的参数请求
 		columns : [ {
 			checkbox : true,
-			width :"1%"// 宽度
+			width :"1%",// 宽度
+			formatter : function(value, row, index) {
+				 checkData(row);	 // 验证数据合理性
+		  }
+		},{
+			field: '',
+	        title: '序号',
+	        width:'1%',
+	        align:'center',
+	        valign:'middle',
+	        formatter: function (value, row, index) {
+	              return index+1;
+	        }
 		},{
 			field : 'ID',// 返回值名称
 			title : '文件ID',// 列名
@@ -165,7 +177,7 @@ $(function() {
 			title : '文件名',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '25%'// 宽度
+			width : '24%'// 宽度
 		}, {
 			field : 'uploadTime',// 返回值名称
 			title : '上传时间',// 列名
@@ -184,9 +196,8 @@ $(function() {
 			valign : 'middle',// 垂直居中显示
 			width : "10%",// 宽度
 			formatter : function(value, row, index) {
-					return 	"<button type='button' title='下载'   class='btn btn-default' onclick='fileDown(\""+row.ID+"\")'>"+
-				   "<span class='glyphicon glyphicon-download'>下载</span>"+
-					"</button>"
+					return 	"<img src ='module/img/download_icon.png' title='下载'  onclick='fileDown(\""+row.ID+"\")' style='cursor:pointer;'>"+ 
+					"</img>"
 				}
 		}]
 	});
@@ -216,14 +227,38 @@ function getUrlParam(name) {
 	}
 }
 
+// 设备登记
+function equipmentRegister() {
+	$.post("equipmentController/getEquipmentInfo.do",
+			function(result) {
+	                 	result = JSON.parse(result);
+						if (result != null && result != "null" ) {
+							var htmlElement = "";
+							for ( var i = 0; i < result.length; i++) {
+								htmlElement += "<div class='col-xs-4 col-md-4 col-lg-4'>"
+										+ "<input type='checkbox' name='equipment' id='equipment' value="
+										+ result[i].ID
+										+ ">"
+										+ "<label>"
+										+ result[i].equipmentInfo
+										+ "</label>"
+										+ "</div>"
+							}
+							$(".equipmentList").text("");
+							$(".equipmentList").append(htmlElement);
+						}
+					});
+	$("#equipmentInfo").modal("show");
+}
+
 //确定登记的设备
 function sure() {
 	var equipmentArray = [];
 	var ID = getUrlParam("taskID");
-	$(".equipmentList input[type=checkbox]").each(function(){
-	    if(this.checked){
-	    	equipmentArray.push($(this).val());
-	    }
+	$(".equipmentList input[type=checkbox]").each(function() {
+		if (this.checked) {
+			equipmentArray.push($(this).val());
+		}
 	});
 	$.ajax({
 		url : 'taskEquipmentController/saveTaskEquipment.do',
@@ -244,42 +279,24 @@ function sure() {
 	$("#equipmentInfo").modal("hide");
 }
 
-//设备登记
-function equipmentRegister(){
-	$.post("equipmentController/getEquipmentInfo.do",function(result){
-		result = JSON.parse(result);
-		if (result != null && result != "null" && result != "") {
-			var htmlElement = "";
-			for(var i = 0;i<result.length;i++){
-				htmlElement += "<div class='col-xs-4 col-md-4 col-lg-4'>"+
-				                 "<input type='checkbox' name='equipment' name='equipment' value="+result[i].ID+">"+
-				                 "<label>"+result[i].equipmentInfo+"</label>"+
-			                	"</div>"
-			}
-			$(".equipmentList").text("");
-			$(".equipmentList").append(htmlElement);
-		}
-	});
-	$("#equipmentInfo").modal("show");	
-}
-
-//下载报告模版
+// 下载报告模版
 function downReportTemplate() {
 	var ID = getUrlParam("taskID");
 	$.post("taskController/getProjectName.do", {
 		taskID : ID
 	}, function(result) {
-		if (result != null && result != "null" && result != "") {
+		if (result != null && result != "null") {
 			result = JSON.parse(result);
 			$.post("taskController/downReportTemplate.do", {
 				taskID : ID,
 				projectName : result[0].name
 			}, function(fileID) {
-				if (fileID != null && fileID != "null" && fileID != "") {
+				if (fileID != null && fileID != "null") {
 					var re = new RegExp("\"", "g");
 					fileID = fileID.replace(re, "");
 					downOneFile(fileID);
-				}else{
+					refresh();
+				} else {
 					alert("下载模版出错");
 				}
 			});
@@ -293,12 +310,12 @@ function downReportTemplate() {
 function uploadTestReport() {
 	fileUploadInit("#file_upload");
 	var ID = getUrlParam("taskID");
-	$.post("taskController/recoverFileCheck.do", {
+	$.post("taskController/setTaskDetectState.do", {
 		taskID : ID
 	}, function(result) {
 		if (result == true || result == "true") {
 			$("#uploadReport").modal("show");
-		}else{
+		} else {
 			alert("当前审核状态不可以上传报告");
 		}
 	});
@@ -312,14 +329,14 @@ function uploadSure() {
 	$.post("taskController/getProjectName.do", {
 		taskID : ID
 	}, function(result) {
-		if (result != null && result != "null" && result != "") {
+		if (result != null && result != "null") {
 			result = JSON.parse(result);
-			fileUpload("#file_upload", "", 2, ID, "项目文件", result[0].name,"报告文件", "", fileSummaryInfo);
+			fileUpload("#file_upload", "", 2, ID, "项目文件", result[0].name, "报告文件", "", fileSummaryInfo);
 			$.post("taskController/setTaskDetectState.do", {
 				taskID : ID
 			}, function(result) {
 				if (result == false || result == "false") {
-					alert("未成功设置上传的检测报报告");
+					alert("未成功上传或覆盖文件");
 				}
 			});
 		} else {
@@ -327,25 +344,24 @@ function uploadSure() {
 		}
 	});
 	setTimeout(function() {
-		setTestReportInfo(ID,remarksInfo);
+		setTestReportInfo(ID, remarksInfo);
 	}, 1500);
 }
 
 // 查看报告
 function onlineViewReport() {
-	var ID = getUrlParam("taskID");
-	$.post("taskController/getReportPath.do", {
-		taskID : ID
-	}, function(path) {
-		if (path != null && path != "null" && path != "") {
-			var re = new RegExp("\"", "g");
-			path = path.replace(re, "");
+	displayDiv();
+	var taskID = getUrlParam("taskID");
+	$.post("taskController/getReportFileID.do", {
+		taskID : taskID
+	}, function(result) {
+		if (result != null && result != "null") {
+			result = JSON.parse(result);
+			var fileID = result[0].ID;
 			$.post("fileOperateController/onlinePreview.do", {
-				filePath : path
+				ID : fileID
 			}, function(result) {
-				var re = new RegExp("\"", "g");
-				result = result.replace(re, "");
-				if (result != null && result != "null" && result != "") {
+				if (result != null && result != "null") {
 					window.location.href = "module/jsp/documentOnlineView.jsp";
 				} else {
 					alert("无法查看");
@@ -357,18 +373,22 @@ function onlineViewReport() {
 	});
 }
 
-
 // 添加或更新检测报告信息
 function setTestReportInfo() {
 	$.post("taskController/setTestReportInfo.do", {
 		taskID : arguments[0],
 		remarks : arguments[1]
 	}, function(result) {
+		if (result == true || result == "true") {
+			refresh();
+			alert("上传或覆盖成功");
+		}else{
+			refresh();
+			alert("未成功上传或覆盖文件");
+		}
 	});
 	$("#uploadReport").modal("hide");
-	refresh();
 }
-
 
 // 提交审核
 function submitReport() {
@@ -410,19 +430,36 @@ function submitReport() {
 	}
 }
 				
-				
-
-
 // 下载
 function fileDown() {
 	var fileID = arguments[0];
-	if (fileID != null && fileID != undefined && fileID != "" && fileID != " ") {
-		downOneFile(fileID);
-	}
+	downOneFile(fileID);
+
 }
 
-//刷新
-function refresh(){
+// 刷新
+function refresh() {
 	$("#taskFile").bootstrapTable("refresh", null);
 	$("#sampleInfoTable").bootstrapTable("refresh", null);
+}
+
+//检查数据合理性
+function checkData(dataObj) {
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
+			|| dataObj.ID.trim() == "NULL") {
+		dataObj.ID = "";
+	}
+	if (!dataObj.hasOwnProperty("fileName") || dataObj.fileName == null
+			|| dataObj.fileName.trim() == "NULL") {
+		dataObj.fileName = "";
+	}
+	if (!dataObj.hasOwnProperty("uploadTime") || dataObj.uploadTime == null
+			|| dataObj.uploadTime == undefined) {
+		dataObj.uploadTime = "";
+	}
+	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null
+			|| dataObj.remarks.trim() == "NULL") {
+		dataObj.remarks = "";
+	}
+
 }

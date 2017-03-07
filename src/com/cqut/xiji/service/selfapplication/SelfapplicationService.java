@@ -189,7 +189,7 @@ public class SelfapplicationService extends SearchService implements ISelfapplic
 					map1.put("selfHasContact","否");
 				else if(map1.get("selfHasContact").equals("1"))
 					map1.put("selfHasContact","是");
-				map1.put("opration", "<button class='btn contact' onclick='contactModal()'>联系</button>");
+				map1.put("opration", "<button class='btn btn-primary' onclick='contactModal()'>联系</button>");
 			}
 			int count;
 			count = entityDao.getForeignCount("selfApplyID","selfapplication", "left join company on selfapplication.selfCompanyId=company.id",null, selfHasContactCondition);

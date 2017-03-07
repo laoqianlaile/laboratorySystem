@@ -50,23 +50,22 @@ function fileUploadInit(selectorName,idCard){
 	        
 	        'fileObjName':'files', //将要上传的文件对象的名称 必须与后台controller中抓取的文件名保持一致    
 	        
-            'uploader':'/laboratorySystem/fileOperateController/upload.do', //上传地址
+            'uploader':'/laboratorySystem/clientController/upload.do', //上传地址
             
             'width':'100', //浏览按钮的宽度
             
             'height':'32', //浏览按钮的高度 
-            
+      
             'fileTypeDesc':'支持的格式:', //在浏览窗口底部的文件类型下拉菜单中显示的文本 
             
-            'fileTypeExts':'*.jpg;*.gif;*.png;*.doc;*.docx;*.xls;*.xlsx',//允许上传的文件后缀
+            'fileTypeExts':'*.jpg;*.gif;*.png;*.jpeg,*.psd,*.pcx,*.tif,*.bmp',//允许上传的文件后缀
             
-            'queueSizeLimit':3,//允许上传的文件的最大数量。当达到或超过这个数字，onSelectError事件被触发。
+            'queueSizeLimit':1,//允许上传的文件的最大数量。当达到或超过这个数字，onSelectError事件被触发。
 
             'onUploadSuccess' : function(file, data, response) {
     			data = data.replace(re, "");
     			array.push(data);
     			alert("图片上传成功");
-    			alert(data);
     			$("#idCard" + idCard).val(data);
     		},
 		    'onUploadError': function(file,errorCode,erorMsg,errorString){

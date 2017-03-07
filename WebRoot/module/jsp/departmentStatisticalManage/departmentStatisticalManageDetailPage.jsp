@@ -23,9 +23,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
-	
+	<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
 	<link rel="stylesheet" href="module/css/changeACE.css" />
-	 
+	<script src="assets/js/autoPage.js"></script>
 	<script src="module/js/jquery-2.1.1.min.js"></script>
 	<script src="module/js/bootstrap.js"></script>
 	<script src="module/js/bootstrap-table.js"></script>
@@ -158,7 +158,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </body>
   
   <script src="module/js/departmentStatisticalManage/departmentStatisticalManageDetailPage.js"></script>
-  
+  <script src="assets/js/autoPage.js"></script>
   <script type="text/javascript">
 	$('.form_datetime').datetimepicker({
 	    language: 'zh-CN',

@@ -18,3 +18,49 @@
 字体阴影
 *{text-shadow: 0.05em 0.05em 0.05em #a9a9a9; }
  */
+ .fip-box i {
+	display: block;
+	margin-top: 13px;
+}
+.icons-selector .fip-icon-block:BEFORE{
+    margin-top: 10px;
+}
+
+.icons-selector .fip-icon-down-dir:BEFORE {
+    margin-top: 10px;
+}
+
+.icons-selector .fip-icon-search:BEFORE {
+    margin-top: 10px;
+}
+table {
+	width: 1020px;
+	min-width:1200px;
+/* 	float: left;
+	margin-left: 40px; */
+}
+#tree{
+min-width: 300px;
+width:20%;
+float:left ;
+}
+#moduleTable{
+    min-width: 1200px;
+    /* float: left; */
+    margin-left: 10px;
+    display: inline-block;
+    width: 79%;
+    margin-top: 10px;
+}
+.container{
+   margin : 0 auto;
+  min-width: 1600px;
+  width: 100%;
+}
+.btn-primary{
+margin-left: 3px;
+} 
+.fixed-table-body #table .bs-checkbox {
+vertical-align: middle;
+} 
+ 

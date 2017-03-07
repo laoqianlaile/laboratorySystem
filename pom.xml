@@ -186,11 +186,11 @@
 			<artifactId>jacob</artifactId>
 			<version>1.14.3</version>
 		</dependency>
-		<dependency>
+	<!-- 	<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-jdk14</artifactId>
 			<version>${slf4j.version}</version>
-		</dependency>
+		</dependency> -->
 
 
 		<dependency>
@@ -284,6 +284,11 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient-win</artifactId>
 			<version>${httpcomponents.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>

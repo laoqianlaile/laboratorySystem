@@ -40,7 +40,7 @@ $(function () {
 
 	// 得到指定交接单下的任务
 	$('#taskTable').bootstrapTable({
-		striped: true,// 隔行变色效果
+		striped: false,// 隔行变色效果
 		pagination: true,// 在表格底部显示分页条
 		pageSize: 5,//页面数据条数
 		pageNumber:1,//首页页码
@@ -169,7 +169,7 @@ $(function () {
 	// 得到与交接单相关的文件信息
 	$('#fileTable').bootstrapTable({
 		//定义表格的高度height: 500,
-		striped: true,// 隔行变色效果
+		striped: false,// 隔行变色效果
 		pagination: true,//在表格底部显示分页条
 		pageSize: 5,//页面数据条数
 		pageNumber:1,//首页页码
@@ -260,7 +260,7 @@ $("#btn-assign").click(function(){
 		var departmentID = $('#departmentID').text();
 
 		$('#assignTable').bootstrapTable({
-			striped: true,// 隔行变色效果
+			striped: false,// 隔行变色效果
 			pagination: true,//在表格底部显示分页条
 			pageSize: 5,//页面数据条数
 			pageNumber:1,//首页页码
@@ -357,7 +357,7 @@ function assignAgain(ID,detector,custodian,factoryCode){
 	
 
 	$('#assignTable').bootstrapTable({
-		striped: true,// 隔行变色效果
+		striped: false,// 隔行变色效果
 		pagination: true,//在表格底部显示分页条
 		pageSize: 5,//页面数据条数
 		pageNumber:1,//首页页码

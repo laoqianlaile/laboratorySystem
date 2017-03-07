@@ -1,74 +1,72 @@
-/*³õÊ¼»¯Ò³Ãæ*/
+/*åˆå§‹åŒ–é¡µé¢*/
 $(function() {
 	init();
 });
-
 function init () {
 	$('#testReportTable').bootstrapTable({
-		striped : true,// ¸ôĞĞ±äÉ«Ğ§¹û
-		pagination : true,// ÔÚ±í¸ñ²¿ÏÔÊ¾·ÖÒ³Ìõ
-		pageSize : 5,// Ò³ÃæÊı¾İÌõÊı
-		pageNumber : 1,// Ê×Ò³Ò³Âë
-		pageList : [ 3, 5, 9, 10 ],// ÉèÖÃ¿É¹©Ñ¡ÔñµÄÒ³ÃæÊı¾İÌõÊı
-		clickToSelect : true,// ÉèÖÃtrue ½«ÔÚµã»÷ĞĞÊ±£¬×Ô¶¯Ñ¡Ôñrediobox ºÍ checkbox
-		cache : false,// ½ûÓÃ AJAX Êı¾İ»º´æ
-		sortName : 'task.ID',// ¶¨ÒåÅÅĞòÁĞ
-		sortOrder : 'asc',// ¶¨ÒåÅÅĞò·½Ê½
-		url : 'taskController/getTaskTestReportWithPaging.do',// ·şÎñÆ÷Êı¾İµÄ¼ÓÔØµØÖ·
-		sidePagination : 'server',// ÉèÖÃÔÚÄÄÀï½øĞĞ·ÖÒ³
-		contentType : 'application/json',// ·¢ËÍµ½·şÎñÆ÷µÄÊı¾İ±àÂëÀàĞÍ
-		dataType : 'json',// ·şÎñÆ÷·µ»ØµÄÊı¾İÀàĞÍ
-		queryParams : function queryParams(params) { // ÇëÇó·şÎñÆ÷Êı¾İÊ±£¬Äã¿ÉÒÔÍ¨¹ıÖØĞ´²ÎÊıµÄ·½Ê½Ìí¼ÓÒ»Ğ©¶îÍâµÄ²ÎÊı
-			var temp = { // ÕâÀïµÄ¼üµÄÃû×ÖºÍ¿ØÖÆÆ÷µÄ±äÁ¿Ãû±ØĞëÒ»Ö±£¬Õâ±ß¸Ä¶¯£¬¿ØÖÆÆ÷Ò²ĞèÒª¸Ä³ÉÒ»ÑùµÄ
-				limit : params.limit, // Ò³Ãæ´óĞ¡
-				offset : params.offset, // Æ«ÒÆÁ¿
-				search : "",// ³õÊ¼»¯ËÑË÷ÎÄ×Ö
-				sort : params.sort, // ÅÅĞòÁĞÃû
-				order : params.order, // ÅÅÎ»ÃüÁî£¨desc£¬asc£©
+		striped : true,// éš”è¡Œå˜è‰²æ•ˆæœ
+		pagination : true,// åœ¨è¡¨æ ¼éƒ¨æ˜¾ç¤ºåˆ†é¡µæ¡
+		pageSize : 5,// é¡µé¢æ•°æ®æ¡æ•°
+		pageNumber : 1,// é¦–é¡µé¡µç 
+		pageList : [ 3, 5, 9, 10 ],// è®¾ç½®å¯ä¾›é€‰æ‹©çš„é¡µé¢æ•°æ®æ¡æ•°
+		clickToSelect : true,// è®¾ç½®true å°†åœ¨ç‚¹å‡»è¡Œæ—¶ï¼Œè‡ªåŠ¨é€‰æ‹©rediobox å’Œ checkbox
+		cache : false,// ç¦ç”¨ AJAX æ•°æ®ç¼“å­˜
+		sortName : 'task.ID',// å®šä¹‰æ’åºåˆ—
+		sortOrder : 'asc',// å®šä¹‰æ’åºæ–¹å¼
+		url : 'taskController/getTaskTestReportWithPaging.do',// æœåŠ¡å™¨æ•°æ®çš„åŠ è½½åœ°å€
+		sidePagination : 'server',// è®¾ç½®åœ¨å“ªé‡Œè¿›è¡Œåˆ†é¡µ
+		contentType : 'application/json',// å‘é€åˆ°æœåŠ¡å™¨çš„æ•°æ®ç¼–ç ç±»å‹
+		dataType : 'json',// æœåŠ¡å™¨è¿”å›çš„æ•°æ®ç±»å‹
+		queryParams : function queryParams(params) { // è¯·æ±‚æœåŠ¡å™¨æ•°æ®æ—¶ï¼Œä½ å¯ä»¥é€šè¿‡é‡å†™å‚æ•°çš„æ–¹å¼æ·»åŠ ä¸€äº›é¢å¤–çš„å‚æ•°
+			var temp = { // è¿™é‡Œçš„é”®çš„åå­—å’Œæ§åˆ¶å™¨çš„å˜é‡åå¿…é¡»ä¸€ç›´ï¼Œè¿™è¾¹æ”¹åŠ¨ï¼Œæ§åˆ¶å™¨ä¹Ÿéœ€è¦æ”¹æˆä¸€æ ·çš„
+				limit : params.limit, // é¡µé¢å¤§å°
+				offset : params.offset, // åç§»é‡
+				search : "",// åˆå§‹åŒ–æœç´¢æ–‡å­—
+				sort : params.sort, // æ’åºåˆ—å
+				order : params.order, // æ’ä½å‘½ä»¤ï¼ˆdescï¼Œascï¼‰
 			};
 			return temp;
 		},
-		queryParamsType : "limit", // ²ÎÊı¸ñÊ½,·¢ËÍ±ê×¼µÄRESTFulÀàĞÍµÄ²ÎÊıÇëÇó
-		selectItemName : '',// radio or checkbox µÄ×Ö¶ÎÃû
+		queryParamsType : "limit", // å‚æ•°æ ¼å¼,å‘é€æ ‡å‡†çš„RESTFulç±»å‹çš„å‚æ•°è¯·æ±‚
+		selectItemName : '',// radio or checkbox çš„å­—æ®µå
 		columns : [ {
-			title : 'ĞòºÅ',
+			title : 'åºå·',
 			field : 'Number',
 			formatter : function(value, row, index) {
 				return index + 1;
 			}
 		}, {
-			field : 'taskCode',// ·µ»ØÖµÃû³Æ
-			title : 'ÈÎÎñ±àºÅ',// ÁĞÃû
-			align : 'center',// Ë®Æ½¾ÓÖĞÏÔÊ¾
-			valign : 'middle',// ´¹Ö±¾ÓÖĞÏÔÊ¾
-			width : '20%',// ¿í¶È
+			field : 'taskCode',// è¿”å›å€¼åç§°
+			title : 'ä»»åŠ¡ç¼–å·',// åˆ—å
+			align : 'center',// æ°´å¹³å±…ä¸­æ˜¾ç¤º
+			valign : 'middle',// å‚ç›´å±…ä¸­æ˜¾ç¤º
+			width : '20%',// å®½åº¦
 		}, {
-			field : 'receiptlistCode',// ·µ»ØÖµÃû³Æ
-			title : '½»½Óµ¥±àºÅ',// ÁĞÃû
-			align : 'center',// Ë®Æ½¾ÓÖĞÏÔÊ¾
-			valign : 'middle',// ´¹Ö±¾ÓÖĞÏÔÊ¾
-			width : '20%'// ¿í¶È
+			field : 'receiptlistCode',// è¿”å›å€¼åç§°
+			title : 'äº¤æ¥å•ç¼–å·',// åˆ—å
+			align : 'center',// æ°´å¹³å±…ä¸­æ˜¾ç¤º
+			valign : 'middle',// å‚ç›´å±…ä¸­æ˜¾ç¤º
+			width : '20%'// å®½åº¦
 		},{
-			field : 'fileName',// ·µ»ØÖµÃû³Æ
-			title : '±¨¸æÃû³Æ',// ÁĞÃû
-			align : 'center',// Ë®Æ½¾ÓÖĞÏÔÊ¾
-			valign : 'middle',// ´¹Ö±¾ÓÖĞÏÔÊ¾
-			width : '20%'// ¿í¶È
+			field : 'fileName',// è¿”å›å€¼åç§°
+			title : 'æŠ¥å‘Šåç§°',// åˆ—å
+			align : 'center',// æ°´å¹³å±…ä¸­æ˜¾ç¤º
+			valign : 'middle',// å‚ç›´å±…ä¸­æ˜¾ç¤º
+			width : '20%'// å®½åº¦
 		},{
-			field : 'versionNumber',// ·µ»ØÖµÃû³Æ
-			title : '±¨¸æ°æ±¾',// ÁĞÃû
-			align : 'center',// Ë®Æ½¾ÓÖĞÏÔÊ¾
-			valign : 'middle',// ´¹Ö±¾ÓÖĞÏÔÊ¾
-			width : '15%'// ¿í¶È
+			field : 'versionNumber',// è¿”å›å€¼åç§°
+			title : 'æŠ¥å‘Šç‰ˆæœ¬',// åˆ—å
+			align : 'center',// æ°´å¹³å±…ä¸­æ˜¾ç¤º
+			valign : 'middle',// å‚ç›´å±…ä¸­æ˜¾ç¤º
+			width : '15%'// å®½åº¦
 		},{
-			field : 'sampleName',// ·µ»ØÖµÃû³Æ
-			title : 'ÑùÆ·Ãû³Æ',// ÁĞÃû
-			align : 'center',// Ë®Æ½¾ÓÖĞÏÔÊ¾
-			valign : 'middle',// ´¹Ö±¾ÓÖĞÏÔÊ¾
-			width : '20%'// ¿í¶È
+			field : 'sampleName',// è¿”å›å€¼åç§°
+			title : 'æ ·å“åç§°',// åˆ—å
+			align : 'center',// æ°´å¹³å±…ä¸­æ˜¾ç¤º
+			valign : 'middle',// å‚ç›´å±…ä¸­æ˜¾ç¤º
+			width : '20%'// å®½åº¦
 		} ]
-	// ÁĞÅäÖÃÏî,ÏêÇéÇë²é¿´ ÁĞ²ÎÊı ±í¸ñ
-	/* ÊÂ¼ş */
+	// åˆ—é…ç½®é¡¹,è¯¦æƒ…è¯·æŸ¥çœ‹ åˆ—å‚æ•° è¡¨æ ¼
+	/* äº‹ä»¶ */
 	});
 }
-
