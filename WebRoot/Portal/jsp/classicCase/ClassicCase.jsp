@@ -101,6 +101,7 @@
 			<div class="lefttable panel panel-default">
 				<div class="panel-heading">
 					<img src="Portal/images/project_icon.png"></img><span>典型</span>案例
+					<img src="Portal/images/left_column.png" style="display:block;width:100%;">
 				</div>
 				<table class="table table-hover">
 					<tr>

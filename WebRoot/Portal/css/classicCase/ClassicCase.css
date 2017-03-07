@@ -10,6 +10,7 @@
 	float:left;
 }
 #leftlist .panel-heading{
+	border-bottom:none;
 	font-size:16px;
 	height:34px;
 	border-radius:0px;
@@ -26,6 +27,7 @@
 	width:218px;
 }
 #leftlist .table tr td{
+	border-bottom:1px solid #D7D7D7;
 	font-size:14px;
 	height:30px;
 	color:#198ac8;
@@ -47,6 +49,7 @@
 	float:left;
 }
 #midlist .panel-heading{
+	padding-left:10px;
 	font-size:16px;
 	height:34px;
 	border-radius:0px;
@@ -66,6 +69,7 @@
 }
 
 #midlist span{
+	font-weight:bold;
 	color:#198ac8;
 }
 #rightlist{
