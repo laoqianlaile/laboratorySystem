@@ -17,11 +17,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
-<link rel="stylesheet" type="text/css"
-	href="module/css/bootstrap-table.css">
+<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 <link rel="stylesheet" type="text/css" href="module/css/uploadify.css">
-<link rel="stylesheet" type="text/css"
-	href="module/css/taskManage/taskView.css">
+<link rel="stylesheet" type="text/css" href="module/css/taskManage/taskView.css">
+<link rel="stylesheet"  type="text/css" href="module/css/wait.css">
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
@@ -196,7 +195,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	</div>
 
-
+	<div id="wait_img">
+		<img src="module/img/wait.jpg" style="width:48px;height:48px;" />
+	</div>
+	<div id="mask"></div>
+	
+	<script src="module/js/wait.js"></script>
 	<script src="module/js/taskManage/taskView.js"></script>
 	<script src="module/js/fileManage/fileManage.js"></script>
 </body>

@@ -17,10 +17,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="description" content="This is my page">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
-	<link rel="stylesheet" href="module/css/contractManage/EditContract.css" />
+	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
 	<link rel="stylesheet" type="text/css" href="./module/css/fileManage/fileManage.css">
 	<link rel="stylesheet" type="text/css" href="module/css/uploadify.css">
-	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
+	<link rel="stylesheet" href="module/css/contractManage/EditContract.css" />
 	
 	<script src="assets/js/jquery-2.0.3.min.js"></script>
 	<script src="module/js/contractManage/fileUpload.js" type="text/javascript"></script>
@@ -35,106 +35,112 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 <body>
 	<div class="main">
-		<div id="showContract" class="header">
+		<div class="showContract">
 			<div class="top">
-				<span><b>编辑合同资料</b>
-				</span>
-				<div class="contract-title">
-					<div id="contractID" style="display:none;">
-						<input type="text" id="edit_contractID" name="contractID"
-							class="form-control fl" /> <label class="control-label fl">合同ID：</label>
+				<div class="contract_title"><img src="module/img/editContract_icon.png" alt="editContract_icon" />编辑合同资料</div>
+				<div class="contract_code">
+					<div id="contractID" >
+						 <label>合同ID：</label>
+						 <input type="text" id="edit_contractID" name="contractID" class="form-control" />
 					</div>
-					<div class="contractCode">
-						<input type="text" id="edit_contractCode" name="contractCode"
-							class="form-control fl" /> <label class="control-label fl">合同编号：</label>
+					<div class="contractCode fr">
+						<label>合同编号：</label>
+						<label class="code-label" id="edit_contractCode" name="contractCode">544534534534</label>
 					</div>
 				</div>
 			</div>
 			<div class="bottom">
-				<div class="contractName">
-					<label class="control-label fl">合同名称：</label> <input type="text"
-						id="edit_contractName" name="contractName" class="form-control fl" />
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<label class="control-label">合同名称:</label> <input type="text"
+						id="edit_contractName" name="contractName" class="form-control" />
 				</div>
-				<div class="companyName">
-					<label class="control-label fl">签约单位：</label> <input type="text"
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<label class="control-label">甲方:</label> <input type="text"
 						id="edit_companyName" name="companyName" oninput="editShowMsg()"
-						onpropertychange="editShowMsg()" class="form-control fl" />
-					<div class="companyN fl"></div>
+						onpropertychange="editShowMsg()" class="form-control" />
+					<div class="companyN"></div>
 				</div>
-				<div class="address">
-					<label class="control-label fl">单位地址：</label>
-					<input type="text" id="edit_address" name="address" class="form-control fl" />
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<label class="control-label">单位地址:</label>
+					<input type="text" id="edit_address" name="address" class="form-control" />
 				</div>
-				<div class="oppositeMen">
-					<label class="control-label fl">甲方法定代表人或代理人：</label> <input
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<label class="wide">甲方法定代表人(代理人):</label> <input
 						type="text" id="edit_oppositeMen" name="oppositeMen"
-						class="form-control fl" />
+						class="form-control narrow" />
 				</div>
-				<div class="linkPhone">
-					<label class="control-label fl">联系电话：</label> <input type="text"
-						id="edit_linkPhone" name="linkPhone" class="form-control fl"
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<label class="control-label">联系电话:</label> <input type="text"
+						id="edit_linkPhone" name="linkPhone" class="form-control"
 						onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');}"
 						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');}" />
 				</div>
-				<div class="signAddress">
-					<label class="control-label fl">签约地点：</label> <input type="text"
-						id="edit_signAddress" name="signAddress" class="form-control fl"/>
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<label class="control-label">签约地点:</label> <input type="text"
+						id="edit_signAddress" name="signAddress" class="form-control"/>
 				</div>
-				<div class="employeeName">
-					<label class="control-label fl">乙方法定代表人或代理人：</label> <input
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<label class="wide">乙方法定代表人(代理人):</label> <input
 						type="text" id="edit_employeeName" name="employeeName"
 						oninput="editGetEName()" onpropertychange="editGetEName()"
-						class="form-control fl" />
-					<div class="employeeN fl"></div>
+						class="form-control narrow" />
+					<div class="employeeN"></div>
 				</div>
-				<div class="Time">
-					<label class="control-label fl">履行时间：</label>
-					<div class="input-group date form_datetime fl">
-						<input id="edit_startTime" class="form-control" size="16"
-							type="text" readonly> <span class="input-group-addon"><span
-							class="glyphicon glyphicon-remove"></span>
-						</span> <span class="input-group-addon"><span
-							class="glyphicon glyphicon-th"></span>
-						</span>
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<div class="timeLabelDiv">
+						<label class="control-label">履行时间:</label>
 					</div>
-					<div class="bsp fl">至</div>
-					<div class="input-group date form_datetime fl">
-						<input id="edit_endTime" class="form-control" size="16"
-							type="text" readonly> <span class="input-group-addon"><span
-							class="glyphicon glyphicon-remove"></span>
-						</span> <span class="input-group-addon"><span
-							class="glyphicon glyphicon-th"></span>
-						</span>
-					</div>
-				</div>
-				<div class="signTime">
-					<label class="control-label fl">签订时间：</label>
-					<div class="input-group date form_datetime fl">
-						<input id="edit_signTime" class="form-control" size="16"
-							type="text" value="" readonly> <span
+					<div class="input-group date form_datetime timeChooseDiv">
+						<input class="form-control" name="edit_startTime" id="edit_startTime"
+							size="16" type="text" value="" readonly="true"
+							placeholder="请选择开始时间"> <span class="input-group-addon"><span
+							class="glyphicon glyphicon-remove"></span></span> <span
 							class="input-group-addon"><span
-							class="glyphicon glyphicon-remove"></span>
-						</span> <span class="input-group-addon"><span
-							class="glyphicon glyphicon-th"></span>
-						</span>
+							class="glyphicon glyphicon-calendar"></span></span>
 					</div>
 				</div>
-				<div class="contractAmount">
-					<label class="control-label fl">合同金额：</label> <input type="text"
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<div class="timeLabelDiv">
+						<label class="control-label">至</label>
+					</div>
+					<div class="input-group date form_datetime timeChooseDiv">
+						<input class="form-control" name="edit_endTime" id="edit_endTime"
+							size="16" type="text" value="" readonly="true"
+							placeholder="请选择结束时间"> <span class="input-group-addon"><span
+							class="glyphicon glyphicon-remove"></span></span> <span
+							class="input-group-addon"><span
+							class="glyphicon glyphicon-calendar"></span></span>
+					</div>
+				</div>
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<div class="timeLabelDiv">
+						<label class="control-label">签订时间:</label>
+					</div>
+					<div class="input-group date form_datetime timeChooseDiv">
+						<input class="form-control" name="edit_signTime" id="edit_signTime"
+							size="16" type="text" value="" readonly="true"
+							placeholder="请选择签订时间"> <span class="input-group-addon"><span
+							class="glyphicon glyphicon-remove"></span></span> <span
+							class="input-group-addon"><span
+							class="glyphicon glyphicon-calendar"></span></span>
+					</div>
+				</div>
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<label class="control-label">合同金额:</label> <input type="text"
 						id="edit_contractAmount" name="contractAmount"
-						class="form-control fl"
+						class="form-control"
 						onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
 						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}" />
 				</div>
-				<div class="isClassified">
-					<label class="control-label fl">是否涉密：</label>
+				<div class="col-xs-2a col-md-2 col-lg-2">
+					<label class="isClassified-label">是否涉密:</label>
 					<input id="r1" type="radio" value="1" name="isClassified" onclick="classifiedSth()" /><span>是</span>
 					<input id="r2" type="radio" value="0" name="isClassified" onclick="classifiedSth()" /><span>否</span>
 				</div>
-				<div class="classifiedLevel">
-					<label class="control-label fl">涉密等级：</label> <select
+				<div class="col-xs-2 col-md-2 col-lg-2">
+					<label class="classifiedLevel-label">涉密等级:</label> <select
 						id="edit_classifiedLevel" name="classifiedLevel"
-						class="form-control fl">
+						class="form-control classifiedLevel-select">
 						<option id="Level3" value="3">无密级</option>
 						<option class="Level3" value="0">秘密</option>
 						<option class="Level3" value="1">机密</option>
@@ -145,35 +151,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div class="contractFile">
 			<div class="top">
-				<span><b>合同文件</b>
-				</span>
+				<div class="contract_title"><img src="module/img/ContractFile_icon.png" alt="ContractFile_icon" />编辑合同文件</div>
 				<div class="btnAdd fr">
-					<button type="button"
-						class="btn btn-primary glyphicon glyphicon-plus"
-						data-toggle="modal" data-target="#file_uploadModal">&nbsp;新增合同</button>
+					<button type="button" lass="btn btn-primary" data-toggle="modal" data-target="#file_uploadModal">上传合同文件</button>
 				</div>
 			</div>
 			<div class="bottom">
-				<div id="show_contractFile"></div>
+				<table id="show_contractFile">
+				</table>
 			</div>
 		</div>
 		<div class="contractFileItem">
 			<div class="top">
-				<span><b>合同细项</b>
-				</span>
+				<div class="contractFileItem_title"><img src="module/img/contractDetail_icon.png" alt="contractDetail_icon" />编辑合同细项</div>
 				<div class="btnAdd fr">
-					<button type="button" onclick="openAddItemModal()" class="btn btn-primary glyphicon glyphicon-plus">&nbsp;新增</button>
+					<button type="button" onclick="openAddItemModal()" class="btn btn-primary">添加细项</button>
 				</div>
 			</div>
 			<div class="bottom">
-				<div id="show_contractFileItem"></div>
+				<table id="show_contractFileItem">
+				</table>
 			</div>
 		</div>
 		<div class="footer">
 			<button type="button" id="btn-goback" onclick="goback()">返回</button>
-			<button type="button" id="btn-edit" onclick="edit()">修改基本信息</button>
-			<button type="button" id="btn-writeModal2" onclick="writeModal2()">确认修改</button>
-			<button type="button" id="btn-writeModal1" onclick="writeModal1()">取消</button>
+			<button type="button" id="btn-edit" onclick="edit()">提交审核</button>
 		</div>
 
 		<!-- 新增弹框 -->
@@ -207,61 +209,61 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      <div class="modal-body">
 	      	<div id="addContent" class="row">
 	      		<div class="col-xs-12 col-md-12">
-                   	<label class="control-label" style="margin:8px 0 0 0;">合同细项编号：</label>
+                   	<label class="control-label">合同细项编号：</label>
                    	<input type="text" id="add_fineItemCode" name="fineItemCode" class="form-control" />
                	</div>
                 <div class="col-xs-12 col-md-12 nameCn">
-                   	<label class="control-label" style="margin:8px 0 0 0;">检测项目：</label>
+                   	<label class="control-label">检测项目：</label>
                    	<input type="text" id="add_testProjectName" name="testProjectName"  oninput="addGetTPName()" onpropertychange="addGetTPName()" class="form-control" />
                    	<div class="testProjectName">
 	                   
                    </div>
                 </div>
                	<div class="col-xs-12 col-md-12">
-                   	<label class="control-label" style="margin:8px 0 0 0;">是否外包：</label>
+                   	<label class="control-label">是否外包：</label>
                    	<input type="radio" value="0" checked="checked" name="isOutsourcing1" onclick="outChange()"  style="margin:8px 0 0 80px;"/><span>内测</span>
 					<input type="radio" value="1" name="isOutsourcing1" onclick="outChange()" style="margin:8px 0 0 127px;"/><span>外包</span>
                 </div>
                 <div class="col-xs-12 col-md-12">
-                   	<label class="control-label" style="margin:8px 0 0 0;">计算方式：</label>
+                   	<label class="control-label">计算方式：</label>
                    	<input type="radio" value="0" checked="checked"  name="calculateType1" onclick="calculateType()"  style="margin:8px 0 0 80px;"/><span>按单位算</span>
 					<input type="radio" value="1" name="calculateType1" onclick="calculateType()" style="margin:8px 0 0 100px;"/><span>按时间算</span>
                 </div>
                 <div class="col-xs-12 col-md-12 add_number" >
-                   	<label class="control-label fl" style="margin:8px 0 0 30px;">数量/台：</label>
-                   	<input type="text" id="add_number" name="number" class="form-control fl" style="width:160px;"
+                   	<label class="control-label fl" style="width:22.5%;">数量/台：</label>
+                   	<input type="text" id="add_number" name="number" class="form-control fl" style="width:21%;"
                    	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
 						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
-                   	<label class="control-label fl" style="margin:8px 0 0 50px;" >单价/元：</label>
-                   	<input type="text" id="add_price1" name="price" class="form-control fl" style="width:160px;" 
+                   	<label class="control-label fl" style="width:22.5%;margin-left: 5.5%;">单价/元：</label>
+                   	<input type="text" id="add_price1" name="price" class="form-control fl" style="width:21%;" 
                    	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
 						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
                	</div>
                	<div class="col-xs-12 col-md-12 add_hour" style="display: none;">
-                   	<label class="control-label fl" style="margin:8px 0 0 30px;">时间/时：</label>
-                   	<input type="text" id="add_hour" name="hour" class="form-control fl" style="width:160px;" 
+                   	<label class="control-label fl" style="width:22.5%;">时间/时：</label>
+                   	<input type="text" id="add_hour" name="hour" class="form-control fl" style="width:21%;" 
                    	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
 						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
-                   	<label class="control-label fl" style="margin:8px 0 0 50px;">单价/元：</label>
-                   	<input type="text" id="add_price2" name="price" class="form-control fl" style="width:160px;" 
+                   	<label class="control-label fl" style="width:22.5%;margin-left: 5.5%;">单价/元：</label>
+                   	<input type="text" id="add_price2" name="price" class="form-control fl" style="width:21%;" 
                    	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
 						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
                 </div>
                	<div class="col-xs-12 col-md-12 departmentName0">
-                   	<label class="control-label" style="margin:8px 0 0 0;">检测单位：</label>
-                   	<select id="add_departmentName1" name="departmentName" class="form-control fl">
+                   	<label class="control-label">检测单位：</label>
+                   	<select id="add_departmentName1" name="departmentName" class="form-control">
 						
 		           	</select>
                	</div>
                	<div class="col-xs-12 col-md-12 departmentName1" style="display: none;">
-                   	<label class="control-label" style="margin:8px 0 0 0;">外包单位：</label>
+                   	<label class="control-label">外包单位：</label>
                    	<select id="add_departmentName2" name="departmentName" class="form-control">
 						<option value='11'>虚拟部门</option>
 		           	</select>
                	</div>
                	<div class="col-xs-12 col-md-12">
-                   	<label class="control-label" style="margin:8px 0 0 0;">备注:</label>
-                   	<textarea id="add_remarks" name="remarks" style="margin:0 0 0 60px;height:130px;width:400px;" class="form-control"></textarea>
+                   	<label class="control-label">备注:</label>
+                   	<textarea id="add_remarks" name="remarks" style="margin: -34px 0 0 22.5%;height:130px;width:400px;" class="form-control"></textarea>
                	</div>
              </div>
 	      </div>
@@ -284,65 +286,65 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      <div class="modal-body">
 	      	<div id="editContent" class="row">
 	      		<div class="col-xs-12 col-md-12" style="display:none;">
-                   	<label class="control-label" style="margin:8px 0 0 0;">合同细项ID：</label>
+                   	<label class="control-label">合同细项ID：</label>
                    	<input type="text" id="edit_fineItemID" name="fineItemID" class="form-control" />
                	</div>
 	      		<div class="col-xs-12 col-md-12">
-                   	<label class="control-label" style="margin:8px 0 0 0;">合同细项编号：</label>
+                   	<label class="control-label">合同细项编号：</label>
                    	<input type="text" id="edit_fineItemCode" name="fineItemCode" class="form-control" />
                	</div>
                 <div class="col-xs-12 col-md-12 nameCn">
-                   	<label class="control-label" style="margin:8px 0 0 0;">检测项目：</label>
+                   	<label class="control-label">检测项目：</label>
                    	<input type="text" id="edit_testProjectName" name="testProjectName"  oninput="editGetTPName()" onpropertychange="editGetTPName()" class="form-control" />
                    	<div class="testProjectName">
 	                   
                    </div>
                 </div>
                	<div class="col-xs-12 col-md-12">
-                   	<label class="control-label" style="margin:8px 0 0 0;">是否外包：</label>
+                   	<label class="control-label">是否外包：</label>
                    	<input type="radio" value="0" checked="checked" name="isOutsourcing2" onclick="outChange()"  style="margin:8px 0 0 80px;"/><span>内测</span>
 					<input type="radio" value="1" name="isOutsourcing2" onclick="outChange()" style="margin:8px 0 0 127px;"/><span>外包</span>
                 </div>
                 <div class="col-xs-12 col-md-12">
-                   	<label class="control-label" style="margin:8px 0 0 0;">计算方式：</label>
+                   	<label class="control-label">计算方式：</label>
                    	<input type="radio" value="0" checked="checked"  name="calculateType2" onclick="calculateType()"  style="margin:8px 0 0 80px;"/><span>按单位算</span>
 					<input type="radio" value="1" name="calculateType2" onclick="calculateType()" style="margin:8px 0 0 100px;"/><span>按时间算</span>
                 </div>
                 <div class="col-xs-12 col-md-12 edit_number" >
-                   	<label class="control-label fl" style="margin:8px 0 0 30px;">数量/台：</label>
-                   	<input type="text" id="edit_number" name="number" class="form-control fl" style="width:160px;" 
+                   	<label class="control-label fl" style="width:22.5%;">数量/台：</label>
+                   	<input type="text" id="edit_number" name="number" class="form-control fl" style="width:21%;" 
                    	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
 						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
-                   	<label class="control-label fl" style="margin:8px 0 0 50px;">单价/元：</label>
-                   	<input type="text" id="edit_price1" name="price" class="form-control fl" style="width:160px;" 
+                   	<label class="control-label fl" style="width:22.5%;margin-left:5.5%;">单价/元：</label>
+                   	<input type="text" id="edit_price1" name="price" class="form-control fl" style="width:21%;" 
                    	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
 						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
                	</div>
                	<div class="col-xs-12 col-md-12 edit_hour" style="display: none;">
-                   	<label class="control-label fl" style="margin:8px 0 0 30px;">时间/时：</label>
-                   	<input type="text" id="edit_hour" name="hour" class="form-control fl" style="width:160px;" 
+                   	<label class="control-label fl" style="width:22.5%;">时间/时：</label>
+                   	<input type="text" id="edit_hour" name="hour" class="form-control fl" style="width:21%;" 
                    	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
 						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
-                   	<label class="control-label fl" style="margin:8px 0 0 50px;">单价/元：</label>
-                   	<input type="text" id="edit_price2" name="price" class="form-control fl" style="width:160px;" 
+                   	<label class="control-label fl" style="width:22.5%;margin-left:5.5%;">单价/元：</label>
+                   	<input type="text" id="edit_price2" name="price" class="form-control fl" style="width:21%;" 
                    	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
 						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
                 </div>
                	<div class="col-xs-12 col-md-12 departmentName3">
-                   	<label class="control-label" style="margin:8px 0 0 0;">检测单位：</label>
-                   	<select id="edit_departmentName1" name="departmentName" class="form-control fl">
+                   	<label class="control-label">检测单位：</label>
+                   	<select id="edit_departmentName1" name="departmentName" class="form-control">
 						
 		           	</select>
                	</div>
                	<div class="col-xs-12 col-md-12 departmentName4" style="display: none;">
-                   	<label class="control-label" style="margin:8px 0 0 0;">外包单位：</label>
+                   	<label class="control-label">外包单位：</label>
                    	<select id="edit_departmentName2" name="departmentName" class="form-control">
 						<option class='depart'>虚拟部门</option>
 		           	</select>
                	</div>
                	<div class="col-xs-12 col-md-12">
-                   	<label class="control-label" style="margin:8px 0 0 0;">备注:</label>
-                   	<textarea id="edit_remarks" name="remarks" style="margin:0 0 0 60px;height:130px;width:400px;" class="form-control"></textarea>
+                   	<label class="control-label">备注:</label>
+                   	<textarea id="edit_remarks" name="remarks" style="margin:-34px 0 0 22.5%;height:130px;width:400px;" class="form-control"></textarea>
                	</div>
              </div>
 	      </div>

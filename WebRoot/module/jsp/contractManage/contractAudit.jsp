@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>合同管理</title>
+    <title>合同审核</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -18,85 +18,94 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
-	<link rel="stylesheet" href="module/css/changeACE.css" />
+	<link rel="stylesheet" type="text/css" href="module/css/contractManage/contractManage.css">
 	
 	<script src="assets/js/jquery-2.0.3.min.js"></script>
 	<script src="module/js/bootstrap.js"></script>
 	<script src="module/js/bootstrap-table.js"></script>
 	<script src="module/js/bootstrap-table-zh-CN.js"></script>
 	<script src="module/js/bootstrap-treeview.js"></script>
-    <style type="text/css">
-	.list-searcher {
-		min-width: 300px;
-		height: 40px;
-	}
-	.list-searcher input {
-		display: inline-block;
-		margin-right: 20px;
-		width: 200px;
-	}
-	
-	.list-searcher span {
-		display: inline-block;
-		
-	}
-	.list-searcher select {
-		width:110px;
-		display: inline-block;
-	}
-	.backgray{
-	  background: gray;
-	}
-	.fixed-table-container .bs-checkbox {
-	    text-align: center;
-	    vertical-align: middle;
-	}
-	#searcherArea{
-	 min-width: 1300px;
-	}
-	.bootstrap-table{
-	 min-width: 1500px;
-	}
-	</style>
 </head>
 <body>
   
  	 <!-- 功能按钮 -->
-	 <div id="searcherArea">
-		<div class="list-searcher">
-			<span>合同编号：</span><input type="text" id="schContractCode" name="schContractCode" class="form-control">
-			<span>乙方法定代表人/代理人：</span><input type="text" id="schEmployeeName" name="schEmployeeName" class="form-control" >
-			<span>签订时间：</span><input type="date" id="schStartTime" name="schStartTime" class="form-control" > 
-			<span>至</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="schEndTime" name="schEndTime" class="form-control" >
+	 <div class="content">
+		<div class="searchArea">
+			<div class="row">
+				<div class="col-xs-3 col-md-3 col-lg-3">
+					<label>合同编号:</label>
+					<input type="text" id="schContractCode" name="schContractCode" class="form-control" aria-describedby="basic-addon1" placeholder="请输入合同编号查找"/>
+				</div>
+				<div class="col-xs-3 col-md-3 col-lg-3">
+					<label class="wide">乙方法定代表人(代理人):</label><input type="text" id="schEmployeeName" name="schEmployeeName" class="form-control narrow" aria-describedby="basic-addon1"  placeholder="请输入员工名查找"/>
+				</div>
+				<div class="col-xs-3 col-md-3 col-lg-3">
+					<div class="timeLabelDiv">
+						<label class="control-label">签订时间:</label>
+					</div>
+					<div class="input-group date form_datetime timeChooseDiv">
+						<input class="form-control" name="schStartTime" id="schStartTime"
+							size="16" type="text" value="" readonly="true"
+							placeholder="请选择签订时间"> <span class="input-group-addon"><span
+							class="glyphicon glyphicon-remove"></span></span> <span
+							class="input-group-addon"><span
+							class="glyphicon glyphicon-calendar"></span></span>
+					</div>
+				</div>
+				<div class="col-xs-3 col-md-3 col-lg-3">
+					<div class="timeLabelDiv">
+						<label class="control-label">至</label>
+					</div>
+					<div class="input-group date form_datetime timeChooseDiv">
+						<input class="form-control" name="schEndTime" id="schEndTime" size="16"
+							type="text" value="" readonly="true" placeholder="请选择签订时间">
+						<span class="input-group-addon"><span
+							class="glyphicon glyphicon-remove"></span></span> <span
+							class="input-group-addon"><span
+							class="glyphicon glyphicon-calendar"></span></span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-3 col-md-3 col-lg-3">
+					<label>甲方:</label><input type="text" id="schCompanyName" name="schCompanyName" class="form-control" aria-describedby="basic-addon1" placeholder="请输入甲方公司名查找"/>
+				</div>
+				<div class="col-xs-3 col-md-3 col-lg-3">
+					<label class="wide">甲方法定代表人(代理人):</label><input type="text" id="schOppositeMen" name="schOppositeMen" class="form-control narrow" aria-describedby="basic-addon1" placeholder="请输入甲方代理人查找"/>
+				</div>
+				<div class="col-xs-3 col-md-3 col-lg-3">
+					<label>联系电话:</label><input type="text" id="schLinkPhone" name="schLinkPhone" class="form-control" aria-describedby="basic-addon1" placeholder="请输入联系电话查找"/> 
+		  		</div>
+		  		<div class="col-xs-3 col-md-3 col-lg-3">
+		   		 	<label>状态:</label>
+		    		<select id="schState" name="schState" class="form-control" aria-describedby="basic-addon1">
+		    			<option value="2">审核中</option>
+		    			<option value="8">全部合同</option>
+						<option value="1">未提交</option>
+						<option value="3">驳回</option>
+						<option value="4">审核通过</option>
+						<option value="5">执行中</option>
+						<option value="6">执行完成</option>
+						<option value="7">异常终止</option>
+					</select>
+				</div>
+			</div>
 		</div>
-		<div class="list-searcher">
-			<span>签约单位：</span><input type="text" id="schCompanyName" name="schCompanyName" class="form-control" >
-			<span>甲方法定代表人/代理人：</span><input type="text" id="schOppositeMen" name="schOppositeMen" class="form-control" >
-			<span>联系电话：</span><input type="text" id="schLinkPhone" name="schLinkPhone" class="form-control" > 
-		    <span>状态：</span>
-		    <select id="schState" name="schState" class="form-control" >
-				<option value="2">审核中</option>
-				<option value="1">未提交</option>
-				<option value="3">驳回</option>
-				<option value="4">审核通过</option>
-				<option value="5">执行中</option>
-				<option value="6">执行完成</option>
-				<option value="7">异常终止</option>
-				<option value="8">全部合同</option>
-			</select>
+
+
+		<div class="buttonGroup">
+			<div>
+  	 			<button type="button" onclick="searchContract()" class="btn btn-primary">查询</button>
+  				&nbsp;<button type="button" onclick="showContractA()" class="btn btn-primary">审查</button>
+  				&nbsp;<button id="refresh" onclick="refresh()" type="button" class="btn btn-primary">刷新</button>
+			</div>
 		</div>
 	</div>
-	
-  	 <div class="input-group" style="float: right;margin-bottom: 10px;">
-  	 	<button type="button" onclick="searchContract()" class="btn btn-primary glyphicon glyphicon-search">&nbsp;查询</button>
-  		<button type="button" onclick="showContractA()" class="btn btn-primary glyphicon glyphicon-show">&nbsp;审查</button>
-  		<button id="refresh" onclick="refresh()" type="button" class="btn btn-primary glyphicon glyphicon-refresh">&nbsp;刷新</button>
-  	</div> 
   	
   	<!-- 表格 -->
   	<table id="table">
   	</table>
   </body>
   <script src="module/js/contractManage/contractManage.js"></script>
-  <script src="module/js/contractManage/contractAudit.js"></script>
  </html>

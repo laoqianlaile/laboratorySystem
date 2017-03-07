@@ -128,7 +128,7 @@ $(function() {
 			title : '文件名',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '12%'// 宽度
+			width : '13%'// 宽度
 		}, {
 			field : 'uploadTime',// 返回值名称
 			title : '上传时间',// 列名
@@ -140,46 +140,45 @@ $(function() {
 			title : '版本号',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '10%'// 宽度
+			width : '12%'// 宽度
 		}, {
 			field : 'versionInformation',// 返回值名称
 			title : '版本信息',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '12%'// 宽度
+			width : '13%'// 宽度
 		}, {
 			field : 'uploadTime',// 返回值名称
 			title : '上传时间',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '12%'// 宽度
+			width : '13%'// 宽度
 		}, {
 			field : 'state',// 返回值名称
 			title : '审核状态',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '12%'// 宽度
+			width : '13%'// 宽度
 		}, {
 			field : 'remarks',// 返回值名称
 			title : '备注信息',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '12%'// 宽度
+			width : '13%'// 宽度
 		},{
 			title : '操作',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '16%',// 宽度
+			width : '10%',// 宽度
 			formatter : function(value, row, index) {
-					return 	"<button type='button' title='下载'  class='btn btn-default' onclick='downTestReport(\""+row.fileID+"\")'>"+
-				              "<span class='glyphicon glyphicon-download'>下载</span>"+
-					        "</button>&nbsp;"+
-					        "<button type='button' title='查看'  class='btn btn-default' onclick='onlineView(\""+row.fileID+"\",\""+row.ID+"\")'>"+
-					          "<span class='glyphicon glyphicon-download'>查看</span>"+
-					        "</button>&nbsp;"+
-					        "<button type='button' title='删除'  class='btn btn-default' onclick='deleteTestReport(\""+row.fileID+"\",\""+row.ID+"\",\""+row.taskID+"\")'>"+
-						      "<span class='glyphicon glyphicon-download'>删除</span>"+
-					        "</button>"
+					return 	"<img src ='module/img/download_icon.png'  title='下载' style='cursor:pointer;padding-right:8px;' onclick='downTestReport(\""+row.fileID+"\")'>"+
+				             "</img>"+
+					        "</img>&nbsp;"+
+					        "<img src ='module/img/view_icon.png'  title='查看'  style='cursor:pointer;padding-right:8px;' onclick='onlineView(\""+row.fileID+"\",\""+row.ID+"\")'>"+
+					        "</img>"+
+					        "</img>&nbsp;"+
+					        "<img src ='module/img/delete_icon.png' title='删除' style='cursor:pointer;padding-right:8px;' onclick='deleteTestReport(\""+row.fileID+"\",\""+row.ID+"\",\""+row.taskID+"\")'>"+
+					        "</img>"
 				}
 		}]
 	});
@@ -205,6 +204,7 @@ function downTestReport() {
 
 //预览检测报告
 function onlineView() {
+	displayDiv();
 	var fileID = arguments[0];
 	$.post("fileOperateController/onlinePreview.do", {
 		ID : fileID
