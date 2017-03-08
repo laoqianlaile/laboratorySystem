@@ -5,6 +5,7 @@
 	<artifactId>laboratorySystem</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
+	
 	<properties>
 		<jackson.version>1.9.13</jackson.version>
 		<slf4j.version>1.7.21</slf4j.version>

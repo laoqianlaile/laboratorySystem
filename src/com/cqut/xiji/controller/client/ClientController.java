@@ -1,12 +1,18 @@
 package com.cqut.xiji.controller.client;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
@@ -14,10 +20,15 @@ import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.cqut.xiji.entity.client.Client;
+import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.service.client.IClientService;
+import com.cqut.xiji.tool.util.EntityIDFactory;
+import com.cqut.xiji.tool.util.PropertiesTool;
 
 @Controller
 @RequestMapping("/clientController")
@@ -228,5 +239,109 @@ public class ClientController{
 	@ResponseBody
 	public int findPassword(String clientNo1,String mobilePhone){
 		return service.findPassword(clientNo1,mobilePhone) == "true" ? 1 : 0;
+	}
+	
+	/***
+	 * 
+	 * @description 文件上传
+	 * @author zt
+	 * @created 2016-10-10 下午8:28:08
+	 * @param file
+	 * @param req
+	 * @param response
+	 * @param type
+	 * @param subtypeName
+	 * @param content
+	 * @param belongtoID
+	 * @param remark
+	 * @return
+	 * @throws IOException
+	 */
+	@SuppressWarnings("static-access")
+	@RequestMapping("/upload")
+	@ResponseBody
+	public String uploadFile(@RequestParam("files") CommonsMultipartFile file,
+			HttpServletRequest req, HttpServletResponse response,
+			String filePath, String firstDirectory, String secondDirectory,
+			String thirdDirectory,Integer TypeNumber, String belongtoID,
+			String content, String remark) throws IOException {
+		long begin = 0;
+		String ID = "";// 文件ID
+		String fileName = "";// 文件名
+		String[] fileNames = null; // 文件名按"."分割后文件名的集合
+		String path = "";// 文件路径
+		begin = System.currentTimeMillis();
+		ID = EntityIDFactory.createId();
+		fileName = file.getOriginalFilename();
+		fileNames = fileName.split("\\.");
+//		path = System.getProperty("user.dir").replace("bin", "webapps") + "\\" + "files" + "\\";// 获取tomcat下webapps的目录
+		PropertiesTool pe = new PropertiesTool();
+		path= pe.getSystemPram("filePath")+"\\" ;
+		String pathBack ="";
+		pathBack+= pe.getSystemPram("fileRoute")+"/";
+		if (filePath != null && !filePath.isEmpty() && !filePath.equals("")) {
+			path = filePath;
+		} else if (firstDirectory != null && !firstDirectory.isEmpty()
+				&& !firstDirectory.equals("")) {
+			path = path + firstDirectory + "\\";
+			pathBack = pathBack+firstDirectory + "\\";
+		}
+		if (secondDirectory != null && !secondDirectory.isEmpty()
+				&& !secondDirectory.equals("")) {
+			path = path + secondDirectory + "\\";
+			pathBack+=secondDirectory + "\\";
+		}
+		if (thirdDirectory != null && !thirdDirectory.isEmpty()
+				&& !thirdDirectory.equals("")) {
+			path = path + thirdDirectory + "\\";
+			pathBack+=thirdDirectory + "\\";
+		}
+		for (int j = 0; j < fileNames.length; j++) {
+			if (fileNames.length - j > 1) {
+				path += fileNames[j];
+				pathBack+= fileNames[j];
+			} else {
+				path += "_" + ID + "." + fileNames[j];
+				pathBack+="_" + ID + "." + fileNames[j];
+			}
+		}
+		System.out.println("test-------------------------");
+		System.out.println("Pathback:"+pathBack);
+        System.out.println("path :"+path);
+		File targetFile = new File(path);
+		if (!targetFile.exists()) {
+			targetFile.mkdirs();
+		}
+
+		try {
+			file.transferTo(targetFile);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		Date now = new Date(begin);
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd HH:mm:ss");
+		FileInformation fr = new FileInformation();
+		fr.setID(ID);
+		fr.setContent(content);
+		fr.setFileName(fileName);
+		/*fr.setPath(path);*/
+		fr.setPath(pathBack);//只把文件名写进去
+		fr.setRemarks(remark);
+		fr.setBelongtoID(belongtoID);
+		// fr.setUploaderID();
+		fr.setType(TypeNumber);
+		fr.setState(0);
+		try {
+			fr.setUploadTime(dateFormat.parse(dateFormat.format(now)));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		service.saveFiles(fr);
+		return ID;
+
 	}
 }

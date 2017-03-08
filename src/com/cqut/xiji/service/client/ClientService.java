@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+
 import net.sf.json.JSONArray;
 
 import org.apache.http.HttpResponse;
@@ -27,17 +28,18 @@ import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.client.Client;
 import com.cqut.xiji.entity.company.Company;
+import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 @Service
 public class ClientService extends SearchService implements IClientService{
-
+	
 	@Resource(name="entityDao")
 	EntityDao entityDao;
-
+	
 	@Resource(name="searchDao")
 	SearchDao searchDao;
-
+	
 	@Resource(name="baseEntityDao")
 	BaseEntityDao baseEntityDao;
 
@@ -86,15 +88,15 @@ public class ClientService extends SearchService implements IClientService{
 			statusCondition = " reviewStatus='2' ";
 		else if(reReviewStatus.equals("全部"))
 			statusCondition = null;
-
-
-
+		
+		
+		
 		if(isTouchReviewStatus.equals("null")){//判断是否只触发reviewStatus筛选事件
 		   if(reCompyName.equals("null")&&reUserName.equals("null")){
 			 String s = "1=1";
 		     result = entityDao.searchWithpaging(allProperties, clientTableName, "left join company on client.companyId=company.ID"
 		    		    +" join fileinformation as f1 on company.fileID1 = f1.ID"
-						+" join fileinformation as f2 on company.fileID1 = f2.ID", null, s, null, order, sort, index, pageNum);
+						+" join fileinformation as f2 on company.fileID2 = f2.ID", null, s, null, order, sort, index, pageNum);
 		}
 		else {
 			 /* condition+=" reReviewStatus='"+reReviewStatus+"' and";*/
@@ -102,24 +104,24 @@ public class ClientService extends SearchService implements IClientService{
 			     condition = " company.companyName='"+reCompyName+"'";
 		      }
 		      else if(reCompyName.equals("null")&&!reUserName.equals("null")){
-		    	  condition = " clientNo='"+reUserName+"'";
+		    	  condition = " clientNo='"+reUserName+"'"; 
 		      }
-		      else
+		      else 
 		    	  condition = " company.companyName='"+reCompyName
 					 +"' and clientNo='"+reUserName+"' ";
-
+		    	 
 			     result = entityDao.searchWithpaging(allProperties, clientTableName, "left join company on client.companyId=company.id"
 			    		    +" join fileinformation as f1 on company.fileID1 = f1.ID"
-							+" join fileinformation as f2 on company.fileID1 = f2.ID", null, condition, null, order, sort, index, pageNum);
+							+" join fileinformation as f2 on company.fileID2 = f2.ID", null, condition, null, order, sort, index, pageNum);
 		 }
 		}
-		else{
-
-
+		else{ 
+			 
+				
 			/*String condition1 = " reviewStatus='"+reReviewStatus+"'";*/
 			result = entityDao.searchWithpaging(allProperties, clientTableName, "left join company on client.companyId=company.id"
 					+" join fileinformation as f1 on company.fileID1 = f1.ID"
-					+" join fileinformation as f2 on company.fileID1 = f2.ID", null, statusCondition, null, order, sort, index, pageNum);
+					+" join fileinformation as f2 on company.fileID2 = f2.ID", null, statusCondition, null, order, sort, index, pageNum);
 		}
 		Map<String,Object> map1 = new HashMap<String, Object>();
 		for(int i=0;i<result.size();i++){
@@ -139,21 +141,21 @@ public class ClientService extends SearchService implements IClientService{
 			 /*count = entityDao.getByCondition(condition, Client.class).size();*/
 			 count = entityDao.getForeignCount("client.id","client", "left join company on client.companyId=company.id"
 			            +" join fileinformation as f1 on company.fileID1 = f1.ID"
-						+" join fileinformation as f2 on company.fileID1 = f2.ID",null, condition);
+						+" join fileinformation as f2 on company.fileID2 = f2.ID",null, condition);
 		 }
 		}
 		else{
 			 /*String condition1 = " reviewStatus='"+reReviewStatus+"'";*/
 			 count = entityDao.getForeignCount("client.id","client", "left join company on client.companyId=company.id"
 					    +" join fileinformation as f1 on company.fileID1 = f1.ID"
-						+" join fileinformation as f2 on company.fileID1 = f2.ID",null, statusCondition);
+						+" join fileinformation as f2 on company.fileID2 = f2.ID",null, statusCondition);
 		}
-
-
+		
+		
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("total", count);
 		map.put("rows", result);
-
+		
 		return map;
 	}
 	@Override
@@ -162,9 +164,10 @@ public class ClientService extends SearchService implements IClientService{
 		client.setReviewStatus(reviewStatus);
 		int result = entityDao.updatePropByID(client, clientID);
 		System.out.println("result:"+result);
-
+		
 		return result+"";
 	}
+	
 
 	@Override
 	public String clientLogin(Client client, HttpSession session) {
@@ -172,7 +175,7 @@ public class ClientService extends SearchService implements IClientService{
 		if(client != null){
 			List<Client> clients = entityDao.getByCondition(" 1 = 1", Client.class);
 			for(int i = 0; i < clients.size(); i++){
-				if(client.getClientNo().equals(clients.get(i).getClientNo()) &&
+				if(client.getClientNo().equals(clients.get(i).getClientNo()) && 
 						client.getPassword().equals(clients.get(i).getPassword())&&clients.get(i).getReviewStatus().equals("1")){
 					session.setAttribute("clientNo", client.getClientNo());
 					session.setAttribute("password", client.getPassword());
@@ -183,7 +186,7 @@ public class ClientService extends SearchService implements IClientService{
 		return "false";
 
 	}
-
+	
 	@Override
 	 public String addPersonnel(String clientNo,String password,String companyName,String mobilePhone,String address,
 	    		String scope,String legal,String companyType,String remarks,String fileID1,String fileID2){
@@ -197,7 +200,7 @@ public class ClientService extends SearchService implements IClientService{
 		client.setCreateTime(new Date());
 		client.setCompanyID(id1);
 		client.setReviewStatus("0");
-
+		
 		company2.setID(id1);
 		company2.setCompanyName(companyName);
 		company2.setAddress(address);
@@ -209,7 +212,7 @@ public class ClientService extends SearchService implements IClientService{
 		company2.setRemarks(remarks);
 		company2.setType(Integer.parseInt(companyType));
 		company2.setCreateTime(new Date());
-
+		
 		int result = entityDao.save(client);
 		return result+" " + entityDao.save(company2);
 	}
@@ -219,8 +222,8 @@ public class ClientService extends SearchService implements IClientService{
 		String condition = " 1 = 1 ";
 		if (clientNo != null && !clientNo.trim().toString().equals("null")) {
 			condition = " 1 = 1 and clientNo =  '" + clientNo + "'";
-		}
-
+		} 
+		
 		List<Map<String, Object>> enList = searchDao.searchForeign(
 				new String[]{
 						"client.ID AS ID",
@@ -244,7 +247,7 @@ public class ClientService extends SearchService implements IClientService{
 				"client",
 				" join company on client.companyID = company.ID"
 				+" join fileinformation as f1 on company.fileID1 = f1.ID"
-				+" join fileinformation as f2 on company.fileID1 = f2.ID"
+				+" join fileinformation as f2 on company.fileID2 = f2.ID"
 				, null, null, condition);
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("client",enList);
@@ -279,14 +282,14 @@ public class ClientService extends SearchService implements IClientService{
 			String fileID1, String fileID2) {
 		Company company2 = new Company();
 		Client client = new Client();
-
+		
 		client.setID(clientID);
 		client.setClientNo(clientNo);
 		client.setPassword(clientPassword);
 		client.setCreateTime(new Date());
 		client.setCompanyID(companyID);
 		client.setReviewStatus("0");
-
+		
 		company2.setID(companyID);
 		company2.setCompanyName(companyName);
 		company2.setAddress(address);
@@ -316,8 +319,8 @@ public class ClientService extends SearchService implements IClientService{
 		String condition = " 1 = 1 ";
 		if (clientNo != null && !clientNo.trim().toString().equals("null")) {
 			condition = " 1 = 1 and clientNo =  '" + clientNo + "'";
-		}
-
+		} 
+		
 		List<Map<String, Object>> enList = searchDao.searchForeign(
 				new String[]{
 						"client.ID AS ID",
@@ -339,9 +342,14 @@ public class ClientService extends SearchService implements IClientService{
 		}
 	    return "false";
 	}
-
+	
+	@Override
+	public boolean saveFiles(FileInformation fr) {
+		return baseEntityDao.save(fr) == 1 ? true : false;
+	}
+	
 	/**
-	 *
+	 * 
 	 * @description 发送更改密码的短信
 	 * @author 李龙順
 	 * @created 2016-10-14 下午16:15
@@ -354,13 +362,13 @@ public class ClientService extends SearchService implements IClientService{
 		DefaultHttpClient httpClient = new DefaultHttpClient();
         String url = "https://api.netease.im/sms/sendtemplate.action";
         HttpPost httpPost = new HttpPost(url);
-
+        
         String appKey = "4c1f5298892a30736838d8858b33938e";
         String appSecret = "c09c739d40cf";
         String nonce =  "12345";
         String curTime = String.valueOf((new Date()).getTime() / 1000L);
         String checkSum = ClientService.getCheckSum(appSecret, nonce ,curTime);//参考 计算CheckSum的java代码
-
+        
         // 设置请求的header
         System.out.println("checkSum："+checkSum);
         httpPost.addHeader("AppKey", appKey);
@@ -381,17 +389,17 @@ public class ClientService extends SearchService implements IClientService{
 
         // 执行请求
         HttpResponse response = httpClient.execute(httpPost);
-
+        
         // 打印执行结果
         System.out.println("打印发送结果");
         System.out.println("____"+EntityUtils.toString(response.getEntity(),"utf-8"));
         return "ttt";
 	}
 
-
-
+	
+	
 	/**
-	 *
+	 * 
 	 * @description 获取checkSUM
 	 * @author fujianfei
 	 * @created 2016-10-8 下午7:58:31
@@ -403,11 +411,11 @@ public class ClientService extends SearchService implements IClientService{
 	public static String getCheckSum(String appSecret, String nonce, String curTime) {
         return encode("sha1", appSecret + nonce + curTime);
     }
-
+	
 	public static String getMD5(String requestBody) {
         return encode("md5", requestBody);
     }
-
+	
 	private static String encode(String algorithm, String value) {
         if (value == null) {
             return null;
@@ -421,7 +429,7 @@ public class ClientService extends SearchService implements IClientService{
             throw new RuntimeException(e);
         }
     }
-
+	
 	private static String getFormattedText(byte[] bytes) {
         int len = bytes.length;
         StringBuilder buf = new StringBuilder(len * 2);
@@ -431,10 +439,10 @@ public class ClientService extends SearchService implements IClientService{
         }
         return buf.toString();
     }
-
+	
 	private static final char[] HEX_DIGITS = { '0', '1', '2', '3', '4', '5',
         '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
-
-
+   
+	
 }
-
+                          

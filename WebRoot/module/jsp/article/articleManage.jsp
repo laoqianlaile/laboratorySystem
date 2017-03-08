@@ -74,7 +74,7 @@
 					class="form-control" id="search_artPublisher"
 					placeholder="请输入要搜索的文章发布人">
 			</div>
-			<button type="button" id="artSearch" class="btn btn-default"
+			<button type="button" id="artSearch" class="btn btn-primary glyphicon"
 				onclick="search()">查询</button>
 		</form>
 		<div class="mainTableDate">
@@ -148,7 +148,6 @@
 								<label>案例类型:</label> <select class="form-control"
 									id="add_artCaseType">
 									<option>典型案例</option>
-									<option>热门案例</option>
 									<option>普通案例</option>
 								</select>
 							</div>

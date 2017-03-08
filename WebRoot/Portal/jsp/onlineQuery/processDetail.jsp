@@ -155,7 +155,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <div class="contentlistfirst">
                     	<div id="contentlist1">
                             <div class="contentlist2">
-                                <span style="color:#198ac8;font-size:16px;">在&nbsp;线</span><span>查询</span>
+                                <span style="color:#198ac8;font-size:16px;">在线</span><span>查询</span>
                             </div>
                         </div>
                         <div class="contentlist3">
