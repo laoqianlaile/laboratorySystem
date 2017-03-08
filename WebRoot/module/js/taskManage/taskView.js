@@ -214,6 +214,26 @@ $(function() {
 	    return searchCondition;
 	}
 	
+	// 获取设备的信息
+	$.post("equipmentController/getEquipmentInfo.do",
+					function(result) {
+						result = JSON.parse(result);
+						if (result != null && result != "null") {
+							var htmlElement = "";
+							for ( var i = 0; i < result.length; i++) {
+								htmlElement += "<div class='col-xs-4 col-md-4 col-lg-4'>"
+										+ "<input type='checkbox' name='equipment' id='equipment' value="
+										+ result[i].ID
+										+ ">"
+										+ "<label>"
+										+ result[i].equipmentInfo
+										+ "</label>"
+										+ "</div>"
+							}
+							$(".equipmentList").append(htmlElement);
+						}
+					});
+	
 });
 
 // 获取地址栏的任务ID
@@ -229,25 +249,6 @@ function getUrlParam(name) {
 
 // 设备登记
 function equipmentRegister() {
-	$.post("equipmentController/getEquipmentInfo.do",
-			function(result) {
-	                 	result = JSON.parse(result);
-						if (result != null && result != "null" ) {
-							var htmlElement = "";
-							for ( var i = 0; i < result.length; i++) {
-								htmlElement += "<div class='col-xs-4 col-md-4 col-lg-4'>"
-										+ "<input type='checkbox' name='equipment' id='equipment' value="
-										+ result[i].ID
-										+ ">"
-										+ "<label>"
-										+ result[i].equipmentInfo
-										+ "</label>"
-										+ "</div>"
-							}
-							$(".equipmentList").text("");
-							$(".equipmentList").append(htmlElement);
-						}
-					});
 	$("#equipmentInfo").modal("show");
 }
 
