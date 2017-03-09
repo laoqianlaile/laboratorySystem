@@ -1,3 +1,5 @@
+// 请求数据时的额外参数
+var param = {};
 
 $(function() {
 	initData();
@@ -21,122 +23,118 @@ function initData(){
 		contentType:'application/json',//发送到服务器的数据编码类型
 		dataType:'json',//服务器返回的数据类型
 	    //queryParams:search,//请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
-		queryParams: queryParams, //参数
+		queryParams:queryParams, //参数
 	    queryParamsType: "limit", 
 		selectItemName : '',// radio or checkbox 的字段名
 		columns : [ {
 			checkbox : true,
-			width :5// 宽度
+			width :"1%",// 宽度
 		},{
 			field:'ID',//返回值名称
 			title:'合同ID',//列名
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width : "10%",// 宽度
+			visible : false
+		},{
+			field:'fileID',//返回值名称
+			title:'文件ID',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10',//宽度
+			width:"10%",//宽度
 			visible:false
 		},{
 			field:'contractCode',//返回值名称
 			title:'合同编号',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'9%',//宽度
+			width:"9%",//宽度
 //			visible:false
 		},{
 			field:'contractName',//返回值名称
 			title:'合同名称',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'9%'//宽度
+			width:"9%",//宽度
 		},{
 			field:'companyName',//返回值名称
 			title:'甲方',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10%'//宽度
+			width:"9%",//宽度
 		},{
 			field:'oppositeMen',//返回值名称
 			title:'甲方代表',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'6%'//宽度
+			width:"6%",//宽度
 		},{
 			field:'linkPhone',//返回值名称
 			title:'联系电话',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'7%'//宽度
+			width:"7%",//宽度
 		},{
 			field:'employeeName',//返回值名称
 			title:'乙方代表',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'6%'//宽度
+			width:"5%",//宽度
 		},{
 			field:'signAddress',//返回值名称
 			title:'签订地点',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10%'//宽度
+			width:"10%",//宽度
 		},{
 			field:'signTime',//返回值名称
 			title:'签订时间',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'7%'//宽度
+			width:"7%",//宽度
 		},{
 			field:'startTime',//返回值名称
 			title:'履行开始时间',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'7%'//宽度
+			width:"7%",//宽度
 		},{
 			field:'endTime',//返回值名称
 			title:'履行结束时间',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'7%'//宽度
+			width:"7%",//宽度
 		},{
 			field:'contractAmount',//返回值名称
 			title:'合同金额',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'4%'//宽度
+			width:"4%",//宽度
 		},{
 			field:'isClassified',//返回值名称
 			title:'是否涉密',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'4%'//宽度
+			width:"4%",//宽度
 		},{
 			field:'classifiedLevel',//返回值名称
 			title:'涉密等级',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'4%'//宽度
+			width:"4%",//宽度
 		},{
 			field:'state',//返回值名称
 			title:'合同状态',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'4%'//宽度
+			width:"4%",//宽度
 		},{
 			field:'viewpoint',//返回值名称
 			title:'审核意见',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'6%'//宽度
-		}/*,{
-			title : '操作',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : 10,// 宽度
-			formatter : function(value, row, index) {
-					return "<button type='button' class='btn btn-primary' onclick='writeModal1()'>"+
-			     	"通过</button>&nbsp;"+
-			     	"<button type='button' class='btn btn-primary ' onclick='writeModal2()'>驳回"+
-					"</button>"
-			}
-		}*/]//列配置项,详情请查看 列参数 表格
+			width:"6%",//宽度
+		}]//列配置项,详情请查看 列参数 表格
 		/*事件*/
 	});
 }
@@ -360,7 +358,7 @@ function addClick(){
 /**
  * 使页面跳转到查看合同页面(管理)
  */
-function showContractM(){
+function showContractM() {
 	var data = $('#table').bootstrapTable('getSelections');
 	if(data.length==0 || data.length>1){
 		alert("请选中一条数据");
@@ -369,11 +367,54 @@ function showContractM(){
 	var ID = data[0].ID;
 	if (!ID && typeof(ID)!="undefined" && ID=='') 
 	{ 
+		alert("合同编号不能为空！"); 
+	}else {
+		window.location.href="module/jsp/contractManage/contractView.jsp?ID="+ ID + "&type=0";
+	}
+	/*var data = $('#table').bootstrapTable('getSelections');
+	if (data.length == 0 || data.length > 1) {
+		alert("请选中一条数据");
+		return;
+	} else {
+		$.post("fileOperateController/onlinePreview.do", {
+			ID : data[0].fileID
+		}, function(result) {
+			if (result != null && result != "null") {
+				window.location.href = "module/jsp/documentOnlineView.jsp";
+			} else {
+				alert("无法查看");
+			}
+		});
+
+	}*/
+
+/*	var ID = data[0].ID;
+	if (!ID && typeof(ID)!="undefined" && ID=='') 
+	{ 
 		alert("合同ID为空！"); 
 	}else {
 		window.location.href="module/jsp/contractManage/contractView.jsp?ID=" + ID + "&type=0";
+	}*/
+}
+
+/**
+ * 使页面跳转到查看合同页面(审核)
+ */
+function showContractA(){
+	var data = $('#table').bootstrapTable('getSelections');
+	if(data.length==0 || data.length>1){
+		alert("请选中一条数据");
+		return;
+	}
+	var ID = data[0].ID;
+	if (!ID && typeof(ID)!="undefined" && ID=='') 
+	{ 
+		alert("合同编号不能为空！"); 
+	}else {
+		window.location.href="module/jsp/contractManage/contractView.jsp?ID="+ ID + "&type=1";
 	}
 }
+
 
 /**
  * 使页面跳转到修改合同页面

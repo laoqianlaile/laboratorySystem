@@ -1,11 +1,7 @@
 
 $(function () {
-	 alert("刷新页面");
 	// 设置
 	  initTable();
-	
-	
-	
 });
 function initTable(){
 	  //隐藏不需要展示的列

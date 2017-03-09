@@ -26,14 +26,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 <body>
   <div class="main">
-	<div id="showContract" class="header">
+	<div class="showContract">
 		<div class="top">
-			<span><b>合同基本信息</b></span>
+			<div class="contract_title"><img src="module/img/editContract_icon.png" alt="editContract_icon" />合同基本信息</div>
 			<div class="contractId" style="display:none;">
                    <label class="control-label">合同ID:</label>
-				   <label id="show_ID"></label>
+				   <label id="fileID"></label>
 				</div>
-			<div class="contract-title">
+			<div class="contract-code">
 	        	<div class="state">
                    <label class="control-label">合同状态:</label>
 				   <label id="show_state"></label>
@@ -45,67 +45,59 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        </div>
 		</div>
 		<div class="bottom">
-			<div class="contractName">
+			<div class="col-xs-4 col-md-4">
                <label class="control-label">合同名称:</label>
 			   <label id="show_contractName"></label>
 			</div>
-	       	<div class="signAddress">
+	       	<div class="col-xs-4 col-md-4">
                <label class="control-label">签约地点:</label>
 			   <label id="show_signAddress"></label>
 			</div>
-			<div class="companyName">
-               <label class="control-label">签订单位:</label>
+			<div class="col-xs-4 col-md-4">
+               <label class="control-label">甲方:</label>
 			   <label id="show_companyName"></label>
 			</div>
-	       	<div class="oppositeMen">
-               <label class="control-label">甲方法定代表人或代理人:</label>
+	       	<div class="col-xs-4 col-md-4">
+               <label class="control-label">甲方法定代表人(代理人):</label>
 			   <label id="show_oppositeMen"></label>
 			</div>
-            <div class="linkPhone">
+            <div class="col-xs-4 col-md-4">
                <label class="control-label">联系电话:</label>
 			   <label id="show_linkPhone"></label>
 			</div>
-	       	<div class="Time">
+	       	<div class="col-xs-4 col-md-4">
                <label class="control-label">履行时间:</label>
 			   <label id="show_startTime"></label>
-			   至&nbsp;<label id="show_endTime"></label>
+			   <label class="control-label">至</label>
+			   <label id="show_endTime"></label>
 			</div>
-			<div class="employeeName">
-                <label class="control-label">乙方法定代表人或代理人:</label>
+			<div class="col-xs-4 col-md-4">
+                <label class="control-label">乙方法定代表人(代理人):</label>
 				<label id="show_employeeName"></label>
 			</div>
-	       	<div class="signTime">
+	       	<div class="col-xs-4 col-md-4">
                 <label class="control-label">签订时间:</label>
 				<label id="show_signTime"></label>
 			</div>
-            <div class="contractAmount">
+            <div class="col-xs-4 col-md-4">
                 <label class="control-label">合同金额:</label>
 				<label id="show_contractAmount"></label>
 			</div>
-	       	<div class="isClassified">
+	       	<div class="col-xs-4 col-md-4">
                 <label class="control-label">是否涉密:</label>
 				<label id="show_isClassified"></label>
 			</div>
-			<div class="classifiedLevel">
+			<div class="col-xs-4 col-md-4">
                 <label class="control-label">涉密等级:</label>
 				<label id="show_classifiedLevel"></label>
 			</div>
-		</div>
-	</div>
-	<div class="content">
-		<div class="top">
-			<span><b>合同内容</b></span>
-		</div>
-		<div class="bottom">
-			<div id="show_contractContent">
-             	
-            </div>
 		</div>
 	</div>
 	<div class="footer">
 		<button type="button" id="btn-goback" onclick="goback()">返回</button>
 	    <button type="button" id="btn-writeModal2" onclick="writeModal2()">驳回</button>
 	    <button type="button" id="btn-writeModal1" onclick="writeModal1()">通过</button>
+	    <button type="button" id="btn-show" onclick="showContractFile()">查看合同文件</button>
 	</div>
   </div>
 

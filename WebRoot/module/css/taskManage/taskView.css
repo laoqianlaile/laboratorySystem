@@ -2,6 +2,8 @@
 
 body {
 	min-width: 1300px;
+	height: 100%;
+	width: 99%;
 }
 
 .form-control {
@@ -47,6 +49,12 @@ body {
 	margin-left: 10px;
 }
 
+.sampleInfo button:hover {
+	border: none;
+	color: #fff;
+	background-color: rgb(255, 173, 51);
+}
+
 .sampleInfoDiv {
 	width: 100%;
 	margin: 20px auto;
@@ -82,7 +90,7 @@ body {
 	overflow-y: scroll;
 }
 
-table thead{
+table thead {
 	background-color: #364760;
 	color: #fff;
 	font-size: blod 14px;

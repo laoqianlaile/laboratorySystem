@@ -2,11 +2,33 @@
 *{
 	
 }
-.bootstrap-table .table thead{
-	color:#fff;
-	background:#364760;
-}
+
 .bootstrap-table .table thead tr{
 	color:#fff;
 	background:#364760;
+
 }  
+
+.btn-primary {
+	background-color: #238bc8;
+}
+.btn-primary:hover {
+	background-color: #0677b5;
+}
+
+.modal-header {
+	background: #37475f;
+	color: #fff;
+}
+
+.close {
+	color: #fff;
+	opacity: 1;
+}
+.modal-footer .btn-primary {
+	background-color: #37475f;
+}
+.modal-footer .btn-primary:hover {
+	background-color: #0677b5;
+}
+

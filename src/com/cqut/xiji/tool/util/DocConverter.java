@@ -93,6 +93,7 @@ public class DocConverter {
 			}
 			newfile.renameTo(docFile);
 			newfile.delete();
+			docFile.delete();
 		} else {
 			System.out.println("****swf转换器异常，需要转换的文档不存在，无法转换****");
 		}

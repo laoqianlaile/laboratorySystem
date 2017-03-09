@@ -16,8 +16,10 @@ $(function(){
 	    		artcontent =  "<div class='a'>"+ myobj[0].artContent + "</div>";
 	    		var content = document.getElementById("labProfile");
 		    	content.innerHTML = artcontent;
-		    	content.innerHTML = content.innerHTML.substr(0,200) + "......";
+		    	content.innerHTML = content.innerHTML.substr(0,500);
 	    		$(".a>p").css("margin","0px");
+	    		$(".a>p").css("height","233px");
+	    		$(".a>p").css("overflow","hidden");
 	    		$(".a>p").css("font-size","16px");
 	    		$(".a>p").css("font-family", "Microsoft YaHei UI");
 	    		$(".a>p>span").css("margin","0px");

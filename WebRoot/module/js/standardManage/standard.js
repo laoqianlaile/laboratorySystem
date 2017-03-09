@@ -255,6 +255,7 @@ function addstandard(){
 	parame.EDITSTATE = $('#add_EDITSTATE').val();
 	parame.DESCRIPTION = $('#add_DESCRIPTION').val();//
 	parame.fileID = "";
+	
 	fileIDs = fielIdReturn();
 	if(fileIDs.length == 0){
 		alert("出错了，没有获取到文件ID，正在全力解决");

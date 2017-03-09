@@ -119,6 +119,9 @@ ul li{
 	background:url(../../images/point_circle_gray.png) no-repeat 0% 50%;
 	cursor:pointer;
 	}
+.contentlist a{
+	color:#198ac8;
+}
 .contentbody_right{
 	width:942px;
 	height:701px;

@@ -58,10 +58,15 @@ public class LoginFilter  implements Filter {
 					    out.println("alert('您长时间未操作，被迫下线!');"); 
 					    out.println("</body>"); 
 					    out.println("</html>");  
-					
+					    out.flush();
+					    out.close();
 
 					
 					    return ;
+				}else if(targetURL.indexOf("Portal") > 0){
+					
+					filterChain.doFilter(request, response); //门户网站的 放过
+					
 				}else{
 					response.sendRedirect(login_page);
 				}

@@ -35,12 +35,13 @@
 	margin-left:4px;
 }
 .application-list{
-	margin-top:20px;
+	margin-top:10px;
 	color:#6facd7;
 	padding-left:10px;
 }
 .application-item{
-	margin-bottom:20px;
+	/*margin-bottom:20px;*/
+	line-height:32px;
 	border-bottom:1px solid #ccc;
 }
 .application-item a{
@@ -63,7 +64,7 @@
 	width:10px;
 	height:10px;
 	margin-left:6px;
-	margin-top:4px;
+	margin-top:10px;
 	margin-right:5px;
 	display: inline-block;
     border-radius: 50%;
@@ -106,11 +107,12 @@
 	}
 .form-head h3{
 	 font-size: 16px;
+	 font-weight:bold;
      font-family: "Microsoft YaHei";
-     color: rgb( 25, 138, 200 );
+     color:#198ac8;
      text-align: left;
 	 line-height:0px;
-	 margin-left:36px;
+	 margin-left:10px;
 	 margin-top:0;
 	 padding-top:20px;
   }
