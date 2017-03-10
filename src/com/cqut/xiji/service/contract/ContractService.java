@@ -72,6 +72,7 @@ public class ContractService extends SearchService implements IContractService{
 		int pageNum = offset/limit ;
 		String tableName = "contract";
 		String[] properties = new String[]{
+				"contract.fileID",
 				"contract.ID",
 				"contract.contractCode",
 				"contract.contractName",
@@ -198,6 +199,7 @@ public class ContractService extends SearchService implements IContractService{
 				"contract.contractCode",
 				"contract.contractName",
 				"contract.companyID",
+				"contract.fileID",
 				"company.companyName",
 				"company.address",
 				"contract.oppositeMen",
@@ -466,6 +468,35 @@ public class ContractService extends SearchService implements IContractService{
 		
 		int result = entityDao.updatePropByID(contract,ID);
 		return result + "";
+	}
+	
+	public int updateContractFileID(String contractID){
+		int index = 1;
+		int pageNum = 0;
+		String sort = "fileInformation.uploadTime";
+		String order = "desc";
+		String tableName = "fileInformation";
+		String[] properties = new String[]{
+			"fileInformation.ID AS fileID",
+		};
+		
+		String condition = " 1 = 1 and fileInformation.belongToID = " + contractID;
+		List<Map<String, Object>> file  = entityDao.searchWithpaging(properties, tableName, null, null, condition, null, sort, order, index, pageNum);
+		
+		String fileID = "";
+		for (Map<String, Object> m : file)  
+	    {  
+	      for (String k : m.keySet())  
+	      {  
+	    	  fileID = (String) m.get(k);  
+	      }  
+	    }
+		
+		Contract contract = new Contract();
+		contract.setFileID(fileID);
+		
+		int result = entityDao.updatePropByID(contract,contractID);
+		return result;
 	}
 	
 	/**

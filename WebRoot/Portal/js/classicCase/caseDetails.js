@@ -75,6 +75,7 @@ function getURLParameter() {
 
 $(document).ready(function(){
 	var obj=getURLParameter().para;
+	var click={};
 	 $.ajax( {
 		 data:obj,                  
 	     url:'articleController/getArticle.do',// 跳转到 action  
@@ -84,7 +85,18 @@ $(document).ready(function(){
     	if(msg){    			    	
 	    		var artcontent= "";
 	    		var myobj=eval(msg);
-	    			artcontent = "<div style='text-indent:20px;'>"+myobj[0].artContent+"</div>";
+	    		click.articleID = myobj[0].articleID;
+	    		click.artClick = parseInt(myobj[0].artClick) + 1 + "";
+	    		  $.ajax( {
+	    				 data:click,                  
+	    			     url:'articleController/updateArticle.do',// 跳转到 action  
+	    			     type:'post',  
+	    			     dataType:'json',
+	    			     success:function(msg) {
+	    			    	 
+	    			     }
+	    			 });
+	    		artcontent = "<div style='text-indent:20px;'>"+myobj[0].artContent+"</div>";
 	    		var content = document.getElementById("artContent");
 		    	content.innerHTML = artcontent; 
 	    	}

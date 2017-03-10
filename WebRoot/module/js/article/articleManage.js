@@ -157,7 +157,7 @@ function modal() {
 			$('#rightFormDiv').show();
 			$("#imgUpload").fileupload({  
 				 autoUpload: true,
-			    url: 'fileOperateController/imageUpload.do',  
+				 url: 'fileOperateController/imageUpload.do',  
 				 dataType:'text',
 				 add: function (e, data) {
 			               $("#addarticle").click(function () {			            	  
@@ -1382,18 +1382,14 @@ function modal() {
 			$('#rightFormDiv').show();
 			$("#imgUpload").fileupload({  
 				 autoUpload: true,
-			    url: 'fileOperateController/imageUpload.do',  
+				 url: 'fileOperateController/imageUpload.do',  
 				 dataType:'text',
 				 add: function (e, data) {
 			               $("#addarticle").click(function () {			            	  
 			            		   data.submit();			                  	
 			               });
 				 },
-			})/*.bind('fileuploadprogress', function (e, data) {  
-			    var progress = parseInt(data.loaded / data.total * 100, 10);  
-			    $("#weixin_progress").css('width',progress + '%');  
-			    $("#weixin_progress").html(progress + '%');  
-			})*/.bind('fileuploaddone', function (e, data) {  
+			}).bind('fileuploaddone', function (e, data) {  
 				  fileurl=eval(data.result);
 				 //fileurl = eval(data.result)[0].FileUrl;
 				 flag=false;

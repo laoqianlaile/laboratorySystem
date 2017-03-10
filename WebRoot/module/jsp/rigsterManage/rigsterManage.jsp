@@ -109,7 +109,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  <div id="isTouchReviewStatus" style="display: none;"></div>
      </div>
      <div class="col-xs-3 col-md-3">
-      <button class="btn" id="search" onclick="formSearch1()">查询</button>
+      <button class="btn btn-primary" id="search" onclick="formSearch1()">查询</button>
      </div>
 	<!-- </form> -->
 	<div  id="opration_btn" >
@@ -176,14 +176,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </div>
               
                <div class="col-xs-6 col-md-6 ">
-                 <img id="show_qulicationPic"  style="height:200px;width:100%"/>
-                 <img id="show_businessLicence" style="height:200px;width:100%"/>
+                 <img id="show_qulicationPic"  style="height:200px;width:100%;margin-top:5px;"/>
+                 <img id="show_businessLicence" style="height:200px;width:100%;margin-top:60px;"/>
                </div>
              </div>
              
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	        <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
 	     <!--    <button type="button" class="btn btn-primary" onclick="add()">新增</button> -->
 	      </div>
 	    </div>
@@ -253,16 +253,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </div>
               
                <div class="col-xs-6 col-md-6 ">
-                 <img id="check_qulicationPic" style="height:200px;width:100%"/>
-                 <img id="check_businessLicence" style="height:200px;width:100%"/>
+                 <img id="check_qulicationPic" style="height:200px;width:100%;margin-top:5px;"/>
+                 <img id="check_businessLicence" style="height:200px;width:100%;margin-top:60px;"/>
                </div>
              </div>
              
 	      </div>
 	      <div class="modal-footer">
-	      <button type="button" class="btn btn-default" data-dismiss="modal" onclick="updateStatus()">确认</button>
-	        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-	     <!--    <button type="button" class="btn btn-primary" onclick="add()">新增</button> -->
+	      <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="updateStatus()">确认</button>
+	        <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
 	      </div>
 	    </div>
 	  </div>
