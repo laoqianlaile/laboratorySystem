@@ -4,6 +4,7 @@
 var obj = {  
 	reID : "12265656565",
 	reCode : "xiji-2016-15-34",
+	proID : "",
 	coCode : "",
 	coID : "",
 	addState : "",
@@ -40,14 +41,14 @@ function isShowButton(size){
 //上传文件预处理
 function submitFile(){
 	//loadingData();
-	fileObj.path = "E:/";//filePath; // 文件上传路径，如果此参数没有值，则使用firstDirectoryName,secondDirectoryName,thirdDirectoryName
+	fileObj.path = "";//filePath; // 文件上传路径，如果此参数没有值，则使用firstDirectoryName,secondDirectoryName,thirdDirectoryName
 	fileObj.fileTypeNumber = "1";//fileTypeNumber; // 文件类型
 	fileObj.firstDirectoryName = "项目文件";//fileFirstDirectory; // 一级目录
-	fileObj.secondDirectoryName = "子项目具体文件";//fileSecondDirectory; // 二级目录
+	fileObj.secondDirectoryName = obj.proID;//fileSecondDirectory; // 二级目录
 	fileObj.thirdDirectoryName = "交接单文件";//fileThirdDirectory //三级目录
 	fileObj.belongtoID = obj.reID;
- 	fileObj.otherInfo = "没有";//fileOtherInfo; // 其他参数
-	fileObj.remarks = "文件啊";//fileRemarks; // 备注
+ 	fileObj.otherInfo = "";//fileOtherInfo; // 其他参数
+	fileObj.remarks = "";//fileRemarks; // 备注
 	//文件上传
 	 fileUpload(fileObj.filePath, fileObj.fileTypeNumber, fileObj.firstDirectoryName, fileObj.secondDirectoryName,fileObj.thirdDirectoryName,
 			 fileObj.belongtoID, fileObj.otherInfo, fileObj.remarks) ;
@@ -104,6 +105,7 @@ function initPageData(){
 	var dara = getURLParameter();
 	 obj.reID = dara.reID;
 	 obj.reCode  = dara.reCode;
+	 obj.proID  = dara.proID;
 	 obj.coID  = dara.coID;
 	 obj.addState  = dara.addState;
 	 obj.lookState = dara.lookState;
