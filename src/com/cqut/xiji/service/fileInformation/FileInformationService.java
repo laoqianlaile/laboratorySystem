@@ -252,4 +252,51 @@ public class FileInformationService extends SearchService implements IFileInform
 		map.put("rows", result);	
 		return map;
 	}
+	
+	@Override
+	public Map<String, Object> getFileWithPaging(int limit, int offset, String sort,
+			String order, String fileName, String projectID, String uploadName,
+			String beginTime, String endTime, String selectPart){
+		int index = limit;
+		int pageNum = offset/limit;
+		String baseEntity = "fileInformation";
+		String[] properties = new String[] {
+				"fileinformation.ID AS ID",
+				"fileName",
+				"content",
+				"DATE_FORMAT(uploadTime,'%Y-%m-%d %H:%i:%s') AS uploadTime",
+				"IF (fileinformation.type = '0','标准文件',IF (fileinformation.type = '1','模板文件',IF (fileinformation.type = '2','项目文件','其它'))) AS type",
+				"remarks", "path", "employeeName" };
+
+		String joinEntity = " LEFT JOIN employee ON fileinformation.uploaderID = employee.ID   ";
+		String condition = " 1 = 1 AND fileInformation.state = 0 ";
+		if (fileName != null && !fileName.isEmpty()&& !fileName.equals("")) {
+			condition += " and fileName like '%" + fileName + "%'";
+		}
+	/*	if (projectID != null && !projectID.isEmpty()&& !projectID.equals("")) {
+			condition += " and fileName like '%" + fileName + "%'";
+		}*/
+		if (uploadName != null && !uploadName.isEmpty() && !uploadName.equals("")) {
+			condition += " and employeeName like '%" + uploadName + "%'";
+		}
+		if (beginTime != null && !beginTime.isEmpty() && !beginTime.equals("")) {
+			condition += " and uploadTime >'" + beginTime + "'";
+		}
+		if (endTime != null && !endTime.isEmpty() && !endTime.equals("")) {
+			condition += " and uploadTime <'" + endTime + "'";
+		}
+		if (selectPart != null && !selectPart.isEmpty() && !selectPart.equals("")) {
+			if (!selectPart.equals("3")) {
+				condition += " and type  = '" + selectPart + "'";
+			}
+		}
+		List<Map<String, Object>> result = entityDao.searchWithpaging(properties, baseEntity, joinEntity, null, condition, null, sort,order, index, pageNum);
+		int count = entityDao.searchForeign(properties, baseEntity, joinEntity, null, condition).size();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("total", count);
+		map.put("rows", result);
+		return map;
+	}
+	
+	
 }

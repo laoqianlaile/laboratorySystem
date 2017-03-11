@@ -1,7 +1,8 @@
-var array =[];
+var array = [];
 
 // 文件上传
-function fileUpload(selectorName, filePath, fileTypeNumber, fileBelongID, fileFirstDirectory, fileSecondDirectory, fileThirdDirectory,
+function fileUpload(selectorName, filePath, fileTypeNumber, fileBelongID,
+		fileFirstDirectory, fileSecondDirectory, fileThirdDirectory,
 		fileOtherInfo, fileRemarks) {
 	array = [];
 	path = filePath; // 文件上传路径，如果此参数没有值，则使用firstDirectoryName,secondDirectoryName,thirdDirectoryName
@@ -37,7 +38,8 @@ function fileUploadInit(selectorName) {
 				thirdDirectory : thirdDirectoryName,// 三级路径
 				TypeNumber : type, // 文件类型,必须
 				content : otherInfo,// 文件内容描述
-				remark : remarks// 备注
+				remark : remarks
+			// 备注
 			});
 		},
 		'swf' : "module/js/uploadify.swf", // flash
@@ -70,7 +72,7 @@ function fileUploadInit(selectorName) {
 		}
 	});
 }
-	 
+
 // 下载一个文件的方法,参数为文件ID
 function downOneFile(fileID) {
 	$.post("/laboratorySystem/fileOperateController/filecheck.do", {

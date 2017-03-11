@@ -1,0 +1,179 @@
+// 请求数据时的额外参数
+var param = {};
+
+// 初始化数据
+$(function() {
+	$("#table")
+			.bootstrapTable(
+					{
+						striped : false,// 隔行变色效果
+						pagination : true,// 在表格底部显示分页条
+						pageSize : 10,// 页面数据条数
+						pageNumber : 1,// 首页页码
+						pageList : [ 10, 20 ],// 设置可供选择的页面数据条数
+						clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和  checkbox
+						cache : false,// 禁用 AJAX 数据缓存
+						sortName : 'uploadTime',// 定义排序列
+						sortOrder : 'DESC',// 定义排序方式
+						url : 'fileInformationController/getFileWithPaging.do',// 服务器数据的加载地址
+						sidePagination : 'server',// 设置在哪里进行分页
+						contentType : 'application/json',// 发送到服务器的数据编码类型
+						dataType : 'json',// 服务器返回的数据类型
+						queryParams : function queryParams(params) { // 请求服务器数据时,添加一些额外的参数
+							param.limit = params.limit;// 页面大小
+							param.offset = params.offset; // 偏移量
+							param.sort = params.sort; // 排序列名
+							param.order = params.order; // 排位方式
+							return param;
+						},
+						queryParamsType : "limit",
+						selectItemName : '',// radio or checkbox 的字段名
+						columns : [
+								{
+									checkbox : true,
+									width : "1%",// 宽度
+									formatter : function(value, row, index) {
+										checkData(row); // 验证数据合理性
+									}
+								},
+								{
+									field : '',
+									title : '序号',
+									width : '1%',
+									align : 'center',
+									valign : 'middle',
+									formatter : function(value, row, index) {
+										return index + 1;
+									}
+								},
+								{
+									field : 'ID',// 返回值名称
+									title : '文件ID',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "10%",// 宽度
+									visible : false
+								},
+								{
+									field : 'fileName',// 返回值名称
+									title : '文件名称',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "18%"// 宽度
+
+								},
+								{
+									field : 'uploadTime',// 返回值名称
+									title : '上传时间',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "18%",// 宽度
+								},
+								{
+									field : 'type',// 返回值名称
+									title : '文件类型',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "18%"// 宽度
+								},
+								{
+									field : 'remarks',// 返回值名称
+									title : '备注',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "21%"// 宽度
+								},
+								{
+									field : 'employeeName',// 返回值名称
+									title : '上传人',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "15%"// 宽度
+								},
+								{
+									title : '操作',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "10%",// 宽度
+									formatter : function(value, row, index) {
+										return "<img src ='module/img/view_icon.png'  onclick='viewFile(\""
+												+ row.ID
+												+ "\")'  title='查看报告' style='cursor:pointer;padding-right:8px;'></img> "
+												+ "<img src ='module/img/download_icon.png'  onclick='downFile(\""
+												+ row.ID
+												+ "\")'  title='下载报告'  style='cursor:pointer;padding-right:8px;'></img> "
+									}
+								} ]
+					});
+
+});
+// 查询
+function search() {
+	var additionalCondition = {
+		fileName : $.trim($('#fileName').val()),
+		projectID : $.trim($('#projectID').val()),
+		uploadName : $.trim($('#uploadName').val()),
+		beginTime : $.trim($('#beginTime').val()),
+		endTime : $.trim($('#endTime').val()),
+		selectPart : $.trim($('#selectPart').val()),
+	};
+	$('#table').bootstrapTable('refresh', {
+		silent : true,
+		url : "fileInformationController/getFileWithPaging.do",
+		query : additionalCondition
+	});
+}
+
+// 下载文件
+function downFile() {
+	var fileID = arguments[0];
+	downOneFile(fileID);
+}
+
+// 查看文件
+function viewFile() {
+	displayDiv();
+	var fileID = arguments[0];
+	$.post("fileOperateController/onlinePreview.do", {
+		ID : fileID
+	}, function(result) {
+		if (result != null && result != "null") {
+			window.location.href = "module/jsp/documentOnlineView.jsp";
+		} else {
+			alert("无法查看");
+		}
+	});
+}
+
+// 检查数据合理性
+function checkData(dataObj) {
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
+			|| dataObj.ID.trim() == "NULL") {
+		dataObj.ID = "";
+	}
+	if (!dataObj.hasOwnProperty("fileName") || dataObj.fileName == null
+			|| dataObj.fileName.trim() == "NULL") {
+		dataObj.fileName = "";
+	}
+	if (!dataObj.hasOwnProperty("uploadTime") || dataObj.uploadTime == null
+			|| dataObj.uploadTime == undefined) {
+		dataObj.uploadTime = "";
+	}
+	if (!dataObj.hasOwnProperty("type") || dataObj.type == null
+			|| dataObj.type.trim() == "NULL") {
+		dataObj.type = "";
+	}
+	if (!dataObj.hasOwnProperty("path") || dataObj.path == null
+			|| dataObj.path == undefined) {
+		dataObj.path = "";
+	}
+	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null
+			|| dataObj.remarks == undefined) {
+		dataObj.remarks = "";
+	}
+	if (!dataObj.hasOwnProperty("employeeName") || dataObj.employeeName == null
+			|| dataObj.employeeName.trim() == "NULL") {
+		dataObj.employeeName = "";
+	}
+
+}
