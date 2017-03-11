@@ -22,7 +22,7 @@
 <script src="../../js/bootstrap-datetimepicker.js"></script>
 <script src="../../js/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="../../js/bootstrap-datetimepicker.fr.js"></script>
-
+<script src="../../js/fileManage/fileManage.js" type="text/javascript"></script>
 
 
 </head>

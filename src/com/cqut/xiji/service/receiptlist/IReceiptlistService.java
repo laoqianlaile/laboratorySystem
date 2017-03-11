@@ -39,6 +39,7 @@ public interface IReceiptlistService {
 	public String updRelistInforInReturn(String reID,String conID,String linkMan,String createTime,String linkPhone);
 	Map<String, Object> getReceiptlistAll(int limit, int offset, String sort, String order); //样品管理员桌面获取交接单
 	List<Map<String, Object>> getReceiptlistInfo(String contractID);
-	String initReceiptFile(String coID,String reID); //初始化交接单文件
+	String initReceiptFile(String reID ,String coID, String proID); //初始化交接单文件
+	String downReceiptlist(String reID, String coID, String proID);//下载交接单文件预处理
 	
 }
