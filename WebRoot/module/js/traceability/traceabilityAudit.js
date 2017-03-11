@@ -4,7 +4,7 @@ function queryParams(pageReqeust) {
 	pageReqeust.length = 6;
 	pageReqeust.equipmentName = encodeURI($("#equipmentName").val());
 	pageReqeust.equipmentCode = encodeURI($("#equipmentCode").val());
-	//pageReqeust.equipmentTypeName = encodeURI($("#equipmentTypeName").val());	
+	//pageReqeust.model = encodeURI($("#model").val());	
 	//pageReqeust.auditState = encodeURI($("#auditState").val());
 	if($("#auditState").find("option:selected").text()=="未审核"){
 		pageReqeust.auditState="0";
@@ -93,7 +93,7 @@ function inti() {
 									rowspan : 2
 								}, {
 									title : '规格型号',
-									field : 'equipmentTypeName',
+									field : 'model',
 									align : 'center',
 									colspan : 1,
 									rowspan : 2

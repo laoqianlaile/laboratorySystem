@@ -5,8 +5,17 @@
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 	String qualiyPlanId = request.getParameter("qualiyPlanId");
-	if (qualiyPlanId != null && qualiyPlanId != "")
+	String traceabilityCode = request.getParameter("code");
+	String traceabilityYear = request.getParameter("year");
+	if (qualiyPlanId != null && qualiyPlanId != ""){
 		session.setAttribute("qualiyPlanId", qualiyPlanId);
+		session.setAttribute("traceabilityCode", traceabilityCode);
+		session.setAttribute("traceabilityYear", traceabilityYear);
+	}else{
+		traceabilityCode = (String)session.getAttribute("traceabilityCode");
+		traceabilityYear = (String)session.getAttribute("traceabilityYear");
+	}
+		
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -58,13 +67,13 @@
 	<!-- 功能按钮 -->
 	<div class="wrapper">
 		<div style="height:70px">
-			<span id="yearvalue" hidden><%=request.getParameter("year")%></span><span
-				id="codevalue" hidden><%=request.getParameter("code")%></span>
+			<span id="yearvalue" hidden><%=traceabilityYear %></span><span
+				id="codevalue" hidden><%=traceabilityCode %></span>
 	<!-- 		<div id="showdiv1" class="alert alert-danger tan"></div> -->
 			<div id="font">
-				<h3 style="text-align:center"><%=request.getParameter("year")%>年度检测/量值溯源建议</h3>
+				<h3 style="text-align:center"><%=traceabilityYear %>年度检测/量值溯源建议</h3>
 			</div>
-			<p style="float:right;">编号:<label><%=request.getParameter("code") %></label></p>
+			<p style="float:right;">编号:<label><%=traceabilityCode %></label></p>
 		</div>
 		<div id="searcherArea">
 		

@@ -102,7 +102,7 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
   	</table>
   	</div>
   	<div id="bottom">
-	  	<button type="button" id="asda" class="btn btn-info thisbtn" data-toggle="modal"  onclick="uploadfile()">&nbsp;上传结果</button>
+  		<span style="margin-left: 19px;">文件下载</span>
 	    <table id="tablefile">
 	    
 	    </table>
@@ -144,53 +144,5 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
 	  	</div>
 	</div>
 	
-	<!-- 上传文件弹框-->
-  	<div class="modal fade" id="showfilepage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-	  		<div class="modal-dialog" role="document">
-	    		<div class="modal-content" style="height:400px;">
-	      			<div class="modal-header">
-	        			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	        			<span aria-hidden="true">&times;</span></button>
-	        				<h4 class="modal-title" id="myModalLabel">上传文件:</h4>
-	      			</div>
-	      			<div class="modal-body">
-	      			<h4 ></h4>
-		      			<form id="adddata" action="personconTrastController/upload.do"
-						method="post" enctype="multipart/form-data"
-						class="form-horizontal">
-						<div id="files">
-							<div class="form-group">
-								<span for="inputEmail3" class="col-sm-4 control-label">选择文件</span>
-								<div class="col-sm-5">
-									<input id="fileupload" type="file" name="file"
-										placeholder="请选择" />
-								</div>
-							</div>
-							<div class="form-group">
-								<span class="col-sm-4 control-label">备注</span>
-								<div class="col-sm-8">
-								     <input class="form-control" id="remarks"  type="text">
-								</div>				
-							</div>	
-							
-							<div class="form-group" style="visibility:hidden;">
-								<label for="inputPassword3" class="col-sm-2 control-label">ID</label>
-								<div class="col-sm-10">
-									<input type="text" class="form-control" id="belongID"
-										name="belongID" readonly="true">
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="submit" class="btn btn-info thisbtn">确定<tton>
-								<button type="button" class="btn btn-info thisbtn"
-									data-dismiss="modal">退出<tton>
-							</div>
-						</div>
-					</form>		  				  							  							      			        			
-	      			</div>
-	   		 </div>
-	  	</div>
-	</div>
-	</div>
   </body>
 </html>

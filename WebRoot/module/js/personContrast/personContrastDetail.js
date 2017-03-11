@@ -39,6 +39,7 @@ $(function () {
 		},{
 			title : '序号',
 			field: 'Number',
+			width:'5',//宽度
 			formatter: function (value, row, index) {
 			return index+1;
 			}

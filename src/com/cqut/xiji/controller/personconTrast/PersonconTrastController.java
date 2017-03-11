@@ -283,9 +283,9 @@ public class PersonconTrastController{
 	public void upload(HttpServletRequest request,HttpServletResponse response, ModelMap model) throws IOException {
 			  Boolean result =  service.upload(request, response, model);
 			  if(result == true){
-				  response.sendRedirect("../module/jsp/personContrast/personContrastResult.jsp");
+				  response.sendRedirect("../module/jsp/personContrast/personContrast.jsp");
 			  }else {
-				  response.sendRedirect("../module/jsp/personContrast/personContrastResult.jsp");
+				  response.sendRedirect("../module/jsp/personContrast/personContrast.jsp");
 			}
 		}
 }
