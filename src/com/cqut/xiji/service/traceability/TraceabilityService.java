@@ -73,7 +73,6 @@ public class TraceabilityService extends SearchService implements
 		String joinEntity = " left join qualityPlan on qualityPlan.ID = qualityPlanID "
 				+ " left join equipment on equipment.ID = equipmentID "
 				+ " left join department on department.ID = traceability.departmentID "
-				+ " left join equipmentType on equipmentType.ID = equipment.equipmentTypeID "
 				+ " left join employee on employee.ID = traceability.employeeID "
 				+ " left join fileinformation on fileinformation.belongtoID = traceability.id";
 
@@ -196,8 +195,7 @@ public class TraceabilityService extends SearchService implements
 						"equipmentName",// 设备名称
 						"equipmentCode",// 仪器编号
 
-						"equipmentType.ID as equipmentTypeID",// 规格型号ID
-						"equipmentType.`name` as equipmentTypeName",// 规格型号
+						"model",// 规格型号
 
 						"traceability.departmentID as departmentID",// 部门ID
 						"departmentName",// 部门名称
@@ -241,7 +239,6 @@ public class TraceabilityService extends SearchService implements
 		String joinEntity = "join qualityPlan on qualityPlan.ID = qualityPlanID "
 				+ "join equipment on equipment.ID = equipmentID "
 				+ "join department on department.ID = traceability.departmentID "
-				+ "join equipmentType on equipmentType.ID = equipment.equipmentTypeID "
 				+ "join employee on employee.ID = traceability.employeeID "
 				+ "left join fileinformation on fileinformation.belongtoID = traceability.ID";
 		Map<String, Object> map = getMap(index, pageNum, order, sort,

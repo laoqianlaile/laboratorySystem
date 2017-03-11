@@ -106,6 +106,17 @@ textarea {
 			<label class="control-label">职务名称:</label> <input
 				class="form-control" id="linkdutytName">
 		</div>
+		<div class="col-md-3.5 column">
+		<button id="Import" onclick="" class="btn btn-primary"
+					type="button">
+					<em class=""></em> 导入
+				</button>
+				<button id="export" onclick="" class="btn btn-primary"
+					type="button">
+					<em class=""></em> 导出
+				</button>
+				
+		</div>
 
 	</div>
 	<!--功能按钮 -->
@@ -120,7 +131,7 @@ textarea {
 				<button type="button" class="btn btn-primary glyphicon glyphicon-plus"
 					data-toggle="modal" data-target="#addModal">&nbsp;新增</button>
 
-				<button class="btn btn-primary" button" id="del"
+				<button class="btn btn-primary" button" id="modify"
 					onclick="openModal()">
 					<em class="glyphicon glyphicon-pencil"></em> 修改
 				</button>

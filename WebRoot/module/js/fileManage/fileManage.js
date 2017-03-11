@@ -75,7 +75,7 @@ function fileUploadInit(selectorName) {
 
 // 下载一个文件的方法,参数为文件ID
 function downOneFile(fileID) {
-	$.post("fileOperateController/filecheck.do", {
+	$.post("/laboratorySystem/fileOperateController/filecheck.do", {
 		ID : fileID
 	}, function(result) {
 		if (result == '"OK"') {

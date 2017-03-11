@@ -161,7 +161,7 @@ $(function() {
 									valign : 'middle',// 垂直居中显示
 									width : '12%',// 宽度
 									formatter : function(value, row, index) { //操作按钮的设置
-									  var look = "", edit = "", cancel = "";
+									  var look = "", edit = "", cancel = ""; download = "";
 									  	if(row.ID != ""){   //没有交接单---就没有任何编辑，查看，删除等功能
 										  look = '<span onclick= "lookRe(\'' + row.ID
 												+ '\')" data-toggle="tooltip" data-toggle="top"  title="查看"  class="icon-eye-open" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
@@ -181,8 +181,13 @@ $(function() {
 										 if (row.state == "未检测") //未检测的交接单(保存在自己的还没有提交的可以删除)
 											cancel = '<span onclick= "deleteRe(\'' + row.ID
 													+ '\')" data-toggle="tooltip" data-placement="top" title="删除"  class="glyphicon glyphicon-remove" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>'
-										}
-										return look + edit + cancel;
+										   
+											download =  '<span onclick= "downloadReFile(\'' + row.ID+'\''+',\''+row.coID+'\',\''+row.proID
+													+ '\')" data-toggle="tooltip" data-placement="top" title="下载"  class="glyphicon glyphicon-download-alt" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>'
+													
+									  	}
+									 
+										return look + edit + cancel+download;
 									}
 								} ]
 					// 列配置项,详情请查看 列参数 表格
@@ -206,7 +211,7 @@ function addRe() {
 		    +result.reID+"&coID=" 
 	        + data[0].coID + "&comID="
 			+ data[0].comID + "&coCode=" + data[0].coCode
-			+ "&addState=yes&reCode=" + result.reCode;
+			+ "&addState=yes&reCode=" + result.reCode+"&proID="+data[0].proID;
 
 }
 //创建交接单 --各种类型
@@ -239,7 +244,7 @@ function addReNo() {
 			+result.reID+"&coID=" 
 			+ result.coID + "&comID="
 			+ "" + "&coCode=" + result.coCode
-			+ "&addState=no&reCode=" + result.reCode;
+			+ "&addState=no&reCode=" + result.reCode+"&proID="+result.proID;
 }
 
 
@@ -347,7 +352,34 @@ function deleteRe(id) {
 
 }
 
+//下载交接单文件 
+function downloadReFile(reID ,coID,proID){
+	var fileID = "";
+	$.ajax({
+		url : '/laboratorySystem/receiptlistController/downReceiptlist.do',
+		dataType : "json",
+		type : "post",
+		contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
+		async : false ,
+		data : {
+			reID : reID	,
+			coID : coID ,
+			proID: proID
+		},
+		success : function(o) {
+		
+			if (o == "false") {
+				alert("还没有交接单文件模板");
+			} else {
+				
+				fileID = o;
+				downOneFile(fileID);
+			}
+			
+		}
+	});
 
+}
 // 检查交接单数据是否合理并处理
 function checkData(dataObj) { // 后台数据字段为空就不会传上来
 	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null || dataObj.ID.trim() == "NULL") {
