@@ -111,8 +111,8 @@ public class SampleController{
 	 */
 	@RequestMapping("/delSample")  
     @ResponseBody
-	public String delSample(String roleIDs){
-		String result = service.delSample(roleIDs);
+	public String delSample(String sampleIDs){
+		String result = service.delSample(sampleIDs);
 		return result;
 	}
 	/**

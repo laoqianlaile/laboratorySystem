@@ -50,7 +50,7 @@ $(function() {
 			checkbox : true,
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '5',// 宽度
+			width : '5%',// 宽度
 			formatter:function(value, row, index){
 				chenkData(row);
 			}
@@ -79,13 +79,13 @@ $(function() {
 			title : '样品名称',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '20%'// 宽度
+			width : '15%'// 宽度
 		}, {
 			field : 'type',// 返回值名称
 			title : '规格/型号',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示 receiptlistCode
-			width : '10%'// 宽度
+			width : '5%'// 宽度
 		}, {
 			field : 'unit',// 返回值名称
 			title : '单位',// 列名
@@ -97,20 +97,36 @@ $(function() {
 			title : '创建时间',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '20%'// 宽度
+			width : '15%'// 宽度
 		}, {
 			field : 'state',// 返回值名称
 			title : '状态',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '105'// 宽度
+			width : '10%'// 宽度
 		},{
 			field : 'remarks',// 返回值名称
 			title : '备注',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '15%'// 宽度
-		} ]
+			width : '10%'// 宽度
+		},{
+			field:'',//返回值名称
+			title:'操作',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:'25%',//宽度
+			formatter : function(value, row, index) { //操作按钮的设置
+				  var view = "", edit = "", dele = ""; 
+				  	if(row.ID != ""){   //没有交接单---就没有任何编辑，查看，删除等功能
+				  		view = "<img src=\"../../img/view_icon.png\" onclick='showModal("+JSON.stringify(row)+")'>";
+				        edit = "<img src=\"../../img/edit_icon.png\" onclick='openModal("+JSON.stringify(row)+")'>";
+				        dele = "<img src=\"../../img/delete_icon.png\" onclick='deleSample(\""+row.ID+"\")'>";
+				 
+					return view + edit + dele;
+				  }
+		     }
+		}]
 	// 列配置项,详情请查看 列参数 表格
 	/* 事件 */
 	});
@@ -174,23 +190,26 @@ function delData() {
 		ids += data[i].ID + ",";
 	}
 
-	var ajaxParameter = {
-			roleIDs : ids.substring(0, (ids.length - 1))
-	};
 
+	var sampleIDs = ids.substring(0, (ids.length - 1));
+	deleSample(sampleIDs);
+	
+}
+function deleSample(sampleIDs){
 	$.ajax({
 		url : '/laboratorySystem/sampleController/delSample.do',
 		dataType:"json",
-		data : ajaxParameter,
+		data : {
+			sampleIDs : sampleIDs
+		},
 		success : function(o) {
-			if (o == false) {
+			if (o == "false") {
 				alert("删除失败");
 			}
 			refresh();
 		}
 	});
 }
-
 /* 新增方法 */
 function add() {
 	var parame = {};
@@ -233,20 +252,20 @@ function add() {
 }
 
 /* 弹出查看弹框方法 */
-function showModal() {
+function showModal(data) {
 	/*
 	 * var frameSrc = "module/jsp/roleManage/testFrame.html";
 	 * $("#NoPermissioniframe").attr("src", frameSrc);
 	 * $('#NoPermissionModal').modal({ show: true, backdrop: 'static' });
 	 */
 
-	var data = $('#table').bootstrapTable('getSelections');
+/*	var data = $('#table').bootstrapTable('getSelections');
 
 	if (data.length == 0 || data.length > 1) {
 		alert("请选中一条数据");
 		return;
-	}
-	fillLookEdit(data[0],"look");
+	}*/
+	fillLookEdit(data,"look");
 	//设置属性不可编辑 ???
 	
 	//显示页面
@@ -254,15 +273,15 @@ function showModal() {
 }
 
 /* 弹出修改弹框方法 */
-function openModal() {
-	var data = $('#table').bootstrapTable('getSelections');
+function openModal(data) {
+/*	var data = $('#table').bootstrapTable('getSelections');
 
 	if (data.length == 0 || data.length > 1) {
 		alert("请选中一条数据");
 		return;
-	}
+	}*/
 	// var ids = data[0].ROLEID;
-	fillLookEdit(data[0],"edit");
+	fillLookEdit(data,"edit");
 	$('#editModal').modal('show');
 }
 function  initEvent(){ 

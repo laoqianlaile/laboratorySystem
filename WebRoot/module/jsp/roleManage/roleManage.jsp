@@ -35,6 +35,8 @@
 <script src="module/js/bootstrap.js"></script>
 <script src="module/js/bootstrap-table.js"></script>
 <script src="module/js/bootstrap-table-zh-CN.js"></script>
+<script src="assets/js/autoPage.js"></script>
+
 <style type="text/css">
 .input-group {
 	margin-bottom: 30px;

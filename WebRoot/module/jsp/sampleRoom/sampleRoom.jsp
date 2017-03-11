@@ -12,9 +12,10 @@
 <script src="../../js/bootstrap.js"></script>
 <script src="../../js/bootstrap-table.js"></script>
 <script src="../../js/bootstrap-table-zh-CN.js"></script>
+<script src="assets/js/autoPage.js"></script>
 <link rel="stylesheet" href="../../css/changeACE.css" />
 <link rel="stylesheet" href="../../css/sampleRoom/sampleRoom.css" />
-<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
+<link rel="stylesheet" type="text/css" href="../../css/commonSystem/commonSystem.css" />
 
 </head>
 <body>

@@ -89,3 +89,6 @@
 .fixed-table-body #table .bs-checkbox {
 vertical-align: middle;
 } 
+.table tr td img{
+    margin-right: 10px; 
+}
