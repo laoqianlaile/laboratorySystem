@@ -72,7 +72,7 @@ public class TimeCheckService extends SearchService implements ITimeCheckService
 			"employeeName",
 			"employee.ID",
 		};
-		String leftconditionString = "JOIN duty ON dutyID = duty.ID and dutyName='审核人'";
+		String leftconditionString = "JOIN duty ON dutyID = duty.ID and dutyName='技术主管'";
 		return JSONArray.fromObject(entityDao.searchForeign(properties,"employee", leftconditionString, null, "1=1"));
 	}
 	

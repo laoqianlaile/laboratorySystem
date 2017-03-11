@@ -72,7 +72,7 @@
 				<span>设备名称：</span><input type="text" id="equipmentName"
 					name="equipmentName" class="form-control"
 					aria-describedby="basic-addon1"> <span>规格型号：</span><input
-					type="text" id="equipmentTypeName" name="equipmentTypeName"
+					type="text" id="model" name="model"
 					class="form-control" aria-describedby="basic-addon1"> <span>审核状态：</span><select
 					id="auditState" name="auditState" class="form-control"><option>全部</option>
 					<option>未审核</option>
