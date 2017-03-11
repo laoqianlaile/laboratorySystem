@@ -515,7 +515,7 @@ public class ReceiptlistService extends SearchService implements
 		} else { // 提交交接单
 			receiptlist.setIsEditSample(1);
 			// 推送消息--给科室主管
-			List<Role> listRole = entityDao.getByCondition(" roleName='科室主管' ",
+			List<Role> listRole = entityDao.getByCondition(" name='科室主管' ",
 					Role.class);
 			if (listRole != null && listRole.size() > 0) {
 				System.out.println("推送的科室主管角色ID为：" + listRole.toString());

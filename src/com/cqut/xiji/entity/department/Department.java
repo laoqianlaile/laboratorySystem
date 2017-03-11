@@ -15,7 +15,7 @@ public class Department extends Entity{
 	private String remarks;
 	private Date createTime;
 	private String parentID;
-	private int level;
+	private String level0;
 
 	public String getID() {
 		return ID;
@@ -67,17 +67,17 @@ public class Department extends Entity{
 		this.parentID = parentID;
 	}
 	
-	public int getLevel() {
-		return level;
+	public String getLevel0() {
+		return level0;
 	}
 
-	public void setLevel(int level) {
-		this.level = level;
+	public void setLevel(String level) {
+		this.level0 = level;
 	}
 
 	@Override
 	public String toString() {
-		return "Department [" +  "ID=" + ID  + ", " +  "departmentName=" + departmentName  + ", " +  "departmentCode=" + departmentCode  + ", " +  "employeeID=" + employeeID  + ", " +  "remarks=" + remarks  + ", " +  "createTime=" + createTime  + ", " +  "parentID=" + parentID  + "level=" + level  + "]";
+		return "Department [" +  "ID=" + ID  + ", " +  "departmentName=" + departmentName  + ", " +  "departmentCode=" + departmentCode  + ", " +  "employeeID=" + employeeID  + ", " +  "remarks=" + remarks  + ", " +  "createTime=" + createTime  + ", " +  "parentID=" + parentID  + "level=" + level0  + "]";
 	}
 	
 	@Override

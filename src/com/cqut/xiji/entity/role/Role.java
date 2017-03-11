@@ -13,7 +13,17 @@ public class Role extends Entity{
 	private String createID;
 	private Date createTime;
 	private String description;
+	private int isDelete ;
+		
 	
+	public int getIsDelete() {
+		return isDelete;
+	}
+
+	public void setIsDelete(int isDelete) {
+		this.isDelete = isDelete;
+	}
+
 	public String getID() {
 		return ID;
 	}	
@@ -54,7 +64,7 @@ public class Role extends Entity{
 	
 	@Override
 	public String toString() {
-		return "Role [" +  "ID=" + ID  + ", " +  "name=" + name +  ", " +  "createID=" + createID  + ", " +  "createTime=" + createTime  + ", " +  "description=" + description  + ", "   + "]";
+		return "Role [" +  "ID=" + ID  + ", " +  "name=" + name +  ", " +  "createID=" + createID  + ", " +  "createTime=" + createTime  + ", " +  "description=" + description  + ", "  +" isDelete= " +isDelete+ "]";
 	}
 	
 	@Override

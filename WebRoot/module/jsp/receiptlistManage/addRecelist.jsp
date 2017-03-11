@@ -37,7 +37,7 @@
 <script type="text/javascript"
 	src="./module/js/bootstrap-table-zh-CN.js"></script>
 <script type="text/javascript" src="./module/js/commonTool.js"></script>
-<script src=".module/js/fileManage/fileManage.js"
+<script src="./module/js/fileManage/fileManage.js"
 	type="text/javascript"></script>
 <script src="./module/js/jquery.uploadify.min.js" type="text/javascript"></script>
 <script src="module/js/bootstrap-datetimepicker.js"></script>

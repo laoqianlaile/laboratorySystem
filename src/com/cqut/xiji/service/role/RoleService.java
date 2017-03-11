@@ -173,8 +173,8 @@ public class RoleService extends SearchService implements IRoleService{
 				"description"
 		};
 		String contectString = "LEFT JOIN employee ON employee.ID = role.createID"; 
-		List<Map<String, Object>> result = entityDao.searchWithpaging(properties, tableName, contectString, null, " 1=1 ", null, order, sort, index, pageNum);
-		int count = entityDao.getByCondition(" 1=1 ", Role.class).size();
+		List<Map<String, Object>> result = entityDao.searchWithpaging(properties, tableName, contectString, null, " 1=1 and name !='超级管理员' ", null, order, sort, index, pageNum);
+		int count = entityDao.getByCondition(" 1=1 and  name !='超级管理员' ", Role.class).size();
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("total", count);
@@ -214,8 +214,14 @@ public class RoleService extends SearchService implements IRoleService{
 			return 0+"";
 		}
 		String[] ids = roleIDs.split(",");
-		int result = entityDao.deleteEntities(ids, Role.class);
-		return result+"";
+		String condition = "  locate(role.ID ,"+roleIDs+" ) > 0 AND isDelete != 1";
+		 int	result = entityDao.deleteByCondition(condition,Role.class);
+		 if(result < ids.length){
+			return "false";
+		 }else{
+			 return "true" ;
+		 }
+		
 	}
 	
 	@Override

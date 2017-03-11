@@ -166,7 +166,7 @@ function dealHaveCom(dara) {
 				$("#companyName").val(data.companyName);
 				$("#address").val(data.address);
 			}
-			alert(typeof data);
+			console.log(typeof data);
 			console.log(data);
 		},
 		error : function() {
@@ -386,7 +386,6 @@ function initSaveAndSubmitRe_event() {
 				var param = {};
 				var data ;
 				btnName = $(this).text();
-				alert(btnName);
 				if (btnName == "保存")
 					param.saveState = "save";
 				else
@@ -431,7 +430,7 @@ function initSaveAndSubmitRe_event() {
 								window.location = "./module/jsp/receiptlistManage/receiptlistManage.jsp";
 						},
 						error : function() {
-							alert(" getSampleByCode faile");
+							alert(" 保存交接单失败");
 						}
 
 					});
@@ -869,10 +868,10 @@ function addTaskModel() {
 					if (data == true) {
 						$('#addTaskModal').modal('hide');
 						 $('#sampleTable').bootstrapTable('refresh',null);
-						alert("sucueessful");
+						alert("任务新增成功");
 						
 					} else
-						alert("faile");
+						alert("任务新增失败");
 				},
 				error : function() {
 					return false;
@@ -927,10 +926,10 @@ function editTaskModel() {
 					 data = JSON.parse(o);
 					if (data == true) {
 							$('#editTaskModal').modal('hide');
-							alert("sucueessful");
+							alert("编辑任务成功");
 							$('#sampleTable').bootstrapTable('refresh',null);
 					} else
-						alert("faile");
+						alert("编辑任务失败");
 				},
 				error : function() {
 					return false;
@@ -1011,9 +1010,9 @@ function deleteFile(fileID) {
 	success : function(o) {
 		 data = JSON.parse(o); // error
 		if (data == true) {
-			alert("delete sunceesul");
+			alert("文件删除成功");
 		} else {
-			alert("delete faire");
+			alert("文件删除失败 ");
 		}
 	},
 	error : function() {
@@ -1036,9 +1035,9 @@ function deleteTask(taskID) {
 		success : function(o) {
 			 data = JSON.parse(o); // error
 			if (data == true) {
-				alert("delete sunceesul");
+				alert("任务删除成功 ");
 			} else {
-				alert("delete faire");
+				alert("任务删除失败");
 			}
 		},
 		error : function() {
