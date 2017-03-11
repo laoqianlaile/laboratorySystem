@@ -2,6 +2,7 @@ package com.cqut.xiji.service.fileEncrypt;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -139,6 +140,7 @@ public class DES {
 		cis.close();
 		is.close();
 		out.close();
+		System.out.println("加密路径 ："+file);
 		File fe = new File(file);
 		if (fe.exists()) {
 			fe.delete();

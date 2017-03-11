@@ -96,7 +96,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</button>
 					<button type="button" class="btn btn-primary"
 						onclick="downReportTemplate()">
-						<span class="glyphicon glyphicon-arrow-down"></span> 下载报告模版
+						<span class="glyphicon glyphicon-arrow-down"></span>生成或下载报告
 					</button>
 					<button type="button" class="btn btn-primary"
 						onclick="uploadTestReport()">

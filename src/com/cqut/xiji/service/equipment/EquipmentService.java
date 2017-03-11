@@ -61,13 +61,11 @@ public class EquipmentService extends SearchService implements
 		List<Map<String, Object>> ens = searchDao
 				.searchForeign(
 						new String[] { "equipment.ID as equipmentID",
-								"equipmentCode", "equipmentName",
-								"equipmentType.ID as equipmentTypeID",
-								"equipmentType.name as equipmentTypeName",
-								"department.departmentName as departmentName" },
+								"equipmentCode",
+								"equipmentName",
+								"model", },
 						"equipment",
-						"join equipmentType on equipmentType.ID = equipment.equipmentTypeID "
-								+ "JOIN department ON department.ID = equipment.departmentID",
+						null,
 						null, null, "equipment.ID=" + equipmentID + "");
 		return ens;
 	}
