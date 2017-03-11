@@ -40,7 +40,7 @@ catch(Exception e){
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
 	
 	<link rel="stylesheet" href="module/css/bootstrap.min.css">	
 	<link rel="stylesheet" type="text/css" href="module/css/login/login.css">
@@ -63,7 +63,7 @@ catch(Exception e){
                 <div class="form-group has-feedback ">
                 		
                 	<span class="glyphicon glyphicon-user form-control-feedback"  style="left:0;color: rgb(0, 0, 0);"></span>
-                    <input class="form-control" name="username"  id="username" required="" type='text' style="border-radius: 10px;padding-left:35px;width: 380.5px;">
+                    <input class="form-control" name="username"  id="username" required="" type='text' style="border-radius: 10px;padding-left:35px;width: 90%;">
           			<label alt='请输入账号' placeholder='账号'></label>
                 </div>
                 <!--<div >
@@ -74,7 +74,7 @@ catch(Exception e){
              <div class="User-info">
                 <div class="input-gruop has-feedback">
                		<span class="glyphicon glyphicon-lock form-control-feedback" style="left:0;color: rgb(0, 0, 0);"></span>
-	                <input class="form-control" required=""  name="password" id="employeeid" type="password" style="border-radius: 10px;padding-left:35px;width: 380.5px;">
+	                <input class="form-control" required=""  name="password" id="employeeid" type="password" style="border-radius: 10px;padding-left:35px;width: 90%;">
 	          		<label alt='请输入密码' placeholder='密码'></label>
                 </div> 
                <!-- <div >
@@ -86,7 +86,7 @@ catch(Exception e){
                 <div class="code-info" style="float: left;">
 	                <div class="input-group has-feedback">
 	                  <span class="glyphicon glyphicon-ok-sign form-control-feedback" style="z-index:3;left:0;color: rgb(0, 0, 0);"></span>
-	                  <input class="form-control"  id="encode" type="text" placeholder="请输入验证码" style="padding-left:35px;padding-right:0px;border-radius:10px;">
+	                  <input class="form-control"  id="encode" type="text" placeholder="请输入验证码">
 	                </div>
 	                <!-- <input type="text" id="encode" placeholder="请输入验证码"/> -->
 	            </div>
@@ -99,7 +99,7 @@ catch(Exception e){
              </div>
              <div class="btnimg">
              	
-               <button class="btn btn-info" name="login"  onclick="login()" >	<img  src="module/img/login/login_bg_shadow.png">登录</button>
+               <button class="btn btn-info" name="login"  onclick="login()" >登录</button>
                
              </div>
            </div>

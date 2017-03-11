@@ -69,10 +69,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			<button type="button" class="btn btn-info thisbtn" onclick="addrow()">新增</button>
     			<button type="button" class="btn btn-info thisbtn" onclick="deletequalityPlan()">删除</button>
     			<button type="button" class="btn btn-info thisbtn" onclick="updataqualityPlan(this)">修改</button>
-    			<button type="button" class="btn btn-info thisbtn" onclick="resetAlldata()">全部数据</button>
+    			<button type="button" class="btn btn-info thisbtn" onclick="resetAlldata()">全部数据</button><!-- 
     			<button type="button" class="btn btn-info thisbtn" onclick="getTimeCheckPage()">新增建议页面</button>
-    			<button type="button" class="btn btn-info thisbtn" onclick="ToAuditJSP()">审核</button>
-    			<button type="button" class="btn btn-info thisbtn" onclick="ToResultJSP()">结果</button>
+    			<button type="button" class="btn btn-info thisbtn" onclick="ToAuditJSP()">审核</button> -->
+    			<button type="button" class="btn btn-info thisbtn" onclick="ToResultJSP()">计划详情</button>
     			<button type="button" class="btn btn-info thisbtn thatbtn" onclick="addQualityPlan(this)">提交</button>
     			
     		</div>

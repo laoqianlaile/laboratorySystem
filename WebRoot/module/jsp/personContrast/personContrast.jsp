@@ -3,8 +3,16 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 String qualiyPlanId = request.getParameter("qualiyPlanId");
-if(qualiyPlanId!=null&&qualiyPlanId!="")
-	session.setAttribute("qualiyPlanId",qualiyPlanId);
+String personContrastCode = request.getParameter("code");
+String personContrastYear = request.getParameter("year");
+if (qualiyPlanId != null && qualiyPlanId != ""){
+	session.setAttribute("qualiyPlanId", qualiyPlanId);
+	session.setAttribute("personContrastCode", personContrastCode);
+	session.setAttribute("personContrastYear", personContrastYear);
+}else{
+	personContrastCode = (String)session.getAttribute("personContrastCode");
+	personContrastYear = (String)session.getAttribute("personContrastYear");
+}
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -41,16 +49,16 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
   
   <body>
   <div class="main">
-	  <span id="yearvalue" class="hiddenspan"><%=request.getParameter("year") %></span>
-	  <span id="codevalue" class="hiddenspan"><%=request.getParameter("code") %></span>
+	  <span id="yearvalue" class="hiddenspan"><%=personContrastYear %></span>
+	  <span id="codevalue" class="hiddenspan"><%=personContrastCode %></span>
   		<div id="font">
-  			<%=request.getParameter("year") %>人员比对建议
+  			<%=personContrastYear %>人员比对建议
   		</div>
   		
   
 	    <!-- 搜索框2-->  
 	    <div id="head">
-	      <p id="Serialnumber">编号:<label><%=request.getParameter("code") %></label></p>
+	      <p id="Serialnumber">编号:<label><%=personContrastCode %></label></p>
 		  <div class="searchbox2">
 			  <form class="form-horizontal" role="form">
 				  <div class="form-group">
@@ -103,7 +111,59 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
 		    <button type="button" class="btn btn-info"  onclick="refreshAll()">刷新全部</button>		  	
 		  	<table id="table"></table>  	
 		  	</div>
-
+			<div id="bottom">
+			  	<button type="button" id="asda" class="btn btn-info thisbtn" data-toggle="modal"  onclick="uploadfile()">&nbsp;上传结果</button>
+			    <table id="tablefile">
+			    
+			    </table>
+		  	</div>
+		  	<!-- 上传文件弹框-->
+  	<div class="modal fade" id="showfilepage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  		<div class="modal-dialog" role="document">
+	    		<div class="modal-content" style="height:400px;">
+	      			<div class="modal-header">
+	        			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	        			<span aria-hidden="true">&times;</span></button>
+	        				<h4 class="modal-title" id="myModalLabel">上传文件:</h4>
+	      			</div>
+	      			<div class="modal-body">
+	      			<h4 ></h4>
+		      			<form id="adddata" action="personconTrastController/upload.do"
+						method="post" enctype="multipart/form-data"
+						class="form-horizontal">
+						<div id="files">
+							<div class="form-group">
+								<span for="inputEmail3" class="col-sm-4 control-label">选择文件</span>
+								<div class="col-sm-5">
+									<input id="fileupload" type="file" name="file"
+										placeholder="请选择" />
+								</div>
+							</div>
+							<div class="form-group">
+								<span class="col-sm-4 control-label">备注</span>
+								<div class="col-sm-8">
+								     <input class="form-control" id="remarks"  type="text">
+								</div>				
+							</div>	
+							
+							<div class="form-group" style="visibility:hidden;">
+								<label for="inputPassword3" class="col-sm-2 control-label">ID</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="belongID"
+										name="belongID" readonly="true">
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-info thisbtn">确定<tton>
+								<button type="button" class="btn btn-info thisbtn"
+									data-dismiss="modal">退出<tton>
+							</div>
+						</div>
+					</form>		  				  							  							      			        			
+	      			</div>
+	   		 </div>
+	  	</div>
+	</div>
 	  	</div>
   	</div>
   </body>

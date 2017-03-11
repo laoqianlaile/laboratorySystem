@@ -14,13 +14,13 @@ public class Company extends Entity{
 	private String linkMan;
 	private String mobilePhone;
 	private String address;
+	private Date createTime;
 	private String fileID1;
 	private String legal;
 	private String fileID2;
 	private String scope;
 	private int type;
 	private String remarks;
-	private Date createTime;
 	
 	@Override
 	public String toString() {

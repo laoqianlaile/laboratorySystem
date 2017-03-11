@@ -27,6 +27,7 @@ $(function(){
 					pagination: true,//在表格底部显示分页条
 					classes:'table table-condensed',
 					clickToSelect:true,
+					singleSelect : true,
 					pageSize: 10,//页面数据条数
 					pageNumber:1,//首页页码
 					pageList: [1,2,3, 10, 20, 50, 200, 500],//设置可供选择的页面数据条数

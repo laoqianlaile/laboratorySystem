@@ -338,7 +338,6 @@ function edit(){
 	parame.remarks = $('#edit_remarks').val();
 	parame.employeeID = $('#edit_employee').attr('name');
 	parame.parent = $('#textspan2').text();
-	alert(parame.employeeID);
 	if($('#edit_departmentName').val()!=$('#textspan2').text()){
 	if($('#edit_departmentName').val()!=""&&$('#edit_departmentCode').val()!=""){
 	$.ajax({		  
@@ -397,7 +396,6 @@ function add(){
 	if($('#add_departmentName').val()!=""&&$('#add_departmentCode').val()!=""){
 	$('#add_remarks').val("");
 	$('#textspan1').text("");
-	alert($('#add_employeeID').val());
 	$("input").val("");
 	$.ajax({
 	  url:'departmentController/addDepartment.do',

@@ -71,13 +71,17 @@ public class Department extends Entity{
 		return level0;
 	}
 
-	public void setLevel(String level) {
+	public void setLevel0(String level) {
 		this.level0 = level;
+
 	}
 
 	@Override
 	public String toString() {
+
 		return "Department [" +  "ID=" + ID  + ", " +  "departmentName=" + departmentName  + ", " +  "departmentCode=" + departmentCode  + ", " +  "employeeID=" + employeeID  + ", " +  "remarks=" + remarks  + ", " +  "createTime=" + createTime  + ", " +  "parentID=" + parentID  + "level=" + level0  + "]";
+
+
 	}
 	
 	@Override
