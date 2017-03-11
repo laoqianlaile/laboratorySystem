@@ -436,10 +436,16 @@ public class TaskController{
 		return JSONArray.fromObject(result).toString();
 	}
 	
-	/**
-*
-	 * 
-	 */
+    /**
+     * 
+     * @discription 下载报告模版
+     * @author zt       
+     * @created 2017-3-11 下午9:48:35     
+     * @param taskID
+     * @param projectName
+     * @param req
+     * @return
+     */
 	@RequestMapping("/downReportTemplate")
 	@ResponseBody
 	public String downReportTemplate(String taskID, String projectName,HttpServletRequest req) {

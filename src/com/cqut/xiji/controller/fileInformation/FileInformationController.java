@@ -132,4 +132,16 @@ public class FileInformationController{
 		Map<String, Object> result = service.getFileInTaskViewWithPaging(taskID,limit,offset,sort,order);
 		return JSONObject.fromObject(result);
 	}
+	
+	@RequestMapping("/getFileWithPaging")
+	@ResponseBody
+	public JSONObject getFileWithPaging(int limit, int offset, String sort,
+			String order, String fileName, String projectID, String uploadName,
+			String beginTime, String endTime, String selectPart) {
+		Map<String, Object> result = service.getFileWithPaging(limit, offset,
+				sort, order, fileName, projectID, uploadName, beginTime,
+				endTime, selectPart);
+		return JSONObject.fromObject(result);
+	}
+
 }

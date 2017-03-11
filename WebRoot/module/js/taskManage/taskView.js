@@ -202,17 +202,6 @@ $(function() {
 		}]
 	});
 	
-	// 请求数据时的额外参数
-	function search(){
-		var searchCondition = {
-			limit : 5,
-			offset : 0,
-			sort : 'uploadTime',
-			order : 'DESC',
-			taskID :ID
-		};
-	    return searchCondition;
-	}
 	
 	// 获取设备的信息
 	$.post("equipmentController/getEquipmentInfo.do",
@@ -252,7 +241,7 @@ function equipmentRegister() {
 	$("#equipmentInfo").modal("show");
 }
 
-//确定登记的设备
+// 确定登记的设备
 function sure() {
 	var equipmentArray = [];
 	var ID = getUrlParam("taskID");
@@ -332,7 +321,8 @@ function uploadSure() {
 	}, function(result) {
 		if (result != null && result != "null") {
 			result = JSON.parse(result);
-			fileUpload("#file_upload", "", 2, ID, "项目文件", result[0].name, "报告文件", "", fileSummaryInfo);
+			fileUpload("#file_upload", "", 2, ID, "项目文件", result[0].name,
+					"报告文件", "", fileSummaryInfo);
 			$.post("taskController/setTaskDetectState.do", {
 				taskID : ID
 			}, function(result) {
@@ -383,7 +373,7 @@ function setTestReportInfo() {
 		if (result == true || result == "true") {
 			refresh();
 			alert("上传或覆盖成功");
-		}else{
+		} else {
 			refresh();
 			alert("未成功上传或覆盖文件");
 		}
@@ -444,7 +434,7 @@ function refresh() {
 	$("#sampleInfoTable").bootstrapTable("refresh", null);
 }
 
-//检查数据合理性
+// 检查数据合理性
 function checkData(dataObj) {
 	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
 			|| dataObj.ID.trim() == "NULL") {

@@ -11,7 +11,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>下载文件</title>
+<title>文件管理</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -25,90 +25,166 @@
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 <link rel="stylesheet" type="text/css" href="module/css/uploadify.css">
 <link rel="stylesheet" type="text/css" href="module/css/fileManage/fileManage.css">
+<link rel="stylesheet" type="text/css" href="module/css/fileManage/fileProcessManage.css">
+<link rel="stylesheet"  type="text/css" href="module/css/wait.css">
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
 <script src="module/js/bootstrap-table.js"></script>
 <script src="module/js/bootstrap-table-zh-CN.js"></script>
+<script src="module/js/bootstrap-datetimepicker.js"></script>
+<script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="module/js/bootstrap-datetimepicker.fr.js"></script>
+
 <script src="module/js/jquery.uploadify.min.js"></script>
 
 
 
-<style>
-a,input {
-	cursor: pointer;
-}
-</style>
 </head>
 
 <body>
+<div class="content">
+		<div class="searchArea">
+			<div class="row">
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<label>文件名称:</label> <input type="text" name="fileName"
+						id="fileName" class="form-control"
+						aria-describedby="basic-addon1" placeholder="请输入文件名称查找">
+				</div>
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<label>项目ID:</label> <input type="text" name="projectID" id="projectID"
+						class="form-control" aria-describedby="basic-addon1"
+						placeholder="请输入项目ID查找">
+				</div>
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<label>上传人:</label> <input type="text" name="uploadName"
+						id="uploadName" class="form-control"
+						aria-describedby="basic-addon1" placeholder="请输入文件上传人姓名查找">
+				</div>
+			</div>
 
-	<div class="input-group" style="margin-top:10px;margin-bottom:15px">
-		<button type="button" class="btn btn-default " data-toggle="modal"
-			onclick="agreementOption()">
-			<span class="glyphicon glyphicon-upload"></span> 上传
-		</button>
-		<button type="button" class="btn btn-default " onclick="fileDownAll()">
-			<span class="glyphicon glyphicon-download"></span> 下载
-		</button>
-		<button type="button" class="btn btn-default " onclick="deleteFile()">
-			<span class="glyphicon glyphicon-trash"></span> 删除
-		</button>
+			<div class="row">
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<div class="timeLabelDiv">
+						<label class="control-label">上传时间:</label>
+					</div>
+					<div class="input-group date form_datetime timeChooseDiv">
+						<input class="form-control" name="beginTime" id="beginTime"
+							size="16" type="text" value="" readonly="true"
+							placeholder="请选择上传时间"> <span class="input-group-addon"><span
+							class="glyphicon glyphicon-remove"></span></span> <span
+							class="input-group-addon"><span
+							class="glyphicon glyphicon-calendar"></span></span>
+					</div>
+				</div>
+
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<div class="timeLabelDiv">
+						<label class="control-label">至:</label>
+					</div>
+					<div class="input-group date form_datetime timeChooseDiv">
+						<input class="form-control" name="endTime" id="endTime" size="16"
+							type="text" value="" readonly="true" placeholder="请选择上传时间">
+						<span class="input-group-addon"><span
+							class="glyphicon glyphicon-remove"></span></span> <span
+							class="input-group-addon"><span
+							class="glyphicon glyphicon-calendar"></span></span>
+					</div>
+				</div>
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<label>文件类型:</label> <select class="form-control" name="selectPart"
+						id="selectPart">
+						<option value="3">所有情况</option>
+						<option value="0">标准文件</option>
+						<option value="1">模版文件</option>
+						<option value="2">项目文件</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="buttonGroup">
+			<div>
+				<button type="button" class="btn btn-primary " onclick="search()">查询</button>
+				&nbsp;
+				<button type="button" class="btn btn-primary " onclick="recover()">文件上传</button>
+			</div>
+		</div>
 	</div>
+	
+	<!-- 表格 -->
+	<table id="table">
 
-	<!-- 新增弹框 -->
-	<div id="addModal" class="modal fade" role="dialog"
+	</table>
+	
+		<div id="recoverReport" class="modal fade" role="dialog"
 		aria-labelledby="gridSystemModalLabel">
-		<div class="modal-dialog" role="document">
+		<div class="modal-dialog" role="document" style="width:450px">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title">上传</h4>
+					<h4 class="modal-title">重新覆盖检测报告</h4>
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div id="files">
+						<div id="files" style="text-align:left">
 							<div id="uploadfileQueue"></div>
 							<input type="file" id="file_upload" name="file_upload"
 								multiple="multiple">
-							<div>
-								<select id="fileType" onchange="agreementSubtypeOption()">
-								</select> 
-								<select id="fileSubtype">
-								</select>
+							<div class="uploadFileText">
+								<label>版本号码:</label> <input type="text" class="form-control"
+									name="fileVersionNumber" id="fileVersionNumber"">
+								</textarea>
 							</div>
-							<div style="margin-top:20px">
-								<label>文件内容</label>
-								<textarea rows="3" cols="20" id="fileContent"
-									onmousedown="mouseFoucs(event,this)"></textarea>
+							<div class="uploadFileText">
+								<label>版本信息:</label>
+								<textarea rows="3" class="form-control" name="fileVersionInfo"
+									id="fileVersionInfo"></textarea>
 							</div>
-							<div style="margin-top:20px">
-								<label>备注信息</label>
-								<textarea rows="3" cols="20" id="fileRemarks"
-									onmousedown="mouseFoucs(event,this)"></textarea>
+							<div class="uploadFileText">
+								<label>备注信息:</label>
+								<textarea rows="3" class="form-control" name="fileRemarks"
+									id="fileRemarks"></textarea>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
+
+					<button type="button" class="btn btn-primary" id="ensure"
+						name="ensure" onclick="recoverSure()">确定</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal"
 						onclick="javascript:$('#file_upload').uploadify('cancel','*')">取消</button>
-					<button type="button" class="btn btn-primary" id="ensure"
-						name="ensure"
-						onclick="fileUpload();">确定</button>
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	
+	
+	
+	
+	
+	<div id="wait_img">
+		<img src="module/img/wait.jpg" style="width:48px;height:48px;" />
+	</div>
+	<div id="mask"></div>
 
-	<!-- 表格 -->
-	<table id="table">
-
-	</table>
-
+	<script src="module/js/wait.js"></script>
 	<script src="module/js/fileManage/fileManage.js"></script>
+	<script src="module/js/fileManage/fileProcessManage.js"></script>
+	<script type="text/javascript">
+		$('.form_datetime').datetimepicker({
+			language : 'zh-CN',
+			weekStart : 1,
+			todayBtn : 1,
+			autoclose : 1,
+			todayHighlight : 1,
+			startView : 2,
+			minView : 2,
+			forceParse : 0,
+			format : 'yyyy-mm-dd hh:ii:ss'
+		});
+	</script>
 </body>
 </html>
