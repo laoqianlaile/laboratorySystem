@@ -205,11 +205,10 @@ function add(){
 		var parame = {};
 		var contractName = $('#add_contractName').val();
 		var companyName = $('#add_companyName').val();
-		var address = $('#add_Address').val();
+		var address = $('#add_address').val();
 		var oppositeMen = $('#add_oppositeMen').val();
 		var linkPhone = $('#add_linkPhone').val();
 		var employeeName = $('#add_employeeName').attr("name");
-		alert(employeeName);
 		var signAddress = $('#add_signAddress').val();
 		var signTime = $('#add_signTime').val();
 		var startTime = $('#add_startTime').val();
@@ -296,6 +295,47 @@ function add(){
 }
 
 /**
+ * 新增信息触发相关提示信息的方法(add)
+ */
+function addShowMsg(){ 
+	var name = $('#add_companyName').val();
+	if (!name && typeof(name)!="undefined" && name=='') 
+	{ 
+		$(".companyN").hide();
+	}else {
+		var parame = {};
+		parame.companyName = name;
+		
+		$.ajax({  
+		    url:'companyController/getCompanyMsg.do',// 跳转到 action
+		    type:'post', 
+		    data:parame,
+		    dataType:'json',
+		    success:function(data){  
+		    	if (data) { 
+		    		var company,length;
+		    		var myobj = JSON.parse(data);
+		    		var htmlElement = "";//定义HTML
+		    		company = $(".companyN");
+		    		if(myobj.length > 4){
+		    			length = 4;
+		    		}else{
+		    			length = myobj.length;
+		    		}
+		    		for(var i=0; i < length; i++){
+		    			htmlElement += "<ul><li id='" + myobj[i].mobilePhone +"' value='" + myobj[i].companyName + "' name='" + myobj[i].linkMan + "' title='" + myobj[i].address + "' class='" + myobj[i].ID + "'>" + myobj[i].companyName + "</li></ul>";
+		    		}
+		    		 
+		    		company.show();
+		    		company.empty();
+		    		company.append(htmlElement);
+		    		addClick();
+		    	}
+		    }
+		});
+	}
+}
+/**
  * 改变信息触发相关提示信息的方法(add)
  */
 function addGetEName(){
@@ -339,6 +379,30 @@ function addGetEName(){
 
 //点击事件(add)
 function addClick(){ 
+	//给input赋值
+	$(".companyN ul li").click(function(){
+		 var name = $(this).attr("value");
+		 $("#add_companyName").val(name);
+		 var ID =  $(this).attr("class");
+		 var mobilePhone =  $(this).attr("id");
+		 var linkMan =  $(this).attr("name");
+		 var address =  $(this).attr("title");
+		 $('#add_companyName').attr({'name' : "" + ID + ""});
+		 $('#add_companyName').attr({'value' : "" + name + ""});
+		 $("#add_oppositeMen").val(linkMan);
+		// $('#add_oppositeMen').attr("disabled",true);
+		 $("#add_linkPhone").val(mobilePhone);
+		 //$('#add_linkPhone').attr("disabled",true);
+		 $("#add_address").val(address);
+		// $('#add_address').attr("disabled",true);
+		 $(".companyN").hide();
+	})
+	
+	//隐藏提示框
+	$("#showContract").click(function(){
+		 $(".companyN").hide();
+	})
+	
 	//给input赋值
 	$(".employeeName ul li").click(function(){
 		 var name =  $(this).attr("value");

@@ -33,8 +33,10 @@ import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.entity.abilityCheck.AbilityCheck;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.service.abilityCheck.IAbilityCheckService;
+import com.cqut.xiji.service.fileEncrypt.IFileEncryptService;
 import com.cqut.xiji.service.fileOperate.IFileOperateService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
+import com.cqut.xiji.tool.util.PropertiesTool;
 
 @Controller
 @RequestMapping("/abilityCheckController")
@@ -45,6 +47,10 @@ public class AbilityCheckController{
 	
 	@Resource(name="entityDao")
 	EntityDao entityDao;
+	
+	@Resource(name = "fileEncryptService")
+	IFileEncryptService fileEncryptservice;
+	
 	/**
 	 * 
 	 * 方法简述: 新增计划
@@ -175,20 +181,81 @@ public class AbilityCheckController{
 	@ResponseBody
 	public void imageUpload(@RequestParam("file") CommonsMultipartFile file,HttpServletRequest request, HttpServletResponse response) throws IOException{
 		
-		  String state = request.getParameter("state");
+		    String state = request.getParameter("state");
 			long begin = 0;
 			String[] fileNames = null; // 文件名按"."分割后文件名的集合
 			String ID = request.getParameter("fileID");// 文件ID
-			String fileName = file.getOriginalFilename();// 文件名
-			String path = "";// 文件路径
-			begin = (long) System.currentTimeMillis();
-			fileNames = fileName.split("\\.");
+			String uploader = (String)request.getSession().getAttribute("EMPLOYEEID");
+			String fileName = "";// 文件名
+			PropertiesTool pe = new PropertiesTool();
+			String path = pe.getSystemPram("filePath") + "\\";// 文件路径
+			String relativePath = "";// 文件的相对路径,加密后存入数据库
+			fileName = file.getOriginalFilename();// 获取文件全名
+			fileNames = fileName.split("\\.");// 将文件名以\.分割成一个数组
+			String directoryName = path;
+			String cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\";//缓存文件地址
 			
-			path = System.getProperty("user.dir").replace("bin", "webapps")  + "\\"
-					+ "file" + "\\" ;// 获取tomcat下webapps的目录
+			for (int j = 0; j < fileNames.length; j++) {
+				if (fileNames.length - j > 1) {
+					path += fileNames[j];
+					relativePath += fileNames[j];
+					cacheFilePath += fileNames[j];
+				} else {
+					path += "_" + ID + "." + fileNames[j];
+					relativePath += "_" + ID + "." + fileNames[j];
+					cacheFilePath += "_" + ID + "." + fileNames[j];
+				}
+			}
 			
-			System.out.println(path);
+
 			
+			File directoryCreate = new File(directoryName);
+			if (!directoryCreate.exists()) {
+				directoryCreate.mkdirs();
+			}
+			File targetFile = new File(cacheFilePath);
+			
+			if (!targetFile.exists()) {
+				targetFile.mkdirs();
+			}
+			try {
+				file.transferTo(targetFile);
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			System.out.println("path :"+path);
+	        System.out.println("cacheFilePath "+cacheFilePath);
+	        System.out.println("relativePath "+relativePath);
+			Date now = new Date(System.currentTimeMillis());
+			SimpleDateFormat dateFormat = new SimpleDateFormat(
+					"yyyy-MM-dd HH:mm:ss");
+			FileInformation fr = new FileInformation();
+			fr.setID(ID);
+			fr.setContent("1");
+			fr.setFileName(fileName);
+			fr.setBelongtoID("1");
+			fr.setPath(relativePath);
+			fr.setRemarks("");
+			fr.setUploaderID("1");
+			fr.setType(0);
+			fr.setState(Integer.parseInt(state));
+			try {
+				fr.setUploadTime(dateFormat.parse(dateFormat.format(now)));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			String result = "";
+			int res = 0;
+			if(state.equals("0"))
+			result = service.saveFiles(fr);
+
+			else
+				res = entityDao.updatePropByID(fr, ID);
+			fileEncryptservice.encryptPath(relativePath, ID);//加密路径
+			fileEncryptservice.encryptFile(cacheFilePath,path,ID);//加密文件
+		/*	
 			for (int j = 0; j < fileNames.length; j++) {
 				if (fileNames.length - j > 1) {
 					path += fileNames[j];
@@ -237,7 +304,7 @@ public class AbilityCheckController{
 
 			else
 				res = entityDao.updatePropByID(fr, ID);
-		
+		*/
 
 		  if(result=="true" || res == 1){
 			  System.out.println("返回结果正确");

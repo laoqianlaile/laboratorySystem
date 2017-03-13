@@ -802,12 +802,12 @@ function editClick(){
 		 var address =  $(this).attr("title");
 		 $('#edit_companyName').attr({'name' : "" + ID + ""});
 		 $('#edit_companyName').attr({'value' : "" + name + ""});
-		 //$("#edit_oppositeMen").val(linkMan);
-		 $('#edit_oppositeMen').attr("disabled",true);
-		 //$("#edit_linkPhone").val(mobilePhone);
-		 $('#edit_linkPhone').attr("disabled",true);
-		 //$("#edit_address").val(address);
-		 $('#edit_address').attr("disabled",true);
+		 $("#edit_oppositeMen").val(linkMan);
+		 //$('#edit_oppositeMen').attr("disabled",true);
+		 $("#edit_linkPhone").val(mobilePhone);
+		 //$('#edit_linkPhone').attr("disabled",true);
+		 $("#edit_address").val(address);
+		// $('#edit_address').attr("disabled",true);
 		 $(".companyN").hide();
 	})
 	
