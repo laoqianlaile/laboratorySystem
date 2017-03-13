@@ -137,32 +137,32 @@ label {
 	font-size: 16px;
 	color: #333;
 }
-.companyName {
-	width: 568px;
-	display: none;
-	border: 1px solid #ccc;
-	border-top: none;
-	border-radius: 3px;
+.companyN{
+	margin-left:20.52%;
+	position:absolute;
+	width:74%;
+	display:none;
+	border:1px solid #ccc;
+	border-top:none;
+	border-radius:3px;
+	background-color:#fff;
+	z-index: 10;
 }
-
-.companyName ul {
-	width: 567px;
-	height: 30px;
-	border: none;
-	margin: 0;
-	margin-left: -40px;
+.companyN ul {
+	height:30px;
+	border:none;
+	margin:0;
+	margin-left:-40px;
 }
-
-.companyName ul li {
-	width: 567px;
-	height: 30px;
+.companyN ul li{
+	height:30px;
 	line-height: 30px;
 	list-style-type: none;
 	text-indent: 12px;
+	background-color:#fff;
 }
-
-.companyName ul li:hover {
-	background-color: #dcdcdc;
+.companyN ul li:hover{
+	background-color:#dcdcdc;
 }
 
 .employeeName {
