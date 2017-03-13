@@ -370,7 +370,10 @@ function initSaveAndSubmitRe_event() {
 
 	$("#linkMan").blur(function() {
 		if ($(this).val() == null || $(this).val().trim() == "")
-			alert("联系人不能为空");
+			 {
+			    alert("联系人不能为空");
+			    return ;
+			 }
 	});
 	$("#companyName").blur(function() {
 		if ($(this).val() == null || $(this).val().trim() == "")
@@ -386,37 +389,41 @@ function initSaveAndSubmitRe_event() {
 				var param = {};
 				var data ;
 				btnName = $(this).text();
-				if (btnName == "保存")
-					param.saveState = "save";
-				else
-					param.saveState = "submit";
+				
 				param.addState = obj.addState;
 				param.companyName = $("#companyName").val().trim();
 				param.address = $("#address").val().trim();
 				param.linkMan = $("#linkMan").val();
 				param.startTime = $("#startTime").val();
 				param.endTime = $("#endTime").val();
+				if(vaildSelected(param.startTime,param.endTime ) == false)
+					{
+					    alert("结束时间不对");
+					    return ;
+					}
 				param.linkPhone = $("#linkPhone").val();
 				param.accordingDoc = $("#accordingDoc").val();
 				param.reID = obj.reID;
 				param.coID = obj.coID;
-				/*
-				 * if(param.addState == "no"){ if(param.companyName ==
-				 * null || param.companyName=="") alert("公司名字不能为空");
-				 * if(param.address == null || param.address=="")
-				 * alert("公司通讯地址不能为空"); }
-				 */
-				/*
-				 * if(param.linkMan == null || param.linkMan=="")
-				 * alert("联系人不能为空");
-				 */
-				
-				/*
-				 * if(param.linkPhone == null || param.linkPhone=="")
-				 * alert("联系人电话不能为空"); else if(
-				 * !isNoramlPhone(param.linkPhone)){
-				 * alert("联系人电话格式不正确"); }
-				 */
+				if (btnName == "保存")
+					param.saveState = "save";
+				else
+					{
+					   param.saveState = "submit";
+					   if(param.addState == "no"){ 
+							  if(param.companyName == null || param.companyName=="") 
+								  alert("公司名字不能为空");
+						  if(param.address == null || param.address=="")
+						      alert("公司通讯地址不能为空"); 
+						  }
+					   if(param.linkMan == null || param.linkMan=="")
+					        alert("联系人不能为空");
+					  if(param.linkPhone == null || param.linkPhone=="")
+					        alert("联系人电话不能为空"); 
+					  else if(!isNoramlPhone(param.linkPhone))
+					     alert("联系人电话格式不正确"); 
+					}
+				 
 				$.ajax({
 						url : '/laboratorySystem/receiptlistController/saveSubmitReceipt.do',
 						dataType : "json",
@@ -553,6 +560,12 @@ function initAddTask_event() {
 		$("#addTestProject").val("");
 		$("#addTaskModal").modal('show');
 	});
+}
+//时间验证
+function vaildSelected(startTime ,endTime){
+	if(endTime > startTime)
+		return true;
+	else return false;
 }
 // 初始文件
 function initFile() {

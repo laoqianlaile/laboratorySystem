@@ -154,3 +154,23 @@ vertical-align: middle;
 .leftArea .row span:FIRST-CHILD {
 	font-size: 18;
 }
+.tidingHead ul li:FIRST-CHILD {
+	margin-left:-33px;
+}
+.tidingHead ul li {
+	float:left;
+	width:80px;
+	list-style:none;
+	color: #fff;
+    border-radius: 5px;
+    padding-left: 13px;
+    margin-right: 10px;
+    margin-bottom: 4px;
+    background: #c5d0dc;
+}
+.tidingHead ul li:hover {
+	
+}
+.tidingHead ul li.selected {
+	 background: #0a8fe7;
+}

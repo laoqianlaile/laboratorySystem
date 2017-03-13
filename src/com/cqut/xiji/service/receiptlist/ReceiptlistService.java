@@ -584,7 +584,7 @@ public class ReceiptlistService extends SearchService implements
 			project.setCreateTime(new Date());
 			project.setRemarks("这是先接受的样品，后拟定合同的");
 			receiptlist.setProjectID(project.getID());
-			map.put("prooID", project.getID());
+			map.put("proID", project.getID());
 			entityDao.save(project);
 			entityDao.save(contract);
 		} else { // 有合同新增交接单-退还
@@ -801,11 +801,13 @@ public class ReceiptlistService extends SearchService implements
 
 		String[] properties = new String[] {
 
-				"contract.ID AS cID",
-				"contract.contractCode as cCode",
+				"contract.ID AS coID",
+				"contract.contractCode as coCode",
 				"contract.contractName as cName",
 				"receiptlist.ID as reID",
 				"receiptlist.receiptlistCode AS reCode ",
+				"company.ID as comID",
+				"project.ID as proID",
 				"contract.state AS cState",
 				"IF ( receiptlist.state IS NULL, '无交接单', "
 						+ "IF ( receiptlist.state = 0 , '未检测', "
@@ -813,7 +815,9 @@ public class ReceiptlistService extends SearchService implements
 						+ "IF ( receiptlist.state = 2, '检测完成', '异常终止' )))) AS reState " };
 
 		String baseEntity = " contract "; // 主表
-		String joinEntity = " LEFT JOIN receiptlist ON contract.ID = receiptlist.contractID "; // 关联条件
+		String joinEntity = " LEFT JOIN receiptlist ON contract.ID = receiptlist.contractID "
+		+"  LEFT JOIN company ON contract.companyID = company.ID  "
+		+"  LEFT JOIN project ON project.contractID = contract.ID "; // 关联条件
 		String condition = " contract.state >= 4  "; // 查询条件
 		List<Map<String, Object>> list = entityDao.searchWithpaging(properties,
 				baseEntity, joinEntity, null, condition, null,

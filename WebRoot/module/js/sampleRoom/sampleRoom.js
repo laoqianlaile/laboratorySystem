@@ -314,7 +314,15 @@ function isNoramlPhone(phone){
 	 var factoryCode = "";
 	 if(who == "add")
 	  factoryCode = $("#addFactoryCode").val();
-	 else  factoryCode = $("#editFactoryCode").val();
+	 else  {
+		   factoryCode = $("#editFactoryCode").val();
+		   var data= $('#table').bootstrapTable('getSelections')[0];
+		   if(data.factoryCode == factoryCode){ //没有改变编码
+			   sample_global.isAddEdit = true;
+			   return ;
+		   }
+	 }
+	 
 	 $.ajax({
 			type:"post",
 			url : '/laboratorySystem/sampleController/isExitFactory.do',
@@ -335,30 +343,31 @@ function isNoramlPhone(phone){
  }
 /* 修改方法 */
 function edit(){
-	var data= $('#table').bootstrapTable('getSelections')[0];
-	console.log(data);
-	var id = data.ID;
+
+
 	var parame = {};
 	var name = $('#editSampleName').val();
 	var sampleType= $('#editSampleType').val();
 	var factoryCode = $("#editFactoryCode").val();
-	if (!name ||  typeof (name) != "undefined" || name == '' ) {
+	if (!name ||  typeof (name) == "undefined" || name == '' ) {
 		alert("样品名称不能为空！");
 	} else if(!sampleType ||  typeof (sampleType) == "undefined" || sampleType == ''){
 		alert("样品型号规格不能为空！");
 	}else if(  sample_global.isAddEdit == true){
-		parame.receiptlistCode =  $('#editReceiptlistCode').val();
+	
 		parame.sampleName = name;
 		parame.sampleType =sampleType;
 		parame.remarks = $('#editRemarks').val();
 		parame.unit= $('#editUnit').val();
 		parame.factoryCode = factoryCode;
-		parame.linkID = data.linkID;
-		parame.reID = $('#editReceiptlistCode').val();
+		parame.ID =$("#editSampleID").val();
+	/*	parame.linkID = data.linkID;
+		parame.receiptlistCode =  $('#editReceiptlistCode').val();
+		parame.reID = $('#editReceiptlistCode').val();*/
 		console.log(parame);
 		$.ajax({
 			type:"post",
-			url : '/laboratorySystem/sampleController/updateLinkSample.do',
+			url : '/laboratorySystem/sampleController/updateSample.do',
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",  //中文乱码
 			dataType:"json",
 			data : parame,
@@ -439,6 +448,7 @@ function fillLookEdit(dataS,state){
 	//填充编辑页面的
 	else{
 		$('#editSampleName').val(dataS.sampleName);
+		$('#editSampleID').val(dataS.ID);
 		$('#editSampleType').val(dataS.type);
 		$('#editUnit').val(dataS.unit);
 		$('#editRemarks').val(dataS.remarks);

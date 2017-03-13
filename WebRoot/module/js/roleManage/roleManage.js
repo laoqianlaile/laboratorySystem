@@ -60,7 +60,7 @@ $(function () {
 				  var view = "", edit = "", dele = ""; 
 				  	if(row.ID != ""){   //没有交接单---就没有任何编辑，查看，删除等功能
 				  		view = "<img src=\"module/img/view_icon.png\" onclick='lookModal("+JSON.stringify(row)+")'>";
-				        edit = "<img src=\"module/img/edit_icon.png\" onclick='openModal()'>";
+				        edit = "<img src=\"module/img/edit_icon.png\" onclick='openModal("+JSON.stringify(row)+")'>";
 				        dele = "<img src=\"module/img/delete_icon.png\" onclick='delRole(\""+row.ID+"\")'>";
 				 
 					return view + edit + dele;
@@ -164,19 +164,20 @@ function lookModal(data){
 
 
 /* 弹出修改弹框方法 */
-function openModal(){
-	var data = $('#table').bootstrapTable('getSelections');
+function openModal(data){
+/*	var data = $('#table').bootstrapTable('getSelections');
 	
 	if(data.length==0 || data.length>1){
 		alert("请选中一条数据");
 		return;
 	}
-	
+	*/
 	//var ids =  data[0].ROLEID;
 	
 	//
-	$('#edit_roleName').val(data[0].roleName);
-	$('#edit_description').val(data[0].description);
+	$('#edit_roleName').val(data.roleName);
+	$('#edit_description').val(data.description);
+	$('#edit_roleID').val(data.ID);
 	
 	$('#editModal').modal('show');
 }
@@ -189,8 +190,8 @@ function edit(){
 	{ 
 		alert("角色名不能为空！"); 
 	}else {
-		var data = $('#table').bootstrapTable('getSelections');
-		var ids =  data[0].ID;
+		
+		var ids =  $('#edit_roleID').val();
 		var parame = {};
 		parame.roleID = ids;
 		parame.roleName = $('#edit_roleName').val();

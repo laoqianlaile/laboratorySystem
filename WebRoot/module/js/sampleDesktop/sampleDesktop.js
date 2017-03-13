@@ -51,7 +51,7 @@ function initContractTable(){
 				}, // 请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
 				selectItemName : '',// radio or checkbox 的字段名
 				onClickRow : function(row,$element,field){
-					$(".leftArea .row span").eq(1).text(row.cCode);
+					$(".leftArea .row span").eq(1).text(row.coCode);
 					getCurrentFile(row.reID);
 					/*console.log(row);
 					console.log($element);
@@ -78,7 +78,7 @@ function initContractTable(){
 								
 							 if(index == 0 && row != null)
 								{
-									  $(".leftArea .row span").eq(1).text(row.cCode);
+									  $(".leftArea .row span").eq(1).text(row.coCode);
 									  obj.reID = row.reID;
 									  getCurrentFile(obj.reID);
 								}
@@ -93,19 +93,26 @@ function initContractTable(){
 							visible : false
 						},
 						{
-							field : 'cID',// 返回值名称
-							title : 'cID',// 列名
+							field : 'coID',// 返回值名称
+							title : 'coID',// 列名
+							align : 'center',// 水平居中显示
+							valign : 'middle',// 垂直居中显示
+							width : '10%',// 宽度
+							visible : false
+						},{
+							field : 'proID',// 返回值名称
+							title : '项目ID',// 列名
 							align : 'center',// 水平居中显示
 							valign : 'middle',// 垂直居中显示
 							width : '10%',// 宽度
 							visible : false
 						},
 						{
-							field : 'cCode',// 返回值名称
+							field : 'coCode',// 返回值名称
 							title : '合同编号',// 列名
 							align : 'center',// 水平居中显示
 							valign : 'middle',// 垂直居中显示
-							width : '25%',// 宽度
+							width : '25%'// 宽度
 						},
 						{
 							field : 'cName',// 返回值名称
@@ -121,13 +128,6 @@ function initContractTable(){
 							valign : 'middle',// 垂直居中显示
 							width : '35%'// 宽度
 						},
-						/*{
-							field : 'cState',// 返回值名称
-							title : '上传时间',// 列名
-							align : 'center',// 水平居中显示
-							valign : 'middle',// 垂直居中显示
-							width : '15%'// 宽度
-						},*/
 						{
 							field : 'reState',// 返回值名称
 							title : '状态',// 列名
@@ -268,6 +268,7 @@ function initTidingsTable(){
 					obj.order_t = params.offset + 1; // 偏移量是从0开始
 					param.sort = params.sort; // 排序列名
 					param.order = params.order;// 排位命令（desc，asc）
+					param.isRead = false;
 					return param;
 				}, // 请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
 				selectItemName : '',// radio or checkbox 的字段名
@@ -335,6 +336,7 @@ function initTidingsTable(){
 			/* 事件 */
 			});
 }
+//得到交接单的关联文件
 function getCurrentFile(reID){
 	if(reID == "" || reID == undefined || reID == null){
 		
@@ -353,7 +355,96 @@ function getCurrentFile(reID){
 	}
 }
 function initEvent(){
-	
+	initMessage();
+}
+function initMessage(){
+	$(".tidingHead ul li").click(function(){
+	      $(".tidingHead ul li").toggleClass("selected");
+	       refrehMessage($(this).text());
+	  });
+}
+function refrehMessage(text){
+	var param = {};
+	 if(text == "提示信息")
+		 param.isRead = false;
+	 else param.isRead = true;
+		 $('.tidingsTable') .bootstrapTable( 'refresh',
+					{
+						silent : true,
+						url : "/laboratorySystem/messageController/getMessageByUserID.do",
+						query : param
+			});
+}
+
+//有合同新增--接受类交接单
+function addRe() {
+	var data = $('.contractTable').bootstrapTable('getSelections');
+	if (data.length == 0 || data.length > 1) {
+		alert("请选中一条数据");
+		return;
+	}
+	if(data[0].coState >= 4 ){
+		alert(data[0].coState +" 表示已经审核通过了")
+	}else{
+		alert(data[0].coState +" 表示没有审核通过了")
+	}
+	var result = initAddReceiptlist(data[0],"yes");  //创建交接单跳转
+	window.location.href = "./addRecelist.jsp?reID="
+		    +result.reID+"&coID=" 
+	        + data[0].coID + "&comID="
+			+ data[0].comID + "&coCode=" + data[0].coCode
+			+ "&addState=yes&reCode=" + result.reCode+"&proID="+data[0].proID;
+
+}
+//创建交接单 --各种类型
+function initAddReceiptlist(data,state) {
+	var param = deepCopy(data);
+	var result ;
+	    param.state = state;
+          $.ajax({
+				url : '/laboratorySystem/receiptlistController/addReceiptList.do',
+				dataType : "json",
+				type : "post",
+				contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
+				async : false,
+				data : param,
+				success : function(o) {
+					 result  = JSON.parse(o);
+					 console.log(result);
+				},
+				error : function() {
+					alert(" 创建交接单失败 ");
+				}
+          });
+          return result;
+}
+// 无合同新增--接受类交接单
+function addReNo() {
+	// 在这里创建新的合同
+	var result = initAddReceiptlist({},"no");  //创建交接单跳转
+	window.location.href = "./addRecelist.jsp?reID="
+			+result.reID+"&coID=" 
+			+ result.coID + "&comID="
+			+ "" + "&coCode=" + result.coCode
+			+ "&addState=no&reCode=" + result.reCode+"&proID="+result.proID;
+}
+
+
+// 有合同新增--退还类交接单
+function returnSample() {
+	var data = $('.contractTable').bootstrapTable('getSelections');
+	if (data.length == 0 || data.length > 1) {
+		alert("请选中一条数据");
+		return;
+	}
+	if(data[0].comID == null || data[0].comID == ""){
+		alert("此时你还没有样品可以退");
+	}
+	var result = initAddReceiptlist(data[0],"return");
+	window.location.href = "./recelistReturn.jsp?reID="+result.reID
+							+"&coID=" + result.coID + "&comID="
+							+ "" + "&coCode=" + result.coCode
+							+ "&state=add&reCode=" + result.reCode;
 }
 function lookMessage(ID){
 	var isLook = confirm("确认已经查看信息！");
@@ -400,13 +491,13 @@ function checkDataRe(dataObj){
 			|| dataObj.reCode.trim() == "NULL") {
 		dataObj.reCode = "";
 	}
-	if (!dataObj.hasOwnProperty("cID") || dataObj.cID == null
-			|| dataObj.cID.trim() == "NULL") {
-		dataObj.cID = "";
+	if (!dataObj.hasOwnProperty("coID") || dataObj.coID == null
+			|| dataObj.coID.trim() == "NULL") {
+		dataObj.coID = "";
 	}
-	if (!dataObj.hasOwnProperty("cCode") || dataObj.cCode == null
-			|| dataObj.cCode.trim() == "NULL") {
-		dataObj.cCode = "";
+	if (!dataObj.hasOwnProperty("coCode") || dataObj.coCode == null
+			|| dataObj.coCode.trim() == "NULL") {
+		dataObj.coCode = "";
 	}
 	if (!dataObj.hasOwnProperty("cName") || dataObj.cName == null
 			|| dataObj.cName.trim() == "NULL") {

@@ -48,7 +48,7 @@
 }
 
 .input-group  .btn-primary {
-    margin:10 0px;
+    margin:8 0px;
 	margin-left: 26px;
   /*   background: #198ac8; */
     background: #089beb;
@@ -209,6 +209,7 @@
 							<h4>角色名：</h4>
 							<input type="text" id="edit_roleName" name="NAME"
 								class="form-control" aria-describedby="basic-addon1" />
+								<input type="hidden" id="edit_roleID" name="ID" />
 						</div>
 						<div class="col-xs-12 col-md-12">
 							<h4>角色简介：</h4>
