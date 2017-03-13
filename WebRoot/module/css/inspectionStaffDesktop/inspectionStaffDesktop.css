@@ -1,0 +1,111 @@
+.top{
+	margin-top: 20px;
+}
+
+.top label{
+	font-size: 14px;
+	color: #333;
+}
+
+.top input{
+	font-size: 14px;
+	color: #999;
+	width: 200px;
+	border:none;
+	display: inline;
+}
+
+.top textarea{
+	width: 520px;
+	height: 120px;
+	padding: 0;
+	margin-top: 20px;
+	border:none;
+	display: inline;
+}
+
+.col-xs-12{
+	padding:0;
+}
+
+#table {
+	border: 1px solid;
+	text-align: center;
+}
+
+#left{
+	width: 626px;
+	margin-left: 15px;
+	float: left;
+	padding: 0;
+}
+
+.head{
+	width:626px;
+	height: 40px;
+	border:1px solid #ccc;
+	margin-top: 20px;
+}
+
+.head img{
+	width: 18px;
+	height: 18px;
+	margin-left: 12px;
+	margin-right: 12px;
+	margin-top: 12px;
+}
+
+.head label{
+	font-family: "Microsoft YaHei-Regular";
+	font-size: 16px;
+	color: #333;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.buttons{
+	margin-top: 20px;
+	margin-left: 15px;
+}
+
+.task_button {
+	display:inline-block;
+	width: 100px;
+	height: 100px;
+	font-family:'Microsoft YaHei';
+	font-size: 13px;
+	border:2px solid;
+	margin-bottom: 10px;
+	margin-top: 20px;
+	padding: 0£»
+
+}
+
+.task_button img{
+	width: 40px;
+	height: 40px;
+	margin-top: 16px;
+	margin-left: 30px;
+}
+
+.task_button1{
+	border-color: #198ac8;
+	color:#198ac8; 
+}
+
+.task_button3{
+	border-color: #fd9421;
+	color:#fd9421; 
+}
+
+.task_button p{
+	margin-top: 16px;
+	text-align:center;
+}
+
+
+#right{
+	width: 380px;
+	float: right;
+}

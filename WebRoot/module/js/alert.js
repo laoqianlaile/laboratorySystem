@@ -22,13 +22,14 @@
    * @param  {[type]} string 弹框标题
    * @return {[type]}        [description]
    */
-  Chen.alert = function(string, time) {
+  Chen.alert = function(string, type, time) {
     var options = {
       title: '操作成功',
       type: 'success',
       confirmButtonText: '确定'
     };
     options.title = string;
+    options.type = type;
     options.timer = time;
     swal(options);
   }

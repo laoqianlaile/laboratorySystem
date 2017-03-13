@@ -24,102 +24,61 @@
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 <link rel="stylesheet" type="text/css"
 	href="module/css/bootstrap-table.css">
+<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
+<link rel="stylesheet" type="text/css" href="module/css/inspectionStaffDesktop/inspectionStaffDesktop.css" />
+<script src="assets/js/autoPage.js"></script>
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
 <script src="module/js/bootstrap-table.js"></script>
 <script src="module/js/bootstrap-table-zh-CN.js"></script>
 
-<style type="text/css">
-.form-control {
-	display: inline;
-	width: 60%;
-}
-
-.row {
-	margin-bottom: 10px;
-}
-
-.row label {
-	width: 30%;
-	min-width: 80px;
-}
-
-.headHr {
-	border: 1px solid black;
-	margin-bottom: 5px;
-	margin-top: 0px;
-}
-
-.row .btn {
-	width: 150px;
-}
-
-#table {
-	border: 1px solid;
-	text-align: center;
-}
-
-.col-xs-12 textarea {
-	width: 90%;
-}
-</style>
 </head>
 
 <body>
-	<div id="left" class="container" style="width:70%;float:left">
-		<div class="row">
-			<div class="col-xs-6">
-				<label>当前任务编号 ： </label> <input type="text" id="taskCode" name="taskCode"
-					class="form-control" readonly />
-			</div>
-			<div class="col-xs-6">
-				<label>所属交接单编号 ： </label> <input type="text" id="receiptlistCode"
-					name="receiptlistCode" class="form-control" readonly />
-			</div>
-		</div>
-		<div class="row ">
+	<div id="left" class="container">
+	    <div class="head">
+	    <img src="module/img/inspectionStaffDesktop/title.png"/>
+	    <label>任务信息</label>
+	    </div>
+	    <div class="top">
 			<div class="col-xs-12">
-				<label>依据的技术文件 （代号、名称）及客户要求： </label>
+				<label>所属交接单编号：</label> <input type="text"  id="receiptlistCode"
+					name="receiptlistCode" class="form-control" disabled />
+			</div>
+			<div class="col-xs-12">
+				<label style= "margin-top:20px;margin-right:16px;  vertical-align: top;">依据技术文件</label>
 				<textarea id="accordingDoc" name="accordingDoc" class="form-control"
-					type="text" rows="3" readonly style="border:0px;"></textarea>
+					type="text"  rows="3" readonly ></textarea>
 			</div>
 		</div>
-		<hr class="headHr">
-		<div class="row ">
-			<div class="col-xs-4">
-				<button type="button" class="btn btn-primary glyphicon "
-					onclick="register()">设备登记</button>
-			</div>
-			<div class="col-xs-4">
-				<button type="button" class="btn btn-primary glyphicon "
-					onclick="download()">下载初始报告</button>
-			</div>
-			<div class="col-xs-4">
-				<button type="button" class="btn btn-primary glyphicon "
-					onclick="submit()">提交审核</button>
-			</div>
-		</div>
-		<div class="row ">
-			<div class="col-xs-4">
-				<button type="button" class="btn btn-primary glyphicon "
-					onclick="viewTask()">查看正在审核的任务</button>
-			</div>
-
-			<div class="col-xs-4">
-				<button type="button" class="btn btn-primary glyphicon "
-					onclick="viewReport()">查看报告</button>
-			</div>
-			<div class="col-xs-4">
-				<button type="button" class="btn btn-primary glyphicon "
-					onclick="upload()">上传报告</button>
+		<div class="buttons">
+		    <div class="row">
+				<div class="task_button task_button1">    <img src="module/img/inspectionStaffDesktop/equipmentFor_icon.png" onclick="register()">
+				<p>设备登记</p>
+				</div>
+				<div class="task_button task_button2">    <img src="module/img/inspectionStaffDesktop/equipmentFor_icon.png" onclick="download()">
+				<p>下载初始报告</p>
+				</div>
+				<div class="task_button task_button3">    <img src="module/img/inspectionStaffDesktop/submitAudit_icon.png" onclick="submit()">
+				<p>提交审核</p>
+				</div>
+				<div class="task_button task_button4">    <img src="module/img/inspectionStaffDesktop/viewAudit_icon.png" onclick="viewTask()">
+				<p>查看正审核任务</p>
+				</div>
+				<div class="task_button task_button5">    <img src="module/img/inspectionStaffDesktop/equipmentFor_icon.png" onclick="viewReport()">
+				<p>查看报告</p>
+				</div>
+				<div class="task_button task_button6">    <img src="module/img/inspectionStaffDesktop/equipmentFor_icon.png" onclick="upload()">
+				<p>上传报告</p>
+				</div>
 			</div>
 		</div>
 		<table id="taskTable">
 		</table>
 	</div>
 
-	<div id="right" class="container" style="width:30%;float:right">
+	<div id="right" class="container">
 		<div class="footer">
 			<sapn>消息提示</sapn>
 			<table id="messageTable"></table>

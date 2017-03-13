@@ -1283,7 +1283,6 @@ public class TaskService extends SearchService implements ITaskService {
 		// TODO Auto-generated method stub
 		String tableName = "task";
 		String[] properties = new String[]{
-			"task.taskCode",
 			"receiptlist.receiptlistCode",
 			"receiptlist.accordingDoc",	
 		};
