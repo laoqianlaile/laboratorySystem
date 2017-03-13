@@ -17,20 +17,17 @@
   }
   Chen.prototype.init.prototype = Chen.prototype;
 
-  /**
-   * [默认弹出框]
-   * @param  {[type]} string 弹框标题
-   * @return {[type]}        [description]
-   */
   Chen.alert = function(string, type, time) {
     var options = {
       title: '操作成功',
-      type: 'success',
       confirmButtonText: '确定'
     };
     options.title = string;
-    options.type = type;
-    options.timer = time;
+
+    options.type = type || 'success';
+    if (time !== null && time !== undefined) {
+      options.timer = time;
+    }
     swal(options);
   }
 
