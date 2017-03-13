@@ -52,7 +52,7 @@ public class MessageService extends SearchService implements IMessageService{
      *
      */
 	@Override
-	public Map<String, Object> getMessageByUserID(String userID,int limit,int offset,String sort,String order) {
+	public Map<String, Object> getMessageByUserID(String userID,int limit,int offset,String sort,String order,boolean isRead) {
 		// TODO Auto-generated method stub
 		int index = limit;
 		int pageNum = offset/limit;
@@ -65,11 +65,19 @@ public class MessageService extends SearchService implements IMessageService{
 				"message.remarks"
 		};
 		String sql =""+
-		" SELECT message.ID as mID ,messagenotice.ID FROM messagenotice, message WHERE messagenotice.messageID = message.ID AND messagenotice.state = 0 ";
+		" SELECT message.ID as mID ,messagenotice.ID FROM messagenotice, message WHERE messagenotice.messageID = message.ID ";
 		
 	
 		String baseEntity = " message , messagenotice ";
-		String condition = " messagenotice.messageID = message.ID AND messagenotice.state = 0 ";
+		String condition = " messagenotice.messageID = message.ID ";
+		System.out.println(isRead+"   isread");
+		if( isRead == false){
+			 condition +=" AND messagenotice.state = 0 ";
+			 sql +=" AND messagenotice.state = 0 ";
+		}else{
+			 condition +=" AND messagenotice.state = 1 ";
+			 sql += "  AND messagenotice.state = 1 ";
+		}
 //		userID = "1";
 		if(userID != null && !userID.equals("")){
 			condition += " and messagenotice.employeeID = '"+userID+"'";

@@ -166,7 +166,7 @@ $(function() {
 										  look = '<span onclick= "lookRe(\'' + row.ID
 												+ '\')" data-toggle="tooltip" data-toggle="top"  title="查看"  class="icon-eye-open" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
 									
-										if(row.isEditSample == 1)  //能否编辑--提交的不能编辑
+										if(row.isEditSample == 0)  //能否编辑--提交的不能编辑
 										 {    
 											if(row.reType == "接受")  //接受的交接单跳转的页面
 											  edit = '<span  onclick= "editRe(\'' + row.ID+"\' , \'"+row.coID+"\',\'"+row.comID+"\',\'"+row.coCode+"\',\'"+row.reCode+"\',\'"+"recive\'"

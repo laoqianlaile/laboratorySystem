@@ -31,9 +31,9 @@ public class MessageController{
 	 */
 	@RequestMapping("/getMessageByUserID")
 	@ResponseBody
-	public JSONObject getMessageByUserID(HttpServletRequest request,int limit,int offset,String sort,String order ){
+	public JSONObject getMessageByUserID(HttpServletRequest request,int limit,int offset,String sort,String order ,boolean isRead){
 		
-		 Map<String, Object>  result = service.getMessageByUserID((String)request.getSession().getAttribute("EMPLOYEEID"), limit,  offset,  sort,  order);
+		 Map<String, Object>  result = service.getMessageByUserID((String)request.getSession().getAttribute("EMPLOYEEID"), limit,  offset,  sort,  order, isRead);
 		return JSONObject.fromObject(result);
 	}
 	/**

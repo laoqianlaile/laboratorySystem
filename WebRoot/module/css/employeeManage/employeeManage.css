@@ -1,0 +1,127 @@
+.content input,.content select {
+	display: inline;
+	width: 150px;
+}
+
+.top {
+	height: 50px;
+	background-color: rgba(27, 137, 196, 0.1);
+}
+
+.top button {
+	background: #198ac8;
+	font-size: 14px;
+	color: #fff;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	margin-left: 26px;
+	width: 76px;
+}
+
+#table {
+	font-family: "Microsoft YaHei";
+	font-weight: bold;
+	color: #fff;
+	font-size: 14px;
+	margin-top: 30px;
+	margin-left: 26px;
+}
+
+#table  thead tr {
+	background: #364760;
+}
+
+#table td {
+	font-size: 14px;
+	color: #333;
+}
+
+.table-hover>tbody>tr:hover>td,.table-hover>tbody>tr:hover>th {
+	background-color: rgba(54, 71, 96, 0.2);
+}
+
+.head {
+	width: 100%;
+	height: 55px;
+}
+
+.content {
+	margin-left: 30px;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.content label {
+	font-family: "Microsoft YaHei-Regular";
+	font-size: 14px;
+	color: #333;
+}
+
+.content input {
+	margin-right: 10px;
+	font-size: 12px;
+	color: #666;
+}
+
+.modal-content {
+	width: 470px;
+	height: 580px;
+	margin: auto;
+}
+
+.modal-header {
+	background: #364760;
+	height: 40px;
+	font-family: "Microsoft YaHei-Regular";
+	font-size: 16px;
+	color: #fff;
+}
+
+.modal-header label {
+	font-family: "Microsoft YaHei-Regular";
+	font-size: 16px;
+	color: #fff;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.modal-header button {
+	color: #fff;
+}
+
+.modal-body {
+	padding: 0;
+}
+
+.modal-body label {
+	font-family: "Microsoft YaHei-Regular";
+	font-size: 16px;
+	color: #333;
+	margin-left: 20px;
+}
+
+.modal-body input,.modal-body select {
+	display: inline;
+	width: 270px;
+	height: 30px;
+	margin-top: 20px;
+	margin-left: 10px;
+	font-size: 14px;
+	color: #666;
+}
+
+.modal-footer button {
+	background: #364760;
+	font-size: 14px;
+	color: #fff;
+	margin-right: 20px;
+	width: 86px;
+	margin-top: 30px;
+}
+
+.col-xs-12 {
+	padding: 0;
+}

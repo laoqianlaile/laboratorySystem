@@ -21,36 +21,34 @@
 <!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-<link rel="stylesheet" type="text/css" href="./module/css/bootstrap.css">
-<link rel="stylesheet" type="text/css"
-	href="./module/css/bootstrap-table.css">
-<link rel="stylesheet" href="./module/css/changeACE.css" />
-<link rel="stylesheet" type="text/css"
-	href="./module/css/fileManage/fileManage.css">
+<link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
+<link rel="stylesheet" type="text/css" href="module/css/changeACE.css" />
+<link rel="stylesheet" type="text/css" href="module/css/fileManage/fileManage.css">
 <link rel="stylesheet" type="text/css" href="module/css/uploadify.css">
-<link rel="stylesheet" type="text/css"
-	href="module/css/bootstrap-datetimepicker.css">
-
+<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
+<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 <script type="text/javascript" src="./module/js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="./module/js/bootstrap.js"></script>
 <script type="text/javascript" src="./module/js/bootstrap-table.js"></script>
-<script type="text/javascript"
-	src="./module/js/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="./module/js/bootstrap-table-zh-CN.js"></script>
 <script type="text/javascript" src="./module/js/commonTool.js"></script>
-<script src="./module/js/fileManage/fileManage.js"
-	type="text/javascript"></script>
-<script src="./module/js/jquery.uploadify.min.js" type="text/javascript"></script>
+
+<script src="module/js/jquery.uploadify.min.js"  type="text/javascript"></script>
 <script src="module/js/bootstrap-datetimepicker.js"></script>
 <script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="module/js/bootstrap-datetimepicker.fr.js"></script>
-
+<script src="assets/js/autoPage.js"></script>
+<script src="module/js/sweetalert.min.js"></script>
+<script src="module/js/alert.js"></script>
+<script src="module/js/fileManage/fileManage.js" type="text/javascript"></script>
 <style type="text/css">
 body {
 	margin: 0 auto;
 }
 
 .container {
-	min-width: 1300px;
+	/* min-width: 1300px; */
 	width: 100%;
 	margin: 0 auto;
 }
@@ -288,15 +286,19 @@ h4,.h4 {
 	z-index: 9999;
 	margin-right: 27px; /* 598 * 0.9 568 *0.9  30 * 0.9 */
 	border-radius: 5px;
-	background: rgba(182, 176, 176, 1);
+	background: #f5f5f5;
 }
 
 .tip-factory-content li {
-	display: block;
-	list-style-type: none;
-	height: 30px;
-	vertical-align: middle;
-	padding-top: 7px;
+	
+	    display: block;
+    /* list-style-type: none; */
+    height: 30px;
+    vertical-align: middle;
+    padding-top: 7px;
+    border-bottom: 1px solid;
+    margin-bottom: 5px;
+    background: #7a96ae;
 }
 </style>
 </head>
@@ -370,8 +372,11 @@ h4,.h4 {
 			<div class="row">
 				<div class=" col-xs-12">
 					<label class="kemiche ">依据的技术文件(代号、名称)及客户要求：</label>
-					<textarea type="text" id="accordingDoc" rows="6"><!-- &nbsp;&nbsp;QRX-1型雷达光电望远镜按《QRX-1型雷达光电望远镜系统更新技术状态鉴定试验大纲WLDGA》和《GJB50.11A-2009军用设备实验室环境实验方法第II部分：盐雾实验》进行24h喷雾，24h干燥，两种状态，供240h的盐雾实验 --></textarea>
-				</div>
+					<!-- &nbsp;&nbsp;QRX-1型雷达光电望远镜按《QRX-1型雷达光电望远镜系统更新技术状态鉴定试验大纲WLDGA》和《GJB50.11A-2009军用设备实验室环境实验方法第II部分：盐雾实验》进行24h喷雾，24h干燥，两种状态，供240h的盐雾实验 -->
+				
+			
+					<textarea type="text" id="accordingDoc" rows="6">	</textarea>
+						</div>
 			</div>
 			<hr class="headHr">
 			<div class="main">
@@ -497,8 +502,13 @@ h4,.h4 {
 								</div>
 								<div class="col-xs-12 col-md-12">
 									<h4>检测/校准项目：</h4>
-									<textarea id="addTestProject" rows="6" cols="30"
+									<textarea id="addTestProject" rows="4" cols="30"
 										class="testProjectName" placeholder="选择检测项目"></textarea>
+									<!-- 	<ul>
+										<li><input type="checkbox">检测项目
+										</li>
+										<li><input type="checkbox">检测项目</li>
+										</ul> -->
 								</div>
 								<!-- 选择检测项目 -->
 								<div class="over" id="addOver">
@@ -534,7 +544,7 @@ h4,.h4 {
 								</div>
 								<div class="col-xs-12 col-md-12">
 									<h4>要求描述：</h4>
-									<textarea id="addAskFor" name="REMARKS" cols="30" rows="6" /></textarea>
+									<textarea id="addAskFor" name="REMARKS" cols="30" rows="4" /></textarea>
 								</div>
 							</div>
 						</div>

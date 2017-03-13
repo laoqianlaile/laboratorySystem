@@ -59,7 +59,7 @@
 						<img src="module/img/receiptDesktop/withDrawSample_icon.png">
 						<p><a href="module/receiptlistManage/receiptlistManage.jsp">退样</a></p>
 					</div>
-					<div class="sample_button sample_button_4">
+					<div class="sample_button sample_button_4" onclick="addRe()">
 						<img src="module/img/receiptDesktop/newReceipt_icon.png">
 						<p><a href="module/receiptlistManage/receiptlistManage.jsp">新增交接单</a></p>
 					</div>
@@ -91,11 +91,11 @@
 						<p><a href="module/receiptlistManage/receiptlistManage.jsp">发报告</a></p>
 					</div>
 					
-					<div class="sample_button sample_button_5">
+					<div class="sample_button sample_button_5" onclick="returnSample()">
 						<img src="module/img/receiptDesktop/refundReceipt_icon.png">
 						<p><a href="module/receiptlistManage/receiptlistManage.jsp">退还交接单</a></p>
 					</div>
-					<div class="sample_button sample_button_6">
+					<div class="sample_button sample_button_6" onclick="addReNo()">
 						<img src="module/img/receiptDesktop/noNewContract_icon.png">
 						<p><a href="module/receiptlistManage/receiptlistManage.jsp">无合同新增</a></p>
 					</div>
@@ -119,7 +119,10 @@
 				</div>
 				<div class="fileTable"></div>
 				<div class="tidings">
-					<div class="tidingHead">提示信息</div>
+					<div class="tidingHead"><ul>
+					<li class=" selected ">提示信息</li>
+					<li>已读信息</li>
+					</ul></div>
 					<div class="tidingsTable"></div>
 				</div>
 			</div>
