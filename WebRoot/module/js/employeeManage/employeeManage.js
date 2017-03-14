@@ -13,11 +13,11 @@ $(function() {
 			.bootstrapTable(
 					{
 						// 定义表格的高度height: 500,
-						striped : true,// 隔行变色效果
+						striped : false,// 隔行变色效果
 						pagination : true,// 在表格底部显示分页条
-						pageSize : 4,// 页面数据条数
+						pageSize : 10,// 页面数据条数
 						pageNumber : 1,// 首页页码
-						pageList : [ 5, 9, 13, 17, 200, 500 ],// 设置可供选择的页面数据条数
+						pageList : [ 3, 9, 13, 17, 200, 500 ],// 设置可供选择的页面数据条数
 						clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和
 						// checkbox
 						cache : false,// 禁用 AJAX 数据缓存
@@ -96,7 +96,7 @@ $(function() {
 									title : '姓名',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '8%'// 宽度
+									width : '6%'// 宽度
 								},
 								{
 									field : 'employeeCode',// 返回值名称
@@ -117,14 +117,14 @@ $(function() {
 									title : '性别',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '5%'// 宽度
+									width : '3%'// 宽度
 								},
 								{
 									field : 'email',// 返回值名称
 									title : '邮箱',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '8%'// 宽度
+									width : '5%'// 宽度
 								},
 								{
 									field : 'phoneNumber',// 返回值名称
@@ -173,32 +173,41 @@ $(function() {
 									title : '状态',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '5%'// 宽度
-								},
-								{
+									width : '5%',// 宽度
+									formatter:function(value,row,index){
+									    var state=row.state;
+									    var sapn;
+									    if(state=="禁用"){
+										   span='<span style="color:#ff6633;font-size:14px;">&nbsp;禁用</span>&nbsp';
+										   return span;
+									    }
+									    
+									    if(state=="启用"){
+									    	span='<span style="color:#198ac8;font-size:14px;">&nbsp;启用</span>&nbsp';
+									    	return span;
+									    }
+								}
+											
+								},{
 									field : 'remarks',// 返回值名称
 									title : '操作',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '5%',// 宽度
+									width : '13%',// 宽度
 									formatter : function(value, row, index) {
 										var state = row.state;
 										var btn_change;
-										if (state == "禁用") {
-											btn_change = '<button type="button" onclick="changeState('
-													+ row.ID+ ',\''
-													+ row.state
-													+ '\')" class="btn btn-primary glyphicon">&nbsp;启用</button>&nbsp';
-											return btn_change;
-										}
+										var btn_edit;
+										var btn_view;
+										var btn_dele;
+											btn_change = '<input type="image" src="module/img/employeeManage/forbidden_icon.png" onclick="changeState('+ row.ID+ ',\''
+											+ row.state
+											+ '\')">';
+											btn_edit='<input type="image" src="module/img/employeeManage/edit_icon.png" style="margin-left:10px;"onclick="openedit()"/>';
+											btn_view='<input type="image" src="module/img/employeeManage/view_icon.png" style="margin-left:10px;"onclick="view()"/>';
+											btn_dele='<input type="image" src="module/img/employeeManage/delete_icon.png" style="margin-left:10px;"onclick="del()"/>';
+											return btn_change+btn_edit+btn_view+btn_dele;
 										
-										if (state =="启用") {
-											btn_change = '<button type="button" onclick="changeState('
-													+ row.ID+ ',\''
-													+ row.state
-													+ '\')" class="btn btn-primary glyphicon">&nbsp;禁用</button>&nbsp';
-											return btn_change;
-										}
 									}
 
 								} ]
@@ -223,7 +232,7 @@ $(function() {
 });
 
 /* 查询方法 */
-function seacher() {
+function search() {
 	// 查询的时候 他的limit 会依据页面上的数保留 不会变0
 	var parame = {};
 	parame.employeeName = $('#search_employeeName').val();// 初始化搜索文字
@@ -253,26 +262,29 @@ function reflesh() {
 	});
 }
 
-/*改变状态*/
+/* 改变状态 */
 function changeState(ID,state){
-	var states;
-	var param={};
+	var states=state;
 	if(state=="禁用"){
 		states=1;
-	}
+}
 	
 	if(state=="启用"){
 		states=0;
 	}
 	
-	param.state=states;
-	param.ID=ID;
+	var data;
 	
 	$.ajax({
 		url : 'employeeController/updEmployeeState.do',
 		scriptCharset : "utf-8",
-		data : param,
+		contentType : "application/x-www-form-urlencoded; charset=utf-8", // 中文乱码
 		dataType : 'json',
+		async : false,
+		data : {
+			ID : ID,
+			state:states
+		},
 		success : function(o) {
 			if (o <= 0) {
 				alert("修改失败");
@@ -468,8 +480,7 @@ function save_continue(){
 	parame.departmentID = $('#add_departmentName').val();
 	parame.dutyID = $('#add_dutyName').val();
 	parame.roleID = $('#add_name').val();
-
-	$('input[type="text"]').val("");
+	//$('input[type="text"]').val("");
 	if (checkdata(parame)) {
 		$.ajax({
 			url : 'employeeController/addEmployee.do',
@@ -482,11 +493,11 @@ function save_continue(){
 				}
 				$('input[type="text"]').val("");
 				$('#table').bootstrapTable('refresh', null);
+				add();
 			}
 		});
 	}
 }
-
 function save() {
 	var parame = {};
 	parame.employeeName = encodeURI($('#add_employeeName').val());
@@ -498,8 +509,7 @@ function save() {
 	parame.departmentID = $('#add_departmentName').val();
 	parame.dutyID = $('#add_dutyName').val();
 	parame.roleID = $('#add_name').val();
-
-	$('input[type="text"]').val("");
+	//$('input[type="text"]').val("");
 	if (checkdata(parame)) {
 		$.ajax({
 			url : 'employeeController/addEmployee.do',
@@ -510,12 +520,12 @@ function save() {
 				if (o <= 0) {
 					alert("新增失败");
 				}
+				$('input[type="text"]').val("");
 				$('#addModal').modal('hide');
 				$('#table').bootstrapTable('refresh', null);
 			}
 		});
 	}
-
 }
 
 function checkdata(data) {
