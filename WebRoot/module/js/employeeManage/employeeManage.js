@@ -200,10 +200,10 @@ $(function() {
 										var btn_edit;
 										var btn_view;
 										var btn_dele;
-											btn_change ="<input type=\"image\" src=\"module/img/images/forbidden_icon.png\" onclick='changeState("+JSON.stringify(row)+")'>";
-											btn_edit='<input type="image" src="module/img/images/edit_icon.png" style="margin-left:10px;"onclick="openedit()"/>';
-											btn_view='<input type="image" src="module/img/images/view_icon.png" style="margin-left:10px;"onclick="view()"/>';
-											btn_dele='<input type="image" src="module/img/images/delete_icon.png" style="margin-left:10px;"onclick="del()"/>';
+											btn_change ="<input type=\"image\" src=\"module/img/employeeManage/forbidden_icon.png\" onclick='changeState("+JSON.stringify(row)+")'>";
+											btn_edit='<input type="image" src="module/img/employeeManage/edit_icon.png" style="margin-left:10px;"onclick="openedit()"/>';
+											btn_view='<input type="image" src="module/img/employeeManage/view_icon.png" style="margin-left:10px;"onclick="view()"/>';
+											btn_dele='<input type="image" src="module/img/employeeManage/delete_icon.png" style="margin-left:10px;"onclick="del()"/>';
 											return btn_change+btn_edit+btn_view+btn_dele;
 										
 									}
