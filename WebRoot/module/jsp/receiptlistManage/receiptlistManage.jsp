@@ -13,6 +13,8 @@
 <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="../../css/receiptlistManage/receiptlistManage.css">
 <link rel="stylesheet" type="text/css" href="../../css/commonSystem/commonSystem.css" />
+<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+
 <script src="../../js/jquery-2.1.1.min.js"></script>
 <script src="../../js/bootstrap.js"></script>
 <script src="../../js/bootstrap-table.js"></script>
@@ -23,6 +25,8 @@
 <script src="../../js/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="../../js/bootstrap-datetimepicker.fr.js"></script>
 <script src="../../js/fileManage/fileManage.js" type="text/javascript"></script>
+<script src="../../js/sweetalert.min.js"></script>
+<script src="../../js/alert.js"></script>
 
 
 </head>
