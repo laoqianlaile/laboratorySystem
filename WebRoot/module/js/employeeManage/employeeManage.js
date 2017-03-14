@@ -96,7 +96,7 @@ $(function() {
 									title : '姓名',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '6%'// 宽度
+									width : '8%'// 宽度
 								},
 								{
 									field : 'employeeCode',// 返回值名称
@@ -123,7 +123,7 @@ $(function() {
 									field : 'email',// 返回值名称
 									title : '邮箱',// 列名
 									align : 'center',// 水平居中显示
-									valign : 'middle',// 垂直居中显示
+									valign :'middle',// 垂直居中显示
 									width : '5%'// 宽度
 								},
 								{
@@ -131,42 +131,42 @@ $(function() {
 									title : '电话号码',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '8%'// 宽度
+									width : '5%'// 宽度
 								},
 								{
 									field : 'address',// 返回值名称
 									title : '地址',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '8%'// 宽度
+									width : '9%'// 宽度
 								},
 								{
 									field : 'name',// 返回值名称
 									title : '角色',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '8%'// 宽度
+									width : '7%'// 宽度
 								},
 								{
 									field : 'dutyName',// 返回值名称
 									title : '职务',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '8%'// 宽度
+									width : '7%'// 宽度
 								},
 								{
 									field : 'departmentName',// 返回值名称
 									title : '部门',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '8%'// 宽度
+									width : '7%'// 宽度
 								},
 								{
 									field : 'createTime',// 返回值名称
 									title : '创建日期',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '8%'// 宽度
+									width : '7%'// 宽度
 								},
 								{
 									field : 'state',// 返回值名称
@@ -193,19 +193,17 @@ $(function() {
 									title : '操作',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '13%',// 宽度
+									width : '16%',// 宽度
 									formatter : function(value, row, index) {
 										var state = row.state;
 										var btn_change;
 										var btn_edit;
 										var btn_view;
 										var btn_dele;
-											btn_change = '<input type="image" src="module/img/employeeManage/forbidden_icon.png" onclick="changeState('+ row.ID+ ',\''
-											+ row.state
-											+ '\')">';
-											btn_edit='<input type="image" src="module/img/employeeManage/edit_icon.png" style="margin-left:10px;"onclick="openedit()"/>';
-											btn_view='<input type="image" src="module/img/employeeManage/view_icon.png" style="margin-left:10px;"onclick="view()"/>';
-											btn_dele='<input type="image" src="module/img/employeeManage/delete_icon.png" style="margin-left:10px;"onclick="del()"/>';
+											btn_change ="<input type=\"image\" src=\"module/img/images/forbidden_icon.png\" onclick='changeState("+JSON.stringify(row)+")'>";
+											btn_edit='<input type="image" src="module/img/images/edit_icon.png" style="margin-left:10px;"onclick="openedit()"/>';
+											btn_view='<input type="image" src="module/img/images/view_icon.png" style="margin-left:10px;"onclick="view()"/>';
+											btn_dele='<input type="image" src="module/img/images/delete_icon.png" style="margin-left:10px;"onclick="del()"/>';
 											return btn_change+btn_edit+btn_view+btn_dele;
 										
 									}
@@ -263,8 +261,8 @@ function reflesh() {
 }
 
 /* 改变状态 */
-function changeState(ID,state){
-	var states=state;
+function changeState(data){
+	var state=data.state;
 	if(state=="禁用"){
 		states=1;
 }
@@ -273,18 +271,16 @@ function changeState(ID,state){
 		states=0;
 	}
 	
-	var data;
+	var parame={};
+	parame.ID=data.ID;
+	parame.state=states;
 	
 	$.ajax({
 		url : 'employeeController/updEmployeeState.do',
 		scriptCharset : "utf-8",
 		contentType : "application/x-www-form-urlencoded; charset=utf-8", // 中文乱码
+		data : parame,
 		dataType : 'json',
-		async : false,
-		data : {
-			ID : ID,
-			state:states
-		},
 		success : function(o) {
 			if (o <= 0) {
 				alert("修改失败");
