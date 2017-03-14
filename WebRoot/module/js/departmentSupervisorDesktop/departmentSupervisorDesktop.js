@@ -5,7 +5,6 @@ $(function () {
 		dataType:'json',
 		success:function(o){
 			var data = JSON.parse(o);
-			console.log(data[0]);
 			$('#departmentID').text(data[0].ID);
 	  	}
 	});
@@ -18,14 +17,28 @@ $(function () {
 	
 	// 查看报告按钮点击事件
 	$('#viewReport').click(function (){
-		var data = $('#table').bootstrapTable('getSelections');
 		
-		if(data.length==0 || data.length>1){
-			alert("请选中一条数据");
-			return;
-		}
-		var receiptlistID = data[0].ID;
-		window.location.href = window.location.href.replace('departmentSupervisorDesktop/departmentSupervisorDesktop.jsp','testReportManage/testReportManage.jsp') + '?ID='+receiptlistID;
+//		chen.alert('操作成功');
+		
+		chen.confirm('vvvv').then(isConfirm => {
+			if (isConfirm) {
+				// 点击删除按钮后要干的事
+				chen.alert('操作成功');
+			} else { // 点击取消按钮
+				// 点击取消按钮后要干的事
+			}
+		}).catch(err => {
+			console.log(err);
+		});
+		
+//		var data = $('#table').bootstrapTable('getSelections');
+//		
+//		if(data.length==0 || data.length>1){
+//			chen.alert("请选中一条数据");
+//			return;
+//		}
+//		var receiptlistID = data[0].ID;
+//		window.location.href = window.location.href.replace('departmentSupervisorDesktop/departmentSupervisorDesktop.jsp','testReportManage/testReportManage.jsp') + '?ID='+receiptlistID;
 	});
 	
 	// 工作量统计按钮点击事件
@@ -33,7 +46,7 @@ $(function () {
 		var data = $('#table').bootstrapTable('getSelections');
 		
 		if(data.length==0 || data.length>1){
-			alert("请选中一条数据");
+			chen.alert("请选中一条数据");
 			return;
 		}
 		
@@ -46,7 +59,7 @@ $(function () {
 		var data = $('#table').bootstrapTable('getSelections');
 		
 		if(data.length==0 || data.length>1){
-			alert("请选中一条数据");
+			chen.alert("请选中一条数据");
 			return;
 		}
 		
@@ -59,7 +72,7 @@ $(function () {
 		var data = $('#fileTable').bootstrapTable('getSelections');
 		
 		if (data.length == 0 || data.length > 1) {
-			alert("请选择一个文档查看");
+			chen.alert("请选择一个文档查看");
 			return;
 		} else {
 			// todo...
@@ -71,7 +84,7 @@ $(function () {
 		var data = $('#fileTable').bootstrapTable('getSelections');
 		
 		if (data.length == 0) {
-			alert("请选择一个或多个文件下载");
+			chen.alert("请选择一个或多个文件下载");
 			return;
 		}
 		if (data.length == 1) {

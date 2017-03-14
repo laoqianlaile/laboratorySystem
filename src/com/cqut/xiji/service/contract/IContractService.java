@@ -8,10 +8,10 @@ public interface IContractService {
 	Map<String, Object> getContractWithPaging(int limit, int offset,
 			String order, String sort, String taleName);
 
-	public int addContract(String contractName, String companyName,
+	public int addContract(String contractName, String companyID,String companyName,
 			String oppositeMen, String linkPhone, String employeeName,
 			String address, String signAddress, String startTime,
-			String signTime, String endTime);
+			String signTime, String endTime, int isClassified, int classifiedLevel);
 	
 	public List<Map<String, Object>> getIdByCode(String contractCode);
 	
@@ -21,7 +21,7 @@ public interface IContractService {
 			String companyID, String companyName, String address,
 			String oppositeMen, String linkPhone, String employeeID,
 			String employeeName, String signAddress, String startTime,
-			String signTime, String endTime, double contractAmount,
+			String signTime, String endTime,
 			int isClassified, int classifiedLevel, int state);
 			
 	public int auditContract(String ID, String viewpoint, int state);

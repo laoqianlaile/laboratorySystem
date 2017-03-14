@@ -30,7 +30,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="module/js/bootstrap-table.js"></script>
 	<script src="module/js/bootstrap-table-zh-CN.js"></script>
     <script src="assets/js/autoPage.js"></script>
-    
+    <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+    <script src="module/js/sweetalert.min.js"></script>
+    <script src="module/js/alert.js"></script>
   </head>
   
   <body>

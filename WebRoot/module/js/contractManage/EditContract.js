@@ -1,5 +1,6 @@
-var re = new RegExp("\"", "g");
-var array =[];
+// 请求数据时的额外参数
+var param = {};
+
 
 $(function() {
 	setID();
@@ -10,22 +11,29 @@ $(function() {
 //初始化数据
 function initContractFile(){
 	$("#show_contractFile").bootstrapTable({
-		//height : 800,// 定义表格的高度
+		//height : 200,// 定义表格的高度
 		striped : true,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
-	//	pageSize : 10,// 页面数据条数
+		pageSize : 4,// 页面数据条数
 		pageNumber : 1,// 首页页码
-		pageList : [ 5,10,15 ],// 设置可供选择的页面数据条数
+		pageList : [ 4 ],// 设置可供选择的页面数据条数
 		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache : false,// 禁用 AJAX 数据缓存
-	//	sortName : 'ID',// 定义排序列
-	//	sortOrder : 'asc',// 定义排序方式
+		sortName : 'uploadTime',// 定义排序列
+		sortOrder : 'asc',// 定义排序方式
 		url:'fileInformationController/getContractFileWithPaging.do',//服务器数据的加载地址
 		sidePagination:'server',//设置在哪里进行分页
 		contentType:'application/json',//发送到服务器的数据编码类型
 		dataType:'json',//服务器返回的数据类型
 	    //queryParams:search,//请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
-		queryParams: fileQueryParams, //参数
+		queryParams: function queryParams(params) { //请求服务器数据时,添加一些额外的参数
+			param.limit = params.limit;// 页面大小
+			param.offset = params.offset; // 偏移量
+			param.sort = params.sort; // 排序列名
+			param.order = params.order; // 排位方式
+			param.ID = $.trim($('#edit_contractID').val())
+			return param;
+		}, //参数
 	    queryParamsType: "limit", 
 		selectItemName : '',// radio or checkbox 的字段名
 		columns:[{
@@ -83,7 +91,7 @@ function initContractFile(){
 	});
 }
 
-//请求数据时的额外参数
+/*//请求数据时的额外参数
 function fileQueryParams(){
 	var searchCondition = {
 		limit : 10,
@@ -93,9 +101,9 @@ function fileQueryParams(){
 		ID : $.trim($('#edit_contractID').val())
 	};
     return searchCondition;
-}
+}*/
 
-//请求数据时的额外参数
+/*//请求数据时的额外参数
 function itemQueryParams(){
 	var searchCondition = {
 		limit : 10,
@@ -105,7 +113,7 @@ function itemQueryParams(){
 		ID : $.trim($('#edit_contractID').val())
 	};
     return searchCondition;
-}
+}*/
 
 //得到地址栏参数的值
 function GetQueryString(name)
@@ -183,7 +191,6 @@ function getContractByID(){
  * @param id
  */
 function downFile(id){
-
 	downOneFile(id);
 /*	$.post("testReportController/getFileID.do", {
 		ID : id
@@ -223,30 +230,34 @@ function openFile(id){
 
 //删除合同的文件
 function delFile(id) {
-	alert(id);
-	var data;
-   $.ajax({
-	url : 'fileInformationController/deleteFileByID.do',
-	dataType : "json",
-	async : false,
-	data : {
-		fileID : id
-	},
-	success : function(o) {
-		 data = JSON.parse(o); // error
-		 alert(data);
-		if (data == true) {
-			alert("delete sunceesul");
-		} else {
-			alert("delete faire");
-		}
-	},
-	error : function() {
-		return false;
-	}
-   });
-   refresh();
-   //$('#fileTable').bootstrapTable('refresh',null);
+	 if (confirm("确认删除：" + id)) {  
+		 var data;
+		   $.ajax({
+			url : 'fileInformationController/deleteFileByID.do',
+			dataType : "json",
+			async : false,
+			data : {
+				fileID : id
+			},
+			success : function(o) {
+				 data = JSON.parse(o); // error
+				if (data == true) {
+					alert("delete sunceesul");
+				} else {
+					alert("delete faire");
+				}
+			},
+			error : function() {
+				return false;
+			}
+		   });
+		   refresh();
+		   //$('#fileTable').bootstrapTable('refresh',null);  
+     }  
+     else {  
+         return;  
+     }  
+	
 
 }
 
@@ -256,19 +267,26 @@ function initContractFileItem(){
 		//height : 800,// 定义表格的高度
 		striped : true,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
-	//	pageSize : 10,// 页面数据条数
+		pageSize : 4,// 页面数据条数
 		pageNumber : 1,// 首页页码
-		pageList : [ 5,10,15 ],// 设置可供选择的页面数据条数
+		pageList : [ 4 ],// 设置可供选择的页面数据条数
 		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache : false,// 禁用 AJAX 数据缓存
-	//	sortName : 'ID',// 定义排序列
-	//	sortOrder : 'asc',// 定义排序方式
+		sortName : 'ID',// 定义排序列
+		sortOrder : 'asc',// 定义排序方式
 		url:'contractFineItemController/getContractFileItemWithPaging.do',//服务器数据的加载地址
 		sidePagination:'server',//设置在哪里进行分页
 		contentType:'application/json',//发送到服务器的数据编码类型
 		dataType:'json',//服务器返回的数据类型
 	    //queryParams:search,//请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
-		queryParams: itemQueryParams, //参数
+		queryParams: function queryParams(params) { //请求服务器数据时,添加一些额外的参数
+			param.limit = params.limit;// 页面大小
+			param.offset = params.offset; // 偏移量
+			param.sort = params.sort; // 排序列名
+			param.order = params.order; // 排位方式
+			param.ID = $.trim($('#edit_contractID').val())
+			return param;
+		}, //参数
 	    queryParamsType: "limit", 
 		selectItemName : '',// radio or checkbox 的字段名
 		columns:[/*{
@@ -388,20 +406,28 @@ function initContractFileItem(){
 	editSth();
 }
 
+// 上传文件预处理
+function showFileUploadModal(){
+	fileUploadInit("#file_upload");
+	$("#file_uploadModal").modal("show");
+}
+
+
 //上传文件预处理
 function submitFile(){
 	//loadingData();
-//	fileObj.path = "E:/";//filePath; // 文件上传路径，如果此参数没有值，则使用firstDirectoryName,secondDirectoryName,thirdDirectoryName
-	fileObj.fileTypeNumber = "1";//fileTypeNumber; // 文件类型
+	var fileObj = {};
+	fileObj.path = "";//filePath; // 文件上传路径，如果此参数没有值，则使用firstDirectoryName,secondDirectoryName,thirdDirectoryName
+	fileObj.fileTypeNumber = 1;//fileTypeNumber; // 文件类型
 	fileObj.firstDirectoryName = "项目文件";//fileFirstDirectory; // 一级目录
-	fileObj.secondDirectoryName = "子项目具体文件";//fileSecondDirectory; // 二级目录
+	fileObj.secondDirectoryName = "";//fileSecondDirectory; // 二级目录
 	fileObj.thirdDirectoryName = "合同文件";//fileThirdDirectory //三级目录
 	fileObj.belongtoID = $('#edit_contractID').val();
- 	fileObj.otherInfo = "没有";//fileOtherInfo; // 其他参数
-	fileObj.remarks = "文件啊";//fileRemarks; // 备注
+ 	fileObj.otherInfo = "";//fileOtherInfo; // 其他参数
+	fileObj.remarks = $('#fileRemarks').val();//fileRemarks; // 备注
 	//文件上传
-	 fileUpload(fileObj.filePath, fileObj.fileTypeNumber, fileObj.firstDirectoryName, fileObj.secondDirectoryName,fileObj.thirdDirectoryName,
-			 fileObj.belongtoID, fileObj.otherInfo, fileObj.remarks) ;
+	 fileUpload("#file_upload",fileObj.filePath, fileObj.fileTypeNumber,  fileObj.belongtoID,fileObj.firstDirectoryName, fileObj.secondDirectoryName,fileObj.thirdDirectoryName,
+			 fileObj.otherInfo, fileObj.remarks) ;
 	 	 
 	 refresh();
 	 //旋转图片延缓
@@ -871,7 +897,7 @@ function edit(){
 		var employeeID = $('#edit_employeeName').attr("name");
 		var employeeName = $('#edit_employeeName').val();
 		var signTime = $('#edit_signTime').val();
-		var contractAmount = $('#edit_contractAmount').val();
+		//var contractAmount = $('#edit_contractAmount').val();
 		var isClassified = $("input[name='isClassified']:checked").val();
 		var classifiedLevel = $('#edit_classifiedLevel').val();
 		
@@ -936,11 +962,11 @@ function edit(){
 			alert("合同截至日期不能为空！"); 
 			return;
 		}
-		if (!contractAmount && typeof(contractAmount)!="undefined" && contractAmount=='') 
+		/*if (!contractAmount && typeof(contractAmount)!="undefined" && contractAmount=='') 
 		{ 
 			alert("合同金额不能为空！");
 			return;
-		}
+		}*/
 		if (!isClassified && typeof(isClassified)!="undefined" && isClassified=='') 
 		{ 
 			alert("是否保密不能为空！");
@@ -965,7 +991,7 @@ function edit(){
 			parame.employeeID = employeeID;
 			parame.employeeName = employeeName;
 			parame.signTime = signTime;
-			parame.contractAmount = contractAmount;
+			//parame.contractAmount = contractAmount;
 			parame.isClassified = isClassified;
 			parame.classifiedLevel = classifiedLevel;
 			
@@ -1100,23 +1126,25 @@ function addItem(){
 }
 
 function delFileItem(id){
-	alert("将要删除合同细项：" + id);
-	var ID = " id = " + id;
-	var ajaxParameter = {
-			itemID:ID	
-	};
-	
-	$.ajax({
-		  url:'contractFineItemController/delContractFineItem.do',
-		  type:"post",
-		  data:ajaxParameter,
-		  success:function(o){
-			  if(o<=0){
-				  alert("删除失败");
+	if (confirm("删除合同细项：" + id)) {
+		var ID = " id = " + id;
+		var ajaxParameter = {
+				itemID:ID	
+		};
+		$.ajax({
+			  url:'contractFineItemController/delContractFineItem.do',
+			  type:"post",
+			  data:ajaxParameter,
+			  success:function(o){
+				  if(o<=0){
+					  alert("删除失败");
+				  }
+				  refresh();
 			  }
-			  refresh();
-		  }
-	});
+		});
+	}else{
+		return;
+	}
 }
 
 //编辑合同细项方法 

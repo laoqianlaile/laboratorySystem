@@ -18,12 +18,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
-	<link rel="stylesheet" type="text/css" href="./module/css/fileManage/fileManage.css">
+	<link rel="stylesheet" type="text/css" href="module/css/fileManage/fileManage.css">
+	<link rel="stylesheet" type="text/css" href="module/css/changeACE.css" />
 	<link rel="stylesheet" type="text/css" href="module/css/uploadify.css">
 	<link rel="stylesheet" href="module/css/contractManage/EditContract.css" />
 	
 	<script src="assets/js/jquery-2.0.3.min.js"></script>
-	<script src="module/js/contractManage/fileUpload.js" type="text/javascript"></script>
 	<script src="module/js/jquery.uploadify.min.js" type="text/javascript"></script>
 	<script src="module/js/bootstrap.js"></script>
 	<script src="module/js/bootstrap-table.js"></script>
@@ -137,8 +137,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input id="r1" type="radio" value="1" name="isClassified" onclick="classifiedSth()" /><span>是</span>
 					<input id="r2" type="radio" value="0" name="isClassified" onclick="classifiedSth()" /><span>否</span>
 				</div>
-				<div class="col-xs-2 col-md-2 col-lg-2">
-					<label class="classifiedLevel-label">涉密等级:</label> <select
+				<div class="col-xs-1a col-md-2 col-lg-2">
+					<label class="classifiedLevel-label">密级:</label> <select
 						id="edit_classifiedLevel" name="classifiedLevel"
 						class="form-control classifiedLevel-select">
 						<option id="Level3" value="3">无密级</option>
@@ -153,7 +153,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="top">
 				<div class="contract_title"><img src="module/img/ContractFile_icon.png" alt="ContractFile_icon" />编辑合同文件</div>
 				<div class="btnAdd fr">
-					<button type="button" lass="btn btn-primary" data-toggle="modal" data-target="#file_uploadModal">上传合同文件</button>
+					<button type="button" lass="btn btn-primary" data-toggle="modal" onclick="showFileUploadModal()">上传合同文件</button>
 				</div>
 			</div>
 			<div class="bottom">
@@ -189,6 +189,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div id="uploadfileQueue"></div>
 						<input type="file" id="file_upload" name="file_upload"
 							onchanage="chooseFileNum(this)" multiple="multiple">
+						<label class="control-label">备注:</label>
+						<input type="text" id="fileRemarks" name="fileRemarks" class="form-control"/>
 					</div>
 					<div class="modal-footer">
 						<button class="btn-primary glyphicon" id="submitFileBtn"
@@ -360,6 +362,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </div>
   </body>
   <script src="module/js/contractManage/EditContract.js"></script>
+	<script src="module/js/fileManage/fileManage.js" type="text/javascript"></script>
   <script type="text/javascript">
 	$('.form_datetime').datetimepicker({
 	    language: 'zh-CN',

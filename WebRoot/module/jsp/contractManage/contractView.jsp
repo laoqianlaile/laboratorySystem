@@ -30,8 +30,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="top">
 			<div class="contract_title"><img src="module/img/editContract_icon.png" alt="editContract_icon" />合同基本信息</div>
 			<div class="contractId" style="display:none;">
-                   <label class="control-label">合同ID:</label>
-				   <label id="fileID"></label>
+                   <label id="contractID"></label><!-- 合同ID -->
+				   <label id="fileID"></label><!-- 文件ID -->
 				</div>
 			<div class="contract-code">
 	        	<div class="state">

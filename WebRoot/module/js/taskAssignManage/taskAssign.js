@@ -251,7 +251,7 @@ $("#btn-assign").click(function(){
 	var data = $('#taskTable').bootstrapTable('getSelections');
 
 	if (data[0].detector != "无" && data[0].custodian != "无") {
-		alert("该任务已分配完成!!!");
+		chen.alert("该任务已分配完成!!!");
 	} else {
 		$('#sampleCode').text(data[0].factoryCode);
 		$('#taskID').text(data[0].ID);
@@ -463,7 +463,7 @@ function assignCustodian(){
 	var data = $('#assignTable').bootstrapTable('getSelections');
 
 	if(data.length==0 || data.length>1){
-		alert("请选中一条数据");
+		chen.alert("请选中一条数据");
 		return;
 	}
 
@@ -480,7 +480,7 @@ function assignCustodian(){
 		dataType:'json',
 		success:function(data){
 			if(data === "1"){
-				alert("分配成功");
+				chen.alert("分配成功");
 				$('#assignPeopleModal').modal('hide');
 				$('#taskTable').bootstrapTable('refresh');
 			}
@@ -509,7 +509,7 @@ function assignDetector(){
 		dataType:'json',
 		success:function(data){
 			if(data === "1"){
-				alert("分配成功");
+				chen.alert("分配成功");
 				$('#assignPeopleModal').modal('hide');
 				$('#taskTable').bootstrapTable('refresh');
 			}
@@ -524,5 +524,5 @@ $('#return').click(function(){
 
 //下载文件按钮
 function download(path){
-	alert('the file path is : ' + path);
+	chen.alert('the file path is : ' + path);
 };
