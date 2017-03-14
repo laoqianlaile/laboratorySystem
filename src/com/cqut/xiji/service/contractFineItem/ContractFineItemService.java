@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
+import com.cqut.xiji.entity.contract.Contract;
 import com.cqut.xiji.entity.contractFineItem.ContractFineItem;
 import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.service.base.SearchService;
@@ -606,7 +607,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("total", count);
 		map.put("rows", result);
-		
+		updateContractAmount(ID);
 		return map;
 	}
 	
@@ -650,7 +651,33 @@ public class ContractFineItemService extends SearchService implements IContractF
 			return results;
 		}
 		
+		updateContractAmount(contractID);
 		return results;
+	}
+	
+	@Override
+	public int updateContractAmount(String contractID){
+		String baseEntity = "contractFineItem";
+		String[] properties = new String[]{
+				"contractFineItem.money",
+		};
+		String joinEntity = "";
+		String condition = " 1 = 1 and contractFineItem.contractID = " + contractID;
+		List<Map<String, Object>> Monye1 = entityDao.searchForeign(properties,baseEntity,joinEntity,null,condition);
+		
+		double contractAmount = 0.0;
+		for (Map<String, Object> m : Monye1)  
+	    {  
+	      for (String k : m.keySet())  
+	      {  
+	    	  contractAmount +=  (double)(m.get(k));
+	      }  
+	    }
+		Contract contract = new Contract();
+		contract.setContractAmount(contractAmount);
+		int result = entityDao.updatePropByID(contract,contractID);
+		
+		return result;
 	}
 	
 	@Override

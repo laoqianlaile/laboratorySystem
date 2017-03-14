@@ -232,6 +232,13 @@ public class ContractFineItemController{
 		return results;
 	}
 	
+	@RequestMapping("/updateContractAmount")  
+    @ResponseBody
+	public int updateContractAmount(String contractID){
+		int result = service.updateContractAmount(contractID);
+		return result;
+	}
+	
 	@RequestMapping("/getContractFineItemByContractIDs")
 	@ResponseBody
 	public String getContractFineItemByContractIDs(String contractID){

@@ -44,6 +44,7 @@ function getContractByID(){
 		    	 if (data) {
 		    		var myobj = JSON.parse(data);
 		    		alert(myobj[0].contractName);
+		    		$('#contractID').html(myobj[0].ID);
 		    		$('#fileID').html(myobj[0].fileID);
 		    		$('#show_state').html(myobj[0].state);
 		    		$('#show_contractCode').html(myobj[0].contractCode);
@@ -57,8 +58,20 @@ function getContractByID(){
 		    		$('#show_employeeName').html(myobj[0].employeeName);
 		    		$('#show_signTime').html(myobj[0].signTime);
 		    		$('#show_contractAmount').html(myobj[0].contractAmount);
-		    		$('#show_isClassified').html(myobj[0].isClassified);
-		    		$('#show_classifiedLevel').html(myobj[0].classifiedLevel);
+		    		switch (myobj[0].isClassified) {
+		    		case 0: $('#show_isClassified').html("非涉密");break;
+		    		case 1: $('#show_isClassified').html("涉密");break;
+		    		default:
+		    			break;
+		    		}
+		    		switch (myobj[0].classifiedLevel) {
+		    		case 0: $('#show_classifiedLevel').html("秘密");break;
+		    		case 1: $('#show_classifiedLevel').html("机密");break;
+		    		case 2: $('#show_classifiedLevel').html("绝密");break;
+		    		case 3: $('#show_classifiedLevel').html("无密级");break;
+		    		default:
+		    			break;
+		    		}
 		    		}
 		    	 }
 		});
@@ -117,7 +130,7 @@ function approved(){
 		alert("审核意见不能为空！"); 
 	}else {
 		var parame = {};
-		parame.ID = $('#show_ID').text();
+		parame.ID = $('#contractID').text();
 		parame.viewpoint = $('#approveCause').val();
 		parame.state = 4;
 		
@@ -129,7 +142,7 @@ function approved(){
 			  if(o <= 0){
 				  alert("操作失败！");
 			  }
-			  $('#writeModal1').modal('hide');
+			  goback();
 		  }
 		});
 	}
@@ -139,13 +152,14 @@ function approved(){
  * 提交审核意见（未通过）
  */
 function rejected(){
+	alert($('#contractID').text());
 	var rejecteCause = $('#rejecteCause').val(); 
 	if (!rejecteCause && typeof(rejecteCause)!="undefined" && rejecteCause=='') 
 	{ 
 		alert("审核意见不能为空！"); 
 	}else {
 		var parame = {};
-		parame.ID = $('#show_ID').text();
+		parame.ID = $('#contractID').text();
 		parame.viewpoint = $('#rejecteCause').val();
 		parame.state = 3;
 		
@@ -156,7 +170,7 @@ function rejected(){
 			  if(o<=0){
 				  alert("操作失败！");
 			  }
-			  $('#writeModal2').modal('hide');
+			  goback();
 		  }
 		});
 	}

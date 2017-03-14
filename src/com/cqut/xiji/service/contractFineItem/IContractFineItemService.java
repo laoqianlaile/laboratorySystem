@@ -41,4 +41,10 @@ public interface IContractFineItemService {
 			String departmentID, String remarks);
 	/*通过合同ID 获取合同所以有关的合同细项*/
 	List<Map<String, Object>> getContractFineItemByContractIDs(String contractID);
+	
+	/**
+	 * @param contractID
+	 * @return
+	 */
+	public int updateContractAmount(String contractID);
 }
