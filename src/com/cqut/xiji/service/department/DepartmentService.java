@@ -124,7 +124,7 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 		if(parent!=null&&!parent.equals("")){
 			if(list != null  && list.size() >0){
 				Map<String, Object> LEVEL=list.get(0);
-				department.setLevel0(""+ Integer.valueOf((String) LEVEL.get("level0"))+1);
+				department.setLevel0(""+ (int)(Integer.valueOf((String) LEVEL.get("level0"))+1));
 			}
 		}else{
 			department.setLevel0("1");
@@ -182,7 +182,7 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 		if(parent!=null&&!parent.equals("")){
 			if(list != null  && list.size() >0){
 				Map<String, Object> LEVEL=list.get(0);
-				department.setLevel0(""+Integer.valueOf((String) LEVEL.get("level0"))+1);
+				department.setLevel0(""+(int)(Integer.valueOf((String) LEVEL.get("level0"))+1));
 			}
 		}else{
 			department.setLevel0("1");
