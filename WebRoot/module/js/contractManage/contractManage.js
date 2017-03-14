@@ -11,19 +11,33 @@ function initData(){
 		//height : 800,// 定义表格的高度
 		striped : true,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
-	//	pageSize : 10,// 页面数据条数
+	    pageSize : 10,// 页面数据条数
 		pageNumber : 1,// 首页页码
 		pageList : [ 5,10,15 ],// 设置可供选择的页面数据条数
 		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache : false,// 禁用 AJAX 数据缓存
-	//	sortName : 'ID',// 定义排序列
-	//	sortOrder : 'asc',// 定义排序方式
+		sortName : 'contractCode',// 定义排序列
+		sortOrder : 'asc',// 定义排序方式
 		url:'contractController/getContractWithPaging2.do',//服务器数据的加载地址
 		sidePagination:'server',//设置在哪里进行分页
 		contentType:'application/json',//发送到服务器的数据编码类型
 		dataType:'json',//服务器返回的数据类型
 	    //queryParams:search,//请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
-		queryParams:queryParams, //参数
+		queryParams: function queryParams(params) { //请求服务器数据时,添加一些额外的参数
+			param.limit = params.limit;// 页面大小
+			param.offset = params.offset; // 偏移量
+			param.sort = params.sort; // 排序列名
+			param.order = params.order; // 排位方式
+			param.contractCode = $.trim($('#schContractCode').val());
+			param.employeeName = $.trim($('#schEmployeeName').val());
+			param.companyName = $.trim($('#schCompanyName').val());
+			param.startTime = $.trim($('#schStartTime').val());
+			param.endTime = $.trim($('#schEndTime').val());
+			param.oppositeMen = $.trim($('#schOppositeMen').val());
+			param.linkPhone = $.trim($('#schLinkPhone').val());
+			param.state = $.trim($('#schState').val());
+			return param;
+		}, //参数
 	    queryParamsType: "limit", 
 		selectItemName : '',// radio or checkbox 的字段名
 		columns : [ {
@@ -139,7 +153,7 @@ function initData(){
 	});
 }
 
-//请求数据时的额外参数
+/*//请求数据时的额外参数
 function queryParams(){
 	var searchCondition = {
 		limit : 10,
@@ -156,7 +170,7 @@ function queryParams(){
 		state : $.trim($('#schState').val()),
 	};
     return searchCondition;
-}
+}*/
 
 /**
  * 搜索方法
@@ -205,6 +219,7 @@ function add(){
 		var parame = {};
 		var contractName = $('#add_contractName').val();
 		var companyName = $('#add_companyName').val();
+		var companyID = $('#add_companyName').attr("name");
 		var address = $('#add_address').val();
 		var oppositeMen = $('#add_oppositeMen').val();
 		var linkPhone = $('#add_linkPhone').val();
@@ -213,6 +228,9 @@ function add(){
 		var signTime = $('#add_signTime').val();
 		var startTime = $('#add_startTime').val();
 		var endTime = $('#add_endTime').val();
+		var isClassified = $("input[name='isClassified']:checked").val();
+		var classifiedLevel = $('#add_classifiedLevel').val();
+		alert(classifiedLevel);
 		if (!contractName && typeof(contractName)!="undefined" && contractName=='') 
 		{ 
 			alert("合同名不能为空！"); 
@@ -269,8 +287,24 @@ function add(){
 			alert("合同截至日期不能为空！"); 
 			return;
 		}
+		if (signTime > startTime && startTime > endTime) 
+		{ 
+			alert("合同开始/截至日期超前！"); 
+			return;
+		}
+		if (!isClassified && typeof(isClassified)!="undefined" && isClassified=='') 
+		{ 
+			alert("是否保密不能为空！");
+			return;
+		}
+		if (!classifiedLevel && typeof(classifiedLevel)!="undefined" && classifiedLevel=='') 
+		{ 
+			alert("保密等级不能为空！");
+			return;
+		}
 		else {
 			parame.contractName = contractName;
+			parame.companyID = companyID;
 			parame.companyName = companyName;
 			parame.oppositeMen = oppositeMen;
 			parame.linkPhone = linkPhone;
@@ -280,6 +314,8 @@ function add(){
 			parame.signTime = signTime;
 			parame.startTime = startTime;
 			parame.endTime = endTime;
+			parame.isClassified = isClassified;
+			parame.classifiedLevel = classifiedLevel;
 			$.ajax({
 				  url:'contractController/addContract.do',
 				  data:parame,
@@ -419,6 +455,23 @@ function addClick(){
 	})
 }
 
+/*
+ * 修改是否保密响应
+ */
+function classifiedSth(){
+	var isClassified = $('input[name="isClassified"]:checked').val();
+	alert(isClassified);
+	if(isClassified == "0"){
+		$('#add_classifiedLevel').val("3");
+		$('#add_classifiedLevel #Level3').show();
+		$('#add_classifiedLevel .Level3').hide();
+	}else if(isClassified == "1"){
+		$('#add_classifiedLevel').val("0");
+		$('#add_classifiedLevel .Level3').show();
+		$('#add_classifiedLevel #Level3').hide();
+	}
+}
+
 /**
  * 使页面跳转到查看合同页面(管理)
  */
@@ -478,7 +531,6 @@ function showContractA(){
 		window.location.href="module/jsp/contractManage/contractView.jsp?ID="+ ID + "&type=1";
 	}
 }
-
 
 /**
  * 使页面跳转到修改合同页面
