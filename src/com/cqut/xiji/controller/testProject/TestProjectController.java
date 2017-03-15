@@ -189,4 +189,22 @@ public class TestProjectController{
       	List<Map<String, Object>> result = service.getTestProject(testProjectNamae);
 		return result;
 	}
+	
+	/**
+	 * 
+	 * @param limit
+	 * @param offset
+	 * @param order
+	 * @param sort
+	 * @param contract
+	 * @return
+	 */
+	@RequestMapping("/getTestproWithPaging")
+	@ResponseBody
+	public JSONObject getTestproWithPaging(int limit, int offset,
+			String order, String sort, String contract) {
+		Map<String, Object> result = service.getTestproWithPaging(limit, offset, order, sort, contract);
+		return JSONObject.fromObject(result);
+	}
+	
 }

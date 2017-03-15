@@ -23,8 +23,6 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 
-<link rel="stylesheet" href="module/css/article/articleManage.css"
-	type="text/css"></link>
 <link rel="stylesheet" href="module/css/bootstrap.min.css"
 	type="text/css"></link>
 <link rel="stylesheet" href="module/css/bootstrap.css" type="text/css"></link>
@@ -37,7 +35,8 @@
 <link type="text/css" rel="stylesheet" href="module/css/fileinput.css" />
 <link type="text/css" rel="stylesheet"
 	href="PorUeditor/third-party/SyntaxHighlighter/shCoreDefault.css" />
-
+<link rel="stylesheet" href="module/css/article/articleManage.css"
+	type="text/css"></link>
 
 
 <script type="text/javascript" src="module/js/jquery-2.1.1.min.js"></script>
@@ -55,9 +54,9 @@
 
 <body>
 	<div class="wrapper">
-		<form class="form-inline" role="form">
+		<form class="form-inline group" role="form">
 			<div class="input-group col-xs-12 col-md-3">
-				<span class="input-group-addon">文章栏目</span> <select
+				<span class="input-group-addon articleColumn">文章栏目</span> <select
 					class="form-control" id="search_artColumn">
 					<option>检测案例</option>
 					<option>新闻中心</option>

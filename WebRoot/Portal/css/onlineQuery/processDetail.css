@@ -280,7 +280,8 @@ ul li{
 }
 .tabledata{
 	display:inline-block;
-	margin-left:20px;
+	float:right;
+	margin-right:20px;
 	overflow:hidden;
 }
 .specialtitle{

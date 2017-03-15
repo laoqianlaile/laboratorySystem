@@ -4,7 +4,6 @@ $(function(){
 	var name = $('#name').val();
 	parame.clientNo = $('#name').val();
 	if(name == "null"||name==""||name == undefined){
-		  alert("您还未登录");
 	    }
 	else{
 		$.ajax({
@@ -35,59 +34,6 @@ $(function(){
 	}
 });
 
-window.onload=function(){
-	
-	window.addEventListener("resize", positionAndSize);  //设置监听器
-	
-	/*加载登陆蒙板弹窗*/
-	var loginbox = document.getElementById("image_box");
-	var imask = document.getElementById("imask_2");
-	
-	var oMask = document.getElementById("imask_2");
-	
-	function positionAndSize(num)   //窗体位置居中，遮面大小始终等于窗体大小
-	{
-		var imageSize = new Image();
-		imageSize.src = document.getElementById("image_" + num).src;
-		$("#image_box").height(imageSize.height + 100);
-    	$("#image_box").width(imageSize.width + 100);
-    	$("#image_box1").height(imageSize.height);
-    	$("#image_box1").width(imageSize.width);
-    	var oVerify = document.getElementById("image_box"); 
-			if(oVerify.offsetWidth != 0 && oVerify.offsetHeight != 0){
-				
-			if(document.documentElement.offsetHeight > window.innerHeight){
-            	oMask.style.height = document.documentElement.offsetHeight + "px";
-        	}else{
-
-            	oMask.style.height = window.innerHeight + "px";
-        	}
-        	oMask.style.width = window.innerWidth + "px";
-        	oVerify.style.left=(window.innerWidth - oVerify.offsetWidth)/2 + "px";
-        	oVerify.style.top=(window.innerHeight - oVerify.offsetHeight)/2 + "px";
-		}
-			
-	}
-	
-	$("#image1").click(function(){
-		loginbox.style.display = "block";
-		imask.style.display = "block";
-		$("#image_1").attr("src",$("#image1")[0].src);
-		$("#image_1").attr("style","display:block");
-		positionAndSize(1);
-		});
-	$("#image2").click(function(){
-		loginbox.style.display = "block";
-		imask.style.display = "block";
-		$("#image_1").attr("src",$("#image2")[0].src);
-		$("#image_1").attr("style","display:block");
-		positionAndSize(1);
-		});
-	$(".image_close").click(function(){
-		loginbox.style.display="none";
-		imask.style.display="none";
-	});
-};
 
 //执照图上传方法
 function openModal(idCard){
@@ -245,11 +191,11 @@ function check(){
 	var idCard1 = $('#idCard1').val();
 	var idCard2 = $('#idCard2').val();
 	if(idCard1 == ""){
-		$("#licensePrompt").html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*执照图必须上传");
+		$("#licensePrompt").html("*执照图必须上传");
 		return false;
 	}
 	if(idCard2 == ""){
-		$("#aptitudePrompt").html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*资质图必须上传");
+		$("#aptitudePrompt").html("*资质图必须上传");
 		return false;
 	}
 	return true;

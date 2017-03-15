@@ -48,7 +48,9 @@ function checkTextPerson(){
 }
 //执照图上传方法
 function openModal(idCard){
-	var html = "";
+	document.getElementById('uploadfileQueue').innerHTML = '';
+	document.getElementById('add_TemplateName').value = '';
+	document.getElementById('add_TemplateRemarks').value = '';
 	fileUploadInit("#file_upload",idCard);
 	$("#addModal").modal("show");
 }
@@ -69,7 +71,6 @@ function upfile(){
 
 	// 延迟执行
 	setTimeout("addTemplate()",1500); 
-
 	
 }
 

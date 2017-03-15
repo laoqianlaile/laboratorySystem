@@ -73,9 +73,8 @@ public class ArticleService extends SearchService implements IArticleService {
 			condition = " 1 = 1 and artPublisher = '" + artPublisher + "'";
 		} else if (artCaseType != null
 				&& !artCaseType.trim().toString().equals("null")) {
-			condition = " 1 = 1 and artCaseType = '" + artCaseType + "'";
+			condition = " 1 = 1 and artCaseType like '%" + artCaseType + "%'";
 		}
-
 		int index = rows;
 		int pageNum = page / rows;
 		// 获取总数
@@ -166,8 +165,10 @@ public class ArticleService extends SearchService implements IArticleService {
 			condition = " 1 = 1 and articleID = '" + articleID + "'";
 		} else if (artCaseType != null
 				&& !artCaseType.trim().toString().equals("null")) {
-			condition = " 1 = 1 and artCaseType = '" + artCaseType + "'";
+			condition = " 1 = 1 and artCaseType like '%" + artCaseType + "%'";
 		}
+		
+		condition += " order by artClick desc ";
 		List<Article> result = entityDao.getByCondition(condition,
 				Article.class);
 		System.out.println("bfhdndjvnfbhjf-----------" + result.toString());

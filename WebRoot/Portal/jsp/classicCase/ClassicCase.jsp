@@ -162,6 +162,7 @@
 			<div id="righttable">
 				<div class="righttable panel panel-default" style="height: 420px; padding-bottom: 0px;">
 					<div class="panel-heading">
+						<div id="remenanli" style="display:none">案例</div>
 						<img src="Portal/images/project_icon.png"><span>热门</span>案例
 					</div>
 					<table class="table" id="rigTable">

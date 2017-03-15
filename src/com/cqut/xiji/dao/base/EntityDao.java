@@ -143,9 +143,6 @@ public class EntityDao {
 	 if (orderField == null)
 		{ 
 		 
-		 
-		
-		 
 		 try {
 			if(baseEntity != null && !baseEntity.equals("")){
 				String className = "com.cqut.xiji.entity."+baseEntity+"."+baseEntity.toUpperCase().charAt(0)+baseEntity.substring(1,baseEntity.length());
