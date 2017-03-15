@@ -22,6 +22,7 @@
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
 <link rel="stylesheet" type="text/css" href="module/css/testReportManage/testReportManage.css">
+<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
@@ -30,6 +31,8 @@
 <script src="module/js/bootstrap-datetimepicker.js"></script>
 <script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="module/js/bootstrap-datetimepicker.fr.js"></script>
+<script src="module/js/sweetalert.min.js"></script>
+<script src="module/js/alert.js"></script>
 
 <style>
 #rejectReason {

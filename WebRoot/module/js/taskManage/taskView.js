@@ -260,9 +260,9 @@ function sure() {
 		traditional : true,
 		success : function(result) {
 			if (result == true || result == "true") {
-				alert("设备登记成功");
+				chen.alert("设备登记成功");
 			} else {
-				alert("设备登记失败");
+				chen.alert("设备登记失败");
 			}
 		}
 	});
@@ -287,11 +287,11 @@ function downReportTemplate() {
 					downOneFile(fileID);
 					refresh();
 				} else {
-					alert("下载模版出错");
+					chen.alert("下载模版出错");
 				}
 			});
 		} else {
-			alert("没有找到相关项目,不能下载模版");
+			chen.alert("没有找到相关项目,不能下载模版");
 		}
 	});
 }
@@ -300,13 +300,13 @@ function downReportTemplate() {
 function uploadTestReport() {
 	fileUploadInit("#file_upload");
 	var ID = getUrlParam("taskID");
-	$.post("taskController/setTaskDetectState.do", {
+	$.post("taskController/recoverFileCheck.do", {
 		taskID : ID
 	}, function(result) {
 		if (result == true || result == "true") {
 			$("#uploadReport").modal("show");
 		} else {
-			alert("当前审核状态不可以上传报告");
+			chen.alert("当前审核状态不可以上传报告");
 		}
 	});
 }
@@ -327,11 +327,11 @@ function uploadSure() {
 				taskID : ID
 			}, function(result) {
 				if (result == false || result == "false") {
-					alert("未成功上传或覆盖文件");
+					chen.alert("未成功上传或覆盖文件");
 				}
 			});
 		} else {
-			alert("无法上传");
+			chen.alert("无法上传");
 		}
 	});
 	setTimeout(function() {
@@ -355,11 +355,11 @@ function onlineViewReport() {
 				if (result != null && result != "null") {
 					window.location.href = "module/jsp/documentOnlineView.jsp";
 				} else {
-					alert("无法查看");
+					chen.alert("无法查看");
 				}
 			});
 		} else {
-			alert("无法查看");
+			chen.alert("无法查看");
 		}
 	});
 }
@@ -372,10 +372,10 @@ function setTestReportInfo() {
 	}, function(result) {
 		if (result == true || result == "true") {
 			refresh();
-			alert("上传或覆盖成功");
+			chen.alert("上传或覆盖成功");
 		} else {
 			refresh();
-			alert("未成功上传或覆盖文件");
+			chen.alert("未成功上传或覆盖文件");
 		}
 	});
 	$("#uploadReport").modal("hide");
@@ -412,10 +412,10 @@ function submitReport() {
 								}
 							});
 			refresh();
-			alert("提交审核成功");
+			chen.alert("提交审核成功");
 		} else {
 				refresh();
-				alert("当前状态不能提交审核!请核对报告审核状态或者指定审核人");
+				chen.alert("当前状态不能提交审核!请核对报告审核状态或者指定审核人");
 				}
 		});
 	}
