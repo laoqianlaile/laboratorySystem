@@ -76,7 +76,7 @@ function inti() {
 									rowspan : 2
 								}, {
 									title : '规格型号',
-									field : 'equipmentTypeName',
+									field : 'model',
 									align : 'center',
 									colspan : 1,
 									rowspan : 2

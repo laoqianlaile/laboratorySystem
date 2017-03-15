@@ -50,7 +50,7 @@ $(function() {
 			checkbox : true,
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '5',// 宽度
+			width : '5%',// 宽度
 			formatter:function(value, row, index){
 				chenkData(row);
 			}
@@ -79,13 +79,13 @@ $(function() {
 			title : '样品名称',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '20%'// 宽度
+			width : '15%'// 宽度
 		}, {
 			field : 'type',// 返回值名称
 			title : '规格/型号',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示 receiptlistCode
-			width : '10%'// 宽度
+			width : '5%'// 宽度
 		}, {
 			field : 'unit',// 返回值名称
 			title : '单位',// 列名
@@ -97,20 +97,36 @@ $(function() {
 			title : '创建时间',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '20%'// 宽度
+			width : '15%'// 宽度
 		}, {
 			field : 'state',// 返回值名称
 			title : '状态',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '105'// 宽度
+			width : '10%'// 宽度
 		},{
 			field : 'remarks',// 返回值名称
 			title : '备注',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '15%'// 宽度
-		} ]
+			width : '10%'// 宽度
+		},{
+			field:'',//返回值名称
+			title:'操作',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:'25%',//宽度
+			formatter : function(value, row, index) { //操作按钮的设置
+				  var view = "", edit = "", dele = ""; 
+				  	if(row.ID != ""){   //没有交接单---就没有任何编辑，查看，删除等功能
+				  		view = "<img src=\"../../img/view_icon.png\" onclick='showModal("+JSON.stringify(row)+")'>";
+				        edit = "<img src=\"../../img/edit_icon.png\" onclick='openModal("+JSON.stringify(row)+")'>";
+				        dele = "<img src=\"../../img/delete_icon.png\" onclick='deleSample(\""+row.ID+"\")'>";
+				 
+					return view + edit + dele;
+				  }
+		     }
+		}]
 	// 列配置项,详情请查看 列参数 表格
 	/* 事件 */
 	});
@@ -165,7 +181,7 @@ function delData() {
 	var data = $('#table').bootstrapTable('getSelections');
     //弹出确认框
 	if (data.length == 0) {
-		alert("请至少选中一条数据");
+		chen.alert("请至少选中一条数据");
 		return;
 	}
 
@@ -174,23 +190,26 @@ function delData() {
 		ids += data[i].ID + ",";
 	}
 
-	var ajaxParameter = {
-			roleIDs : ids.substring(0, (ids.length - 1))
-	};
 
+	var sampleIDs = ids.substring(0, (ids.length - 1));
+	deleSample(sampleIDs);
+	
+}
+function deleSample(sampleIDs){
 	$.ajax({
 		url : '/laboratorySystem/sampleController/delSample.do',
 		dataType:"json",
-		data : ajaxParameter,
+		data : {
+			sampleIDs : sampleIDs
+		},
 		success : function(o) {
-			if (o == false) {
-				alert("删除失败");
+			if (o == "false") {
+				chen.alert("删除失败");
 			}
 			refresh();
 		}
 	});
 }
-
 /* 新增方法 */
 function add() {
 	var parame = {};
@@ -198,11 +217,11 @@ function add() {
 	var sampleType= $('#addSampleType').val();
 	var factoryCode = $("#addFactoryCode").val();
 	if (!factoryCode || typeof (factoryCode) == "undefined" || factoryCode == '' ) 
-		alert("样品编号不能为空！");
+		chen.alert("样品编号不能为空！");
 	else if (!name || typeof (name) == "undefined" || name == '' ) {
-		alert("样品名称不能为空！");
+		chen.alert("样品名称不能为空！");
 	} else if(!sampleType || typeof (sampleType) == "undefined" || sampleType == ''){
-		alert("样品型号规格不能为空！");
+		chen.alert("样品型号规格不能为空！");
 	}else  if(  sample_global.isAddEdit == true){
 	//	parame.receiptlistCode =  $('#addReceiptlistCode').val();
 		parame.sampleName = name;
@@ -219,7 +238,7 @@ function add() {
 			data : parame,
 			success : function(o) {
 				if (o == "false") {
-					alert("新增失败");
+					chen.alert("新增失败");
 				}
 				else {
 					 $('#addModal').modal('hide');
@@ -229,49 +248,42 @@ function add() {
 			}
 		});
 		
-	} else alert("请重新输入出厂编码");
+	} else chen.alert("请重新输入出厂编码");
 }
 
 /* 弹出查看弹框方法 */
-function showModal() {
+function showModal(data) {
 	/*
 	 * var frameSrc = "module/jsp/roleManage/testFrame.html";
 	 * $("#NoPermissioniframe").attr("src", frameSrc);
 	 * $('#NoPermissionModal').modal({ show: true, backdrop: 'static' });
 	 */
 
-	var data = $('#table').bootstrapTable('getSelections');
+/*	var data = $('#table').bootstrapTable('getSelections');
 
 	if (data.length == 0 || data.length > 1) {
-		alert("请选中一条数据");
+		chen.alert("请选中一条数据");
 		return;
-	}
-	fillLookEdit(data[0],"look");
-	//设置属性不可编辑 ???
+	}*/
+	fillLookEdit(data,"look");
+	//设置属性不可编辑 
 	
 	//显示页面
 	$('#showModal').modal('show');
 }
 
 /* 弹出修改弹框方法 */
-function openModal() {
-	var data = $('#table').bootstrapTable('getSelections');
-
-	if (data.length == 0 || data.length > 1) {
-		alert("请选中一条数据");
-		return;
-	}
-	// var ids = data[0].ROLEID;
-	fillLookEdit(data[0],"edit");
+function openModal(data) {
+ 
+	fillLookEdit(data,"edit");
 	$('#editModal').modal('show');
 }
 function  initEvent(){ 
-	   //xinzeng he shanchu 
-	set_alert_wb_comment
+	 
 }
 function set_alert_wb_comment(the,state){
-	alert(state);
-	alert($(the).val());
+	chen.alert(state);
+	chen.alert($(the).val());
 	var html="";
 }
 /**
@@ -295,7 +307,15 @@ function isNoramlPhone(phone){
 	 var factoryCode = "";
 	 if(who == "add")
 	  factoryCode = $("#addFactoryCode").val();
-	 else  factoryCode = $("#editFactoryCode").val();
+	 else  {
+		   factoryCode = $("#editFactoryCode").val();
+		   var data= $('#table').bootstrapTable('getSelections')[0];
+		   if(data.factoryCode == factoryCode){ //没有改变编码
+			   sample_global.isAddEdit = true;
+			   return ;
+		   }
+	 }
+	 
 	 $.ajax({
 			type:"post",
 			url : '/laboratorySystem/sampleController/isExitFactory.do',
@@ -306,7 +326,7 @@ function isNoramlPhone(phone){
 			},
 			success : function(o) {
 				if (o == "true") {
-					 alert("出厂编码已经存在--请重新输入出厂编码");
+					 chen.alert("出厂编码已经存在--请重新输入出厂编码");
 					 sample_global.isAddEdit = false;
 				}
 				else  sample_global.isAddEdit = true;
@@ -316,36 +336,37 @@ function isNoramlPhone(phone){
  }
 /* 修改方法 */
 function edit(){
-	var data= $('#table').bootstrapTable('getSelections')[0];
-	console.log(data);
-	var id = data.ID;
+
+
 	var parame = {};
 	var name = $('#editSampleName').val();
 	var sampleType= $('#editSampleType').val();
 	var factoryCode = $("#editFactoryCode").val();
-	if (!name ||  typeof (name) != "undefined" || name == '' ) {
-		alert("样品名称不能为空！");
+	if (!name ||  typeof (name) == "undefined" || name == '' ) {
+		chen.alert("样品名称不能为空！");
 	} else if(!sampleType ||  typeof (sampleType) == "undefined" || sampleType == ''){
-		alert("样品型号规格不能为空！");
+		chen.alert("样品型号规格不能为空！");
 	}else if(  sample_global.isAddEdit == true){
-		parame.receiptlistCode =  $('#editReceiptlistCode').val();
+	
 		parame.sampleName = name;
 		parame.sampleType =sampleType;
 		parame.remarks = $('#editRemarks').val();
 		parame.unit= $('#editUnit').val();
 		parame.factoryCode = factoryCode;
-		parame.linkID = data.linkID;
-		parame.reID = $('#editReceiptlistCode').val();
+		parame.ID =$("#editSampleID").val();
+	/*	parame.linkID = data.linkID;
+		parame.receiptlistCode =  $('#editReceiptlistCode').val();
+		parame.reID = $('#editReceiptlistCode').val();*/
 		console.log(parame);
 		$.ajax({
 			type:"post",
-			url : '/laboratorySystem/sampleController/updateLinkSample.do',
+			url : '/laboratorySystem/sampleController/updateSample.do',
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",  //中文乱码
 			dataType:"json",
 			data : parame,
 			success : function(o) {
 				if (o == "false") {
-					alert("修改失败");
+					chen.alert("修改失败");
 				}
 				else {
 					 $('#editModal').modal('hide');
@@ -354,7 +375,7 @@ function edit(){
 			}
 		});
 		
-	} else alert("请重新输入出厂编码");
+	} else chen.alert("请重新输入出厂编码");
 
 }
 //检查数据是否合理
@@ -420,6 +441,7 @@ function fillLookEdit(dataS,state){
 	//填充编辑页面的
 	else{
 		$('#editSampleName').val(dataS.sampleName);
+		$('#editSampleID').val(dataS.ID);
 		$('#editSampleType').val(dataS.type);
 		$('#editUnit').val(dataS.unit);
 		$('#editRemarks').val(dataS.remarks);

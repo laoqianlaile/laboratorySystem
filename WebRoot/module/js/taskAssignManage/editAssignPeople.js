@@ -329,7 +329,7 @@ function assignCustodian(){
 	var data = $('#assignTable').bootstrapTable('getSelections');
 	
 	if(data.length==0 || data.length>1){
-		alert("请选中一条数据");
+		chen.alert("请选中一条数据");
 		return;
 	}
 	
@@ -348,7 +348,7 @@ function assignCustodian(){
 		dataType:'json',
 		success:function(data){
 			if(data === "1"){
-				alert("分配成功");
+				chen.alert("分配成功");
 				$('#assignPeopleModal').modal('hide');
 				$('#table').bootstrapTable('refresh');
 			}
@@ -361,7 +361,7 @@ function assignDetector(){
 	var data = $('#assignTable').bootstrapTable('getSelections');
 	
 	if(data.length==0 || data.length>1){
-		alert("请选中一条数据");
+		chen.alert("请选中一条数据");
 		return;
 	}
 	
@@ -380,7 +380,7 @@ function assignDetector(){
 		dataType:'json',
 		success:function(data){
 			if(data === "1"){
-				alert("分配成功");
+				chen.alert("分配成功");
 				$('#assignPeopleModal').modal('hide');
 				$('#table').bootstrapTable('refresh');
 			}

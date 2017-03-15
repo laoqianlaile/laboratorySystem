@@ -39,6 +39,7 @@ function init(){
 			pagination: true,//在表格底部显示分页条
 			pageSize: 3,//页面数据条数
 			pageNumber:1,//首页页码
+			singleSelect : true,
 			pageList: [1, 5, 10, 15, 20],//设置可供选择的页面数据条数
 			clickToSelect:true,//设置true 将在点击行时，自动选择rediobox 和 checkbox
 			cache: false,//禁用 AJAX 数据缓存
@@ -53,6 +54,7 @@ function init(){
 			queryParams : queryParams,
 			queryParamsType : "limit",
 			showRefresh : false,
+			onClickRow:onClickRow,
 			onDblClickCell:onDblClickCell,//当用户双击某一列的时候触发
 			columns:[{
 				checkbox:true,
@@ -152,6 +154,7 @@ function init(){
 			}]//列配置项,详情请查看 列参数 表格
 				/*事件*/
 	    });
+	initTableFile();
 }
 
 
@@ -522,7 +525,7 @@ function updataPersonContrast(dom){
 					  }
 			});
 		}else{
-			alert("11111111111111111");
+			alert("更新出错，请重试或联系维护人员");
 		}		
 	}else{
 		alert("请选择或者选择一条");
@@ -660,4 +663,81 @@ function refreshAll(){
 	$(".disappear").css("display","none");
 }
 
+//展示文件上传
+function uploadfile(){
+	var getdata = $('#table').bootstrapTable('getSelections');
+	if(getdata.length==1){
+		$('#showfilepage').modal('show');	
+		$('#belongID').val(getdata[0].ID);
+	}else
+		showdiag("请选择一条数据");
+}
 
+//选中行展示文件
+function onClickRow(row){
+	rowID = row.ID;
+	refreshfile();
+}
+//刷新文件表格
+function refreshfile(){
+	$('#tablefile').bootstrapTable('refresh', null);
+}
+
+var rowID = "";
+
+
+function Params(pageRequest){
+	
+	pageRequest.pageNo = this.offset;
+	pageRequest.pageSize = this.pageNumber;
+	pageRequest.length = 6;
+	pageRequest.planID = rowID;
+	return pageRequest;
+}
+
+function initTableFile(){
+	$('#tablefile').bootstrapTable({
+		height: '320',//定义表格的高度
+		pagination: true,//在表格底部显示分页条
+		classes:'table table-condensed',
+		clickToSelect:true,
+		pageSize: 10,//页面数据条数
+		pageNumber:1,//首页页码
+		pageList: [3,5,10,15,20],//设置可供选择的页面数据条数
+		cache: false,//禁用 AJAX 数据缓存
+		sortName:'fileName',//定义排序列
+		sortOrder:'asc',//定义排序方式
+		url:'timeCheckController/getTimecheckFileWithPaging.do',//服务器数据的加载地址
+		sidePagination:'server',//设置在哪里进行分页
+		contentType:'application/json',//发送到服务器的数据编码类型
+		dataType:'json',//服务器返回的数据类型
+		//queryParams:'',//请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
+		queryParams : Params, // 参数
+		queryParamsType : "limit", // 参数格式,发送标准的RESTFul类型的参数请求
+		showRefresh : false, // 显示刷新按钮
+		columns:[{
+				checkbox:true,
+				align:'center',
+				valign:'middle',			
+			},{
+				field:'ID',
+				visible:false,
+			    },{
+				field:'fileName',
+				title:'文件名',
+				align:'center',
+				valign:'middle',
+			},{
+				field:'uploadTime',
+				title:'上传时间',
+				align:'center',
+				valign:'middle',
+			},{
+				field:'remarks',
+				title:'备注',
+				align:'center',
+				valign:'middle',
+			}]
+	});
+
+}

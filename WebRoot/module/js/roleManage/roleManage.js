@@ -18,7 +18,7 @@ $(function () {
 		selectItemName:'',//radio or checkbox 的字段名
 		columns:[{
 			checkbox:true,
-			width:'10%'//宽度
+			width:'5%'//宽度
 		},{
 			field:'ID',//返回值名称
 			title:'角色ID',//列名
@@ -50,6 +50,22 @@ $(function () {
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'20%'//宽度
+		},{
+			field:'',//返回值名称
+			title:'操作',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:'15%',//宽度
+			formatter : function(value, row, index) { //操作按钮的设置
+				  var view = "", edit = "", dele = ""; 
+				  	if(row.ID != ""){   //没有交接单---就没有任何编辑，查看，删除等功能
+				  		view = "<img src=\"module/img/view_icon.png\" onclick='lookModal("+JSON.stringify(row)+")'>";
+				        edit = "<img src=\"module/img/edit_icon.png\" onclick='openModal("+JSON.stringify(row)+")'>";
+				        dele = "<img src=\"module/img/delete_icon.png\" onclick='delRole(\""+row.ID+"\")'>";
+				 
+					return view + edit + dele;
+				}
+		    }
 		}]//列配置项,详情请查看 列参数 表格
 		/*事件*/
 	});
@@ -66,7 +82,7 @@ function delData(){
 	var data = $('#table').bootstrapTable('getSelections');
 	
 	if(data.length ==0){
-		alert("请至少选中一条数据");
+		chen.alert("请至少选中一条数据");
 		return;
 	}
 	
@@ -75,29 +91,32 @@ function delData(){
 		ids += data[i].ID + ",";
 	}
 	
-	var ajaxParameter = {
-			roleIDs:ids.substring(0, (ids.length-1))
-	};
-	
-	$.ajax({
-	  url:'roleController/delRole.do',
-	  data:ajaxParameter,
-	  success:function(o){
-		  if(o<=0){
-			  alert("删除失败");
-		  }
-		  refresh();
-	  }
-	});
-}
 
+    var roleIDs= ids.substring(0, (ids.length-1))
+	delRole(ajaxParameter.roleIDs);
+
+}
+function delRole(roleIDs){
+	$.ajax({
+		  url:'roleController/delRole.do',
+		  data:{
+			  roleIDs : roleIDs
+		  },
+		  success:function(o){
+			  if(o == "false"){
+				  chen.alert("没有权限");
+			  }
+			  refresh();
+		  }
+		});
+}
 /* 新增方法 */
 function add(){
 	
 	var name = $('#add_roleName').val(); 
 	if (!name && typeof(name)!="undefined" && name=='') 
 	{ 
-		alert("角色名不能为空！"); 
+		chen.alert("角色名不能为空！"); 
 	}else {
 		var parame = {};
 		parame.roleName = name;
@@ -109,7 +128,7 @@ function add(){
 		  data:parame,
 		  success:function(o){
 			  if(o == "该角色已经存在"){
-				  alert("该角色已经存在");
+				  chen.alert("该角色已经存在");
 			  }
 			  $('#addModal').modal('hide');
 			  refresh();
@@ -120,20 +139,20 @@ function add(){
 }
 
 /* 弹出查看弹框方法 */
-function lookModal(){
+function lookModal(data){
     
-	var data = $('#table').bootstrapTable('getSelections');
+/*	var data = $('#table').bootstrapTable('getSelections');*/
 	
-	if(data.length==0 || data.length>1){
+	/*if(data.length==0 || data.length>1){
 		alert("请选中一条数据");
 		return;
-	}
+	}*/
 	//填充数据
-	$('#show_roleID').val(data[0].ID);
-	$('#show_roleName').val(data[0].roleName);
-	$('#show_creator').val(data[0].creator);
-	$('#show_createTime').val(data[0].createTime);
-	$('#show_describtion').val(data[0].description);
+	$('#show_roleID').val(data.ID);
+	$('#show_roleName').val(data.roleName);
+	$('#show_creator').val(data.creator);
+	$('#show_createTime').val(data.createTime);
+	$('#show_describtion').val(data.description);
 	//设置不可编辑
 //	$('#show_roleID').attr("disabled", true);//不可编辑
 	$('#show_roleName').attr("disabled", true);//不可编辑
@@ -145,19 +164,20 @@ function lookModal(){
 
 
 /* 弹出修改弹框方法 */
-function openModal(){
-	var data = $('#table').bootstrapTable('getSelections');
+function openModal(data){
+/*	var data = $('#table').bootstrapTable('getSelections');
 	
 	if(data.length==0 || data.length>1){
 		alert("请选中一条数据");
 		return;
 	}
-	
+	*/
 	//var ids =  data[0].ROLEID;
 	
 	//
-	$('#edit_roleName').val(data[0].roleName);
-	$('#edit_description').val(data[0].description);
+	$('#edit_roleName').val(data.roleName);
+	$('#edit_description').val(data.description);
+	$('#edit_roleID').val(data.ID);
 	
 	$('#editModal').modal('show');
 }
@@ -168,10 +188,10 @@ function edit(){
 	var name = $('#edit_roleName').val(); 
 	if (!name && typeof(name)!="undefined" && name=='') 
 	{ 
-		alert("角色名不能为空！"); 
+		chen.alert("角色名不能为空！"); 
 	}else {
-		var data = $('#table').bootstrapTable('getSelections');
-		var ids =  data[0].ID;
+		
+		var ids =  $('#edit_roleID').val();
 		var parame = {};
 		parame.roleID = ids;
 		parame.roleName = $('#edit_roleName').val();
@@ -181,7 +201,7 @@ function edit(){
 		  data:parame,
 		  success:function(o){
 			  if(o<=0){
-				  alert("修改失败");
+				  chen.alert("修改失败");
 			  }
 			  $('#editModal').modal('hide');
 			  refresh();

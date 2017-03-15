@@ -40,5 +40,6 @@
 <script src="module/js/bootstrap.js"></script>
 <script src="module/js/bootstrap-treeview.js"></script>
 <script src="module/js/permissionAssign/permissionAssign.js"></script>
+<script src="assets/js/autoPage.js"></script>
 </body>
 </html>

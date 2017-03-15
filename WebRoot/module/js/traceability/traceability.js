@@ -9,7 +9,7 @@ function queryParams(pageReqeust) {
 	pageReqeust.length = 6;
 	pageReqeust.equipmentName = encodeURI($("#equipmentName").val());
 	pageReqeust.equipmentCode = encodeURI($("#equipmentCode").val());
-	pageReqeust.equipmentTypeName = encodeURI($("#equipmentTypeName").val());
+	pageReqeust.model = encodeURI($("#model").val());
 	if ($("#auditState").find("option:selected").text() == "未审核") {
 		pageReqeust.auditState = "0";
 	} else if ($("#auditState").find("option:selected").text() == "审核通过") {
@@ -101,7 +101,7 @@ function inti() {
 										},
 										{
 											title : '规格型号',
-											field : 'equipmentTypeName',
+											field : 'model',
 											align : 'center',
 											colspan : 1,
 											rowspan : 2
@@ -321,10 +321,11 @@ function addrow() {
 			equipmentName : '',
 			Number : ++datacount,
 			equipmentCode : '',
-			Name1 : '111',
+			Name1 : '',
 			correctOrgan : '',
 			departmentName : '',
 			period : '',
+			model : '',
 			nowCorrectYear : '',
 			nextCorrectYear : '',
 			reason : '',
@@ -363,8 +364,8 @@ function addSubmit() {
 			alert("仪器编号不能为空");
 			return;
 		}
-		if(getdata[0].equipmentTypeName!=null&&getdata[0].equipmentTypeName!=""){
-			dataobj.equipmentTypeName = getdata[0].equipmentTypeName;
+		if(getdata[0].model!=null&&getdata[0].model!=""){
+			dataobj.model = getdata[0].model;
 		}else{
 			alert("规格型号不能为空");
 			return;
@@ -485,7 +486,7 @@ function Updatesubmit() {
 											dataobj.equipmentName = getdata[0].equipmentName;
 											dataobj.equipmentID = getdata[0].equipmentID;
 											dataobj.equipmentCode = getdata[0].equipmentCode;
-											dataobj.equipmentTypeName = getdata[0].equipmentTypeName;
+											dataobj.model = getdata[0].model;
 											dataobj.correctOrgan = getdata[0].correctOrgan;
 											dataobj.departmentName = getdata[0].departmentName;
 											dataobj.period = getdata[0].period;
@@ -628,8 +629,8 @@ function getfiled(str) {
 	case "period":
 		result = "period";
 		break;
-	case "equipmentTypeName":
-		result = "equipmentTypeName";
+	case "model":
+		result = "model";
 		break;
 	case "Name1":
 		result = "Name1";
@@ -658,7 +659,7 @@ function onDblClickCell(field, value, row, $element) {
 	if (receive == "equipmentName" || receive == "equipmentCode"
 			|| receive == "nowCorrectYear" || receive == "nextCorrectYear"
 			|| receive == "period" || receive == "correctOrgan"
-			|| receive == "equipmentTypeName" || receive == "Name1"
+			|| receive == "model" || receive == "Name1"
 			|| receive == "Range1") {
 		pubtype = receive;
 		switch (receive) {
@@ -684,8 +685,8 @@ function onDblClickCell(field, value, row, $element) {
 							var myobje = myobj.equipements;
 							var listdata = $('#listdata');
 							for ( var i = 0; i < myobje.length; i++) {
-								mydata[i] = myobje[i].equipmentName;
-								mydataID[i] = myobje[i].equipmentID;
+								mydata[i] = myobje[i].equipmentName;//设备名称
+								mydataID[i] = myobje[i].equipmentID;//设备ID
 								var rstring = "<li role='presentation' onclick='getParentbutton(this,"
 										+ "mydata["
 										+ i
@@ -808,9 +809,9 @@ function onDblClickCell(field, value, row, $element) {
 		 * 
 		 * break;
 		 */
-		case "equipmentTypeName":
+		case "model":
 			if (viscount1 == 0)
-				getvalue = row.equipmentTypeName;
+				getvalue = row.model;
 			if(getvalue==undefined){
 				getvalue="";
 			}
@@ -834,8 +835,8 @@ function onDblClickCell(field, value, row, $element) {
 							var myobje = myobj.equipements;
 							var listdata = $('#listdata');
 							for ( var i = 0; i < myobje.length; i++) {
-								mydata[i] = myobje[i].equipmentTypeName;
-								mydataID[i] = myobje[i].equipmentTypeID;
+								mydata[i] = myobje[i].model;
+								mydataID[i] = myobje[i].equipmentID;
 								var rstring = "<li role='presentation' onclick='getParentbutton1(this,"
 										+ "mydata["
 										+ i
@@ -884,7 +885,7 @@ function getParentbutton1(dom, value, ID) {
 			parentdom.innerHTML = value;
 			updatevalue1 = value;
 			object.equipmentTypeID = ID;
-			object.equipmentTypeName = value;
+			object.model = value;
 			sbtjude = 1;
 			viscount1 = 1;
 			judg1 = 1;
@@ -1086,7 +1087,7 @@ function fileDownload() {
 // 全部数据
 function allData() {
 	$('#equipmentName').val("");
-	$('#equipmentTypeName').val("");
+	$('#model').val("");
 	$("#auditState").val("全部");
 	$('#equipmentCode').val("");
 	$('#correctOrgan').val("");

@@ -125,11 +125,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                </div>
                <div class="col-xs-12 col-md-12">
                    <label class="control-label" style="margin:8px 0 0 0;">甲方:</label>
-                   <input type="text" id="add_companyName" name="add_companyName" class="form-control"/>
+                   <input type="text" id="add_companyName" name="add_companyName" oninput="addShowMsg()"
+						onpropertychange="addShowMsg()" class="form-control" />
+					<div class="companyN"></div>
 		       </div>
 		       <div id="add_Address1" class="col-xs-12 col-md-12">
                    <label class="control-label" style="margin:8px 0 0 0;">签订单位地址:</label>
-                   <input type="text" id="add_Address" name="Address" class="form-control"/>
+                   <input type="text" id="add_address" name="address" class="form-control"/>
                </div>
                <div id="add_Address2" class="col-xs-12 col-md-12">
                    <label class="control-label" style="margin:8px 0 0 0;">签约地点:</label>
@@ -189,6 +191,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							class="glyphicon glyphicon-calendar"></span></span>
 					</div>
                </div>
+               <div class="col-xs-12 col-md-12">
+					<label class="control-label" style="margin:8px 0 0 0;">是否涉密:</label>
+					<input id="r1" type="radio" value="1" name="isClassified" onclick="classifiedSth()" /><span>是</span>
+					<input id="r2" type="radio" value="0" name="isClassified" onclick="classifiedSth()" checked/><span>否</span>
+				</div>
+				<div class="col-xs-12 col-md-12">
+					<label class="control-label" style="margin:8px 0 0 0;">涉密等级:</label>
+					<select id="add_classifiedLevel" name="classifiedLevel" class="form-control classifiedLevel-select">
+						<option id="Level3" value="3">无密级</option>
+						<option class="Level3" value="0">秘密</option>
+						<option class="Level3" value="1">机密</option>
+						<option class="Level3" value="2">绝密</option>
+					</select>
+				</div>
              </div>
 	      </div>
 	      <div class="modal-footer">

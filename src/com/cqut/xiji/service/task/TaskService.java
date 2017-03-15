@@ -1,5 +1,6 @@
 package com.cqut.xiji.service.task;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.enterprise.inject.New;
+
 
 import org.springframework.stereotype.Service;
 
@@ -394,7 +395,7 @@ public class TaskService extends SearchService implements ITaskService {
 		int pageNum = offset / limit;
 		String[] properties = new String[] { "sample.ID", "task.ID as taskID",
 				"sample.factoryCode", "sample.sampleName",
-				"sample.specifications", "task.require",
+				"sample.specifications", "task.requires",
 				"testProject.ID AS testID", "testproject.nameCn as  testName",
 				"date_format(sample.createTime,'%Y-%m-%d') as createTime", };
 
@@ -994,15 +995,14 @@ public class TaskService extends SearchService implements ITaskService {
 					+ " ) AS b "
 					+ " LEFT JOIN template ON b.templateID = template.ID "
 					+ " ) AS c ";
-			properties = new String[] { "fileinformation.path AS path" };
+			properties = new String[] { "fileinformation.ID AS ID","fileinformation.path AS path",
+					"fileinformation.pathPassword AS pathPassword" };
 			joinEntity  = " LEFT JOIN fileinformation ON c.fileID = fileinformation.ID ";
 			List<Map<String, Object>> result = entityDao.searchForeign(
 					properties, baseEntiy, joinEntity, null, null);
 			if (result == null) {
 				return null;
 			} else {
-				String filePath = result.get(0).get("path").toString();
-				System.out.println("filePath : " + filePath);
 				try {
 					baseEntiy = " ( "
 							+ " SELECT "
@@ -1019,15 +1019,7 @@ public class TaskService extends SearchService implements ITaskService {
 							+ "a.sampleName AS sampleName,"
 							+ "a.specifications AS specifications,"
 							+ "a.requires AS requires,"
-							+
-							" IF ( "
-							+ "testproject.nameCn IS NULL,"
-							+ "testproject.nameEn,"
-							+
-							" IF ( "
-							+ "testproject.nameEn IS NULL,"
-							+ "testproject.nameCn,"
-							+ "CONCAT(testproject.nameCn,'(',testproject.nameEn,')'))) AS testProjectName,"
+							+ "testproject.nameCn  AS testProjectName,"
 							+ "receiptlist.contractID AS contractID,"
 							+ "receiptlist.accordingDoc AS accordingDoc,"
 							+ "DATE_FORMAT(receiptlist.createTime,'%Y-%m-%d %H:%i:%s') AS createTime"
@@ -1062,9 +1054,34 @@ public class TaskService extends SearchService implements ITaskService {
 					List<Map<String, Object>> wordData = entityDao
 							.searchForeign(properties, baseEntiy, joinEntity,
 									null, null);
+					
+					String fileInfoID = result.get(0).get("ID").toString();
+					String filePath = result.get(0).get("path").toString();
+					String pathPassword = result.get(0).get("pathPassword").toString();
+					PropertiesTool pe = new PropertiesTool();
+					
+					filePath = fileEncryptservice.decryptPath(filePath, pathPassword);
+					String path = pe.getSystemPram("filePath") + "\\" ;
+					
+					String fileName = "";
+					String memoryName = "";
+					if (wordData.get(0).get("sampleName") != null) {
+						fileName += wordData.get(0).get("sampleName").toString();
+						memoryName += wordData.get(0).get("sampleName").toString();
+					}
+					if (wordData.get(0).get("testProjectName") != null) {
+						fileName += "的"+ wordData.get(0).get("testProjectName").toString()+"的检测报告";
+						memoryName += "的"+ wordData.get(0).get("testProjectName").toString()+"的检测报告";
+					}
+
+					String cacheFilePath = pe.getSystemPram("cacheFilePath")+"\\"+fileName + ".docx";
+
+					fileEncryptservice.decryptFile(path+filePath, cacheFilePath, fileInfoID);
+					System.out.println("文件的路径1 ："+filePath);
+					System.out.println("文件的路径2 ："+cacheFilePath);
 					if (wordData != null) {
 						WordProcess wp = new WordProcess(false);
-						wp.openDocument(filePath);
+						wp.openDocument(cacheFilePath);
 						if (wordData.get(0).get("sampleName") != null)
 							wp.replaceText("{样品名称}",
 									wordData.get(0).get("sampleName")
@@ -1095,34 +1112,19 @@ public class TaskService extends SearchService implements ITaskService {
 							wp.replaceText("{交接单的依据文件}",
 									wordData.get(0).get("accordingDoc")
 											.toString());
-						PropertiesTool pt = new PropertiesTool();
-						String path = pt.getSystemPram("filePath") + "\\";
 						String relativePath = "项目文件" + "\\" + projectName
 								+ "\\" + "报告文件" + "\\";
-						String cacheFilePath = pt.getSystemPram("cacheFilePath")+"\\";
-						String fileName = "";
-						String memoryName = "";
-						if (wordData.get(0).get("sampleName") != null) {
-							fileName += wordData.get(0).get("sampleName")
-									.toString();
-							memoryName += wordData.get(0).get("sampleName")
-									.toString();
+
+						path += relativePath;
+						File targetFile = new File(path);
+						if (!targetFile.exists()) {
+							targetFile.mkdirs();
 						}
-						if (wordData.get(0).get("testProjectName") != null) {
-							fileName += "的"
-									+ wordData.get(0).get("testProjectName")
-											.toString();
-							memoryName += "的"
-									+ wordData.get(0).get("testProjectName")
-											.toString();
-						}
-						
 					    testReportID = EntityIDFactory.createId();
 						fileName += "_" + testReportID + ".docx";
 						memoryName += ".docx";
 						relativePath += fileName;
-						path += relativePath;
-						cacheFilePath += fileName;
+						path += fileName;
 						wp.save(cacheFilePath);
 						wp.close();
 						Task tk = entityDao.getByID(taskID, Task.class);
@@ -1136,6 +1138,7 @@ public class TaskService extends SearchService implements ITaskService {
 						fi.setBelongtoID(taskID);
 						fi.setUploaderID(UPLOADER);
 						fi.setFileName(memoryName);
+						System.out.println("保存的相对路径是a: " + relativePath);
 						fi.setPath(relativePath);
 						Date now = new Date(System.currentTimeMillis());
 						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -1154,15 +1157,13 @@ public class TaskService extends SearchService implements ITaskService {
 						tr.setReceiptlistID(receiptlistID);
 						tr.setTaskID(taskID);
 					    tr.setVersionNumber("1.0"); 
-					 // tr.setVersionInformation("");
-							tr.setState(0);
-							tr.setFileID(fileID);
+						// tr.setVersionInformation("");
+						tr.setState(0);
+						tr.setFileID(fileID);
 						tr.setSendState(0);
-					    baseEntityDao.save(tr);
+						baseEntityDao.save(tr);
 						return fileID;
-					} else {
-						return null;
-					}
+					} 
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -1282,7 +1283,6 @@ public class TaskService extends SearchService implements ITaskService {
 		// TODO Auto-generated method stub
 		String tableName = "task";
 		String[] properties = new String[]{
-			"task.taskCode",
 			"receiptlist.receiptlistCode",
 			"receiptlist.accordingDoc",	
 		};

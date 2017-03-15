@@ -65,6 +65,12 @@ span {
 #departin label {
 	margin-top: 11px;
 	float: left;
+	text-indent: 1em;
+}
+ #Jobprofile label {
+	margin-top: 11px;
+	float: left;
+	text-indent: 1em;
 }
 
 textarea {
@@ -176,7 +182,7 @@ textarea {
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
 						<div style="margin-top:20px" id="departin">
-							<label>职务简介:</label>
+							<label>&nbsp;职务简介:</label>
 							<textarea rows="6" cols="40" id="add_introduction"></textarea>
 							<input id="ID" type="hidden"></input>
 						</div>
@@ -221,7 +227,7 @@ textarea {
 								name="dutyName" class="form-control"
 								aria-describedby="basic-addon1" />
 						</div>
-						<div style="margin-top:20px" >
+						<div style="margin-top:20px"id="Jobprofile" >
 							<label>职务简介:</label>
 							<textarea rows="6" cols="40" id="edit_introduction"></textarea>
 							<input id="ID" type="hidden"></input>

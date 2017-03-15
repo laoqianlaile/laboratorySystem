@@ -21,7 +21,7 @@ $(function () {
 		var data = $('#table').bootstrapTable('getSelections');
 		
 		if(data.length==0 || data.length>1){
-			alert("请选中一条数据");
+			chen.alert("请选中一条数据");
 			return;
 		}
 		var receiptlistID = data[0].ID;
@@ -33,12 +33,12 @@ $(function () {
 		var data = $('#table').bootstrapTable('getSelections');
 		
 		if(data.length==0 || data.length>1){
-			alert("请选中一条数据");
+			chen.alert("请选中一条数据");
 			return;
 		}
 		
 		var ID = data[0].ID;
-		alert('审核检测报告' + ID);
+		chen.alert('审核检测报告' + ID);
 		window.location.href = window.location.href.replace('testReportAuditDesktop/testReportAuditDesktop.jsp','testReportSecondAuditManage/testReportSecondAuditManage.jsp') + '?ID='+ID;
 	});
 	
@@ -47,12 +47,12 @@ $(function () {
 		var data = $('#table').bootstrapTable('getSelections');                                      
 		
 		if(data.length==0 || data.length>1){
-			alert("请选中一条数据");
+			chen.alert("请选中一条数据");
 			return;
 		}
 		
 		var ID = data[0].ID;
-		alert('打印报告' + ID);
+		chen.alert('打印报告' + ID);
 //		window.location.href = window.location.href.replace('departmentSupervisorDesktop/departmentSupervisorDesktop.jsp','taskAssignManage/taskAssign.jsp') + '?ID='+ID;
 	});
 	
@@ -61,7 +61,7 @@ $(function () {
 		var data = $('#fileTable').bootstrapTable('getSelections');
 		
 		if(data.length==0 || data.length>1){
-			alert("请选中一条数据");
+			chen.alert("请选中一条数据");
 			return;
 		}
 		
@@ -73,7 +73,7 @@ $(function () {
 		var data = $('#fileTable').bootstrapTable('getSelections');
 		
 		if (data.length == 0) {
-			alert("请选择一个或多个文件下载");
+			chen.alert("请选择一个或多个文件下载");
 			return;
 		}
 		if (data.length == 1) {

@@ -112,7 +112,7 @@
 		</div>
 	</div>
 
-	<div id="recoverReport" class="modal fade" role="dialog"
+	<div id="recoverReport" class="modal fade" role="dialog"  
 		aria-labelledby="gridSystemModalLabel">
 		<div class="modal-dialog" role="document" style="width:450px">
 			<div class="modal-content">
@@ -154,6 +154,7 @@
 		</div>
 	</div>
 
+	
 	<div id="sendReport" class="modal fade" role="dialog"
 		aria-labelledby="gridSystemModalLabel">
 		<div class="modal-dialog" role="document" style="width:450px">

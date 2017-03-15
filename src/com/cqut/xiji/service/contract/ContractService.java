@@ -1,5 +1,6 @@
 package com.cqut.xiji.service.contract;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -11,6 +12,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.annotation.Condition;
 import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
@@ -20,8 +22,12 @@ import com.cqut.xiji.entity.company.Company;
 import com.cqut.xiji.entity.contract.Contract;
 import com.cqut.xiji.entity.employee.Employee;
 import com.cqut.xiji.entity.equipment.Equipment;
+import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.service.base.SearchService;
+import com.cqut.xiji.service.fileEncrypt.IFileEncryptService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
+import com.cqut.xiji.tool.util.PropertiesTool;
+import com.cqut.xiji.tool.word.WordProcess;
 
 @Service
 public class ContractService extends SearchService implements IContractService{
@@ -34,6 +40,9 @@ public class ContractService extends SearchService implements IContractService{
 	
 	@Resource(name="baseEntityDao")
 	BaseEntityDao baseEntityDao;
+	
+	@Resource(name = "fileEncryptService")
+	IFileEncryptService fileEncryptservice;
 
 	@Override
 	public String getBaseEntityName() {
@@ -249,26 +258,17 @@ public class ContractService extends SearchService implements IContractService{
 	 * @see com.cqut.xiji.service.contract.IContractService#addContract(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public int addContract(String contractName, String companyName, String oppositeMen,String linkPhone, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime) {
+	public int addContract(String contractName, String companyID, String companyName, String oppositeMen,String linkPhone, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel) {
 		// TODO Auto-generated method stub
-		Company company = new Company();
-		String id = EntityIDFactory.createId();
-		company.setID(id);
-		company.setCompanyName(companyName);
-		company.setAddress(address);
-		company.setMobilePhone(linkPhone);
-		company.setLinkMan(oppositeMen);
-		int result = entityDao.save(company);
 	
 		Contract contract = new Contract();
+		String ID = EntityIDFactory.createId();
 		String contractCode = "20161010";
-		int isClassified = 0;
-		int classifiedLevel = 3;
 		int state = 0;
-		contract.setID(EntityIDFactory.createId());
+		contract.setID(ID);
 		contract.setContractCode(contractCode);
 		contract.setContractName(contractName);
-		contract.setCompanyID(id);
+		contract.setCompanyID(companyID);
 		contract.setOppositeMen(oppositeMen);
 		contract.setLinkPhone(linkPhone);
 		contract.setEmployeeID(employeeName);
@@ -294,12 +294,98 @@ public class ContractService extends SearchService implements IContractService{
 			contract.setEndTime(endTime1);
 		}
 		
-		result = entityDao.save(contract);
+		int result = entityDao.save(contract);
 		
 		if(result <= 0){
-			String position = "ID =" + id;
+			String position = "ID =" + ID;
 			result = entityDao.deleteByCondition(position, Company.class);
 			return result;
+		}
+		
+		String baseEntiy = "";
+		String[] properties = null;
+		String condition = "";
+		String fileID = "20170314204225103";
+		//String joinEntity = "";
+		baseEntiy = "fileinformation";
+		properties = new String[] { "fileinformation.pathPassword,fileinformation.path,fileinformation.filePassword"};
+		condition = "fileinformation.ID = " + fileID;
+		
+		List<Map<String, Object>> result1 = entityDao.searchForeign(
+				properties, baseEntiy, null, null, condition);
+		String fileInfoID = fileID;
+		String filePath = result1.get(0).get("path").toString();
+		String pathPassword = result1.get(0).get("pathPassword").toString();
+		PropertiesTool pe = new PropertiesTool();
+		
+		filePath = fileEncryptservice.decryptPath(filePath, pathPassword);
+		String path = pe.getSystemPram("filePath") + "\\" ;
+
+		String cacheFilePath = pe.getSystemPram("cacheFilePath")+"\\";
+		File dectoryName = new File(cacheFilePath);
+		if(!dectoryName.exists()){
+			dectoryName.mkdirs();
+		}
+		cacheFilePath += "技术服务合同.docx";
+			
+		
+
+		fileEncryptservice.decryptFile(path+filePath, cacheFilePath, fileInfoID);
+		System.out.println("文件的路径1 ："+filePath);
+		System.out.println("文件的路径2 ："+cacheFilePath);
+		try {
+			String relativePath = "项目文件" + "\\"  + "合同文件" + "\\";
+
+			path += relativePath ;
+
+			System.out.println("文件的路径3 ："+path);
+			File targetFile = new File(path);
+			if(!targetFile.exists()){
+				targetFile.mkdirs();
+			}
+			path +=  "新增合同.docx";
+			WordProcess wp = new WordProcess(false);
+			wp.openDocument(cacheFilePath);
+			if (contractCode != null)
+				wp.replaceText("{合同编号}",contractCode.toString());
+			if (contractName != null)
+				wp.replaceText("{合同名称}",contractName.toString());
+			if (companyName != null)
+				wp.replaceText("{甲方}",companyName.toString());
+			if (signAddress != null)
+				wp.replaceText("{签订地点}",signAddress.toString());
+			if (signTime != null)
+				wp.replaceText("{签订日期}",signTime.toString());
+			if (startTime != null)
+				wp.replaceText("{开始时间}",startTime.toString());
+			if (endTime != null)
+				wp.replaceText("{结束时间}",endTime.toString());
+			if (contractName != null)
+				wp.replaceText("{合同名称}",contractName.toString());
+			wp.save(cacheFilePath);
+			wp.close();
+			
+			fileID = EntityIDFactory.createId();
+			FileInformation fi = new FileInformation();
+			fi.setID(fileID);
+			fi.setBelongtoID(ID);
+			fi.setUploaderID("20170220xiji");
+			fi.setFileName("新增合同.docx");
+			System.out.println("保存的相对路径是a: " + relativePath);
+			/*relativePath　＋＝　;*/
+			relativePath += "新增合同.docx";
+			fi.setPath(relativePath);
+			Date now = new Date(System.currentTimeMillis());
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			fi.setUploadTime(dateFormat.parse(dateFormat.format(now)));
+			fi.setState(0);
+			fi.setType(1);
+		    baseEntityDao.save(fi);
+		    fileEncryptservice.encryptPath(relativePath, fileID);
+			fileEncryptservice.encryptFile(cacheFilePath,path,fileID);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return result;
 	}
@@ -355,7 +441,7 @@ public class ContractService extends SearchService implements IContractService{
 			String companyID, String companyName, String address,
 			String oppositeMen, String linkPhone, String employeeID,
 			String employeeName, String signAddress, String startTime,
-			String signTime, String endTime, double contractAmount,
+			String signTime, String endTime,
 			int isClassified, int classifiedLevel, int state) {
 		// TODO Auto-generated method stub
 		System.out.println("进入updContract");
@@ -462,7 +548,7 @@ public class ContractService extends SearchService implements IContractService{
 			contract.setSignTime(signTime1);
 			contract.setEndTime(endTime1);
 		}
-		contract.setContractAmount(contractAmount);
+		//contract.setContractAmount(contractAmount);
 		contract.setIsClassified(isClassified);
 		contract.setClassifiedLevel(classifiedLevel);
 		contract.setState(state);
@@ -471,6 +557,7 @@ public class ContractService extends SearchService implements IContractService{
 		return result + "";
 	}
 	
+	@Override
 	public int updateContractFileID(String contractID){
 		int index = 1;
 		int pageNum = 0;

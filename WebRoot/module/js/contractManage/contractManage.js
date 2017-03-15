@@ -11,19 +11,33 @@ function initData(){
 		//height : 800,// 定义表格的高度
 		striped : true,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
-	//	pageSize : 10,// 页面数据条数
+	    pageSize : 10,// 页面数据条数
 		pageNumber : 1,// 首页页码
 		pageList : [ 5,10,15 ],// 设置可供选择的页面数据条数
 		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache : false,// 禁用 AJAX 数据缓存
-	//	sortName : 'ID',// 定义排序列
-	//	sortOrder : 'asc',// 定义排序方式
+		sortName : 'contractCode',// 定义排序列
+		sortOrder : 'asc',// 定义排序方式
 		url:'contractController/getContractWithPaging2.do',//服务器数据的加载地址
 		sidePagination:'server',//设置在哪里进行分页
 		contentType:'application/json',//发送到服务器的数据编码类型
 		dataType:'json',//服务器返回的数据类型
 	    //queryParams:search,//请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
-		queryParams:queryParams, //参数
+		queryParams: function queryParams(params) { //请求服务器数据时,添加一些额外的参数
+			param.limit = params.limit;// 页面大小
+			param.offset = params.offset; // 偏移量
+			param.sort = params.sort; // 排序列名
+			param.order = params.order; // 排位方式
+			param.contractCode = $.trim($('#schContractCode').val());
+			param.employeeName = $.trim($('#schEmployeeName').val());
+			param.companyName = $.trim($('#schCompanyName').val());
+			param.startTime = $.trim($('#schStartTime').val());
+			param.endTime = $.trim($('#schEndTime').val());
+			param.oppositeMen = $.trim($('#schOppositeMen').val());
+			param.linkPhone = $.trim($('#schLinkPhone').val());
+			param.state = $.trim($('#schState').val());
+			return param;
+		}, //参数
 	    queryParamsType: "limit", 
 		selectItemName : '',// radio or checkbox 的字段名
 		columns : [ {
@@ -139,7 +153,7 @@ function initData(){
 	});
 }
 
-//请求数据时的额外参数
+/*//请求数据时的额外参数
 function queryParams(){
 	var searchCondition = {
 		limit : 10,
@@ -156,7 +170,7 @@ function queryParams(){
 		state : $.trim($('#schState').val()),
 	};
     return searchCondition;
-}
+}*/
 
 /**
  * 搜索方法
@@ -205,15 +219,18 @@ function add(){
 		var parame = {};
 		var contractName = $('#add_contractName').val();
 		var companyName = $('#add_companyName').val();
-		var address = $('#add_Address').val();
+		var companyID = $('#add_companyName').attr("name");
+		var address = $('#add_address').val();
 		var oppositeMen = $('#add_oppositeMen').val();
 		var linkPhone = $('#add_linkPhone').val();
 		var employeeName = $('#add_employeeName').attr("name");
-		alert(employeeName);
 		var signAddress = $('#add_signAddress').val();
 		var signTime = $('#add_signTime').val();
 		var startTime = $('#add_startTime').val();
 		var endTime = $('#add_endTime').val();
+		var isClassified = $("input[name='isClassified']:checked").val();
+		var classifiedLevel = $('#add_classifiedLevel').val();
+		alert(classifiedLevel);
 		if (!contractName && typeof(contractName)!="undefined" && contractName=='') 
 		{ 
 			alert("合同名不能为空！"); 
@@ -270,8 +287,24 @@ function add(){
 			alert("合同截至日期不能为空！"); 
 			return;
 		}
+		if (signTime > startTime && startTime > endTime) 
+		{ 
+			alert("合同开始/截至日期超前！"); 
+			return;
+		}
+		if (!isClassified && typeof(isClassified)!="undefined" && isClassified=='') 
+		{ 
+			alert("是否保密不能为空！");
+			return;
+		}
+		if (!classifiedLevel && typeof(classifiedLevel)!="undefined" && classifiedLevel=='') 
+		{ 
+			alert("保密等级不能为空！");
+			return;
+		}
 		else {
 			parame.contractName = contractName;
+			parame.companyID = companyID;
 			parame.companyName = companyName;
 			parame.oppositeMen = oppositeMen;
 			parame.linkPhone = linkPhone;
@@ -281,6 +314,8 @@ function add(){
 			parame.signTime = signTime;
 			parame.startTime = startTime;
 			parame.endTime = endTime;
+			parame.isClassified = isClassified;
+			parame.classifiedLevel = classifiedLevel;
 			$.ajax({
 				  url:'contractController/addContract.do',
 				  data:parame,
@@ -295,6 +330,47 @@ function add(){
 		}
 }
 
+/**
+ * 新增信息触发相关提示信息的方法(add)
+ */
+function addShowMsg(){ 
+	var name = $('#add_companyName').val();
+	if (!name && typeof(name)!="undefined" && name=='') 
+	{ 
+		$(".companyN").hide();
+	}else {
+		var parame = {};
+		parame.companyName = name;
+		
+		$.ajax({  
+		    url:'companyController/getCompanyMsg.do',// 跳转到 action
+		    type:'post', 
+		    data:parame,
+		    dataType:'json',
+		    success:function(data){  
+		    	if (data) { 
+		    		var company,length;
+		    		var myobj = JSON.parse(data);
+		    		var htmlElement = "";//定义HTML
+		    		company = $(".companyN");
+		    		if(myobj.length > 4){
+		    			length = 4;
+		    		}else{
+		    			length = myobj.length;
+		    		}
+		    		for(var i=0; i < length; i++){
+		    			htmlElement += "<ul><li id='" + myobj[i].mobilePhone +"' value='" + myobj[i].companyName + "' name='" + myobj[i].linkMan + "' title='" + myobj[i].address + "' class='" + myobj[i].ID + "'>" + myobj[i].companyName + "</li></ul>";
+		    		}
+		    		 
+		    		company.show();
+		    		company.empty();
+		    		company.append(htmlElement);
+		    		addClick();
+		    	}
+		    }
+		});
+	}
+}
 /**
  * 改变信息触发相关提示信息的方法(add)
  */
@@ -340,6 +416,30 @@ function addGetEName(){
 //点击事件(add)
 function addClick(){ 
 	//给input赋值
+	$(".companyN ul li").click(function(){
+		 var name = $(this).attr("value");
+		 $("#add_companyName").val(name);
+		 var ID =  $(this).attr("class");
+		 var mobilePhone =  $(this).attr("id");
+		 var linkMan =  $(this).attr("name");
+		 var address =  $(this).attr("title");
+		 $('#add_companyName').attr({'name' : "" + ID + ""});
+		 $('#add_companyName').attr({'value' : "" + name + ""});
+		 $("#add_oppositeMen").val(linkMan);
+		// $('#add_oppositeMen').attr("disabled",true);
+		 $("#add_linkPhone").val(mobilePhone);
+		 //$('#add_linkPhone').attr("disabled",true);
+		 $("#add_address").val(address);
+		// $('#add_address').attr("disabled",true);
+		 $(".companyN").hide();
+	})
+	
+	//隐藏提示框
+	$("#showContract").click(function(){
+		 $(".companyN").hide();
+	})
+	
+	//给input赋值
 	$(".employeeName ul li").click(function(){
 		 var name =  $(this).attr("value");
 		 $("#add_employeeName").val(name);
@@ -353,6 +453,23 @@ function addClick(){
 	$("#showContract").click(function(){
 		 $(".employeeName").hide();
 	})
+}
+
+/*
+ * 修改是否保密响应
+ */
+function classifiedSth(){
+	var isClassified = $('input[name="isClassified"]:checked').val();
+	alert(isClassified);
+	if(isClassified == "0"){
+		$('#add_classifiedLevel').val("3");
+		$('#add_classifiedLevel #Level3').show();
+		$('#add_classifiedLevel .Level3').hide();
+	}else if(isClassified == "1"){
+		$('#add_classifiedLevel').val("0");
+		$('#add_classifiedLevel .Level3').show();
+		$('#add_classifiedLevel #Level3').hide();
+	}
 }
 
 /**
@@ -414,7 +531,6 @@ function showContractA(){
 		window.location.href="module/jsp/contractManage/contractView.jsp?ID="+ ID + "&type=1";
 	}
 }
-
 
 /**
  * 使页面跳转到修改合同页面

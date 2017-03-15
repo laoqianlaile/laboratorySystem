@@ -141,21 +141,6 @@ textarea {
 	width: 290px;
 }
 
-.overChoose {
-
-	display: none;
-	height: 300px;
-	    left: 480px;
-	margin: 0 auto;
-	min-width: 124px;
-	overflow: hidden;
-	position: absolute;
-	top: 150px;
-	width: 260px;
-	z-index: 9999;
-	/* color: #fff; */
-	background: #fff;
-}
 
 .over {
 	background: #808080 none repeat scroll 0 0;
@@ -251,6 +236,9 @@ span {
 	 	border:1px solid #ccc;
 	 	border-top:none;
 	 	border-radius:3px;
+	 	 position:absolute;
+	 	 z-index:99999;
+	 	 background: #fff;
 	}
 	.employeeN ul {
 		width:509px;
@@ -258,6 +246,7 @@ span {
 		border:none;
 		margin:0;
 		margin-left:-40px;
+		
 	}
 	.employeeN ul li{
 		width:509px;
@@ -279,6 +268,10 @@ label {
     font-size: 16px;
     color: #333;
 }
+#responsibleMan{
+position:relative;
+}
+
 
 
 		
@@ -359,7 +352,7 @@ label {
 						</div>
 						<div style="margin-top:20px" id="departin">
 							<label>部门简介:</label>
-							<textarea rows="6" cols="40" id="add_remarks"></textarea>
+							<textarea rows="7" cols="60" id="add_remarks"></textarea>
 							<input id="ID" type="hidden"></input>
 						</div>
 						<div class="col-xs-12 col-md-12">
@@ -428,7 +421,7 @@ label {
 						</div>
 						<div style="margin-top:20px"id="departin1" >
 							<label>部门简介:</label>
-							<textarea rows="6" cols="40" id="edit_remarks"></textarea>
+							<textarea rows="7" cols="60" id="edit_remarks"></textarea>
 							<input id="ID" type="hidden"></input>
 						</div>
 						

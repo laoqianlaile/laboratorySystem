@@ -105,11 +105,8 @@ public class TaskController{
 	 */
 	@RequestMapping("/getReceiptlistSampleInforWithPaging")
 	@ResponseBody
-	public JSONObject getReceiptlistSampleInforWithPaging(String ID, int limit,
-			int offset, String sort, String order) {
-		Map<String, Object> result = service
-				.getReceiptlistSampleInforWithPaging(ID, limit, offset, sort,
-						order);
+	public JSONObject getReceiptlistSampleInforWithPaging(String ID, int limit,int offset, String sort, String order) {
+		Map<String, Object> result = service.getReceiptlistSampleInforWithPaging(ID, limit, offset, sort,order);
 		return JSONObject.fromObject(result);
 	}
 	
@@ -436,10 +433,16 @@ public class TaskController{
 		return JSONArray.fromObject(result).toString();
 	}
 	
-	/**
-*
-	 * 
-	 */
+    /**
+     * 
+     * @discription 下载报告模版
+     * @author zt       
+     * @created 2017-3-11 下午9:48:35     
+     * @param taskID
+     * @param projectName
+     * @param req
+     * @return
+     */
 	@RequestMapping("/downReportTemplate")
 	@ResponseBody
 	public String downReportTemplate(String taskID, String projectName,HttpServletRequest req) {

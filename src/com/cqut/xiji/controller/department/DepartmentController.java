@@ -76,7 +76,6 @@ public class DepartmentController {
 	@RequestMapping("/getdatalist")
 	@ResponseBody
 	public JSONArray getdatalist(int type){
-		System.out.println("5555555555555555555555555"+type);
 		return service.getdatalist(type);
 	}
 	@RequestMapping("/getTree")

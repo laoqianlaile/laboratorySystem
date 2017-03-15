@@ -112,7 +112,7 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 		department.setEmployeeID(employeeID);
 		department.setCreateTime(new Date());
 		
-		String[] properties = new String[] { "department.ID","department.level"};
+		String[] properties = new String[] { "department.ID","department.level0"};
 
 		String condition = "1 = 1 " + "and department.departmentName= '"
 				+ parent + "'";
@@ -124,10 +124,10 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 		if(parent!=null&&!parent.equals("")){
 			if(list != null  && list.size() >0){
 				Map<String, Object> LEVEL=list.get(0);
-				department.setLevel((Integer) LEVEL.get("level")+1);
+				department.setLevel0(""+ (int)(Integer.valueOf((String) LEVEL.get("level0"))+1));
 			}
 		}else{
-			department.setLevel(1);
+			department.setLevel0("1");
 		}
 		int result = entityDao.save(department);
 		return result+"";
@@ -155,7 +155,7 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 			String[] properties =new String[]{
 					"employeeName",
 				};
-			return JSONArray.fromObject(entityDao.findByCondition(properties, "level=3", Employee.class));
+			return JSONArray.fromObject(entityDao.findByCondition(properties, "level0=3", Employee.class));
 		}
 	}
 	
@@ -166,7 +166,7 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 		department.setDepartmentCode(departmentCode);
 		department.setRemarks(remarks);
 		department.setEmployeeID(employeeID);
-		String[] properties = new String[] { "department.ID","department.level"};
+		String[] properties = new String[] { "department.ID","department.level0"};
 
 		String condition = "1 = 1 " + "and department.departmentName= '"
 				+ parent + "'";
@@ -182,10 +182,10 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 		if(parent!=null&&!parent.equals("")){
 			if(list != null  && list.size() >0){
 				Map<String, Object> LEVEL=list.get(0);
-				department.setLevel((Integer) LEVEL.get("level")+1);
+				department.setLevel0(""+(int)(Integer.valueOf((String) LEVEL.get("level0"))+1));
 			}
 		}else{
-			department.setLevel(1);
+			department.setLevel0("1");
 		}
 		int result = entityDao.updatePropByID(department, ID);
 		return result+"";
@@ -263,15 +263,15 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 				" ID ",
 				"parentID",
 				" departmentName",
-				"level",
+				"level0",
 				
 				
 				};
 		
-		List<Map<String, Object>> allModules 	=	entityDao.findByCondition(properties, " 1 = 1 order by level ", Department.class);
+		List<Map<String, Object>> allModules 	=	entityDao.findByCondition(properties, " 1 = 1 order by level0 ", Department.class);
 				
 		for (Map<String, Object> module : allModules) {
-			String levelString = module.get("level").toString();
+			String levelString = module.get("level0").toString();
 			String ParentID = module.get("parentID").toString();
 			
 			if ("1".equals(levelString)) { // 第一级

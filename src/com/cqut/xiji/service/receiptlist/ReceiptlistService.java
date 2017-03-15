@@ -20,6 +20,7 @@ import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.company.Company;
 import com.cqut.xiji.entity.contract.Contract;
 import com.cqut.xiji.entity.employee.Employee;
+import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.entity.message.Message;
 import com.cqut.xiji.entity.messageNotice.MessageNotice;
 import com.cqut.xiji.entity.project.Project;
@@ -29,6 +30,7 @@ import com.cqut.xiji.entity.sample.Sample;
 import com.cqut.xiji.entity.task.Task;
 import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.service.base.SearchService;
+import com.cqut.xiji.service.fileEncrypt.FileEncryptService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 import com.cqut.xiji.tool.util.PropertiesTool;
 import com.cqut.xiji.tool.word.WordProcess;
@@ -513,7 +515,7 @@ public class ReceiptlistService extends SearchService implements
 		} else { // 提交交接单
 			receiptlist.setIsEditSample(1);
 			// 推送消息--给科室主管
-			List<Role> listRole = entityDao.getByCondition(" roleName='科室主管' ",
+			List<Role> listRole = entityDao.getByCondition(" name='科室主管' ",
 					Role.class);
 			if (listRole != null && listRole.size() > 0) {
 				System.out.println("推送的科室主管角色ID为：" + listRole.toString());
@@ -567,7 +569,7 @@ public class ReceiptlistService extends SearchService implements
 			receiptlist.setReceiptlistCode("交接单编码生成规则不知道-接受");
 			receiptlist.setContractID(coID);
 			receiptlist.setProjectID(proID);
-		} else if (state.equals("no")) { // 无合同新增交接单-接受
+		} else if (state.equals("no")) { // 无合同新增交接单 --新增交接单和项目-接受
 			Contract contract = new Contract();
 			contract.setID(EntityIDFactory.createId());
 			contract.setContractCode("合同编号生成规则");
@@ -582,6 +584,7 @@ public class ReceiptlistService extends SearchService implements
 			project.setCreateTime(new Date());
 			project.setRemarks("这是先接受的样品，后拟定合同的");
 			receiptlist.setProjectID(project.getID());
+			map.put("proID", project.getID());
 			entityDao.save(project);
 			entityDao.save(contract);
 		} else { // 有合同新增交接单-退还
@@ -798,11 +801,14 @@ public class ReceiptlistService extends SearchService implements
 
 		String[] properties = new String[] {
 
-				"contract.ID AS cID",
-				"contract.contractCode as cCode",
+				"contract.ID AS coID",
+				"contract.contractCode as coCode",
 				"contract.contractName as cName",
 				"receiptlist.ID as reID",
 				"receiptlist.receiptlistCode AS reCode ",
+				"company.ID as comID",
+				"project.ID as proID",
+				"IF ( receiptlist.receiptlistType = 0,'接受',IF (receiptlist.receiptlistType = 1,'退还','接受')) AS reType ",
 				"contract.state AS cState",
 				"IF ( receiptlist.state IS NULL, '无交接单', "
 						+ "IF ( receiptlist.state = 0 , '未检测', "
@@ -810,7 +816,9 @@ public class ReceiptlistService extends SearchService implements
 						+ "IF ( receiptlist.state = 2, '检测完成', '异常终止' )))) AS reState " };
 
 		String baseEntity = " contract "; // 主表
-		String joinEntity = " LEFT JOIN receiptlist ON contract.ID = receiptlist.contractID "; // 关联条件
+		String joinEntity = " LEFT JOIN receiptlist ON contract.ID = receiptlist.contractID "
+		+"  LEFT JOIN company ON contract.companyID = company.ID  "
+		+"  LEFT JOIN project ON project.contractID = contract.ID "; // 关联条件
 		String condition = " contract.state >= 4  "; // 查询条件
 		List<Map<String, Object>> list = entityDao.searchWithpaging(properties,
 				baseEntity, joinEntity, null, condition, null,
@@ -837,18 +845,31 @@ public class ReceiptlistService extends SearchService implements
 	}
 	@SuppressWarnings("static-access")
 	@Override
-	public String initReceiptFile(String coID, String reID) {
+	public String initReceiptFile( String reID ,String coID,String proID ) {
 		// TODO Auto-generated method stub
-
+		
 		String fileID = "";
+		String reModulePath = getReFileModulePath();
+		String saveBasePath = "";
+		String savePath = "";
+		String cacheFilePath = "";
+		String reFileName = "";
+		PropertiesTool pt = new PropertiesTool();
+		if(reModulePath == null){
+			 return "false";
+		}
+		else{
+			saveBasePath = pt.getSystemPram("filePath");
+			reModulePath =saveBasePath + "\\"+reModulePath;
+		}
 		if (reID != null && !reID.equals("")) {
-
+             
 			try {
 				WordProcess wordProcess = new WordProcess(false);
-				String gogalPath = "E:\\liabrary\\XIJI\\testFileSources\\交接单模板.docx";
-				String savePath = "C:\\Users\\jiddar\\Desktop\\";
-				wordProcess.openDocument(gogalPath);
-				// 获取公司信息
+				
+				
+				wordProcess.openDocument(reModulePath);
+				// 获取甲方公司信息
 				String[] properties = new String[] { 
 						"companyName", 
 						"linkman",
@@ -865,7 +886,8 @@ public class ReceiptlistService extends SearchService implements
 				List<Map<String, Object>> companyInfo = originalSearchForeign(
 						properties, baseEntity, null, null, null, false);
 				if (companyInfo != null && companyInfo.size() > 0) {
-                        wordProcess.replaceText("companyName-甲", (String)companyInfo.get(0).get("companyName"));
+				    	reFileName = (String)companyInfo.get(0).get("companyName");
+                        wordProcess.replaceText("companyName-甲", reFileName);
                         wordProcess.replaceText("linkman-甲", (String)companyInfo.get(0).get("linkman"));
                         wordProcess.replaceText("mobilephone-甲", (String)companyInfo.get(0).get("mobilephone"));
                         wordProcess.replaceText("address-甲", (String)companyInfo.get(0).get("address"));
@@ -914,7 +936,7 @@ public class ReceiptlistService extends SearchService implements
 		   /**
 		    * 从配置取出数据
 		    */
-			PropertiesTool pt = new PropertiesTool();
+		
 			String ourCompanyName = pt.getSystemPram("ourCompanyName") ;
 			String ourLinkCompanyName = pt.getSystemPram("ourLinkCompanyName") ;
 			String ourCompanyAddress = pt.getSystemPram("ourCompanyAddress") ;
@@ -954,13 +976,69 @@ public class ReceiptlistService extends SearchService implements
 				
 				wordProcess.replaceText("reCode", receiptlist.getReceiptlistCode());
 			}
-			wordProcess.save(savePath+"交接单生成的文件："+EntityIDFactory.createId());
-			wordProcess.close();
+			if(reFileName == null || reFileName.equals("")){
+				reFileName = "交接单文件";
+			}
+			reFileName += EntityIDFactory.createId()+".docx";
+			
+			
+			savePath = saveBasePath+"\\项目文件"+proID+"\\交接单模板"+reFileName;
+			cacheFilePath =  pt.getSystemPram("cacheFilePath")+"\\项目文件"+proID+"\\交接单模板"+reFileName;
+			
+			 
+				wordProcess.save(cacheFilePath);  //先保存到缓冲文件区才能生成
+				wordProcess.close();
+			
+			 //生成文件信息并加密文件和路径
+			 FileEncryptService  fileEncryptService = new FileEncryptService();
+			
+			 FileInformation fileInformation = new FileInformation();
+			 fileInformation.setBelongtoID(reID);
+			 fileInformation.setID(EntityIDFactory.createId());
+			 fileInformation.setPath("项目文件"+proID+"\\交接单模板"+reFileName);
+			 fileInformation.setUploaderID("系统生成");
+			 fileInformation.setFileName(reFileName);
+			 fileInformation.setUploadTime(new Date());
+			 fileInformation.setState(0);
+			 fileInformation.setType(2);
+			 entityDao.save(fileInformation);
+		
+			 fileEncryptService.encryptFile(cacheFilePath, savePath, fileInformation.getID());
+			 fileEncryptService.encryptPath(saveBasePath, fileInformation.getID());
+			 
+		
+			 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return fileID;
 		} else
 			return null;
+	}
+
+	private String getReFileModulePath() {
+		// TODO Auto-generated method stub
+		PropertiesTool pt = new PropertiesTool();
+		@SuppressWarnings("static-access")
+		String filePath = pt.getSystemPram("filePath");
+		String condition = " fileinformation.type = 1 and path LIKE '%交接单模板%' ORDER BY uploadTime ";
+		List<FileInformation> list = entityDao.getByCondition(condition, FileInformation.class);
+		if( list !=null && list.size() >0){
+			  filePath = filePath+list.get(0).getPath();
+			  return filePath ;
+		}
+		else return null;  //还没有模板
+	}
+
+	@Override
+	public String downReceiptlist(String reID, String coID, String proID) {
+		// TODO Auto-generated method stub
+		//找交接单文件的fileID
+		String condition = " belongtoID = '"+reID+"' ORDER BY uploadTime";
+		List<FileInformation> list = entityDao.getByCondition(condition, FileInformation.class);
+		if(list !=null && list.size() > 0){
+			return list.get(0).getID();
+		}else 
+		return initReceiptFile(reID,coID, proID);
 	}
 }
