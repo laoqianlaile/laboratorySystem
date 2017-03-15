@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.enterprise.inject.New;
+
 
 import org.springframework.stereotype.Service;
 
@@ -248,15 +248,15 @@ public class TaskService extends SearchService implements ITaskService {
 		System.out.println("222" + "<br />");
 		System.out.println(gettestprojectID);
 		int index = limit;
-		int pageNum = offset / limit + 1;
+		int pageNum = offset / limit;
 		int state;
 		String tablename = "task";
 		String condition = "testProjectID=" + "\"" + gettestprojectID + "\"";
 		/* String condition="testProjectID=2345"; */
-		String[] properties = new String[] { "taskname", "detectstate" };
+		String[] properties = new String[] { "detectstate" };
 		List<Map<String, Object>> result = entityDao.searchWithpaging(
-				properties, tablename, null, null, condition, null, order,
-				sort, index, pageNum);
+				properties, tablename, null, null, condition, null, null,
+				null, index, pageNum);
 		int count = entityDao.getByCondition(condition, Task.class).size();
 		/* <span class="liucheng" name="liucheng"></span> */
 		for (Map<String, Object> m : result) {
@@ -395,7 +395,7 @@ public class TaskService extends SearchService implements ITaskService {
 		int pageNum = offset / limit;
 		String[] properties = new String[] { "sample.ID", "task.ID as taskID",
 				"sample.factoryCode", "sample.sampleName",
-				"sample.specifications", "task.require",
+				"sample.specifications", "task.requires",
 				"testProject.ID AS testID", "testproject.nameCn as  testName",
 				"date_format(sample.createTime,'%Y-%m-%d') as createTime", };
 

@@ -2,6 +2,7 @@ package com.cqut.xiji.controller.article;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 import javax.annotation.Resource;
 
@@ -113,6 +114,7 @@ public class ArticleController {
 		System.out.println("artTitle ======== " + artTitle);
 		System.out.println("artColumn ======== " + artColumn);
 		System.out.println("artPublisher ======== " + artPublisher);
+		System.out.println("artCaseType ======== " + artCaseType);
 
 		return JSONObject.fromObject(service.getArticleWithPaging(limit,
 				offset, order, sort, artTitle, artColumn, artPublisher,

@@ -28,14 +28,15 @@
 	href="module/css/bootstrap-table.css">
 
 <link rel="stylesheet" href="module/css/changeACE.css" />
-<link rel="stylesheet" type="text/css"
-	href="module/css/commonSystem/commonSystem.css" />
-
+<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
+<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
 <script src="module/js/bootstrap-table.js"></script>
 <script src="module/js/bootstrap-table-zh-CN.js"></script>
 <script src="assets/js/autoPage.js"></script>
+<script src="module/js/sweetalert.min.js"></script>
+<script src="module/js/alert.js"></script>
 
 <style type="text/css">
 .input-group {
@@ -48,7 +49,7 @@
 }
 
 .input-group  .btn-primary {
-    margin:10 0px;
+    margin:8 0px;
 	margin-left: 26px;
   /*   background: #198ac8; */
     background: #089beb;
@@ -209,6 +210,7 @@
 							<h4>角色名：</h4>
 							<input type="text" id="edit_roleName" name="NAME"
 								class="form-control" aria-describedby="basic-addon1" />
+								<input type="hidden" id="edit_roleID" name="ID" />
 						</div>
 						<div class="col-xs-12 col-md-12">
 							<h4>角色简介：</h4>

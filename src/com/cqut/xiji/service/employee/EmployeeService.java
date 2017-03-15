@@ -281,16 +281,17 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 					"duty.dutyName",
 					"case when employee.sex = 0 then '女'"
 					+ "when employee.sex = 1 then '男' end as sex",
-
+					
 					"case when employee.state = 0 then '禁用'"
 					+ "when employee.state = 1 then '启用' end as state",
 			};
-
-			String condition=" 1 = 1 "
-					+ "and employee.departmentID = department.ID "
-					+ "and employee.roleID = role.ID "
-					+ "and employee.dutyID = duty.ID";
-
+			
+			String joinEntity = " left join role on employee.roleID = role.ID "
+					+ " left join department on employee.departmentID = department.ID "
+					+ " left join duty on employee.dutyID = duty.ID ";
+			
+			String condition = "1 = 1 ";
+			
 			if (employeeName != null && !employeeName.equals("")) {
 				condition += " and employee.employeeName like '%"
 						+ employeeName + "%'";
@@ -309,14 +310,13 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			if (departmentName != null && !departmentName.equals("")) {
 				condition += " and department.departmentName like '%" + departmentName + "%'";
 			}
-
-			String[] foreignEntitys = new String[] { "role", "department",
-			"duty" };
-
+			
+			
 			List<Map<String, Object>> result = originalSearchWithpaging(properties,
-					tableName, null, foreignEntitys, condition, false, null, sort,
+					tableName, joinEntity, null, condition, false, null, sort,
 					order, index, pageNum);
-			int count = getForeignCount(foreignEntitys, condition, false);
+			
+			int count = getForeignCountWithJoin(joinEntity, null, condition, false);
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("total", count);
@@ -335,7 +335,6 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 				int sex, String email, String phoneNumber, String address,
 				String dutyID, String roleID, String departmentID) {
 			// TODO Auto-generated method stub
-
 			Employee employee = new Employee();
 			employee.setID(EntityIDFactory.createId());
 			employee.setEmployeeName(employeeName);
@@ -348,12 +347,13 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			employee.setDutyID(dutyID);
 			employee.setDepartmentID(departmentID);
 			employee.setRoleID(roleID);
+			employee.setLoginName(employeeCode);
+			employee.setPassword("123456");
 			employee.setState(0);
 			employee.setLevel(0);
 			int result = entityDao.save(employee);
 			return result + "";
 		}
-
 		/**
 		 * @description 删除员工
 		 * @author Hzz

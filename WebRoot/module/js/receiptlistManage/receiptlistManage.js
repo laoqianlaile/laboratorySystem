@@ -166,10 +166,10 @@ $(function() {
 										  look = '<span onclick= "lookRe(\'' + row.ID
 												+ '\')" data-toggle="tooltip" data-toggle="top"  title="查看"  class="icon-eye-open" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
 									
-										if(row.isEditSample == 1)  //能否编辑--提交的不能编辑
+										if(row.isEditSample == 0)  //能否编辑--提交的不能编辑
 										 {    
 											if(row.reType == "接受")  //接受的交接单跳转的页面
-											  edit = '<span  onclick= "editRe(\'' + row.ID+"\' , \'"+row.coID+"\',\'"+row.comID+"\',\'"+row.coCode+"\',\'"+row.reCode+"\',\'"+"recive\'"
+											  edit = '<span  onclick= "editRe(\'' + row.ID+"\' , \'"+row.coID+"\',\'"+row.proID+"\',\'"+row.comID+"\',\'"+row.coCode+"\',\'"+row.reCode+"\',\'"+"recive\'"
 												+ ')" data-toggle="tooltip" data-placement="top" title="修改" class="glyphicon glyphicon-edit" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span> ';
 											
 											else   //退还的交接单跳转的页面
@@ -329,7 +329,7 @@ function refresh() {
 
 /* 删除交接单方法 */
 function deleteRe(id) {
-	var isDelete = confirm("确认删除");
+	var isDelete = chen.confirm("确认删除");
 	if (isDelete == true) {
 		$.ajax({
 			url : '/laboratorySystem/receiptlistController/delReceiptlist.do',

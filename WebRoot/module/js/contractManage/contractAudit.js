@@ -8,11 +8,68 @@ function showContractA(){
 		alert("请选中一条数据");
 		return;
 	}
-	var code = data[0].contractCode;
-	if (!code && typeof(code)!="undefined" && code=='') 
+	var ID = data[0].ID;
+	if (!ID && typeof(ID)!="undefined" && ID=='') 
 	{ 
-		alert("合同编号不能为空！"); 
+		alert("合同ID不能为空！"); 
 	}else {
-		window.location.href="module/jsp/contractManage/contractView.jsp?code="+ code + "&type=1";
+		window.location.href="module/jsp/contractManage/contractView.jsp?ID="+ ID + "&type=1";
+	}
+}
+
+
+/**
+ * 提交审核意见（通过）
+ */
+function approved(){
+	var approveCause = $('#approveCause').val(); 
+	if (!approveCause && typeof(approveCause)!="undefined" && approveCause=='') 
+	{ 
+		alert("审核意见不能为空！"); 
+	}else {
+		var parame = {};
+		parame.ID = $('#contractID').text();
+		parame.viewpoint = $('#approveCause').val();
+		parame.state = 4;
+		
+		$.ajax({
+		  url:'contractController/auditContract.do',
+		  data:parame,
+		  success:function(o){
+			  
+			  if(o <= 0){
+				  alert("操作失败！");
+			  }
+			  goback();
+		  }
+		});
+	}
+}
+
+/**
+ * 提交审核意见（未通过）
+ */
+function rejected(){
+	alert($('#contractID').text());
+	var rejecteCause = $('#rejecteCause').val(); 
+	if (!rejecteCause && typeof(rejecteCause)!="undefined" && rejecteCause=='') 
+	{ 
+		alert("审核意见不能为空！"); 
+	}else {
+		var parame = {};
+		parame.ID = $('#contractID').text();
+		parame.viewpoint = $('#rejecteCause').val();
+		parame.state = 3;
+		
+		$.ajax({
+		  url:'contractController/auditContract.do',
+		  data:parame,
+		  success:function(o){
+			  if(o<=0){
+				  alert("操作失败！");
+			  }
+			  goback();
+		  }
+		});
 	}
 }

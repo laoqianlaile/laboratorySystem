@@ -39,8 +39,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		window.onload=function(){
 	/*加载蒙板弹窗*/
 	var imask = document.getElementById("imask");
-	var usershowid = document.getElementById("usershowid");
-	var loginshow = document.getElementById("h-loginshow");
+	/*var usershowid = document.getElementById("usershowid");
+	var loginshow = document.getElementById("h-loginshow");*/
 	var loginbox = document.getElementById("login_box");
 	var sHeight = document.documentElement.scrollHeight;
 	var sWidth = document.documentElement.scrollWidth;
@@ -51,10 +51,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		loginbox.style.display = "block";
 		imask.style.display = "block";
 	}else{
-		loadingtable();
-		usershowid.style.display="block";
+		imask.style.display = "none";
+		//loadingtable();
+		/*usershowid.style.display="block";
 		loginshow.style.display="none";
-		usershowid.innerHTML=""+id+"";
+		usershowid.innerHTML=""+id+"";*/
 	}
 	
 		wHeight = document.documentElement.clientHeight;
@@ -172,7 +173,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     </div>
                     <div id="table_before">
 	                    <div id="contenttable">
-	                    	<table id="table">
+	                    	<table id="table2s">
 	                        </table>
 	                    </div>
                     </div>

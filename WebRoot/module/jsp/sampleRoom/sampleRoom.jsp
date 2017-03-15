@@ -7,15 +7,19 @@
 <title>西计实验室管理系统</title>
 <link rel="stylesheet" type="text/css" href="../../css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="../../css/bootstrap-table.css">
+<link rel="stylesheet" href="../../css/changeACE.css" />
+<link rel="stylesheet" href="../../css/sampleRoom/sampleRoom.css" />
+<link rel="stylesheet" type="text/css" href="../../css/commonSystem/commonSystem.css" />
+<link rel="stylesheet" type="text/css" href="../../css/sweetalert.css">
 
 <script src="../../js/jquery-2.1.1.min.js"></script>
 <script src="../../js/bootstrap.js"></script>
 <script src="../../js/bootstrap-table.js"></script>
 <script src="../../js/bootstrap-table-zh-CN.js"></script>
-<script src="assets/js/autoPage.js"></script>
-<link rel="stylesheet" href="../../css/changeACE.css" />
-<link rel="stylesheet" href="../../css/sampleRoom/sampleRoom.css" />
-<link rel="stylesheet" type="text/css" href="../../css/commonSystem/commonSystem.css" />
+<script src="../../../assets/js/autoPage.js"></script>
+<script src="../../js/sweetalert.min.js"></script>
+<script src="../../js/alert.js"></script>
+
 
 </head>
 <body>
@@ -23,24 +27,24 @@
 	<!-- 功能按钮 -->
 	<div id="searcherArea">
 		<div class="row">
-			<div class=" col-xs-3 col-md-3 col-lg-3">
+			<div class=" col-xs-4 col-md-4 col-lg-4">
 				<label>出厂编码：</label><input type="text" id="schFactoryCode"
 					name="schFactoryCode" class="form-control"
 					aria-describedby="basic-addon1">
 			</div>
-			<div class=" col-xs-3 col-md-3 col-lg-3">
+			<div class=" col-xs-4 col-md-4 col-lg-4">
 				<label>样品名称：</label><input type="text" id="schSampleName"
 					name="schSampleName" class="form-control"
 					aria-describedby="basic-addon1">
 			</div>
-			<div class=" col-xs-3 col-md-3 col-lg-3">
+			<div class=" col-xs-4 col-md-4 col-lg-4">
 				<label>样品型号：</label><input type="text" id="schSampleType"
 					name="schSampleType" class="form-control"
 					aria-describedby="basic-addon1">
 			</div>
 		</div>
 		<div class="row">
-			<div class=" col-xs-3 col-md-3 col-lg-3">
+			<div class=" col-xs-4 col-md-4 col-lg-4">
 				<div class="timeLabelDiv">
 					<label class="control-label">委托时间:</label>
 				</div>
@@ -53,7 +57,7 @@
 						class="glyphicon glyphicon-calendar"></span></span>
 				</div>
 			</div>
-			<div class=" col-xs-3 col-md-3 col-lg-3">
+			<div class=" col-xs-4 col-md-4 col-lg-4">
 				<div class="timeLabelDiv">
 					<label class="control-label">至:</label>
 				</div>
@@ -66,20 +70,20 @@
 						class="glyphicon glyphicon-calendar"></span></span>
 				</div>
 			</div>
-			<!-- 	<div class=" col-xs-3 col-md-3 col-lg-3">  <label>交接单号：</label><input type="text" id="schReceiptlistCode" name="schReceiptlistCode" class="form-control" aria-describedby="basic-addon1"></div>
+			<!-- 	<div class=" col-xs-4 col-md-4 col-lg-4">  <label>交接单号：</label><input type="text" id="schReceiptlistCode" name="schReceiptlistCode" class="form-control" aria-describedby="basic-addon1"></div>
 	 -->
 		</div>
 	</div>
-	<div class="input-group" style="float: right;margin-bottom: 10px;">
+	<div class="input-group-area" >
 		<button type="button"
 			class="btn btn-primary glyphicon glyphicon-search"
 			onclick="seacher()">&nbsp;查询</button>
 		<button type="button" class="btn btn-primary glyphicon glyphicon-plus"
 			data-toggle="modal" data-target="#addModal">&nbsp;新增</button>
-		<button type="button" onclick="showModal()"
+	<!-- 	<button type="button" onclick="showModal()"
 			class="btn btn-primary glyphicon glyphicon-show">&nbsp;查看</button>
 		<button type="button" onclick="openModal()"
-			class="btn btn-primary glyphicon glyphicon-edit">&nbsp;修改</button>
+			class="btn btn-primary glyphicon glyphicon-edit">&nbsp;修改</button> -->
 		<button id="del" onclick="delData()" type="button"
 			class="btn btn-primary glyphicon glyphicon-remove">&nbsp;删除</button>
 		<button id="refresh" onclick="refresh()" type="button"
@@ -233,6 +237,7 @@
 							<div class="tip-factory  ">
 							     <div class="tip-factory-content"></div>
 							</div>
+							<input type="hidden" id="editSampleID">
 						</div>
 						<div class="col-xs-12 col-md-12">
 							<h4>样品名称：</h4>

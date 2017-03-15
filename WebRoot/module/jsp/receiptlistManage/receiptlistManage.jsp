@@ -12,6 +12,8 @@
 <link rel="stylesheet" type="text/css" href="../../css/bootstrap-datetimepicker.css">
 <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="../../css/receiptlistManage/receiptlistManage.css">
+<link rel="stylesheet" type="text/css" href="../../css/commonSystem/commonSystem.css" />
+<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 
 <script src="../../js/jquery-2.1.1.min.js"></script>
 <script src="../../js/bootstrap.js"></script>
@@ -23,6 +25,8 @@
 <script src="../../js/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="../../js/bootstrap-datetimepicker.fr.js"></script>
 <script src="../../js/fileManage/fileManage.js" type="text/javascript"></script>
+<script src="../../js/sweetalert.min.js"></script>
+<script src="../../js/alert.js"></script>
 
 
 </head>
@@ -45,7 +49,7 @@
 			<!-- <span>委托时间：</span><input type="date" id="schStratTime" name="schStratTime" class="form-control" aria-describedby="basic-addon1">
 		    <span>至：</span><input type="date" id="schEndTime" name="schEndTime" class="form-control" aria-describedby="basic-addon1">
 	 -->	  <div class="col-xs-3 col-md-3 col-lg-3">
-				<div class="timeLabelDiv"><label class="control-label" >委托时间:</label></div>   
+				<!-- <div class="timeLabelDiv"> --><label class="control-label" >委托时间:</label><!-- </div>  -->  
 			<div class="input-group date form_datetime timeChooseDiv"> 
    					<input class="form-control" id="schStratTime" size="16" type="text" value="" readonly="true">
     				<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -53,7 +57,7 @@
 				 </div> 
 			</div>
 			<div class="col-xs-3 col-md-3 col-lg-3">
-				<div class="timeLabelDiv"><label class="control-label" >至:</label></div>
+				<!-- <div class="timeLabelDiv"> --><label class="control-label" >至:</label><!-- </div> -->
 				<div class="input-group date form_datetime timeChooseDiv">
    					<input class="form-control" id="schEndTime" size="16" type="text" value="" readonly="true">
     				<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
@@ -70,8 +74,8 @@
 		</div>
 	</div>
 	</div>
-	<div class="input-group" style="float: right;margin-bottom: 10px;">
-		<button type="button" class="btn btn-primary glyphicon glyphicon-plus"
+	<div class="input-group-area" >
+		<button type="button" class="btn btn-primary glyphicon glyphicon-search"
 			onclick="seacher()">&nbsp;查询</button>
 		<button type="button" class="btn btn-primary glyphicon glyphicon-plus"
 			onclick="addRe()">&nbsp;新增交接单</button>

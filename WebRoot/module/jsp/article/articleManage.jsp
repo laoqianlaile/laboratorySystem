@@ -124,7 +124,7 @@
 								style="float:right;margin-right:30px;margin-top:30px;">
 								<div id="imgAreaDiv"
 									style="width: 250px;height: 150px;margin-bottom:10px;">						
-										<img id="weixin_show" style="height:150px;width: 250px;margin-bottom:8px;"  src="module/img/file/defaultPhoto.jpg" data-holder-rendered="true">  
+										<img id="weixin_show" style="height:100%;width: 100%;"  src="module/img/file/defaultPhoto.jpg" data-holder-rendered="true">  
 								</div>
 								
 								 <input id="upload" type="button" value="上传"
@@ -193,8 +193,8 @@
 								</select>
 							</div>
 							<div id="show_artPicturegis" class="form-control col-xs-12 col-md-6 " style="height:150px;width: 250px;margin-bottom:8px;float:right;margin-right:30px;margin-top:30px;">
-							 <!-- <img id="img" style="height:150px;width: 250px;" src="module/img/file/defaultPhoto.jpg">
-							 --></div>
+							   <img id="show-image" style="height:100%;width: 100%;"  src="module/img/file/defaultPhoto.jpg" data-holder-rendered="true">  
+							 </div>
 							<div class="col-xs-12 col-md-6 " style="float:left;">
 								<label>文章名称:</label> <input class="form-control"
 									id="show_artTitle" disabled />
@@ -244,6 +244,7 @@
 								</select>
 							</div>
 							<div id="edit_artPicturegis" class="form-control col-xs-12 col-md-6 " style="height:150px;width: 250px;margin-bottom:8px;float:right;margin-right:30px;margin-top:30px;">
+							    <img id="edit-image" style="height:100%;width: 100%;"  src="module/img/file/defaultPhoto.jpg" data-holder-rendered="true">  
 							</div>
 							<div class="col-xs-12 col-md-6" style="float:left;">
 								<label>文章名称:</label> <input class="form-control"
@@ -271,7 +272,7 @@
 			</div>
 		</div>
 	</div>
-	<!--  <script src="assets/fileupload/ajaxfileupload.js"></script>  -->
+	
 	<script type="text/javascript" src="assets/fileupload/jquery.iframe-transport.js"></script>
 	<script type="text/javascript" src="assets/fileupload/jquery.ui.widget.js"></script>
 	<script type="text/javascript"src="assets/fileupload/jquery.fileupload.js"></script>
