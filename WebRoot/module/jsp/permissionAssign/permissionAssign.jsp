@@ -24,7 +24,7 @@
 <link href="module/css/glyphicons.css" rel="stylesheet">
 <link href="module/css/permissionAssign/permissionAssign.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
-
+<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 
 </head>
 <body>
@@ -41,5 +41,7 @@
 <script src="module/js/bootstrap-treeview.js"></script>
 <script src="module/js/permissionAssign/permissionAssign.js"></script>
 <script src="assets/js/autoPage.js"></script>
+<script src="module/js/sweetalert.min.js"></script>
+<script src="module/js/alert.js"></script>
 </body>
 </html>
