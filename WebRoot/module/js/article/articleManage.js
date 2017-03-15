@@ -69,7 +69,14 @@ function init() {
 			field : 'artTitle',
 			align : 'center',
 		// valign: 'middle',
-		}, {
+		},
+		{
+			title : '图片',
+			field : 'path',
+			align : 'center',
+			visible: false,
+		} ,
+		{
 			title : '文章栏目',
 			field : 'artColumn',
 			align : 'center'
@@ -96,7 +103,8 @@ function init() {
 			title : '备注',
 			field : 'artRemark',
 			align : 'center',
-		} ]
+		} 
+		]
 	});
 }
 
@@ -118,15 +126,16 @@ window.onload = function() {
 	modal();
 	init();
 	
-	 $("#addarticle").click(function () {
-//         if(document.all.files.value==""){
+	 /* $("#addarticle").click(function () {
+         if(document.all.files.value==""){
         	 add();
-//        	 }
-      });
+        	 }
+      });*/
 };
 
 function modal() {
-	$("#show_artColumn").blur(function() {
+	var starttimeHaoMiao = (new Date()).getTime(); //得到毫秒数
+	$("#show_artColumn").change(function() {
 		var show_artColumn = $('#show_artColumn').val();
 		if (show_artColumn != "检测案例") {
 			$('.show_artCaseType').hide();
@@ -134,7 +143,7 @@ function modal() {
 			$('.show_artCaseType').show();
 		}
 	});
-	$("#edit_artColumn").blur(
+	$("#edit_artColumn").change(
 			function() {
 				var show_artColumn = $('#edit_artColumn').val();
 				if (show_artColumn != "检测案例") {
@@ -145,19 +154,19 @@ function modal() {
 					$('#edit_artPicturegis').show();
 				}
 			});
-	$("#add_artColumn").blur(function() {
+	$("#add_artColumn").change(function() {
 		var add_artColumn = $('#add_artColumn').val();
 		if (add_artColumn != "检测案例") {
 			$('.add_artCaseType').hide();
 			$('#rightFormDiv').hide();
 			$("#addarticle").click(function () {
-           	  add();            	
+           	  add(starttimeHaoMiao);            	
          });} else {
     		$('.add_artCaseType').show();
 			$('#rightFormDiv').show();
 			$("#imgUpload").fileupload({  
 				 autoUpload: true,
-				 url: 'fileOperateController/imageUpload.do',  
+				 url: 'fileOperateController/imageUpload.do?belongtoID='+starttimeHaoMiao,  
 				 dataType:'text',
 				 add: function (e, data) {
 			               $("#addarticle").click(function () {			            	  
@@ -172,7 +181,7 @@ function modal() {
 				  fileurl=eval(data.result);
 				 //fileurl = eval(data.result)[0].FileUrl;
 				 flag=false;
-				 add();
+				 add(starttimeHaoMiao);
 			    //$("#weixin_show").attr("src",eval(data.result)[0].FilUerl);  
 			   
 			});  
@@ -194,7 +203,7 @@ function refreshWindow(){
     window.location.reload();//刷新当前页面.
 }
 // 新增
-function add() {
+function add(starttimeHaoMiao) {
 	var date = new Date();
 	var month = date.getMonth() + 1;
 	var str = date.getFullYear() + "-" + month + "-" + date.getDate() + " "
@@ -213,7 +222,8 @@ function add() {
 	//alert(UE.getEditor('add_artContent').getContent());
 	addArticle.artRemark = $('#add_artRemark').val();	
 	addArticle.artPicturegis=fileurl;
-	alert(fileurl + "地址");
+	addArticle.articleID = starttimeHaoMiao;
+	alert(fileurl);
 	var val = Date.parse(str);
 	var newDate = new Date(val);
 	addArticle.artCregisattime = newDate;
@@ -246,11 +256,10 @@ function openModal() {
 	
 	else{
 		$('#edit_artCaseType').val(data[0].artCaseType);
-		var artPicturegis=data[0].artPicturegis;
-		var d1=document.getElementById("edit_artPicturegis");
-		var img=document.createElement("img");
-		img.src=artPicturegis;
-		d1.appendChild(img);
+		var path=data[0].path;
+		$('#edit-image').attr('src',path);
+		$('#edit-image').css('width','100%');
+		$('#edit-image').css('height','100%');
 	}
 	$('#edit_artTitle').val(data[0].artTitle);
 	
@@ -352,7 +361,7 @@ function showModal() {
 	var artColumn = data[0].artColumn;
 	var artCaseType = data[0].artCaseType;
 	var artContent = data[0].artContent;
-	var artPicturegis=data[0].artPicturegis;
+	var path=data[0].path;
 	//var artContent =UE.getEditor('show_artContent').getPlainTxt();
 	if(artColumn!="检测案例"){
 		$('.show_artCaseType').hide();
@@ -363,16 +372,14 @@ function showModal() {
 	}
 	document.getElementById("show_artColumn")[0].innerText = artColumn;
 	$("#show_artTitle").val(data[0].artTitle);
-	var d1=document.getElementById("show_artPicturegis");
+	/*var d1=document.getElementById("show_artPicturegis");
 	var img=document.createElement("img");
-	img.src=artPicturegis;
-	d1.appendChild(img);
-	/* src_0 = $("#img").attr("src");
-     src_1 = src_0=="module/img/file/defaultPhoto.jpg"?artPicturegis:"module/img/file/defaultPhoto.jpg";
-     $("#img").attr("src",src_1);*/
-/*	document.getElementById("show_artPicturegis").innerHTML='<img src="artPicturegis" + height="150" width="250" />';
-*/	//$("#show_artPicturegis").val(artPicturegis);
-	//alert(artPicturegis);
+	img.src=path;
+
+	d1.appendChild(img);*/
+	$('#show-image').attr('src',path);
+	$('#show-image').css('width','100%');
+	$('#show-image').css('height','100%');
 	document.getElementById("show_artCaseType")[0].innerText = artCaseType;	
 
 	//var ue1 = UE.getEditor('show_artContent');
@@ -405,4 +412,30 @@ function previewImage(file,imgArea)
           var img = document.getElementById(imgArea);
           img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
 	  }
+}
+var allInfo = "";// 全部数据
+var fileurl="" ;
+function queryParams(pageReqeust) {
+	pageReqeust.pageNo = this.offset;
+	pageReqeust.pageSize = this.pageNumber;
+	pageReqeust.length = 6;
+	// 直接获取form表单的值，如果一直刷新页面，每次获取的值必定为空，
+
+	if ($("#search_artTitle").val() == "")
+		pageReqeust.artTitle = "null";
+	else
+		pageReqeust.artTitle = encodeURI($("#search_artTitle").val());// 传递中文参数乱码的解决方法
+
+	if (allInfo == "all") {
+		pageReqeust.artColumn = "null";
+	} else {
+		pageReqeust.artColumn = encodeURI($("#search_artColumn").val());
+	}
+	
+	if ($('#search_artPublisher').val() == "")
+		pageReqeust.artPublisher = "null";
+	else
+		pageReqeust.artPublisher = encodeURI($('#search_artPublisher').val());
+	pageReqeust.artCaseType = "null";
+	return pageReqeust;
 }
