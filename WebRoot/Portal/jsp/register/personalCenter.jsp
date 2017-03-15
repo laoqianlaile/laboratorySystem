@@ -78,7 +78,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        </ul>
 	       <div class="right-linne clearfloat" id="loginDivOne">
 	            <a class="register" href="Portal/jsp/register/register.jsp">注册</a>
-		        <a class="h-login" href="javascript:void(0)" onclick="document.getElementById('home-login').scrollIntoView();">登录</a>
+		        <a class="h-login" href="javascript:void(0)">登录</a>
 	        </div>
 	        <div class="right-linne clearfloat" id="loginDivTwo" style="display: none;">
 	            <p class="h-login"  onclick="logout()">注销</p>
@@ -180,7 +180,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</button>
                      </div> 
                       <label for="firstname" class="col-sm-3 control-label1"></label>
-                      <label for="firstname" class="col-sm-3 control-label1" id="licensePrompt" ></label>
+                      <label for="firstname" class="col-sm-3 control-label1" id="licensePrompt" style="margin-left:50px;"></label>
              
               </div>
                    <img alt="执照图" src="" id="image1" style="width: 100px;height: 50px;border: 1px solid red;margin-left: 100px;margin-bottom:20px;">
@@ -200,7 +200,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</button>
                      </div> 
                       <label for="firstname" class="col-sm-3 control-label1"></label>
-                      <label for="firstname" class="col-sm-3 control-label1" id="aptitudePrompt"></label>
+                      <label for="firstname" class="col-sm-3 control-label1" id="aptitudePrompt" style="margin-left:50px;"></label>
               </div>
                 <img alt="资质图" src="" id="image2" style="width: 100px;height: 50px;border: 1px solid red;margin-left: 100px; margin-bottom:20px;">        
 	            
@@ -262,5 +262,83 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	</div>
 </div>
+<script>
+    window.onload=function(){
+    checsessoin();
+	/*加载登陆蒙板弹窗*/
+	var loginbox = document.getElementById("login_box");
+	var imask = document.getElementById("imask");
+	var oMask = document.getElementById("imask");
+	var oVerify = document.getElementById("login_box");
+	
+	oMask.style.height = document.documentElement.offsetHeight + "px";
+	oMask.style.width = window.innerWidth + "px";
+	oVerify.style.left=(window.innerWidth - oVerify.offsetWidth)/2 + "px";
+	oVerify.style.top=(window.innerHeight - oVerify.offsetHeight)/2 + "px";
+	
+	$(".h-login").click(function(){
+	
+		loginbox.style.display = "block";
+		imask.style.display = "block";
+		});
+	
+	$(".close").click(function(){
+		loginbox.style.display="none";
+		imask.style.display="none";
+	});
+	
+  	
+    window.addEventListener("resize", function(){
+    	var strSession = '<%=session.getAttribute("clientNo")%>'.toString();
+    	if(strSession == ""||strSession == "null"){
+    		if(document.documentElement.offsetHeight > window.innerHeight){
+            	oMask.style.height = document.documentElement.offsetHeight + "px";
+        	}else{
+
+            	oMask.style.height = window.innerHeight + "px";
+        	}
+        	oMask.style.width = window.innerWidth + "px";
+        	oVerify.style.left=(window.innerWidth - oVerify.offsetWidth)/2 + "px";
+        	oVerify.style.top=(window.innerHeight - oVerify.offsetHeight)/2 + "px";
+    	}
+    });
+    checsessoin();
+};
+//判断是否有用户登录
+function checsessoin()
+  {
+	var strSession = '<%=session.getAttribute("clientNo")%>'.toString();
+    if(strSession == ""||strSession == "null")
+      {
+       login_box.style.display = "block";
+       imask.style.display = "block";
+       $("#table").html("");
+       }else{
+    	    table();
+    	    loginbox.style.display="none";
+    		imask.style.display="none";
+       }
+    /*  else{
+  		usershowid.style.display="block";
+  		usershowid.innerHTML="欢迎你："+strSession;
+  		table();
+  		};*/
+   }
+   
+function logout1(){
+	$.ajax({
+		  url:'clientController/logout.do',
+		  success:function(o){
+			  if(o == 1){
+				  $('#name').val("");
+				  $("#table").html("");
+				  window.location.reload();
+			  }
+			  else
+				  alert("注销失败！");
+		  }
+		});
+}
+    </script>
   </body>
 </html>

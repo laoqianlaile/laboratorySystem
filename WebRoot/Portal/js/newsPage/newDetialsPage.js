@@ -86,7 +86,7 @@ $(function(){
 		success:function(o) {// 后台处理数据成功后的回调函数
 			var json = eval(o);
 			$('#newsTitle').html(json[0]['artTitle']);
-			$('#newsColumn').html(json[0]['artContent']);s
+			$('#newsColumn').html(json[0]['artContent']);
 		},
 	});
 });

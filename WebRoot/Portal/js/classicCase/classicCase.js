@@ -103,7 +103,7 @@ function queryParams2(pageReqeust) {
 	pageReqeust.artTitle = "null";
 	pageReqeust.artColumn = "null";
 	pageReqeust.artPublisher = "null";
-	pageReqeust.artCaseType = "null";
+	pageReqeust.artCaseType = encodeURIComponent('案例');
 	return pageReqeust;
 }
 // 表格初始化
@@ -122,8 +122,8 @@ $(function() {
 						pageNumber : 1,// 首页页码
 						pageList : [3,5,10],// 设置可供选择的页面数据条数
 						cache : false,// 禁用 AJAX 数据缓存
-						sortName : 'artClick desc, artTitle',// 定义排序列
-						sortOrder : 'ASC',// 定义排序方式
+						sortName : 'artClick',// 定义排序列
+						sortOrder : 'desc',// 定义排序方式
 						url : 'articleController/getArticleWithPaging.do',// 服务器数据的加载地址
 						sidePagination : 'server',// 设置在哪里进行分页
 						contentType : 'application/json',// 发送到服务器的数据编码类型

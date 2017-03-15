@@ -41,7 +41,7 @@ $(function(){
 	  * */
 	var hotcase = document.getElementById("hot-case").getAttribute('value');
 	 $.ajax( {  
-		 data:{'artCaseType':hotcase},
+		 data:{'artCaseType':'案例'},
 	     url:'articleController/getArticle.do',// 跳转到 action  
 	     type:'post',  
 	     dataType:'json',
@@ -81,7 +81,7 @@ $(function(){
 	  * */
 	 var news = document.getElementById("newslist").getAttribute('value');
 	 $.ajax( {  
-		 data:{'artCaseType':news},
+		 data:{'artColumn':news},
 	     url:'articleController/getArticle.do',// 跳转到 action  
 	     type:'post',  
 	     dataType:'json',
@@ -89,7 +89,7 @@ $(function(){
     	 if(data){
     		 var newslist= "";
 	    	 var myobj=eval(data);
-	    	 var j = 6;
+	    	 var j = 7;
 	    	 var n = 0;
 	    	 var day = new Date();
 	    	 oYear = day.getFullYear(),
@@ -104,7 +104,7 @@ $(function(){
 	    		 day.setTime(myobj[i].artCregisattime.time);
 	    		 
 	    		 newslist += "<li class='notices-item' >"+"<span>"+"</span>"+"<div class='tittle'>"+
-		    	 "<a id='tittle' href="+"Portal/jsp/newsPage/newDetailsPage.jsp?articleID="+myobj[i].articleID+">"+myobj[i].artTitle+
+		    	 "<a id='tittle' href="+"Portal/jsp/newsPage/newDetailsPage.jsp?articleID="+myobj[i].articleID+">"+myobj[i].artTitle.substr(0, 12)+
 		    	 "</a>"+"</div>"+"<div class='date' id='date'>"+
 		    	 oYear+"-"+oMonth+"-"+oDay+"</div>"+"</li>";
 		    	}

@@ -139,7 +139,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                <a class="more" href="Portal/jsp/newsPage/newsPage.jsp">更多>></a>
 	                <div class="notic-h-bottom"><img src="Portal/images/index_column1.png"/></div>
 	            </div>
-	            <ul class="notices-list clearfloat" id="newslist" value="新闻资讯">
+	            <ul class="notices-list clearfloat" id="newslist" value="新闻中心">
 	                
 	            </ul>
 	            <span></span>

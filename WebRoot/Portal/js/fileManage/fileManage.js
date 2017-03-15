@@ -67,6 +67,8 @@ function fileUploadInit(selectorName,idCard){
     			array.push(data);
     			alert("图片上传成功");
     			$("#idCard" + idCard).val(data);
+    			$("#addModal").modal("hide");
+    			showPrompt(idCard);
     		},
 		    'onUploadError': function(file,errorCode,erorMsg,errorString){
             },
@@ -74,6 +76,20 @@ function fileUploadInit(selectorName,idCard){
 		    'onQueueComplete' : function(queueData) {
 		}
 	});
+}
+
+//上传图片成功后显示
+function showPrompt(idCard){
+	if(idCard == 1){
+		var file = $("#file_upload").val();
+		alert(file);
+		$("#licensePrompt").html("*图片已上传");
+		$("#licensePrompt").css("color","green");
+	}
+	if(idCard == 2){
+		$("#aptitudePrompt").html("*图片已上传");
+		$("#aptitudePrompt").css("color","green");
+	}
 }
 	 
 // 下载一个文件的方法,参数为文件ID

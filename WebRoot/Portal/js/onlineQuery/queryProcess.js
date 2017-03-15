@@ -12,7 +12,7 @@ $(function(){
 		pageList: [1,5, 10, 20, 50, 200, 500],//设置可供选择的页面数据条数
 		clickToSelect:true,//设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache: false,//禁用 AJAX 数据缓存
-		sortName:'taskname',//定义排序列
+	//	sortName:'taskname',//定义排序列
 		sortOrder:'asc',//定义排序方式
 		url:'taskController/getWithPaging.do',//服务器数据的加载地址
 		sidePagination:'server',//设置在哪里进行分页
