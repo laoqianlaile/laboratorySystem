@@ -37,3 +37,11 @@
 	#tableDiv{
 	padding-top: 53px;
 	}
+	
+	.th-inner {
+	height:100%;
+    background-color: #364760;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+}
