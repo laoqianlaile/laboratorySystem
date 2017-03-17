@@ -137,12 +137,12 @@ function init() {
 		$('#table')
 				.bootstrapTable(
 						{
-							striped : true, // 隔行变色效果
+							striped : false, // 隔行变色效果
 							pagination : true,// 在表格底部显示分页条
 							pageSize : 10,// 页面数据条数
 							pageNumber : 1,// 首页页码
 							pageList : [ 3, 5, 10, 50, 200],// 设置可供选择的页面数据条数
-							clickToSelect : false,// 设置true 将点击时，自动选择rediobox
+							clickToSelect : true,// 设置true 将点击时，自动选择rediobox
 							// 和 checkbox
 							cache : false,// 禁用AJAX数据缓存
 							sortName : 'testProject.createTime',
@@ -581,6 +581,15 @@ function getStandard(id){
 			if($('#' + id + '').children().length == 0)
 			{
 				var data = JSON.parse(o);
+				
+				if(data.length === 0){
+					if(confirm("没有通过的标准或者没有标准")){
+						window.location.href ="http://localhost:8080/laboratorySystem/module/jsp/standardManage/standard.jsp";
+					}
+					else{
+						window.location.href ="http://localhost:8080/laboratorySystem/module/jsp/standardManage/standard.jsp";
+					}
+				}
 				
 				for (var i=0; i<data.length;i++)
 				{

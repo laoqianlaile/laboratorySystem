@@ -8,12 +8,12 @@ function init(){
 
 	$(function(){
 		$('#table').bootstrapTable({
-			striped:true, // 隔行变色效果
+			striped:false, // 隔行变色效果
 			pagination:true,// 在表格底部显示分页条
 			pageSize:10,// 页面数据条数
 			pageNumber: 1,// 首页页码
 			pageList: [3,5,,9,10,200,500],// 设置可供选择的页面数据条数
-			clickToSelect : false,// 设置true 将点击时，自动选择rediobox 和 checkbox
+			clickToSelect : true,// 设置true 将点击时，自动选择rediobox 和 checkbox
 			cache:false,// 禁用AJAX数据缓存
 			sortName:'ID',
 			sortOrder:'asc',
@@ -97,10 +97,10 @@ function init(){
 				valign:'middle',
 				width:'12%',
 				 formatter:function(value,row,index){ 
-					 var e = "<img src = 'module/img/download_icon.png' onclick='downFile("+row.fileID+")' title='下载' style='cursor:pointer;margin-right:8px;' />"
+					 var e = "<img src = 'module/img/download_icon.png' onclick='downFile(\""+row.fileID+"\")' title='下载' style='cursor:pointer;margin-right:8px;' />"
 					 if(row.STATE == "待审核"){
-						 var a = "<button  onclick='openSuggest(1,"+row.ID+")' title='通过'  class='glyphicon glyphicon-log-in' style='color: rgb(10, 78, 143);margin-right:8px;'></button>";
-						 var b = "<button  onclick='openSuggest(3,"+row.ID+")' title='驳回'  class='glyphicon glyphicon-log-out' style='color: rgb(10, 78, 143);margin-right:8px;'></button>";
+						 var a = "<button  onclick='openSuggest(1,\""+ row.ID+ "\")' title='通过'  class='glyphicon glyphicon-log-in' style='color: rgb(10, 78, 143);margin-right:8px;'></button>";
+						 var b = "<button  onclick='openSuggest(3,\""+ row.ID+ "\")' title='驳回'  class='glyphicon glyphicon-log-out' style='color: rgb(10, 78, 143);margin-right:8px;'></button>";
 		                 return e + a + b ;    
 					 }
 					 else{
