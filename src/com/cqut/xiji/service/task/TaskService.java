@@ -785,7 +785,7 @@ public class TaskService extends SearchService implements ITaskService {
 				"IF (employee.`level` = 0,'初级',IF (employee.`level` = 1,'中级',IF(employee.`level` = 2,'高级','其它'))) AS employeeLevel",
 				"role.`name` AS roleName" };
 		String condition = " role.`name` = '报告审核人' ";
-		String joinEntity = " LEFT JOIN role ON employee.roleID = role.ID ";
+		String joinEntity = " LEFT JOIN role ON LOCATE(role.ID,employee.roleID) > 0 ";
 
 		List<Map<String, Object>> result = entityDao.searchWithpaging(
 				properties, tableName, joinEntity, null, condition, null, sort,

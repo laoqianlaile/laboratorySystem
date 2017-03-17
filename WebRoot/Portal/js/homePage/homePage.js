@@ -29,9 +29,7 @@ $(function(){
 	    		$(".a>p>strong").css("font-size","16px");
 	    		$(".a>p>strong").css("font-family", "Microsoft YaHei UI");
 		    	content.style.cssText='line-height:29px;font-size:16px;';
-		    /*		alert(myobj);
-	    		console.info(myobj['artContent']);
-	    		for(var i = 0;i<myobj.length;i++){	}*/
+
 	    	}
 	 		}
 	 });
@@ -89,6 +87,7 @@ $(function(){
     	 if(data){
     		 var newslist= "";
 	    	 var myobj=eval(data);
+	 
 	    	 var j = 7;
 	    	 var n = 0;
 	    	 var day = new Date();
@@ -121,14 +120,14 @@ $(function(){
 	 var classiccase = document.getElementById("classiccase").getAttribute('value');
 	 $.ajax( {  
 		 data:{'artCaseType':classiccase},
-	     url:'articleController/getArticle.do',// 跳转到 action  
+	     url:'articleController/getClassicCase.do',// 跳转到 action  
 	     type:'post',  
 	     dataType:'json',
 	     success:function(data) {  
-	    	 
     	 if(data){
     		 var classiccase= "";
-	    	 var myobj=eval(data);
+	    	 var myobj=eval(data['rows']);
+	    	
 	    	 var j = 4;
 	    	 var n = 0;
 	    	 if(myobj.length<=j){
@@ -138,7 +137,7 @@ $(function(){
 	    	 for(var i=0;i<n;i++){ 
 	    		 classiccase += "<li class='case-item' >"+
 	    		 "<a href="+"Portal/jsp/classicCase/CaseDetails.jsp?articleID="+myobj[i].articleID+">"+
-	    		 "<img class='img-case' src=" + "'" +myobj[i].artPicturegis + "'" + " onerror='errorImg(this,"+ i+")'" +">"+
+	    		 "<img class='img-case' src=" + "'" +myobj[i].path + "'" + " onerror='errorImg(this,"+ i+")'" +">"+
 	    		 "<div class='case-name'>"+myobj[i].artTitle+"</div>"+
 	    		 "</a>"+"</li>";
 		    	}

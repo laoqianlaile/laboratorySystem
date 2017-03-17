@@ -109,6 +109,7 @@ public class FileOperateController {
 		String relativePath = "";// 文件的相对路径,加密后存入数据库
 		fileName = file.getOriginalFilename();// 获取文件全名
 		fileNames = fileName.split("\\.");// 将文件名以\.分割成一个数组
+		String directoryName = "";
 		String cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\";//缓存文件地址
 		if (filePath != null && !filePath.isEmpty() && !filePath.equals("")) {
 			 path = path + filePath;
@@ -121,13 +122,15 @@ public class FileOperateController {
 		if (secondDirectory != null && !secondDirectory.isEmpty()
 				&& !secondDirectory.equals("")) {
 			path = path + secondDirectory + "\\";
-			relativePath += firstDirectory + "\\";
+			relativePath += secondDirectory + "\\";
+
 		}
 		if (thirdDirectory != null && !thirdDirectory.isEmpty()
 				&& !thirdDirectory.equals("")) {
 			path = path + thirdDirectory + "\\";
-			relativePath += firstDirectory + "\\";
+			relativePath += thirdDirectory + "\\";
 		}
+		directoryName+=path;
 		for (int j = 0; j < fileNames.length; j++) {
 			if (fileNames.length - j > 1) {
 				path += fileNames[j];
@@ -140,7 +143,12 @@ public class FileOperateController {
 			}
 		}
         
+		File directoryCreate = new File(directoryName);
+		if (!directoryCreate.exists()) {
+			directoryCreate.mkdirs();
+		}
 		File targetFile = new File(cacheFilePath);
+		
 		if (!targetFile.exists()) {
 			targetFile.mkdirs();
 		}
@@ -177,6 +185,7 @@ public class FileOperateController {
 		fileEncryptservice.encryptPath(relativePath, ID);//加密路径
 		fileEncryptservice.encryptFile(cacheFilePath,path,ID);//加密文件
 		return ID;
+
 
 	}
 
@@ -240,6 +249,8 @@ public class FileOperateController {
 			int x = relativePath.lastIndexOf("\\");
 			x++;
 			String filedisplay = relativePath.substring(x, length);// "给用户提供的下载文件名";
+			
+			
 			PropertiesTool pe = new PropertiesTool();
 		    String path = pe.getSystemPram("filePath") + "\\" + relativePath;
 		    
