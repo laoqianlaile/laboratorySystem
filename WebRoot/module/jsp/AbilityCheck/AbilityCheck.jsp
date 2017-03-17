@@ -21,88 +21,69 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
-	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.min.css">
-	<link rel="stylesheet" type="text/css" href="module/css/AbilityCheck/fileinput.min.css">
+	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
 	<link rel="stylesheet" type="text/css" href="module/css/AbilityCheck/messenger.css">
 	<link rel="stylesheet" type="text/css" href="module/css/AbilityCheck/messenger-theme-future.css">
 	<link rel="stylesheet" type="text/css" href="module/css/fileManage/fileManage.css">
+	<link rel="stylesheet" type="text/css" href="module/css/AbilityCheck/AbilityCheck.css">
 
 
 	<script src="module/js/jquery-2.1.1.min.js"></script>
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script src="assets/js/bootstrap-table.min.js"></script>
 	<script src="assets/js/bootstrap-table-zh-CN.min.js"></script>
-	<script src="module/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
-	<script src="module/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+	<script src="module/js/bootstrap-datetimepicker.js"></script>
+	<script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script src="module/js/bootstrap-datetimepicker.fr.js"></script>
 	<script src="module/js/AbilityCheck/messenger.js"></script>
-	<style type="text/css">
-	<script src="module/js/fileManage/fileManage.js"></script>
-	<script src="module/js/jquery.uploadify.min.js"></script>
-	.Forbid:hover{
-	cursor:not-allowed;
-	}
-	.inputWidth{
-	width:70%;
-	}
-	.span4{
-	width: 710px;
-    height: 50px;
-    padding: 7px 5px;
-    float:left;
-	}
-	.newButton{
-	height: 40px;
-    margin: 5px;
-	}
-	</style>
   </head>
   
   <body>
  
- <div class="container-fluid">
-		<div class="span4">
-			<div class="form-group">
-			<label for="firstname" class="col-sm-2 control-label">组织者</label>
-			<div class="col-sm-10">
-			<input type="text" class="form-control inputWidth"  id="Organizer" placeholder="请输入名字"  >
-			</div>
-			</div>
+ <div class="row">
+		<div class="col-xs-4">
+			<label>组织者:</label>
+			<input type="text" class="form-control"  id="Organizer" aria-describedby="basic-addon1" placeholder="请输入名字"  >
 		</div>
-		<div class="span4">
-			<div class="form-group">
-				<label for="firstname" class="col-sm-2 control-label">设备名称</label>
-				<div class="col-sm-10">
-					<select class="form-control inputWidth" id="Devicename"></select>
-				</div>
+		<div class="col-xs-4">
+				<label>设备名称:</label>
+					<select class="form-control" id="Devicename"></select>
 			</div>
-			</div>
-		<div class="span4">
-			<div class="form-group">
-				<label for="firstname" class="col-sm-2 control-label">计划执行时间</label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" style="width:32.5%;float:left;" id="Executiontime" placeholder="请输入开始时间" >
-					<span style="width: 5%;float: left;font-size: 20px;text-align: center;line-height: 30px;">至</span>
-					<input type="text" class="form-control" style="width:32.5%;float:left;" id="Executiontime2" placeholder="请输入结束时间" >
-				</div>
-			</div>
-		</div>
-		
-			<div class="span4">
-			<div class="form-group">
-				<label for="firstname" class="col-sm-2 control-label">实施类型</label>
-				<div class="col-sm-10">
-					<select class="form-control inputWidth" id="Implement">
+			
+			<div class="col-xs-4">
+				<label>实施类型:</label>
+				<select class="form-control" id="Implement">
 						<option>测量审核</option>
 						<option>能力验证</option>
-					</select>
-				</div>
+				</select>
 			</div>
+		
+	</div>
+	<div class="row">
+	<div class="col-xs-4">
+				<label class="wide">计划执行时间:</label>
+				<div class="input-group date form_datetime timeChooseDiv">
+				<input type="text" class="form-control"  id="Executiontime" size="16" type="text" value="" 
+				readonly="true" placeholder="请输入开始时间" > <span class="input-group-addon"><span
+							class="glyphicon glyphicon-remove"></span></span> <span
+							class="input-group-addon"><span
+							class="glyphicon glyphicon-calendar"></span></span>
+					</div> 
 		</div>
 		
-		<div class="span4">
-		<button onclick="find()" style="width: 85px;" class="btn btn-success glyphicon glyphicon-search" >查找</button>
+		<div class="col-xs-4">
+			<label>至:</label>
+			<div class="input-group date form_datetime timeChooseDiv">
+			<input type="text" class="form-control"  id="Executiontime2" size="16" type="text" value="" 
+			readonly="true" placeholder="请输入开始时间" ><span class="input-group-addon"><span
+							class="glyphicon glyphicon-remove"></span></span> <span
+							class="input-group-addon"><span
+							class="glyphicon glyphicon-calendar"></span></span>
+					</div> 
 		</div>
-		
+		<div class="col-xs-1 col-md-1 col-lg-1">
+		<button onclick="find()"  class="btn btn-primary glyphicon glyphicon-search" >查找</button>
+		</div>
 	</div>
 
 		<!-- 确认删除 -->
@@ -166,15 +147,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 	
 		<div class="input-group" style="float: left;margin-bottom: 10px;">
-  		<button type="button" onclick="add()" class="btn btn-info glyphicon glyphicon-plus newButton">&nbsp;制定计划</button>
-  		<button type="button" onclick="editPlan()" class="btn btn-info glyphicon glyphicon-edit newButton">&nbsp;修改计划</button>
-		<button type="button" onclick="deleteModal()" class="btn btn-info glyphicon glyphicon-remove newButton">&nbsp;删除计划</button>
-  		<button onclick="download()"  class="btn btn-info glyphicon glyphicon-download-alt newButton">&nbsp;下载报告</button>
-  		<button onclick="checkTable()" type="button" class="btn btn-info glyphicon glyphicon-file newButton" >&nbsp;填写结果</button>
-  		<button class='btn btn-info glyphicon glyphicon-refresh newButton' onclick="refresh2()" type='button'>&nbsp;刷新&nbsp;</button>
+  		<button type="button" onclick="add()" class="btn btn-primary glyphicon glyphicon-plus newButton">&nbsp;制定计划</button>
+  		<button type="button" onclick="editPlan()" class="btn btn-primary glyphicon glyphicon-edit newButton">&nbsp;修改计划</button>
+		<button type="button" onclick="deleteModal()" class="btn btn-primary glyphicon glyphicon-remove newButton">&nbsp;删除计划</button>
+  		<button onclick="download()"  class="btn btn-primary glyphicon glyphicon-download-alt newButton">&nbsp;下载报告</button>
+  		<button onclick="checkTable()" type="button" class="btn btn-primary glyphicon glyphicon-file newButton" >&nbsp;填写结果</button>
+  		<button class='btn btn-primary glyphicon glyphicon-refresh newButton' onclick="refresh2()" type='button'>&nbsp;刷新&nbsp;</button>
   		</div> 
-  			<button id="uploading" style="float:right;display: none;" class="btn btn-primary glyphicon glyphicon-arrow-up" onclick="addPlan(this)" type="button">&nbsp提交&nbsp</button>
-		<table class="table table-bordered table-hover"  id="table"></table>
+  			<button id="uploading" style="float:right;" class="btn btn-primary glyphicon glyphicon-ok" onclick="addPlan(this)" type="button">&nbsp提交制定计划&nbsp</button>
+		<table class="table table-bordered table-hover"  id="table">
+		</table>
 
 		
 </body>
@@ -183,7 +165,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <script type="text/javascript">
 $('#Implement').val("");
 $('#Organizer').val("");
-$('#Executiontime').val("");
 
 </script>
 </html>
