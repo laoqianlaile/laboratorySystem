@@ -41,6 +41,9 @@
     padding-bottom: 20px;
     width: 101%;
 }
+#menu button{
+	  margin-right: 2%;
+}
 </style>
 
 <body>
@@ -90,8 +93,8 @@
 								</select>
 							</div>
 						</div>
-						<div id = "menu" class="col-md-3.5 column">
-							<div>
+						<div id = "menu" class="row clearfix">
+							<div class="col-md-6 column">
 								<button id="query" onclick="query()" class="btn btn-primary"
 									type="button">
 									<em class="glyphicon glyphicon-search"></em> 查询

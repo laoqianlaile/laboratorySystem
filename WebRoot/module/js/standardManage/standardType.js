@@ -8,7 +8,7 @@ function init(){
 
 	$(function(){
 		$('#table').bootstrapTable({
-			striped:true, // 隔行变色效果
+			striped:false, // 隔行变色效果
 			pagination:true,// 在表格底部显示分页条
 			pageSize:3,// 页面数据条数
 			pageNumber: 1,// 首页页码
@@ -69,8 +69,8 @@ function init(){
 				width:'20%',
 				 formatter:function(value,row,index){ 
 					 var a = "<img src ='module/img/edit_icon.png' onclick='openEditModal("+JSON.stringify(row)+")' title='修改' style='cursor:pointer;margin-right:8px;' >"
-					 var e = "<img src = 'module/img/delete_icon.png' onclick='delStandardType(\""+row.ID+"\")' title='删除' style='cursor:pointer;margin-right:8px;'  />"
-	                 return a + e;    
+//					 var e = "<img src = 'module/img/delete_icon.png' onclick='delStandardType(\""+row.ID+"\")' title='删除' style='cursor:pointer;margin-right:8px;'  />"
+	                 return a ;    
 	             }   
 			}]// 列配置项,详情请查看 列参数 表格
 			/* 事件 */
@@ -104,25 +104,25 @@ function isLogin(){
 }
 
 
-/*删除标准类型*/
-function delStandardType(data){
-	 if(confirm("确定要删除？")){
-		 StandardTypeIDs = arguments[0];
-		 $.ajax({
-				url: 'standardTypeController/delStandardType.do',
-				data:{
-					StandardTypeIDs : StandardTypeIDs
-				},
-				success:function(o){
-					if(o <= 0){
-						alert("修改失败");
-					}
-					$('#editModal').modal('hide');
-					refresh();
-				}
-           });
-	 }
-}
+///*删除标准类型*/
+//function delStandardType(data){
+//	 if(confirm("确定要删除？")){
+//		 StandardTypeIDs = arguments[0];
+//		 $.ajax({
+//				url: 'standardTypeController/delStandardType.do',
+//				data:{
+//					StandardTypeIDs : StandardTypeIDs
+//				},
+//				success:function(o){
+//					if(o <= 0){
+//						alert("修改失败");
+//					}
+//					$('#editModal').modal('hide');
+//					refresh();
+//				}
+//           });
+//	 }
+//}
 
 function openEditModal(){
 	if(! isLogin()){

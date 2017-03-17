@@ -8,12 +8,12 @@ function init(){
 
 	$(function(){
 		$('#table').bootstrapTable({
-			striped:true, // 隔行变色效果
+			striped:false, // 隔行变色效果
 			pagination:true,// 在表格底部显示分页条
 			pageSize:10,// 页面数据条数
 			pageNumber: 1,// 首页页码
 			pageList: [3,5,9,10,200,500],// 设置可供选择的页面数据条数
-			clickToSelect : false,// 设置true 将点击时，自动选择rediobox 和 checkbox
+			clickToSelect : true,// 设置true 将点击时，自动选择rediobox 和 checkbox
 			cache:false,// 禁用AJAX数据缓存
 			sortName:'standard.ID',
 			Order:'asc',
@@ -219,12 +219,18 @@ function add(){
 	fileUpload("#file_upload",path, type, belongID,firstDirectoryName, secondDirectoryName,thirdDirectoryName,
 			otherInfo, remarks);
 	
-	// 延迟执行
-	setTimeout("addstandard()",3000); 
+	fileIDs = fielIdReturn();
 	
+	if(fileIDs === "" || fileIDs === null){
+		alert("请上传文件");
+	}
+	else{
+		// 延迟执行
+		setTimeout("addstandard("+fileIDs+")",3000); 
+	}
 	
 }
-/*   只上传文件       */
+/*   只上传文件    
 function addfile(){
 	path = ""; // 文件上传路径，如果此参数没有值，则使用firstDirectoryName,secondDirectoryName,thirdDirectoryName
 	type = "0"; // 文件类型       该处默认为模板文件
@@ -237,13 +243,10 @@ function addfile(){
 	
 	fileUpload("#upFile",path, type, belongID,firstDirectoryName, secondDirectoryName,thirdDirectoryName,
 			otherInfo, remarks);
-	
-	// 延迟执行
-	setTimeout("addstandard()",3000); 
 }
-
+   */
 //新增标准（处理文件ID）
-function addstandard(){
+function addstandard(fileIDs){
 	
 	var parame = {};
 	parame.uploaderID = ($('#uploaderID').val());
@@ -256,7 +259,7 @@ function addstandard(){
 	parame.DESCRIPTION = $('#add_DESCRIPTION').val();//
 	parame.fileID = "";
 	
-	fileIDs = fielIdReturn();
+//	fileIDs = fielIdReturn();
 	if(fileIDs.length == 0){
 		alert("出错了，没有获取到文件ID，正在全力解决");
 		return;

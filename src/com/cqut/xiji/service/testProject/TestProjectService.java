@@ -59,14 +59,14 @@ public class TestProjectService extends SearchService implements
 				"testProject.ENVIRONMENTALREQUIREMENTS",
 				"testproject.describes",
 				"testproject.remarks",
-				"testInstument.ID as testInstumentID",
-				"testStandard.ID as testStandardID",
-				"standard.STANDARDCODE",
+				"GROUP_CONCAT(distinct testInstument.ID ) AS testInstumentID",
+				"GROUP_CONCAT(distinct	testStandard.ID) AS testStandardID",
+				"GROUP_CONCAT(distinct  standard.STANDARDCODE) as STANDARDCODE",
 				"GROUP_CONCAT(equipment.equipmentName) as EQUIPMENTNAME",
 				"GROUP_CONCAT(equipment.ID) AS EQUIPMENTID",
 				"department.DEPARTMENTNAME", 
 				"DATE_FORMAT(testProject.CREATETIME,'%Y-%m-%d %H:%i') as createTime",
-				"department.ID as DEPARTMENTID", "standard.ID as STANDARDID",
+				"department.ID as DEPARTMENTID",
 				"template.`name`" };
 
 		String condition = "1 = 1 ";
@@ -85,12 +85,10 @@ public class TestProjectService extends SearchService implements
 				+ "LEFT JOIN template on template.ID = testproject.templateID "
 				+ "LEFT JOIN equipment on equipment.ID = testinstument.equipmentID";
 
-		String groupField = "testProject.ID ";
+		String groupField = "testproject.ID ";
 		List<Map<String, Object>> result = originalSearchWithpaging(properties,
 				tableName, joinEntity, null, condition, false, groupField,
 				sort, order, index, pageNum);
-
-		// System.out.println(Arrays.toString(result.toArray()));
 
 		int count = getForeignCountInFull("testproject.ID", joinEntity, null,
 				condition, false);
