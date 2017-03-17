@@ -42,7 +42,7 @@ function initData(){
 		selectItemName : '',// radio or checkbox 的字段名
 		columns : [ {
 			checkbox : true,
-			width :"1%",// 宽度
+			width :"2%",// 宽度
 		},{
 			field:'ID',//返回值名称
 			title:'合同ID',//列名
@@ -63,7 +63,6 @@ function initData(){
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:"9%",//宽度
-//			visible:false
 		},{
 			field:'contractName',//返回值名称
 			title:'合同名称',//列名
@@ -123,31 +122,31 @@ function initData(){
 			title:'合同金额',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"4%",//宽度
+			width:"3%",//宽度
 		},{
 			field:'isClassified',//返回值名称
 			title:'是否涉密',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"4%",//宽度
+			width:"3%",//宽度
 		},{
 			field:'classifiedLevel',//返回值名称
 			title:'涉密等级',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"4%",//宽度
+			width:"3%",//宽度
 		},{
 			field:'state',//返回值名称
 			title:'合同状态',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"4%",//宽度
+			width:"3%",//宽度
 		},{
 			field:'viewpoint',//返回值名称
 			title:'审核意见',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"6%",//宽度
+			width:"4%",//宽度
 		}]//列配置项,详情请查看 列参数 表格
 		/*事件*/
 	});
@@ -287,11 +286,7 @@ function add(){
 			alert("合同截至日期不能为空！"); 
 			return;
 		}
-		if (signTime > startTime && startTime > endTime) 
-		{ 
-			alert("合同开始/截至日期超前！"); 
-			return;
-		}
+		
 		if (!isClassified && typeof(isClassified)!="undefined" && isClassified=='') 
 		{ 
 			alert("是否保密不能为空！");

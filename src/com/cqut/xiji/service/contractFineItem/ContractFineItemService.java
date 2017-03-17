@@ -673,7 +673,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 	    	  contractAmount +=  (double)(m.get(k));
 	      }  
 	    }
-		Contract contract = new Contract();
+		Contract contract = entityDao.getByID(contractID, Contract.class);
 		contract.setContractAmount(contractAmount);
 		int result = entityDao.updatePropByID(contract,contractID);
 		
@@ -686,7 +686,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 			int number, double price, int hour, double money,
 			String departmentID, String remarks){
 		// TODO Auto-generated method stub
-		ContractFineItem contractFineItem = new ContractFineItem();
+		ContractFineItem contractFineItem = entityDao.getByID(ID, ContractFineItem.class);
 		contractFineItem.setID(ID);
 		contractFineItem.setFineItemCode(fineItemCode);
 		contractFineItem.setTestProjectID(testProjectID);

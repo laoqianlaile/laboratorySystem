@@ -18,7 +18,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
-	<link rel="stylesheet" type="text/css" href="module/css/contractManage/contractManage.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="module/css/contractManage/contractAudit.css">
 	
 	<script src="assets/js/jquery-2.0.3.min.js"></script>
 	<script src="module/js/bootstrap.js"></script>
@@ -98,14 +99,65 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div>
   	 			<button type="button" onclick="searchContract()" class="btn btn-primary">查询</button>
   				&nbsp;<button type="button" onclick="showContractA()" class="btn btn-primary">审查</button>
+  				&nbsp;<button type="button" onclick="writeModal1()" class="btn btn-primary">通过</button>
+  				&nbsp;<button type="button" onclick="writeModal2()" class="btn btn-primary">驳回</button>
   				&nbsp;<button id="refresh" onclick="refresh()" type="button" class="btn btn-primary">刷新</button>
 			</div>
 		</div>
 	</div>
   	
+  	<!-- 填写审核意见弹框 -->
+  	<div id="writeModal1" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title">填写合同资料审核意见(通过)</h4>
+	      </div>
+	      <div class="modal-body">
+	      	<div class="row1">
+	      		<div>
+                   	<label class="control-label">审核意见:</label>
+               	 	<input id="approveCause" name="approveCause"class="form-control" />
+               	</div>
+	      	</div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary" onclick="approved()">通过</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	      </div>
+	  </div>
+	</div>
+	</div>
+	
+	<!-- 填写审核意见弹框 -->
+  	<div id="writeModal2" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
+	    <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title">填写合同资料审核意见(驳回)</h4>
+	      </div>
+	      <div class="modal-body">
+	      	<div class="row1">
+	      		<div>
+                   	<label class="control-label">审核意见:</label>
+               		<input id="rejecteCause" name="rejecteCause" class="form-control"/>
+               	</div>
+	      	</div>
+	      	</div>
+	      <div class="modal-footer">
+	      <button type="button" class="btn btn-primary" onclick="rejected()">驳回</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	      </div>
+	  </div>
+	</div>
+	</div>
+	
   	<!-- 表格 -->
   	<table id="table">
   	</table>
   </body>
   <script src="module/js/contractManage/contractManage.js"></script>
+  <script src="module/js/contractManage/contractAudit.js"></script>
  </html>
