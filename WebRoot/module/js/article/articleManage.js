@@ -53,13 +53,13 @@ function init() {
 		// queryParams:'',//请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
 		selectItemName : '',// radio or checkbox 的字段名//设置True 将禁止多选
 		columns : [ {
+			checkbox:true,
 			field : 'ck',
-			checkbox : true,
-			align : 'center',
-		// valign: 'middle'
+		    valign: 'middle' 
 		}, {
 			title : '序号',
 			field: 'Number',
+			align : 'center',
 			formatter: function (value, row, index) {
 			return index+1;
 			}

@@ -56,7 +56,7 @@
 	<div class="wrapper">
 		<form class="form-inline group" role="form">
 			<div class="input-group col-xs-12 col-md-3">
-				<span class="input-group-addon articleColumn">文章栏目</span> <select
+				<span class="input-group-addon">文章栏目</span> <select
 					class="form-control" id="search_artColumn">
 					<option>检测案例</option>
 					<option>新闻中心</option>
