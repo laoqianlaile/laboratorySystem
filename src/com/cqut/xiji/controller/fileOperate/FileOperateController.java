@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 
+
 import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.tool.util.DocConverter;
 import com.cqut.xiji.tool.util.EntityIDFactory;
@@ -184,6 +185,7 @@ public class FileOperateController {
 		fileEncryptservice.encryptPath(relativePath, ID);//加密路径
 		fileEncryptservice.encryptFile(cacheFilePath,path,ID);//加密文件
 		return ID;
+
 
 	}
 
@@ -409,75 +411,75 @@ public class FileOperateController {
 	 * @date 2016年10月13日 下午10:37:36
 	 * 
 	 */
+	
+			
 	@RequestMapping("/imageUpload")
 	@ResponseBody
-	public String imageUpload(@RequestParam("file") MultipartFile file,
-			HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入图片上传");
-		// 得到上传图片的保存目录，将上传的图片放在WEB-INF下，不允许外界直接访问，保证上传图片的安全
-
-		/*
-		 * String savePath =
-		 * request.getSession().getServletContext().getRealPath("C:\\upload\\");
-		 */String filePathString = "C:\\upload";
-
-		/*
-		 * String filePath = System.getProperty("user.dir").replace("bin",
-		 * "webapps") + "\\" + "files" + "\\" + "protalImages";//
-		 * 获取tomcat下webapps的目录
-		 */
-
-		// 如果目录不存在则创建改目录
-		String filename = file.getOriginalFilename();
-		String typeName = (filename.substring(filename.lastIndexOf(".") + 1))
-				.toLowerCase();
-		if (typeName.equals("jpg") || typeName.equals("png")
-				|| typeName.equals("psd") || typeName.equals("tiff")
-				|| typeName.equals("jpeg") || typeName.equals("gif")
-				|| typeName.equals("bmp")) {
-			File saveFile1 = new File(filePathString, filename);
-
-			if (!saveFile1.exists()) {
-				saveFile1.mkdirs();
+	public String imageUpload(@RequestParam("file") MultipartFile file,String belongtoID,
+			HttpServletRequest request, HttpServletResponse response) throws IOException {
+		long begin = 0;
+		String ID = "";// 文件ID
+		String fileName = "";// 文件名
+		String[] fileNames = null; // 文件名按"."分割后文件名的集合
+		String path = "";// 文件路径
+		begin = System.currentTimeMillis();
+		ID = EntityIDFactory.createId();
+		fileName = file.getOriginalFilename();
+		fileNames = fileName.split("\\.");
+//		path = System.getProperty("user.dir").replace("bin", "webapps") + "\\" + "files" + "\\";// 获取tomcat下webapps的目录
+		PropertiesTool pe = new PropertiesTool();
+		path= pe.getSystemPram("imgPath")+"\\" ;
+		String pathBack ="";
+		pathBack+= pe.getSystemPram("imgRoute")+"/";
+		
+		for (int j = 0; j < fileNames.length; j++) {
+			if (fileNames.length - j > 1) {
+				path += fileNames[j];
+				pathBack+= fileNames[j];
+			} else {
+				path += "_" + ID + "." + fileNames[j];
+				pathBack+="_" + ID + "." + fileNames[j];
 			}
-
-			// 复制文件到创建的目录下
-			try {
-				file.transferTo(saveFile1);
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-			Date now = new Date();
-			SimpleDateFormat dateFormat = new SimpleDateFormat(
-					"yyyy-MM-dd HH:mm:ss");
-			String ID = EntityIDFactory.createId();// 图片ID
-			FileInformation fr = new FileInformation();
-			fr.setID(ID);
-			fr.setFileName(filename);
-
-			fr.setPath(filePathString);
-
-			/*
-			 * fr.setPath(filePath);
-			 */
-			fr.setType(5);
-			try {
-				fr.setUploadTime(dateFormat.parse(dateFormat.format(now)));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			service.saveFiles(fr);
-
-			System.out.println(filePathString + "\\" + filename);
-			return filePathString + "\\" + filename;
-		} else {
-			return "false";
 		}
-	}
+		System.out.println("test-------------------------");
+		System.out.println("Pathback:"+pathBack);
+        System.out.println("path :"+path);
+		File targetFile = new File(path);
+		if (!targetFile.exists()) {
+			targetFile.mkdirs();
+		}
 
+		try {
+			file.transferTo(targetFile);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		Date now = new Date(begin);
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd HH:mm:ss");
+		FileInformation fr = new FileInformation();
+		fr.setID(ID);
+		
+		fr.setFileName(fileName);
+		/*fr.setPath(path);*/
+		fr.setPath(pathBack);//只把文件名写进去
+		fr.setBelongtoID(belongtoID);
+		// fr.setUploaderID();
+		
+		fr.setState(0);
+		try {
+			fr.setUploadTime(dateFormat.parse(dateFormat.format(now)));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		service.saveFiles(fr);
+		return ID;
+
+	}
+	
 	/**
 	 * 
 	 * @descriptio 获得文件类型

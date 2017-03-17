@@ -82,7 +82,7 @@ function downOneFile(fileID) {
 			window.location.href = "fileOperateController/filedownload.do?ID="
 					+ fileID;
 		} else {
-			alert("下载错误");
+			chen.alert("下载错误");
 		}
 	});
 }
@@ -100,9 +100,9 @@ function deleteFile(ids) {
 		IDs : ids
 	}, function(result) {
 		if (result == true || result == "true") {
-			alert("删除成功");
+			chen.alert("删除成功");
 		} else {
-			alert("删除失败");
+			chen.alert("删除失败");
 		}
 	});
 }

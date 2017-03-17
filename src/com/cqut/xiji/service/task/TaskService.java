@@ -873,9 +873,8 @@ public class TaskService extends SearchService implements ITaskService {
 			tr.setID(testReportID);
 			tr.setReceiptlistID(receiptlistID);
 			tr.setTaskID(taskID);
-			/*
-			 * tr.setVersionNumber(""); tr.setVersionInformation("");
-			 */
+			tr.setVersionNumber("1.0");
+			//tr.setVersionInformation("");
 			if (fileID != null && !fileID.isEmpty() && !fileID.equals("")) {
 				tr.setState(0);
 				tr.setFileID(fileID);
