@@ -44,19 +44,26 @@ function changeBreadCrumb(){
 	data.reverse(); // 由于添加数据时是从底层节点向上添加，这里反转数据以便后面使用
 	
 	var html = '';
+	var column = '';
 	
 	// 动态添加breadcrumb结构
 	data.map((item, index) => {
 		if(data.length === 1){
 			html += '<li class="active">' + item.text + '</li>';
+			column = '<span class = "column">' + item.text + '</span>';
 		}else {
-			if(index === data.length-1)
+			if(index === data.length-1){
 				html += '<li class="active">' + item.text + '</li>';
-			else 
+				column = '<span class = "column">' + item.text + '</span>';
+			}
+			else {
 				html += '<li><a href="' + item.href + '">' + item.text + '</a></li>';
+				column = '<span class = "column">' + item.text + '</span>';
+			}
 		}
 	});
 	
+	$('.page-header').html('<img class="icon" alt="" src="module\\img\\word_icon.png">' + column);
 	$('.breadcrumb').html(html); // 设置breadcrumb结构
 }
 

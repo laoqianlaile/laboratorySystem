@@ -65,9 +65,13 @@
 
 .page-header {
 	height: 50px;
+	margin: 20px 10px;
+	border: 1px #ccc solid;
+	padding:0px;
 }
 .ace-settings-container {
-	top: 90px;
+	top: 110px;
+	right:10px;
 }
 /* .treeview {
 	margin-top: -21px;
@@ -149,6 +153,7 @@ vertical-align: middle;
 	padding-left: 0;
 	margin-bottom: 5px;
 }
+
 .list-group-item {
 	background: #37475f;
 	color: #fff;
@@ -178,3 +183,16 @@ vertical-align: middle;
 	margin-left: 0;
 }
 
+.column{
+	height: 100%;
+	line-height: 50px;
+	text-align: center;
+	font-size: 16px;
+	color: #333;
+	list-style: none;
+	width: 80px;
+}
+
+.icon{
+	margin: 0 10px;
+}

@@ -3,6 +3,8 @@ package com.cqut.xiji.service.testProject;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * 检测项目
  * 
@@ -40,7 +42,7 @@ public interface ITestProjectService {
 
 
 	Map<String, Object> getTestproWithPaging(int limit, int offset,
-			String order, String sort, String contract);
+			String order, String sort, String contract,HttpSession session);
 
    /**
     * 获取检测项目列表(取字段)
