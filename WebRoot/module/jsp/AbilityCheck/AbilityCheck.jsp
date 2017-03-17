@@ -82,7 +82,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div> 
 		</div>
 		<div class="col-xs-1 col-md-1 col-lg-1">
-		<button onclick="find()"  class="btn btn-primary glyphicon glyphicon-search" >查找</button>
+		<button onclick="find()"  class="btn btn-primary glyphicon glyphicon-search" >&nbsp;查找&nbsp;</button>
 		</div>
 	</div>
 
