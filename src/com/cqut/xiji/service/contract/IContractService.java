@@ -3,10 +3,12 @@ package com.cqut.xiji.service.contract;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 public interface IContractService {
 
 	Map<String, Object> getContractWithPaging(int limit, int offset,
-			String order, String sort, String taleName);
+			String order, String sort, String taleName,HttpSession session);
 
 	public int addContract(String contractName, String companyID,String companyName,
 			String oppositeMen, String linkPhone, String employeeName,

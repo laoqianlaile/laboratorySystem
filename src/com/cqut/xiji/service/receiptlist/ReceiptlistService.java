@@ -808,6 +808,7 @@ public class ReceiptlistService extends SearchService implements
 				"receiptlist.receiptlistCode AS reCode ",
 				"company.ID as comID",
 				"project.ID as proID",
+				"IF ( receiptlist.receiptlistType = 0,'接受',IF (receiptlist.receiptlistType = 1,'退还','接受')) AS reType ",
 				"contract.state AS cState",
 				"IF ( receiptlist.state IS NULL, '无交接单', "
 						+ "IF ( receiptlist.state = 0 , '未检测', "

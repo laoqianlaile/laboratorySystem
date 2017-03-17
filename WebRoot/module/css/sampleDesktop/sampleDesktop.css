@@ -126,7 +126,7 @@
 	vertical-align: middle;
 }
 
-.RightArea .row .col-xs-7 span:not(:FIRST-CHILD){
+.RightArea .row .col-xs-8 span:not(:FIRST-CHILD){
 	font-style:italic;
 	font-family:
 	fantasy;color:#333;
@@ -140,13 +140,13 @@
 	font-size: 18;
 }
 
-.RightArea .row .col-xs-7 span:FIRST-CHILD {
+.RightArea .row .col-xs-8 span:FIRST-CHILD {
 	font-size: 18;
 }
 .fixed-table-body #table .bs-checkbox {
 vertical-align: middle;
 }   
-.RightArea .row .col-xs-7 span + sapn, .leftArea .row span + sapn{
+.RightArea .row .col-xs-8 span + sapn, .leftArea .row span + sapn{
     font-style: italic;
     font-family: fantasy;
 }

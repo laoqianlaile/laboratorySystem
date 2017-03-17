@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -189,4 +190,22 @@ public class TestProjectController{
       	List<Map<String, Object>> result = service.getTestProject(testProjectNamae);
 		return result;
 	}
+	
+	/**
+	 * 
+	 * @param limit
+	 * @param offset
+	 * @param order
+	 * @param sort
+	 * @param contract
+	 * @return
+	 */
+	@RequestMapping("/getTestproWithPaging")
+	@ResponseBody
+	public JSONObject getTestproWithPaging(int limit, int offset,
+			String order, String sort, String contract,HttpSession session) {
+		Map<String, Object> result = service.getTestproWithPaging(limit, offset, order, sort, contract,session);
+		return JSONObject.fromObject(result);
+	}
+	
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Condition;
 import org.springframework.stereotype.Service;
@@ -666,8 +667,7 @@ public class ContractService extends SearchService implements IContractService{
 	 * @see com.cqut.xiji.service.contract.IContractService#getContractWithPaging(int, int, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public Map<String, Object> getContractWithPaging(int limit, int offset,String order,String sort,String contract) {
-		System.out.println("222" + "<br />");
+	public Map<String, Object> getContractWithPaging(int limit, int offset,String order,String sort,String contract,HttpSession session) {
 		int index = limit;
 		int pageNum = offset/limit ;
 		String tablename = "contract";
@@ -676,7 +676,10 @@ public class ContractService extends SearchService implements IContractService{
 				"contractName",
 				"signTime"
 		};
-		List<Map<String, Object>> result = entityDao.searchWithpaging(properties, tablename, null, null, "1=1", null, sort, order, index, pageNum);
+		String name = session.getAttribute("clientNo").toString();
+		System.out.println(name);
+		String acondition = "companyID in (SELECT  companyID from client WHERE clientNo = "+name+")";
+		List<Map<String, Object>> result = entityDao.searchWithpaging(properties, tablename, null, null, acondition, null, sort, order, index, pageNum);
 		int count = entityDao.getByCondition("1=1", Contract.class).size();
 		String receive ="";
 		for (Map<String, Object> m : result)  
@@ -688,6 +691,7 @@ public class ContractService extends SearchService implements IContractService{
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("total", count);
 		map.put("rows",result);
+		System.out.println(map.toString());
 		return map;
 	}
 	/**

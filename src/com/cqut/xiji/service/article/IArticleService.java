@@ -28,5 +28,5 @@ public interface IArticleService {
 
 	Map<String, Object> getSecondsNewsWithPaging(int rows, int page,
 			String order, String sort);
-
+	public Map<String, Object> getClassicCase(String artCaseType);
 }

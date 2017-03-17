@@ -20,6 +20,7 @@ function initData(){
 	initFileTable();
 	initTidingsTable();
 }
+
 function initContractTable(){
 	
 	$('.contractTable').bootstrapTable({
@@ -127,6 +128,14 @@ function initContractTable(){
 							align : 'center',// 水平居中显示
 							valign : 'middle',// 垂直居中显示
 							width : '35%'// 宽度
+						},
+						{
+							field : 'reType',// 返回值名称
+							title : '交接单类型',// 列名
+							align : 'center',// 水平居中显示
+							valign : 'middle',// 垂直居中显示
+							width : '35%',// 宽度
+							visible : false
 						},
 						{
 							field : 'reState',// 返回值名称
@@ -375,7 +384,56 @@ function refrehMessage(text){
 						query : param
 			});
 }
-
+/*
+ * 
+ * 
+ * 按钮图标选择事件
+ */
+//查看交接单
+function viewRe(){
+	var data = $('.contractTable').bootstrapTable('getSelections');
+    //弹出确认框
+	if (data.length != 1) {
+		window.location = "module/receiptlistManage/receiptlistView.jsp?reID=" + data[0].reID;
+		return;
+	}
+	else{
+		chen.alert("请选中一条数据");
+		return;
+	}
+	
+}
+//编辑交接单
+function editRe(){
+	var data = $('.contractTable').bootstrapTable('getSelections');
+	
+    //弹出确认框
+	if (data.length != 1) {
+		var reObj = data[0];
+		if(reObj.reType == "接受") 
+			 window.location.href = "./addRecelist.jsp?reID="+reObj.reID
+			 						+"&coID=" + reObj.coID + "&comID="
+			 						+ reObj.comID + "&coCode=" + reObj.coCode
+			 						+ "&addState=no&reCode=" + reObj.reCode
+			 						+"&lookState=edit";
+		 //退还样品-交接单编辑的页面
+		else {
+				window.location.href = "./receiptlistReturn.jsp?reID="
+										+reObj.reID+"&coID=" + reObj.coID + "&comID="
+										+ reObj.comID + "&coCode=" + reObj.coCode
+										+ "&state=edit";
+			}
+	}
+	else{
+		chen.alert("请选中一条数据");
+		return;
+	}
+	
+}
+//发送检测报告页面
+function sendTestreport(){
+	window.location.href = "module/jsp/testReportManage/testReportSendRecordManage.jsp"
+}
 //有合同新增--接受类交接单
 function addRe() {
 	var data = $('.contractTable').bootstrapTable('getSelections');
@@ -486,6 +544,10 @@ function checkDataRe(dataObj){
 	if (!dataObj.hasOwnProperty("reState") || dataObj.reState == null
 			|| dataObj.reState.trim() == "NULL") {
 		dataObj.reState = "无交接单";
+	}
+	if (!dataObj.hasOwnProperty("reType") || dataObj.reType == null
+			|| dataObj.reType.trim() == "NULL") {
+		dataObj.reType = "接受";
 	}
 	if (!dataObj.hasOwnProperty("reCode") || dataObj.reCode == null
 			|| dataObj.reCode.trim() == "NULL") {

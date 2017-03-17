@@ -41,8 +41,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var showdiv = document.getElementById("showdiv");
 			var imask = document.getElementById("imask");
 			var con = document.getElementById("contenttable");
-			var usershowid = document.getElementById("usershowid");
-			var loginshow = document.getElementById("h-loginshow");
+			/*var usershowid = document.getElementById("usershowid");
+			var loginshow = document.getElementById("h-loginshow");*/
 			var loginbox = document.getElementById("login_box");
 			var sHeight = document.documentElement.scrollHeight;
 			var sWidth = document.documentElement.scrollWidth;
@@ -86,10 +86,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				loginbox.style.display = "block";
 				imask.style.display = "block";
 			}else{
+				imask.style.display = "none";
 				loadingtable();
-				usershowid.style.display="block";
+				/*usershowid.style.display="block";
 				loginshow.style.display="none";
-				usershowid.innerHTML=""+id+"";
+				usershowid.innerHTML=""+id+"";*/
 			}
 			
 
@@ -98,7 +99,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				oMask.style.width=document.documentElement.scrollWidth;+"px";
 				loginbox.style.left = (window.innerWidth - loginbox.offsetWidth)/2 + "px";
 				loginbox.style.top = (window.innerHeight - loginbox.offsetHeight)/2 + "px";
-				console.log(window.innerWidth - loginbox.offsetWidth);
 			});
 			
 		};

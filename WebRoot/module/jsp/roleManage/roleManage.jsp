@@ -28,14 +28,15 @@
 	href="module/css/bootstrap-table.css">
 
 <link rel="stylesheet" href="module/css/changeACE.css" />
-<link rel="stylesheet" type="text/css"
-	href="module/css/commonSystem/commonSystem.css" />
-
+<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
+<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
 <script src="module/js/bootstrap-table.js"></script>
 <script src="module/js/bootstrap-table-zh-CN.js"></script>
 <script src="assets/js/autoPage.js"></script>
+<script src="module/js/sweetalert.min.js"></script>
+<script src="module/js/alert.js"></script>
 
 <style type="text/css">
 .input-group {

@@ -99,6 +99,7 @@
 }
 .righttable{
 	height:800px;
+    overflow: scroll;
 }
 .newsTitleDiv{
 	width: 100%;

@@ -30,7 +30,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="module/js/bootstrap-table.js"></script>
 	<script src="module/js/bootstrap-table-zh-CN.js"></script>
     <script src="assets/js/autoPage.js"></script>
-    
+    <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+    <script src="module/js/sweetalert.min.js"></script>
+    <script src="module/js/alert.js"></script>
   </head>
   
   <body>
@@ -68,7 +70,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<span id="address">通讯地址:&nbsp;<span></span></span>
 			</div>
 			<div class="col-xs-2 col-md-2 col-lg-2">
-				<input id="isClassified" type="checkbox" />&nbsp;<span>是否涉密</span>
+				<span id="isClassified">是否涉密:&nbsp;<span></span></span>
 			</div>
 			<div class="col-xs-2 col-md-2 col-lg-2">
 				<span id="classifiedLevel">密级:&nbsp;<span></span></span>

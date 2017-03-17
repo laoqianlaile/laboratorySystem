@@ -77,7 +77,7 @@ $(function () {
 			title:'委托单位',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'15%'//宽度
+			width:'10%'//宽度
 		},{
 			field:'linkMan',//返回值名称
 			title:'委托人',//列名
@@ -119,7 +119,7 @@ $(function () {
 			title:'操作',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'5%',//宽度
+			width:'10%',//宽度
 			formatter:function(value,row,index){  
 				var temp = '';
 				if(row.assignState === "未分配"){

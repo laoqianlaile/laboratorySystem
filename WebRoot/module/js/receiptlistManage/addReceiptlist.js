@@ -22,7 +22,7 @@ $(function() {
 });
 // 初始化数据
 function initData() {
-	
+	fileUploadInit("#file_upload");
 	initPageData();
 	initSample();
 	initFile();
@@ -48,7 +48,7 @@ function submitFile(){
 	fileObj.thirdDirectoryName = "交接单文件";//fileThirdDirectory //三级目录
 	fileObj.belongtoID = obj.reID;
  	fileObj.otherInfo = "";//fileOtherInfo; // 其他参数
-	fileObj.remarks = "";//fileRemarks; // 备注
+	fileObj.remarks = $("#fileRemarks").val();//fileRemarks; // 备注
 	//文件上传
 	var ids = fileUpload("#file_upload",fileObj.filePath, fileObj.fileTypeNumber, fileObj.belongtoID, fileObj.firstDirectoryName, fileObj.secondDirectoryName,fileObj.thirdDirectoryName,
 			 fileObj.otherInfo, fileObj.remarks) ;

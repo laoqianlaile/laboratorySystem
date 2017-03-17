@@ -21,12 +21,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" type="text/css" href="module/css/uploadify.css">
 <link rel="stylesheet" type="text/css" href="module/css/taskManage/taskView.css">
 <link rel="stylesheet"  type="text/css" href="module/css/wait.css">
+<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
 <script src="module/js/bootstrap-table.js"></script>
 <script src="module/js/bootstrap-table-zh-CN.js"></script>
 <script src="module/js/jquery.uploadify.min.js"></script>
+<script src="module/js/sweetalert.min.js"></script>
+<script src="module/js/alert.js"></script>
+
 </head>
 
 <body>

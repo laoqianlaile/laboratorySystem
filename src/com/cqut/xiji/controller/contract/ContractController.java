@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -203,10 +204,10 @@ public class ContractController{
 	 */
 	@RequestMapping("/getContractWithPaging")
 	@ResponseBody
-	public JSONObject getContractWithPaging(int limit, int offset,String order, String sort, String tableName){
+	public JSONObject getContractWithPaging(int limit, int offset,String order, String sort, String tableName,HttpSession session){
 		
 		System.out.println("访问到了1 "+ "<br />");
-		Map<String, Object> result = service.getContractWithPaging(limit, offset, order, sort, tableName);
+		Map<String, Object> result = service.getContractWithPaging(limit, offset, order, sort, tableName,session);
 		return JSONObject.fromObject(result);
 	}
 	
@@ -226,8 +227,8 @@ public class ContractController{
         String url = "https://api.netease.im/sms/sendcode.action";
         HttpPost httpPost = new HttpPost(url);
         
-        String appKey = "e88821cfc09446e698163f193feb03ed";
-        String appSecret = "0836ea59c6bc";
+        String appKey = "c6d7227774b7751b78cf8b58e0525580";
+        String appSecret = "afeb7d1889a0";
         String nonce =  "12345";
         String curTime = String.valueOf((new Date()).getTime() / 1000L);
         String checkSum = ContractController.getCheckSum(appSecret, nonce ,curTime);//参考 计算CheckSum的java代码
@@ -276,8 +277,8 @@ public class ContractController{
         String url = "https://api.netease.im/sms/verifycode.action";
         HttpPost httpPost = new HttpPost(url);
 
-        String appKey = "e88821cfc09446e698163f193feb03ed";
-        String appSecret = "0836ea59c6bc";
+        String appKey = "c6d7227774b7751b78cf8b58e0525580";
+        String appSecret = "afeb7d1889a0";
         String nonce =  "12345";
         String curTime = String.valueOf((new Date()).getTime() / 1000L);
         String checkSum = ContractController.getCheckSum(appSecret, nonce ,curTime);//参考 计算CheckSum的java代码
