@@ -1,0 +1,33 @@
+	label {
+    font-size: 16px;
+    color: #333;
+	}
+	.form-control {
+	display: inline;
+	width: 70%;
+	}
+	.row {
+	margin-bottom: 10px;
+	}
+	.row label {
+		width: 26%;
+		min-wdith: 80px;
+	}
+	.row label.wide{
+		width: 25%;
+	}
+	
+	.newButton{
+	height: 40px;
+    margin: 5px;
+	}
+	
+	#table thead,.modal-header {
+	background-color: #364760;
+	color: #fff;
+	font-size: blod 14px;
+	}
+	.timeChooseDiv {
+    float: right;
+    width: 73%;
+	}
