@@ -33,6 +33,7 @@ function initTable(){
 		columns:[{
 			checkbox:true,
 			field:'ID'
+			valign: 'middle',
 		},{
 			field:'selfCompanyName',//返回值名称
 			title:'公司名称',//列名

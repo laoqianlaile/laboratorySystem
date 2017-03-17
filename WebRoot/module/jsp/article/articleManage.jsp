@@ -114,6 +114,7 @@
 							<div class="col-xs-12 col-md-6" style="float:left;">
 								<label>文章栏目:</label> <select class="form-control"
 									id="add_artColumn">
+									<option></option>
 									<option>新闻中心</option>
 									<option>检测案例</option>
 									<option>实验室简介</option>
@@ -237,6 +238,7 @@
 							<div class="col-xs-12 col-md-6" style="float:left;">
 								<label>文章栏目:</label> <select class="form-control"
 									id="edit_artColumn">
+									<option></option>
 									<option>检测案例</option>
 									<option>新闻中心</option>
 									<option>实验室简介</option>

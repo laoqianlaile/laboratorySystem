@@ -53,13 +53,13 @@ function init() {
 		// queryParams:'',//请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
 		selectItemName : '',// radio or checkbox 的字段名//设置True 将禁止多选
 		columns : [ {
+			checkbox:true,
 			field : 'ck',
-			checkbox : true,
-			align : 'center',
-		// valign: 'middle'
+		    valign: 'middle' 
 		}, {
 			title : '序号',
 			field: 'Number',
+			align : 'center',
 			formatter: function (value, row, index) {
 			return index+1;
 			}
@@ -92,14 +92,7 @@ function init() {
 			title : '发布者',
 			field : 'artPublisher',
 			align : 'center',
-		}/*,{
-			title : '图片',
-			field : 'artPicturegis',
-			align : 'center',
-			hidden: "true",
-		} */
-		,
-		{
+		},{
 			title : '备注',
 			field : 'artRemark',
 			align : 'center',
@@ -122,15 +115,8 @@ window.onload = function() {
         autoFloatEnabled: false,
         autoWidthEnabled:false
     });
-	//var ue = UE.getEditor('add_artContent');
 	modal();
 	init();
-	
-	 /* $("#addarticle").click(function () {
-         if(document.all.files.value==""){
-        	 add();
-        	 }
-      });*/
 };
 
 function modal() {
@@ -160,7 +146,13 @@ function modal() {
 			$('.add_artCaseType').hide();
 			$('#rightFormDiv').hide();
 			$("#addarticle").click(function () {
-           	  add(starttimeHaoMiao);            	
+				if($('#add_artColumn').val() != ''){
+					add(starttimeHaoMiao); 
+				 }
+				else
+				{
+					alert("请选择文章栏目!");
+				}           	
          });} else {
     		$('.add_artCaseType').show();
 			$('#rightFormDiv').show();
@@ -173,17 +165,17 @@ function modal() {
 			            		   data.submit();			                  	
 			               });
 				 },
-			})/*.bind('fileuploadprogress', function (e, data) {  
-			    var progress = parseInt(data.loaded / data.total * 100, 10);  
-			    $("#weixin_progress").css('width',progress + '%');  
-			    $("#weixin_progress").html(progress + '%');  
-			})*/.bind('fileuploaddone', function (e, data) {  
+			}).bind('fileuploaddone', function (e, data) {  
 				  fileurl=eval(data.result);
-				 //fileurl = eval(data.result)[0].FileUrl;
+				
 				 flag=false;
-				 add(starttimeHaoMiao);
-			    //$("#weixin_show").attr("src",eval(data.result)[0].FilUerl);  
-			   
+				 if($('#add_artColumn').val() != ''){
+						add(starttimeHaoMiao); 
+					 }
+					else
+					{
+						alert("请选择文章栏目!");
+					}     
 			});  
 		}
 	});	
@@ -204,41 +196,41 @@ function refreshWindow(){
 }
 // 新增
 function add(starttimeHaoMiao) {
-	var date = new Date();
-	var month = date.getMonth() + 1;
-	var str = date.getFullYear() + "-" + month + "-" + date.getDate() + " "
-			+ date.getHours() + ":" + date.getMinutes() + ":"
-			+ date.getSeconds();
-	var addArticle = {};
-	addArticle.artColumn = $('#add_artColumn').val();
-	if( $('#add_artColumn').val()!=="检测案例"){
-		addArticle.artCaseType="";
-	}
-	else{
-		addArticle.artCaseType = $('#add_artCaseType').val();
-	}
-	addArticle.artTitle = $('#add_artTitle').val();
-	addArticle.artContent = UE.getEditor('add_artContent').getContent();
-	//alert(UE.getEditor('add_artContent').getContent());
-	addArticle.artRemark = $('#add_artRemark').val();	
-	addArticle.artPicturegis=fileurl;
-	addArticle.articleID = starttimeHaoMiao;
-	alert(fileurl);
-	var val = Date.parse(str);
-	var newDate = new Date(val);
-	addArticle.artCregisattime = newDate;
-	$.ajax({
-		type : 'post',
-		url : "articleController/addArticle.do",
-		data : addArticle,
-		success : function(o) {
-			if (o <= 0) {
-				alert("新增失败");
-			}
-			$('#addModal').modal('hide');
-			refreshWindow();
+		var date = new Date();
+		var month = date.getMonth() + 1;
+		var str = date.getFullYear() + "-" + month + "-" + date.getDate() + " "
+				+ date.getHours() + ":" + date.getMinutes() + ":"
+				+ date.getSeconds();
+		var addArticle = {};
+		addArticle.artColumn = $('#add_artColumn').val();
+		if( $('#add_artColumn').val()!=="检测案例"){
+			addArticle.artCaseType="";
 		}
-	});
+		else{
+			addArticle.artCaseType = $('#add_artCaseType').val();
+		}
+		addArticle.artTitle = $('#add_artTitle').val();
+		addArticle.artContent = UE.getEditor('add_artContent').getContent();
+		addArticle.artRemark = $('#add_artRemark').val();	
+		addArticle.artPicturegis=fileurl;
+		addArticle.articleID = starttimeHaoMiao;
+		
+		var val = Date.parse(str);
+		var newDate = new Date(val);
+		addArticle.artCregisattime = newDate;
+		$.ajax({
+			type : 'post',
+			url : "articleController/addArticle.do",
+			data : addArticle,
+			success : function(o) {
+				if (o <= 0) {
+					alert("新增失败");
+				}
+				$('#addModal').modal('hide');
+				$('#add_artColumn').val('');
+				refreshWindow();
+			}
+    	});
 }
 
 function openModal() {
@@ -283,30 +275,35 @@ function openModal() {
 }
 // 修改
 function edit() {
-	var parame = {};
-	parame.articleID = $('#edit_articleID').val();
-	parame.artColumn = $('#edit_artColumn').val();
-	if($('#edit_artColumn').val()!="检测案例"){
-		parame.artCaseType="";
-		
-	}else{
-		parame.artCaseType = $('#edit_artCaseType').val();
-	}	
-	parame.artTitle = $('#edit_artTitle').val();	
-	parame.artContent =UE.getEditor('edit_artContent').getContent();
-	// parame.artPicturegis=$('#edit_artPicturegis').val();
-	$.ajax({
-		type : 'post',
-		url : 'articleController/updateArticle.do',
-		data : parame,
-		success : function(o) {
-			if (o <= 0) {
-				alert("修改失败");
+	if($('#edit_artColumn').val() != ''){
+		var parame = {};
+		parame.articleID = $('#edit_articleID').val();
+		parame.artColumn = $('#edit_artColumn').val();
+		if($('#edit_artColumn').val()!="检测案例"){
+			parame.artCaseType="";
+			
+		}else{
+			parame.artCaseType = $('#edit_artCaseType').val();
+		}	
+		parame.artTitle = $('#edit_artTitle').val();	
+		parame.artContent =UE.getEditor('edit_artContent').getContent();
+		$.ajax({
+			type : 'post',
+			url : 'articleController/updateArticle.do',
+			data : parame,
+			success : function(o) {
+				if (o <= 0) {
+					alert("修改失败");
+				}
+				$('#add_artColumn').val('');
+				$('#editModal').modal('hide');
+				refresh();
 			}
-			$('#editModal').modal('hide');
-			refresh();
-		}
-	});
+		});
+	}
+	else{
+		alert("请选择文章栏目!");
+	}
 }
 // 删除
 function del() {
@@ -377,6 +374,7 @@ function showModal() {
 	img.src=path;
 
 	d1.appendChild(img);*/
+	
 	$('#show-image').attr('src',path);
 	$('#show-image').css('width','100%');
 	$('#show-image').css('height','100%');
