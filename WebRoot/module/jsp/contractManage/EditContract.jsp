@@ -45,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					<div class="contractCode fr">
 						<label>合同编号：</label>
-						<label class="code-label" id="edit_contractCode" name="contractCode">544534534534</label>
+						<label class="code-label" id="edit_contractCode" name="contractCode"></label>
 					</div>
 				</div>
 			</div>
@@ -55,25 +55,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						id="edit_contractName" name="contractName" class="form-control" />
 				</div>
 				<div class="col-xs-4 col-md-4 col-lg-4">
-					<label class="control-label">甲方:</label> <input type="text"
-						id="edit_companyName" name="companyName" oninput="editShowMsg()"
-						onpropertychange="editShowMsg()" class="form-control" />
+					<label class="control-label">甲方:</label>
+					<input type="text" id="edit_companyName" name="companyName" onclick="editShowMsg()" class="form-control" />
 					<div class="companyN"></div>
 				</div>
 				<div class="col-xs-4 col-md-4 col-lg-4">
 					<label class="control-label">单位地址:</label>
-					<input type="text" id="edit_address" name="address" class="form-control" />
+					<input type="text" id="edit_address" name="address" class="form-control" readonly="true"/>
 				</div>
 				<div class="col-xs-4 col-md-4 col-lg-4">
 					<label class="wide">甲方法定代表人(代理人):</label> <input
 						type="text" id="edit_oppositeMen" name="oppositeMen"
-						class="form-control narrow" />
+						class="form-control narrow" readonly="true"/>
 				</div>
 				<div class="col-xs-4 col-md-4 col-lg-4">
 					<label class="control-label">联系电话:</label> <input type="text"
 						id="edit_linkPhone" name="linkPhone" class="form-control"
 						onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');}"
-						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');}" />
+						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');}" readonly="true"/>
 				</div>
 				<div class="col-xs-4 col-md-4 col-lg-4">
 					<label class="control-label">签约地点:</label> <input type="text"
@@ -153,7 +152,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="top">
 				<div class="contract_title"><img src="module/img/ContractFile_icon.png" alt="ContractFile_icon" />编辑合同文件</div>
 				<div class="btnAdd fr">
-					<button type="button" lass="btn btn-primary" data-toggle="modal" onclick="showFileUploadModal()">上传合同文件</button>
+					<button type="button" lass="btn btn-primary" data-toggle="modal" onclick="coverContractFile()">覆盖合同文件</button>
+					&nbsp;<button type="button" lass="btn btn-primary" data-toggle="modal" onclick="showFileUploadModal()">上传合同文件</button>
 				</div>
 			</div>
 			<div class="bottom">

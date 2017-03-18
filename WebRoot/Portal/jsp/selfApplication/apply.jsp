@@ -77,8 +77,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            <p class="register" id="loginA"></p>
 	              <div class="ulDiv" id="ulDiv" style="display: none">
 				     <ul>
-				       <li><a onclick="onloadPerson()">个人信息</a></li>
-				       <li><a onclick="onloadPassword()">修改密码</a></li>
+				       <li><a href="Portal/jsp/register/personalCenter.jsp">个人信息</a></li>
+				       <li><a href="Portal/jsp/register/changePassword.jsp">修改密码</a></li>
 				       <li><a href="Portal/jsp/register/findPassword.jsp">找回密码</a></li>
 				     </ul>
                   </div>

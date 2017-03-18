@@ -32,7 +32,8 @@ function initTable(){
 		selectItemName:'',//radio or checkbox 的字段名
 		columns:[{
 			checkbox:true,
-			field:'ID'
+			field:'ID',
+			valign: 'middle'
 		},{
 			field:'selfCompanyName',//返回值名称
 			title:'公司名称',//列名

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 import javax.annotation.Resource;
 import javax.enterprise.inject.New;
@@ -553,7 +554,7 @@ public class ReceiptlistService extends SearchService implements
 			String proID, String state, HttpServletRequest request) {
 		// String employeeID = (String) request.getSession().getAttribute("ID");
 		Map<String, Object> map = new HashMap<String, Object>();
-		String employeeID = "1";
+		String employeeID = session.getAttribute("EMPLOYEEID").toString();
 		// request.getSession().getAttribute("employeeid");
 		Receiptlist receiptlist = new Receiptlist();
 		receiptlist.setID(EntityIDFactory.createId());
@@ -562,14 +563,14 @@ public class ReceiptlistService extends SearchService implements
 		receiptlist.setEmployeeID(employeeID);
 		receiptlist.setState(0);
 		receiptlist.setIsEditSample(1);
-		receiptlist.setIsEditSample(1);
 		receiptlist.setReceiptlistType(0);
 		map.put("coID", coID);
 		if (state.equals("yes")) { // 有合同新增交接单-接受
-			receiptlist.setReceiptlistCode("交接单编码生成规则不知道-接受");
+			receiptlist.setReceiptlistCode("交接单编码生成规则不知道-有合同接受");
 			receiptlist.setContractID(coID);
 			receiptlist.setProjectID(proID);
 		} else if (state.equals("no")) { // 无合同新增交接单 --新增交接单和项目-接受
+			receiptlist.setReceiptlistCode("交接单编码生成规则不知道-无合同接受");
 			Contract contract = new Contract();
 			contract.setID(EntityIDFactory.createId());
 			contract.setContractCode("合同编号生成规则");
@@ -722,7 +723,15 @@ public class ReceiptlistService extends SearchService implements
 	@Override
 	public String delReceiptlist(String reID) {
 		System.out.println(reID);
-		return entityDao.deleteByID(reID, Receiptlist.class) == 1 ? "true"
+		int count = 0;
+		if(reID == null || reID.equals("")){
+			return "true";
+		}
+		String[] idsStrings = reID.split(",");
+		for (int i = 0; i < idsStrings.length; i++) {
+			count += entityDao.deleteByID(reID, Receiptlist.class);
+		}
+		return count  == idsStrings.length ? "true"
 				: "false";
 	}
 
@@ -808,6 +817,7 @@ public class ReceiptlistService extends SearchService implements
 				"receiptlist.receiptlistCode AS reCode ",
 				"company.ID as comID",
 				"project.ID as proID",
+				"IF ( receiptlist.receiptlistType = 0,'接受',IF (receiptlist.receiptlistType = 1,'退还','接受')) AS reType ",
 				"contract.state AS cState",
 				"IF ( receiptlist.state IS NULL, '无交接单', "
 						+ "IF ( receiptlist.state = 0 , '未检测', "

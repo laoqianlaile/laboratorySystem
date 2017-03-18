@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Condition;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import com.cqut.xiji.entity.contract.Contract;
 import com.cqut.xiji.entity.employee.Employee;
 import com.cqut.xiji.entity.equipment.Equipment;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
+import com.cqut.xiji.entity.receiptlist.Receiptlist;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.service.fileEncrypt.IFileEncryptService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
@@ -216,9 +218,9 @@ public class ContractService extends SearchService implements IContractService{
 				"contract.employeeID",
 				"employee.employeeName",
 				"contract.signAddress",
-				"date_format(contract.signTime,'%Y.%m.%d') as signTime",
-				"date_format(contract.startTime,'%Y.%m.%d') as startTime",
-				"date_format(contract.endTime,'%Y.%m.%d') as endTime",
+				"date_format(contract.signTime,'%Y年%m月%d日') as signTime",
+				"date_format(contract.startTime,'%Y年%m月%d日') as startTime",
+				"date_format(contract.endTime,'%Y年%m月%d日') as endTime",
 				"contract.contractAmount",
 				"contract.isClassified",
 				"contract.classifiedLevel",
@@ -301,10 +303,38 @@ public class ContractService extends SearchService implements IContractService{
 			return result;
 		}
 		
+		
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @description 覆盖合同信息，生成新合同
+	 * @author hujiajun
+	 * @created 2017年3月16日 下午7:41:09
+	 * @param ID
+	 * @param contractCode
+	 * @param contractName
+	 * @param companyName
+	 * @param oppositeMen
+	 * @param linkPhone
+	 * @param employeeName
+	 * @param address
+	 * @param signAddress
+	 * @param startTime
+	 * @param signTime
+	 * @param endTime
+	 * @return
+	 * @see com.cqut.xiji.service.contract.IContractService#coverContractFile(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 */
+	public int coverContractFile(String ID,String contractCode,String contractName, String companyName,
+			String oppositeMen, String linkPhone, String employeeName,
+			String address, String signAddress, String startTime,
+			String signTime, String endTime){
 		String baseEntiy = "";
 		String[] properties = null;
 		String condition = "";
-		String fileID = "20170314204225103";
+		String fileID = "20170317204346035";
 		//String joinEntity = "";
 		baseEntiy = "fileinformation";
 		properties = new String[] { "fileinformation.pathPassword,fileinformation.path,fileinformation.filePassword"};
@@ -312,9 +342,67 @@ public class ContractService extends SearchService implements IContractService{
 		
 		List<Map<String, Object>> result1 = entityDao.searchForeign(
 				properties, baseEntiy, null, null, condition);
+		
+		if(result1.isEmpty()){
+			System.out.println("不存在合同模板文件");
+			return 0;
+		}
 		String fileInfoID = fileID;
 		String filePath = result1.get(0).get("path").toString();
 		String pathPassword = result1.get(0).get("pathPassword").toString();
+		String contractItem = "";
+		
+		baseEntiy = "contractFineItem";
+		properties = new String[] { 
+			"contractFineItem.ID",
+			"contractFineItem.fineItemCode",
+			"testProject.nameCn",
+			"testProject.nameEn",
+			"department.departmentName",
+			"contractFineItem.number",
+			"contractFineItem.hour",
+			"contractFineItem.price",
+			"contractFineItem.money",
+			"contractFineItem.calculateType"
+			};
+		String joinEntity = " LEFT JOIN testProject ON contractFineItem.testProjectID = testProject.ID " +
+				" LEFT JOIN department ON contractFineItem.departmentID = department.ID ";
+		
+		condition = "contractFineItem.contractID = " + ID;
+		
+		List<Map<String, Object>> result2 = entityDao.searchForeign(
+				properties, baseEntiy, joinEntity, null, condition);
+		if(!result2.isEmpty()){
+			String nameCn = "";
+			String nameEn = "";
+			String fineItemCode = "";
+			//String departmentName = "";
+			String calculateType = "";
+			String money = "";
+			String price = "";
+			String number = "";
+			String hour = "";
+			for(int i = 0; i < result2.size(); i++){
+				nameCn = result2.get(0).get("nameCn").toString();
+				nameEn = result2.get(i).get("nameEn").toString();
+				fineItemCode = result2.get(i).get("fineItemCode").toString();
+				//departmentName = result2.get(i).get("departmentName").toString();
+				calculateType = result2.get(i).get("calculateType").toString();
+				money = result2.get(i).get("money").toString();
+				price = result2.get(i).get("price").toString();
+				number = result2.get(i).get("number").toString();
+				hour = result2.get(i).get("hour").toString();
+				if(calculateType.equals("0")){
+					contractItem +="\n"+ fineItemCode + ". " + nameCn + "(" + nameEn + ")， 每次" + price +
+							"元，共" + number + "次，共计" + money + "元。";
+				}else if(calculateType.equals("1")){
+					contractItem +="\n"+ fineItemCode + ". " + nameCn + "(" + nameEn + ")， 每小时" + hour +
+							"元，共" + number + "次，共计" + money + "元。";
+				}
+			}
+			
+		}
+		System.out.println(contractItem);
 		PropertiesTool pe = new PropertiesTool();
 		
 		filePath = fileEncryptservice.decryptPath(filePath, pathPassword);
@@ -325,9 +413,7 @@ public class ContractService extends SearchService implements IContractService{
 		if(!dectoryName.exists()){
 			dectoryName.mkdirs();
 		}
-		cacheFilePath += "技术服务合同.docx";
-			
-		
+		cacheFilePath += contractName + ".docx";
 
 		fileEncryptservice.decryptFile(path+filePath, cacheFilePath, fileInfoID);
 		System.out.println("文件的路径1 ："+filePath);
@@ -342,7 +428,7 @@ public class ContractService extends SearchService implements IContractService{
 			if(!targetFile.exists()){
 				targetFile.mkdirs();
 			}
-			path +=  "新增合同.docx";
+			path +=  contractName + ".docx";
 			WordProcess wp = new WordProcess(false);
 			wp.openDocument(cacheFilePath);
 			if (contractCode != null)
@@ -356,11 +442,15 @@ public class ContractService extends SearchService implements IContractService{
 			if (signTime != null)
 				wp.replaceText("{签订日期}",signTime.toString());
 			if (startTime != null)
-				wp.replaceText("{开始时间}",startTime.toString());
+				wp.replaceText("{开始日期}",startTime.toString());
 			if (endTime != null)
-				wp.replaceText("{结束时间}",endTime.toString());
+				wp.replaceText("{结束日期}",endTime.toString());
 			if (contractName != null)
 				wp.replaceText("{合同名称}",contractName.toString());
+			if (endTime != null)
+				wp.replaceText("{结束日期}",endTime.toString());
+			if (contractItem != null)
+				wp.replaceText("{合同细项}",contractItem.toString());
 			wp.save(cacheFilePath);
 			wp.close();
 			
@@ -369,10 +459,9 @@ public class ContractService extends SearchService implements IContractService{
 			fi.setID(fileID);
 			fi.setBelongtoID(ID);
 			fi.setUploaderID("20170220xiji");
-			fi.setFileName("新增合同.docx");
+			fi.setFileName(contractName + ".docx");
 			System.out.println("保存的相对路径是a: " + relativePath);
-			/*relativePath　＋＝　;*/
-			relativePath += "新增合同.docx";
+			relativePath += contractName + ".docx";
 			fi.setPath(relativePath);
 			Date now = new Date(System.currentTimeMillis());
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -386,9 +475,8 @@ public class ContractService extends SearchService implements IContractService{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return result;
+		return 1;
 	}
-	
 	/**
 	 * 
 	 * @description 删除合同
@@ -436,7 +524,7 @@ public class ContractService extends SearchService implements IContractService{
 	 * @see com.cqut.xiji.service.contract.IContractService#updContract(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, double, int, int, int)
 	 */
 	@Override
-	public String updContract(String ID, String contractCode, String contractName,
+	public int updContract(String ID, String contractCode, String contractName,
 			String companyID, String companyName, String address,
 			String oppositeMen, String linkPhone, String employeeID,
 			String employeeName, String signAddress, String startTime,
@@ -444,54 +532,6 @@ public class ContractService extends SearchService implements IContractService{
 			int isClassified, int classifiedLevel, int state) {
 		// TODO Auto-generated method stub
 		System.out.println("进入updContract");
-		//String[] properties = {"companyName"};
-		
-		String companyid = "";
-		String[] properties = new String[] {"ID"};
-		String condition = "companyName like '%" + companyName + "%'";
-		List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, Company.class);
-		Map<String, Object> temp = list.get(0);
-		
-		for (String obj : temp.keySet()) {
-			
-			Object value = temp.get(obj);
-			// 判断取出来的值是否为空
-			if (value != null && !"".equals(value.toString())) {
-				// 转换为String类型
-				companyid = value.toString();
-				System.out.println("companyid"+companyid);
-			}
-		}
-		
-		if(companyid != null && !"".equals(companyid)){
-			if(companyid.equals(companyID)){
-				Company company = new Company();
-				company.setCompanyName(companyName);
-				company.setAddress(address);
-//				company.setMobilephone(linkPhone);
-				company.setLinkMan(oppositeMen);
-				
-				int result = entityDao.updatePropByID(company,companyID);
-			}else{
-				Company company = new Company();
-				company.setCompanyName(companyName);
-				company.setAddress(address);
-//				company.setMobilephone(linkPhone);
-				company.setLinkMan(oppositeMen);
-				
-				int result = entityDao.updatePropByID(company,companyid);
-			}
-		}else{
-			Company company = new Company();
-			String id = EntityIDFactory.createId();
-			company.setID(id);
-			company.setCompanyName(companyName);
-			company.setAddress(address);
-//			company.setMobilephone(linkPhone);
-			company.setLinkMan(oppositeMen);
-			int result = entityDao.save(company);
-			companyID = id;
-		}
 		
 		String employeeid = "";
 		String[] properties1 = new String[] {"ID"};
@@ -521,7 +561,7 @@ public class ContractService extends SearchService implements IContractService{
 			System.out.println("没有员工,此项不会改变");
 		}
 		
-		Contract contract = new Contract();
+		Contract contract = entityDao.getByID(ID, Contract.class);
 		contract.setContractCode(contractCode);
 		contract.setContractName(contractName);
 		contract.setCompanyID(companyID);
@@ -553,7 +593,7 @@ public class ContractService extends SearchService implements IContractService{
 		contract.setState(state);
 		
 		int result = entityDao.updatePropByID(contract,ID);
-		return result + "";
+		return result;
 	}
 	
 	@Override
@@ -579,7 +619,7 @@ public class ContractService extends SearchService implements IContractService{
 	      }  
 	    }
 		
-		Contract contract = new Contract();
+		Contract contract = entityDao.getByID(contractID, Contract.class);
 		contract.setFileID(fileID);
 		
 		int result = entityDao.updatePropByID(contract,contractID);
@@ -599,12 +639,16 @@ public class ContractService extends SearchService implements IContractService{
 	 */
 	@Override
 	public int auditContract(String ID, String viewpoint, int state) {
-		Contract contract = new Contract();
+		if (ID == null || ID.equals("")) {
+			return -1;
+		}
+		Contract contract = entityDao.getByID(ID, Contract.class);
+		if (contract == null)
+			return -1;
 		contract.setViewpoint(viewpoint);
 		contract.setState(state);
-		
+
 		int result = entityDao.updatePropByID(contract,ID);
-		System.out.println("返回信息" + result);
 		return result;
 	}
 	
@@ -623,17 +667,19 @@ public class ContractService extends SearchService implements IContractService{
 	 * @see com.cqut.xiji.service.contract.IContractService#getContractWithPaging(int, int, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public Map<String, Object> getContractWithPaging(int limit, int offset,String order,String sort,String contract) {
-		System.out.println("222" + "<br />");
+	public Map<String, Object> getContractWithPaging(int limit, int offset,String order,String sort,String contract,HttpSession session) {
 		int index = limit;
 		int pageNum = offset/limit ;
 		String tablename = "contract";
 		String[] properties = new String[]{
 				"ID",
 				"contractName",
-				"signTime"
+				"DATE_FORMAT(signTime,'%Y-%m-%d') signTime"
 		};
-		List<Map<String, Object>> result = entityDao.searchWithpaging(properties, tablename, null, null, "1=1", null, sort, order, index, pageNum);
+		String name = session.getAttribute("clientNo").toString();
+		System.out.println(name);
+		String acondition = "companyID in (SELECT  companyID from client WHERE clientNo = "+name+")";
+		List<Map<String, Object>> result = entityDao.searchWithpaging(properties, tablename, null, null, acondition, null, sort, order, index, pageNum);
 		int count = entityDao.getByCondition("1=1", Contract.class).size();
 		String receive ="";
 		for (Map<String, Object> m : result)  
@@ -645,6 +691,7 @@ public class ContractService extends SearchService implements IContractService{
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("total", count);
 		map.put("rows",result);
+		System.out.println(map.toString());
 		return map;
 	}
 	/**

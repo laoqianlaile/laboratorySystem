@@ -85,6 +85,14 @@
     padding-bottom: 20px;
     width: 101%;
 }
+#menu button{
+	margin-right:2%;
+}
+#menu button:hover {
+  border: none;
+  color: #fff;
+  background-color: rgb(255, 173, 51);
+}
 </style>
 <body>
 	<div class="container" style="width: 100%;">
@@ -107,31 +115,27 @@
 								</select>
 							</div>
 						</div>
-						<div id = "menu">
+						<div id = "menu" class="row clearfix">
+							<div class="col-md-4 column">
+								<button id="query" onclick="query()" class="btn btn-primary"
+									type="button">
+									<em class="glyphicon glyphicon-search"></em> 查询
+								</button>
 
-							<div class="col-md-3.5 column">
-								<div >
-									<button id="query" onclick="query()" class="btn btn-primary"
-										type="button">
-										<em class="glyphicon glyphicon-search"></em> 查询
-									</button>
+								<button class="btn btn-primary" type="button" id="addmodel"
+									onclick="addModal()">
+									<em class="glyphicon glyphicon-plus"></em> 新增
+								</button>
 
-									<button class="btn btn-primary" type="button" id="addmodel"
-										onclick="addModal()">
-										<em class="glyphicon glyphicon-plus"></em> 新增
-									</button>
+								<button class="btn btn-primary type=" button" id="del"
+									onclick="delData()">
+									<em class="glyphicon glyphicon-trash"></em> 删除
+								</button>
 
-									<button class="btn btn-primary type=" button" id="del"
-										onclick="delData()">
-										<em class="glyphicon glyphicon-trash"></em> 删除
-									</button>
-
-									<button class="btn btn-primary type=" button" id="refresh"
-										onclick="reSetRefresh()">
-										<em class="glyphicon glyphicon-refresh"></em> 刷新
-									</button>
-
-								</div>
+								<button class="btn btn-primary type=" button" id="refresh"
+									onclick="reSetRefresh()">
+									<em class="glyphicon glyphicon-refresh"></em> 刷新
+								</button>
 							</div>
 						</div>
 					</div>

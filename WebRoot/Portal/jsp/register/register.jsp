@@ -114,7 +114,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                <div class="form-group">
                      <label for="password1" class="col-sm-2 control-label">密&nbsp;码</label>
                      <div class="col-sm-6">
-                        <input type="password" class="form-control" id="password1" placeholder="请输入密码" maxlength="16" onblur="passwordCase()" onclick="passwordInput()">
+                        <input type="text" class="form-control" id="password1" placeholder="请输入密码" maxlength="16" onblur="passwordCase()" onclick="passwordInput()" onfocus="this.type='password'"/>
                      </div>
                      <label for="firstname1" class="col-sm-3 control-label1" id="passwordPrompt"></label>
               </div>
@@ -145,7 +145,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</button>
                      </div> 
                       <label for="firstname" class="col-sm-3 control-label1"></label>
-                      <label for="firstname" class="col-sm-3 control-label1" id="licensePrompt" ></label>
+                      <label for="firstname" class="col-sm-3 control-label1" id="licensePrompt" style="margin-left:50px;"></label>
              
               </div>
               
@@ -157,7 +157,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</button>
                      </div> 
                       <label for="firstname" class="col-sm-3 control-label1"></label>
-                      <label for="firstname" class="col-sm-3 control-label1" id="aptitudePrompt"></label>
+                      <label for="firstname" class="col-sm-3 control-label1" id="aptitudePrompt" style="margin-left:50px;"></label>
               </div>
               
                 <div class="form-group">

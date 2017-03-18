@@ -72,7 +72,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        </ul>
 	      <div class="right-linne clearfloat" id="loginDivOne">
 	            <a class="register" href="Portal/jsp/register/register.jsp">注册</a>
-		        <a class="h-login" href="javascript:void(0)" onclick="document.getElementById('home-login').scrollIntoView();">登录</a>
+		        <a class="h-login" href="javascript:void(0)">登录</a>
 	        </div>
 	        <div class="right-linne clearfloat" id="loginDivTwo" style="display: none;">
 	            <p class="h-login"  onclick="logout()">注销</p>
@@ -125,12 +125,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        </div>
     </div>
     <script>
-  		var usershowid = document.getElementById("usershowid");
-		var loginshow = document.getElementById("h-loginshow");
-		var id='<%=session.getAttribute("clientNo")%>';
-		usershowid.style.display="block";
-		loginshow.style.display="none";
-		usershowid.innerHTML=""+id+"";
+    window.onload = function(){
+    	var id= <%=session.getAttribute("clientNo")%>;
+		
+		if(id == "null" || id == "" || id == undefined){
+			  $('#loginDivOne').show();
+			  $('#loginDivTwo').hide();
+		}else{
+
+			 $('#loginA').html("欢迎您:"+id);
+			 $('#loginDivOne').hide();	
+			 $('#loginDivTwo').show();
+		}
+    };
   	</script>
   </body>
 </html>

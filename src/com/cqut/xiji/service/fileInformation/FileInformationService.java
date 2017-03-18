@@ -53,17 +53,17 @@ public class FileInformationService extends SearchService implements IFileInform
 	public Map<String, Object> getWithPaging(int limit,int offset,String order,String sort,String tableName){
 		System.out.println("file222" + "<br />");
 		int index = limit;
-		int pageNum = offset/limit + 1;
+		int pageNum = offset/limit;
 		String tablename = "fileinformation";
 		String[] properties = new String[]{
 				"ID",
 				"fileName",
-				"uploadTime"
+				"DATE_FORMAT(uploadTime,'%Y-%m-%d') uploadTime"
 		};
 		System.out.println(recontractID);
 		String condition = "type=4"+"\t"+"and"+"\t"+"belongtoID="+"\""+recontractID+"\"";
 		System.out.println(condition);
-		List<Map<String, Object>> result = entityDao.searchWithpaging(properties, tablename, null, null, condition, null, order, sort, index, pageNum);
+		List<Map<String, Object>> result = entityDao.searchWithpaging(properties, tablename, null, null, condition, null,sort ,  order, index, pageNum);
 		int count = entityDao.getByCondition(condition, FileInformation.class).size();
 		String receive ="";
 		String receName="";

@@ -76,6 +76,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	padding-left:0px;
 	padding-right:0px;
 	}
+	
+	.th-inner {
+	height:40px;
+	line-height:40px;
+	padding:0px;
+    background-color: #364760;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+	}
 	</style>
 	
   </head>

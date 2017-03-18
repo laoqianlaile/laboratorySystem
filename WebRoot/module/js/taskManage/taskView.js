@@ -4,18 +4,18 @@ $(function() {
 		taskID : ID
 	}, function(result) {
 		result = JSON.parse(result);
-		if (result != null && result != "null" && result != "") {
-			$("#schFactoryCode").text(result[0].receiptlistCode);
-			$("#clientCompany").text(result[0].companyName);
-			$("#clientPerson").text(result[0].linkMan);
-			$("#clientTime").text(result[0].createTime);
-			$("#finishTime").text(result[0].completeTime);
-			$("#contactNumber").text(result[0].linkPhone);
-			$("#contactAddress").text(result[0].address);
-			$("#isClassified").text(result[0].isClassified);
-			$("#secretLevel").text(result[0].classifiedLevel);
-			$("#accordingInfo").text(result[0].requires);
-		}
+		result = checkTaskData(result[0]);
+		$("#schFactoryCode").text(result.receiptlistCode);
+		$("#clientCompany").text(result.companyName);
+		$("#clientPerson").text(result.linkMan);
+		$("#clientTime").text(result.createTime);
+		$("#finishTime").text(result.completeTime);
+		$("#contactNumber").text(result.linkPhone);
+		$("#contactAddress").text(result.address);
+		$("#isClassified").text(result.isClassified);
+		$("#secretLevel").text(result.classifiedLevel);
+		$("#accordingInfo").text(result.requires);
+
 	});
 	
 
@@ -154,7 +154,7 @@ $(function() {
 			checkbox : true,
 			width :"1%",// 宽度
 			formatter : function(value, row, index) {
-				 checkData(row);	 // 验证数据合理性
+				 checkFileData(row);	 // 验证数据合理性
 		  }
 		},{
 			field: '',
@@ -209,15 +209,13 @@ $(function() {
 						result = JSON.parse(result);
 						if (result != null && result != "null") {
 							var htmlElement = "";
-							for ( var i = 0; i < result.length; i++) {
+							for ( var i = 0,len = result.length;i <len ; i++) {
 								htmlElement += "<div class='col-xs-4 col-md-4 col-lg-4'>"
-										+ "<input type='checkbox' name='equipment' id='equipment' value="
-										+ result[i].ID
-										+ ">"
-										+ "<label>"
-										+ result[i].equipmentInfo
-										+ "</label>"
-										+ "</div>"
+					                        	+ "<input type='checkbox' name='equipment" + i + "' id='equipment" + i + "' value=" + result[i].ID + ">" 
+					                        	+ "<label for='equipment" + i + "' >"
+						                        +  result[i].equipmentInfo 
+						                        + "</label>" 
+						                        + "</div>"
 							}
 							$(".equipmentList").append(htmlElement);
 						}
@@ -300,7 +298,7 @@ function downReportTemplate() {
 function uploadTestReport() {
 	fileUploadInit("#file_upload");
 	var ID = getUrlParam("taskID");
-	$.post("taskController/setTaskDetectState.do", {
+	$.post("taskController/recoverFileCheck.do", {
 		taskID : ID
 	}, function(result) {
 		if (result == true || result == "true") {
@@ -428,14 +426,68 @@ function fileDown() {
 
 }
 
+//返回
+function turnBack(){
+	window.location.href = window.location.href.split("?")[0] .replace('taskView.jsp','taskManage.jsp');
+
+		
+}
+
 // 刷新
 function refresh() {
 	$("#taskFile").bootstrapTable("refresh", null);
 	$("#sampleInfoTable").bootstrapTable("refresh", null);
 }
 
-// 检查数据合理性
-function checkData(dataObj) {
+// 检查任务数据
+function checkTaskData(dataObj) {
+	if (!dataObj.hasOwnProperty("receiptlistCode")
+			|| dataObj.receiptlistCode == null
+			|| dataObj.receiptlistCode.trim() == "NULL") {
+		dataObj.receiptlistCode = "";
+	}
+	if (!dataObj.hasOwnProperty("companyName") || dataObj.companyName == null
+			|| dataObj.companyName.trim() == "NULL") {
+		dataObj.companyName = "";
+	}
+	if (!dataObj.hasOwnProperty("linkMan") || dataObj.linkMan == null
+			|| dataObj.linkMan == undefined) {
+		dataObj.linkMan = "";
+	}
+	if (!dataObj.hasOwnProperty("createTime") || dataObj.createTime == null
+			|| dataObj.createTime.trim() == "NULL") {
+		dataObj.createTime = "";
+	}
+	if (!dataObj.hasOwnProperty("completeTime") || dataObj.completeTime == null
+			|| dataObj.completeTime.trim() == "NULL") {
+		dataObj.completeTime = "";
+	}
+	if (!dataObj.hasOwnProperty("linkPhone") || dataObj.linkPhone == null
+			|| dataObj.linkPhone.trim() == "NULL") {
+		dataObj.linkPhone = "";
+	}
+	if (!dataObj.hasOwnProperty("address") || dataObj.address == null
+			|| dataObj.address.trim() == "NULL") {
+		dataObj.address = "";
+	}
+	if (!dataObj.hasOwnProperty("isClassified") || dataObj.isClassified == null
+			|| dataObj.isClassified.trim() == "NULL") {
+		dataObj.isClassified = "";
+	}
+	if (!dataObj.hasOwnProperty("classifiedLevel")
+			|| dataObj.classifiedLevel == null
+			|| dataObj.classifiedLevel.trim() == "NULL") {
+		dataObj.classifiedLevel = "";
+	}
+	if (!dataObj.hasOwnProperty("requires") || dataObj.requires == null
+			|| dataObj.requires.trim() == "NULL") {
+		dataObj.requires = "";
+	}
+	return dataObj;
+}
+
+// 检查文件数据
+function checkFileData(dataObj) {
 	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
 			|| dataObj.ID.trim() == "NULL") {
 		dataObj.ID = "";
@@ -452,5 +504,4 @@ function checkData(dataObj) {
 			|| dataObj.remarks.trim() == "NULL") {
 		dataObj.remarks = "";
 	}
-
 }

@@ -21,6 +21,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
 <link rel="stylesheet" type="text/css" href="module/css/taskManage/taskManage.css">
+<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
@@ -29,6 +31,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="module/js/bootstrap-datetimepicker.js"></script>
 <script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="module/js/bootstrap-datetimepicker.fr.js"></script>
+<script src="module/js/sweetalert.min.js"></script>
+<script src="assets/js/autoPage.js"></script>
+
 </head>
 
 <body>
@@ -129,8 +134,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary"
-						onclick="setAuditPerson()">确定</button>
+					<button type="button" class="btn btn-primary" id="ensure" name="ensure" onclick="setAuditPerson()">确定</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
 			</div>

@@ -140,7 +140,7 @@ function viewFile() {
 		if (result != null && result != "null") {
 			window.location.href = "module/jsp/documentOnlineView.jsp";
 		} else {
-			alert("无法查看");
+			chen.alert("无法查看");
 		}
 	});
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -79,6 +80,31 @@ public class ContractController{
 	}
 	
 	/**
+	 * 
+	 * @description 覆盖合同信息，生成新合同
+	 * @author hujiajun
+	 * @created 2017年3月16日 下午7:37:24
+	 * @param ID
+	 * @param contractCode
+	 * @param contractName
+	 * @param companyName
+	 * @param oppositeMen
+	 * @param linkPhone
+	 * @param employeeName
+	 * @param address
+	 * @param signAddress
+	 * @param startTime
+	 * @param signTime
+	 * @param endTime
+	 * @return
+	 */
+	@RequestMapping("/coverContractFile")  
+    @ResponseBody
+	public int coverContractFile(String ID,String contractCode,String contractName,String companyName, String oppositeMen,String linkPhone, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime){
+		int result = service.coverContractFile(ID, contractCode,contractName,companyName, oppositeMen, linkPhone, employeeName, address, signAddress, startTime, signTime, endTime);
+		return result;
+	}
+	/**
 	 * @description 删除合同
 	 * @author hujiajun
 	 * @created 2016-10-17 下午9:31:13
@@ -136,8 +162,8 @@ public class ContractController{
 	 */
     @RequestMapping("/updContract")  
     @ResponseBody
-	public String updContract(String ID, String contractCode,String contractName, String companyID, String companyName, String address, String oppositeMen,String linkPhone, String employeeID, String employeeName, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel,int state){
-		String result = service.updContract(ID, contractCode, contractName, companyID, companyName, address, oppositeMen, linkPhone, employeeID, employeeName, signAddress, startTime, signTime, endTime, isClassified, classifiedLevel, state);
+	public int updContract(String ID, String contractCode,String contractName, String companyID, String companyName, String address, String oppositeMen,String linkPhone, String employeeID, String employeeName, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel,int state){
+		int result = service.updContract(ID, contractCode, contractName, companyID, companyName, address, oppositeMen, linkPhone, employeeID, employeeName, signAddress, startTime, signTime, endTime, isClassified, classifiedLevel, state);
 		return result;
 	}
     
@@ -178,10 +204,10 @@ public class ContractController{
 	 */
 	@RequestMapping("/getContractWithPaging")
 	@ResponseBody
-	public JSONObject getContractWithPaging(int limit, int offset,String order, String sort, String tableName){
+	public JSONObject getContractWithPaging(int limit, int offset,String order, String sort, String tableName,HttpSession session){
 		
 		System.out.println("访问到了1 "+ "<br />");
-		Map<String, Object> result = service.getContractWithPaging(limit, offset, order, sort, tableName);
+		Map<String, Object> result = service.getContractWithPaging(limit, offset, order, sort, tableName,session);
 		return JSONObject.fromObject(result);
 	}
 	
@@ -201,8 +227,8 @@ public class ContractController{
         String url = "https://api.netease.im/sms/sendcode.action";
         HttpPost httpPost = new HttpPost(url);
         
-        String appKey = "e88821cfc09446e698163f193feb03ed";
-        String appSecret = "0836ea59c6bc";
+        String appKey = "c6d7227774b7751b78cf8b58e0525580";
+        String appSecret = "afeb7d1889a0";
         String nonce =  "12345";
         String curTime = String.valueOf((new Date()).getTime() / 1000L);
         String checkSum = ContractController.getCheckSum(appSecret, nonce ,curTime);//参考 计算CheckSum的java代码
@@ -251,8 +277,8 @@ public class ContractController{
         String url = "https://api.netease.im/sms/verifycode.action";
         HttpPost httpPost = new HttpPost(url);
 
-        String appKey = "e88821cfc09446e698163f193feb03ed";
-        String appSecret = "0836ea59c6bc";
+        String appKey = "c6d7227774b7751b78cf8b58e0525580";
+        String appSecret = "afeb7d1889a0";
         String nonce =  "12345";
         String curTime = String.valueOf((new Date()).getTime() / 1000L);
         String checkSum = ContractController.getCheckSum(appSecret, nonce ,curTime);//参考 计算CheckSum的java代码

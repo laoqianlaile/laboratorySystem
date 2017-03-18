@@ -7,15 +7,19 @@
 <title>西计实验室管理系统</title>
 <link rel="stylesheet" type="text/css" href="../../css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="../../css/bootstrap-table.css">
+<link rel="stylesheet" href="../../css/changeACE.css" />
+<link rel="stylesheet" href="../../css/sampleRoom/sampleRoom.css" />
+<link rel="stylesheet" type="text/css" href="../../css/commonSystem/commonSystem.css" />
+<link rel="stylesheet" type="text/css" href="../../css/sweetalert.css">
 
 <script src="../../js/jquery-2.1.1.min.js"></script>
 <script src="../../js/bootstrap.js"></script>
 <script src="../../js/bootstrap-table.js"></script>
 <script src="../../js/bootstrap-table-zh-CN.js"></script>
 <script src="../../../assets/js/autoPage.js"></script>
-<link rel="stylesheet" href="../../css/changeACE.css" />
-<link rel="stylesheet" href="../../css/sampleRoom/sampleRoom.css" />
-<link rel="stylesheet" type="text/css" href="../../css/commonSystem/commonSystem.css" />
+<script src="../../js/sweetalert.min.js"></script>
+<script src="../../js/alert.js"></script>
+
 
 </head>
 <body>

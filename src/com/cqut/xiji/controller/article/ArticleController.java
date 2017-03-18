@@ -51,7 +51,13 @@ public class ArticleController {
 	@RequestMapping("/deleteArticleByID")
 	@ResponseBody
 	public String deleteArticleByID(String articleID) {
-		return service.deleteArticleByID(articleID);
+		String[] ids = articleID.split(",");
+		int i = 0;
+		for(; i < ids.length; i++)
+		{
+			service.deleteArticleByID(ids[i]);
+		}
+		return i>0?"true":"false";
 	}
 
 	/**
@@ -106,14 +112,6 @@ public class ArticleController {
 		if (!artCaseType.equals("null"))
 			artCaseType = URLDecoder.decode(artCaseType, "utf-8");
 
-		System.out.println("limit ======== " + limit);
-		System.out.println("offset ======== " + offset);
-		System.out.println("order ======== " + order);
-		System.out.println("sort ======== " + sort);
-		System.out.println("artTitle ======== " + artTitle);
-		System.out.println("artColumn ======== " + artColumn);
-		System.out.println("artPublisher ======== " + artPublisher);
-
 		return JSONObject.fromObject(service.getArticleWithPaging(limit,
 				offset, order, sort, artTitle, artColumn, artPublisher,
 				artCaseType));
@@ -153,8 +151,8 @@ public class ArticleController {
 	@ResponseBody
 	public JSONArray getArticle(String articleID, String artTitle,
 			String artColumn, String artCaseType)
-			throws UnsupportedEncodingException {
-		/* System.out.println(artTitle); */
+			throws Exception{
+	
 		if (articleID != null)
 			articleID = URLDecoder.decode(articleID, "utf-8");
 		if (artTitle != null)
@@ -166,5 +164,27 @@ public class ArticleController {
 
 		return JSONArray.fromObject(service.getArticle(articleID, artTitle,
 				artColumn, artCaseType));
+	}
+	
+	/**
+	 * 方法简述：联表查询典型案例的信息
+	 * 
+	 * @param articleID
+	 *            文章id
+	 * @param artTitle
+	 *            文章题目
+	 * @param artColumn
+	 *            文章栏目
+	 * @return JSONObject
+	 * @author 李龙顺
+	 * @date 2016年10月10日 下午3:27:31
+	 * @throws UnsupportedEncodingException
+	 */
+
+	@RequestMapping("/getClassicCase")
+	@ResponseBody
+	public JSONObject getArticle(String artCaseType) throws Exception{	
+		artCaseType = URLDecoder.decode(artCaseType, "utf-8");
+		return JSONObject.fromObject(service.getClassicCase(artCaseType));
 	}
 }

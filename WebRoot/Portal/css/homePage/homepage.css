@@ -56,7 +56,7 @@
 }
 .brief-content .text{
 	width: 310px;
-    height: 250px;
+    height: 233px;
     color: #000;
     font-size: 14px;
     font-family: "Microsoft YaHei UI";
@@ -67,7 +67,7 @@
 }
 .detail{
 	padding-left:266px;
-	margin-top:-10px;
+	margin-top:10px;
 }
 .detail:hover{
 	text-decoration:underline;
@@ -142,6 +142,11 @@
 	float:left;
 	border:1px solid #d9d9d9;
 	}
+
+.notices{
+	overflow:hidden;
+}	
+
 .notices-h .news-icon{
 	float:left;
 	width:16px;
@@ -196,6 +201,9 @@
 	margin-bottom:10px;
 	font-size:16px;
 	width:178px;
+}
+.case-item a:hover{
+	text-decoration:none;
 }
 .img-case{
 	height:150px;

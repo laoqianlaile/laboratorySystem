@@ -59,9 +59,9 @@ $(function () {
 			formatter : function(value, row, index) { //操作按钮的设置
 				  var view = "", edit = "", dele = ""; 
 				  	if(row.ID != ""){   //没有交接单---就没有任何编辑，查看，删除等功能
-				  		view = "<img src=\"module/img/view_icon.png\" onclick='lookModal("+JSON.stringify(row)+")'>";
-				        edit = "<img src=\"module/img/edit_icon.png\" onclick='openModal("+JSON.stringify(row)+")'>";
-				        dele = "<img src=\"module/img/delete_icon.png\" onclick='delRole(\""+row.ID+"\")'>";
+				  		view = "<img src=\"module/img/view_icon.png\" alt=\"查看\" onclick='lookModal("+JSON.stringify(row)+")' >";
+				        edit = "<img src=\"module/img/edit_icon.png\" alt=\"编辑\" onclick='openModal("+JSON.stringify(row)+")'>";
+				        dele = "<img src=\"module/img/delete_icon.png\" alt=\"删除\" onclick='delRole(\""+row.ID+"\")'>";
 				 
 					return view + edit + dele;
 				}
@@ -82,7 +82,7 @@ function delData(){
 	var data = $('#table').bootstrapTable('getSelections');
 	
 	if(data.length ==0){
-		alert("请至少选中一条数据");
+		chen.alert("请至少选中一条数据");
 		return;
 	}
 	
@@ -104,7 +104,7 @@ function delRole(roleIDs){
 		  },
 		  success:function(o){
 			  if(o == "false"){
-				  alert("没有权限");
+				  chen.alert("没有权限");
 			  }
 			  refresh();
 		  }
@@ -116,7 +116,7 @@ function add(){
 	var name = $('#add_roleName').val(); 
 	if (!name && typeof(name)!="undefined" && name=='') 
 	{ 
-		alert("角色名不能为空！"); 
+		chen.alert("角色名不能为空！"); 
 	}else {
 		var parame = {};
 		parame.roleName = name;
@@ -128,7 +128,7 @@ function add(){
 		  data:parame,
 		  success:function(o){
 			  if(o == "该角色已经存在"){
-				  alert("该角色已经存在");
+				  chen.alert("该角色已经存在");
 			  }
 			  $('#addModal').modal('hide');
 			  refresh();
@@ -188,7 +188,7 @@ function edit(){
 	var name = $('#edit_roleName').val(); 
 	if (!name && typeof(name)!="undefined" && name=='') 
 	{ 
-		alert("角色名不能为空！"); 
+		chen.alert("角色名不能为空！"); 
 	}else {
 		
 		var ids =  $('#edit_roleID').val();
@@ -201,7 +201,7 @@ function edit(){
 		  data:parame,
 		  success:function(o){
 			  if(o<=0){
-				  alert("修改失败");
+				  chen.alert("修改失败");
 			  }
 			  $('#editModal').modal('hide');
 			  refresh();

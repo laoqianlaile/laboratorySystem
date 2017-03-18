@@ -27,6 +27,7 @@
 <link rel="stylesheet" type="text/css" href="module/css/fileManage/fileManage.css">
 <link rel="stylesheet" type="text/css" href="module/css/fileManage/fileProcessManage.css">
 <link rel="stylesheet"  type="text/css" href="module/css/wait.css">
+<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
@@ -35,10 +36,8 @@
 <script src="module/js/bootstrap-datetimepicker.js"></script>
 <script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="module/js/bootstrap-datetimepicker.fr.js"></script>
-
-<script src="module/js/jquery.uploadify.min.js"></script>
-
-
+<script src="module/js/sweetalert.min.js"></script>
+<script src="module/js/alert.js"></script>
 
 </head>
 
@@ -107,8 +106,6 @@
 		<div class="buttonGroup">
 			<div>
 				<button type="button" class="btn btn-primary " onclick="search()">查询</button>
-				&nbsp;
-				<button type="button" class="btn btn-primary " onclick="recover()">文件上传</button>
 			</div>
 		</div>
 	</div>
@@ -117,52 +114,6 @@
 	<table id="table">
 
 	</table>
-	
-		<div id="recoverReport" class="modal fade" role="dialog"
-		aria-labelledby="gridSystemModalLabel">
-		<div class="modal-dialog" role="document" style="width:450px">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">重新覆盖检测报告</h4>
-				</div>
-				<div class="modal-body">
-					<div class="row">
-						<div id="files" style="text-align:left">
-							<div id="uploadfileQueue"></div>
-							<input type="file" id="file_upload" name="file_upload"
-								multiple="multiple">
-							<div class="uploadFileText">
-								<label>版本号码:</label> <input type="text" class="form-control"
-									name="fileVersionNumber" id="fileVersionNumber"">
-								</textarea>
-							</div>
-							<div class="uploadFileText">
-								<label>版本信息:</label>
-								<textarea rows="3" class="form-control" name="fileVersionInfo"
-									id="fileVersionInfo"></textarea>
-							</div>
-							<div class="uploadFileText">
-								<label>备注信息:</label>
-								<textarea rows="3" class="form-control" name="fileRemarks"
-									id="fileRemarks"></textarea>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-
-					<button type="button" class="btn btn-primary" id="ensure"
-						name="ensure" onclick="recoverSure()">确定</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal"
-						onclick="javascript:$('#file_upload').uploadify('cancel','*')">取消</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	
-	
-	
 	
 	
 	<div id="wait_img">

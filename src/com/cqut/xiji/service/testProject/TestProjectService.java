@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 
@@ -24,8 +25,7 @@ import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
 @Service
-public class TestProjectService extends SearchService implements
-		ITestProjectService {
+public class TestProjectService extends SearchService implements ITestProjectService {
 
 	@Resource(name = "entityDao")
 	EntityDao entityDao;
@@ -59,14 +59,14 @@ public class TestProjectService extends SearchService implements
 				"testProject.ENVIRONMENTALREQUIREMENTS",
 				"testproject.describes",
 				"testproject.remarks",
-				"testInstument.ID as testInstumentID",
-				"testStandard.ID as testStandardID",
-				"standard.STANDARDCODE",
+				"GROUP_CONCAT(distinct testInstument.ID ) AS testInstumentID",
+				"GROUP_CONCAT(distinct	testStandard.ID) AS testStandardID",
+				"GROUP_CONCAT(distinct  standard.STANDARDCODE) as STANDARDCODE",
 				"GROUP_CONCAT(equipment.equipmentName) as EQUIPMENTNAME",
 				"GROUP_CONCAT(equipment.ID) AS EQUIPMENTID",
 				"department.DEPARTMENTNAME", 
 				"DATE_FORMAT(testProject.CREATETIME,'%Y-%m-%d %H:%i') as createTime",
-				"department.ID as DEPARTMENTID", "standard.ID as STANDARDID",
+				"department.ID as DEPARTMENTID",
 				"template.`name`" };
 
 		String condition = "1 = 1 ";
@@ -85,12 +85,10 @@ public class TestProjectService extends SearchService implements
 				+ "LEFT JOIN template on template.ID = testproject.templateID "
 				+ "LEFT JOIN equipment on equipment.ID = testinstument.equipmentID";
 
-		String groupField = "testProject.ID ";
+		String groupField = "testproject.ID ";
 		List<Map<String, Object>> result = originalSearchWithpaging(properties,
 				tableName, joinEntity, null, condition, false, groupField,
 				sort, order, index, pageNum);
-
-		// System.out.println(Arrays.toString(result.toArray()));
 
 		int count = getForeignCountInFull("testproject.ID", joinEntity, null,
 				condition, false);
@@ -291,16 +289,19 @@ public class TestProjectService extends SearchService implements
 
 	@Override
 	public Map<String, Object> getTestproWithPaging(int limit, int offset,
-			String order, String sort, String contract) {
-		System.out.println("222" + "<br />");
+			String order, String sort, String contract,HttpSession session) {
+		System.out.println("kaishi222" + "<br />");
 		int index = limit;
-		int pageNum = offset / limit + 1;
+		int pageNum = offset / limit;
 		String tablename = "testproject";
-		String[] properties = new String[] { "ID", "nameCn", "createTime" };
+		String acondition = "ID in (SELECT testprojectID from contractfineitem WHERE contractID in("+
+		"SELECT ID from contract WHERE companyID in ("+
+		"SELECT companyID from client WHERE clientNo = \""+session.getAttribute("clientNo").toString()+"\")))";
+		String[] properties = new String[] { "ID", "nameCn", "DATE_FORMAT(createTime,'%Y-%m-%d') createTime" };
 		List<Map<String, Object>> result = entityDao.searchWithpaging(
-				properties, tablename, null, null, "1=1", null, sort, order,
+				properties, tablename, null, null, acondition, null, sort, order,
 				index, pageNum);
-		int count = entityDao.getByCondition("1=1", Contract.class).size();
+		int count = entityDao.getByCondition("1=1", TestProject.class).size();
 		String receive = "";
 		for (Map<String, Object> m : result) {
 			Map map2 = m;
@@ -308,13 +309,13 @@ public class TestProjectService extends SearchService implements
 					+ map2.get("createTime").toString() + "</span>";
 			m.put("nameCn",
 					"<img class='point-image' src='Portal/images/point_triangle.png' />"
-							+ "<span class='tablevalue'>" + m.get("nameCn")
+							+ "<span class='tablevalue'>" + map2.get("nameCn")
 							+ "</span>" + receive);
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("total", count);
 		map.put("rows", result);
-
+		System.out.println(map.toString());
 		return map;
 	}
 

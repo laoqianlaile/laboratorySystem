@@ -17,11 +17,9 @@ $(document).ready(function() {
 function initTreeEvent(){
 	$('#treeRole').on('nodeSelected', function(event, data) {
 		  // 事件代码...
-		alert("tree");
 		});  
 	$('#treeRole').on('onNodeChecked', function(event, data) {
 		  // 事件代码...
-		alert("tree1");
 		}); 
 	
 }
@@ -109,11 +107,9 @@ function getModuleNum(){
 			
 		},
 		success : function(o) {
-			alert("sucess 2");
 			moduleNums = JSON.parse(o);
 		},
 		error : function() {
-			alert("faire 1");
 			return false;
 		}
 	});
@@ -134,7 +130,7 @@ function getModuleIDByRoleID(roleID){
 			console.log(moduleIDs);
 		},
 		error : function() {
-			alert("faire 1");
+			chen.alert(" 没有权限 ");
 			return false;
 		}
 	});
@@ -155,7 +151,7 @@ function initModuleTree(){
 				var thisParentId = node.parentId;
 				var total = "";
 				if(permission_global.roleID == "" ||  permission_global.roleID == null){
-					alert("请先选择角色");
+					chen.alert("请先选择角色");
 				} 
 				else if(node.id == undefined || node.id == ""){ //是头节点
 					 $('#treeModule').treeview('checkAll', { silent: false });
@@ -210,7 +206,7 @@ function initModuleTree(){
 					var thisParentId = node.parentId;
 					var total = ""; //最后一个节点才用
 					if(permission_global.roleID == "" ||  permission_global.roleID == null){
-						alert("请先选择角色");
+						chen.alert("请先选择角色");
 					} else	if(node.id == undefined || node.id == ""){ //所有节点
 						
 					
@@ -282,7 +278,7 @@ function addPermission(roleID,moduleID){
 			moduleIDs = JSON.parse(o);
 		},
 		error : function() {
-			alert("add faire");
+			chen.alert("没有权限");
 			return false;
 		}
 	});
@@ -302,7 +298,7 @@ function deletePermission(roleID,moduleID){
 			moduleIDs = JSON.parse(o);
 		},
 		error : function() {
-			alert("delete faire");
+			chen.alert("删除权限失败");
 			return false;
 		}
 	});

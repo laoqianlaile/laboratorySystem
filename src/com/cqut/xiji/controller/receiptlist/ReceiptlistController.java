@@ -217,8 +217,8 @@ public class ReceiptlistController{
 	 */
 	@RequestMapping("/delReceiptlist")
 	@ResponseBody
-	public String delReceiptlist(String reID ) {
-		return service.delReceiptlist( reID) ;
+	public String delReceiptlist(String reIDs ) {
+		return service.delReceiptlist( reIDs) ;
 	}
 	
 	/**

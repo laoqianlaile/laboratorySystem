@@ -22,7 +22,7 @@ $(function() {
 });
 // 初始化数据
 function initData() {
-	
+	fileUploadInit("#file_upload");
 	initPageData();
 	initSample();
 	initFile();
@@ -48,13 +48,13 @@ function submitFile(){
 	fileObj.thirdDirectoryName = "交接单文件";//fileThirdDirectory //三级目录
 	fileObj.belongtoID = obj.reID;
  	fileObj.otherInfo = "";//fileOtherInfo; // 其他参数
-	fileObj.remarks = "";//fileRemarks; // 备注
+	fileObj.remarks = $("#fileRemarks").val();//fileRemarks; // 备注
 	//文件上传
-	var ids = fileUpload("#file_upload",fileObj.filePath, fileObj.fileTypeNumber, fileObj.belongtoID, fileObj.firstDirectoryName, fileObj.secondDirectoryName,fileObj.thirdDirectoryName,
+	fileUpload("#file_upload",fileObj.filePath, fileObj.fileTypeNumber, fileObj.belongtoID, fileObj.firstDirectoryName, fileObj.secondDirectoryName,fileObj.thirdDirectoryName,
 			 fileObj.otherInfo, fileObj.remarks) ;
-     if(ids == null || ids == undefined){
+ /*    if(ids == null || ids == undefined){
     	 chen.alert("上传失败","error");
-     }
+     }*/
 	 //旋转图片延缓
 	//setTimeout("dealUploadFile()",5000);
 	/* $.ajaxSetup({
@@ -365,9 +365,13 @@ function initEvent() {
 function initSaveAndSubmitRe_event() {
 	$("#linkPhone").blur(function() {
 		if ($(this).val() == null || $(this).val().trim() == "")
-			chen.alert("联系人电话不能为空");
+			{
+			 chen.alert("联系人电话不能为空");
+			}
 		else if (!isNoramlPhone($(this).val().trim()))
-			chen.alert("联系人电话格式不正确");
+			{
+			 chen.alert("联系人电话格式不正确");
+			}
 	});
 
 	$("#linkMan").blur(function() {
@@ -387,64 +391,90 @@ function initSaveAndSubmitRe_event() {
 	});
 
 	$(".footer button").click(function() { //保存和提交按钮的点击操作
-				var btnName = "";
-				var param = {};
-				var data ;
-				btnName = $(this).text();
+		        dealReSave();
 				
-				param.addState = obj.addState;
-				param.companyName = $("#companyName").val().trim();
-				param.address = $("#address").val().trim();
-				param.linkMan = $("#linkMan").val();
-				param.startTime = $("#startTime").val();
-				param.endTime = $("#endTime").val();
-				if(vaildSelected(param.startTime,param.endTime ) == false)
-					{
-					    chen.alert("结束时间不对");
-					    return ;
-					}
-				param.linkPhone = $("#linkPhone").val();
-				param.accordingDoc = $("#accordingDoc").val();
-				param.reID = obj.reID;
-				param.coID = obj.coID;
-				if (btnName == "保存")
-					param.saveState = "save";
-				else
-					{
-					   param.saveState = "submit";
-					   if(param.addState == "no"){ 
-							  if(param.companyName == null || param.companyName=="") 
-								  chen.alert("公司名字不能为空");
-						  if(param.address == null || param.address=="")
-						      chen.alert("公司通讯地址不能为空"); 
-						  }
-					   if(param.linkMan == null || param.linkMan=="")
-					        chen.alert("联系人不能为空");
-					  if(param.linkPhone == null || param.linkPhone=="")
-					        chen.alert("联系人电话不能为空"); 
-					  else if(!isNoramlPhone(param.linkPhone))
-					     chen.alert("联系人电话格式不正确"); 
-					}
-				 
-				$.ajax({
-						url : '/laboratorySystem/receiptlistController/saveSubmitReceipt.do',
-						dataType : "json",
-						type : "post",
-						contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
-						async : false,
-						data : param,
-						success : function(o) {
-							 data = JSON.parse(o);
-							if (data == true)
-								window.location = "./module/jsp/receiptlistManage/receiptlistManage.jsp";
-						},
-						error : function() {
-							chen.alert(" 保存交接单失败");
-						}
-
-					});
-
 			});
+}
+//处理交接单的保存和提交事件
+function dealReSave(){
+	var btnName = "";
+	var param = {};
+	var data ;
+	btnName = $(this).text();
+	
+	param.addState = obj.addState;
+	param.companyName = $("#companyName").val().trim();
+	param.address = $("#address").val().trim();
+	param.linkMan = $("#linkMan").val().trim();
+	param.startTime = $("#startTime").val().trim();
+	param.endTime = $("#endTime").val().trim();
+	param.linkPhone = $("#linkPhone").val().trim();
+	param.accordingDoc = $("#accordingDoc").val().trim();
+	param.reID = obj.reID;
+	param.coID = obj.coID;
+	if(vaildInputData(param) == false)
+	{
+	    return ;
+	}
+	if (btnName == "保存")
+		param.saveState = "save";
+	else
+		{
+		   param.saveState = "submit";			
+		}
+	$.ajax({
+			url : '/laboratorySystem/receiptlistController/saveSubmitReceipt.do',
+			dataType : "json",
+			type : "post",
+			contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
+			async : false,
+			data : param,
+			success : function(o) {
+				 data = JSON.parse(o);
+				if (data == true)
+					window.location = "./module/jsp/receiptlistManage/receiptlistManage.jsp";
+			},
+			error : function() {
+				chen.alert(" 保存交接单失败");
+			}
+
+		});
+
+}
+//验证数据是否合理或者是否输入
+function vaildInputData(param){
+	if(param.linkMan == null ||param.linkMan == undefined || param.linkMan == ""){
+		chen.alert("联系人为空");
+		return false;
+	}
+	if(param.startTime == null ||param.startTime == undefined || param.startTime == ""){
+		chen.alert("委托时间为空");
+		return false;
+	}
+	
+	if(param.endTime == null ||param.endTime == undefined || param.endTime == ""){
+		chen.alert("结束时间为空");
+		return false;
+	}
+	if(param.endTime <= param.startTime ){
+		chen.alert("时间先后顺序选择错误");
+		return false;
+	}
+	if(param.companyName == null ||param.companyName == undefined || param.companyName == ""){
+		chen.alert("委托单位为空");
+		return false;
+	}
+	if(param.address == null ||param.address == undefined || param.address == ""){
+		chen.alert("通讯地址为空");
+		return false;
+	}
+	
+	if(!isNoramlPhone(param.linkPhone))
+	{
+	  chen.alert("联系人电话格式不正确");
+	  return false;
+	}
+	return true;
 }
 // 输入样品编号检查样品库是否存在
 function isExitSample(sampleCode) {
@@ -662,8 +692,10 @@ function initFile() {
 							valign : 'middle',// 垂直居中显示
 							width : '20%',// 宽度
 							formatter : function(value, row, index) {
-								var remove = "", edit = "", download = "";
-								download = '<button onclick= "download(\''
+								var dele = "", edit = "", download = "";
+								download =  "<img src=\"./module/img/download_icon.png\" alt=\"下载\" title=\"下载\"  onclick='download(\"" + row.ID+"\")'>";
+								
+								/*	'<button onclick= "download(\''
 										+ row.ID
 										+ '\')" data-toggle="tooltip" data-placement="top" title="下载"  class="glyphicon glyphicon-save" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></button>';
 								edit = '<button onclick= "editFile(\''
@@ -672,7 +704,10 @@ function initFile() {
 								remove = '<button  onclick= "deleteFile(\''
 										+ row.ID
 										+ '\')" data-toggle="tooltip" data-placement="top" title="删除" class="glyphicon glyphicon-remove" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></button> ';
-								return download + edit + remove;
+						        */
+								edit = "<img src=\"./module/img/edit_icon.png\"  alt=\"编辑\" title=\"编辑\"  onclick='editFile(\""+row.ID+"\")'>";
+						        dele = "<img src=\"./module/img/delete_icon.png\" alt=\"删除\" title=\"删除\"  onclick='deleteFile(\""+row.ID+"\")'>";
+								return edit + dele + download ;
 							}
 						} ]
 			// 列配置项,详情请查看 列参数 表格
@@ -810,27 +845,22 @@ function initSample() {
 							valign : 'middle',// 垂直居中显示
 							width : '15%',// 宽度
 							formatter : function(value, row, index) {
-								var remove = "", edit = "", print = "";
+								var dele = "", edit = "", print = "";
 								edit = "<button onclick='editTask("
 										+ JSON.stringify(row)
 										+ ")'"
 										+ " data-toggle='tooltip' data-toggle='top'  title='编辑'  class='glyphicon glyphicon-edit' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></button>";
-								/*
-								 * edit = '<button
-								 * onclick="editTask('+row.ID+","+row.sampleID+","+row.factoryCode+","+
-								 * row.sampleName+","+row.sampleStyle+","+row.testName+",\'"+row.askFor+'\')"
-								 * data-toggle="tooltip"
-								 * data-toggle="top" title="编辑"
-								 * class="glyphicon glyphicon-edit"
-								 * style="cursor:pointer;color: rgb(10,
-								 * 78, 143);padding-right:8px;"></button>';
-								 */remove = '<button  onclick= "deleteTask(\''
+								remove = '<button  onclick= "deleteTask(\''
 										+ row.ID
 										+ '\')" data-toggle="tooltip" data-placement="top" title="删除" class="glyphicon glyphicon-remove" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></button> ';
-								print = '<button onclick= "print('
+								print = "<img src=\"./module/img/printbarcode_icon.png\" alt=\"打印条形码\" title=\"打印条形码\" onclick='print(\"" + row.qrcode+"\")'>";
+								
+								/*	'<button onclick= "print('
 										+ row.qrcode
-										+ ')" data-toggle="tooltip" data-placement="top" title="打印条形码"  class="glyphicon glyphicon-save" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></button>';
-								return edit + remove + print;
+										+ ')" data-toggle="tooltip" data-placement="top" title="打印条形码"  class="glyphicon glyphicon-save" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></button>';*/
+								edit = "<img src=\"./module/img/edit_icon.png\"  alt=\"编辑\" title='编辑' onclick='editTask("+JSON.stringify(row)+")'>";
+						        dele = "<img src=\"./module/img/delete_icon.png\" alt=\"删除\" title='删除' onclick='deleteTask(\""+row.ID+"\")'>";
+								return edit + dele + print;
 							}
 						} ]
 			// 列配置项,详情请查看 列参数 表格

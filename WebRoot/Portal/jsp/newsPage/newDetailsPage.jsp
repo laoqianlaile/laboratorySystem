@@ -111,9 +111,9 @@ String ID = request.getParameter("articleID");
 			        <div class="newsTitleDiv">
 			          <h3 id="newsTitle"></h3>
 			        </div>
-			        <div class="newsColumnDiv">
+			       <div class="newsColumnDiv">
 			          <p id="newsColumn"></p>
-			        </div>
+			       </div>
 
 					<!-- <h3 class="newsTitle"style="text-align:center;">FZK-CTC分散自律调度集中系统</h3>
 					<h5 style="position:relative; top:20px;">【项目简介】</h5>
@@ -121,7 +121,7 @@ String ID = request.getParameter("articleID");
 					<h5 style="position:relative; top:180px;">【功能测试】</h5>
 					<h5 style="position:relative; top:280px;">【效果及总结】</h5> -->
 			   </div>   
-		</div>		
+		</div>
 	   </div>
 	</div>
       <div class="footer content">

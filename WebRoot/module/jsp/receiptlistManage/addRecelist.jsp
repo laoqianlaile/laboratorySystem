@@ -28,6 +28,8 @@
 <link rel="stylesheet" type="text/css" href="module/css/uploadify.css">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+<link rel="stylesheet" type="text/css" href="module/css/receiptlistManage/addReceiptlist.css">
+
 <script type="text/javascript" src="./module/js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="./module/js/bootstrap.js"></script>
 <script type="text/javascript" src="./module/js/bootstrap-table.js"></script>
@@ -42,265 +44,7 @@
 <script src="module/js/sweetalert.min.js"></script>
 <script src="module/js/alert.js"></script>
 <script src="module/js/fileManage/fileManage.js" type="text/javascript"></script>
-<style type="text/css">
-body {
-	margin: 0 auto;
-}
 
-.container {
-	/* min-width: 1300px; */
-	width: 100%;
-	margin: 0 auto;
-}
-
-.row {
-	margin-bottom: 7px;
-}
-
-.col-xs-6 input {
-	width: 74%;
-}
-
-.col-xs-12 textarea {
-	width: 90%;
-}
-
-.col-xs-12 label {
-	vertical-align: top;
-}
-
-.headTitel label {
-	text-align: right;
-	display: inline-block;
-	width: 49.5%;
-	font-family: cursive;
-	font-size: larger;
-}
-
-.headHr {
-	border: 1px solid black;
-	margin-bottom: 5px;
-	margin-top: 0px;
-}
-
-.headTitel label:FIRST-CHILD {
-	text-align: left;
-}
-
-.form-control {
-	display: inline;
-	width: 70%;
-}
-
-.main {
-	margin-top: 25px;
-}
-
-.mainTitel,.secondTitel {
-	padding-left: 15px;
-	padding-right: 15px;
-	position: relative;
-	margin-top: 10px;
-}
-
-.mainTitel button,.secondTitel button {
-	position: absolute;
-	right: 15px;
-	margin-top: -13px;
-}
-
-table {
-	width: 100%;
-}
-
-#sampleTable th,#fileTable th {
-	border: 1px solid;
-	text-align: center;
-}
-
-#sampleTable td,#fileTable td {
-	border: 1px solid;
-	text-align: center;
-}
-
-.second {
-	margin-top: 30px;
-}
-
-.footer {
-	margin-top: 20px;
-}
-
-.footer button {
-	float: right;
-	margin-right: 20px;
-	width: 90px;
-	height: 36px;
-}
-
-.choose {
-	height: 300px;
-	overflow-x: hidden;
-	overflow-y: scroll;
-	width: 290px;
-}
-
-.overChoose {
-	display: none;
-	height: 300px;
-	left: 200px;
-	margin: 0 auto;
-	min-width: 124px;
-	overflow: hidden;
-	position: absolute;
-	top: 150px;
-	width: 260px;
-	z-index: 9999;
-	/* color: #fff; */
-	background: #fff;
-}
-
-.over {
-	background: #808080 none repeat scroll 0 0;
-	color: #333;
-	display: block;
-	opacity: 1;
-	position: fixed;
-	top: 0px;
-	z-index: 9999;
-}
-
-.col-xs-12 input,.col-md-12 input,.col-xs-12 select {
-	display: block;
-	width: 100%;
-	display: block;
-	width: 90%;
-	height: 34px;
-}
-
-h4,.h4 {
-	font-size: 20px;
-	font-weight: bold;
-}
-
-.col-xs-12 input.chooseInput,.col-md-12 input.chooseInput {
-	width: 20px;
-	display: inline-block;
-	vertical-align: middle;
-	margin-left: 70px;
-}
-
-.col-xs-12 label.fontStyle,.col-md-12 label.fontStyle {
-	margin: 10px 0 0;
-}
-
-.glyphicon {
-	margin-right: 5px;
-}
-
-.mainTitel button:FIRST-CHILD {
-	margin-right: 95px;
-}
-
-.file-box {
-	position: relative;
-	width: 340px;
-}
-
-.txt {
-	height: 22px;
-	border: 1px solid #cdcdcd;
-	width: 180px;
-}
-
-#file_uploadModal .filebtn {
-	background-color: #FFF;
-	border: 1px solid #CDCDCD;
-	height: 24px;
-	width: 70px;
-}
-
-.file {
-	position: absolute;
-	top: 0;
-	right: 80px;
-	height: 24px;
-	filter: alpha(opacity : 0);
-	opacity: 0;
-	width: 260px;
-}
-
-#submitFileBtn {
-	height: 30px;
-	width: 80px;
-	border-radius: 5px;
-}
-
-#loading {
-	position: fixed;
-	left: 48%;
-	top: 45%;
-	width: 150px;
-	height: 150px;
-	z-index: 9999;
-}
-
-#loading img {
-	width: 150px;
-	height: 150px;
-}
-
-.row label {
-	min-width: 80px;
-}
-
-.timeLabelDiv {
-	float: left;
-	height: 34px;
-	min-width: 80px;
-}
-
-.timeLabelDiv label {
-	margin-top: 7px;
-}
-
-.timeChooseDiv {
-	width: 70%;
-	margin-top: 0px;
-}
-
-.input-group-addon {
-	background-color: #fff;
-}
-
-.tip-factory {
-	width: 90%; /* 和上面的一样  */
-	height: auto;
-	position: absolute;
-	z-index: 9999;
-}
-
-.tip-factory-content {
-	/* width:100%; 这里设置后，后面的margin-right:就不起作用*/
-	height: auto;
-	z-index: 9999;
-	margin-right: 27px; /* 598 * 0.9 568 *0.9  30 * 0.9 */
-	border-radius: 5px;
-	background: #f5f5f5;
-}
-
-.tip-factory-content li {
-	
-	    display: block;
-    /* list-style-type: none; */
-    height: 30px;
-    vertical-align: middle;
-    padding-top: 7px;
-    border-bottom: 1px solid;
-    margin-bottom: 5px;
-    background: #7a96ae;
-}
-</style>
 </head>
 <body>
 	<div class="container">
@@ -443,7 +187,7 @@ h4,.h4 {
 				<button class="btn btn-primary glyphicon " id="submitReceipt">提交</button>
 			</div>
 
-			<div id="file_uploadModal" class="modal" role="dialog">
+		<!-- 	<div id="file_uploadModal" class="modal" role="dialog">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -460,8 +204,40 @@ h4,.h4 {
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
+             <!--文件上传框  -->
+             <div id="file_uploadModal" class="modal fade" role="dialog"
+		aria-labelledby="gridSystemModalLabel">
+		<div class="modal-dialog" role="document" style="width:450px">
+			<div class="modal-content">
+				<div class="modal-header" >
+					<h4 class="modal-title">上传附件</h4> 
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div id="files" style="text-align:left">
+							<div id="uploadfileQueue"></div>
+							<input type="file" id="file_upload" name="file_upload"  class="btn-primary"
+								multiple="multiple">
+							<div class="uploadFileText">
+								<label>备注信息:</label>
+								<textarea rows="3" class="form-control" name="fileRemarks"
+									id="fileRemarks"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
 
+					<button type="button" class="btn btn-primary" id="ensure"
+						name="ensure" onclick="submitFile()">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal"
+						onclick="javascript:$('#file_upload').uploadify('cancel','*')">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+             
 			<!-- 新增任务弹框 -->
 			<div id="addTaskModal" class="modal fade" role="dialog"
 				aria-labelledby="gridSystemModalLabel">
@@ -502,7 +278,7 @@ h4,.h4 {
 								</div>
 								<div class="col-xs-12 col-md-12">
 									<h4>检测/校准项目：</h4>
-									<textarea id="addTestProject" rows="4" cols="30"
+									<textarea id="addTestProject" rows="3" cols="30"
 										class="testProjectName" placeholder="选择检测项目"></textarea>
 									<!-- 	<ul>
 										<li><input type="checkbox">检测项目
@@ -544,7 +320,7 @@ h4,.h4 {
 								</div>
 								<div class="col-xs-12 col-md-12">
 									<h4>要求描述：</h4>
-									<textarea id="addAskFor" name="REMARKS" cols="30" rows="4" /></textarea>
+									<textarea id="addAskFor" name="REMARKS" cols="30" rows="3" /></textarea>
 								</div>
 							</div>
 						</div>
@@ -602,7 +378,7 @@ h4,.h4 {
 								</div>
 								<div class="col-xs-12 col-md-12">
 									<h4>检测/校准项目：</h4>
-									<textarea id="editTestProject" rows="6" cols="30"
+									<textarea id="editTestProject" rows="3" cols="30"
 										class="testProjectName" placeholder="选择检测项目"></textarea>
 								</div>
 								<!-- 选择检测项目 -->
@@ -639,7 +415,7 @@ h4,.h4 {
 								</div>
 								<div class="col-xs-12 col-md-12">
 									<h4>要求描述：</h4>
-									<textarea id="editAskFor" name="REMARKS" cols="30" rows="6" /></textarea>
+									<textarea id="editAskFor" name="REMARKS" cols="30" rows="3" /></textarea>
 								</div>
 							</div>
 						</div>
@@ -700,7 +476,7 @@ h4,.h4 {
 		autoclose : 1,
 		todayHighlight : 1,
 		startView : 2,
-		minView : 1,
+		minView : 2,
 		forceParse : 0,
 		format : 'yyyy-mm-dd HH:ii:ss'
 	});

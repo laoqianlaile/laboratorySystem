@@ -119,9 +119,9 @@ $(function() {
 			formatter : function(value, row, index) { //操作按钮的设置
 				  var view = "", edit = "", dele = ""; 
 				  	if(row.ID != ""){   //没有交接单---就没有任何编辑，查看，删除等功能
-				  		view = "<img src=\"../../img/view_icon.png\" onclick='showModal("+JSON.stringify(row)+")'>";
-				        edit = "<img src=\"../../img/edit_icon.png\" onclick='openModal("+JSON.stringify(row)+")'>";
-				        dele = "<img src=\"../../img/delete_icon.png\" onclick='deleSample(\""+row.ID+"\")'>";
+				  		view = "<img src=\"../../img/view_icon.png\"  alt=\"查看\" onclick='showModal("+JSON.stringify(row)+")'>";
+				        edit = "<img src=\"../../img/edit_icon.png\"  alt=\"编辑\" onclick='openModal("+JSON.stringify(row)+")'>";
+				        dele = "<img src=\"../../img/delete_icon.png\" alt=\"删除\" onclick='deleSample(\""+row.ID+"\")'>";
 				 
 					return view + edit + dele;
 				  }
@@ -181,7 +181,7 @@ function delData() {
 	var data = $('#table').bootstrapTable('getSelections');
     //弹出确认框
 	if (data.length == 0) {
-		alert("请至少选中一条数据");
+		chen.alert("请至少选中一条数据");
 		return;
 	}
 
@@ -204,7 +204,7 @@ function deleSample(sampleIDs){
 		},
 		success : function(o) {
 			if (o == "false") {
-				alert("删除失败");
+				chen.alert("删除失败");
 			}
 			refresh();
 		}
@@ -217,11 +217,11 @@ function add() {
 	var sampleType= $('#addSampleType').val();
 	var factoryCode = $("#addFactoryCode").val();
 	if (!factoryCode || typeof (factoryCode) == "undefined" || factoryCode == '' ) 
-		alert("样品编号不能为空！");
+		chen.alert("样品编号不能为空！");
 	else if (!name || typeof (name) == "undefined" || name == '' ) {
-		alert("样品名称不能为空！");
+		chen.alert("样品名称不能为空！");
 	} else if(!sampleType || typeof (sampleType) == "undefined" || sampleType == ''){
-		alert("样品型号规格不能为空！");
+		chen.alert("样品型号规格不能为空！");
 	}else  if(  sample_global.isAddEdit == true){
 	//	parame.receiptlistCode =  $('#addReceiptlistCode').val();
 		parame.sampleName = name;
@@ -238,7 +238,7 @@ function add() {
 			data : parame,
 			success : function(o) {
 				if (o == "false") {
-					alert("新增失败");
+					chen.alert("新增失败");
 				}
 				else {
 					 $('#addModal').modal('hide');
@@ -248,7 +248,7 @@ function add() {
 			}
 		});
 		
-	} else alert("请重新输入出厂编码");
+	} else chen.alert("请重新输入出厂编码");
 }
 
 /* 弹出查看弹框方法 */
@@ -262,11 +262,11 @@ function showModal(data) {
 /*	var data = $('#table').bootstrapTable('getSelections');
 
 	if (data.length == 0 || data.length > 1) {
-		alert("请选中一条数据");
+		chen.alert("请选中一条数据");
 		return;
 	}*/
 	fillLookEdit(data,"look");
-	//设置属性不可编辑 ???
+	//设置属性不可编辑 
 	
 	//显示页面
 	$('#showModal').modal('show');
@@ -274,23 +274,16 @@ function showModal(data) {
 
 /* 弹出修改弹框方法 */
 function openModal(data) {
-/*	var data = $('#table').bootstrapTable('getSelections');
-
-	if (data.length == 0 || data.length > 1) {
-		alert("请选中一条数据");
-		return;
-	}*/
-	// var ids = data[0].ROLEID;
+ 
 	fillLookEdit(data,"edit");
 	$('#editModal').modal('show');
 }
 function  initEvent(){ 
-	   //xinzeng he shanchu 
-	set_alert_wb_comment
+	 
 }
 function set_alert_wb_comment(the,state){
-	alert(state);
-	alert($(the).val());
+	chen.alert(state);
+	chen.alert($(the).val());
 	var html="";
 }
 /**
@@ -333,7 +326,7 @@ function isNoramlPhone(phone){
 			},
 			success : function(o) {
 				if (o == "true") {
-					 alert("出厂编码已经存在--请重新输入出厂编码");
+					 chen.alert("出厂编码已经存在--请重新输入出厂编码");
 					 sample_global.isAddEdit = false;
 				}
 				else  sample_global.isAddEdit = true;
@@ -350,9 +343,9 @@ function edit(){
 	var sampleType= $('#editSampleType').val();
 	var factoryCode = $("#editFactoryCode").val();
 	if (!name ||  typeof (name) == "undefined" || name == '' ) {
-		alert("样品名称不能为空！");
+		chen.alert("样品名称不能为空！");
 	} else if(!sampleType ||  typeof (sampleType) == "undefined" || sampleType == ''){
-		alert("样品型号规格不能为空！");
+		chen.alert("样品型号规格不能为空！");
 	}else if(  sample_global.isAddEdit == true){
 	
 		parame.sampleName = name;
@@ -373,7 +366,7 @@ function edit(){
 			data : parame,
 			success : function(o) {
 				if (o == "false") {
-					alert("修改失败");
+					chen.alert("修改失败");
 				}
 				else {
 					 $('#editModal').modal('hide');
@@ -382,7 +375,7 @@ function edit(){
 			}
 		});
 		
-	} else alert("请重新输入出厂编码");
+	} else chen.alert("请重新输入出厂编码");
 
 }
 //检查数据是否合理

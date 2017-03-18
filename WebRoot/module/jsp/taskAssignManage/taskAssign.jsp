@@ -39,10 +39,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<span id="receiptlistID" style="display:none"></span>
   	<div class="container" style="width:100%">
   		<div class="row">
-			<div class="col-xs-10 col-md-10 col-lg-10">
+			<div class="col-xs-8 col-md-8 col-lg-8">
 				<h4 >任务分配</h4>
 			</div>
-			<div class="col-xs-2 col-md-2 col-lg-2">
+			<div class="col-xs-4 col-md-4 col-lg-4">
 				<h5 id="receiptlistCode">交接单号:&nbsp;<span></span></h5>
 			</div>
 		</div>
@@ -70,7 +70,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<span id="address">通讯地址:&nbsp;<span></span></span>
 			</div>
 			<div class="col-xs-2 col-md-2 col-lg-2">
-				<input id="isClassified" type="checkbox" />&nbsp;<span>是否涉密</span>
+				<span id="isClassified">是否涉密:&nbsp;<span></span></span>
 			</div>
 			<div class="col-xs-2 col-md-2 col-lg-2">
 				<span id="classifiedLevel">密级:&nbsp;<span></span></span>
