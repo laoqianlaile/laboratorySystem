@@ -142,6 +142,11 @@
 	float:left;
 	border:1px solid #d9d9d9;
 	}
+
+.notices{
+	overflow:hidden;
+}	
+
 .notices-h .news-icon{
 	float:left;
 	width:16px;
@@ -196,6 +201,9 @@
 	margin-bottom:10px;
 	font-size:16px;
 	width:178px;
+}
+.case-item a:hover{
+	text-decoration:none;
 }
 .img-case{
 	height:150px;

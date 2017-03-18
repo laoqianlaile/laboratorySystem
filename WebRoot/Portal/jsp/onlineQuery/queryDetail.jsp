@@ -123,12 +123,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        </div>
       </div>
       <script>
-  		var usershowid = document.getElementById("usershowid");
-		var loginshow = document.getElementById("h-loginshow");
-		var id='<%=session.getAttribute("clientNo")%>';
-		usershowid.style.display="block";
-		loginshow.style.display="none";
-		usershowid.innerHTML=""+id+"";
+      window.onload = function(){
+      	var id= <%=session.getAttribute("clientNo")%>;
+  		
+  		if(id == "null" || id == "" || id == undefined){
+  			  $('#loginDivOne').show();
+  			  $('#loginDivTwo').hide();
+  		}else{
+
+  			 $('#loginA').html("欢迎您:"+id);
+  			 $('#loginDivOne').hide();	
+  			 $('#loginDivTwo').show();
+  		}
+      }
   	</script>
   </body>
 </html>

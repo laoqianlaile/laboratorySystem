@@ -26,36 +26,25 @@ function queryParams(pageReqeust) {
 }
 function init() {
 	$('#table').bootstrapTable({
-		striped : true,// 隔行变色效果
-		sortName : 'articleID',// 定义排序列
-		classes : 'table table-hover table-bordered table-condensed',
-		clickToSelect : true, // 设置true 将在点击行时，自动选择rediobox 和 checkbox
-		singleSelect : true,
-		pagination : true,// 在表格底部显示分页条
-		rownumbers : true,// 行数 .
-		pageSize : 10,// 页面数据条数
-		pageNumber : 1,// 首页页码
-		pageList : [ 5, 10, 20, 50, 200, 500 ],// 设置可供选择的页面数据条数
-		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
-		cache : false,// 禁用 AJAX 数据缓存
-		sortOrder : 'asc',// 定义排序方式
-		url : 'articleController/getArticleWithPaging.do',// 服务器数据的加载地址
-		/*
-		 * data : [ { status : "123", artTitle : "123", artColumn : "123",
-		 * artCaseType : "123", artCregisattime : "123", artPublisher : "123",
-		 * artRemark : '11' } ],
-		 */
-		sidePagination : 'server',// 设置在哪里进行分页
-		contentType : 'application/json',// 发送到服务器的数据编码类型
-		dataType : 'json',// 服务器返回的数据类型
-		queryParams : queryParams,
-		queryParamsType : "limit",
-		// queryParams:'',//请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
-		selectItemName : '',// radio or checkbox 的字段名//设置True 将禁止多选
-		columns : [ {
-			checkbox:true,
-			field : 'ck',
-		    valign: 'middle' 
+		striped: true,// 隔行变色效果
+		pagination: true,//在表格底部显示分页条
+		pageSize:5,//页面数据条数
+		pageNumber:1,//首页页码
+		pageList: [5,10,15],//设置可供选择的页面数据条数
+		clickToSelect:true,//设置true 将在点击行时，自动选择rediobox 和 checkbox
+		cache: false,//禁用 AJAX 数据缓存
+		sortName:'articleID',//定义排序列
+		sortOrder:'asc',//定义排序方式
+		url:'articleController/getArticleWithPaging.do',//服务器数据的加载地址
+		sidePagination:'server',//设置在哪里进行分页
+		contentType:'application/json',//发送到服务器的数据编码类型
+		dataType:'json',//服务器返回的数据类型
+	    queryParams:queryParams,
+		selectItemName:'',//radio or checkbox 的字段名
+		
+		columns : [{
+			checkbox : true,
+			visible : true
 		}, {
 			title : '序号',
 			field: 'Number',
@@ -313,21 +302,22 @@ function del() {
 		alert("请选中至少一条数据");
 		return;
 	}
-	confirm("确认要删除这篇文章？");
+	if(!confirm("确认要删除这篇文章？")){
+		return;
+	}
 	var ids = "";
 	for ( var i = 0; i < data.length; i++) {
 		ids += data[i].articleID + ",";
 	}
-
 	var ajaxParameter = {
-		articleID : ids.substring(0, (ids.length - 1))
-	};
+			articleID : ids.substring(0, (ids.length - 1))
+	}
 
 	$.ajax({
 		url : 'articleController/deleteArticleByID.do',
 		data : ajaxParameter,
 		success : function(o) {
-			if (o <= 0) {
+			if (o === "false") {
 				alert("删除失败");
 			}
 			refreshWindow();

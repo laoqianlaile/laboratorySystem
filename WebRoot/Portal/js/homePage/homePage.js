@@ -63,7 +63,7 @@ $(function(){
 	    		 hotcase += "<li class='notices-item' >"+
 	    		 "<span>"+"</span>"+"<div class='tittle'>"+
 		    	 "<a id='tittle' href="+"Portal/jsp/classicCase/CaseDetails.jsp?articleID="+
-		    	 myobj[i].articleID+">"+myobj[i].artTitle+"</a>"+
+		    	 myobj[i].articleID+">"+myobj[i].artTitle.substr(0, 12)+"</a>"+
 		    	 "</div>"+"<div class='date' id='date'>"+
 		    	 oYear+"-"+oMonth+"-"+oDay+"</div>"+"</li>";
 		    	}
