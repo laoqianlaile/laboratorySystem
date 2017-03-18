@@ -130,6 +130,7 @@ public class FileOperateController {
 			path = path + thirdDirectory + "\\";
 			relativePath += thirdDirectory + "\\";
 		}
+		System.out.println(firstDirectory+" "+secondDirectory+" "+" "+thirdDirectory );
 		directoryName+=path;
 		for (int j = 0; j < fileNames.length; j++) {
 			if (fileNames.length - j > 1) {

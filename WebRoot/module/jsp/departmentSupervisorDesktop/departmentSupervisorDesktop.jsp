@@ -36,7 +36,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="module/js/bootstrap-datetimepicker.fr.js"></script>
     <script src="assets/js/autoPage.js"></script> 
     <script src="module/js/sweetalert.min.js"></script>
-    <script src="module/js/alert.js"></script>
   </head>
   
   <body>

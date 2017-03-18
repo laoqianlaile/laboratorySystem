@@ -2,7 +2,6 @@
 
 body {
 	min-width: 1300px;
-	height: 100%;
 	width: 99%;
 }
 
@@ -45,19 +44,20 @@ body {
 	background: #fff !important;
 }
 
+.buttonGroup button:hover {
+	backround-color: #ffad33 !important;
+}
+
 .sampleInfo button {
 	margin-left: 10px;
 }
 
-.sampleInfo button:hover {
-	border: none;
-	color: #fff;
-	background-color: rgb(255, 173, 51);
+#equipmentInfo button:hover,.sampleInfo button:hover {
+	background-color: #ffad33 !important;
 }
 
-.sampleInfoDiv {
-	width: 100%;
-	margin: 20px auto;
+#ensure {
+	background-color: #238bc8 !important;
 }
 
 .equipmentList {
@@ -67,6 +67,11 @@ body {
 
 .equipmentList div {
 	margin-top: 10px
+}
+
+.sampleInfoDiv {
+	width: 100%;
+	margin: 20px auto;
 }
 
 .originalNumber .form-control {
@@ -88,12 +93,6 @@ body {
 	height: 100px;
 	resize: none;
 	overflow-y: scroll;
-}
-
-table thead {
-	background-color: #364760;
-	color: #fff;
-	font-size: blod 14px;
 }
 
 .bs-checkbox {

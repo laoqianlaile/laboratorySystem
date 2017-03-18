@@ -21,7 +21,10 @@ $(function () {
 		var data = $('#table').bootstrapTable('getSelections');
 		
 		if(data.length==0 || data.length>1){
-			chen.alert("请选中一条数据");
+			swal({
+				title: "请选中一条数据",
+				type: 'warning'
+			});
 			return;
 		}
 		var receiptlistID = data[0].ID;
@@ -33,7 +36,10 @@ $(function () {
 		var data = $('#table').bootstrapTable('getSelections');
 		
 		if(data.length==0 || data.length>1){
-			chen.alert("请选中一条数据");
+			swal({
+				title: "请选中一条数据",
+				type: 'warning'
+			});
 			return;
 		}
 		
@@ -46,7 +52,10 @@ $(function () {
 		var data = $('#table').bootstrapTable('getSelections');
 		
 		if(data.length==0 || data.length>1){
-			chen.alert("请选中一条数据");
+			swal({
+				title: "请选中一条数据",
+				type: 'warning'
+			});
 			return;
 		}
 		
@@ -59,7 +68,10 @@ $(function () {
 		var data = $('#fileTable').bootstrapTable('getSelections');
 		
 		if (data.length == 0 || data.length > 1) {
-			chen.alert("请选择一个文档查看");
+			swal({
+				title: "请选择一个文档查看",
+				type: 'warning'
+			});
 			return;
 		} else {
 			// todo...
@@ -71,7 +83,10 @@ $(function () {
 		var data = $('#fileTable').bootstrapTable('getSelections');
 		
 		if (data.length == 0) {
-			chen.alert("请选择一个或多个文件下载");
+			swal({
+				title: "请选择一个或多个文件下载",
+				type: 'warning'
+			});
 			return;
 		}
 		if (data.length == 1) {
