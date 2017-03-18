@@ -58,7 +58,7 @@ public class FileInformationService extends SearchService implements IFileInform
 		String[] properties = new String[]{
 				"ID",
 				"fileName",
-				"uploadTime"
+				"DATE_FORMAT(uploadTime,'%Y-%m-%d') uploadTime"
 		};
 		System.out.println(recontractID);
 		String condition = "type=4"+"\t"+"and"+"\t"+"belongtoID="+"\""+recontractID+"\"";
