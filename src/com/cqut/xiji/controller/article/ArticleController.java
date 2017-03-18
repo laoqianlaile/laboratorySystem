@@ -2,7 +2,6 @@ package com.cqut.xiji.controller.article;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 
 import javax.annotation.Resource;
 
@@ -52,7 +51,13 @@ public class ArticleController {
 	@RequestMapping("/deleteArticleByID")
 	@ResponseBody
 	public String deleteArticleByID(String articleID) {
-		return service.deleteArticleByID(articleID);
+		String[] ids = articleID.split(",");
+		int i = 0;
+		for(; i < ids.length; i++)
+		{
+			service.deleteArticleByID(ids[i]);
+		}
+		return i>0?"true":"false";
 	}
 
 	/**

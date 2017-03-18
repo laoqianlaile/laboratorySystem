@@ -39,7 +39,9 @@
 	}
 	
 	.th-inner {
-	height:100%;
+	height:40px;
+	line-height:40px;
+	padding:0px;
     background-color: #364760;
     color: #fff;
     font-size: 14px;

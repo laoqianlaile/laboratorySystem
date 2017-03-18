@@ -1,3 +1,4 @@
+@CHARSET "UTF-8";
 .top{
 	margin-top: 20px;
 }
@@ -28,10 +29,6 @@
 	padding:0;
 }
 
-#table {
-	border: 1px solid;
-	text-align: center;
-}
 
 #left{
 	width: 626px;
@@ -78,11 +75,11 @@
 	border:2px solid;
 	margin-bottom: 10px;
 	margin-top: 20px;
-	padding: 0£»
+	padding: 0ï¼›
 
 }
 
-.task_button img{
+.task_button input{
 	width: 40px;
 	height: 40px;
 	margin-top: 16px;
@@ -94,9 +91,29 @@
 	color:#198ac8; 
 }
 
+.task_button2{
+	border-color: #198ac8;
+	color:#198ac8; 
+}
+
 .task_button3{
 	border-color: #fd9421;
 	color:#fd9421; 
+}
+
+.task_button4{
+	border-color: #fd9421;
+	color:#fd9421; 
+}
+
+.task_button5{
+	border-color: #47da18;
+	color:#47da18;
+}
+
+.task_button6{
+	border-color: #47da18;
+	color: #47da18; 
 }
 
 .task_button p{
@@ -105,7 +122,40 @@
 }
 
 
-#right{
+#right {
 	width: 380px;
-	float: right;
+	margin-left:30px;
+	float: left;
 }
+
+.rightHead{
+	width:380px;
+	height:40px;
+	border:1px solid #ccc;
+}
+
+.rightHead img{
+	width: 18px;
+	height: 18px;
+	margin-left: 12px;
+	margin-right: 12px;
+	margin-top: 12px;
+}
+
+.rightHead label{
+	font-family: "Microsoft YaHei-Regular";
+	font-size: 16px;
+	color: #333;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.messageTable{
+	width:380px;
+}
+
+.table-hover>tbody>tr:hover>td,.table-hover>tbody>tr:hover>th {
+	background-color: rgba(209, 231, 243, 1);
+}
+
