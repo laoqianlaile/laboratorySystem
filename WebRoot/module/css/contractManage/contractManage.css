@@ -1,5 +1,8 @@
 @CHARSET "UTF-8";
 
+.bootstrap-table {
+    min-width: 1500px;
+}
 .form-control {
 	display: inline;
 	width: 70%;
@@ -121,7 +124,7 @@
 #table thead,.modal-header {
 	background-color: #364760;
 	color: #fff;
-	font-size: blod 14px;
+	font-size: 14px;
 }
 
 .bs-checkbox {

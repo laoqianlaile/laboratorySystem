@@ -476,7 +476,7 @@
 		autoclose : 1,
 		todayHighlight : 1,
 		startView : 2,
-		minView : 1,
+		minView : 2,
 		forceParse : 0,
 		format : 'yyyy-mm-dd HH:ii:ss'
 	});

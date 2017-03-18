@@ -36,7 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="module/js/bootstrap-datetimepicker.js"></script>
 <script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="module/js/bootstrap-datetimepicker.fr.js"></script>
-<script src="assets/js/autoPage.js"></script>
+<!-- <script src="assets/js/autoPage.js"></script> -->
 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
     <script src="module/js/sweetalert.min.js"></script>
     <script src="module/js/alert.js"></script>
@@ -60,14 +60,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 .fixed-table-container .bs-checkbox {
 	text-align: center;
 	vertical-align: middle;
-}
-
-#searcherArea {
-	min-width: 1300px;
-}
-
-.bootstrap-table {
-	min-width: 1500px;
 }
 
 .list-searcher select {
@@ -100,6 +92,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 .timeLabelDiv {
 	float: left;
 	height: 34px;
+	width: 20%;
 	min-width: 80px;
 }
 
@@ -115,6 +108,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 .input-group-addon {
 	background-color: #fff;
 }
+.row {
+	margin-left: 0;
+	margin-right: 0;
+}
 </style>
 
 </head>
@@ -122,28 +119,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 	<div id="searcherArea">
 		<div class="row">
-			<div class="col-xs-3 col-md-3 col-lg-3">
+			<div class="col-xs-4 col-md-4 col-lg-4">
 				<label>交接单号：</label><input type="text" id="receiptlistCode"
 					name="receiptlistCode" class="form-control"
 					aria-describedby="basic-addon1">
 			</div>
-			<div class="col-xs-3 col-md-3 col-lg-3">
+			<div class="col-xs-4 col-md-4 col-lg-4">
 				<label>合同编号：</label><input type="text" id="contractCode"
 					name="contractCode" class="form-control"
 					aria-describedby="basic-addon1">
 			</div>
-			<div class="col-xs-3 col-md-3 col-lg-3">
+			<div class="col-xs-4 col-md-4 col-lg-4">
 				<label>委托单位：</label><input type="text" id="companyName"
 					name="companyName" class="form-control"
 					aria-describedby="basic-addon1">
 			</div>
-			<div class="col-xs-3 col-md-3 col-lg-3">
+		</div>
+		<div class="row">
+			<div class="col-xs-4 col-md-4 col-lg-4">
 				<label>委托人：</label><input type="text" id="linkMan" name="linkMan"
 					class="form-control" aria-describedby="basic-addon1">
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-3 col-md-3 col-lg-3">
+			<div class="col-xs-4 col-md-4 col-lg-4">
 				<div class="timeLabelDiv">
 					<label class="control-label">委托时间:</label>
 				</div>
@@ -156,7 +153,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						class="glyphicon glyphicon-calendar"></span></span>
 				</div>
 			</div>
-			<div class="col-xs-3 col-md-3 col-lg-3">
+			<div class="col-xs-4 col-md-4 col-lg-4">
 				<div class="timeLabelDiv">
 					<label class="control-label">至:</label>
 				</div>
@@ -169,7 +166,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						class="glyphicon glyphicon-calendar"></span></span>
 				</div>
 			</div>
-			<div class="col-xs-3 col-md-3 col-lg-3">
+		</div>
+		<div class="row">
+			<div class="col-xs-4 col-md-4 col-lg-4">
 				<label>检测/校准进度：</label><select id="state" name="state"
 					class="form-control" aria-describedby="basic-addon1">
 					<option value="-1"></option>
@@ -177,7 +176,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<option value="2">已完成</option>
 				</select>
 			</div>
-			<div class="col-xs-3 col-md-3 col-lg-3">
+			<div class="col-xs-4 col-md-4 col-lg-4">
 				<label>分配状态：</label><select id="assignState" name="assignState"
 					class="form-control" aria-describedby="basic-addon1">
 					<option value="-1"></option>
@@ -185,6 +184,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<option value="2">已分配</option>
 				</select>
 			</div>
+		</div>
 			<div class="row">
 				<div class="<col-xs-11></col-xs-11> col-md-11 col-lg-11"></div>
 				<div class="col-xs-1 col-md-1 col-lg-1">

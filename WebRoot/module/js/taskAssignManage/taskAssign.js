@@ -17,9 +17,8 @@ $(function () {
 			$('#endTime span').text(data[0].endTime);
 			$('#linkPhone span').text(data[0].linkPhone);
 			$('#address span').text(data[0].address);
-			if(data[0].isClassified === 1){
-				$('#isClassified').attr("checked","checked");
-			}
+			var isClassified = data[0].isClassified === 1 ? "是" : "否";
+			$('#isClassified span').text(isClassified);
 			$('#classifiedLevel span').text(data[0].classifiedLevel);
 			$('#employeeName span').text(data[0].employeeName);
 			$('#accordingDoc').text(data[0].accordingDoc);
@@ -91,7 +90,7 @@ $(function () {
 			width:'10%'//宽度
 		},{
 			field:'specifications',//返回值名称
-			title:'型号/规格/代号',//列名
+			title:'型号/规格',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'5%'//宽度
@@ -148,17 +147,14 @@ $(function () {
 			title:'操作',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'5%',//宽度
+			width:'10%',//宽度
 			formatter:function(value,row,index){
 				var temp = '';
 
-				if(row.detector != "无" || row.custodian != "无"){
+				if(!(row.detector === "无" && row.custodian === "无")){
 					var btn_assignAgain = '<span class="glyphicon glyphicon-user" onclick="assignAgain(\'' + row.ID + '\',\'' + row.detector + '\',\'' + row.custodian + '\',\'' + row.factoryCode + '\')" data-toggle="tooltip" data-placement="top" title="重新分配" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
 			  		var btn_edit = '<span class="glyphicon glyphicon-edit" onclick="edit(\'' + row.ID + '\',\'' + row.factoryCode + '\')" data-toggle="tooltip" data-placement="top" title="修改" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
 					temp += btn_assignAgain + btn_edit;
-				}else{
-					var btn_edit = '<span class="glyphicon glyphicon-edit" onclick="edit(\'' + row.ID + '\',\'' + row.factoryCode + '\')" data-toggle="tooltip" data-placement="top" title="修改" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
-					return btn_edit;
 				}
 		  		return temp;
             }
@@ -238,7 +234,7 @@ $(function () {
 			valign:'middle',//垂直居中显示
 			width:'20%',//宽度
 			formatter:function(value,row,index){
-				var btn_download = '<span class="glyphicon glyphicon-download" onclick="download(\''+ row.path +'\')" data-toggle="tooltip" data-placement="top" title="下载" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
+				var btn_download = '<span class="glyphicon glyphicon-download" onclick="download(\''+ row.ID +'\')" data-toggle="tooltip" data-placement="top" title="下载" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
 		  			return btn_download;
             }
 		}]//列配置项,详情请查看 列参数 表格
@@ -249,9 +245,17 @@ $(function () {
 //分配弹框方法
 $("#btn-assign").click(function(){
 	var data = $('#taskTable').bootstrapTable('getSelections');
-
-	if (data[0].detector != "无" && data[0].custodian != "无") {
-		chen.alert("该任务已分配完成!!!");
+	
+	if (data.length === 0) {
+		swal({
+				title: "请选择一条数据!",
+				type: 'warning'
+			});
+	} else if (data[0].detector != "无" && data[0].custodian != "无") {
+		swal({
+			title: "该任务已分配完成!",
+			type: 'warning'
+		});
 	} else {
 		$('#sampleCode').text(data[0].factoryCode);
 		$('#taskID').text(data[0].ID);
@@ -332,12 +336,6 @@ $("#btn-assign").click(function(){
 				align:'center',//水平居中显示
 				valign:'middle',//垂直居中显示
 				width:'10%',//宽度
-			},{
-				field:'state',//返回值名称
-				title:'状态',//列名
-				align:'center',//水平居中显示
-				valign:'middle',//垂直居中显示
-				width:'10%',//宽度
 			}]//列配置项,详情请查看 列参数 表格
 			/*事件*/
 		});
@@ -355,7 +353,6 @@ function assignAgain(ID,detector,custodian,factoryCode){
 
 	var departmentID = $('#departmentID').text();
 	
-
 	$('#assignTable').bootstrapTable({
 		striped: false,// 隔行变色效果
 		pagination: true,//在表格底部显示分页条
@@ -429,12 +426,6 @@ function assignAgain(ID,detector,custodian,factoryCode){
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'10%',//宽度
-		},{
-			field:'state',//返回值名称
-			title:'状态',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-			width:'10%',//宽度
 		}]//列配置项,详情请查看 列参数 表格
 		/*事件*/
 	});
@@ -463,7 +454,10 @@ function assignCustodian(){
 	var data = $('#assignTable').bootstrapTable('getSelections');
 
 	if(data.length==0 || data.length>1){
-		chen.alert("请选中一条数据");
+		swal({
+			title: "请选中一条数据",
+			type: 'warning'
+		});
 		return;
 	}
 
@@ -480,7 +474,10 @@ function assignCustodian(){
 		dataType:'json',
 		success:function(data){
 			if(data === "1"){
-				chen.alert("分配成功");
+				swal({
+					title: "分配成功",
+					type: 'success'
+				});
 				$('#assignPeopleModal').modal('hide');
 				$('#taskTable').bootstrapTable('refresh');
 			}
@@ -509,7 +506,10 @@ function assignDetector(){
 		dataType:'json',
 		success:function(data){
 			if(data === "1"){
-				chen.alert("分配成功");
+				swal({
+					title: "分配成功",
+					type: 'success'
+				});
 				$('#assignPeopleModal').modal('hide');
 				$('#taskTable').bootstrapTable('refresh');
 			}
@@ -523,6 +523,15 @@ $('#return').click(function(){
 });
 
 //下载文件按钮
-function download(path){
-	chen.alert('the file path is : ' + path);
+function download(ID){
+	swal('the file ID is : ' + ID);
+		
+	$.ajax({
+		url:'fileOperateController/filedownload.do',
+		data:ID,
+		dataType:'json',
+		success:function(data){
+			
+	  	}
+	});
 };

@@ -22,6 +22,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" type="text/css" href="module/css/taskManage/taskView.css">
 <link rel="stylesheet"  type="text/css" href="module/css/wait.css">
 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
@@ -29,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="module/js/bootstrap-table-zh-CN.js"></script>
 <script src="module/js/jquery.uploadify.min.js"></script>
 <script src="module/js/sweetalert.min.js"></script>
-<script src="module/js/alert.js"></script>
+<script src="assets/js/autoPage.js"></script>
 
 </head>
 
@@ -93,7 +94,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							id="sampleCreateTime"></span>
 					</div>
 				</div>
-				<div class="col-xs-6 col-md-6 col-lg-6">
+				<div class="col-xs-6 col-md-6 col-lg-6 buttonGroup">
 					<button type="button" class="btn btn-primary"
 						onclick="equipmentRegister()">
 						<span class="glyphicon glyphicon-edit"></span> 设备登记
@@ -133,8 +134,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</div>
 		</div>
+
+		<div class="footer">
+			<div class="col-xs-12 col-md-12 col-lg-12 ">
+				<div style="float:right;margin-top:10px;">
+					<button type="button" onclick="turnBack()" class="btn btn-primary">返回</button>
+				</div>
+			</div>
+		</div>
+
 	</div>
-	</div>
+	
+
 
 	<div id="equipmentInfo" class="modal fade" role="dialog"
 		aria-labelledby="gridSystemModalLabel">
@@ -169,13 +180,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<input type="file" id="file_upload" name="file_upload"
 								multiple="multiple">
 						</div>
-						<!-- 		<div class="originalNumber">
-							<label>原始记录编号:</label> 
-							<input type="text" class="form-control"> 
-							<label>字&nbsp;&nbsp;&nbsp;&nbsp;第</label> 
-							<input type="text" class="form-control"> 
-							<label>号</label>
-						</div> -->
 						<div class="fileSummary">
 							<label>附件概述:</label>
 							<textarea class="form-control" name="fileSummaryInfo"

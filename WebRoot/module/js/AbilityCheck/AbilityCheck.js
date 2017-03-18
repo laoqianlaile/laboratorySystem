@@ -26,9 +26,8 @@ $._messengerDefaults = {
 function initialize(){
 	$('#table').bootstrapTable({
 		striped: true,// 隔行变色效果
-		/*height: '90px',//定义表格的高度	
-*/		pagination: true,//在表格底部显示分页条
-		pageSize: 9,//页面数据条数
+		pagination: true,//在表格底部显示分页条
+		pageSize: 10,//页面数据条数
 		pageNumber:1,//首页页码
 		pageList: [3, 5, 9, 10, 200, 500],//设置可供选择的页面数据条数
 		cache: false,//禁用 AJAX 数据缓存
@@ -102,7 +101,6 @@ function initialize(){
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
 			width : '20%'// 宽度
-				
 		} ,{
 			field : "fileID",
 	        visible:false
@@ -111,7 +109,6 @@ function initialize(){
 			visible:false
 	} ],
 		 onLoadSuccess:function(o){
-			 document.getElementById("uploading").style.display = "none";
 		     var json = eval(o);
 		     var vauDate = $('#table').bootstrapTable('getData');
 		    for(var i = 0; i < parseInt(json.count); i++){
@@ -163,7 +160,6 @@ function refresh2(){
 
 function refresh(){
 	$('#table').bootstrapTable('refresh', null);
-	document.getElementById("uploading").style.display = "none";
 }
 
 
@@ -232,7 +228,6 @@ function onDblClickCell(field,value,row,$element){
 function add(){
 	if(datacount<0)
 		datacount = $('#table').bootstrapTable('getData').length;
-	document.getElementById('uploading').style.display ="block";
 	$('#table').bootstrapTable('insertRow',{index:0,row:{
 		parameter:"",
 		employeeName :"",
@@ -285,7 +280,6 @@ function addPlan(dom){
 		  		   hideOnNavigate: true //是否隐藏导航
 		  		 });
 			refresh();
-			document.getElementById("uploading").style.display = "none";
 		},
 		});
 	}
@@ -542,11 +536,11 @@ function download(){
 	  		 });
 	}
 	else{
-	window.location.href="fileOperateController/filedownload.do?ID="+getdata[0].fileID;
+		window.location.href="fileOperateController/filedownload.do?ID="+getdata[0].fileID;
 	}
 }
 
-$("#Executiontime").datetimepicker({
+$(".form_datetime").datetimepicker({
     minView: 'month',            //设置时间选择为年月日 去掉时分秒选择
     format:'yyyy-mm',
     todayBtn:"linked",
@@ -555,15 +549,5 @@ $("#Executiontime").datetimepicker({
     startView:3,
     minView:3,
     language: 'zh-CN'
-});
-$("#Executiontime2").datetimepicker({
-	minView: 'month',            //设置时间选择为年月日 去掉时分秒选择
-	format:'yyyy-mm',
-	todayBtn:"linked",
-	autoclose:true,
-	todayHighlight:true,
-	startView:3,
-	minView:3,
-	language: 'zh-CN'
 });
 

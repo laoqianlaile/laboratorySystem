@@ -11,7 +11,7 @@ function initData(){
 		//height : 800,// 定义表格的高度
 		striped : true,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
-	    pageSize : 10,// 页面数据条数
+		pageSize : 10,// 页面数据条数
 		pageNumber : 1,// 首页页码
 		pageList : [ 5,10,15 ],// 设置可供选择的页面数据条数
 		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
@@ -42,7 +42,7 @@ function initData(){
 		selectItemName : '',// radio or checkbox 的字段名
 		columns : [ {
 			checkbox : true,
-			width :"1%",// 宽度
+			width :"2%",// 宽度
 		},{
 			field:'ID',//返回值名称
 			title:'合同ID',//列名
@@ -63,7 +63,6 @@ function initData(){
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:"9%",//宽度
-//			visible:false
 		},{
 			field:'contractName',//返回值名称
 			title:'合同名称',//列名
@@ -123,31 +122,31 @@ function initData(){
 			title:'合同金额',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"4%",//宽度
+			width:"3%",//宽度
 		},{
 			field:'isClassified',//返回值名称
 			title:'是否涉密',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"4%",//宽度
+			width:"3%",//宽度
 		},{
 			field:'classifiedLevel',//返回值名称
 			title:'涉密等级',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"4%",//宽度
+			width:"3%",//宽度
 		},{
 			field:'state',//返回值名称
 			title:'合同状态',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"4%",//宽度
+			width:"3%",//宽度
 		},{
 			field:'viewpoint',//返回值名称
 			title:'审核意见',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"6%",//宽度
+			width:"4%",//宽度
 		}]//列配置项,详情请查看 列参数 表格
 		/*事件*/
 	});
@@ -196,7 +195,7 @@ function delData(){
 	for(var i=0; i<data.length; i++){
 		ID += "ID = '" + data[i].ID + "' or ";
 	}
-	alert(ID.substring(0, (ID.length-3)));
+	//alert(ID.substring(0, (ID.length-3)));
 	var ajaxParameter = {
 			ids:ID.substring(0, (ID.length-3))	
 	};
@@ -230,7 +229,6 @@ function add(){
 		var endTime = $('#add_endTime').val();
 		var isClassified = $("input[name='isClassified']:checked").val();
 		var classifiedLevel = $('#add_classifiedLevel').val();
-		alert(classifiedLevel);
 		if (!contractName && typeof(contractName)!="undefined" && contractName=='') 
 		{ 
 			alert("合同名不能为空！"); 
@@ -287,11 +285,7 @@ function add(){
 			alert("合同截至日期不能为空！"); 
 			return;
 		}
-		if (signTime > startTime && startTime > endTime) 
-		{ 
-			alert("合同开始/截至日期超前！"); 
-			return;
-		}
+		
 		if (!isClassified && typeof(isClassified)!="undefined" && isClassified=='') 
 		{ 
 			alert("是否保密不能为空！");
@@ -460,7 +454,6 @@ function addClick(){
  */
 function classifiedSth(){
 	var isClassified = $('input[name="isClassified"]:checked').val();
-	alert(isClassified);
 	if(isClassified == "0"){
 		$('#add_classifiedLevel').val("3");
 		$('#add_classifiedLevel #Level3').show();

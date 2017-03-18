@@ -158,7 +158,7 @@ function getContractByID(){
 		     success:getid=function(data){
 		    	 if (data) {
 		    		var myobj = JSON.parse(data);
-		    		$('#edit_contractCode').val(myobj[0].contractCode);
+		    		$('#edit_contractCode').html(myobj[0].contractCode);
 		    		$('#edit_contractName').val(myobj[0].contractName);
 		    		$('#edit_address').val(myobj[0].address);
 		    		$('#edit_signAddress').val(myobj[0].signAddress);
@@ -186,6 +186,120 @@ function getContractByID(){
 	}
 }
 
+/**
+ * 覆盖合同文件
+ */
+function coverContractFile(){
+	var ID = GetQueryString("ID");; 
+	if (!ID && typeof(ID)!="undefined" && ID=='') 
+	{ 
+		alert("合同ID为空！"); 
+	}else {
+		var parame = {};
+		parame.ID = ID;
+		var contractCode = $('#edit_contractCode').html();
+		var contractName = $('#edit_contractName').val();
+		var signAddress = $('#edit_signAddress').val();
+		var address = $('#edit_address').val();
+		var companyName = $('#edit_companyName').val();
+		var oppositeMen = $('#edit_oppositeMen').val();
+		var linkPhone = $('#edit_linkPhone').val();
+		var startTime = $('#edit_startTime').val();
+		var endTime = $('#edit_endTime').val();
+		var employeeName = $('#edit_employeeName').val();
+		var signTime = $('#edit_signTime').val();
+		
+		if (!contractCode && typeof(contractCode)!="undefined" && contractCode=='') 
+		{ 
+			alert("合同编号不能为空！"); 
+			return;
+		}
+		if (!contractName && typeof(contractName)!="undefined" && contractName=='') 
+		{ 
+			alert("合同名不能为空！"); 
+			return;
+		}
+		if (!companyName && typeof(companyName)!="undefined" && companyName=='') 
+		{ 
+			alert("签约单位不能为空！");
+			return;
+		}
+		if (!address && typeof(address)!="undefined" && address=='') 
+		{ 
+			alert("单位地址不能为空！");
+			return;
+		}
+		if (!signAddress && typeof(signAddress)!="undefined" && signAddress=='') 
+		{ 
+			alert("签约地点不能为空！");
+			return;
+		}
+		if (!oppositeMen && typeof(oppositeMen)!="undefined" && oppositeMen=='') 
+		{ 
+			alert("甲方法定代表人或代理人不能为空！");
+			return;
+		}
+		if (!linkPhone && typeof(linkPhone)!="undefined" && linkPhone=='') 
+		{ 
+			alert("联系电话不能为空！");
+			return;
+		}
+		else {
+			var reg = /^1(3|4|5|7|8)\d{9}$/;
+			 if (!reg.test(linkPhone)) {
+				 alert("联系电话格式错误！");
+				 return;
+			 }
+		}
+		if (!employeeName && typeof(employeeName)!="undefined" && employeeName=='') 
+		{ 
+			alert("乙方法定代表人或代理人不能为空！");
+			return;
+		}//bug 如果没在改变代表名时通过点击提示框的改变，修改后代表名不会变
+		if (!signTime && typeof(signTime)!="undefined" && signTime=='') 
+		{ 
+			alert("签订日期不能为空！");
+			return;
+		}
+		if (!startTime && typeof(startTime)!="undefined" && startTime=='') 
+		{ 
+			alert("合同开始执行日期不能为空！");
+			return;
+		}if (!endTime && typeof(endTime)!="undefined" && endTime=='') 
+		{ 
+			alert("合同截至日期不能为空！"); 
+			return;
+		}else {
+			parame.contractCode = contractCode;
+			parame.contractName = contractName;
+			parame.signAddress = signAddress;
+			parame.address = address;
+			parame.companyName = companyName;
+			parame.oppositeMen = oppositeMen;
+			parame.linkPhone = linkPhone;
+			parame.startTime = startTime;
+			parame.endTime = endTime;
+			parame.employeeName = employeeName;
+			parame.signTime = signTime;
+			
+			$.ajax({
+			  url:'contractController/coverContractFile.do',
+			  type:'post', 
+			  data:parame,
+			  dataType:'json',
+			  success:function(o){
+				  if(o<=0){
+					  alert("不存在合同模板文件");
+				  }
+				  window.location.href="module/jsp/contractManage/EditContract.jsp?ID=" + ID;
+			  },
+			  error:function(o){
+				  console.log(o);
+			  }
+			});
+		}
+	}
+}
 /**
  * 下载文件
  * @param id
@@ -670,7 +784,6 @@ function openAddItemModal(){
 }
 
 function openEditItemModal(ID,fineItemCode,testProjectID,nameCn,nameEn,number,price,money,departmentID,departmentName,calculateType,isOutsourcing,remarks,hour){
-	alert("openEditItemModal:" + ID);
 	
 	$('#edit_fineItemID').val(ID);
 	$('#edit_fineItemCode').val(fineItemCode);
@@ -720,7 +833,6 @@ function goback(){
  */
 function classifiedSth(){
 	var isClassified = $('input[name="isClassified"]:checked').val();
-	alert(isClassified);
 	if(isClassified == "0"){
 		$('#edit_classifiedLevel').val("3");
 		$('#edit_classifiedLevel #Level3').show();
@@ -740,14 +852,10 @@ function editShowMsg(){
 	if (!name && typeof(name)!="undefined" && name=='') 
 	{ 
 		$(".companyN").hide();
-	}else {
-		var parame = {};
-		parame.companyName = name;
-		
+	}else {		
 		$.ajax({  
 		    url:'companyController/getCompanyMsg.do',// 跳转到 action
 		    type:'post', 
-		    data:parame,
 		    dataType:'json',
 		    success:function(data){  
 		    	if (data) { 
@@ -755,11 +863,7 @@ function editShowMsg(){
 		    		var myobj = JSON.parse(data);
 		    		var htmlElement = "";//定义HTML
 		    		company = $(".companyN");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else{
-		    			length = myobj.length;
-		    		}
+		    		length = myobj.length;
 		    		for(var i=0; i < length; i++){
 		    			htmlElement += "<ul><li id='" + myobj[i].mobilePhone +"' value='" + myobj[i].companyName + "' name='" + myobj[i].linkMan + "' title='" + myobj[i].address + "' class='" + myobj[i].ID + "'>" + myobj[i].companyName + "</li></ul>";
 		    		}
@@ -875,7 +979,6 @@ function editClick(){
 
 //修改合同基本信息方法 
 function edit(){
-	alert("edit");
 	var ID = GetQueryString("ID");; 
 	if (!ID && typeof(ID)!="undefined" && ID=='') 
 	{ 
@@ -884,7 +987,7 @@ function edit(){
 		var parame = {};
 		parame.ID = ID;
 		parame.state = 2;
-		var contractCode = $('#edit_contractCode').val();
+		var contractCode = $('#edit_contractCode').html();
 		var contractName = $('#edit_contractName').val();
 		var signAddress = $('#edit_signAddress').val();
 		var address = $('#edit_address').val();
@@ -1017,7 +1120,6 @@ function edit(){
 
 //新增合同细项方法 
 function addItem(){
-	alert("addItem");
 	
 	var parame = {};
 	var fineItemCode = $('#add_fineItemCode').val();
@@ -1149,7 +1251,6 @@ function delFileItem(id){
 
 //编辑合同细项方法 
 function editItem(){
-	alert("editItem");
 	
 	var parame = {};
 	var fineItemCode = $('#edit_fineItemCode').val();
@@ -1230,8 +1331,6 @@ function editItem(){
 	}
 	if (!remarks && typeof(remarks)!="undefined" && remarks=='') 
 	{ 
-		alert("备注为空！");
-	
 		parame.ID = $('#edit_fineItemID').val();
 		parame.contractID = $('#edit_contractID').val();
 		parame.fineItemCode = fineItemCode;

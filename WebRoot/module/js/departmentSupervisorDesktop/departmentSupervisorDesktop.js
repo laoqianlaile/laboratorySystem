@@ -18,27 +18,17 @@ $(function () {
 	// 查看报告按钮点击事件
 	$('#viewReport').click(function (){
 		
-//		chen.alert('操作成功');
+		var data = $('#table').bootstrapTable('getSelections');
 		
-		chen.confirm('vvvv').then(isConfirm => {
-			if (isConfirm) {
-				// 点击删除按钮后要干的事
-				chen.alert('操作成功');
-			} else { // 点击取消按钮
-				// 点击取消按钮后要干的事
-			}
-		}).catch(err => {
-			console.log(err);
-		});
-		
-//		var data = $('#table').bootstrapTable('getSelections');
-//		
-//		if(data.length==0 || data.length>1){
-//			chen.alert("请选中一条数据");
-//			return;
-//		}
-//		var receiptlistID = data[0].ID;
-//		window.location.href = window.location.href.replace('departmentSupervisorDesktop/departmentSupervisorDesktop.jsp','testReportManage/testReportManage.jsp') + '?ID='+receiptlistID;
+		if(data.length==0 || data.length>1){
+			swal({
+				title: "请选中一条数据",
+				type: 'warning'
+			});
+			return;
+		}
+		var receiptlistID = data[0].ID;
+		window.location.href = window.location.href.replace('departmentSupervisorDesktop/departmentSupervisorDesktop.jsp','testReportManage/testReportManage.jsp') + '?ID='+receiptlistID;
 	});
 	
 	// 工作量统计按钮点击事件
@@ -46,7 +36,10 @@ $(function () {
 		var data = $('#table').bootstrapTable('getSelections');
 		
 		if(data.length==0 || data.length>1){
-			chen.alert("请选中一条数据");
+			swal({
+				title: "请选中一条数据",
+				type: 'warning'
+			});
 			return;
 		}
 		
@@ -59,7 +52,10 @@ $(function () {
 		var data = $('#table').bootstrapTable('getSelections');
 		
 		if(data.length==0 || data.length>1){
-			chen.alert("请选中一条数据");
+			swal({
+				title: "请选中一条数据",
+				type: 'warning'
+			});
 			return;
 		}
 		
@@ -72,7 +68,10 @@ $(function () {
 		var data = $('#fileTable').bootstrapTable('getSelections');
 		
 		if (data.length == 0 || data.length > 1) {
-			chen.alert("请选择一个文档查看");
+			swal({
+				title: "请选择一个文档查看",
+				type: 'warning'
+			});
 			return;
 		} else {
 			// todo...
@@ -84,7 +83,10 @@ $(function () {
 		var data = $('#fileTable').bootstrapTable('getSelections');
 		
 		if (data.length == 0) {
-			chen.alert("请选择一个或多个文件下载");
+			swal({
+				title: "请选择一个或多个文件下载",
+				type: 'warning'
+			});
 			return;
 		}
 		if (data.length == 1) {

@@ -207,7 +207,7 @@ h4,.h4 {
 }
 
 .row label {
-	width: 70px;
+	/* width: 70px; */
 }
 
 .timeLabelDiv {
@@ -268,4 +268,7 @@ h4,.h4 {
 }
 .uploadFileText label{
 	vertical-align: top;
+}
+.table tr td img{
+    margin-right: 10px; 
 }

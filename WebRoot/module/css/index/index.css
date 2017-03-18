@@ -65,9 +65,10 @@
 
 .page-header {
 	height: 50px;
-	margin: 20px 10px;
+/* 	margin: 20px 10px;
 	border: 1px #ccc solid;
-	padding:0px;
+	padding:0px; 
+	www*/
 }
 .ace-settings-container {
 	top: 110px;
@@ -183,7 +184,7 @@ vertical-align: middle;
 	margin-left: 0;
 }
 
-.column{
+/* .column{
 	height: 100%;
 	line-height: 50px;
 	text-align: center;
@@ -195,4 +196,4 @@ vertical-align: middle;
 
 .icon{
 	margin: 0 10px;
-}
+} */
