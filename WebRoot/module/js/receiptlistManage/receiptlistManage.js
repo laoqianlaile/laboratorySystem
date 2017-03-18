@@ -161,33 +161,43 @@ $(function() {
 									valign : 'middle',// 垂直居中显示
 									width : '12%',// 宽度
 									formatter : function(value, row, index) { //操作按钮的设置
-									  var look = "", edit = "", cancel = ""; download = "";
+									  var look = "", edit = "", dele = ""; download = "",submit = "";
 									  	if(row.ID != ""){   //没有交接单---就没有任何编辑，查看，删除等功能
-										  look = '<span onclick= "lookRe(\'' + row.ID
+									  		look =	"<img src=\"../../img/view_icon.png\"  alt=\"查看\" title=\"查看\" onclick='lookRe(\'"+row.ID+"\')'>";
+									  	/*	look = '<span onclick= "lookRe(\'' + row.ID
 												+ '\')" data-toggle="tooltip" data-toggle="top"  title="查看"  class="icon-eye-open" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
-									
-										if(row.isEditSample == 0)  //能否编辑--提交的不能编辑
+									*/
+										if(row.isEditSample == 1)  //能否编辑--提交的不能编辑
 										 {    
 											if(row.reType == "接受")  //接受的交接单跳转的页面
-											  edit = '<span  onclick= "editRe(\'' + row.ID+"\' , \'"+row.coID+"\',\'"+row.proID+"\',\'"+row.comID+"\',\'"+row.coCode+"\',\'"+row.reCode+"\',\'"+"recive\'"
+											edit = "<img src=\"../../img/edit_icon.png\"  alt=\"编辑\" title=\"编辑\" onclick='editRe(\"" + row.ID+"\" , \""+row.coID+"\",\""+row.proID+"\",\""+row.comID+"\",\""+row.coCode+"\",\""+row.reCode+"\",\""+"recive\""+")'>";
+											/*  edit = '<span  onclick= "editRe(\'' + row.ID+"\' , \'"+row.coID+"\',\'"+row.proID+"\',\'"+row.comID+"\',\'"+row.coCode+"\',\'"+row.reCode+"\',\'"+"recive\'"
 												+ ')" data-toggle="tooltip" data-placement="top" title="修改" class="glyphicon glyphicon-edit" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span> ';
-											
+											*/
 											else   //退还的交接单跳转的页面
-												edit = '<span  onclick= "editRe(\'' + row.ID+"\' , \'"+row.coID+"\',\'"+row.comID+"\',\'"+row.coCode+"\',\'"+row.reCode+"\',\'"+"return\'"
-												+ ')" data-toggle="tooltip" data-placement="top" title="修改" class="glyphicon glyphicon-edit" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span> ';
-										
+											
+												{ 
+											      edit = "<img src=\"../../img/edit_icon.png\"  alt=\"编辑\" title=\"编辑\"  onclick='editRe(\"" + row.ID+"\" , \""+row.coID+"\",\""+row.proID+"\",\""+row.comID+"\",\""+row.coCode+"\",\""+row.reCode+"\",\""+"return\""+")'>";
+												  
+											    	/*edit = '<span  onclick= "editRe(\'' + row.ID+"\' , \'"+row.coID+"\',\'"+row.proID+"\',\'"+row.comID+"\',\'"+row.coCode+"\',\'"+row.reCode+"\',\'"+"return\'"
+												    + ')" data-toggle="tooltip" data-placement="top" title="修改" class="glyphicon glyphicon-edit" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span> ';*/
+												}
 										}
 									
 										 if (row.state == "未检测") //未检测的交接单(保存在自己的还没有提交的可以删除)
-											cancel = '<span onclick= "deleteRe(\'' + row.ID
-													+ '\')" data-toggle="tooltip" data-placement="top" title="删除"  class="glyphicon glyphicon-remove" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>'
-										   
-											download =  '<span onclick= "downloadReFile(\'' + row.ID+'\''+',\''+row.coID+'\',\''+row.proID
-													+ '\')" data-toggle="tooltip" data-placement="top" title="下载"  class="glyphicon glyphicon-download-alt" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>'
-													
+										 {  
+											// dele = "<img src=\"../../img/delete_icon.png\" alt=\"删除\" title=\"删除\" onclick='deleteRe(\""+row.ID+"\")'>";
+											/*cancel = '<span onclick= "deleteRe(\'' + row.ID
+													+ '\')" data-toggle="tooltip" data-placement="top" title="删除"  class="glyphicon glyphicon-remove" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>'*/
+										 } 
+											download =  "<img src=\"../../img/download_icon.png\" alt=\"下载\" title=\"下载\" onclick='downloadReFile(\"" + row.ID+"\",\""+row.coID+"\",\""+row.proID+"\")'>";
+												/*'<span onclick= "downloadReFile(\'' + row.ID+'\''+',\''+row.coID+'\',\''+row.proID
+													+ '\')" data-toggle="tooltip" data-placement="top" title="下载"  class="glyphicon glyphicon-download-alt" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>'*/
+											submit = "<img src=\"../../img/submit_icon.png\" alt=\"提交\" title=\"提交\" onclick='dealReSave()'>";
+														
 									  	}
 									 
-										return look + edit + cancel+download;
+										return look + edit + dele+ submit +download;
 									}
 								} ]
 					// 列配置项,详情请查看 列参数 表格
@@ -198,13 +208,15 @@ $(function() {
 function addRe() {
 	var data = $('#table').bootstrapTable('getSelections');
 	if (data.length == 0 || data.length > 1) {
-		alert("请选中一条数据");
+		chen.alert("请选中一条数据");
 		return;
 	}
 	if(data[0].coState >= 4 ){
-		alert(data[0].coState +" 表示已经审核通过了")
+		;
+		//alert(data[0].coState +" 表示已经审核通过了")
 	}else{
-		alert(data[0].coState +" 表示没有审核通过了")
+		;
+		//alert(data[0].coState +" 表示没有审核通过了")
 	}
 	var result = initAddReceiptlist(data[0],"yes");  //创建交接单跳转
 	window.location.href = "./addRecelist.jsp?reID="
@@ -231,7 +243,7 @@ function initAddReceiptlist(data,state) {
 					 console.log(result);
 				},
 				error : function() {
-					alert(" 创建交接单失败 ");
+					chen.alert(" 创建交接单失败 ");
 				}
           });
           return result;
@@ -252,11 +264,11 @@ function addReNo() {
 function returnSample() {
 	var data = $('#table').bootstrapTable('getSelections');
 	if (data.length == 0 || data.length > 1) {
-		alert("请选中一条数据");
+		chen.alert("请选中一条数据");
 		return;
 	}
 	if(data[0].comID == null || data[0].comID == ""){
-		alert("此时你还没有样品可以退");
+		chen.alert("此时你还没有样品可以退");
 	}
 	var result = initAddReceiptlist(data[0],"return");
 	window.location.href = "./recelistReturn.jsp?reID="+result.reID
@@ -271,12 +283,13 @@ function lookRe(id) {
 	
 }
 // 编辑交接单
-function editRe(reID,coID,comID,coCode,reCode,state) {
+function editRe(reID,coID,proID,comID,coCode,reCode,state) {
 	 //接受交接单--编辑的页面
 	if(state == "recive") 
 		 window.location.href = "./addRecelist.jsp?reID="+reID
 		 						+"&coID=" + coID + "&comID="
 		 						+ comID + "&coCode=" + coCode
+		 						+"&proID="+proID
 		 						+ "&addState=no&reCode=" + reCode
 		 						+"&lookState=edit";
 	 //退还样品-交接单编辑的页面
@@ -284,6 +297,7 @@ function editRe(reID,coID,comID,coCode,reCode,state) {
 			window.location.href = "./receiptlistReturn.jsp?reID="
 									+reID+"&coID=" + coID + "&comID="
 									+ comID + "&coCode=" + coCode
+									+"&proID="+proID
 									+ "&state=edit";
 		}
 }
@@ -328,20 +342,34 @@ function refresh() {
 }
 
 /* 删除交接单方法 */
-function deleteRe(id) {
+function deleteRe() {
 	var isDelete = chen.confirm("确认删除");
+	var data = $('#table').bootstrapTable('getSelections');
+
+	if (data.length == 0 ) {
+		chen.alert("请至少选择一条数据");
+		return;
+	}
+   var ids = "";
+   for(var i = 0; i < data.length ; i++){
+	   if(data[i].state == "未检测") //未检测的才能删
+	   {
+		   ids += data[i].ID+",";
+	   }
+   }
+   ids = ids.substring(0 , ids.length-1);
 	if (isDelete == true) {
 		$.ajax({
 			url : '/laboratorySystem/receiptlistController/delReceiptlist.do',
 			dataType : "json",
 			data : {
-				reID : id
+				reIDs : ids
 			},
 			success : function(o) {
 				if (o == false) {
-					alert("删除失败");
+					chen.alert("删除失败");
 				} else {
-					alert("删除成功");
+					chen.alert("删除成功",1000);
 					$('#table').bootstrapTable('refresh',null);
 				}
 				
@@ -369,7 +397,7 @@ function downloadReFile(reID ,coID,proID){
 		success : function(o) {
 		
 			if (o == "false") {
-				alert("还没有交接单文件模板");
+				chen.alert("还没有交接单文件模板");
 			} else {
 				
 				fileID = o;
@@ -431,7 +459,7 @@ function checkData(dataObj) { // 后台数据字段为空就不会传上来
 }
 /*function fillLookEdit(id) {
 	var dataS = getOneDate(id);
-	alert("2");
+	chen.alert("2");
 	console.log(dataS);
 	checkData(dataS);
 
@@ -479,7 +507,7 @@ function checkData(dataObj) { // 后台数据字段为空就不会传上来
 	var data = $('#table').bootstrapTable('getSelections');
 
 	if (data.length == 0 || data.length > 1) {
-		alert("请选中一条数据");
+		chen.alert("请选中一条数据");
 		return;
 	}
 	// var ids = data[0].ROLEID;
