@@ -163,7 +163,7 @@ $(function() {
 									formatter : function(value, row, index) { //操作按钮的设置
 									  var look = "", edit = "", dele = ""; download = "",submit = "";
 									  	if(row.ID != ""){   //没有交接单---就没有任何编辑，查看，删除等功能
-									  		look =	"<img src=\"../../img/view_icon.png\"  alt=\"查看\" title=\"查看\" onclick='lookRe(\'"+row.ID+"\')'>";
+									  		look =	"<img src=\"../../img/view_icon.png\"  alt=\"查看\" title=\"查看\" onclick='lookRe(\""+row.ID+"\")'>";
 									  	/*	look = '<span onclick= "lookRe(\'' + row.ID
 												+ '\')" data-toggle="tooltip" data-toggle="top"  title="查看"  class="icon-eye-open" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
 									*/
@@ -197,7 +197,7 @@ $(function() {
 														
 									  	}
 									 
-										return look + edit + dele+ submit +download;
+										return look + edit + submit +download;
 									}
 								} ]
 					// 列配置项,详情请查看 列参数 表格
