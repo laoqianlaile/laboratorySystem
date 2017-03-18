@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -202,8 +203,8 @@ public class TestProjectController{
 	@RequestMapping("/getTestproWithPaging")
 	@ResponseBody
 	public JSONObject getTestproWithPaging(int limit, int offset,
-			String order, String sort, String contract) {
-		Map<String, Object> result = service.getTestproWithPaging(limit, offset, order, sort, contract);
+			String order, String sort, String contract,HttpSession session) {
+		Map<String, Object> result = service.getTestproWithPaging(limit, offset, order, sort, contract,session);
 		return JSONObject.fromObject(result);
 	}
 	

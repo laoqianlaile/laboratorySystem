@@ -152,7 +152,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                <div class="case-h-bottom"><img src="Portal/images/left_column.png"/></div>
 	            </div>
 	            <ul class="case-content clearfloat" id="classiccase" value="典型案例">
-	               <!--  <li class="case-item">
+	           
 	                    <a href="#">
 	                        <img class="img-case" src="Portal/images/indexPic1.png">
 	                        <div class="case-name">信息系统工程验收测试</div>
@@ -163,40 +163,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        </div>
 	    </div>
 	    <div class="line-3 clearfloat">
-<!-- 	        <div class="login" id="home-login" name="home-login">
-	            <div class="notices-h clearfloat">
-	                    <span class="login-icon"></span>
-	                    <img src="Portal/images/login_tittle1.png"/>
-	                    <div class="notic-h-bottom"><img src="Portal/images/index_column1.png"/></div>
-	            </div>
-	            <form action="#" method="post">
-					<div class="form-group">
-						<div class="col-xs-12  ">
-							<div class="input-group">
-								<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-								<input type="text" id="username" name="username" class="form-control" placeholder="用户名">
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-xs-12  ">
-							<div class="input-group">
-								<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-								<input type="text" id="password" name="password" class="form-control" placeholder="密码">
-							</div>
-						</div>
-					</div>
-					<div class="form-group form-actions">
-						<div class="col-xs-4 ">
-							<button type="submit" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-off"></span> 登录</button>
-						</div>
-					</div>
-					<div class="login_bottom">
-						<p class="text-center remove-margin"><a href="javascript:void(0)" ><small>忘记密码？</small></a></p>
-						<p class="text-center remove-margin"><a href="javascript:void(0)" ><small>注册</small></a></p>
-					</div> 
-				</form>
-	        </div> -->
 	        <div class="img-show clearfloat">
 	            <!-- <div class="case-h clearfloat">
 	               <div class="case-h-bottom"></div>

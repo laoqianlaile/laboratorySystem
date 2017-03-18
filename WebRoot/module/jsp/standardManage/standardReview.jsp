@@ -42,7 +42,14 @@
     padding-bottom: 20px;
     width: 101%;
 }
-
+#menu button{
+	margin-right:2%;
+}
+#menu button:hover {
+  border: none;
+  color: #fff;
+  background-color: rgb(255, 173, 51);
+}
 </style>
 
 <body>
@@ -94,8 +101,8 @@
 								</select>
 							</div>
 						</div>
-						<div id = "menu"class="col-md-3.5 column">
-							<div >
+						<div id = "menu"class="row clearfix">
+							<div class="col-md-6 column">
 								<button id="query" onclick="query()" class="btn btn-primary"
 									type="button">
 									<em class="glyphicon glyphicon-search"></em> 查询
@@ -109,7 +116,6 @@
 									onclick="reSetRefresh()">
 									<em class="glyphicon glyphicon-refresh"></em> 刷新
 								</button>
-
 							</div>
 						</div>
 					</div>

@@ -137,6 +137,13 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 
 		}
 
+		/**
+		 *
+		 * @description  任务分配时根据部门获取部门人员
+		 * @author chenyubo
+		 * @created 2016年11月24日 下午3:39:15
+		 * @return
+		 */
 		@Override
 		public Map<String, Object> getEmployeeWithPagingInTaskAssign(String ID,int limit,int offset,String sort,String order){
 			int index = limit;
@@ -151,15 +158,13 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 				"role.name as roleName",
 				"case when employee.level =  0 then '初级' "
 				+ "when employee.level =  1 then '中级' "
-				+ "when employee.level =  2 then '高级' end as level",
-				"case when employee.state =  0 then '启用' "
-				+ "when employee.state =  1 then '禁用' end as state",
+				+ "when employee.level =  2 then '高级' end as level"
 			};
 
 			String joinEntity = " left join duty on employee.dutyID = duty.ID "
 					+ " left join role on employee.roleID = role.ID ";
 
-			String condition = " 1 = 1 and employee.departmentID = '" + ID + "'";
+			String condition = " 1 = 1 and employee.departmentID = '" + ID + "' and employee.state = 1";
 
 			List<Map<String, Object>> result = originalSearchWithpaging(properties, getBaseEntityName(), joinEntity, null, condition, false, null, sort, order, index, pageNum);
 			int count = getForeignCountWithJoin(joinEntity, null, condition, false);

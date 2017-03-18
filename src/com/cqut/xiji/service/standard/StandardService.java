@@ -138,7 +138,7 @@ public class StandardService extends SearchService implements IStandardService{
 				+ "when standard.STATE = 3 then '驳回' end as STATE",
 		};
 		
-		String condition=" 1 = 1 and standard.TYPE = standardtype.ID ";
+		String condition=" 1 = 1";
 		if(STANDARDCODE != null && STANDARDCODE != ""){
 			condition += " and standard.STANDARDCODE LIKE  '%"+ STANDARDCODE + "%' ";
 		}
@@ -155,12 +155,10 @@ public class StandardService extends SearchService implements IStandardService{
 			condition += " and standard.APPLICATIONTYPE = " + APPLICATIONTYPE;
 		}
 		
-		String[] foreignEntitys={
-				"standardType"
-		};
+		String joinEntity =" LEFT JOIN standardtype on standardtype.ID = standard.ID ";
 		
-		List<Map<String, Object>> result = originalSearchWithpaging(properties, tableName, null, foreignEntitys, condition, false, null, sort, order, index, pageNum);
-		int count = getForeignCount(foreignEntitys, condition, false);
+		List<Map<String, Object>> result = originalSearchWithpaging(properties, tableName, joinEntity, null, condition, false, null, sort, order, index, pageNum);
+		int count = getForeignCountWithJoin(joinEntity, null, condition, false);
 		
 		
 		Map<String,Object> map = new HashMap<String, Object>();
@@ -174,8 +172,13 @@ public class StandardService extends SearchService implements IStandardService{
 			String TYPE, String SCOPE, String APPLICATIONTYPE,
 			String EDITSTATE,String SUGGEST, String STATE, String ABANDONAPPLYMAN,
 			String ABANDONAPPLYTIME, String ABANDONAPPLYREASON) {
+		
 		Standard standard = entityDao.getByID(ID, Standard.class);
 		
+		if(standard == null){
+			System.out.println("没有对应Id");
+			return "-1";
+		}
 		if(STANDARDCODE !=null && STANDARDCODE != "" ){
 			standard.setStandardCode(STANDARDCODE);
 		}

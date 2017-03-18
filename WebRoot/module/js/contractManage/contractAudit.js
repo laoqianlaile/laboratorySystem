@@ -1,3 +1,7 @@
+/* 刷新方法 */
+function refresh(){
+	window.location.href="module/jsp/contractManage/contractAudit.jsp";
+}
 
 /**
  * 使页面跳转到查看合同页面(审核)
@@ -17,6 +21,45 @@ function showContractA(){
 	}
 }
 
+/**
+ * 弹出编辑意见的方法 
+ */
+function writeModal1(){
+	var data = $('#table').bootstrapTable('getSelections');
+	if(data.length==0 || data.length>1){
+		alert("请选中一条数据");
+		return;
+	}
+	var ID = data[0].ID;
+	if (!ID && typeof(ID)!="undefined" && ID=='') 
+	{ 
+		alert("合同ID不能为空！"); 
+	}else {
+		$('#approveCause').attr({'name' : "" + ID + ""});
+		$('#writeModal1').modal('show');
+	}
+	
+}
+
+/**
+ * 弹出编辑意见的方法 
+ */
+function writeModal2(){
+	var data = $('#table').bootstrapTable('getSelections');
+	if(data.length==0 || data.length>1){
+		alert("请选中一条数据");
+		return;
+	}
+	var ID = data[0].ID;
+	if (!ID && typeof(ID)!="undefined" && ID=='') 
+	{ 
+		alert("合同ID不能为空！"); 
+	}else {
+		$('#rejecteCause').attr({'name' : "" + ID + ""});
+		$('#writeModal2').modal('show');
+	}
+}
+
 
 /**
  * 提交审核意见（通过）
@@ -28,7 +71,7 @@ function approved(){
 		alert("审核意见不能为空！"); 
 	}else {
 		var parame = {};
-		parame.ID = $('#contractID').text();
+		parame.ID = $('#approveCause').attr("name");
 		parame.viewpoint = $('#approveCause').val();
 		parame.state = 4;
 		
@@ -40,7 +83,8 @@ function approved(){
 			  if(o <= 0){
 				  alert("操作失败！");
 			  }
-			  goback();
+			  $('#writeModal1').modal('hide');
+			  refresh();
 		  }
 		});
 	}
@@ -50,14 +94,13 @@ function approved(){
  * 提交审核意见（未通过）
  */
 function rejected(){
-	alert($('#contractID').text());
 	var rejecteCause = $('#rejecteCause').val(); 
 	if (!rejecteCause && typeof(rejecteCause)!="undefined" && rejecteCause=='') 
 	{ 
 		alert("审核意见不能为空！"); 
 	}else {
 		var parame = {};
-		parame.ID = $('#contractID').text();
+		parame.ID = $('#rejecteCause').attr("name");
 		parame.viewpoint = $('#rejecteCause').val();
 		parame.state = 3;
 		
@@ -68,7 +111,8 @@ function rejected(){
 			  if(o<=0){
 				  alert("操作失败！");
 			  }
-			  goback();
+			  $('#writeModal2').modal('hide');
+			  refresh();
 		  }
 		});
 	}
