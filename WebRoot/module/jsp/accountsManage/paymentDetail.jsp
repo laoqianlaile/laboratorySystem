@@ -24,6 +24,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript" src="module/js/bootstrap-datetimepicker.fr.js"></script>
 	<script type="text/javascript" src="module/js/bootstrap-datetimepicker.js"></script>
 	<script type="text/javascript" src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+	<script src="module/js/sweetalert.min.js"></script>
   </head>
   <style>
 .col-md-4{
@@ -95,6 +98,14 @@ option.form-control:hover {
     padding-top: 20px;
     padding-bottom: 20px;
     width: 101%;
+}
+#menu button{
+	margin-right:2%;
+}
+#menu button:hover {
+  border: none;
+  color: #fff;
+  background-color: rgb(255, 173, 51);
 }
 </style>
   <body>
