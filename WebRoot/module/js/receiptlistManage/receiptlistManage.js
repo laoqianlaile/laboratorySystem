@@ -343,7 +343,7 @@ function refresh() {
 
 /* 删除交接单方法 */
 function deleteRe() {
-	var isDelete = chen.confirm("确认删除");
+	var isDelete = confirm("确认删除");
 	var data = $('#table').bootstrapTable('getSelections');
 
 	if (data.length == 0 ) {
