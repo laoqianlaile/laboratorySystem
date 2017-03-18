@@ -66,18 +66,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			   <label id="show_linkPhone"></label>
 			</div>
 	       	<div class="col-xs-4 col-md-4">
-               <label class="control-label">履行时间:</label>
-			   <label id="show_startTime"></label>
-			   <label class="control-label">至</label>
-			   <label id="show_endTime"></label>
+                <label class="control-label">签订时间:</label>
+				<label id="show_signTime"></label>
 			</div>
 			<div class="col-xs-4 col-md-4">
                 <label class="control-label">乙方法定代表人(代理人):</label>
 				<label id="show_employeeName"></label>
 			</div>
-	       	<div class="col-xs-4 col-md-4">
-                <label class="control-label">签订时间:</label>
-				<label id="show_signTime"></label>
+			<div class="col-xs-4 col-md-4">
+               <label class="control-label">履行时间:</label>
+			   <label id="show_startTime"></label>
+			</div>
+			<div class="col-xs-4 col-md-4">
+			   <label class="control-label">至</label>
+			   <label id="show_endTime"></label>
 			</div>
             <div class="col-xs-4 col-md-4">
                 <label class="control-label">合同金额:</label>
@@ -110,15 +112,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <h4 class="modal-title">填写合同资料审核意见(通过)</h4>
 	      </div>
 	      <div class="modal-body">
-	      	<div id="IDid" class="row">
-	      		<label class="control-label" style="margin:8px 0 20px 0;">审核意见：</label>
-               	 <textarea id="approveCause" name="approveCause" style="margin:-42px 0 20px 80px;height:130px;width:400px;" class="form-control" ></textarea>
+	      	<div class="row1">
+	      		<div>
+                   	<label class="control-label">审核意见:</label>
+               	 	<input id="approveCause" name="approveCause"class="form-control" />
+               	</div>
 	      	</div>
+	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-primary" onclick="approved()">通过</button>
 	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 	      </div>
-	    </div>
 	  </div>
 	</div>
 	</div>
@@ -132,15 +136,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <h4 class="modal-title">填写合同资料审核意见(驳回)</h4>
 	      </div>
 	      <div class="modal-body">
-	      	<div id="ContractID" class="row">
-	      		<label class="control-label" style="margin:8px 0 20px 0;">审核意见：</label>
-               	<textarea id="rejecteCause" name="rejecteCause" style="margin:-42px 0 20px 80px;height:130px;width:400px;" class="form-control"></textarea>
+	      	<div class="row1">
+	      		<div>
+                   	<label class="control-label">审核意见:</label>
+               		<input id="rejecteCause" name="rejecteCause" class="form-control"/>
+               	</div>
+	      	</div>
 	      	</div>
 	      <div class="modal-footer">
 	      <button type="button" class="btn btn-primary" onclick="rejected()">驳回</button>
 	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 	      </div>
-	    </div>
 	  </div>
 	</div>
 	</div>

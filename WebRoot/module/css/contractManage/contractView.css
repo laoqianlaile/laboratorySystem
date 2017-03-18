@@ -87,3 +87,28 @@ label.control-label {
 	border:1px solid #333;
 }
 
+#table thead,.modal-header {
+	background-color: #364760;
+	color: #fff;
+	font-size: 14px;
+}
+
+.bs-checkbox {
+	vertical-align: middle !important;
+}
+.modal-body{
+	height:65px;
+}
+.modal-footer{
+	padding-right: 43px;
+}
+.row1 {
+	margin-bottom: 10px;
+}
+.row1 .form-control{
+	display: inline;
+	width: 82%;
+}
+.row1 label {
+	width:12%;
+}

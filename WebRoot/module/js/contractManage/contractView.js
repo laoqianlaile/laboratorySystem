@@ -43,7 +43,6 @@ function getContractByID(){
 		     success:getid=function(data){
 		    	 if (data) {
 		    		var myobj = JSON.parse(data);
-		    		alert(myobj[0].contractName);
 		    		$('#contractID').html(myobj[0].ID);
 		    		$('#fileID').html(myobj[0].fileID);
 		    		$('#show_state').html(myobj[0].state);
@@ -87,10 +86,10 @@ function showContractFile(){
 	var ID = $('#fileID').html();
 	if (!ID && typeof(ID)!="undefined" && ID=='') 
 	{ 
-		alert("合同ID不能为空！"); 
+		alert("文件ID不能为空！"); 
 	}else{
 		$.post("fileOperateController/onlinePreview.do", {
-			ID : id
+			ID : ID
 		}, function(result) {
 			if (result != null && result != "null") {
 				window.location.href = "module/jsp/documentOnlineView.jsp";
@@ -152,7 +151,6 @@ function approved(){
  * 提交审核意见（未通过）
  */
 function rejected(){
-	alert($('#contractID').text());
 	var rejecteCause = $('#rejecteCause').val(); 
 	if (!rejecteCause && typeof(rejecteCause)!="undefined" && rejecteCause=='') 
 	{ 

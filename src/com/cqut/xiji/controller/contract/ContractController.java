@@ -80,6 +80,31 @@ public class ContractController{
 	}
 	
 	/**
+	 * 
+	 * @description 覆盖合同信息，生成新合同
+	 * @author hujiajun
+	 * @created 2017年3月16日 下午7:37:24
+	 * @param ID
+	 * @param contractCode
+	 * @param contractName
+	 * @param companyName
+	 * @param oppositeMen
+	 * @param linkPhone
+	 * @param employeeName
+	 * @param address
+	 * @param signAddress
+	 * @param startTime
+	 * @param signTime
+	 * @param endTime
+	 * @return
+	 */
+	@RequestMapping("/coverContractFile")  
+    @ResponseBody
+	public int coverContractFile(String ID,String contractCode,String contractName,String companyName, String oppositeMen,String linkPhone, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime){
+		int result = service.coverContractFile(ID, contractCode,contractName,companyName, oppositeMen, linkPhone, employeeName, address, signAddress, startTime, signTime, endTime);
+		return result;
+	}
+	/**
 	 * @description 删除合同
 	 * @author hujiajun
 	 * @created 2016-10-17 下午9:31:13
@@ -137,8 +162,8 @@ public class ContractController{
 	 */
     @RequestMapping("/updContract")  
     @ResponseBody
-	public String updContract(String ID, String contractCode,String contractName, String companyID, String companyName, String address, String oppositeMen,String linkPhone, String employeeID, String employeeName, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel,int state){
-		String result = service.updContract(ID, contractCode, contractName, companyID, companyName, address, oppositeMen, linkPhone, employeeID, employeeName, signAddress, startTime, signTime, endTime, isClassified, classifiedLevel, state);
+	public int updContract(String ID, String contractCode,String contractName, String companyID, String companyName, String address, String oppositeMen,String linkPhone, String employeeID, String employeeName, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel,int state){
+		int result = service.updContract(ID, contractCode, contractName, companyID, companyName, address, oppositeMen, linkPhone, employeeID, employeeName, signAddress, startTime, signTime, endTime, isClassified, classifiedLevel, state);
 		return result;
 	}
     

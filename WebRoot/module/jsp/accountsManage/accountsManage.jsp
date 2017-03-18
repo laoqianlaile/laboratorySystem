@@ -70,12 +70,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     padding-top: 20px;
     padding-bottom: 20px;
     width: 101%;
-    }
+}
+#menu button{
+	  margin-right: 2%;
+}
+#menu button:hover {
+  border: none;
+  color: #fff;
+  background-color: rgb(255, 173, 51);
+}
 </style>
   <body>
   	<div class="container" style="width:100%;">
-		<div class="row">
-				<div class="col-md-12  row">
+		<div class="row clearfix">
+				<div class="col-md-12">
 					<div class = "col-md-4 ">
 					  	<label>合同编号：</label>
 						<input  type = "text" id="query_contractCode" name = "contractCode" class="form-control"/>
@@ -86,7 +94,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					
 				</div>
-				<div class="col-md-12 row">
+				<div class="col-md-12">
 					<div class="col-md-4 input-group date form_datetime" style="float:left;" >
 						<label class="date_left" style="padding-right: 3px;">录入日期： </label>
 						<div class="date_left">
@@ -112,7 +120,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</div>
 					</div>
 				</div>
-				<div id= "menu" class="col-md-12 row" >
+				<div id= "menu" class="col-md-12" >
 					<div>
 						<button class="btn btn-primary type=" button" id="refresh"
 							onclick="query()">
@@ -133,7 +141,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							onclick="reSetRefresh()">
 							<em class="glyphicon glyphicon-refresh"></em> 刷新
 						</button>
-
 					</div>
 			</div>
 			<table id="table" class="table table-hover table-striped table-bordered">

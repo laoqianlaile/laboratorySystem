@@ -21,7 +21,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="module/js/bootstrap.js"></script>
 	<script src="module/js/bootstrap-table.js"></script>
 	<script src="module/js/bootstrap-table-zh-CN.js"></script>
-
+	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+    <script src="module/js/sweetalert.min.js"></script>
   </head>
   <style>
 .col-md-4 input.form-control {
@@ -35,6 +36,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     padding-top: 20px;
     padding-bottom: 20px;
     width: 101%;
+}
+#menu button{
+	margin-right:2%;
+}
+#menu button:hover {
+  border: none;
+  color: #fff;
+  background-color: rgb(255, 173, 51);
 }
 </style>
   <body>
@@ -56,9 +65,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									onpropertychange="query()" type="text">
 							</div>
 						</div>
-						<div id ="menu">
+						<div id ="menu" class="row clearfix">
 							<div  class="col-md-3.5 column">
-								<div >
+								<div class="col-md-4 column">
 									<button id = "query"  onclick = "query()" class="btn btn-primary" type="button">
 										<em class="glyphicon glyphicon-search"></em> 查询
 									</button>
