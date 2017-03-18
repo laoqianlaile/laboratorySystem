@@ -99,8 +99,8 @@ function init(){
 				 formatter:function(value,row,index){ 
 					 var e = "<img src = 'module/img/download_icon.png' onclick='downFile(\""+row.fileID+"\")' title='下载' style='cursor:pointer;margin-right:8px;' />"
 					 if(row.STATE == "待审核"){
-						 var a = "<button  onclick='openSuggest(1,\""+ row.ID+ "\")' title='通过'  class='glyphicon glyphicon-log-in' style='color: rgb(10, 78, 143);margin-right:8px;'></button>";
-						 var b = "<button  onclick='openSuggest(3,\""+ row.ID+ "\")' title='驳回'  class='glyphicon glyphicon-log-out' style='color: rgb(10, 78, 143);margin-right:8px;'></button>";
+						 var a = "<img src = 'module/img/submit_icon.png'  onclick='openSuggest(1,\""+ row.ID+ "\")' title='通过'   style='cursor:pointer;margin-right:8px;'/>";
+						 var b = "<img src = 'module/img/icon_close.png' onclick='openSuggest(3,\""+ row.ID+ "\")' title='驳回'  style='cursor:pointer;margin-right:8px;'/>";
 		                 return e + a + b ;    
 					 }
 					 else{
