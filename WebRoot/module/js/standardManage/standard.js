@@ -122,7 +122,7 @@ function init(){
 				width:'13%',
 				 formatter:function(value,row,index){   
 					 var e = "<img src='module/img/download_icon.png' onclick ='downFile("+row.fileID+")'  title='下载' style='cursor:pointer;margin-right:8px;' />"
-					 var a = "<img src ='module/img/delete_icon.png' onclick='openEditModal("+JSON.stringify(row)+")'   title='修改' style='cursor:pointer;margin-right:8px;'/>"
+					 var a = "<img src ='module/img/delete_icon.png' onclick='openEditModal("+JSON.stringify(row)+")'   title='废弃' style='cursor:pointer;margin-right:8px;'/>"
 	                 return e+a;    
 	             }   
 			}]// 列配置项,详情请查看 列参数 表格
@@ -222,7 +222,7 @@ function add(){
 	fileIDs = fielIdReturn();
 	
 	if(fileIDs === "" || fileIDs === null){
-		alert("请上传文件");
+		sweetAlert("请上传文件", "", "error");
 	}
 	else{
 		// 延迟执行
@@ -261,7 +261,7 @@ function addstandard(fileIDs){
 	
 //	fileIDs = fielIdReturn();
 	if(fileIDs.length == 0){
-		alert("出错了，没有获取到文件ID，正在全力解决");
+		sweetAlert("出错了...", "没有获取数据，正在全力解决!", "error");
 		return;
 	}
 	else if(fileIDs.length == 1 ){
@@ -282,6 +282,7 @@ function addstandard(fileIDs){
 			  }
 			  sendMessage(Content,"标准审核人");
 			  $('#addModal').modal('hide');
+			  swal("上传成功!", "You clicked the button!", "success")
 			  refresh();
 		  }
 		});
@@ -297,7 +298,10 @@ function applyMondal(){
 		var data = $('#table').bootstrapTable('getSelections');
 		
 		if(data.length == 0 || data.length > 1){
-			alert("请选中一条数据");
+			swal({
+				  title: "请选中一条数据",
+				  type: "warning",
+				});
 			return;
 		}
 		
@@ -344,7 +348,7 @@ function apply(){
 	  data:parame,
 	  success:function(o){
 		  if(o<=0){
-			  alert("修改失败");
+			  sweetAlert("出错了...", "正在努力修正中...", "error");
 		  }
 		  $('#applyModal').modal('hide');
 		  refresh();
@@ -359,15 +363,32 @@ function downFile(fileID){
 		return;
 	}
 	else{
-		if(confirm("确定下载？")){
-			if(fileID === null || fileID === "" || fileID === "null"){
-				alert("该文件不存在");
-				return;
-			}
-			else{
-				downOneFile(fileID);
-				return;
-			}
+		if(fileID === null || fileID === "" || fileID === "null"){
+			swal({  title: "文件丢失了", type: "error",});
+			return;
+		}
+		else{
+			swal({
+				  title: "确定下载?",
+				  type: "warning",
+				  showCancelButton: true,
+				  confirmButtonColor: "#DD6B55",
+				  confirmButtonText: "确认",
+				  cancelButtonText: "取消",
+				  closeOnConfirm: false,
+				  closeOnCancel: false
+				},
+				function(isConfirm){
+				  if (isConfirm) {
+					//下载文件
+					downOneFile(fileID);
+					swal("Ok!", "", "success")
+				  } else {
+				    swal("Cancelled", "", "error");
+				  }
+				});
+			downOneFile(fileID);
+			return;
 		}
 	}
 }

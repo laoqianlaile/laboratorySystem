@@ -357,18 +357,51 @@ function addTemplate() {
 		}
 	});
 }
+//登录验证
+function isLogin(){
+	 islogin = $('#uploaderID').val();
+	 if(islogin === null || islogin === "" || islogin === "null"){
+		 sweetAlert("你还没登录", "", "error");
+		 return false;
+	 }
+	 else{
+		 return true;
+	 }
+}
 /* 文件下载 */
 function downFile(fileID) {
-	if (confirm("确认下载？")) {
-		if (fileID === null || fileID === "" || fileID === undefined) {
-			alert("没有可下载文件");
-		} else {
+	if( ! isLogin()){
+		return;
+	}
+	else{
+		if(fileID === null || fileID === "" || fileID === "null"){
+			swal({  title: "文件丢失了", type: "error",});
+			return;
+		}
+		else{
+			swal({
+				  title: "确定下载?",
+				  type: "warning",
+				  showCancelButton: true,
+				  confirmButtonColor: "#DD6B55",
+				  confirmButtonText: "确认",
+				  cancelButtonText: "取消",
+				  closeOnConfirm: false,
+				  closeOnCancel: false
+				},
+				function(isConfirm){
+				  if (isConfirm) {
+					//下载文件
+					downOneFile(fileID);
+					swal("Ok!", "", "success")
+				  } else {
+				    swal("Cancelled", "", "error");
+				  }
+				});
 			downOneFile(fileID);
+			return;
 		}
 	}
-
-	return;
-
 }
 //消息推送
 function  sendMessage(Content,recipient){

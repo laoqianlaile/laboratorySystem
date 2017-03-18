@@ -583,12 +583,7 @@ function getStandard(id){
 				var data = JSON.parse(o);
 				
 				if(data.length === 0){
-					if(confirm("没有通过的标准或者没有标准")){
-						window.location.href ="http://localhost:8080/laboratorySystem/module/jsp/standardManage/standard.jsp";
-					}
-					else{
-						window.location.href ="http://localhost:8080/laboratorySystem/module/jsp/standardManage/standard.jsp";
-					}
+					sweetAlert("没有找到数据", "没有通过的标准或者没有标准数据", "error");
 				}
 				
 				for (var i=0; i<data.length;i++)

@@ -25,6 +25,8 @@
 <script src="module/js/bootstrap-table-zh-CN.js"></script>
 <script src="module/js/fileManage/fileManage.js"></script>
 <script src="module/js/jquery.uploadify.min.js"></script>
+<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+    <script src="module/js/sweetalert.min.js"></script>
 </head>
   <style>
 .col-md-3 input.form-control, .col-md-3 select.form-control{

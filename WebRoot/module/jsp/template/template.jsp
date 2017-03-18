@@ -69,6 +69,7 @@ span {
 </style>
 
 <body>
+	<input type= "hidden" id = "uploaderID" value = "<%=session.getAttribute("EMPLOYEEID")  %>" />
 	<div class="container" style="width: 100%;">
 		<div class="row clearfix">
 			<div class="col-md-12 column">
@@ -106,7 +107,7 @@ span {
 							</div>
 						</div>
 						<div id="menu" class= "row clearfix">
-								<div class="col-md-3 column">
+								<div class="col-md-4 column">
 									<button id="query" onclick="query()"
 										class="btn btn-primary" type="button">
 										<em class="glyphicon glyphicon-search"></em> 查询
