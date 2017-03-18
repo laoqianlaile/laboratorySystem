@@ -25,8 +25,10 @@
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 <link rel="stylesheet" type="text/css"
 	href="module/css/bootstrap-table.css">
-<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
-<link rel="stylesheet" type="text/css" href="module/css/employeeManage/employeeManage.css" />
+<link rel="stylesheet" type="text/css"
+	href="module/css/commonSystem/commonSystem.css" />
+<link rel="stylesheet" type="text/css"
+	href="module/css/employeeManage/employeeManage.css" />
 <script src="assets/js/autoPage.js"></script>
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
@@ -44,29 +46,42 @@
 	<div class="searchArea">
 		<div class="head">
 			<div class="content">
-				<label>员工姓名 ： </label> <input type="text" id="search_employeeName"
-					name="employeeName" class="form-control" placeholder="请输入名称查找" />
-
-				<label>员工编码 ： </label> <input type="text" id="search_employeeCode"
-					name="employeeCode" class="form-control" placeholder="请输入员工编码查找" />
-
-				<label>登录名 ： </label> <input type="text" id="search_loginName"
-					name="loginName" class="form-control" placeholder="请输入登录名查找" /> <label>电话号码
-					： </label> <input type="text" id="search_phoneNumber" name="phoneNumber"
-					class="form-control" placeholder="请输入电话号码查找" /> <label>部门
-					： </label> <select id="search_departmentName" name="departmentName"
-					class="form-control">
-					<option value=""></option>
-				</select>
+				<div class="row" style="margin-top:10px;">
+					<div class="col-md-3">
+						<label>员工姓名 ： </label> <input type="text" id="search_employeeName"
+							name="employeeName" class="form-control" placeholder="请输入名称查找" />
+					</div>
+					<div class="col-md-3">
+						<label>员工编码 ： </label> <input type="text" id="search_employeeCode"
+							name="employeeCode" class="form-control" placeholder="请输入员工编码查找" />
+					</div>
+					<div class="col-md-3">
+						<label>登&nbsp;&nbsp;录&nbsp;&nbsp;名 ： </label> <input type="text" id="search_loginName"
+							name="loginName" class="form-control" placeholder="请输入登录名查找" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<label>电话号码 ： </label> <input type="text" id="search_phoneNumber"
+							name="phoneNumber" class="form-control" placeholder="请输入电话号码查找" />
+					</div>
+					<div class="col-md-3">
+						<label>部&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;门 ： </label> <select
+							id="search_departmentName" name="departmentName"
+							class="form-control">
+							<option value=""></option>
+						</select>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="top">
-			<button type="button" class="btn btn-primary glyphicon "
+			<button type="button" class="btn btn-primary glyphicon btn3"
 				onclick="reflesh()">刷新</button>
-			<button type="button" class="btn btn-primary glyphicon "
+			<button type="button" class="btn btn-primary glyphicon btn3"
 				onclick="search()">查询</button>
-			<button type="button" class="btn btn-primary glyphicon "
-				style="background:#ffad33" onclick="add()">新增</button>
+			<button type="button" class="btn btn-primary glyphicon btn3"
+				style="hover:#ffad33" onclick="add()">新增</button>
 		</div>
 	</div>
 	<div class="table">
