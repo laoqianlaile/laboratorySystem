@@ -195,7 +195,7 @@ function delData(){
 	for(var i=0; i<data.length; i++){
 		ID += "ID = '" + data[i].ID + "' or ";
 	}
-	alert(ID.substring(0, (ID.length-3)));
+	//alert(ID.substring(0, (ID.length-3)));
 	var ajaxParameter = {
 			ids:ID.substring(0, (ID.length-3))	
 	};
@@ -229,7 +229,6 @@ function add(){
 		var endTime = $('#add_endTime').val();
 		var isClassified = $("input[name='isClassified']:checked").val();
 		var classifiedLevel = $('#add_classifiedLevel').val();
-		alert(classifiedLevel);
 		if (!contractName && typeof(contractName)!="undefined" && contractName=='') 
 		{ 
 			alert("合同名不能为空！"); 
@@ -455,7 +454,6 @@ function addClick(){
  */
 function classifiedSth(){
 	var isClassified = $('input[name="isClassified"]:checked').val();
-	alert(isClassified);
 	if(isClassified == "0"){
 		$('#add_classifiedLevel').val("3");
 		$('#add_classifiedLevel #Level3').show();

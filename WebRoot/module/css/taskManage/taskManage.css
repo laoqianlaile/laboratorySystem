@@ -14,7 +14,6 @@
 	width: 98%;
 	margin-top: 10px;
 	margin-bottom: 10px
-	
 }
 
 .row {
@@ -59,10 +58,12 @@
 	padding: 20px 0 20px 0;
 }
 
-.buttonGroup button:hover {
-	border: none;
-	color: #fff;
-	background-color: rgb(255, 173, 51);
+.buttonGroup button {
+	margin-left: 26px;
+}
+
+#ensure:hover,.buttonGroup button:hover {
+	background-color: #ffad33 !important;
 }
 
 label {
@@ -71,7 +72,7 @@ label {
 }
 
 #testItemDiv {
-	width:70%;
+	width: 70%;
 	display: inline-block;
 	position: relative;
 }
@@ -103,10 +104,8 @@ label {
 	display: none;
 }
 
-#table thead,.modal-header {
-	background-color: #364760;
-	color: #fff;
-	font-size: blod 14px;
+#ensure {
+	background-color: #238bc8 !important;
 }
 
 .bs-checkbox {

@@ -9,6 +9,7 @@
 # Package Files #
 *.war
 *.ear
+resources/jdbc.properties
 
 # -classpath
 .settings/org.eclipse.core.resources.prefs

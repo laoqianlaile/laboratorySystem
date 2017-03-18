@@ -38,12 +38,10 @@
 <link type="text/css" rel="stylesheet"
 	href="PorUeditor/third-party/SyntaxHighlighter/shCoreDefault.css" />
 
-
-
 <script type="text/javascript" src="module/js/jquery-2.1.1.min.js"></script>
-<script type="text/javascript" src="module/js/bootstrap-table.js"></script>
 <script type="text/javascript" src="module/js/article/articleManage.js"></script>
 <script type="text/javascript" src="module/js/bootstrap.js"></script>
+<script type="text/javascript" src="module/js/bootstrap-table.js"></script>
 <script type="text/javascript" src="module/js/bootstrap-table-zh-CN.js"></script>
 <script type="text/javascript" src="module/js/fileinput.js"></script>
 <script type="text/javascript" src="module/js/zh.js"></script>

@@ -126,7 +126,6 @@ function initData(){
 //初始化审核人的数据
 function initAuditPerson(){
 	$('#taskAuditPersonTable').bootstrapTable({
-		height : 450,// 定义表格的高度
 		striped : false,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
      	pageSize : 5,// 页面数据条数

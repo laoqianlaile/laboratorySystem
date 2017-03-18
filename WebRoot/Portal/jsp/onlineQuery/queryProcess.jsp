@@ -137,7 +137,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 $('#loginDivOne').hide();	
 			 $('#loginDivTwo').show();
 		}
-    }
+    };
   	</script>
   </body>
 </html>

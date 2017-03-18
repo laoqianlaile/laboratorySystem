@@ -24,29 +24,25 @@
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 <link rel="stylesheet" type="text/css"
 	href="module/css/bootstrap-table.css">
-
+<link rel="stylesheet" type="text/css"
+	href="module/css/inspectionStaffDesktop/viewAuditTask.css" />
+<link rel="stylesheet" type="text/css"
+	href="module/css/commonSystem/commonSystem.css" />
+	
+<script src="assets/js/autoPage.js"></script>
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
 <script src="module/js/bootstrap-table.js"></script>
 <script src="module/js/bootstrap-table-zh-CN.js"></script>
 
-<style>
-#left {
-	margin-left: 30px;
-	margin-top: 50px;
-}
-
-#right {
-	margin-right: 30px;
-	margin-top: 50px;
-}
-</style>
 </head>
 
 <body>
 	<div  class="container">
 		<h4>检测报告表</h4>
+		<div class="table">
 		<table id="testReportTable"></table>
+		</div>
 	</div>
 </body>
 <script src="module/js/inspectionStaffDesktop/viewAuditTask.js"></script>

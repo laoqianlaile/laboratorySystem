@@ -784,7 +784,6 @@ function openAddItemModal(){
 }
 
 function openEditItemModal(ID,fineItemCode,testProjectID,nameCn,nameEn,number,price,money,departmentID,departmentName,calculateType,isOutsourcing,remarks,hour){
-	alert("openEditItemModal:" + ID);
 	
 	$('#edit_fineItemID').val(ID);
 	$('#edit_fineItemCode').val(fineItemCode);
@@ -834,7 +833,6 @@ function goback(){
  */
 function classifiedSth(){
 	var isClassified = $('input[name="isClassified"]:checked').val();
-	alert(isClassified);
 	if(isClassified == "0"){
 		$('#edit_classifiedLevel').val("3");
 		$('#edit_classifiedLevel #Level3').show();
@@ -1122,7 +1120,6 @@ function edit(){
 
 //新增合同细项方法 
 function addItem(){
-	alert("addItem");
 	
 	var parame = {};
 	var fineItemCode = $('#add_fineItemCode').val();
@@ -1254,7 +1251,6 @@ function delFileItem(id){
 
 //编辑合同细项方法 
 function editItem(){
-	alert("editItem");
 	
 	var parame = {};
 	var fineItemCode = $('#edit_fineItemCode').val();
@@ -1335,8 +1331,6 @@ function editItem(){
 	}
 	if (!remarks && typeof(remarks)!="undefined" && remarks=='') 
 	{ 
-		alert("备注为空！");
-	
 		parame.ID = $('#edit_fineItemID').val();
 		parame.contractID = $('#edit_contractID').val();
 		parame.fineItemCode = fineItemCode;
