@@ -64,10 +64,10 @@ function autoHeightWidth(){
     }else{
     	slider_height = 0;
     }
-	if(irfame_document_Height + 148 + 5 + slider_height >= window_height ){ //    148?   50+12 41 45 --5不可视化
+    var left_tree_height = $(iframe_element).css("height")
+	if(irfame_document_Height + 148 + 5 + slider_height >= window_height ){ //    148?   50+12 41 45 --5不可视化   （45 头）
 	  
 		$(iframe_element).css("height",irfame_document_Height+slider_height);  //17留的多的 横向滑动条
-		
 		$(left_element).css("height", irfame_document_Height+(148 - 45) + slider_height);//17留的多的 横向滑动条
 	 
 	}else{

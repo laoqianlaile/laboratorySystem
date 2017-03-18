@@ -339,7 +339,6 @@ function assignCustodian(){
 	parame.IDs = data[0].ID;
 	parame.assignType = 0;
 	parame.type = 2;
-	
 	console.log(parame);
 	
 	$.ajax({
@@ -367,6 +366,7 @@ function assignDetector(){
 	
 	var parame = {};
 	
+	parame.taskID = ID;
 	parame.taskManID = taskManID;
 	parame.IDs = data[0].ID;
 	parame.assignType = 1;

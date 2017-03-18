@@ -8,12 +8,12 @@ function init() {
 		$('#table')
 				.bootstrapTable(
 						{
-							striped : true, // 隔行变色效果
+							striped : false, // 隔行变色效果
 							pagination : true,// 在表格底部显示分页条
 							pageSize : 10,// 页面数据条数
 							pageNumber : 1,// 首页页码
-							pageList : [ 3, 5, , 9, 10, 200, 500 ],// 设置可供选择的页面数据条数
-							clickToSelect : false,// 设置true 将点击时，自动选择rediobox
+							pageList : [ 3, 5, 10 ],// 设置可供选择的页面数据条数
+							clickToSelect : true,// 设置true 将点击时，自动选择rediobox
 							// 和 checkbox
 							cache : false,// 禁用AJAX数据缓存
 							sortName : 'ID',
@@ -121,12 +121,8 @@ function init() {
 										valign : 'middle',
 										width : '8%',
 										formatter : function(value, row, index) {
-											var d = "<button  onclick='delTemplate(\""
-													+ row.ID
-													+ "\")' data-toggle='tooltip' data-placement='top' title='删除'  class='glyphicon glyphicon-remove-sign' style='color: rgb(10, 78, 143);margin-right:8px;'></button>";
-											var a = "<button  onclick='downFile(\""
-													+ row.fileID
-													+ "\")' title='下载'  class='glyphicon glyphicon-save' style='color: rgb(10, 78, 143);margin-right:8px;'></button>";
+											var d = "<img src = 'module/img/delete_icon.png' onclick='delTemplate(\""+ row.ID+ "\")'  title='删除'   style='cursor:pointer;margin-right:8px;' />";
+											var a = "<img src='module/img/download_icon.png' onclick='downFile(\""+ row.fileID+ "\")' title='下载'   style='cursor:pointer;margin-right:8px;' />";
 											return a + d;
 										}
 									} ]
@@ -323,10 +319,10 @@ function addTemplate() {
 	if (templateTypeString === "合同模板") {
 		parame.TemplateType = 0;
 	}
-	if (templateTypeString === "报告文件模板") {
+	if (templateTypeString === "报告模板") {
 		parame.TemplateType = 1;
 	}
-	if (templateTypeString === "交接单文件模板") {
+	if (templateTypeString === "交接单模板") {
 		parame.TemplateType = 2;
 	}
 
@@ -361,18 +357,51 @@ function addTemplate() {
 		}
 	});
 }
+//登录验证
+function isLogin(){
+	 islogin = $('#uploaderID').val();
+	 if(islogin === null || islogin === "" || islogin === "null"){
+		 sweetAlert("你还没登录", "", "error");
+		 return false;
+	 }
+	 else{
+		 return true;
+	 }
+}
 /* 文件下载 */
 function downFile(fileID) {
-	if (confirm("确认下载？")) {
-		if (fileID === null || fileID === "" || fileID === undefined) {
-			alert("没有可下载文件");
-		} else {
+	if( ! isLogin()){
+		return;
+	}
+	else{
+		if(fileID === null || fileID === "" || fileID === "null"){
+			swal({  title: "文件丢失了", type: "error",});
+			return;
+		}
+		else{
+			swal({
+				  title: "确定下载?",
+				  type: "warning",
+				  showCancelButton: true,
+				  confirmButtonColor: "#DD6B55",
+				  confirmButtonText: "确认",
+				  cancelButtonText: "取消",
+				  closeOnConfirm: false,
+				  closeOnCancel: false
+				},
+				function(isConfirm){
+				  if (isConfirm) {
+					//下载文件
+					downOneFile(fileID);
+					swal("Ok!", "", "success")
+				  } else {
+				    swal("Cancelled", "", "error");
+				  }
+				});
 			downOneFile(fileID);
+			return;
 		}
 	}
-
-	return;
-
 }
 //消息推送
 function  sendMessage(Content,recipient){
@@ -561,7 +590,7 @@ function testProjectModal() {
 }
 //判断
 function isReport(){
-	if($('#fileSubtype option:checked').text() === "报告文件模板"){
+	if($('#fileSubtype option:checked').text() === "报告模板"){
 		testProjectModal();
 	}
 }

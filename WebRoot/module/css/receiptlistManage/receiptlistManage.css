@@ -98,3 +98,6 @@
 .input-group-addon{
   background-color: #fff;
  } 
+ .table tr td img{
+    margin-right: 4px; 
+}

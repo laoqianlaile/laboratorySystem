@@ -58,9 +58,18 @@ span {
     padding-bottom: 20px;
     width: 101%;
 }
+#menu button{
+	margin-right:2%;
+}
+#menu button:hover {
+  border: none;
+  color: #fff;
+  background-color: rgb(255, 173, 51);
+}
 </style>
 
 <body>
+	<input type= "hidden" id = "uploaderID" value = "<%=session.getAttribute("EMPLOYEEID")  %>" />
 	<div class="container" style="width: 100%;">
 		<div class="row clearfix">
 			<div class="col-md-12 column">
@@ -97,10 +106,8 @@ span {
 									<i class="glyphicon glyphicon-calendar"></i></span>
 							</div>
 						</div>
-						<div id="menu">
-
-							<div class="col-md-3.5 column">
-								<div >
+						<div id="menu" class= "row clearfix">
+								<div class="col-md-4 column">
 									<button id="query" onclick="query()"
 										class="btn btn-primary" type="button">
 										<em class="glyphicon glyphicon-search"></em> 查询
@@ -124,9 +131,7 @@ span {
 										onclick="reSetRefresh()">
 										<em class="glyphicon glyphicon-refresh"></em> 刷新
 									</button>
-
 								</div>
-							</div>
 						</div>
 					</div>
 				</div>

@@ -25,6 +25,8 @@
 <script src="module/js/bootstrap-table-zh-CN.js"></script>
 <script src="module/js/fileManage/fileManage.js"></script>
 <script src="module/js/jquery.uploadify.min.js"></script>
+<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+    <script src="module/js/sweetalert.min.js"></script>
 </head>
   <style>
 .col-md-3 input.form-control, .col-md-3 select.form-control{
@@ -40,6 +42,9 @@
     padding-top: 20px;
     padding-bottom: 20px;
     width: 101%;
+}
+#menu button{
+	  margin-right: 2%;
 }
 </style>
 
@@ -90,8 +95,8 @@
 								</select>
 							</div>
 						</div>
-						<div id = "menu" class="col-md-3.5 column">
-							<div>
+						<div id = "menu" class="row clearfix">
+							<div class="col-md-6 column">
 								<button id="query" onclick="query()" class="btn btn-primary"
 									type="button">
 									<em class="glyphicon glyphicon-search"></em> 查询
