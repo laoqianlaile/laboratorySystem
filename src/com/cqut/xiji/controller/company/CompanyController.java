@@ -197,8 +197,8 @@ public class CompanyController {
 	 */
 	@RequestMapping("/getCompanyMsg")  
     @ResponseBody
-	public String getCompanyMsg(String companyName){
-		List<Map<String, Object>> result = service.getCompanyMsg(companyName);
+	public String getCompanyMsg(){
+		List<Map<String, Object>> result = service.getCompanyMsg();
 		return JSONArray.fromObject(result).toString();
 	}
 	/**

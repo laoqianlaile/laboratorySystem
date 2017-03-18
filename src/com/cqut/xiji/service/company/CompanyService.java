@@ -142,12 +142,12 @@ public class CompanyService extends SearchService implements ICompanyService {
 	}
 	
 	@Override
-	public List<Map<String, Object>> getCompanyMsg(String companyName) {
+	public List<Map<String, Object>> getCompanyMsg() {
 //		String tableName = "company";
 		
 		String[] properties = new String[] {"ID","companyName","linkMan","mobilePhone","address"};
 		
-		String condition = "companyName like '%" + companyName + "%'";
+		String condition = "";
 		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Company.class);
 		return result;
 	}

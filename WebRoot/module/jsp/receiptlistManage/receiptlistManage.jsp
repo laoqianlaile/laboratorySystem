@@ -13,7 +13,7 @@
 <link rel="stylesheet" type="text/css" href="../../../assets/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="../../css/receiptlistManage/receiptlistManage.css">
 <link rel="stylesheet" type="text/css" href="../../css/commonSystem/commonSystem.css" />
-<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+<link rel="stylesheet" type="text/css" href="../../css/sweetalert.css">
 
 <script src="../../js/jquery-2.1.1.min.js"></script>
 <script src="../../js/bootstrap.js"></script>
@@ -83,6 +83,8 @@
 		    onclick="addReNo()" >&nbsp;无合同新增</button>
 		<button type="button" class="btn btn-primary glyphicon glyphicon-edit"
 		    onclick="returnSample()">&nbsp;退还样品</button>
+		    <button type="button" class="btn btn-primary glyphicon glyphicon-remove"
+		    onclick="deleteRe()">&nbsp;删除</button>
 		<button id="refresh" onclick="refresh()" type="button"
 			class="btn btn-primary glyphicon glyphicon-refresh">&nbsp;刷新</button>
 	</div>
@@ -102,7 +104,7 @@
 	    autoclose: 1,
 	    todayHighlight: 1,
 	    startView: 2,
-	    minView: 1,
+	    minView: 2,
 	    maxView: 3,
 	    forceParse: 0,
 	    format: 'yyyy-mm-dd HH:ii:ss'

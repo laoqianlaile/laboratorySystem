@@ -59,9 +59,9 @@ $(function () {
 			formatter : function(value, row, index) { //操作按钮的设置
 				  var view = "", edit = "", dele = ""; 
 				  	if(row.ID != ""){   //没有交接单---就没有任何编辑，查看，删除等功能
-				  		view = "<img src=\"module/img/view_icon.png\" onclick='lookModal("+JSON.stringify(row)+")'>";
-				        edit = "<img src=\"module/img/edit_icon.png\" onclick='openModal("+JSON.stringify(row)+")'>";
-				        dele = "<img src=\"module/img/delete_icon.png\" onclick='delRole(\""+row.ID+"\")'>";
+				  		view = "<img src=\"module/img/view_icon.png\" alt=\"查看\" onclick='lookModal("+JSON.stringify(row)+")' >";
+				        edit = "<img src=\"module/img/edit_icon.png\" alt=\"编辑\" onclick='openModal("+JSON.stringify(row)+")'>";
+				        dele = "<img src=\"module/img/delete_icon.png\" alt=\"删除\" onclick='delRole(\""+row.ID+"\")'>";
 				 
 					return view + edit + dele;
 				}
