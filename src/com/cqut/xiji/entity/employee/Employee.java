@@ -23,6 +23,7 @@ public class Employee extends Entity{
 	private Date createTime;
 	private int state;
 	private String dutyID;
+	private int permission;
 	
 	public String getID() {
 		return ID;
@@ -146,5 +147,13 @@ public class Employee extends Entity{
 	public String getPrimaryKey() {
 		// TODO Auto-generated method stub
 		return "ID";
+	}
+
+	public int getPermission() {
+		return permission;
+	}
+
+	public void setPermission(int permission) {
+		this.permission = permission;
 	}
 }
