@@ -14,13 +14,10 @@
 
 <title>流水账目</title>
 
-<link rel="stylesheet" type="text/css"
-	href="module/css/bootstrap.min.css">
-<link rel="stylesheey" type="text/css"
-	href="module/css/bootstrap-table.css">
-<link rel="stylesheet" type="text/css"
-	href="module/css/bootstrap-datetimepicker.css">
-
+<link rel="stylesheet" type="text/css"	href="module/css/bootstrap.min.css">
+<link rel="stylesheey" type="text/css"	href="module/css/bootstrap-table.css">
+<link rel="stylesheet" type="text/css"	href="module/css/bootstrap-datetimepicker.css">
+<link rel="stylesheet" type="text/css"	href="module/css/commonSystem/commonSystem.css" />
 
 <script type="text/javascript" src="module/js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="module/js/bootstrap.min.js"></script>

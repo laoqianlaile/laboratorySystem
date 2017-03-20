@@ -18,6 +18,7 @@
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 <link rel="stylesheet" type="text/css" href="module/css/uploadify.css">
 <link rel="stylesheet" type="text/css" href="module/css/fileManage/fileManage.css">
+<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" /> 
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
