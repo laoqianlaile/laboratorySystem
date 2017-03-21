@@ -428,9 +428,7 @@ function fileDown() {
 
 //返回
 function turnBack(){
-	window.location.href = window.location.href.split("?")[0] .replace('taskView.jsp','taskManage.jsp');
-
-		
+	window.history.back(-1);
 }
 
 // 刷新

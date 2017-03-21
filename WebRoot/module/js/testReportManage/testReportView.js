@@ -4,18 +4,18 @@ $(function() {
 		testReportID : ID
 	}, function(result) {
 		result = JSON.parse(result);
-		if (result != null && result != "null" && result != "") {
-			$("#schFactoryCode").text(result[0].receiptlistCode);
-			$("#clientCompany").text(result[0].companyname);
-			$("#clientPerson").text(result[0].linkman);
-			$("#clientTime").text(result[0].createTime);
-			$("#finishTime").text(result[0].completeTime);
-			$("#contactNumber").text(result[0].linkPhone);
-			$("#contactAddress").text(result[0].address);
-			$("#isClassified").text(result[0].isClassified);
-			$("#secretLevel").text(result[0].classifiedLevel);
-			$("#accordingInfo").text(result[0].requires);
-		}
+		result = checkReportData(result[0]);
+		$("#schFactoryCode").text(result.receiptlistCode);
+		$("#clientCompany").text(result.companyname);
+		$("#clientPerson").text(result.linkman);
+		$("#clientTime").text(result.createTime);
+		$("#finishTime").text(result.completeTime);
+		$("#contactNumber").text(result.linkPhone);
+		$("#contactAddress").text(result.address);
+		$("#isClassified").text(result.isClassified);
+		$("#secretLevel").text(result.classifiedLevel);
+		$("#accordingInfo").text(result.requires);
+		
 	});
 	
 	$("#sampleInfoTable").bootstrapTable({
@@ -35,7 +35,10 @@ $(function() {
 		selectItemName : '',// radio or checkbox 的字段名
 		columns : [{
 			checkbox : true,
-			width :"1%"// 宽度
+			width :"1%",// 宽度
+			formatter : function(value, row, index) {
+				 checkSampleData(row);	 // 验证数据合理性
+		  }
 		},{
 			field : 'factoryCode',// 返回值名称
 			title : '出厂编号',// 列名
@@ -251,12 +254,96 @@ function getUrlParam(name) {
 	}
 }
 
+// 返回
+function turnBack() {
+	window.history.back(-1);
+}
+
+
 // 刷新页面
 function refresh() {
 	$('#sampleInfoTable').bootstrapTable('refresh', null);
 	$('#testReportFile').bootstrapTable('refresh', null);
 }
 
+// 检查报告数据合理性
+function checkReportData(dataObj) {
+	if (!dataObj.hasOwnProperty("receiptlistCode") || dataObj.receiptlistCode == null
+			|| dataObj.receiptlistCode.trim() == "NULL") {
+		dataObj.receiptlistCode = "";
+	}
+	if (!dataObj.hasOwnProperty("companyname") || dataObj.companyname == null
+			|| dataObj.companyname.trim() == "NULL") {
+		dataObj.companyname = "";
+	}
+	if (!dataObj.hasOwnProperty("linkman")
+			|| dataObj.linkman == null
+			|| dataObj.linkman == undefined) {
+		dataObj.linkman = ""; 
+	}
+	if (!dataObj.hasOwnProperty("createTime")
+			|| dataObj.createTime == null
+			|| dataObj.createTime.trim() == "NULL") {
+		dataObj.createTime = "";
+	}
+	if (!dataObj.hasOwnProperty("completeTime") || dataObj.completeTime == null
+			|| dataObj.completeTime == undefined) {
+		dataObj.completeTime = ""; 
+	}
+	if (!dataObj.hasOwnProperty("linkPhone") || dataObj.linkPhone == null
+			|| dataObj.linkPhone.trim() == "NULL") {
+		dataObj.linkPhone = "";
+	}
+	if (!dataObj.hasOwnProperty("address") || dataObj.address == null
+			|| dataObj.address.trim() == "NULL") {
+		dataObj.address = "";
+	}
+	if (!dataObj.hasOwnProperty("isClassified") || dataObj.isClassified == null
+			|| dataObj.isClassified.trim() == "NULL") {
+		dataObj.isClassified = "";
+	}
+	if (!dataObj.hasOwnProperty("classifiedLevel") || dataObj.classifiedLevel == null
+			|| dataObj.classifiedLevel.trim() == "NULL") {
+		dataObj.classifiedLevel = "";
+	}
+	if (!dataObj.hasOwnProperty("requires") || dataObj.requires == null
+			|| dataObj.requires.trim() == "NULL") {
+		dataObj.requires = "";
+	}
+	return dataObj;
+}
+
+// 检查样本数据合理性
+function checkSampleData(dataObj) {
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
+			|| dataObj.ID.trim() == "NULL") {
+		dataObj.ID = "";
+	}
+	if (!dataObj.hasOwnProperty("factoryCode") || dataObj.factoryCode == null
+			|| dataObj.factoryCode.trim() == "NULL") {
+		dataObj.factoryCode = "";
+	}
+	if (!dataObj.hasOwnProperty("testProjectName")
+			|| dataObj.testProjectName == null
+			|| dataObj.testProjectName.trim() == "NULL") {
+		dataObj.testProjectName = "";
+	}
+	if (!dataObj.hasOwnProperty("sampleName") || dataObj.sampleName == null
+			|| dataObj.sampleName.trim() == "NULL") {
+		dataObj.sampleName = "";
+	}
+	if (!dataObj.hasOwnProperty("specifications")
+			|| dataObj.specifications == null
+			|| dataObj.specifications.trim() == "NULL") {
+		dataObj.specifications = "";
+	}
+	if (!dataObj.hasOwnProperty("employeeName") || dataObj.employeeName == null
+			|| dataObj.employeeName.trim() == "NULL") {
+		dataObj.employeeName = "";
+	}
+}
+
+// 检查文件数据合理性
 function checkData(dataObj) {
 	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
 			|| dataObj.ID.trim() == "NULL") {

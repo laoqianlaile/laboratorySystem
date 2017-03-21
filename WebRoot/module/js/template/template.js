@@ -169,31 +169,19 @@ function query() {
 	refresh();
 
 }
-
-/* 判断是否登录 */
-function isLogin() {
-	islogin = $('#EMPLOYEEID').val();
-	if (islogin === null || islogin === "" || islogin === "null") {
-		alert("您还没登录， 请先登录");
-		return false;
-	} else {
-		return true;
-	}
-}
-
 /* 检测时间段是否合理 */
 function correctTime() {
 	var time1 = $('#uPLOADTIME1').val();
 	var time2 = $('#uPLOADTIME2').val();
 
 	if (time1 === null || time1 === "") {
-		alert("不能为空");
+		swal({ title: "不能为空", type: "warning",});
 		$('#uPLOADTIME1').focus();
 	}
 
 	if (time1 !== null && time1 !== "" && time2 !== null && time2 !== "") {
 		if (time1 > time2) {
-			alert("时间选择错误 \n" + time1 + " 至 " + time2);
+			swal({ title: "时间选择错误\n"+ time1 + " 至 " + time2, type: "warning",});
 			$('#uPLOADTIME2').focus();
 		} else {
 			query();
@@ -207,33 +195,40 @@ function correctTime() {
 
 /* 单个删除方法 */
 function delTemplate() {
-	if (confirm("确定要删除？")) {
-		templateIDs = arguments[0];
-		alert(templateIDs);
-		$.ajax({
-			url : 'templateController/delTemplate.do',
-			data : {
-				templateIDs : templateIDs
-			},
-			success : function(o) {
-				if (o <= 0) {
-					alert("删除失败");
-				} else {
-					alert("删除成功");
-					refresh();
+	templateID = arguments[0];//获取模板ID
+	swal({
+		  title: "确定要删除 ?",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "确定",
+		  closeOnConfirm: false
+		},
+		function(){
+			$.ajax({
+				url : 'templateController/delTemplate.do',
+				data : {
+					templateIDs : templateID
+				},
+				success : function(o) {
+					if (o <= 0) {
+						swal({title:"删除失败",type:"warning"});
+					} else {
+						swal({title:"删除成功",type:"success"});
+						refresh();
+					}
+
 				}
-
-			}
+			});
 		});
-	}
-
+	
 }
 /* 删除多个 方法 */
 function delData() {
 	var data = $('#table').bootstrapTable('getSelections');
 
 	if (data.length == 0) {
-		alert("请至少选中一条数据");
+		swal("请至少选中一条数据!");
 		return;
 	}
 
@@ -252,9 +247,9 @@ function delData() {
 		data : ajaxParameter,
 		success : function(o) {
 			if (o <= 0) {
-				alert("删除失败");
+				swal({title:"删除失败",type:"warning"});
 			} else {
-				alert("删除成功");
+				swal({title:"删除成功",type:"success"});
 				refresh();
 			}
 
@@ -329,7 +324,7 @@ function addTemplate() {
 	parame.fileID = "";
 	fileIDs = fielIdReturn();
 	if (fileIDs.length == 0) {
-		alert("请选中一个文件。");
+		swal("请选中一个文件!");
 		return;
 	} else if (fileIDs.length == 1) {
 		parame.fileID = fileIDs[0];
@@ -345,13 +340,13 @@ function addTemplate() {
 		data : parame,
 		success : function(o) {
 			if (o <= 0) {
-				alert("新增失败");
+				swal({title:"新增失败!",  type:"error",});
 				return;
 			}
 			else{
 				sendMessage(Content, "模板审核人");
-				alert("上传成功");
 				$('#addModal').modal('hide');
+				swal({title:"上传成功!",  type:"success",});
 				refresh();
 			}
 		}
@@ -412,7 +407,7 @@ function  sendMessage(Content,recipient){
 		},
 		success:function(o){
 			  if(o == ""){
-				 alert("信息新增失败（1）");
+				 swal({title:"信息新增失败（1）",type:"error",});
 			  }
 			  else{
 				  var messageID = o;
@@ -423,10 +418,10 @@ function  sendMessage(Content,recipient){
 					  success:function(s){
 						  if(s <= 0){
 							  if(s == -1){
-								  alert("信息新增失败（2）:不存在该角色名"+recipient);
+								  swal({title:"信息新增失败（2）",text:"不存在该角色名"+recipient,type:"error",});
 							  }
 							  else{
-								  alert("未知错误");
+								 swal({title:"正在全力维护...",type:"error",});
 							  }
 						  }
 					  }
@@ -603,7 +598,7 @@ $(function () { $('#testProjectModal').on('hide.bs.modal', function () {
 function addTestproject(){
 	var  testProjectDate = $('#testProject').bootstrapTable('getSelections');
 	if(testProjectDate.leng <= 1){
-		alert("只可选中一个");
+		swal("只可选中一个");
 		return;
 	}
 	

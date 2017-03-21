@@ -21,8 +21,9 @@
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
-<link rel="stylesheet" type="text/css" href="module/css/testReportManage/testReportManage.css">
 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+<link rel="stylesheet" type="text/css" href="module/css/testReportManage/testReportManage.css">
+<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
@@ -32,10 +33,13 @@
 <script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="module/js/bootstrap-datetimepicker.fr.js"></script>
 <script src="module/js/sweetalert.min.js"></script>
-<script src="module/js/alert.js"></script>
 
 <style>
-#rejectReason {
+.content button {
+	margin-left: 26px;
+}
+
+#rejectReason,#PassReason{
 	resize: none;
 	width: 90%;
 	height: 200px;
@@ -92,6 +96,17 @@
 							class="glyphicon glyphicon-calendar"></span></span>
 					</div>
 				</div>
+
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<label>审核状态:</label> <select class="form-control" name="selectPart"
+						id="selectPart">
+						<option value="3">所有情况</option>
+						<option value="0">待审核</option>
+						<option value="1">审核通过</option>
+						<option value="2">驳回</option>
+					</select>
+				</div>
+
 			</div>
 		</div>
 
@@ -108,6 +123,38 @@
 			</div>
 		</div>
 	</div>
+	
+		<div id="secondAuditPassModal" class="modal fade" role="dialog"
+		aria-labelledby="gridSystemModalLabel">
+		<div class="modal-dialog" role="document" style="width:450px; ">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close"></button>
+					<h4 class="modal-title">
+						<strong>填写驳回意见</strong>
+					</h4>
+				</div>
+				<div class="modal-body">
+					<hr />
+					<div class="row" style="text-align:center;">
+						<span id="PassTestReportID" style="display:none"></span>
+						 <span id="PassTaskID" style="display:none"></span> 
+						 <span id="PassFileName" style="display:none"></span>
+						<textarea id="PassReason" class="form-control" style="overflow-y:scroll"></textarea>
+					</div>
+					<hr />
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary"
+						onclick="secondAuditPassSure()">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
 	<div id="secondAuditRejectModal" class="modal fade" role="dialog"
 		aria-labelledby="gridSystemModalLabel">
 		<div class="modal-dialog" role="document" style="width:450px; ">
@@ -126,8 +173,7 @@
 							id="taskID" style="display:none"></span> <span id="fileName"
 							style="display:none"></span>
 						<textarea id="rejectReason" class="form-control"
-							style="overflow-y:scroll">
-					 </textarea>
+							style="overflow-y:scroll"></textarea>
 					</div>
 					<hr />
 				</div>
@@ -145,8 +191,7 @@
 
 	</table>
 
-	<script
-		src="module/js/testReportSecondAuditManage/testReportSecondAuditManage.js"></script>
+	<script src="module/js/testReportSecondAuditManage/testReportSecondAuditManage.js"></script>
 	<script src="module/js/fileManage/fileManage.js"></script>
 	<script type="text/javascript">
 		$('.form_datetime').datetimepicker({
