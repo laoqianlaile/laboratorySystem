@@ -223,7 +223,7 @@ function addRe() {
 		    +result.reID+"&coID=" 
 	        + data[0].coID + "&comID="
 			+ data[0].comID + "&coCode=" + data[0].coCode
-			+ "&addState=yes&reCode=" + result.reCode+"&proID="+data[0].proID;
+			+ "&state=yes&reCode=" + result.reCode+"&proID="+data[0].proID;
 
 }
 //创建交接单 --各种类型
@@ -256,7 +256,7 @@ function addReNo() {
 			+result.reID+"&coID=" 
 			+ result.coID + "&comID="
 			+ "" + "&coCode=" + result.coCode
-			+ "&addState=no&reCode=" + result.reCode+"&proID="+result.proID;
+			+ "&state=no&reCode=" + result.reCode+"&proID="+result.proID;
 }
 
 
@@ -271,7 +271,7 @@ function returnSample() {
 		chen.alert("此时你还没有样品可以退");
 	}
 	var result = initAddReceiptlist(data[0],"return");
-	window.location.href = "./recelistReturn.jsp?reID="+result.reID
+	window.location.href = "./receiptlistReturn.jsp?reID="+result.reID
 							+"&coID=" + result.coID + "&comID="
 							+ "" + "&coCode=" + result.coCode
 							+ "&state=add&reCode=" + result.reCode;
@@ -290,8 +290,7 @@ function editRe(reID,coID,proID,comID,coCode,reCode,state) {
 		 						+"&coID=" + coID + "&comID="
 		 						+ comID + "&coCode=" + coCode
 		 						+"&proID="+proID
-		 						+ "&addState=no&reCode=" + reCode
-		 						+"&lookState=edit";
+		 						+ "&state=edit&reCode=" + reCode;
 	 //退还样品-交接单编辑的页面
 	else {
 			window.location.href = "./receiptlistReturn.jsp?reID="
@@ -352,12 +351,22 @@ function deleteRe() {
 	}
    var ids = "";
    for(var i = 0; i < data.length ; i++){
-	   if(data[i].state == "未检测") //未检测的才能删
-	   {
-		   ids += data[i].ID+",";
-	   }
+		   if (data[i].state == "未检测") // 未检测的才能删
+		{
+			if (data[i].ID == null || data[i].ID == undefined || data[i].ID == "") {
+				  ;
+			} else {
+				ids += data[i].ID + ",";
+			}
+		}
    }
-   ids = ids.substring(0 , ids.length-1);
+   if(ids != "")
+   {
+	   ids = ids.substring(0 , ids.length-1);
+   }
+   else{
+	   alert("没有任何的交接单可以删除");
+   }
 	if (isDelete == true) {
 		$.ajax({
 			url : '/laboratorySystem/receiptlistController/delReceiptlist.do',

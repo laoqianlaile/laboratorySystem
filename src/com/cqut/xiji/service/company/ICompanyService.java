@@ -35,4 +35,6 @@ public interface ICompanyService {
     */
 	public Map<String, Object> getCompanyInformation(String comID);
 
+List<Map<String, Object>> getComListByName(String companyName); //通过名字模糊搜索公司
+
 }

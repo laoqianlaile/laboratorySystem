@@ -214,5 +214,10 @@ public class CompanyController {
 		Map<String, Object> result = service.getCompanyInformation(comID);
 		return JSONObject.fromObject(result).toString();
 	}
-	
+	@RequestMapping("/getComListByName")  
+    @ResponseBody
+	public String getComListByName(String companyName){
+		List<Map<String, Object>> result = service.getComListByName(companyName);
+		return JSONArray.fromObject(result).toString();
+	}
 }

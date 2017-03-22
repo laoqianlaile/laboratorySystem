@@ -24,7 +24,25 @@ public class Employee extends Entity{
 	private int state;
 	private String dutyID;
 	private int permission;
+	private String singnature;
+	private String stamp;
 	
+	public String getSingnature() {
+		return singnature;
+	}
+
+	public void setSingnature(String singnature) {
+		this.singnature = singnature;
+	}
+
+	public String getStamp() {
+		return stamp;
+	}
+
+	public void setStamp(String stamp) {
+		this.stamp = stamp;
+	}
+
 	public String getID() {
 		return ID;
 	}	

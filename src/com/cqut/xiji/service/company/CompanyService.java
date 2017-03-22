@@ -12,6 +12,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
@@ -170,5 +171,20 @@ public class CompanyService extends SearchService implements ICompanyService {
 		};
 		Map<String, Object> company = entityDao.findByID(properties,comID, Company.class);
 		return company;
+	}
+	@Override
+	public List<Map<String, Object>> getComListByName(String companyName) {
+		// TODO Auto-generated method stub
+		if(companyName == null || companyName.equals("")){
+			return null;
+		}
+		String[] properties = new String[]{
+				"company.ID ",
+				"company.companyName",
+				"company.address"
+		};
+		String condition = " companyName like '%"+companyName+"%' order by companyName asc ";
+		List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, Company.class);
+		return list;
 	}
 }

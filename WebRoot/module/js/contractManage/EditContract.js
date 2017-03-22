@@ -1134,7 +1134,7 @@ function addItem(){
 	var departmentName1 = $('#add_departmentName1').val();
 	var departmentName2 = $('#add_departmentName2').val();
 	var remarks = $('#add_remarks').val();
-		
+	
 	if (!fineItemCode && typeof(fineItemCode)!="undefined" && fineItemCode=='') 
 	{ 
 		alert("合同细项编号不能为空！"); 
@@ -1202,6 +1202,7 @@ function addItem(){
 	{ 
 		alert("备注为空！");
 	
+	}
 		parame.contractID = $('#edit_contractID').val();
 		parame.fineItemCode = fineItemCode;
 		parame.testProjectID = testProjectID;
@@ -1225,7 +1226,6 @@ function addItem(){
 			  }
 		});	
 	}
-}
 
 function delFileItem(id){
 	if (confirm("删除合同细项：" + id)) {
@@ -1329,8 +1329,7 @@ function editItem(){
 		parame.price = price2;
 		parame.money = hour * price2;
 	}
-	if (!remarks && typeof(remarks)!="undefined" && remarks=='') 
-	{ 
+	
 		parame.ID = $('#edit_fineItemID').val();
 		parame.contractID = $('#edit_contractID').val();
 		parame.fineItemCode = fineItemCode;
@@ -1353,6 +1352,5 @@ function editItem(){
 				  console.log(o);
 			  }
 		});	
-	}
 	
 }

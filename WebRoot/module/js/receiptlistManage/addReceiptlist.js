@@ -1,15 +1,15 @@
 /**
- *  //接受传过来的参数
+ * //接受传过来的参数
  */
-var obj = {  
+var obj = {
 	reID : "12265656565",
 	reCode : "xiji-2016-15-34",
 	proID : "",
 	coCode : "",
 	coID : "",
-	addState : "",
-	lookState:"",
-	comID : ""
+	state : "",
+	comID : "",
+	isCreate : false
 }
 /**
  * 上传文件所用的参数
@@ -22,139 +22,98 @@ $(function() {
 });
 // 初始化数据
 function initData() {
-	fileUploadInit("#file_upload");
-	initPageData();
-	initSample();
-	initFile();
-	/*
-	 * if(isEmptyObject(dara) == true){ addNoCo(); }else{ add(dara); }
-	 */
+	fileUploadInit("#file_upload"); //初始化上传文件功能
+	initPageData(); //展示页面页头数据
+	initSample();  //展示任务表的数据
+	initFile();//展示交接单附件的数据
+	
 }
-//是否展示上传的按钮
-function isShowButton(size){
-	if(size <= 0){
-		$("#submitFileBtn").css("display","none");
-	}else{
-		$("#submitFileBtn").css("display","inline");
-	}
-}
-//上传文件预处理
-function submitFile(){
-	//loadingData();
-	fileObj.path = "";//filePath; // 文件上传路径，如果此参数没有值，则使用firstDirectoryName,secondDirectoryName,thirdDirectoryName
-	fileObj.fileTypeNumber = "1";//fileTypeNumber; // 文件类型
-	fileObj.firstDirectoryName = "项目文件";//fileFirstDirectory; // 一级目录
-	fileObj.secondDirectoryName = obj.proID;//fileSecondDirectory; // 二级目录
-	fileObj.thirdDirectoryName = "交接单文件";//fileThirdDirectory //三级目录
-	fileObj.belongtoID = obj.reID;
- 	fileObj.otherInfo = "";//fileOtherInfo; // 其他参数
-	fileObj.remarks = $("#fileRemarks").val();//fileRemarks; // 备注
-	//文件上传
-	fileUpload("#file_upload",fileObj.filePath, fileObj.fileTypeNumber, fileObj.belongtoID, fileObj.firstDirectoryName, fileObj.secondDirectoryName,fileObj.thirdDirectoryName,
-			 fileObj.otherInfo, fileObj.remarks) ;
- /*    if(ids == null || ids == undefined){
-    	 chen.alert("上传失败","error");
-     }*/
-	 //旋转图片延缓
-	//setTimeout("dealUploadFile()",5000);
-	/* $.ajaxSetup({
-			global:false,
-			cache:false,
-			beforeSend:function(){
-				loadingData();
-			},
-			complete:function(){
-				removeLoadingData();
-				$('#fileTable').bootstrapTable('refresh',null);
-			},
-			timeout:10000,
-		});*/
-}
-function dealFileID(){
-  $('#fileTable').bootstrapTable('refresh',null);
-	/* var fileIDArray = fielIdReturn();
-	 console.log(fileIDArray);
-	 var ids = "";
-	 if(fileIDArray.length == 0)
-		 return ;
-	 for(var i = 0 ; i < fileIDArray.length ; i++)
-		  ids+=fileIDArray[i]+",";
-	 ids=ids.substring(0, ids.length-1);
-	 $.ajax({
-			url : '/laboratorySystem/fileOperateController/setBelongtoID.do',
-			dataType : "json",
-			async : false,
-			data : {
-				fileIDS:ids,
-				belongtoID : obj.reID
-			},
-			success : function(o) {
-				console.log(JSON.parse(o));
-				
-			},
-			error : function() {
-				return false;
-			}
-		 });
-	 $('#file_uploadModal').modal("hide");
-	 $('#fileTable').bootstrapTable('refresh',null); */
-	 
-} 
-function initPageData(){
+
+
+//初始页头数据
+function initPageData() {
 	/**
 	 * 获取参数
 	 */
 	var dara = getURLParameter();
-	 obj.reID = dara.reID;
-	 obj.reCode  = dara.reCode;
-	 obj.proID  = dara.proID;
-	 obj.coID  = dara.coID;
-	 obj.addState  = dara.addState;
-	 obj.lookState = dara.lookState;
-	 obj.comID  = dara.comID;
-	 
-	$('.headTitel').children().eq(1).children().eq(1).text(obj.reCode); //设置交接单编码
-	$("#coCode").val(dara.coCode);//设置合同编码
-	$("#coCode").attr("disabled", true);//不可编辑
-	if (dara.addState == "yes") {
-		dealHaveCom(dara); //处理公司
-	}
-	if(dara.lookState == "edit"){
-		dealHaveCom(dara);//处理公司
+	obj.reID = dara.reID;
+	obj.reCode = dara.reCode;
+	obj.proID = dara.proID;
+	obj.coID = dara.coID;
+	obj.state = dara.state;
+	obj.comID = dara.comID;
+
+	$('.headTitel').children().eq(1).children().eq(1).text(obj.reCode); // 设置交接单编码
+	$("#coCode").val(dara.coCode);// 设置合同编码
+	$("#coCode").attr("disabled", true);// 不可编辑
+	$("#address").attr("disabled", true); //公司地址都是不能编辑
+	if (dara.state == "yes") {// 有合同
+		dealHaveCom(dara); // 处理公司
+	} else if (dara.state == "no") { // 无合同新增，不做操作
+		;
+	} else { // 编辑状态
 		var reInformation = getReceiptByReID(dara.reID);
 		$("#linkMan").val(reInformation.linkMan);
 		$("#startTime").val(reInformation.startTime);
 		$("#endTime").val(reInformation.endTime);
+		$("#accordingDoc").val(reInformation.accordingDoc);
 		$("#linkPhone").val(reInformation.linkPhone);
 	}
-	//无合同新增，不做操作
+	
+	
+}
+//上传文件预处理
+function submitFile() {
+	// loadingData();
+	fileObj.path = "";// filePath; //
+	// 文件上传路径，如果此参数没有值，则使用firstDirectoryName,secondDirectoryName,thirdDirectoryName
+	fileObj.fileTypeNumber = "1";// fileTypeNumber; // 文件类型
+	fileObj.firstDirectoryName = "项目文件";// fileFirstDirectory; // 一级目录
+	fileObj.secondDirectoryName = obj.proID;// fileSecondDirectory; // 二级目录
+	fileObj.thirdDirectoryName = "交接单文件";// fileThirdDirectory //三级目录
+	fileObj.belongtoID = obj.reID;
+	fileObj.otherInfo = "";// fileOtherInfo; // 其他参数
+	fileObj.remarks = $("#fileremarks-u").val();// fileRemarks; // 备注
+	// 文件上传
+	fileUpload("#file_upload", fileObj.filePath, fileObj.fileTypeNumber,
+			fileObj.belongtoID, fileObj.firstDirectoryName,
+			fileObj.secondDirectoryName, fileObj.thirdDirectoryName,
+			fileObj.otherInfo, fileObj.remarks);
+	setTimeout(refrehFileTable, 1000);
+
+}
+//文件上传成功后操作
+function refrehFileTable() {
+	$('#fileTable').bootstrapTable('refresh', null);
+	$('#file_uploadModal').modal("hide");
 }
 /**
  * 获取交接单的信息
+ * 
  * @param reID
  * @returns
  */
-function getReceiptByReID(reID){
-	var data ;
- $.ajax({
-	url : '/laboratorySystem/receiptlistController/getReceiptByReID.do',
-	dataType : "json",
-	async : false,
-	data : {
-		reID : reID
-	},
-	success : function(o) {
-		 data = JSON.parse(o);
-	},
-	error : function() {
-		return false;
-	}
- });
+function getReceiptByReID(reID) {
+	var data;
+	$.ajax({
+		url : '/laboratorySystem/receiptlistController/getReceiptByReID.do',
+		dataType : "json",
+		async : false,
+		data : {
+			reID : reID
+		},
+		success : function(o) {
+			data = JSON.parse(o);
+		},
+		error : function() {
+			return false;
+		}
+	});
 	return data;
 }
-// 有合同新增状态
+// 有公司展示--有合同新增，编辑状态
 function dealHaveCom(dara) {
-	var data ;
+	var data;
 	$.ajax({
 		url : '/laboratorySystem/companyController/getCompanyInformation.do',
 		dataType : "json",
@@ -163,7 +122,7 @@ function dealHaveCom(dara) {
 			comID : dara.comID
 		},
 		success : function(o) {
-			 data = JSON.parse(o);
+			data = JSON.parse(o);
 			if (data != false) {
 				$("#companyName").val(data.companyName);
 				$("#address").val(data.address);
@@ -178,12 +137,7 @@ function dealHaveCom(dara) {
 	$("#companyName").attr("disabled", true);
 	$("#address").attr("disabled", true);
 }
-/*function chooseFileNum(edu){
-	chen.alert($(edu).val());
-	console.log(edu);
-	chen.alert(edu.val());
-	chen.alert(edu.value());
-}*/
+
 /**
  * 检测项目的事件-遮罩，点击，选取
  */
@@ -266,12 +220,13 @@ function initTestProject_event() {
 	});
 
 }
-//自动搜索样品编号
-function set_alert_wb_comment(the,state){
+
+// 自动搜索样品编号
+function set_alert_wb_comment(the, state) {
 	var sampleCode = $(the).val();
-	var html='<ul class="list_sampleCode">';
+	var html = '<ul class="list_sampleCode">';
 	var list_data;
-	$(".tip-factory .tip-factory-content").html("");//清空原来的数据
+	$(".tip-factory .tip-factory-content").html("");// 清空原来的数据
 	$.ajax({
 		url : '/laboratorySystem/sampleController/getSampleListByCodeLimit.do',
 		dataType : "json",
@@ -287,28 +242,28 @@ function set_alert_wb_comment(the,state){
 			return false;
 		}
 	});
-	for(var i = 0 ; i < list_data.length ; i++){
-		html+='<li onclick="inputSample(this,\''+state+'\',\''+list_data[i].ID+'\')">'+list_data[i].sampleCode+'</li>';
+	for (var i = 0; i < list_data.length; i++) {
+		html += '<li onclick="selectSample(this,\'' + state + '\',\''
+				+ list_data[i].ID + '\')">' + list_data[i].sampleCode + '</li>';
 	}
-	html+='</ul>';
+	html += '</ul>';
 	$(".tip-factory .tip-factory-content").html(html);
-	$(".list_sampleCode").css("display","block");
+	$(".list_sampleCode").css("display", "block");
 }
-function inputSample(the,state,sampleID){
+//选择搜索出来的样品后的操作
+function selectSample(the, state, sampleID) {
 	var sampleCode = $(the).text();
-	if(state == "add")
-		{
-		 
-		 $("#addSampleCode").val(sampleCode);
-		 $("#addSampleID").val(sampleID);
-		}
-	else {
+	if (state == "add") {
+
+		$("#addSampleCode").val(sampleCode);
+		$("#addSampleID").val(sampleID);
+	} else {
 		$("#editSampleCode").val(sampleCode);
-		 $("#editSampleID").val(sampleID);
+		$("#editSampleID").val(sampleID);
 	}
-	$(the).parent().css("display","none"); //隐藏搜索面板
-	isExitSample(sampleCode); //填充数据--并设置相关属性
-	
+	$(the).parent().css("display", "none"); // 隐藏搜索面板
+	isExitSample(sampleCode); // 填充数据--并设置相关属性--避免搜索后不选择
+
 }
 // 拼装项目列表html
 function playTestProjectHtml(data, testNamevalue, isAdd) {
@@ -356,52 +311,81 @@ function getTestLisk() {
 }
 // 初始事件
 function initEvent() {
-	initTestProject_event(); //检测项目的事件-遮罩，点击，选取
-	initAddTask_event();//打开新增任务框清除数据事件
-	initSampleCode_event();//  初始出厂编码填写框失去焦点事件
+	initTestProject_event(); // 检测项目的事件-遮罩，点击，选取
+	initAddTask_event();// 打开新增任务框清除数据事件
+	initSampleCode_event();// 初始出厂编码填写框失去焦点事件
 	initSaveAndSubmitRe_event(); // 保存或提交交接单
+	window.onbeforeunload = function() {
+		onbeforeunload_handler();
+		return;
+	};
+}
+// 删除之前操作新增的数据
+function onbeforeunload_handler() {
+	var param = {};
+	if (obj.isCreate == true)  //不删除
+		param.create = 0;
+	else {
+		param.create = 1;
+		param.reID = obj.reID;
+		param.coID = obj.coID;
+		param.proID = obj.proID;
+		param.state = obj.state;
+		$.ajax({
+					url : '/laboratorySystem/receiptlistController/deleteNewReceipt.do',
+					dataType : "json",
+					type : "post",
+					contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
+					async : false,
+					data : param,
+					success : function(o) {
+					       ;
+					},
+					error : function() {
+						chen.alert(" 保存交接单失败");
+					}
 
+				});
+	}
 }
 function initSaveAndSubmitRe_event() {
 	$("#linkPhone").blur(function() {
-		if ($(this).val() == null || $(this).val().trim() == "")
-			{
-			 chen.alert("联系人电话不能为空");
-			}
-		else if (!isNoramlPhone($(this).val().trim()))
-			{
-			 chen.alert("联系人电话格式不正确");
-			}
+		if ($(this).val() == null || $(this).val().trim() == "") {
+			chen.alert("联系人电话不能为空");
+		} else if (!isNoramlPhone($(this).val().trim())) {
+			chen.alert("联系人电话格式不正确");
+		}
 	});
 
 	$("#linkMan").blur(function() {
-		if ($(this).val() == null || $(this).val().trim() == "")
-			 {
-			    chen.alert("联系人不能为空");
-			    return ;
-			 }
+		if ($(this).val() == null || $(this).val().trim() == "") {
+			chen.alert("联系人不能为空");
+			return;
+		}
 	});
-	$("#companyName").blur(function() {
-		if ($(this).val() == null || $(this).val().trim() == "")
-			chen.alert("公司名字不能为空");
-	});
+	
+	 $("#companyName").blur(function() {
+		 $("#companyContainer").css("display","none");
+		 
+     });
+	 
 	$("#address").blur(function() {
 		if ($(this).val() == null || $(this).val().trim() == "")
 			chen.alert("公司通讯地址不能为空");
 	});
 
-	$(".footer button").click(function() { //保存和提交按钮的点击操作
-		        dealReSave();
-				
-			});
+	$(".footer button").click(function() { // 保存和提交按钮的点击操作
+		dealReSave();
+
+	});
 }
-//处理交接单的保存和提交事件
-function dealReSave(){
+// 处理交接单的保存和提交事件
+function dealReSave() {
 	var btnName = "";
 	var param = {};
-	var data ;
+	var data;
 	btnName = $(this).text();
-	
+
 	param.addState = obj.addState;
 	param.companyName = $("#companyName").val().trim();
 	param.address = $("#address").val().trim();
@@ -412,71 +396,118 @@ function dealReSave(){
 	param.accordingDoc = $("#accordingDoc").val().trim();
 	param.reID = obj.reID;
 	param.coID = obj.coID;
-	if(vaildInputData(param) == false)
-	{
-	    return ;
+	if (vaildInputData(param) == false) {
+		return;
 	}
+	obj.isCreate = true;
 	if (btnName == "保存")
 		param.saveState = "save";
-	else
-		{
-		   param.saveState = "submit";			
-		}
-	$.ajax({
-			url : '/laboratorySystem/receiptlistController/saveSubmitReceipt.do',
+	else {
+		param.saveState = "submit";
+	}
+	$
+			.ajax({
+				url : '/laboratorySystem/receiptlistController/saveSubmitReceipt.do',
+				dataType : "json",
+				type : "post",
+				contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
+				async : false,
+				data : param,
+				success : function(o) {
+					data = JSON.parse(o);
+					if (data == true)
+						window.location = "./module/jsp/receiptlistManage/receiptlistManage.jsp";
+				},
+				error : function() {
+					chen.alert(" 保存交接单失败");
+				}
+
+			});
+
+}
+// 验证数据是否合理或者是否输入
+function vaildInputData(param) {
+	if (param.linkMan == null || param.linkMan == undefined
+			|| param.linkMan == "") {
+		chen.alert("联系人为空");
+		return false;
+	}
+	if (param.startTime == null || param.startTime == undefined
+			|| param.startTime == "") {
+		chen.alert("委托时间为空");
+		return false;
+	}
+
+	if (param.endTime == null || param.endTime == undefined
+			|| param.endTime == "") {
+		chen.alert("结束时间为空");
+		return false;
+	}
+	if (param.endTime <= param.startTime) {
+		chen.alert("时间先后顺序选择错误");
+		return false;
+	}
+	if (param.companyName == null || param.companyName == undefined
+			|| param.companyName == "") {
+		chen.alert("请选择委托单位");
+		return false;
+	}
+	/*if (param.address == null || param.address == undefined
+			|| param.address == "") {
+		chen.alert("通讯地址为空");
+		return false;
+	}*/
+
+	if (!isNoramlPhone(param.linkPhone)) {
+		chen.alert("联系人电话格式不正确");
+		return false;
+	}
+	return true;
+}
+// 搜索公司名称
+function searchCompany() {
+	var companyName = $("#companyName").val();
+	if (companyName != null && companyName != "") {
+		$.ajax({
+			url : '/laboratorySystem/companyController/getComListByName.do',
 			dataType : "json",
 			type : "post",
 			contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
 			async : false,
-			data : param,
+			data : {
+				companyName : companyName
+			},
 			success : function(o) {
-				 data = JSON.parse(o);
-				if (data == true)
-					window.location = "./module/jsp/receiptlistManage/receiptlistManage.jsp";
+				data = JSON.parse(o);
+				// $(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框
+				if (data != null && data.length != 0)
+					showCompanylist(data);
 			},
 			error : function() {
-				chen.alert(" 保存交接单失败");
+				chen.alert(" 没有搜索到该样品");
 			}
-
 		});
-
+	}
 }
-//验证数据是否合理或者是否输入
-function vaildInputData(param){
-	if(param.linkMan == null ||param.linkMan == undefined || param.linkMan == ""){
-		chen.alert("联系人为空");
-		return false;
+//展示在DOM树中
+function showCompanylist(data){
+	$("#companyContainer").css("display","block");
+	$("#over_company ul").html("");//清空以前的列表数据
+	var html = "";
+	for (var i = 0; i < data.length; i++) {
+		 html += "<li onclick='selectedCompany(" + JSON.stringify(data[i]) + ")'>"
+			+ data[i].companyName + "</li>";
 	}
-	if(param.startTime == null ||param.startTime == undefined || param.startTime == ""){
-		chen.alert("委托时间为空");
-		return false;
-	}
-	
-	if(param.endTime == null ||param.endTime == undefined || param.endTime == ""){
-		chen.alert("结束时间为空");
-		return false;
-	}
-	if(param.endTime <= param.startTime ){
-		chen.alert("时间先后顺序选择错误");
-		return false;
-	}
-	if(param.companyName == null ||param.companyName == undefined || param.companyName == ""){
-		chen.alert("委托单位为空");
-		return false;
-	}
-	if(param.address == null ||param.address == undefined || param.address == ""){
-		chen.alert("通讯地址为空");
-		return false;
-	}
-	
-	if(!isNoramlPhone(param.linkPhone))
-	{
-	  chen.alert("联系人电话格式不正确");
-	  return false;
-	}
-	return true;
+	$("#over_company ul").html(html);
 }
-// 输入样品编号检查样品库是否存在
+//选择公司名字后处理
+function selectedCompany(company){
+	$("#companyContainer").css("display","none");
+	$("#companyName").val(company.companyName);
+	obj.comID = company.ID;
+	$("#address").val(company.address);
+}
+// 输入样品编号检查样品库是否存在--避免选择后重新输入没有的样品
 function isExitSample(sampleCode) {
 	var data;
 	$.ajax({
@@ -490,7 +521,7 @@ function isExitSample(sampleCode) {
 		},
 		success : function(o) {
 			data = JSON.parse(o);
-			//$(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框
+			// $(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框
 		},
 		error : function() {
 			chen.alert(" 没有搜索到该样品");
@@ -512,7 +543,8 @@ function isExitSample(sampleCode) {
 		$("#editSampleStyle").attr("disabled", true);
 		$("#editUnit").attr("disabled", true);
 		// 设置不可编辑--新增
-		$("#addSampleName").attr("disabled", true); //$("#addSampleName").attr("readonly", true);
+		$("#addSampleName").attr("disabled", true); // $("#addSampleName").attr("readonly",
+		// true);
 		$("#addSampleStyle").attr("disabled", true);
 		$("#addUnit").attr("disabled", true);
 
@@ -538,46 +570,36 @@ function isExitSample(sampleCode) {
 }
 // 初始出厂编码填写框失去焦点事件
 function initSampleCode_event() {
-	var sampleCode = "";
-/*	var fn1 = $("#editSampleCode").blur(function(){
-		if($("#editSampleCode").val() == "")
-		{  
-			// chen.alert("样品编号不能为空");
-			//sample_global.isAddEdit = false;
-			//$(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框
-		}
-		else setTimeout(isExitSample($("#addSampleCode").val()),400);
-	});
-	var fn1 = $(document).on("blur", "#editSampleCode", function() {  //需要blur事件填充剩余的数据
-	
-		if($("#editSampleCode").val() == "")
-		{  
-			// chen.alert("样品编号不能为空");
-			//sample_global.isAddEdit = false;
-			//$(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框
-		}
-		else isExitSample($("#editSampleCode").val());
-	});
-	var fn2 = $("#addSampleCode").blur(function(){
-		if($("#addSampleCode").val() == "")
-		{
-			//chen.alert("样品编号不能为空");
-			//sample_global.isAddEdit = false;
-			//$(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框
-		}
-		else setTimeout(isExitSample($("#addSampleCode").val()),400);
-	});*/
-	/*var fn2 = $(document).on("blur", "#addSampleCode", function() {
-		if($("#addSampleCode").val() == "")
-		{
-			//chen.alert("样品编号不能为空");
-			//sample_global.isAddEdit = false;
-			//$(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框
-		}
-		else isExitSample($("#addSampleCode").val());
-	});*/
-	/*setTimeout(fn1,200);
-	setTimeout(fn2,200);*/
+    
+	    
+	  var fn1 = $("#editSampleCode").blur(function(){
+		    $(".list_sampleCode").css("display", "block");  //隐藏面板
+	     });
+	/* if($("#editSampleCode").val() == "") { // chen.alert("样品编号不能为空");
+	 //sample_global.isAddEdit = false;
+	 //$(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框 } else
+	 setTimeout(isExitSample($("#addSampleCode").val()),400); }); var fn1 =
+	 $(document).on("blur", "#editSampleCode", function() { //需要blur事件填充剩余的数据
+	 
+	 if($("#editSampleCode").val() == "") { // chen.alert("样品编号不能为空");
+	 //sample_global.isAddEdit = false;
+	 //$(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框 } else
+	 isExitSample($("#editSampleCode").val()); }); var fn2 =
+	 $("#addSampleCode").blur(function(){ if($("#addSampleCode").val() == "") {
+	 //chen.alert("样品编号不能为空"); //sample_global.isAddEdit = false;
+	 //$(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框 } else
+	 setTimeout(isExitSample($("#addSampleCode").val()),400); });*/
+	 
+	/*
+	 * var fn2 = $(document).on("blur", "#addSampleCode", function() {
+	 * if($("#addSampleCode").val() == "") { //chen.alert("样品编号不能为空");
+	 * //sample_global.isAddEdit = false;
+	 * //$(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框 } else
+	 * isExitSample($("#addSampleCode").val()); });
+	 */
+	/*
+	 * setTimeout(fn1,200); setTimeout(fn2,200);
+	 */
 }
 /**
  * 打开新增任务框清除数据事件
@@ -593,279 +615,283 @@ function initAddTask_event() {
 		$("#addTaskModal").modal('show');
 	});
 }
-//时间验证
-function vaildSelected(startTime ,endTime){
-	if(endTime > startTime)
+// 时间验证
+function vaildSelected(startTime, endTime) {
+	if (endTime > startTime)
 		return true;
-	else return false;
+	else
+		return false;
 }
 // 初始文件
 function initFile() {
 	var order = 0;
-	$('#fileTable') .bootstrapTable(
-			{
+	$('#fileTable')
+			.bootstrapTable(
+					{
 						// 定义表格的高度height: 500,
-				striped : true,// 隔行变色效果
-				pagination : true,// 在表格底部显示分页条
-				pageSize : 5,// 页面数据条数
-				pageNumber : 1,// 首页页码
-				pageList : [ 5, 10, 15 ],// 设置可供选择的页面数据条数
-				clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和
-				// checkbox
-				cache : false,// 禁用 AJAX 数据缓存
-				sortName : 'ID',// 定义排序列
-				sortOrder : 'asc',// 定义排序方式 getRceiptlistWithPaging
-				url : '/laboratorySystem/receiptlistController/getReFiletByReID.do',// 服务器数据的加载地址
-				sidePagination : 'server',// 设置在哪里进行分页
-				method : "post",
-				dataType : "json",// 服务器返回的数据类型
-				contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
-				queryParams : function queryParams(params) {
-					var param = {};
-					param.limit = params.limit;// 页面大小 param.offset=
-					// params.offset; //偏移量
-					param.search = "";
-					param.offset = params.offset;
-					order = params.offset + 1; // 偏移量是从0开始
-					param.sort = params.sort; // 排序列名
-					param.order = params.order;// 排位命令（desc，asc）
-					param.reID = obj.reID;
-					return param;
-				}, // 请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
-				selectItemName : '',// radio or checkbox 的字段名
-				onLoadSuccess : function(data) {
-					checkDate(data, "file");
-					console.log(data);
-				},
-				columns : [
-						{
-							title : '序号',// 列名
-							align : 'center',// 水平居中显示
-							valign : 'middle',// 垂直居中显示
-							width : '5%',// 宽度
-							visible : true,
-							formatter : function(value, row, index) {
-								chenkDataFile(row);
-								return order++;
-							}
+						striped : true,// 隔行变色效果
+						pagination : true,// 在表格底部显示分页条
+						pageSize : 5,// 页面数据条数
+						pageNumber : 1,// 首页页码
+						pageList : [ 5, 10, 15 ],// 设置可供选择的页面数据条数
+						clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和
+						// checkbox
+						cache : false,// 禁用 AJAX 数据缓存
+						sortName : 'ID',// 定义排序列
+						sortOrder : 'asc',// 定义排序方式 getRceiptlistWithPaging
+						url : '/laboratorySystem/receiptlistController/getReFiletByReID.do',// 服务器数据的加载地址
+						sidePagination : 'server',// 设置在哪里进行分页
+						method : "post",
+						dataType : "json",// 服务器返回的数据类型
+						contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
+						queryParams : function queryParams(params) {
+							var param = {};
+							param.limit = params.limit;// 页面大小 param.offset=
+							// params.offset; //偏移量
+							param.search = "";
+							param.offset = params.offset;
+							order = params.offset + 1; // 偏移量是从0开始
+							param.sort = params.sort; // 排序列名
+							param.order = params.order;// 排位命令（desc，asc）
+							param.reID = obj.reID;
+							return param;
+						}, // 请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
+						selectItemName : '',// radio or checkbox 的字段名
+						onLoadSuccess : function(data) {
+							checkDate(data, "file");
+							console.log(data);
 						},
-						{
-							field : 'ID',// 返回值名称
-							title : 'fileID',// 列名
-							align : 'center',// 水平居中显示
-							valign : 'middle',// 垂直居中显示
-							width : '10%',// 宽度
-							visible : false
-						},
-						{
-							field : 'fileName',// 返回值名称
-							title : '文件名',// 列名
-							align : 'center',// 水平居中显示
-							valign : 'middle',// 垂直居中显示
-							width : '15%',// 宽度
-						},
-						{
-							field : 'remarks',// 返回值名称
-							title : '备注',// 列名
-							align : 'center',// 水平居中显示
-							valign : 'middle',// 垂直居中显示
-							width : '20%'// 宽度
-						},
-						{
-							field : 'uploadName',// 返回值名称
-							title : '上传人',// 列名
-							align : 'center',// 水平居中显示
-							valign : 'middle',// 垂直居中显示
-							width : '15%'// 宽度
-						},
-						{
-							field : 'uploadTime',// 返回值名称
-							title : '上传时间',// 列名
-							align : 'center',// 水平居中显示
-							valign : 'middle',// 垂直居中显示
-							width : '15%'// 宽度
-						},
-						{
-							field : '',// 返回值名称
-							title : '操作',// 列名
-							align : 'center',// 水平居中显示
-							valign : 'middle',// 垂直居中显示
-							width : '20%',// 宽度
-							formatter : function(value, row, index) {
-								var dele = "", edit = "", download = "";
-								download =  "<img src=\"./module/img/download_icon.png\" alt=\"下载\" title=\"下载\"  onclick='download(\"" + row.ID+"\")'>";
-								
-								/*	'<button onclick= "download(\''
-										+ row.ID
-										+ '\')" data-toggle="tooltip" data-placement="top" title="下载"  class="glyphicon glyphicon-save" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></button>';
-								edit = '<button onclick= "editFile(\''
-										+ row.ID
-										+ '\')" data-toggle="tooltip" data-toggle="top"  title="编辑"  class="glyphicon glyphicon-edit" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></button>';
-								remove = '<button  onclick= "deleteFile(\''
-										+ row.ID
-										+ '\')" data-toggle="tooltip" data-placement="top" title="删除" class="glyphicon glyphicon-remove" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></button> ';
-						        */
-								edit = "<img src=\"./module/img/edit_icon.png\"  alt=\"编辑\" title=\"编辑\"  onclick='editFile(\""+row.ID+"\")'>";
-						        dele = "<img src=\"./module/img/delete_icon.png\" alt=\"删除\" title=\"删除\"  onclick='deleteFile(\""+row.ID+"\")'>";
-								return edit + dele + download ;
-							}
-						} ]
-			// 列配置项,详情请查看 列参数 表格
-			/* 事件 */
-			});
+						columns : [
+								{
+									title : '序号',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '5%',// 宽度
+									visible : true,
+									formatter : function(value, row, index) {
+										chenkDataFile(row);
+										return order++;
+									}
+								},
+								{
+									field : 'ID',// 返回值名称
+									title : 'fileID',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '10%',// 宽度
+									visible : false
+								},
+								{
+									field : 'fileName',// 返回值名称
+									title : '文件名',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '15%',// 宽度
+								},
+								{
+									field : 'remarks',// 返回值名称
+									title : '备注',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '20%'// 宽度
+								},
+								{
+									field : 'uploadName',// 返回值名称
+									title : '上传人',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '15%'// 宽度
+								},
+								{
+									field : 'uploadTime',// 返回值名称
+									title : '上传时间',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '15%'// 宽度
+								},
+								{
+									field : '',// 返回值名称
+									title : '操作',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '20%',// 宽度
+									formatter : function(value, row, index) {
+										var dele = "", edit = "", download = "";
+										download = "<img src=\"./module/img/download_icon.png\" alt=\"下载\" title=\"下载\"  onclick='download(\""
+												+ row.ID + "\")'>";
+										edit = "<img src=\"./module/img/edit_icon.png\"  alt=\"编辑\" title=\"编辑\"  onclick='editFile(\""
+												+ row.ID + "\")'>";
+										dele = "<img src=\"./module/img/delete_icon.png\" alt=\"删除\" title=\"删除\"  onclick='deleteFile(\""
+												+ row.ID + "\")'>";
+										return edit + dele + download;
+									}
+								} ]
+					// 列配置项,详情请查看 列参数 表格
+					/* 事件 */
+					});
 }
 /**
  * 下载文件
+ * 
  * @param fileID
  */
-function download(fileID){
-	downOneFile(fileID) ;
+function download(fileID) {
+	downOneFile(fileID);
 }
 
 // 初始样品数据表格
 function initSample() {
 	var order = 0;
-	$('#sampleTable') .bootstrapTable(
-		{
-				// 定义表格的高度height: 500,
-				striped : true,// 隔行变色效果
-				pagination : true,// 在表格底部显示分页条
-				pageSize : 5,// 页面数据条数
-				pageNumber : 1,// 首页页码
-				pageList : [ 5, 10, 15 ],// 设置可供选择的页面数据条数
-				clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和
-				// checkbox
-				cache : false,// 禁用 AJAX 数据缓存
-				sortName : 'ID',// 定义排序列
-				sortOrder : 'asc',// 定义排序方式 getRceiptlistWithPaging
-				url : '/laboratorySystem/receiptlistController/getTasklistByReID.do',// 服务器数据的加载地址
-				sidePagination : 'server',// 设置在哪里进行分页
-				method : "post",
-				dataType : "json",// 服务器返回的数据类型
-				contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
-				queryParams : function queryParams(params) {
-					var param = {};
-					param.limit = params.limit;// 页面大小 param.offset=
-					// params.offset; //偏移量
-					param.search = "";
-					param.offset = params.offset;
-					order = params.offset + 1; // 偏移量是从0开始
-					param.sort = params.sort; // 排序列名
-					param.order = params.order;// 排位命令（desc，asc）
-					param.reID = obj.reID;
-					return param;
-				}, // 请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
-				selectItemName : '',// radio or checkbox 的字段名
-				onLoadSuccess : function(data) {
-					// checkDate(data,"task");
-					console.log(data);
-				},
-				columns : [
-						{
-							title : '序号',// 列名
-							align : 'center',// 水平居中显示
-							valign : 'middle',// 垂直居中显示
-							width : '5%',// 宽度
-							visible : true,
-							formatter : function(value, row, index) {
-								chenkDataTask(row);
-								return order++;
-							}
+	$('#sampleTable')
+			.bootstrapTable(
+					{
+						// 定义表格的高度height: 500,
+						striped : true,// 隔行变色效果
+						pagination : true,// 在表格底部显示分页条
+						pageSize : 5,// 页面数据条数
+						pageNumber : 1,// 首页页码
+						pageList : [ 5, 10, 15 ],// 设置可供选择的页面数据条数
+						clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和
+						// checkbox
+						cache : false,// 禁用 AJAX 数据缓存
+						sortName : 'ID',// 定义排序列
+						sortOrder : 'asc',// 定义排序方式 getRceiptlistWithPaging
+						url : '/laboratorySystem/receiptlistController/getTasklistByReID.do',// 服务器数据的加载地址
+						sidePagination : 'server',// 设置在哪里进行分页
+						method : "post",
+						dataType : "json",// 服务器返回的数据类型
+						contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
+						queryParams : function queryParams(params) {
+							var param = {};
+							param.limit = params.limit;// 页面大小 param.offset=
+							// params.offset; //偏移量
+							param.search = "";
+							param.offset = params.offset;
+							order = params.offset + 1; // 偏移量是从0开始
+							param.sort = params.sort; // 排序列名
+							param.order = params.order;// 排位命令（desc，asc）
+							param.reID = obj.reID;
+							return param;
+						}, // 请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
+						selectItemName : '',// radio or checkbox 的字段名
+						onLoadSuccess : function(data) {
+							// checkDate(data,"task");
+							console.log(data);
 						},
-						{
-							field : 'ID',// 返回值名称
-							title : 'taskID',// 列名
-							align : 'center',// 水平居中显示
-							valign : 'middle',// 垂直居中显示
-							width : '10',// 宽度
-							visible : false
-						},
-						{
-							field : 'reID',// 返回值名称
-							title : '交接单ID',// 列名
-							align : 'center',// 水平居中显示
-							valign : 'middle',// 垂直居中显示
-							width : '10',// 宽度
-							visible : false
-						},
-						{
-							field : 'sampleID',// 返回值名称
-							title : '样品ID',// 列名
-							align : 'center',// 水平居中显示
-							valign : 'middle',// 垂直居中显示
-							width : '10',// 宽度
-							visible : false
-						},
-						{
-							field : 'factoryCode',// 返回值名称
-							title : '出厂编号',// 列名
-							align : 'center',// 水平居中显示
-							valign : 'middle',// 垂直居中显示
-							width : '13%'// 宽度
-						},
-						{
-							field : 'sampleName',// 返回值名称
-							title : '样品名称',// 列名
-							align : 'center',// 水平居中显示
-							valign : 'middle',// 垂直居中显示
-							width : '12%'// 宽度
-						},
-						{
-							field : 'sampleStyle',// 返回值名称
-							title : '型号/规格/代号',// 列名
-							align : 'center',// 水平居中显示
-							valign : 'middle',// 垂直居中显示
-							width : '10%'// 宽度
-						},
-						{
-							field : 'testName',// 返回值名称
-							title : '校准/检测项目',// 列名
-							align : 'center',// 水平居中显示
-							valign : 'middle',// 垂直居中显示
-							width : '15%'// 宽度
-						},
-						{
-							field : 'askFor',// 返回值名称
-							title : '要求描述',// 列名
-							align : 'center',// 水平居中显示
-							valign : 'middle',// 垂直居中显示
-							width : '15%'// 宽度
-						},
-						{
-							field : 'startTime',// 返回值名称
-							title : '录入时间',// 列名
-							align : 'center',// 水平居中显示
-							valign : 'middle',// 垂直居中显示
-							width : '15%'// 宽度
-						},
-						{
-							field : '',// 返回值名称
-							title : '操作',// 列名
-							align : 'center',// 水平居中显示
-							valign : 'middle',// 垂直居中显示
-							width : '15%',// 宽度
-							formatter : function(value, row, index) {
-								var dele = "", edit = "", print = "";
-								edit = "<button onclick='editTask("
-										+ JSON.stringify(row)
-										+ ")'"
-										+ " data-toggle='tooltip' data-toggle='top'  title='编辑'  class='glyphicon glyphicon-edit' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></button>";
-								remove = '<button  onclick= "deleteTask(\''
-										+ row.ID
-										+ '\')" data-toggle="tooltip" data-placement="top" title="删除" class="glyphicon glyphicon-remove" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></button> ';
-								print = "<img src=\"./module/img/printbarcode_icon.png\" alt=\"打印条形码\" title=\"打印条形码\" onclick='print(\"" + row.qrcode+"\")'>";
-								
-								/*	'<button onclick= "print('
-										+ row.qrcode
-										+ ')" data-toggle="tooltip" data-placement="top" title="打印条形码"  class="glyphicon glyphicon-save" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></button>';*/
-								edit = "<img src=\"./module/img/edit_icon.png\"  alt=\"编辑\" title='编辑' onclick='editTask("+JSON.stringify(row)+")'>";
-						        dele = "<img src=\"./module/img/delete_icon.png\" alt=\"删除\" title='删除' onclick='deleteTask(\""+row.ID+"\")'>";
-								return edit + dele + print;
-							}
-						} ]
-			// 列配置项,详情请查看 列参数 表格
-			/* 事件 */
-			});
+						columns : [
+								{
+									title : '序号',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '5%',// 宽度
+									visible : true,
+									formatter : function(value, row, index) {
+										chenkDataTask(row);
+										return order++;
+									}
+								},
+								{
+									field : 'ID',// 返回值名称
+									title : 'taskID',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '10',// 宽度
+									visible : false
+								},
+								{
+									field : 'reID',// 返回值名称
+									title : '交接单ID',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '10',// 宽度
+									visible : false
+								},
+								{
+									field : 'sampleID',// 返回值名称
+									title : '样品ID',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '10',// 宽度
+									visible : false
+								},
+								{
+									field : 'unit',// 返回值名称
+									title : '单位',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '10',// 宽度
+									visible : false
+								},
+								{
+									field : 'factoryCode',// 返回值名称
+									title : '出厂编号',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '13%'// 宽度
+								},
+								{
+									field : 'sampleName',// 返回值名称
+									title : '样品名称',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '12%'// 宽度
+								},
+								{
+									field : 'sampleStyle',// 返回值名称
+									title : '型号/规格/代号',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '10%'// 宽度
+								},
+								{
+									field : 'testName',// 返回值名称
+									title : '校准/检测项目',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '15%'// 宽度
+								},
+								{
+									field : 'askFor',// 返回值名称
+									title : '要求描述',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '15%'// 宽度
+								},
+								{
+									field : 'startTime',// 返回值名称
+									title : '录入时间',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '15%'// 宽度
+								},
+								{
+									field : '',// 返回值名称
+									title : '操作',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '15%',// 宽度
+									formatter : function(value, row, index) {
+										var dele = "", edit = "", print = "";
+										edit = "<button onclick='editTask("
+												+ JSON.stringify(row)
+												+ ")'"
+												+ " data-toggle='tooltip' data-toggle='top'  title='编辑'  class='glyphicon glyphicon-edit' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></button>";
+										remove = '<button  onclick= "deleteTask(\''
+												+ row.ID
+												+ '\')" data-toggle="tooltip" data-placement="top" title="删除" class="glyphicon glyphicon-remove" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></button> ';
+										print = "<img src=\"./module/img/printbarcode_icon.png\" alt=\"打印条形码\" title=\"打印条形码\" onclick='print(\""
+												+ row.qrcode + "\")'>";
+
+										edit = "<img src=\"./module/img/edit_icon.png\"  alt=\"编辑\" title='编辑' onclick='editTask("
+												+ JSON.stringify(row) + ")'>";
+										dele = "<img src=\"./module/img/delete_icon.png\" alt=\"删除\" title='删除' onclick='deleteTask(\""
+												+ row.ID + "\")'>";
+										return edit + dele + print;
+									}
+								} ]
+					// 列配置项,详情请查看 列参数 表格
+					/* 事件 */
+					});
 
 }
 
@@ -883,11 +909,11 @@ function editTask() {
 	$("#editAskFor").val(data.askFor);
 	$('#editTaskModal').modal('show');
 }
-//新增任务框按钮确定
+// 新增任务框按钮确定
 function addTaskModel() {
 	// 获取数据
 	var param = {};
-	var data ;
+	var data;
 	param.sampleCode = $("#addSampleCode").val(); // 后面方法验证
 	param.sampleName = $("#addSampleName").val();
 	param.sampleStyle = $("#addSampleStyle").val();
@@ -901,31 +927,31 @@ function addTaskModel() {
 	// 验证数据
 	if (valTaskData(param)) {
 		// 传输数据
-		$.ajax({
-				url : '/laboratorySystem/receiptlistController/addTaskAndSampleWithEdit.do',
-				dataType : "json",
-				type : "post",
-				contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
-				async : false,
-				data : param,
-				success : function(o) {
-					 data = JSON.parse(o);
-					if (data == true) {
-						$('#addTaskModal').modal('hide');
-						 $('#sampleTable').bootstrapTable('refresh',null);
-						chen.alert("任务新增成功");
-						
-					} else
-						chen.alert("任务新增失败");
-				},
-				error : function() {
-					return false;
-				}
-			});
+		$
+				.ajax({
+					url : '/laboratorySystem/receiptlistController/addTaskAndSampleWithEdit.do',
+					dataType : "json",
+					type : "post",
+					contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
+					async : false,
+					data : param,
+					success : function(o) {
+						data = JSON.parse(o);
+						if (data == true) {
+							$('#addTaskModal').modal('hide');
+							$('#sampleTable').bootstrapTable('refresh', null);
+							chen.alert("任务新增成功");
+
+						} else
+							chen.alert("任务新增失败");
+					},
+					error : function() {
+						return false;
+					}
+				});
 	} else { // 失败处理
 
 	}
-	 
 
 }
 // 验证样品的编号和名称的数据
@@ -946,7 +972,7 @@ function editTaskModel() {
 
 	// 获取数据
 	var param = {};
-	var data ;
+	var data;
 	param.sampleCode = $("#editSampleCode").val();
 	param.sampleName = $("#editSampleName").val();
 	param.sampleStyle = $("#editSampleStyle").val();
@@ -960,26 +986,27 @@ function editTaskModel() {
 	param.state = "edit";
 	// 验证数据是否合理
 	if (valTaskData(param)) {
-		$.ajax({
-				url : '/laboratorySystem/receiptlistController/addTaskAndSampleWithEdit.do',
-				dataType : "json",
-				type : "post",
-				async : false,
-				contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
-				data : param,
-				success : function(o) {
-					 data = JSON.parse(o);
-					if (data == true) {
+		$
+				.ajax({
+					url : '/laboratorySystem/receiptlistController/addTaskAndSampleWithEdit.do',
+					dataType : "json",
+					type : "post",
+					async : false,
+					contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
+					data : param,
+					success : function(o) {
+						data = JSON.parse(o);
+						if (data == true) {
 							$('#editTaskModal').modal('hide');
 							chen.alert("编辑任务成功");
-							$('#sampleTable').bootstrapTable('refresh',null);
-					} else
-						chen.alert("编辑任务失败");
-				},
-				error : function() {
-					return false;
-				}
-			});
+							$('#sampleTable').bootstrapTable('refresh', null);
+						} else
+							chen.alert("编辑任务失败");
+					},
+					error : function() {
+						return false;
+					}
+				});
 	} else {
 
 	}
@@ -1008,10 +1035,11 @@ function getTestTatol(isAdd) {
 // 编辑任务弹框确认
 function editFileModel() {
 	var param = {};
-	var data ;
+	var data;
 	param.fileID = $("#editFileID").val();
-	param.remarks = $("#fileRemarks").val();
-	$.ajax({
+	param.remarks = $("#fileremarks-e").val();
+	$
+			.ajax({
 				url : '/laboratorySystem/fileInformationController/updateRemarksByID.do',
 				dataType : "json",
 				type : "post",
@@ -1019,11 +1047,12 @@ function editFileModel() {
 				contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
 				data : param,
 				success : function(o) {
-			 		data = JSON.parse(o);
+					data = JSON.parse(o);
 					if (data == true) {
 						{
 							$('#editFileModal').modal('hide');
 							chen.alert("sucueessful");
+							$('#fileTable').bootstrapTable('refresh', null);
 						}
 					} else
 						chen.alert("FILE faire");
@@ -1033,7 +1062,7 @@ function editFileModel() {
 				}
 
 			});
-	  $('#fileTable').bootstrapTable('refresh',null);
+
 	// 获取ID
 	// 返回结果
 }
@@ -1042,34 +1071,34 @@ function editFile(fileID) {
 	$("#editFileID").val(fileID);
 	$('#editFileModal').modal('show');
 }
-//删除交接单的文件
+// 删除交接单的文件
 function deleteFile(fileID) {
-	var data ;
-   $.ajax({
-	url : '/laboratorySystem/fileInformationController/deleteFileByID.do',
-	dataType : "json",
-	async : false,
-	data : {
-		fileID : fileID
-	},
-	success : function(o) {
-		 data = JSON.parse(o); // error
-		if (data == true) {
-			chen.alert("文件删除成功");
-		} else {
-			chen.alert("文件删除失败 ");
+	var data;
+	$.ajax({
+		url : '/laboratorySystem/fileInformationController/deleteFileByID.do',
+		dataType : "json",
+		async : false,
+		data : {
+			fileID : fileID
+		},
+		success : function(o) {
+			data = JSON.parse(o); // error
+			if (data == true) {
+				chen.alert("文件删除成功");
+			} else {
+				chen.alert("文件删除失败 ");
+			}
+		},
+		error : function() {
+			return false;
 		}
-	},
-	error : function() {
-		return false;
-	}
-   });
-   $('#fileTable').bootstrapTable('refresh',null);
+	});
+	$('#fileTable').bootstrapTable('refresh', null);
 
 }
 // 删除任务
 function deleteTask(taskID) {
-	var data ;
+	var data;
 	$.ajax({
 		url : '/laboratorySystem/receiptlistController/deleteTaskByID.do',
 		dataType : "json",
@@ -1078,7 +1107,7 @@ function deleteTask(taskID) {
 			taskID : taskID
 		},
 		success : function(o) {
-			 data = JSON.parse(o); // error
+			data = JSON.parse(o); // error
 			if (data == true) {
 				chen.alert("任务删除成功 ");
 			} else {
@@ -1089,7 +1118,7 @@ function deleteTask(taskID) {
 			return false;
 		}
 	});
-	  $('#sampleTable').bootstrapTable('refresh',null);
+	$('#sampleTable').bootstrapTable('refresh', null);
 }
 // 检查任务数据和文件数据是否合理
 function checkDate(data, who) {

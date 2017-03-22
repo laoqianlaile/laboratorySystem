@@ -31,4 +31,16 @@
 .modal-footer .btn-primary:hover {
 	background-color: #0677b5;
 }
-
+.modal-dialog p{
+	font-size: 16px;
+    color: #000;
+    font-weight: bold;
+    margin: 0px;
+    padding: 0px;
+}
+.modal-dialog .col-xs-12 input  ,.modal-dialog .col-md-12 input{
+	height: 25px;
+}
+.modal-footer button{
+	font-size: 16px;
+}
