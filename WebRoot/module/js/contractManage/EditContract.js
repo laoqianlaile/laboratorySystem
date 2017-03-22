@@ -1305,7 +1305,7 @@ function addItem(){
 	var departmentName1 = $('#add_departmentName1').val();
 	var departmentName2 = $('#add_departmentName2').val();
 	var remarks = $('#add_remarks').val();
-		
+	
 	if (!fineItemCode && typeof(fineItemCode)!="undefined" && fineItemCode=='') 
 	{ 
 		swal("合同细项编号不能为空！"); 
@@ -1368,6 +1368,11 @@ function addItem(){
 		parame.number = 0;
 		parame.price = price2;
 		parame.money = hour * price2;
+	}
+	if (!remarks && typeof(remarks)!="undefined" && remarks=='') 
+	{ 
+		alert("备注为空！");
+	
 	}
 		parame.contractID = $('#edit_contractID').val();
 		parame.fineItemCode = fineItemCode;
@@ -1530,3 +1535,4 @@ $('.form_datetime_edit_Time').datetimepicker({
     forceParse: 0,
     format: 'yyyy.mm.dd'
 });
+	

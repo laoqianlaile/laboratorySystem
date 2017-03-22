@@ -152,6 +152,7 @@ function delData(){
 			  alert("删除失败");
 		  }
 		  refresh();
+		  swal("删除成功");
 	  }
 	});
 }

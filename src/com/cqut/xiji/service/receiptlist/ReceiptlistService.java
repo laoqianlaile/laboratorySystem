@@ -417,6 +417,7 @@ public class ReceiptlistService extends SearchService implements
 				task.setReceiptlistID(reID);
 				task.setSampleID(sampleID);
 				task.setStartTime(new Date());
+				task.setSaveState(0);
 				SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd");
 				format.format(new Date());
 				task.setTaskCode(sampleCode + ":" + ""
@@ -453,6 +454,7 @@ public class ReceiptlistService extends SearchService implements
 			task.setSampleID(sampleID);
 			task.setStartTime(new Date());
 			task.setAllotstate(0);
+			task.setSaveState(0);
 			task.setDetectstate(0);
 			return entityDao.save(task) == 1 ? "true" : "false";
 		}
@@ -544,6 +546,9 @@ public class ReceiptlistService extends SearchService implements
 				}
 			}
 		}
+		//将任务改为保存状态--是正常退出页面的
+		  String sql = "update task set task.saveState = 1 where task.receiptlistID ='"+reID+"' and  ( task.saveState = 0  or task.saveSave is null )";
+		  entityDao.runSql(sql);
 		return entityDao.updatePropByID(receiptlist, reID) == 1 ? "true"
 				: "false";
 	}
@@ -612,9 +617,11 @@ public class ReceiptlistService extends SearchService implements
 		if (reID == null || reID.equals("")) // 传输错误返回
 			return null;
 		String[] properties = new String[] { // 选择字段
-		"date_format(receiptlist.createTime,'%Y-%m-%e') as startTime",
-				"receiptlist.linkMan", "receiptlist.linkPhone",
-				"date_format(receiptlist.completeTime,'%Y-%m-%e') as endTime" };
+		                   "date_format(receiptlist.createTime,'%Y-%m-%e') as startTime",
+				           "receiptlist.linkMan", 
+				           "receiptlist.linkPhone",
+				           "receiptlist.accordingDoc",
+			               "date_format(receiptlist.completeTime,'%Y-%m-%e') as endTime" };
 		Map<String, Object> map = entityDao.findByID(properties, reID,
 				Receiptlist.class);
 		return map;
@@ -852,6 +859,13 @@ public class ReceiptlistService extends SearchService implements
 
 		return result;
 	}
+	/**
+	 * 
+	 * 初始化文件文件
+	 * @author wzj
+	 * @date 2017年3月20日 下午9:48:03
+	 *
+	 */
 	@SuppressWarnings("static-access")
 	@Override
 	public String initReceiptFile( String reID ,String coID,String proID ) {
@@ -1015,7 +1029,10 @@ public class ReceiptlistService extends SearchService implements
 			 fileEncryptService.encryptFile(cacheFilePath, savePath, fileInformation.getID());
 			 fileEncryptService.encryptPath(saveBasePath, fileInformation.getID());
 			 
-		
+			 //更新交接单--文件ID
+		    receiptlist.setReFile(fileInformation.getID());
+		    entityDao.updatePropByID(receiptlist, reID);
+			
 			 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -1043,11 +1060,38 @@ public class ReceiptlistService extends SearchService implements
 	public String downReceiptlist(String reID, String coID, String proID) {
 		// TODO Auto-generated method stub
 		//找交接单文件的fileID
-		String condition = " belongtoID = '"+reID+"' ORDER BY uploadTime";
-		List<FileInformation> list = entityDao.getByCondition(condition, FileInformation.class);
-		if(list !=null && list.size() > 0){
-			return list.get(0).getID();
-		}else 
-		return initReceiptFile(reID,coID, proID);
+		if(reID !=null && !reID.equals("")){
+			 Receiptlist receiptlist = entityDao.getByID(reID, Receiptlist.class);
+			 String reFileID = receiptlist.getReFile() ;
+			 if(reFileID != null && !reFileID.equals("")){
+				 return reFileID;
+			 }else{
+				 return initReceiptFile(reID,coID, proID);
+			 }
+		
+		}
+		else 
+		{
+			return initReceiptFile(reID,coID, proID);
+		}
+	}
+
+	@Override
+	public String deleteNewReceipt(String reID, String coID, String proID,String state) {
+		// TODO Auto-generated method stub
+		if(state != null && state.equals("no"))  //只有无合同新增的才删除合同和虚拟项目
+		  {
+		
+		    entityDao.deleteByID(coID, Contract.class);
+		    entityDao.deleteByID(proID, Project.class);
+		  }
+		   entityDao.deleteByID(reID, Receiptlist.class);
+		  //删除任务
+		  String taskCondition = " task.receiptlistID ='"+reID+"' and  ( task.saveState = 0  or task.saveState  is null )";
+		  entityDao.deleteByCondition(taskCondition, Task.class);
+		  //删除文件
+		/*  String fileCondition = " belongtoID ='"+reID+"' ";
+		  entityDao.deleteByCondition(fileCondition, FileInformation.class);*/
+		return "true";
 	}
 }

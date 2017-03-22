@@ -200,10 +200,15 @@ $(function() {
 										var btn_edit;
 										var btn_view;
 										var btn_dele;
+										if(state=="启用"){
 											btn_change ="<input type=\"image\" src=\"module/img/employeeManage/forbidden_icon.png\" onclick='changeState("+JSON.stringify(row)+")'>";
-											btn_edit='<input type="image" src="module/img/employeeManage/edit_icon.png" style="margin-left:10px;"onclick="openedit()"/>';
-											btn_view='<input type="image" src="module/img/employeeManage/view_icon.png" style="margin-left:10px;"onclick="view()"/>';
-											btn_dele='<input type="image" src="module/img/employeeManage/delete_icon.png" style="margin-left:10px;"onclick="del()"/>';
+										}
+										if(state=="禁用"){
+											btn_change ="<input type=\"image\" src=\"module/img/employeeManage/enable_icon.png\" onclick='changeState("+JSON.stringify(row)+")'>";
+										}
+											btn_edit ="<input type=\"image\" src=\"module/img/employeeManage/edit_icon.png\" style=\"margin-left:10px;\"  onclick='openedit("+JSON.stringify(row)+")'>";
+											btn_view ="<input type=\"image\" src=\"module/img/employeeManage/view_icon.png\" style=\"margin-left:10px;\"  onclick='view("+JSON.stringify(row)+")'>";
+											btn_dele ="<input type=\"image\" src=\"module/img/employeeManage/delete_icon.png\" style=\"margin-left:10px;\"  onclick='del(\""+row.ID+"\")'>";
 											return btn_change+btn_edit+btn_view+btn_dele;
 										
 									}
@@ -292,24 +297,17 @@ function changeState(data){
 }
 
 /* 查看方法 */
-function view() {
+function view(data) {
 
-	var data = $('#table').bootstrapTable('getSelections');
-
-	if (data.length == 0 || data.length > 1) {
-		alert("请选中一条数据");
-		return;
-	}
-
-	$('#employeeName').val(data[0].employeeName);
-	$('#employeeCode').val(data[0].employeeCode);
-	$('#email').val(data[0].email);
-	$('#phoneNumber').val(data[0].phoneNumber);
-	$('#address').val(data[0].address);
-	$('#dutyName').val(data[0].dutyName);
-	$('#name').val(data[0].name);
-	$('#departmentName').val(data[0].departmentName);
-	var sex = data[0].sex;
+	$('#employeeName').val(data.employeeName);
+	$('#employeeCode').val(data.employeeCode);
+	$('#email').val(data.email);
+	$('#phoneNumber').val(data.phoneNumber);
+	$('#address').val(data.address);
+	$('#dutyName').val(data.dutyName);
+	$('#name').val(data.name);
+	$('#departmentName').val(data.departmentName);
+	var sex = data.sex;
 
 	if (sex == "男") {
 		$("input[name='sex1'][value=1]").attr("checked", true);
@@ -323,22 +321,16 @@ function view() {
 }
 
 /* 打开修改框 */
-function openedit() {
+function openedit(data) {
 	var state = "edit";
-	var data = $('#table').bootstrapTable('getSelections');
-
-	if (data.length == 0 || data.length > 1) {
-		alert("请选中一条数据");
-		return;
-	}
-
-	$('#edit_employeeName').val(data[0].employeeName);
-	$('#edit_employeeCode').val(data[0].employeeCode);
-	$('#edit_email').val(data[0].email);
-	$('#edit_phoneNumber').val(data[0].phoneNumber);
-	$('#edit_address').val(data[0].address);
-	$('#edit_ID').val(data[0].ID);
-	var sex = data[0].sex;
+	
+	$('#edit_employeeName').val(data.employeeName);
+	$('#edit_employeeCode').val(data.employeeCode);
+	$('#edit_email').val(data.email);
+	$('#edit_phoneNumber').val(data.phoneNumber);
+	$('#edit_address').val(data.address);
+	$('#edit_ID').val(data.ID);
+	var sex = data.sex;
 
 	if (sex == "男") {
 		$("input[name='sex2'][value=1]").attr("checked", true);
@@ -587,26 +579,13 @@ function checkdata(data) {
 }
 
 /* 删除方法 */
-function del() {
-	var data = $('#table').bootstrapTable('getSelections');
-
-	if (data.length == 0) {
-		alert("请至少选中一条数据");
-		return;
-	}
-
-	var ids = "";
-	for (var i = 0; i < data.length; i++) {
-		ids += data[i].ID + ",";
-	}
-
-	var ajaxParameter = {
-		IDs : ids.substring(0, (ids.length - 1))
-	};
-
+function del(IDs) {
+	
 	$.ajax({
 		url : 'employeeController/delEmployee.do',
-		data : ajaxParameter,
+		 data:{
+			  IDs : IDs
+		  },
 		success : function(o) {
 			if (o <= 0) {
 				alert("删除失败");

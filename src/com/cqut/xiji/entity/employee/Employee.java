@@ -23,7 +23,26 @@ public class Employee extends Entity{
 	private Date createTime;
 	private int state;
 	private String dutyID;
+	private int permission;
+	private String singnature;
+	private String stamp;
 	
+	public String getSingnature() {
+		return singnature;
+	}
+
+	public void setSingnature(String singnature) {
+		this.singnature = singnature;
+	}
+
+	public String getStamp() {
+		return stamp;
+	}
+
+	public void setStamp(String stamp) {
+		this.stamp = stamp;
+	}
+
 	public String getID() {
 		return ID;
 	}	
@@ -146,5 +165,13 @@ public class Employee extends Entity{
 	public String getPrimaryKey() {
 		// TODO Auto-generated method stub
 		return "ID";
+	}
+
+	public int getPermission() {
+		return permission;
+	}
+
+	public void setPermission(int permission) {
+		this.permission = permission;
 	}
 }

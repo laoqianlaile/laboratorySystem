@@ -294,8 +294,8 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			String joinEntity = " left join role on employee.roleID = role.ID "
 					+ " left join department on employee.departmentID = department.ID "
 					+ " left join duty on employee.dutyID = duty.ID ";
-			
-			String condition = "1 = 1 ";
+			int permission=1;
+			String condition = "1 = 1 and employee.permission="+permission;
 			
 			if (employeeName != null && !employeeName.equals("")) {
 				condition += " and employee.employeeName like '%"
@@ -356,9 +356,11 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			employee.setPassword("123456");
 			employee.setState(0);
 			employee.setLevel(0);
+			employee.setPermission(1);
 			int result = entityDao.save(employee);
 			return result + "";
 		}
+		
 		/**
 		 * @description 删除员工
 		 * @author Hzz
@@ -448,7 +450,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			if(employeeID == null || employeeID.isEmpty()){
 				return null;
 			}
-			String condition = " 1 = 1 AND employee.ID = " + employeeID;
+			String condition = " 1 = 1 AND employee.ID = '" + employeeID+"'";
 			List<Map<String, Object>> result = originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false);
 			return result;
 		}

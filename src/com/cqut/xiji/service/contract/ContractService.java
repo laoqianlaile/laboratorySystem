@@ -673,7 +673,7 @@ public class ContractService extends SearchService implements IContractService{
 		String[] properties = new String[]{
 				"ID",
 				"contractName",
-				"signTime"
+				"DATE_FORMAT(signTime,'%Y-%m-%d') signTime"
 		};
 		String name = session.getAttribute("clientNo").toString();
 		System.out.println(name);

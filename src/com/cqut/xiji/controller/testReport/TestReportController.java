@@ -88,7 +88,7 @@ public class TestReportController {
 		}
 		Map<String, Object> result = service.getTestReporSecondtAuditWithPaging(
 				limit, offset, order, sort, receiptlistCode, client,
-				reportName, beginTime, endTime,auditPerson);
+				reportName, beginTime, endTime,selectPart,auditPerson);
 		return JSONObject.fromObject(result);
 	}
 
@@ -307,6 +307,21 @@ public class TestReportController {
 
 	/**
 	 * 
+     * @discription 检查当前审核状态是否可以进行操作
+     * @author zt       
+     * @created 2017-3-18 下午11:12:53     
+     * @param ID
+     * @return
+	 */
+	@RequestMapping("/auditOperateCheck")
+	@ResponseBody
+	public boolean auditOperateCheck(String ID) {
+		boolean result = service.auditOperateCheck(ID);
+		return result;
+	}
+	
+	/**
+	 * 
 	 * @discription 设置通过二审
 	 * @author zt
 	 * @created 2016-11-21 下午9:14:23
@@ -315,8 +330,8 @@ public class TestReportController {
 	 */
 	@RequestMapping("/secondPassReport")
 	@ResponseBody
-	public boolean secondPassReport(String ID,String taskID) {
-		boolean result = service.secondPassReport(ID,taskID);
+	public boolean secondPassReport(String ID, String taskID,String auditPassAgreement) {
+		boolean result = service.secondPassReport(ID,taskID,auditPassAgreement);
 		return result;
 	}
 

@@ -15,9 +15,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
 	<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
 		
 	
@@ -30,6 +27,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
  <link rel="stylesheet" href="module/css/changeACE.css" />
+  <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+ 		
+	<script src="module/js/sweetalert.min.js"></script>
 
 <style type="text/css">
 .fixed-table-container	.bs-checkbox {
@@ -62,6 +62,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 	border:1px solid #ccc;
 	 	border-top:none;
 	 	border-radius:3px;
+	 	z-index:99999;
+	 	background: #fff;
+	 	position:absolute;
 	}
 	.employeeN ul {
 		width:567px;
@@ -86,6 +89,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 	border:1px solid #ccc;
 	 	border-top:none;
 	 	border-radius:3px;
+	 	z-index:99999;
+	 	background: #fff;
+	 	position:absolute;
 	}
 	.employeeN1 ul {
 		width:567px;
@@ -104,6 +110,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	.employeeN1 ul li:hover{
 		background-color:#dcdcdc;
 	}
+	#add_getMan{
+     position:relative;
+	}
+	#add_returnMan{
+     position:relative;
+	}
+	#edit_returnMan{
+     position:relative;
+	}
+	#edit_getMan{
+     position:relative;
+	}
+	
+	
 		
 		
 		
@@ -136,10 +156,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  		<input class="form-control" id="linkgetMan">
   		</div>
   		<button type="button" id="search" class="btn btn-primary" onclick="find()">查询</button>
-  		<!-- <div class="item">
-			<label class="control-label">交接单号:</label>
-	  		<input class="form-control" id="linkreceiptlistCode">
-  		</div> -->
   		<div class="item">
 			<label class="control-label">型&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</label>
 	  		<input class="form-control" id="linkspecifications">
@@ -147,8 +163,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		</div>
   		
   		
-	<!-- <button type="button" id="search" class="btn btn-primary">查询</button>
- -->
+	
 	<!-- 功能按钮 -->
 	<div class="input-group" style="float: right;">
 		<button type="button" class="btn btn-primary glyphicon glyphicon-plus"
