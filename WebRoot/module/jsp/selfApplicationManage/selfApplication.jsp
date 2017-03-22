@@ -57,7 +57,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  <div id="isTouchReviewStatus" style="display: none;"></div>
      </div>
      <div class="col-xs-1 col-md-1">
-      <button class="btn btn-primary" id="search" onclick="formSearch1()">查询</button>
+      <button class="btn btn-primary glyphicon glyphicon-search" id="search" onclick="formSearch1()">&nbsp;查询</button>
      </div>
      <div class="col-xs-2 col-md-2">
        <button class="btn btn-primary" id="displayAll" onclick="displayAll()" style="margin-left:15px;">显示全部信息</button>
@@ -116,8 +116,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
              
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-    	    <button type="button" class="btn btn-primary" onclick="contact()">联系</button>
+    	    <button type="button" class="btn btn-primary sure" onclick="contact()">联系</button>
+	        <button type="button" class="btn btn-default newButton" data-dismiss="modal">关闭</button>
 	      </div>
 	    </div>
 	  </div>

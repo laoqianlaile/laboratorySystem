@@ -147,7 +147,7 @@ function search() {
 		reportName : $.trim($('#reportName').val()),
 		beginTime : $.trim($('#beginTime').val()),
 		endTime : $.trim($('#endTime').val()),
-		selectPart : $.trim($('#selectPart').val()),
+		selectPart : $.trim($('#selectPart').val())
 	};
 	$('#table').bootstrapTable('refresh', {
 		silent : true,
@@ -171,15 +171,15 @@ function submitReport() {
 				}, function(result) {
 					if (result == true || result == "true") {
 						refresh();
-						chen.alert("提交成功");
+						alert("提交成功");
 					} else {
 						refresh();
-						chen.alert("提交失败");
+						alert("提交失败");
 					}
 				});
 			} else {
 				refresh();
-				chen.alert("当前报告不可提交审核！请核对报告检测状态或是指定报告审核人");
+				alert("当前报告不可提交审核！请核对报告检测状态或是指定报告审核人");
 			}
 		});
 	}
@@ -214,7 +214,7 @@ function sendReportSure() {
 			alert("发送成功");
 		} else {
 			refresh();
-			chen.alert("发送失败");
+			alert("发送失败");
 		}
 	});
 	$("#sendReport").modal("hide");
@@ -224,11 +224,11 @@ function sendReportSure() {
 function recover() {
 	var rows = $("#table").bootstrapTable('getSelections');
 	if (rows.length == 0) {
-		chen.alert("请选择需要重新覆盖的文件");
+		alert("请选择需要重新覆盖的文件");
 		return;
 	}
 	if (rows.length > 1) {
-		chen.alert("请选择一条数据");
+		alert("请选择一条数据");
 		return;
 	} else {
 		$.post("testReportController/recoverCheck.do", {
@@ -238,7 +238,7 @@ function recover() {
 				fileUploadInit("#file_upload");
 				$("#recoverReport").modal("show");
 			} else {
-				chen.alert("当前审核状态不可以重新覆盖");
+				alert("当前审核状态不可以重新覆盖");
 			}
 		});
 	}
@@ -253,7 +253,7 @@ function recoverSure() {
 			ID : rows[0].fileID
 		}, function(result) {
 			if (result == null || result == "null") {
-				chen.alert("没有记录");
+				alert("没有记录");
 			} else {
 				result = JSON.parse(result);
 				var path = result[0].path;
@@ -286,10 +286,10 @@ function recoverSure() {
 		}, function(result) {
 			if (result == true || result == "true") {
 				refresh();
-				chen.alert("重新覆盖成功");
+				alert("重新覆盖成功");
 			} else {
 				refresh();
-				chen.alert("重新覆盖失败");
+				alert("重新覆盖失败");
 			}
 		});
 		$("#recoverReport").modal("hide");
@@ -300,11 +300,11 @@ function recoverSure() {
 function checkReport() {
 	var rows = $("#table").bootstrapTable('getSelections');
 	if (rows.length == 0) {
-		chen.alert("请选择要查看的检测报告");
+		alert("请选择要查看的检测报告");
 		return;
 	}
 	if (rows.length > 1) {
-		chen.alert("请选择一条数据");
+		alert("请选择一条数据");
 		return;
 	} else {
 		var testReportID = rows[0].ID;
@@ -328,7 +328,7 @@ function refresh() {
 		reportName : "",
 		beginTime : "",
 		endTime : "",
-		selectPart : "",
+		selectPart : ""
 	};
 	$("#table").bootstrapTable('refresh', {
 		silent : true,

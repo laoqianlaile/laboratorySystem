@@ -71,7 +71,7 @@
 	www*/
 }
 .ace-settings-container {
-	top: 110px;
+	top: 90px;
 	right:10px;
 }
 /* .treeview {
@@ -184,7 +184,7 @@ vertical-align: middle;
 	margin-left: 0;
 }
 
-/* .column{
+.column{
 	height: 100%;
 	line-height: 50px;
 	text-align: center;
@@ -192,8 +192,9 @@ vertical-align: middle;
 	color: #333;
 	list-style: none;
 	width: 80px;
+	font-weight:bold;
 }
 
 .icon{
 	margin: 0 10px;
-} */
+}

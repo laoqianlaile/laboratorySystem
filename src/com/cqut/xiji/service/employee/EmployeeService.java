@@ -450,7 +450,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			if(employeeID == null || employeeID.isEmpty()){
 				return null;
 			}
-			String condition = " 1 = 1 AND employee.ID = " + employeeID;
+			String condition = " 1 = 1 AND employee.ID = '" + employeeID+"'";
 			List<Map<String, Object>> result = originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false);
 			return result;
 		}

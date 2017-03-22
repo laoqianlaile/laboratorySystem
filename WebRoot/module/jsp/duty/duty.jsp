@@ -26,7 +26,9 @@
 <link rel="stylesheet" type="text/css"
 	href="module/css/timecheck/suggest.css">
 	<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
-		
+		 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+ 		
+	<script src="module/js/sweetalert.min.js"></script>
 	
 <script src="assets/js/autoPage.js"></script>
 

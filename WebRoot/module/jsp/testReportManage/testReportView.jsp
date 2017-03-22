@@ -19,12 +19,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
     <link rel="stylesheet" type="text/css" href="module/css/testReportManage/testReportView.css">
-    <link rel="stylesheet"  type="text/css" href="module/css/wait.css">
+	<link rel="stylesheet"  type="text/css" href="module/css/wait.css">
+	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+	<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
+
     
 	<script src="module/js/jquery-2.1.1.min.js"></script>
 	<script src="module/js/bootstrap.js"></script>
 	<script src="module/js/bootstrap-table.js"></script>
 	<script src="module/js/bootstrap-table-zh-CN.js"></script>
+    <script src="assets/js/autoPage.js"></script>
   </head>
   
    <body>
@@ -91,6 +95,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</div>
 		</div>
+		
+		<div class="footer">
+			<div class="col-xs-12 col-md-12 col-lg-12 ">
+				<div style="float:right;margin-top:10px;">
+					<button type="button" onclick="turnBack()" class="btn btn-primary">返回</button>
+				</div>
+			</div>
+		</div>
+
 	</div>
 
 	<div id="wait_img">
