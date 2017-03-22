@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
@@ -12,7 +13,6 @@ import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.equipmentVerify.EquipmentVerify;
 import com.cqut.xiji.service.base.SearchService;
-
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
 @Service
@@ -39,8 +39,8 @@ public class EquipmentVerifyService extends SearchService implements IEquipmentV
 	
 	@Override
 	public Map<String, Object> getEquipmentVerifyWithPaging(int limit, int offset,
-			String sort, String order,String equipmentName, 
-			String departmentName, String employeeName){
+			String sort, String order,String factoryCode,String equipmentName, 
+			String employeeName,String departmentName){
 		// TODO Auto-generated method stub
 				int index = limit;
 				int pageNum = offset/limit ;
@@ -71,12 +71,14 @@ public class EquipmentVerifyService extends SearchService implements IEquipmentV
 				String joinEntity = "LEFT JOIN employee ON a.verifyID = employee.ID " +
 									"LEFT JOIN testProject ON a.testProjectID = testProject.ID ";
 				String condition = " 1 = 1 "; 
-				if (equipmentName != null && !equipmentName.isEmpty()) {
+				if (factoryCode != null && !factoryCode.isEmpty()) {
+					factoryCode += " and a.factoryCode like '%" + factoryCode+ "%'";
+				}if (equipmentName != null && !equipmentName.isEmpty()) {
 					condition += " and a.equipmentName like '%" + equipmentName+ "%'";
-				}if (!departmentName.equals("0") && departmentName != null && !departmentName.isEmpty()) {
-					condition += " and a.departmentID ='" + departmentName + "'";
 				}if (employeeName != null && !employeeName.isEmpty()) {
 					condition += " and employee.employeeName like '%" + employeeName + "%'";
+				}if (!departmentName.equals("0") && departmentName != null && !departmentName.isEmpty()) {
+					condition += " and a.departmentID ='" + departmentName + "'";
 				}
 				List<Map<String, Object>> result = entityDao.searchWithpaging(
 						properties, baseEntity, joinEntity, null, condition, null,sort,

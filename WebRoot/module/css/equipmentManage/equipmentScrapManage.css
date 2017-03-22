@@ -103,5 +103,67 @@
     margin-right: 4px; 
 }
 .modal-body{
-	height:400px;
+	height:250px;
+}
+.modal-footer{
+	padding-right: 43px;
+}
+.equipmentName {
+	margin-left:17.65%;
+	position:absolute;
+	width:74%;
+	display: none;
+	border: 1px solid #ccc;
+	border-top: none;
+	border-radius: 3px;
+	background-color:#fff;
+	z-index: 10;
+}
+
+.equipmentName ul {
+	height: 30px;
+	border: none;
+	margin: 0;
+	margin-left: -40px;
+}
+
+.equipmentName ul li {
+	height: 30px;
+	line-height: 30px;
+	list-style-type: none;
+	text-indent: 12px;
+}
+
+.equipmentName ul li:hover {
+	background-color: #dcdcdc;
+}
+
+.employeeN {
+	margin-left:17.65%;
+	position:absolute;
+	width:74%;
+	display: none;
+	border: 1px solid #ccc;
+	border-top: none;
+	border-radius: 3px;
+	background-color:#fff;
+	z-index: 10;
+}
+
+.employeeN ul {
+	height: 30px;
+	border: none;
+	margin: 0;
+	margin-left: -40px;
+}
+
+.employeeN ul li {
+	height: 30px;
+	line-height: 30px;
+	list-style-type: none;
+	text-indent: 12px;
+}
+
+.employeeN ul li:hover {
+	background-color: #dcdcdc;
 }

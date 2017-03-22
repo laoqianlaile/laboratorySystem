@@ -21,8 +21,8 @@ public class EquipmentVerifyController{
 	
 	@RequestMapping("/getEquipmentVerifyWithPaging")  
     @ResponseBody
-	public JSONObject getEquipmentVerifyWithPaging(int limit, int offset, String sort, String order, String equipmentName, String departmentName,String employeeName){
-		Map<String, Object> result = service.getEquipmentVerifyWithPaging(limit,offset,sort,order,equipmentName,departmentName,employeeName);
+	public JSONObject getEquipmentVerifyWithPaging(int limit, int offset, String sort, String order, String factoryCode,String equipmentName, String employeeName,String departmentName){
+		Map<String, Object> result = service.getEquipmentVerifyWithPaging(limit,offset,sort,order,factoryCode,equipmentName,employeeName,departmentName);
 		return JSONObject.fromObject(result);
 	}
 	

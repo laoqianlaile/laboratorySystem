@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
@@ -41,7 +42,7 @@ public class EquipmentScrapService extends SearchService implements IEquipmentSc
 	
 	@Override
 	public Map<String, Object> getEquipmentScrapWithPaging(int limit, int offset,String sort,
-			String order, String model, String equipmentName,String departmentID){
+			String order, String equipmentName, String model, String employeeName,String departmentID){
 		// TODO Auto-generated method stub
 				int index = limit;
 				int pageNum = offset/limit ;
@@ -73,6 +74,8 @@ public class EquipmentScrapService extends SearchService implements IEquipmentSc
 					condition += " and b.equipmentName like '%" + equipmentName+ "%'";
 				}if (model != null && !model.isEmpty()) {
 					condition += " and b.model like '%" + model + "%'";
+				}if (!employeeName.equals("0") && employeeName != null && !employeeName.isEmpty()) {
+					condition += " and b.employeeName like '%" + employeeName+ "%'";
 				}if (!departmentID.equals("0") && departmentID != null && !departmentID.isEmpty()) {
 					condition += " and b.departmentID ='" + departmentID + "'";
 				}

@@ -1,3 +1,5 @@
+// 请求数据时的额外参数
+var param = {};
 
 $(function() {
 	searchSth();
@@ -10,20 +12,29 @@ function initData(){
 		//height : 800,// 定义表格的高度
 		striped : true,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
-	//	pageSize : 10,// 页面数据条数
+		pageSize : 3,// 页面数据条数
 		pageNumber : 1,// 首页页码
-		pageList : [ 5,10,15 ],// 设置可供选择的页面数据条数
+		pageList : [ 3,5,10,15 ],// 设置可供选择的页面数据条数
 		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache : false,// 禁用 AJAX 数据缓存
-	//	sortName : 'ID',// 定义排序列
-	//	sortOrder : 'asc',// 定义排序方式
+		sortName : 'factoryCode',// 定义排序列
+		sortOrder : 'asc',// 定义排序方式
 		url:'equipmentVerifyController/getEquipmentVerifyWithPaging.do',//服务器数据的加载地址
 		sidePagination:'server',//设置在哪里进行分页
 		contentType:'application/json',//发送到服务器的数据编码类型
 		dataType:'json',//服务器返回的数据类型
 	    //queryParams:search,//请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
-		queryParams: queryParams, //参数
-	    queryParamsType: "limit", 
+		queryParams: function queryParams(params) { //请求服务器数据时,添加一些额外的参数
+			param.limit = params.limit;// 页面大小
+			param.offset = params.offset; // 偏移量
+			param.sort = params.sort; // 排序列名
+			param.order = params.order; // 排位方式
+			param.factoryCode = $.trim($('#schFactoryCode').val());
+			param.equipmentName = $.trim($('#schEquipmentName').val());
+			param.employeeName = $.trim($('#schEmployeeName').val());
+			param.departmentName = $.trim($('#schDepartment').val());
+			return param;
+		}, //参数
 		selectItemName : '',// radio or checkbox 的字段名
 		columns : [ {
 			checkbox : true,
@@ -119,7 +130,7 @@ function initData(){
 	editSth();
 }
 
-//请求数据时的额外参数
+/*//请求数据时的额外参数
 function queryParams(){
 	var searchCondition = {
 		limit : 10,
@@ -131,7 +142,7 @@ function queryParams(){
 		employeeName : $.trim($('#schEmployeeName').val()),
 	};
     return searchCondition;
-}
+}*/
 
 /**
  * 搜索方法
@@ -150,14 +161,14 @@ function refresh(){
 function delData(){
 	var data = $('#table').bootstrapTable('getSelections');
 	if(data.length==0){
-		alert("请至少选中一条数据");
+		swal("请至少选中一条数据");
 		return;
 	}
 	var ids = "";
 	for(var i=0; i<data.length; i++){
 		ids += "ID = '" + data[i].ID + "' or ";
 	}
-	alert(ids.substring(0, (ids.length-3)));
+	swal(ids.substring(0, (ids.length-3)));
 	var ajaxParameter = {
 			equipmentVerifyids:ids.substring(0, (ids.length-3))	
 	};
@@ -168,7 +179,7 @@ function delData(){
 	  data:ajaxParameter,
 	  success:function(o){
 		  if(o<=0){
-			  alert("删除失败");
+			  swal("删除失败");
 		  }
 		  refresh();
 	  }
@@ -559,7 +570,6 @@ function editClick(){
 
 /* 新增方法 */
 function add(){
-	alert("add");
 	
 	var parame = {};
 	var factoryCode = $('#add_factoryCode').val();
@@ -576,42 +586,41 @@ function add(){
 		
 	if (!factoryCode && typeof(factoryCode)!="undefined" && factoryCode=='') 
 	{ 
-		alert("仪器设备编号不能为空！"); 
+		swal("仪器设备编号不能为空！"); 
 		return;
 	}
 	if (!equipmentName && typeof(equipmentName)!="undefined" && equipmentName=='') 
 	{ 
-		alert("仪器设备名称不能为空！");
+		swal("仪器设备名称不能为空！");
 		return;
 	}
 	if (!testProjectName && typeof(testProjectName)!="undefined" && testProjectName=='') 
 	{ 
-		alert("检测项目不能为空！");
+		swal("检测项目不能为空！");
 		return;
 	}
 	if (!accuracy && typeof(accuracy)!="undefined" && accuracy=='') 
 	{ 
-		alert("检测精度不能为空！");
+		swal("检测精度不能为空！");
 		return;
 	}
 	if (!departmentID && typeof(departmentID)!="undefined" && departmentID=='') 
 	{ 
-		alert("检测部门不能为空！");
+		swal("检测部门不能为空！");
 		return;
 	}
 	if (!employeeName && typeof(employeeName)!="undefined" && employeeName=='') 
 	{ 
-		alert("检测员不能为空！");
+		swal("检测员不能为空！");
 		return;
 	}
 	if (!result && typeof(result)!="undefined" && result=='') 
 	{ 
-		alert("检验结果不能为空！"); 
+		swal("检验结果不能为空！"); 
 		return;
 	}
 	if (!remarks && typeof(remarks)!="undefined" && remarks=='') 
 	{ 
-		alert("备注为空！");
 		remarks = "";
 	}
 	
@@ -628,7 +637,7 @@ function add(){
 		data:parame,
 		success:function(o){
 			if(o<=0){
-				alert("新增失败");
+				swal("新增失败");
 			}
 			$('#addModal').modal('hide');
 			refresh();
@@ -686,7 +695,7 @@ function editSth(){
 function openModal(){
 	var data = $('#table').bootstrapTable('getSelections');
 	if(data.length==0 || data.length>1){
-		alert("请选中一条数据");
+		swal("请选中一条数据");
 		return;
 	}
 	$('#edit_factoryCode').val(data[0].factoryCode);
@@ -728,12 +737,11 @@ function openModal(){
 
  //修改方法 
 function edit(){
-	alert("edit");
 	var data = $('#table').bootstrapTable('getSelections');
 	var ID = data[0].ID; 
 	if (!ID && typeof(ID)!="undefined" && ID=='') 
 	{ 
-		alert("仪器设备检验记录ID不能为空！"); 
+		swal("仪器设备检验记录ID不能为空！"); 
 	}else {
 		var parame = {};
 		var factoryCode = $('#edit_factoryCode').val();
@@ -750,40 +758,39 @@ function edit(){
 		
 		if (!factoryCode && typeof(factoryCode)!="undefined" && factoryCode=='') 
 		{ 
-			alert("仪器设备出厂编号不能为空！"); 
+			swal("仪器设备出厂编号不能为空！"); 
 			return;
 		}
 		if (!equipmentName && typeof(equipmentName)!="undefined" && equipmentName=='') 
 		{ 
-			alert("仪器设备名称不能为空！");
+			swal("仪器设备名称不能为空！");
 			return;
 		}
 		if (!testProjectName && typeof(testProjectName)!="undefined" && testProjectName=='') 
 		{ 
-			alert("检测项目不能为空！");
+			swal("检测项目不能为空！");
 			return;
 		}
 		if (!accuracy && typeof(accuracy)!="undefined" && accuracy=='') 
 		{ 
-			alert("检测精度不能为空！");
+			swal("检测精度不能为空！");
 			return;
 		}
 		if (!departmentID && typeof(departmentID)!="undefined" && departmentID=='') 
 		{ 
-			alert("检测部门不能为空！");
+			swal("检测部门不能为空！");
 			return;
 		}if (!employeeName && typeof(employeeName)!="undefined" && employeeName=='') 
 		{ 
-			alert("检测员不能为空！");
+			swal("检测员不能为空！");
 			return;
 		}if (!result && typeof(result)!="undefined" && result=='') 
 		{ 
-			alert("检验结果不能为空！"); 
+			swal("检验结果不能为空！"); 
 			return;
 		}
 		if (!remarks && typeof(remarks)!="undefined" && remarks=='') 
 		{ 
-			alert("备注为空！");
 			remarks = "";
 		}
 		
@@ -801,7 +808,7 @@ function edit(){
 		  data:parame,
 		  success:function(o){
 			  if(o<=0){
-				  alert("新增失败");
+				  swal("新增失败");
 			  }
 			  $('#editModal').modal('hide');
 			  refresh();
