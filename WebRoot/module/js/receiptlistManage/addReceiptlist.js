@@ -574,6 +574,7 @@ function initSampleCode_event() {
 	    
 	  var fn1 = $("#editSampleCode").blur(function(){
 		    $(".list_sampleCode").css("display", "block");  //隐藏面板
+		     isExitSample($(this).val()); //输入不点击搜索面板
 	     });
 	/* if($("#editSampleCode").val() == "") { // chen.alert("样品编号不能为空");
 	 //sample_global.isAddEdit = false;

@@ -23,7 +23,16 @@ public class Receiptlist extends Entity{
 	private String accordingDoc;
 	private int allotState;
 	private int isCreate ;
+	private String reFile ;
 	
+	public String getReFile() {
+		return reFile;
+	}
+
+	public void setReFile(String reFile) {
+		this.reFile = reFile;
+	}
+
 	public int getIsCreate() {
 		return isCreate;
 	}

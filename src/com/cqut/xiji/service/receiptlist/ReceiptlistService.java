@@ -1029,7 +1029,10 @@ public class ReceiptlistService extends SearchService implements
 			 fileEncryptService.encryptFile(cacheFilePath, savePath, fileInformation.getID());
 			 fileEncryptService.encryptPath(saveBasePath, fileInformation.getID());
 			 
-		
+			 //更新交接单--文件ID
+		    receiptlist.setReFile(fileInformation.getID());
+		    entityDao.updatePropByID(receiptlist, reID);
+			
 			 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -1057,12 +1060,20 @@ public class ReceiptlistService extends SearchService implements
 	public String downReceiptlist(String reID, String coID, String proID) {
 		// TODO Auto-generated method stub
 		//找交接单文件的fileID
-		String condition = " belongtoID = '"+reID+"' ORDER BY uploadTime";
-		List<FileInformation> list = entityDao.getByCondition(condition, FileInformation.class);
-		if(list !=null && list.size() > 0){
-			return list.get(0).getID();
-		}else 
-		return initReceiptFile(reID,coID, proID);
+		if(reID !=null && !reID.equals("")){
+			 Receiptlist receiptlist = entityDao.getByID(reID, Receiptlist.class);
+			 String reFileID = receiptlist.getReFile() ;
+			 if(reFileID != null && !reFileID.equals("")){
+				 return reFileID;
+			 }else{
+				 return initReceiptFile(reID,coID, proID);
+			 }
+		
+		}
+		else 
+		{
+			return initReceiptFile(reID,coID, proID);
+		}
 	}
 
 	@Override
