@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
@@ -40,9 +41,9 @@ public class EquipmentRepairService extends SearchService implements IEquipmentR
 	}
 	
 	@Override
-	public Map<String, Object> getEquipmentRepairWithPaging(int limit,
-			int offset, String sort, String order, String model,
-			String equipmentName, String employeeName){
+	public Map<String, Object> getEquipmentRepairWithPaging(int limit, int offset,
+			String sort, String order, String factoryCode, String equipmentName,
+			String model, String employeeName){
 		// TODO Auto-generated method stub
 				int index = limit;
 				int pageNum = offset/limit ;
@@ -68,6 +69,9 @@ public class EquipmentRepairService extends SearchService implements IEquipmentR
 									"LEFT JOIN employee ON equipmentrepair.employeeID = employee.ID) as a ";
 				String joinEntity = "LEFT JOIN equipment ON a.equipmentID = equipment.ID ";
 				String condition = " 1 = 1 "; 
+				if (factoryCode != null && !factoryCode.isEmpty()) {
+					condition += " and equipment.factoryCode like '%" + factoryCode+ "%'";
+				}
 				if (equipmentName != null && !equipmentName.isEmpty()) {
 					condition += " and equipment.equipmentName like '%" + equipmentName+ "%'";
 				}if (model != null && !model.isEmpty()) {
@@ -79,9 +83,7 @@ public class EquipmentRepairService extends SearchService implements IEquipmentR
 						properties, baseEntity, joinEntity, null, condition, null,sort,
 						order, index, pageNum);
 				System.out.println("result:"+result);
-				int count = entityDao.searchWithpaging(
-						properties, baseEntity, joinEntity, null, condition, null,sort,
-						order, index, pageNum).size();
+				int count = entityDao.searchForeign(properties, baseEntity, joinEntity, null, condition).size();
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("total", count);
 				map.put("rows", result);

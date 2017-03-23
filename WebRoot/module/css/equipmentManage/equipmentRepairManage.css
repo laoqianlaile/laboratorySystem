@@ -71,6 +71,12 @@
 .row label {
 	width: 28%;
 }
+.row .wide{
+	width: 35%;
+}
+.row .narrow{
+	width: 62%;
+}
 .row1 label {
     width: 18%;
     margin-top: 10px;

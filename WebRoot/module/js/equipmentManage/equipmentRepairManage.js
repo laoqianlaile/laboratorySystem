@@ -28,8 +28,9 @@ function initData(){
 			param.offset = params.offset; // 偏移量
 			param.sort = params.sort; // 排序列名
 			param.order = params.order; // 排位方式
-			param.model = $.trim($('#schModel').val());
+			param.factoryCode = $.trim($('#schFactoryCode').val());
 			param.equipmentName = $.trim($('#schEquipmentName').val());
+			param.model = $.trim($('#schModel').val());
 			param.employeeName = $.trim($('#schEmployeeName').val());
 			return param;
 		}, //参数
@@ -56,27 +57,26 @@ function initData(){
 			title:'设备出厂编号',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'12%',//宽度
+			width:'11%',//宽度
 //			visible:false
 		},{
 			field:'equipmentName',//返回值名称
 			title:'设备名称',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'13%'//宽度
+			width:'11%'//宽度
 		},{
 			field:'model',//返回值名称
 			title:'设备型号',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10',//宽度
-			visible:false
+			width:'6%',//宽度
 		},{
 			field:'useYear',//返回值名称
 			title:'使用年限',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'7%'//宽度
+			width:'6%'//宽度
 		},{
 			field:'beforeStatus',//返回值名称
 			title:'维修前状态',//列名
@@ -119,13 +119,13 @@ function initData(){
 			title:'维修费用',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'8%'//宽度
+			width:'7%'//宽度
 		},{
 			field:'remarks',//返回值名称
 			title:'备注',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'12%'//宽度
+			width:'11%'//宽度
 		}]//列配置项,详情请查看 列参数 表格
 		/*事件*/
 	});

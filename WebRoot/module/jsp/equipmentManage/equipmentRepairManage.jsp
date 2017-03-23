@@ -37,15 +37,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 	<div class="searchArea">
 		<div class="row">
-			<div class="col-xs-4 col-md-4 col-lg-4">
-				<label>设备型号:</label>
-				<input type="text" id="schModel" name="schModel" class="form-control" aria-describedby="basic-addon1" placeholder="请输入设备型号查找"/>
+			<div class="col-xs-3 col-md-3 col-lg-3">
+				<label class="wide">设备出厂编号:</label>
+				<input type="text" id="schFactoryCode" name="schFactoryCode" class="form-control narrow" aria-describedby="basic-addon1" placeholder="请输入设备名称查找"/>
 			</div>
-			<div class="col-xs-4 col-md-4 col-lg-4">
+			<div class="col-xs-3 col-md-3 col-lg-3">
 				<label>设备名称:</label>
 				<input type="text" id="schEquipmentName" name="schEquipmentName" class="form-control" aria-describedby="basic-addon1" placeholder="请输入设备名称查找"/>
 			</div>
-			<div class="col-xs-4 col-md-4 col-lg-4">
+			<div class="col-xs-3 col-md-3 col-lg-3">
+				<label>设备型号:</label>
+				<input type="text" id="schModel" name="schModel" class="form-control" aria-describedby="basic-addon1" placeholder="请输入设备型号查找"/>
+			</div>
+			
+			<div class="col-xs-3 col-md-3 col-lg-3">
 				<label>维修员:</label>
 				<input type="text" id="schEmployeeName" name="schEmployeeName" class="form-control" aria-describedby="basic-addon1" placeholder="请输入维修员查找"/>
 			</div>
