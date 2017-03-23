@@ -94,6 +94,19 @@
   color: #fff;
   background-color: rgb(255, 173, 51);
 }
+#showEquipments div {
+
+	position: relative;
+	width:200px;
+	margin:0px;
+	padding:0px;
+	border:0px;
+	z-index: 100;
+}
+#showEquipments option.form-control:hover {
+	background-color: #ccc;
+    color: #6fb3e0;
+}
 </style>
 <body>
 	<div class="container" style="width: 100%;">
@@ -157,52 +170,69 @@
 					</button>
 					<h4 class="modal-title">新增检测项目</h4>
 				</div>
-				<div>
-					<div class="col-md-12">
-						<div class="col-md-6 column">
-							<h4>中文名称：</h4>
-							<input type=" text" id="add_NAMECN" name="NAMECN"
-								class="form-control" aria-describedby="basic-addon1" />
-							<h4>所属科室：</h4>
-							<select class="form-control" id="add_DEPARTMENTID"
-								name="DEPARTMENTID"></select>
-							<h4>所属标准：</h4>
-							<select class="form-control" id="add_STANDARDID"
-								name="STANDARDID"></select>
+				<div class="modal-body" >
+					<div class="row">
+						<div class="col-md-12 col-xs-12" >
+							<div class="col-md-6 col-xs-6">
+								<h4>中文名称：</h4>
+								<input type=" text" id="add_NAMECN" name="NAMECN"
+									class="form-control" aria-describedby="basic-addon1" />
+								<h4>所属科室：</h4>
+								<select class="form-control" id="add_DEPARTMENTID"
+									name="DEPARTMENTID"></select>
+								<h4>所属标准：</h4>
+								<select class="form-control" id="add_STANDARDID"
+									name="STANDARDID"></select>
+							</div>
+							<div class="col-md-6 col-xs-6">
+								<h4>英文名称：</h4>
+								<input type=" text" id="add_NAMEEN" name="NAMEEN"
+									class="form-control" aria-describedby="basic-addon1" />
+								<h4>环境要求：</h4>
+								<input type=" text" id="add_ENVIRONMENTALREQUIREMENTS"
+									name="ENVIRONMENTALREQUIREMENTS" class="form-control"
+									aria-describedby="basic-addon1" />
+							</div>
 						</div>
-						<div class="col-md-6 column">
-							<h4>英文名称：</h4>
-							<input type=" text" id="add_NAMEEN" name="NAMEEN"
+						<div class="col-md-12 col-xs-12 ">
+							<h4>标准描述：</h4>
+							<input type=" text" id="add_DESCRIBE" name="DESCRIBE"
 								class="form-control" aria-describedby="basic-addon1" />
-							<h4>环境要求：</h4>
-							<input type=" text" id="add_ENVIRONMENTALREQUIREMENTS"
-								name="ENVIRONMENTALREQUIREMENTS" class="form-control"
-								aria-describedby="basic-addon1" />
-
+							<h4>备注：</h4>
+							<input type=" text" id="add_REMARKS" name="REMARKS"
+								class="form-control" aria-describedby="basic-addon1" />
+						</div>	
+						<div class="col-md-6 col-xs-6 ">
+							<h4>所需仪器：</h4>
+							<div id="displayChecked" style="width: 100%;height: 100px;border: 1px solid;"></div>
 						</div>
-					</div>
-					<div class="col-md-12 column">
-						<h4>标准描述：</h4>
-						<input type=" text" id="add_DESCRIBE" name="DESCRIBE"
-							class="form-control" aria-describedby="basic-addon1" />
-						<h4>备注：</h4>
-						<input type=" text" id="add_REMARKS" name="REMARKS"
-							class="form-control" aria-describedby="basic-addon1" />
-					</div>	
-					<div class="col-xs-12 col-md-12">
-						<h4>所需仪器：</h4>
-						<textarea id= "addTestProject" rows="6" cols="30" class="testProjectName" placeholder="选择所需仪器"></textarea>
-					</div>
-					
-					<!-- 所需仪器 -->
-					<div class="over" id ="addOver">
-						<div class="overChoose">
-							<!-- 隐藏滑动条 -->
-							<div class="choose">
-								<div class="row">
+						<!-- 新模式 -->
+						<div class = "col-md-6 col-xs-6 " >
+							<h4>搜索查询添加仪器：</h4>
+							<input type = "text" id ="searchEquipments"  class="form-control" placeholder="选择所需仪器" onfocus="showPartEquipment()"  oninput="searchEquipment()"
+									onpropertychange="searchEquipment()"/>
+							<div  id ="showEquipments" style="position: fixed;" ></div>
+						</div>
+						<!--  
+							<div class ="box-icon_close">
+								<div>
+								<span>玻璃器</span>
+								<img alt="删除" src="module/img/icon_close.png" style="cursor:pointer;background-color: #898b77;"/>
+								</div>
+							</div>
+						-->
+						<!-- 所需仪器 
+						<div class="over" id ="addOver">
+							<div class="overChoose">
+							-->
+								<!-- 隐藏滑动条 
+								<div class="choose">
+									<div class="row">
+									</div>
 								</div>
 							</div>
 						</div>
+						-->
 					</div>
 				</div>
 				<div class="modal-footer">

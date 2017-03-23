@@ -157,19 +157,21 @@
 			</div>
 			<div id="menu" class="col-md-12 row">
 				<div>
-					<button class="btn btn-warning" type=" button" onclick="backstep()">
-						<em class="glyphicon glyphicon-arrow-left"></em> 返回
-					</button>
+					
 					<button class="btn btn-primary " type=" button" onclick="query()">
 						查询</button>
-					<button class="btn btn-primary " type=" button"
-						onclick="openChooseModal()">新增</button>
+					<button class ="btn btn-primary" type ="button" onclick="addIncomeorPayment(1)">支出</button>
+					
+					<button class ="btn btn-primary" type ="button" onclick="addIncomeorPayment(0)">收入</button>
+					
 					<button class="btn btn-primary" type="button">导入</button>
 
 					<button class="btn btn-primary" type="button">导出</button>
 					<button class="btn btn-primary type=" button" id="refresh"
 						onclick="reSetRefresh()">刷新</button>
-
+					<button class="btn btn-warning" type=" button" onclick="backstep()">
+						<em class="glyphicon glyphicon-arrow-left"></em> 返回
+					</button>
 				</div>
 			</div>
 			<table id="table"
@@ -181,7 +183,8 @@
 	<input type="hidden" id="employeeID" name="employeeID"
 		value="<%=session.getAttribute("EMPLOYEEID")%>" />
 	<!-- 新增选择弹窗 -->
-	<div id="addChooseModal" class="modal fade">
+	<!--  
+			<div id="addChooseModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -191,15 +194,18 @@
 					</button>
 					<h4 class="modal-title">新增</h4>
 				</div>
-				<div class="modal-body" style="text-align: center;">
+				<div class="modal-body" >
+					<div>
+						<label>账目类型</label>
+					</div>
 					<div id="IncomeorPayment">
 						<input type="radio" name="isIncomeorPayment" value="0">收入
 						<input type="radio" name="isIncomeorPayment" value="1">支出
 					</div>
-					<!-- 
+	
 					<button type="button" class="btn btn-info" onclick="addIncome()">收入</button>
 					<button type="button" class="btn btn btn-warning" onclick="addPayMent()">支出</button>
-					 -->
+				
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -209,6 +215,7 @@
 			</div>
 		</div>
 	</div>
+	-->
 	<!-- 新增弹窗 -->
 	<div id="addModal" class="modal fade">
 		<div class="modal-dialog">
