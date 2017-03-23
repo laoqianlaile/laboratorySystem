@@ -24,15 +24,15 @@ public class Employee extends Entity{
 	private int state;
 	private String dutyID;
 	private int permission;
-	private String signatrue ;
-	private String stamp  ;
+	private String singnature;
+	private String stamp;
 	
-	public String getSignatrue() {
-		return signatrue;
+	public String getSingnature() {
+		return singnature;
 	}
 
-	public void setSignatrue(String signatrue) {
-		this.signatrue = signatrue;
+	public void setSingnature(String singnature) {
+		this.singnature = singnature;
 	}
 
 	public String getStamp() {

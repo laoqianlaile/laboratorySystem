@@ -15,7 +15,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link rel = "stylesheet" type= "text/css" href="module/css/bootstrap.min.css">
     <link rel = "stylesheey" type= "text/css" href="module/css/bootstrap-table.css">
     <link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
-    
+    <link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" /> 
     
     <script type="text/javascript" src="module/js/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="module/js/bootstrap.min.js"></script>
@@ -113,9 +113,7 @@ option.form-control:hover {
 		<div class="row">
 				<div id= "menu" class="col-md-12 row" >
 					<div>
-						<button class="btn btn-warning" type=" button" onclick="backstep()">
-							<em class="glyphicon glyphicon-arrow-left"></em> 返回
-						</button>
+						
 						<button class="btn btn-primary type=" button" id="refresh"
 							onclick="openAddModal()">
 							<em class="glyphicon glyphicon-refresh"></em> 新增
@@ -124,7 +122,9 @@ option.form-control:hover {
 							onclick="reSetRefresh()">
 							<em class="glyphicon glyphicon-refresh"></em> 刷新
 						</button>
-
+						<button class="btn btn-warning" type=" button" onclick="backstep()">
+							<em class="glyphicon glyphicon-arrow-left"></em> 返回
+						</button>
 					</div>
 			</div>
 			<table id="table" class="table table-hover table-striped table-bordered">

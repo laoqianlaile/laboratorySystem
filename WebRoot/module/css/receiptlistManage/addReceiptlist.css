@@ -243,18 +243,28 @@ h4,.h4 {
 	margin-right: 27px; /* 598 * 0.9 568 *0.9  30 * 0.9 */
 	border-radius: 5px;
 	background: #f5f5f5;
+	max-height: 170px;
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
-
+.tip-factory-content ul {
+	display: block;
+	 hieight:auto;
+    max-height: 170px;
+    overflow-y: scroll;
+    width: 115%;
+}
 .tip-factory-content li {
 	
-	    display: block;
+	display: block;
     /* list-style-type: none; */
     height: 30px;
     vertical-align: middle;
     padding-top: 7px;
     border-bottom: 1px solid;
     margin-bottom: 5px;
-    background: #7a96ae;
+    background: #ddd;
+    border-radius: 4px;
 }
 #file_uploadModal .modal-header{
 	background-color: #364760;
@@ -271,4 +281,40 @@ h4,.h4 {
 }
 .table tr td img{
     margin-right: 10px; 
+}
+.input-group-addon{
+	padding:6px 2px 6px 8px;
+}
+#companyContainer{
+ 
+        position: absolute;
+    top: 34px;
+    left: 85px;
+    width: 74%;
+    overflow: hidden;
+        z-index: 99;
+}
+#over_company{
+
+    width: 95%;
+    max-height: 124px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+#over_company ul{
+    overflow-y: scroll;
+    max-height:124px;
+    width: 115%;
+    padding: 0px;
+}
+#over_company ul li{
+		display: block;
+    /* list-style-type: none; */
+    height: 30px;
+    vertical-align: middle;
+    padding-top: 7px;
+    border-bottom: 1px solid;
+    margin-bottom: 5px;
+    background: #ddd;
+    border-radius: 4px;
 }

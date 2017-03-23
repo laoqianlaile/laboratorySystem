@@ -122,7 +122,7 @@ function init(){
 				width:'13%',
 				 formatter:function(value,row,index){   
 					 var e = "<img src='module/img/download_icon.png' onclick ='downFile("+row.fileID+")'  title='下载' style='cursor:pointer;margin-right:8px;' />"
-					 var a = "<img src ='module/img/delete_icon.png' onclick='openEditModal("+JSON.stringify(row)+")'   title='废弃' style='cursor:pointer;margin-right:8px;'/>"
+					 var a = "<img src ='module/img/edit_icon.png' onclick='openEditModal("+JSON.stringify(row)+")'   title='废弃' style='cursor:pointer;margin-right:8px;'/>"
 	                 return e+a;    
 	             }   
 			}]// 列配置项,详情请查看 列参数 表格

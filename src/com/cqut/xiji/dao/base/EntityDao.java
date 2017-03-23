@@ -169,4 +169,12 @@ public class EntityDao {
 				orderField, sortMode, startIndex, pageNum);
 		return result;
 	}
+	public int runSql(String sql) {
+		if(sql != null && !sql.equals("")){
+			return baseDao.runSql(sql);
+		}else{
+			System.out.println(" sql is null");
+			return 0;
+		}
+	}
 }

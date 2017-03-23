@@ -63,10 +63,6 @@
 					<label>委托人：</label><input type="text" id="linkMan"
 						class="form-control">
 				</div>
-				<!-- <div class="headModeal col-xs-3">
-					<label>委托时间：</label><input type="date" id="startTime"
-						class="form-control">
-				</div> -->
 				<div class="headModeal col-xs-3 col-md-3 col-lg-3">
 					<div class="timeLabelDiv">
 						<label class="control-label">委托时间:</label>
@@ -98,8 +94,19 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-6">
-					<label>委托单位：</label><input type="text" id="companyName"
+					<label>委托单位：</label><input type="text" id="companyName" onpropertychange="searchCompany()"  oninput="searchCompany()"
 						class="form-control">
+					<div id="companyContainer">
+					<div id="over_company">
+					  <ul>
+					<!--   <li>vdfgvfd</li>
+					    <li>vdfgvfd</li>
+					      <li>vdfgvfd</li>
+					        <li>vdfgvfd</li>
+					          <li>vdfgvfd</li> -->
+					  </ul>
+					</div>
+					</div>
 				</div>
 				<div class=" col-xs-3"></div>
 				<div class=" col-xs-3">
@@ -211,7 +218,7 @@
 		<div class="modal-dialog" role="document" style="width:450px">
 			<div class="modal-content">
 				<div class="modal-header" >
-					<h4 class="modal-title">上传附件</h4> 
+					<p class="modal-title">上传附件</p> 
 				</div>
 				<div class="modal-body">
 					<div class="row">
@@ -221,8 +228,8 @@
 								multiple="multiple">
 							<div class="uploadFileText">
 								<label>备注信息:</label>
-								<textarea rows="3" class="form-control" name="fileRemarks"
-									id="fileRemarks"></textarea>
+								<textarea rows="3" class="form-control" name="fileRemarks-u"
+									id="fileRemarks-u"></textarea>
 							</div>
 						</div>
 					</div>
@@ -248,12 +255,12 @@
 								aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
-							<h4 class="modal-title">样品分配信息</h4>
+							<p class="modal-title">样品分配信息</p>
 						</div>
 						<div class="modal-body">
 							<div class="row">
 								<div class="col-xs-12 col-md-12">
-									<h4>出厂编号：</h4>
+									<p>出厂编号：</p>
 									<input type="text" id="addSampleCode" name="sampleCode"
 										placeholder="输入出厂编码" class="form-control"
 										aria-describedby="basic-addon1"
@@ -266,18 +273,18 @@
 									</div>
 								</div>
 								<div class="col-xs-12 col-md-12">
-									<h4>样品名称：</h4>
+									<p>样品名称：</p>
 									<input type="text" id="addSampleName" name="sampleName"
 										placeholder="输入样品名称" class="form-control"
 										aria-describedby="basic-addon1" />
 								</div>
 								<div class="col-xs-12 col-md-12">
-									<h4>型号/规格/代号：</h4>
+									<p>型号/规格/代号：</p>
 									<input type="text" id="addSampleStyle" name="sampleStyle"
 										class="form-control" aria-describedby="basic-addon1" />
 								</div>
 								<div class="col-xs-12 col-md-12">
-									<h4>检测/校准项目：</h4>
+									<p>检测/校准项目：</p>
 									<textarea id="addTestProject" rows="3" cols="30"
 										class="testProjectName" placeholder="选择检测项目"></textarea>
 									<!-- 	<ul>
@@ -311,7 +318,7 @@
 								</div>
 
 								<div class="col-xs-12 col-md-12">
-									<h4>样品单位：</h4>
+									<p>样品单位：</p>
 									<select id="addUnit">
 										<option value="个">个</option>
 										<option value="件">件</option>
@@ -319,7 +326,7 @@
 									</select>
 								</div>
 								<div class="col-xs-12 col-md-12">
-									<h4>要求描述：</h4>
+									<p>要求描述：</p>
 									<textarea id="addAskFor" name="REMARKS" cols="30" rows="3" /></textarea>
 								</div>
 							</div>
@@ -346,12 +353,12 @@
 								aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
-							<h4 class="modal-title">样品分配信息</h4>
+							<p class="modal-title">样品分配信息</p>
 						</div>
 						<div class="modal-body">
 							<div class="row">
 								<div class="col-xs-12 col-md-12">
-									<h4>出厂编号：</h4>
+									<p>出厂编号：</p>
 									<input type="text" id="editSampleCode" name="sampleCode"
 										placeholder="输入出厂编码" class="form-control"
 										aria-describedby="basic-addon1"
@@ -366,18 +373,18 @@
 									</div>
 								</div>
 								<div class="col-xs-12 col-md-12">
-									<h4>样品名称：</h4>
+									<p>样品名称：</p>
 									<input type="text" id="editSampleName" name="sampleName"
 										placeholder="输入样品名称" class="form-control"
 										aria-describedby="basic-addon1" />
 								</div>
 								<div class="col-xs-12 col-md-12">
-									<h4>型号/规格/代号：</h4>
+									<p>型号/规格/代号：</p>
 									<input type="text" id="editSampleStyle" name="sampleStyle"
 										class="form-control" aria-describedby="basic-addon1" />
 								</div>
 								<div class="col-xs-12 col-md-12">
-									<h4>检测/校准项目：</h4>
+									<p>检测/校准项目：</p>
 									<textarea id="editTestProject" rows="3" cols="30"
 										class="testProjectName" placeholder="选择检测项目"></textarea>
 								</div>
@@ -406,7 +413,7 @@
 								</div>
 
 								<div class="col-xs-12 col-md-12">
-									<h4>样品单位：</h4>
+									<p>样品单位：</p>
 									<select id="editUnit">
 										<option value="个">个</option>
 										<option value="件">件</option>
@@ -414,7 +421,7 @@
 									</select>
 								</div>
 								<div class="col-xs-12 col-md-12">
-									<h4>要求描述：</h4>
+									<p>要求描述：</p>
 									<textarea id="editAskFor" name="REMARKS" cols="30" rows="3" /></textarea>
 								</div>
 							</div>
@@ -439,15 +446,15 @@
 								aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
-							<h4 class="modal-title">编辑文件信息</h4>
+							<p class="modal-title">编辑文件信息</p>
 						</div>
 						<div class="modal-body">
 							<div class="row">
 								<div class="col-xs-12 col-md-12">
-									<h4>备注：</h4>
+									<p>备注：</p>
 									<input type="hidden" id="editFileID" name="fileID"
 										class="form-control" aria-describedby="basic-addon1" />
-									<textarea rows="6" cols="30" id="fileRemarks"></textarea>
+									<textarea rows="6" cols="30" id="fileremarks-e"></textarea>
 								</div>
 
 							</div>

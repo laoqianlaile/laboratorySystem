@@ -179,9 +179,8 @@ function  openChooseModal(){
 }
 
 /* 新增收入  */
-function addIncomeorPayment(){
-	isIncomeorPayment = $('#IncomeorPayment input[name = "isIncomeorPayment"]:checked').val();
-	if(isIncomeorPayment == 0){
+function addIncomeorPayment(type){
+	if(type == 0){
 		openAddModal("Income");
 	}
 	else{

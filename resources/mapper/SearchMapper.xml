@@ -87,7 +87,7 @@
      <select id="sqlCount" resultType="int">
      	select COUNT(*) from (${sql}) S
      </select> 
-     
+    
     <select id="searchWithpagingInMysql"  resultType="map">
     	select 
     	<foreach collection="properties" item="item" index="index" separator=",">

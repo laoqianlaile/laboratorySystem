@@ -299,11 +299,8 @@ public class ContractService extends SearchService implements IContractService{
 		
 		if(result <= 0){
 			String position = "ID =" + ID;
-			result = entityDao.deleteByCondition(position, Company.class);
-			return result;
+			entityDao.deleteByCondition(position,Contract.class);
 		}
-		
-		
 		return result;
 	}
 	
@@ -331,6 +328,7 @@ public class ContractService extends SearchService implements IContractService{
 			String oppositeMen, String linkPhone, String employeeName,
 			String address, String signAddress, String startTime,
 			String signTime, String endTime){
+		
 		String baseEntiy = "";
 		String[] properties = null;
 		String condition = "";
@@ -393,10 +391,10 @@ public class ContractService extends SearchService implements IContractService{
 				number = result2.get(i).get("number").toString();
 				hour = result2.get(i).get("hour").toString();
 				if(calculateType.equals("0")){
-					contractItem +="\n"+ fineItemCode + ". " + nameCn + "(" + nameEn + ")， 每次" + price +
+					contractItem +="\n  "+ fineItemCode + ". " + nameCn + "(" + nameEn + ")， 每次" + price +
 							"元，共" + number + "次，共计" + money + "元。";
 				}else if(calculateType.equals("1")){
-					contractItem +="\n"+ fineItemCode + ". " + nameCn + "(" + nameEn + ")， 每小时" + hour +
+					contractItem +="\n  "+ fineItemCode + ". " + nameCn + "(" + nameEn + ")， 每小时" + hour +
 							"元，共" + number + "次，共计" + money + "元。";
 				}
 			}
@@ -442,13 +440,13 @@ public class ContractService extends SearchService implements IContractService{
 			if (signTime != null)
 				wp.replaceText("{签订日期}",signTime.toString());
 			if (startTime != null)
-				wp.replaceText("{开始日期}",startTime.toString());
+				wp.replaceText("{履行开始日期}",startTime.toString());
 			if (endTime != null)
-				wp.replaceText("{结束日期}",endTime.toString());
+				wp.replaceText("{履行结束日期}",endTime.toString());
 			if (contractName != null)
 				wp.replaceText("{合同名称}",contractName.toString());
 			if (endTime != null)
-				wp.replaceText("{结束日期}",endTime.toString());
+				wp.replaceText("{履行结束日期}",endTime.toString());
 			if (contractItem != null)
 				wp.replaceText("{合同细项}",contractItem.toString());
 			wp.save(cacheFilePath);
@@ -468,6 +466,7 @@ public class ContractService extends SearchService implements IContractService{
 			fi.setUploadTime(dateFormat.parse(dateFormat.format(now)));
 			fi.setState(0);
 			fi.setType(1);
+			fi.setRemarks("系统生成");
 		    baseEntityDao.save(fi);
 		    fileEncryptservice.encryptPath(relativePath, fileID);
 			fileEncryptservice.encryptFile(cacheFilePath,path,fileID);

@@ -148,4 +148,8 @@
           		${item} 
         </foreach>)
     </update>
+       <!--得到sql运行影响的条数  -->
+     <update id="runSql" >
+     	${sql}
+     </update> 
 </mapper>

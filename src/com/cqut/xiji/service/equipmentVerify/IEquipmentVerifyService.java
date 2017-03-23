@@ -15,8 +15,8 @@ public interface IEquipmentVerifyService {
 	 * @return
 	 */
 	public Map<String, Object> getEquipmentVerifyWithPaging(int limit, int offset,
-			String sort, String order, String employeeName,
-			String equipmentName, String departmentName);
+			String sort, String order,String factoryCode, String equipmentName,
+			String employeeName,String departmentName);
 
 	/**
 	 * @param equipmentID

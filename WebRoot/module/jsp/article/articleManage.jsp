@@ -23,8 +23,6 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 
-<link rel="stylesheet" href="module/css/article/articleManage.css"
-	type="text/css"></link>
 <link rel="stylesheet" href="module/css/bootstrap.min.css"
 	type="text/css"></link>
 <link rel="stylesheet" href="module/css/bootstrap.css" type="text/css"></link>
@@ -37,7 +35,9 @@
 <link type="text/css" rel="stylesheet" href="module/css/fileinput.css" />
 <link type="text/css" rel="stylesheet"
 	href="PorUeditor/third-party/SyntaxHighlighter/shCoreDefault.css" />
-
+<link rel="stylesheet" href="module/css/article/articleManage.css"
+	type="text/css"></link>
+	
 <script type="text/javascript" src="module/js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="module/js/article/articleManage.js"></script>
 <script type="text/javascript" src="module/js/bootstrap.js"></script>
@@ -72,8 +72,8 @@
 					class="form-control" id="search_artPublisher"
 					placeholder="请输入要搜索的文章发布人">
 			</div>
-			<button type="button" id="artSearch" class="btn btn-primary glyphicon"
-				onclick="search()">查询</button>
+			<button type="button" id="artSearch" class="btn btn-primary glyphicon glyphicon-search"
+				onclick="search()">&nbsp;查询</button>
 		</form>
 		<div class="mainTableDate">
 			<div class="form-group">
@@ -165,8 +165,8 @@
 
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-						<button id="addarticle" type="button" class="btn btn-primary">新增</button>
+						<button id="addarticle" type="button" class="btn btn-primary sure">新增</button>
+						<button type="button" class="btn btn-default newButton" data-dismiss="modal">关闭</button>
 					</div>
 				</div>
 			</div>
@@ -213,7 +213,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+						<button type="button" class="btn btn-default sure" data-dismiss="modal">确定</button>
 					</div>
 				</div>
 			</div>
@@ -266,8 +266,8 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-						<button type="button" class="btn btn-primary" onclick="edit()">修改</button>
+						<button type="button" class="btn btn-primary sure" onclick="edit()">修改</button>
+						<button type="button" class="btn btn-default newButton" data-dismiss="modal">取消</button>
 					</div>
 				</div>
 			</div>
