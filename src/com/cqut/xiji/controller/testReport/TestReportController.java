@@ -111,11 +111,12 @@ public class TestReportController {
 	@RequestMapping("/getTestReporThirdtAuditWithPaging")
 	@ResponseBody
 	public JSONObject getTestReporThirdtAuditWithPaging(int limit, int offset,
-			String order, String sort, String receiptlistCode,
-			String client, String reportName, String beginTime, String endTime ) {
+			String order, String sort, String receiptlistCode, String client,
+			String reportName, String beginTime, String endTime,
+			String selectPart) {
 		Map<String, Object> result = service.getTestReporThirdtAuditWithPaging(
 				limit, offset, order, sort, receiptlistCode, client,
-				reportName, beginTime, endTime);
+				reportName, beginTime, endTime, selectPart);
 		return JSONObject.fromObject(result);
 	}
 	
@@ -313,10 +314,10 @@ public class TestReportController {
      * @param ID
      * @return
 	 */
-	@RequestMapping("/auditOperateCheck")
+	@RequestMapping("/secndAuditOperateCheck")
 	@ResponseBody
-	public boolean auditOperateCheck(String ID) {
-		boolean result = service.auditOperateCheck(ID);
+	public boolean secndAuditOperateCheck(String ID) {
+		boolean result = service.secndAuditOperateCheck(ID);
 		return result;
 	}
 	
@@ -350,7 +351,22 @@ public class TestReportController {
 		boolean result = service.secondRejectReport(ID, taskID,dismissreason);
 		return result;
 	}
-
+    
+	/**
+	 * 
+     * @discription 检查当前审核状态是否可以进行操作
+     * @author zt       
+     * @created 2017-3-20 下午7:54:24     
+     * @param ID
+     * @return
+	 */
+	@RequestMapping("/thirdAuditOperateCheck")
+	@ResponseBody
+	public boolean thirdAuditOperateCheck(String ID) {
+		boolean result = service.thirdAuditOperateCheck(ID);
+		return result;
+	}
+	
 	/**
 	 * 
 	 * @discription 设置通过三审
@@ -361,8 +377,8 @@ public class TestReportController {
 	 */
 	@RequestMapping("/thirdPassReport")
 	@ResponseBody
-	public boolean thirdPassReport(String ID, String taskID) {
-		boolean result = service.thirdPassReport(ID, taskID);
+	public boolean thirdPassReport(String ID, String taskID ,String passAgreement) {
+		boolean result = service.thirdPassReport(ID, taskID,passAgreement);
 		return result;
 	}
 

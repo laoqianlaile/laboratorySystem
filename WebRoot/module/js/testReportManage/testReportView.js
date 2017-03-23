@@ -222,9 +222,9 @@ function onlineView() {
 
 // 删除检测报告
 function deleteTestReport() {
-	var fileID = arguments[0];
-	var testReportID = arguments[1];
-	var taskID = arguments[2];
+	var fileID = arguments[0],
+	    testReportID = arguments[1],
+	    taskID = arguments[2];
 	if (confirm("确定删除?")) {
 		$.post("testReportController/deleteCheck.do", {
 			ID : testReportID

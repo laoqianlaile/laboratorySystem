@@ -95,6 +95,7 @@
 			<table id="table" class="table">
 			</table>
 		</div>
+		
 		<!-- 新增弹框 -->
 		<div id="addModal" class="modal fade" role="dialog"
 			aria-labelledby="gridSystemModalLabel">

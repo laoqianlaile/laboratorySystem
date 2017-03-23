@@ -241,8 +241,8 @@ function equipmentRegister() {
 
 // 确定登记的设备
 function sure() {
-	var equipmentArray = [];
-	var ID = getUrlParam("taskID");
+	var equipmentArray = [],
+	    ID = getUrlParam("taskID");
 	$(".equipmentList input[type=checkbox]").each(function() {
 		if (this.checked) {
 			equipmentArray.push($(this).val());
@@ -311,9 +311,9 @@ function uploadTestReport() {
 
 // 确定上传
 function uploadSure() {
-	var ID = getUrlParam("taskID");
-	var fileSummaryInfo = $.trim($("#fileSummaryInfo").val());
-	var remarksInfo = $.trim($("#remarksInfo").val());
+	var ID = getUrlParam("taskID"),
+	    fileSummaryInfo = $.trim($("#fileSummaryInfo").val()),
+	    remarksInfo = $.trim($("#remarksInfo").val());
 	$.post("taskController/getProjectName.do", {
 		taskID : ID
 	}, function(result) {

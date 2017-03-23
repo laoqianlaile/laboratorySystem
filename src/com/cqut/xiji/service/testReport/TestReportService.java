@@ -196,7 +196,7 @@ public class TestReportService extends SearchService implements
 				+ "testreport"
 				+ " LEFT JOIN task ON testreport.taskID = task.ID "
 				+ " LEFT JOIN receiptlist ON task.receiptlistID = receiptlist.ID "
-				+ " WHERE  testreport.state > 0 AND testreport.state < 6 AND task.levelTwo = '"
+				+ " WHERE  testreport.state > 0 AND task.levelTwo = '"
 				+ auditPerson + "'" + " ) AS a "
 				+ " LEFT JOIN contract ON a.contractID = contract.ID "
 				+ " ) AS b "
@@ -208,7 +208,7 @@ public class TestReportService extends SearchService implements
 				"c.receiptlistCode AS receiptlistCode",
 				"c.fileID AS fileID",
 				"c.versionNumber AS versionNumber",
-				"IF (c.state = 1,'二审待审核',IF (c.state = 2,'二审驳回',IF (	c.state = 3,'二审通过',IF (c.state = 4,'三审驳回',IF (c.state = 5,'审核通过',IF (c.state = 5,'审核通过','其它')))))) AS state",
+				"IF (c.state = 1,'二审待审核',IF (c.state = 2,'二审驳回',IF (	c.state = 3,'二审通过',IF (c.state = 4,'三审驳回',IF (c.state = 5,'审核通过','其它'))))) AS state",
 				"c.companyName AS companyName",
 				"fileinformation.fileName AS fileName",
 				"DATE_FORMAT(uploadTime,'%Y-%m-%d %H:%i:%s') AS uploadTime",
@@ -238,7 +238,7 @@ public class TestReportService extends SearchService implements
 				condition += " and c.state = '1' ";
 			}
 			if (selectPart.equals("1")) {
-				condition += " and c.state in ( '3','5' )";
+				condition += " and c.state in ( '3','5','6')";
 			}
 			if (selectPart.equals("2")) {
 				condition += " and c.state in ( '2','4' )";
@@ -257,7 +257,7 @@ public class TestReportService extends SearchService implements
 	@Override
 	public Map<String, Object> getTestReporThirdtAuditWithPaging(int limit,
 			int offset, String order, String sort, String receiptlistCode,
-			String client, String reportName, String beginTime, String endTime) {
+			String client, String reportName, String beginTime, String endTime,String selectPart) {
 		int index = limit;
 		int pageNum = offset / limit;
 		String baseEntity = " ( "
@@ -290,13 +290,13 @@ public class TestReportService extends SearchService implements
 				+ "receiptlist.contractID AS contractID,"
 				+ "fileID,"
 				+ "versionNumber,"
-				+ "IF (testreport.state = 3,'三审核中','其他') AS state,"
+				+ "testreport.state AS state,"
 				+ "testreport.remarks AS remarks"
 				+ " FROM "
 				+ "testreport"
 				+ " LEFT JOIN task ON testreport.taskID = task.ID "
 				+ " LEFT JOIN receiptlist ON task.receiptlistID = receiptlist.ID "
-				+ " WHERE " + " testreport.state = 3  " + " ) AS a "
+				+ " WHERE " + " testreport.state > 2  " + " ) AS a "
 				+ " LEFT JOIN contract ON a.contractID = contract.ID "
 				+ " ) AS b "
 				+ " LEFT JOIN company ON b.companyID = company.ID "
@@ -307,7 +307,7 @@ public class TestReportService extends SearchService implements
 				"c.receiptlistCode AS receiptlistCode",
 				"c.fileID AS fileID",
 				"c.versionNumber AS versionNumber",
-				"c.state AS state",
+				"IF (c.state = 3,'待审核',IF (	c.state = 4,'驳回',IF (c.state = 5,'审核通过',IF (c.state = 6,'归档','其它')))) AS state",
 				"c.companyName AS companyName",
 				"fileinformation.fileName AS fileName",
 				"DATE_FORMAT(uploadTime,'%Y-%m-%d %H:%i:%s') AS uploadTime",
@@ -331,6 +331,17 @@ public class TestReportService extends SearchService implements
 		}
 		if (endTime != null && !endTime.isEmpty() && !endTime.equals("")) {
 			condition += " and uploadTime <'" + endTime + "'";
+		}
+		if (selectPart != null && !selectPart.isEmpty() && !selectPart.equals("")) {
+			if (selectPart.equals("0")) {
+				condition += " and c.state = '3' ";
+			}
+			if (selectPart.equals("1")) {
+				condition += " and c.state in ('5','6')";
+			}
+			if (selectPart.equals("2")) {
+				condition += " and c.state = '4'";
+			}
 		}
 		List<Map<String, Object>> result = entityDao.searchWithpaging(
 				properties, baseEntity, joinEntity, null, condition, null, sort,
@@ -685,7 +696,7 @@ public class TestReportService extends SearchService implements
 	}
 
 	@Override
-	public boolean auditOperateCheck(String ID) {
+	public boolean secndAuditOperateCheck(String ID) {
 		String baseEntity = "testreport";
 		Map<String, Object> result = baseEntityDao.findByID(new String[] { "state" }, ID, "ID", baseEntity);
 		if (result != null && result.size() > 0) {
@@ -734,13 +745,31 @@ public class TestReportService extends SearchService implements
 	}
 
 	@Override
-	public boolean thirdPassReport(String ID, String taskID) {
+	public boolean thirdAuditOperateCheck(String ID) {
+		String baseEntity = "testreport";
+		Map<String, Object> result = baseEntityDao.findByID(new String[] { "state" }, ID, "ID", baseEntity);
+		if (result != null && result.size() > 0) {
+			String testState = result.get("state").toString();
+			if (testState.equals("3")) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+
+	}
+	
+	@Override
+	public boolean thirdPassReport(String ID, String taskID,String auditPassAgreement) {
 		TestReport tr = entityDao.getByID(ID, TestReport.class);
 		Task tk = entityDao.getByID(taskID, Task.class);
 		if (tr == null) {
 			return false;
 		} else {
 			tr.setState(5);
+			tr.setDismissreason3(auditPassAgreement);
 			tk.setDetectstate(6);
 			int updateReportCount = baseEntityDao.updatePropByID(tr, ID);
 			int updateTaskCount = baseEntityDao.updatePropByID(tk, taskID);

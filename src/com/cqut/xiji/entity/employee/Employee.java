@@ -24,7 +24,25 @@ public class Employee extends Entity{
 	private int state;
 	private String dutyID;
 	private int permission;
+	private String signatrue ;
+	private String stamp  ;
 	
+	public String getSignatrue() {
+		return signatrue;
+	}
+
+	public void setSignatrue(String signatrue) {
+		this.signatrue = signatrue;
+	}
+
+	public String getStamp() {
+		return stamp;
+	}
+
+	public void setStamp(String stamp) {
+		this.stamp = stamp;
+	}
+
 	public String getID() {
 		return ID;
 	}	

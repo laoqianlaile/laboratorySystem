@@ -158,8 +158,8 @@ function search() {
 
 // 提交审核
 function submitReport() {
-	var keyID = arguments[0];
-	var taskID = arguments[1];
+	var keyID = arguments[0],
+	    taskID = arguments[1];
 	if (confirm("是否提交审核")) {
 		$.post("testReportController/submitReportCheck.do", {
 			ID : keyID
@@ -247,8 +247,7 @@ function recover() {
 // 确认覆盖
 function recoverSure() {
 	var rows = $("#table").bootstrapTable('getSelections');
-	if (rows[0].fileID != "" || rows[0].fileID != undefined
-			|| rows[0].fileID != null) {
+	if (rows[0].fileID != "") {
 		$.post("fileOperateController/getFileDecryptPath.do", {
 			ID : rows[0].fileID
 		}, function(result) {
@@ -272,11 +271,11 @@ function recoverSure() {
 		});
 	}
 
-	setTimeout(function() {
-		var rows = $("#table").bootstrapTable('getSelections');
-		var fileVersionNumber = $("#fileVersionNumber").val();
-		var fileVersionInfo = $("#fileVersionInfo").val();
-		var fileRemarks = $("#fileRemarks").val();
+/*	setTimeout(function() {
+		var rows = $("#table").bootstrapTable('getSelections'),
+		    fileVersionNumber = $("#fileVersionNumber").val(),
+		    fileVersionInfo = $("#fileVersionNumber").val(),
+		    fileRemarks = $("#fileRemarks").val();
 		$.post("testReportController/updateTestReport.do", {
 			ID : rows[0].ID,
 			taskID : rows[0].taskID,
@@ -293,7 +292,7 @@ function recoverSure() {
 			}
 		});
 		$("#recoverReport").modal("hide");
-	}, 3000);
+	}, 4000);*/
 }
 
 // 查看检测报告
