@@ -78,7 +78,7 @@
 	width: 62%;
 }
 .row1 label {
-    width: 18%;
+    width: 20%;
     margin-top: 10px;
     text-align: center;
 }
@@ -109,7 +109,7 @@
     margin-right: 4px; 
 }
 .modal-body{
-	height:310px;
+	height:140px;
 }
 .modal-footer{
 	padding-right: 43px;
