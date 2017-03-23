@@ -21,8 +21,8 @@ public class EquipmentRepairController{
 	
 	@RequestMapping("/getEquipmentRepairWithPaging")  
     @ResponseBody
-	public JSONObject getEquipmentRepairWithPaging(int limit, int offset, String sort, String order, String model, String equipmentName, String employeeName){
-		Map<String, Object> result = service.getEquipmentRepairWithPaging(limit,offset,sort,order,model,equipmentName,employeeName);
+	public JSONObject getEquipmentRepairWithPaging(int limit, int offset, String sort, String order, String factoryCode, String equipmentName, String model, String employeeName){
+		Map<String, Object> result = service.getEquipmentRepairWithPaging(limit,offset,sort,order,factoryCode,equipmentName,model,employeeName);
 		return JSONObject.fromObject(result);
 	}
 	

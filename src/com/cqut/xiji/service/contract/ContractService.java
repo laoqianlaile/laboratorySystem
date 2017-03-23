@@ -136,7 +136,7 @@ public class ContractService extends SearchService implements IContractService{
 				properties, tableName, joinEntity, null, condition, null,sort,
 				order, index, pageNum);
 		System.out.println("result:"+result);
-		int count = entityDao.getByCondition(" 1=1 ", Contract.class).size();
+		int count = entityDao.searchForeign(properties, tableName, joinEntity, null, condition).size();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("total", count);
 		map.put("rows", result);

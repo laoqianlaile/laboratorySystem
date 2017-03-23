@@ -50,7 +50,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<input type="text" id="schEmployeeName" name="schEmployeeName" class="form-control" aria-describedby="basic-addon1" placeholder="请输入维修员查找"/>
 			</div>
 			<div class="col-xs-3 col-md-3 col-lg-3">
-				<label>检测部门:</label>
+				<label>所属科室:</label>
 				<select id="schDepartment" name="schDepartment" class="form-control" aria-describedby="basic-addon1">
 				</select>
 			</div>

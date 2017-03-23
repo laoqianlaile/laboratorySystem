@@ -58,7 +58,7 @@ function initData(){
 			title:'设备出厂编号',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'17%',//宽度
+			width:'15%',//宽度
 //			visible:false
 		},{
 			field:'equipmentName',//返回值名称
@@ -71,7 +71,7 @@ function initData(){
 			title:'设备型号',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'6%',//宽度
+			width:'8%',//宽度
 		},{
 			field:'departmentID',//返回值名称
 			title:'所属科室ID',//列名

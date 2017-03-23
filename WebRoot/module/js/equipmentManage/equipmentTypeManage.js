@@ -28,8 +28,8 @@ function initData(){
 			param.offset = params.offset; // 偏移量
 			param.sort = params.sort; // 排序列名
 			param.order = params.order; // 排位方式
-			param.equipmentType = $.trim($('#schEquipmentTypeCode').val());
-			param.equipmentName = $.trim($('#schEquipmentName').val());
+			param.equipmentTypeCode = $.trim($('#schEquipmentTypeCode').val());
+			param.equipmentTypeName = $.trim($('#schEquipmentName').val());
 			return param;
 		}, //参数
 		selectItemName : '',// radio or checkbox 的字段名

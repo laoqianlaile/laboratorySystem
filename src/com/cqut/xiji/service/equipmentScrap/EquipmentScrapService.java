@@ -83,9 +83,7 @@ public class EquipmentScrapService extends SearchService implements IEquipmentSc
 						properties, baseEntity, joinEntity, null, condition, null,sort,
 						order, index, pageNum);
 				System.out.println("result:"+result);
-				int count = entityDao.searchWithpaging(
-						properties, baseEntity, joinEntity, null, condition, null,sort,
-						order, index, pageNum).size();
+				int count = entityDao.searchForeign(properties, baseEntity, joinEntity, null, condition).size();
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("total", count);
 				map.put("rows", result);
