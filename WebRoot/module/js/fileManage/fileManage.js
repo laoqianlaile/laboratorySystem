@@ -58,7 +58,7 @@ function fileUploadInit(selectorName) {
 
 		'fileTypeExts' : '*.jpg;*.gif;*.png;*.doc;*.docx;*.xls;*.xlsx',// 允许上传的文件后缀
 
-		'queueSizeLimit' : 3,// 允许上传的文件的最大数量。当达到或超过这个数字，onSelectError事件被触发。
+		'queueSizeLimit' : 1,// 允许上传的文件的最大数量。当达到或超过这个数字，onSelectError事件被触发。
 
 		'onUploadSuccess' : function(file, data, response) {
 			var re = new RegExp("\"", "g");

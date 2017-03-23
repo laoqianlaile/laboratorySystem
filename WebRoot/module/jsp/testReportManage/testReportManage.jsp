@@ -35,6 +35,7 @@
 <script src="module/js/bootstrap-datetimepicker.fr.js"></script>
 <script src="module/js/jquery.uploadify.min.js"></script>
 <script src="module/js/sweetalert.min.js"></script>
+<script src="assets/js/autoPage.js"></script>
 
 <style>
 .content button {

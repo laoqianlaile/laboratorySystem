@@ -49,6 +49,8 @@ public interface IEmployeeService {
 			String phoneNumber, String email, String address);
 
 	String editEmployeePwd(String employeeID, String newpwd);
+	
+	public boolean addSignatrueAndStamp(String fileID,String selectorName);
 }
 
 

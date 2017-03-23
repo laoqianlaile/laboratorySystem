@@ -16,7 +16,8 @@ public interface ITestReportService {
 
 	public Map<String, Object> getTestReporThirdtAuditWithPaging(int limit,
 			int offset, String order, String sort, String transitreceiptNumber,
-			String client, String reportName, String beginTime, String endTime);
+			String client, String reportName, String beginTime, String endTime,
+			String selectPart);
 
 	public List<Map<String, Object>> getProjectName(String ID);
 
@@ -45,14 +46,17 @@ public interface ITestReportService {
 
 	public boolean deleteOtherTableInfo(String ID, String taskID);
 
-	public boolean auditOperateCheck(String ID);
+	public boolean secndAuditOperateCheck(String ID);
 
-	public boolean secondPassReport(String ID, String taskID,String auditPassAgreement);
+	public boolean secondPassReport(String ID, String taskID,
+			String auditPassAgreement);
 
 	public boolean secondRejectReport(String ID, String taskID,
 			String dismissreason);
 
-	public boolean thirdPassReport(String ID, String taskID);
+	public boolean thirdAuditOperateCheck(String ID); 
+	
+	public boolean thirdPassReport(String ID, String taskID,String auditPassAgreement);
 
 	public boolean thirdRejectReport(String ID, String taskID,
 			String dismissreason);
