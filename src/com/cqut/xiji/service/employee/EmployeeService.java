@@ -494,7 +494,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			String imagePath = fileInfo.get("path").toString();
 			Employee ee = entityDao.getByID(employeeID, Employee.class);
 			if (selectorName.equals("#singnatureImg")) {
-				ee.setSignatrue(imagePath);
+				ee.setSingnature(imagePath);
 				return baseEntityDao.updatePropByID(ee, employeeID) > 0 ? true
 						: false;
 			} else {

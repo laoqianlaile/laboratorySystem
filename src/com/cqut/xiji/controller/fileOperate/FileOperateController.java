@@ -34,6 +34,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 
 
+import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.tool.util.DocConverter;
 import com.cqut.xiji.tool.util.EntityIDFactory;
@@ -53,6 +54,10 @@ public class FileOperateController {
 	 
 	@Resource(name = "fileEncryptService")
 	IFileEncryptService fileEncryptservice;
+	
+	@Resource(name = "baseEntityDao")
+	BaseEntityDao baseEntityDao;
+	
 	/***
 	 * 
 	 * @description 获取文件列表
@@ -242,7 +247,46 @@ public class FileOperateController {
 	@RequestMapping("/filecheck")
 	@ResponseBody
 	public String filecheck(String ID, HttpServletRequest request) {
-		Map<String, Object> results = service.getFileDecryptPassword(ID);
+		String filePath = service.getFilePath(ID);// 获取文件路径
+		if (filePath.equals("nofile")) {
+			return "没有记录!";
+		} else {
+			Map<String, Object> fileNameInfo = baseEntityDao.getByID(ID,
+					"ID", "fileInformation");
+			if (fileNameInfo == null || fileNameInfo.size() == 0) {
+				return "下载错误!";
+			} else {
+				PropertiesTool pt = new PropertiesTool();
+				String fileName = fileNameInfo.get("fileName").toString();
+				System.out.println("fileName :"+fileName);
+				String[] fileNames = fileName.split("\\.");
+				String fileSuffixName = fileNames[fileNames.length - 1].toLowerCase();
+				System.out.println("fileSuffixName :"+fileSuffixName);
+				if (fileSuffixName.equals("jpg") || fileSuffixName.equals("png") || fileSuffixName.equals("gif")) {
+					filePath = pt.getSystemPram("imgPath") + "\\" + filePath;
+					File file = new File(filePath);
+					if (!file.exists()) {
+						return "真实文件已被删除！";
+					} else {
+						return "OK";
+					}
+				} else {
+					Map<String, Object> results = service.getFileDecryptPassword(ID);
+					String pathPassword = fileNameInfo.get("pathPassword").toString();
+					String relativePath = fileEncryptservice.decryptPath(filePath, pathPassword);
+					System.out.println("relativePath :" + relativePath);
+					String path = pt.getSystemPram("filePath") + "\\" + relativePath;
+					File file = new File(path);
+					if (!file.exists()) {
+						return "真实文件已被删除！";
+					} else {
+						return "OK";
+					}
+				}
+			}
+		}
+
+	/*	Map<String, Object> results = service.getFileDecryptPassword(ID);
 		if (results != null) {
 			String fileEncryptPath = service.getFilePath(ID);// 获取文件路径
 			if (fileEncryptPath.equals("nofile")) {
@@ -262,7 +306,7 @@ public class FileOperateController {
 			}
 		} else {
 			return "无法解密,无法下载";
-		}
+		}*/
 	}
 
 	/***
@@ -280,23 +324,32 @@ public class FileOperateController {
 	public void filedownload(HttpServletRequest request,HttpServletResponse response, String ID) throws IOException {
 		response.reset();// 可以加也可以不加,注意加了之后tomcate需要配置UTF-8否则乱码
 		response.setContentType("application/x-download");
-		String fileEncryptPath = service.getFilePath(ID);
-		Map<String, Object> results = service.getFileDecryptPassword(ID);
-		if (results != null) {
+		Map<String, Object> fileNameInfo = baseEntityDao.getByID(ID,"ID", "fileInformation");
+		String fileName = fileNameInfo.get("fileName").toString();
+		String[] fileNames = fileName.split("\\.");
+		String fileSuffixName = fileNames[fileNames.length - 1].toLowerCase();
+		String filedisplay = "";// 给用户提供的下载文件名;
+		String filePath = fileNameInfo.get("path").toString();
+		String cacheFilePath = "";// 缓存文件地址;
+		PropertiesTool pe = new PropertiesTool();
+		if (fileSuffixName.equals("jpg") || fileSuffixName.equals("png") || fileSuffixName.equals("gif")){
+		    int length = filePath.length();
+			int x = filePath.lastIndexOf("\\");
+			x++;
+		    filedisplay = filePath.substring(x, length);// "给用户提供的下载文件名";
+		    cacheFilePath  = pe.getSystemPram("imgPath") + "\\" + filePath;
+		}else{
+			Map<String, Object> results = service.getFileDecryptPassword(ID);
 			String pathpassword = results.get("pathPassword").toString();
-			String relativePath = fileEncryptservice.decryptPath(fileEncryptPath, pathpassword);
+			String relativePath = fileEncryptservice.decryptPath(filePath, pathpassword);
 			System.out.println("relativePath :" + relativePath);
 			int length = relativePath.length();
 			int x = relativePath.lastIndexOf("\\");
 			x++;
-			String filedisplay = relativePath.substring(x, length);// "给用户提供的下载文件名";
-			
-			
-			PropertiesTool pe = new PropertiesTool();
+		    filedisplay = relativePath.substring(x, length);// "给用户提供的下载文件名";
 		    String path = pe.getSystemPram("filePath") + "\\" + relativePath;
-		    
 		    System.out.println("下载地址path :" + path);
-			String cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\" + filedisplay;
+		    cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\" + filedisplay;
 			fileEncryptservice.decryptFile(path, cacheFilePath, ID);
 			if (request.getHeader("User-Agent").toLowerCase()
 					.indexOf("firefox") > 0) {// 火狐
@@ -336,6 +389,46 @@ public class FileOperateController {
 				}
 			}
 		}
+		if (request.getHeader("User-Agent").toLowerCase()
+				.indexOf("firefox") > 0) {// 火狐
+			filedisplay = JToolWeb.processFileName(request, filedisplay);
+		} else {
+			filedisplay = URLEncoder.encode(filedisplay, "UTF-8");
+		}
+		response.addHeader("Content-Disposition", "attachment;filename=" + filedisplay);
+		OutputStream outp = null;
+		FileInputStream in = null;
+		try {
+			outp = response.getOutputStream();
+			in = new FileInputStream(cacheFilePath);
+			byte[] b = new byte[1024];
+			int i = 0;
+			while ((i = in.read(b)) > 0) {
+				outp.write(b, 0, i);
+			}
+			outp.flush();
+			outp.close();
+	
+		} catch (Exception e) {
+			System.err.println("下载出错!");
+		} finally {
+
+			if (in != null) {
+				in.close();
+				in = null;
+			}
+			if (outp != null) {
+				outp.close();
+				outp = null;
+			}
+			if (!fileSuffixName.equals("gif") && !fileSuffixName.equals("jpg")
+					&& !fileSuffixName.equals("png")) {
+				File cacheFile = new File(cacheFilePath);
+				if (cacheFile.exists()) {
+					cacheFile.delete();
+				}
+			}
+		}	
 	}
 
 	/***
@@ -352,8 +445,88 @@ public class FileOperateController {
 	@ResponseBody
 	public String downloadFiles(HttpServletRequest request,
 			HttpServletResponse response, String[] IDs) {
-		// HttpSession session = request.getSession();
-		response.reset();// 可以加也可以不加,注意加了之后tomcate需要配置UTF-8否则乱码
+		response.reset();
+		response.setContentType("application/x-download");
+	    List<Map<String, Object>> list = service.getFilesInfo(IDs);
+		ZipOutputStream zos = null;
+		ServletOutputStream sos = null;
+		try {
+			response.reset();
+			response.setContentType("application/x-msdownload"); // 通知客户文件的MIME类型,因为部分浏览器文件名中文或文字过多会乱码，故用方法转化文件名
+			String filename = JToolWeb.processFileName(request, "下载文件.zip");
+			response.setHeader("Content-disposition", "attachment;filename="
+					+ filename);
+			sos = response.getOutputStream();
+			zos = new ZipOutputStream(sos);
+
+			ZipEntry ze = null;
+			byte[] buf = new byte[2048]; // 输出文件用的字节数组,每次发送2048个字节到输出流：
+			int readLength = 0;
+			PropertiesTool pe = new PropertiesTool();
+			String relativeFilePath = "", password = "", fileTurePath = "", fileName = "",path = "",cacheFilePath = "",ID = "", filePath = "",fileSuffixName = "";
+			
+		    String[] fileNames = null;
+		    for (int i = 0; i < list.size(); i++) {
+		    	fileName = list.get(i).get("fileName").toString();
+		    	relativeFilePath = list.get(i).get("path").toString();
+		        fileNames = fileName.split("\\.");
+			    fileSuffixName = fileNames[fileNames.length - 1].toLowerCase();
+				if (fileSuffixName.equals("jpg") || fileSuffixName.equals("png") || fileSuffixName.equals("gif")){
+					cacheFilePath = pe.getSystemPram("imgPath") + "\\" + relativeFilePath;
+				}else{
+					ID = list.get(i).get("ID").toString();
+					
+					password = list.get(i).get("pathPassword").toString();
+					
+					fileTurePath = fileEncryptservice.decryptPath(relativeFilePath,password); // 循环可以得到路径和文件名
+
+					fileName = list.get(i).get("fileName").toString();
+								
+					path = pe.getSystemPram("filePath") + "\\";
+					
+					cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\"+fileName ;
+					
+					
+					path += fileTurePath;
+					
+					fileEncryptservice.decryptFile(path, cacheFilePath, ID);
+				    
+					System.out.println("多文件下载时path: "+path);
+					System.out.println("多文件下载cacheFilePath :"+cacheFilePath);
+				}
+				File f = new File(cacheFilePath);
+				if (!f.exists()) {
+					continue;
+				}
+				ze = new ZipEntry(fileName);
+				ze.setSize(f.length());
+				ze.setTime(f.lastModified());
+				zos.putNextEntry(ze);
+				InputStream is = new BufferedInputStream(new FileInputStream(f));
+				while ((readLength = is.read(buf, 0, 2048)) != -1) {
+					zos.write(buf, 0, readLength);
+				}
+				is.close();
+				System.out.println("fileSuffixName :" + fileSuffixName);
+				if (!fileSuffixName.equals("jpg") && !fileSuffixName.equals("png") && !fileSuffixName.equals("gif")) {
+					if (f.exists()) {
+						f.delete();
+					}
+				}
+		    }
+
+		} catch (Exception ex) {
+			System.out.println("Error download:" + ex.toString());
+		} finally {
+			if (zos != null) {
+				try {
+					zos.close();
+				} catch (Exception ex) {
+					System.out.println("Error download:" + ex.toString());
+				}
+			}
+		}
+		/*response.reset();// 可以加也可以不加,注意加了之后tomcate需要配置UTF-8否则乱码
 		response.setContentType("application/x-download");
 		List<Map<String, Object>> list = service.getFilesInfo(IDs);
 		ZipOutputStream zos = null;
@@ -423,6 +596,7 @@ public class FileOperateController {
 				}
 			}
 		}
+		return "true";*/ 
 		return "true";
 	}
 

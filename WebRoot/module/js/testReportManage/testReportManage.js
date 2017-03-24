@@ -270,8 +270,8 @@ function recoverSure() {
 			}
 		});
 	}
-
-/*	setTimeout(function() {
+	
+	setTimeout(function() {
 		var rows = $("#table").bootstrapTable('getSelections'),
 		    fileVersionNumber = $("#fileVersionNumber").val(),
 		    fileVersionInfo = $("#fileVersionNumber").val(),
@@ -292,7 +292,7 @@ function recoverSure() {
 			}
 		});
 		$("#recoverReport").modal("hide");
-	}, 4000);*/
+	}, 4000);
 }
 
 // 查看检测报告
