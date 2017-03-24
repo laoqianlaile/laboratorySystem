@@ -335,6 +335,21 @@ public class ReceiptlistController{
 		
 		return  service.downReceiptlist(reID,coID,proID);
 	}
-	
+	/**
+	 * 
+	 * 删除交接单的合同 任务 文件等操作
+	 * @author wzj
+	 * @date 2017年3月20日 下午8:48:50
+	 * @param reID
+	 * @param coID
+	 * @param proID
+	 * @return
+	 */
+	@RequestMapping("/deleteNewReceipt")
+	@ResponseBody
+	public String deleteNewReceipt(String reID,String coID, String proID ,String state){
+		
+		return  service.deleteNewReceipt(reID,coID,proID,state);
+	}
 	
 }

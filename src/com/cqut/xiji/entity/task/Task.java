@@ -27,8 +27,17 @@ public class Task extends Entity{
 	private String levelTwo;
 	private String levelThree;
 	private String taskCode;
+	private int saveState;
 	
 	
+	public int getSaveState() {
+		return saveState;
+	}
+
+	public void setSaveState(int saveState) {
+		this.saveState = saveState;
+	}
+
 	public String getID() {
 		return ID;
 	}	

@@ -412,7 +412,6 @@ function  sendMessage(Content,recipient){
 			  else{
 				  var messageID = o;
 				  messageID = messageID.substring(1,messageID.length-1);
-				  alert(messageID);
 				  $.ajax({
 					  url:'messageNoticeController/addMessageNotice.do?MessageID='+messageID+'&recipient='+recipient,
 					  success:function(s){

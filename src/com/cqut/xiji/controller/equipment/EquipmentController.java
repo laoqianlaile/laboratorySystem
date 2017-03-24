@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -48,8 +50,8 @@ public class EquipmentController {
 	 */
 	@RequestMapping("/addEquipment")  
     @ResponseBody
-	public int addEquipment(String equipmentName, String equipmentType, String model, String department, String buyTime, int useYear, String factoryCode, String credentials, String effectiveTime,  String employeeID, String remarks){
-		int result = service.addEquipment(equipmentName, equipmentType, model, department, buyTime, useYear, factoryCode, credentials, effectiveTime, employeeID, remarks);
+	public int addEquipment(String equipmentName, String equipmentType, String model, String department, String buyTime, int useYear, String factoryCode, String credentials, String effectiveTime, String remarks,HttpServletRequest request,HttpServletResponse response){
+		int result = service.addEquipment(equipmentName, equipmentType, model, department, buyTime, useYear, factoryCode, credentials, effectiveTime, remarks,request,response);
 		return result;
 	}
 	

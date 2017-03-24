@@ -24,9 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
-<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
-<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
-<link rel="stylesheet" href="module/css/changeACE.css" />
+<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">x
 <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
 
 <script src="module/js/jquery-2.1.1.min.js"></script>

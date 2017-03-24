@@ -58,7 +58,7 @@ function fileUploadInit(selectorName) {
 
 		'fileTypeExts' : '*.jpg;*.gif;*.png;*.doc;*.docx;*.xls;*.xlsx',// 允许上传的文件后缀
 
-		'queueSizeLimit' : 3,// 允许上传的文件的最大数量。当达到或超过这个数字，onSelectError事件被触发。
+		'queueSizeLimit' : 1,// 允许上传的文件的最大数量。当达到或超过这个数字，onSelectError事件被触发。
 
 		'onUploadSuccess' : function(file, data, response) {
 			var re = new RegExp("\"", "g");
@@ -78,11 +78,12 @@ function downOneFile(fileID) {
 	$.post("/laboratorySystem/fileOperateController/filecheck.do", {
 		ID : fileID
 	}, function(result) {
-		if (result == '"OK"') {
+		result = eval(result);
+		if (result == "OK") {
 			window.location.href = "fileOperateController/filedownload.do?ID="
 					+ fileID;
 		} else {
-			chen.alert("下载错误");
+			alert(result);
 		}
 	});
 }
@@ -90,7 +91,6 @@ function downOneFile(fileID) {
 // 下载选中的所有文件,参数为文件ID
 function fileDownAll(ids) {
 	window.location.href = "fileOperateController/downloadFiles.do?IDs=" + ids;
-
 }
 
 // 删除所选文件
@@ -100,9 +100,9 @@ function deleteFile(ids) {
 		IDs : ids
 	}, function(result) {
 		if (result == true || result == "true") {
-			chen.alert("删除成功");
+			alert("删除成功");
 		} else {
-			chen.alert("删除失败");
+			alert("删除失败");
 		}
 	});
 }

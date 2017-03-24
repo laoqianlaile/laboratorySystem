@@ -9,8 +9,11 @@ $(function() {
 		$(".over").css("width", "0");
 		$(".over").css("height", "0");
 		var names = getTestTatol("add").names;
-		$("#addTestProject").val("");
-		$("#addTestProject").val(names.substring(0, names.length - 3));
+		var date = getTestTatol("add");
+//		$("#addTestProject").val("");
+//		$("#addTestProject").val(names.substring(0, names.length - 3));
+		swal({title:names,type:"warning"});
+		console.log(date);
 
 	});
 	
@@ -594,4 +597,88 @@ function getStandard(id){
 		}
 
 	});
+}
+
+
+// 填充设备数据
+function fullEquipments(equipmentDate){
+	var html = "<div class='form-control' >";
+	if(equipmentDate.length < 5){
+		for(var i = 0; i < equipmentDate.length ; i++){
+			html += "<option class='form-control' value ='"+equipmentDate[i].ID+"' onclick='displayChecked(this)'>" + equipmentDate[i].equipmentName+ " </option>";
+		}
+	}
+	else{
+		for(var i = 0; i < 4 ; i++){
+			html += "<option class='form-control' value ='"+equipmentDate[i].ID+"' onclick='displayChecked(this)'>" + equipmentDate[i].equipmentName+ " </option>";
+		}
+	}
+	html +="</div>"
+	$('#showEquipments').html(html);
+	$('#showEquipments').show();
+}
+// 获得焦点展示部分设备
+function showPartEquipment(date){
+	fullEquipments(getTestLisk());
+}
+//搜索展示部分设备
+function searchEquipment(){
+	fullEquipments(matchEquipment());
+}
+// 展示被选中的设备
+function displayChecked(equipmentInfo){
+
+	console.log(equipmentInfo);
+	
+	if(isSameID(equipmentInfo.value)){
+		html='<span class= "singleE" onclick="moveSingleE(this)" id ="'+equipmentInfo.value+'">'+equipmentInfo.text+'</span>';
+		$('#displayChecked').append(html);
+	}
+	else{
+		swal("请不要重复选中同一设备");
+	}
+}
+//检测是否有重复的ID设备
+function isSameID(checkID){
+	var allEquipmentIDs =$('#displayChecked span.singleE');
+	if(allEquipmentIDs.length == 0){
+		return true;
+	}
+	else{
+		for(var i=0;i<allEquipmentIDs.length;i++){
+			if(allEquipmentIDs[i].id === checkID){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+}
+// 删除点中的设备
+function moveSingleE(SingleEInfo){
+	$('span').remove('[id="'+SingleEInfo.id+'"]');
+}
+// 匹配设备名称 返回数据
+function matchEquipment(){
+	$('#showEquipments').css("display","block");
+	var matchName = $('#searchEquipments').val();
+	console.log(matchName);
+	var date;
+	$.ajax({
+		url : 'equipmentController/getEquipmentByName.do?equipmentName=' + matchName,
+		dataType : "json",
+		async : false,
+		data : {},
+		success :　function(o){
+			date = JSON.parse(o);
+		},
+		error : function(){
+			return false;
+		}
+	});
+	if(date.length == 0){
+		console.log("没有搜索到人员，请重新输入或检查是否有员工。");
+	}
+	return date;
+	
 }

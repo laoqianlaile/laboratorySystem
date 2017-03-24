@@ -3,6 +3,9 @@ package com.cqut.xiji.service.equipment;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 public interface IEquipmentService {
 
 	/**
@@ -30,15 +33,14 @@ public interface IEquipmentService {
 	 * @param factoryCode
 	 * @param credentials
 	 * @param effectiveTime
-	 * @param employeeName
 	 * @param remarks
 	 * @return
 	 */
 	public int addEquipment(String equipmentName,
 			String equipmentType, String model, String department,
 			String buyTime, int useYear, String factoryCode,
-			String credentials, String effectiveTime, String employeeID,
-			String remarks);
+			String credentials, String effectiveTime, String remarks,
+			HttpServletRequest request,HttpServletResponse response);
 	
 	/**
 	 * @param equipmentIds

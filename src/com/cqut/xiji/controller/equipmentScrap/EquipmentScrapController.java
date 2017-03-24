@@ -21,8 +21,8 @@ public class EquipmentScrapController{
 	
 	@RequestMapping("/getEquipmentScrapWithPaging")  
     @ResponseBody
-	public JSONObject getEquipmentScrapWithPaging(int limit, int offset, String sort, String order, String model, String equipmentName, String departmentID){
-		Map<String, Object> result = service.getEquipmentScrapWithPaging(limit,offset,sort,order,model,equipmentName,departmentID);
+	public JSONObject getEquipmentScrapWithPaging(int limit, int offset, String sort, String order, String equipmentName, String model, String employeeName,String departmentID){
+		Map<String, Object> result = service.getEquipmentScrapWithPaging(limit,offset,sort,order,equipmentName,model,employeeName,departmentID);
 		return JSONObject.fromObject(result);
 	}
 	
