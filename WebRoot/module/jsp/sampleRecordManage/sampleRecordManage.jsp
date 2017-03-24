@@ -228,7 +228,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</div>
 						<div class="col-xs-12 col-md-12">
 							<h4>退样人：</h4>
-							<input type="text" id="add_returnMan" name="returnMan" oninput="addGetEMName1()" onpropertychange="addGetEMName1()"
+							<input type="text" id="add_returnMan" name="" oninput="addGetEMName1()" onpropertychange="addGetEMName1()"
 								class="form-control" aria-describedby="basic-addon1" />
 								<div class="employeeN1">
 	                   
@@ -321,7 +321,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</div>
 						<div class="col-xs-12 col-md-12">
 							<h4>退样人：</h4>
-							<input type="text" id="edit_returnMan" name="returnMan" oninput="editGetEMName1()" onpropertychange="editGetEMName1()"
+							<input type="text" id="edit_returnMan" name="" oninput="editGetEMName1()" onpropertychange="editGetEMName1()"
 								class="form-control" aria-describedby="basic-addon1" />
 								<div class="employeeN1">
 	                   

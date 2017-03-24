@@ -381,7 +381,8 @@ function add(){
 	parame.returnMan = $('#add_returnMan').attr('name');
 	parame.returnTime = $('#add_returnTime').val();
 	parame.remarks = $('#add_remarks').val();
-	if(parame.getMan==""){
+	
+	if(parame.getMan!=""){
 	$("input").val("");
 	if(parame.sampleName!=""){
 	$.ajax({
@@ -456,10 +457,10 @@ function openModal(){
 	$('#edit_sampleName').val(data[0].sampleName);
 	$('#edit_specifications').val(data[0].specifications);
 	$('#edit_getMan').val(data[0].getMan);
-	//$('#edit_getMan1').val(data[0].getMan);
+	$('#edit_getMan').attr({'name' : "" + data[0].getManID + ""});
 	$('#edit_getTime').val(data[0].getTime);
-	//$('#edit_returnMan1').val(data[0].returnMan);
 	$('#edit_returnMan').val(data[0].returnMan);
+	$('#edit_returnMan').attr({'name' : "" + data[0].returnManID + ""});
 	$('#edit_returnTime').val(data[0].returnTime);
 	$('#edit_remarks').val(data[0].remarks);
 	$('#editModal').modal('show');
