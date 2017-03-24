@@ -22,16 +22,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="module/css/changeACE.css" />
 	<link rel="stylesheet" type="text/css" href="module/css/uploadify.css">
 	<link rel="stylesheet" href="module/css/contractManage/EditContract.css" />
+	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 	
 	<script src="assets/js/jquery-2.0.3.min.js"></script>
 	<script src="module/js/jquery.uploadify.min.js" type="text/javascript"></script>
 	<script src="module/js/bootstrap.js"></script>
 	<script src="module/js/bootstrap-table.js"></script>
 	<script src="module/js/bootstrap-table-zh-CN.js"></script>
-	<script src="module/js/bootstrap-treeview.js"></script>
 	<script src="module/js/bootstrap-datetimepicker.js"></script>
 	<script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
 	<script src="module/js/bootstrap-datetimepicker.fr.js"></script>
+	<script src="module/js/sweetalert.min.js"></script>
 </head>
 <body>
 	<div class="main">
@@ -176,7 +177,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 
 		<!-- 新增弹框 -->
-		<div id="file_uploadModal" class="modal" role="dialog">
+		<div id="file_uploadModal" class="modal" role="dialog" aria-labelledby="gridSystemModalLabel">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -184,14 +185,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					<div class="modal-body">
 						<div id="uploadfileQueue"></div>
-						<input type="file" id="file_upload" name="file_upload"
-							onchanage="chooseFileNum(this)" multiple="multiple">
+						<input type="file" id="file_upload" name="file_upload" onchanage="chooseFileNum(this)" multiple="multiple"/>
 						<label class="control-label">备注:</label>
 						<input type="text" id="fileRemarks" name="fileRemarks" class="form-control"/>
 					</div>
 					<div class="modal-footer">
-						<button class="btn-primary glyphicon" id="submitFileBtn"
-							onclick="submitFile()">提交</button>
+						<button class="btn-primary glyphicon" id="submitFileBtn" onclick="submitFile()">提交</button>
 					</div>
 				</div>
 			</div>
@@ -358,6 +357,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
   </div>
   </body>
-  <script src="module/js/contractManage/EditContract.js"></script>
+  <script src="module/js/contractManage/EditContract.js"  type="text/javascript"></script>
 	<script src="module/js/fileManage/fileManage.js" type="text/javascript"></script>
  </html>

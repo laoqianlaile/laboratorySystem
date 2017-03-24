@@ -147,10 +147,9 @@ function setID(){
 //得到合同的信息
 function getContractByID(){
 	var ID = $('#edit_contractID').val();
-	//swal("ID:" +ID);
 	if (!ID && typeof(ID)!="undefined" && ID=='') 
 	{ 
-		//swal("合同ID不能为空！"); 
+		swal("合同ID不能为空！"); 
 	}else {
 		var parame = {};
 		parame.ID = ID;
@@ -202,7 +201,7 @@ function coverContractFile(){
 	}else {
 		var parame = {};
 		parame.ID = ID;
-		var contractCode = $('#edit_contractCode').html();
+		/*var contractCode = $('#edit_contractCode').html();
 		var contractName = $('#edit_contractName').val();
 		var signAddress = $('#edit_signAddress').val();
 		var address = $('#edit_address').val();
@@ -285,7 +284,7 @@ function coverContractFile(){
 			parame.startTime = startTime;
 			parame.endTime = endTime;
 			parame.employeeName = employeeName;
-			parame.signTime = signTime;
+			parame.signTime = signTime;*/
 			
 			$.ajax({
 			  url:'contractController/coverContractFile.do',
@@ -296,43 +295,21 @@ function coverContractFile(){
 				  if(o<=0){
 					  swal("不存在合同模板文件");
 				  }
-				  window.location.href="module/jsp/contractManage/EditContract.jsp?ID=" + ID;
+				  setTimeout(refrehFileTable, 1000);
 			  },
 			  error:function(o){
 				  console.log(o);
 			  }
 			});
-		}
 	}
 }
+
 /**
  * 下载文件
  * @param id
  */
 function downFile(id){
 	downOneFile(id);
-/*	$.post("testReportController/getFileID.do", {
-		ID : id
-	}, function(result) {
-		var re = new RegExp("\"", "g");
-		result = result.replace(re, "");
-		if (result == null || result == "null") {
-			if (confirm("未找到相应文件，是否下载默认模版")) {
-				$.post("testReportController/getTemplateFileID.do", {
-					ID : id
-				}, function(result) {
-					result = JSON.parse(result);
-					if (result == null || result == "null") {
-						swal("未找到相应文件");
-					} else {
-						downOneFile(result[0].fileID);
-					}
-				});
-			}
-		} else {
-			downOneFile(result);
-		}
-	});*/
 }
 
 function openFile(id){
@@ -707,6 +684,11 @@ function showFileUploadModal(){
 //上传文件预处理
 function submitFile(){
 	//loadingData();
+	var remarks = $('#fileRemarks').val()
+	if (!remarks && typeof(remarks)!="undefined" && remarks == '') 
+	{ 
+		remarks = "";
+	}
 	var fileObj = {};
 	fileObj.path = "";//filePath; // 文件上传路径，如果此参数没有值，则使用firstDirectoryName,secondDirectoryName,thirdDirectoryName
 	fileObj.fileTypeNumber = 1;//fileTypeNumber; // 文件类型
@@ -715,26 +697,19 @@ function submitFile(){
 	fileObj.thirdDirectoryName = "合同文件";//fileThirdDirectory //三级目录
 	fileObj.belongtoID = $('#edit_contractID').val();
  	fileObj.otherInfo = "";//fileOtherInfo; // 其他参数
-	fileObj.remarks = $('#fileRemarks').val();//fileRemarks; // 备注
+	fileObj.remarks = remarks;//fileRemarks; // 备注
+	
 	//文件上传
-	 fileUpload("#file_upload",fileObj.filePath, fileObj.fileTypeNumber,  fileObj.belongtoID,fileObj.firstDirectoryName, fileObj.secondDirectoryName,fileObj.thirdDirectoryName,
+	fileUpload("#file_upload",fileObj.filePath, fileObj.fileTypeNumber,  fileObj.belongtoID,fileObj.firstDirectoryName, fileObj.secondDirectoryName,fileObj.thirdDirectoryName,
 			 fileObj.otherInfo, fileObj.remarks) ;
 	 	 
-	 refresh();
-	 //旋转图片延缓
-	//setTimeout("dealUploadFile()",5000);
-	/* $.ajaxSetup({
-			global:false,
-			cache:false,
-			beforeSend:function(){
-				loadingData();
-			},
-			complete:function(){
-				removeLoadingData();
-				$('#fileTable').bootstrapTable('refresh',null);
-			},
-			timeout:10000,
-		});*/
+	setTimeout(refrehFileTable, 1000);
+}
+
+//文件上传成功后操作
+function refrehFileTable() {
+	$('#show_contractFile').bootstrapTable('refresh', null);
+	$('#file_uploadModal').modal("hide");
 }
 
 function updateContractFileID(){
@@ -1371,8 +1346,7 @@ function addItem(){
 	}
 	if (!remarks && typeof(remarks)!="undefined" && remarks=='') 
 	{ 
-		alert("备注为空！");
-	
+		parame.remarks = "";
 	}
 		parame.contractID = $('#edit_contractID').val();
 		parame.fineItemCode = fineItemCode;
