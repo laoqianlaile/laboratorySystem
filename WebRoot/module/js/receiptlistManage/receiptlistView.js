@@ -1,6 +1,5 @@
 $(function() {
-	//var ID = getUrlParam("ID");
-    var ID=1;
+	var ID = getUrlParam("reID");
 	// 得到交接单信息
 	$.ajax({
 		url : 'receiptlistController/getReceiptlistInformationInView.do',
@@ -10,19 +9,22 @@ $(function() {
 		dataType : 'json',
 		success : function(o) {
 			var data = JSON.parse(o);
-			$('#show_receiptlistCode').val(data[0].receiptlistCode);
-			$('#show_contractCode').val(data[0].contractCode);
-			$('#show_linkMan').val(data[0].linkMan);
-			$('#show_createTime').val(data[0].createTime);
-			$('#show_completeTime').val(data[0].completeTime);
-			$('#show_companyName').val(data[0].companyName);
-			$('#show_linkPhone').val(data[0].linkPhone);
-			$('#show_address').val(data[0].address);
-			$('#show_classifiedLevel').val(data[0].classifiedLevel);
-			$('#show_accordingDoc').val(data[0].accordingDoc);
+			if (typeof data[0] !== 'undefined') {
+				$('#show_receiptlistCode').val(data[0].receiptlistCode);
+				$('#show_contractCode').val(data[0].contractCode);
+				$('#show_linkMan').val(data[0].linkMan);
+				$('#show_createTime').val(data[0].createTime);
+				$('#show_completeTime').val(data[0].completeTime);
+				$('#show_companyName').val(data[0].companyName);
+				$('#show_linkPhone').val(data[0].linkPhone);
+				$('#show_address').val(data[0].address);
+				$('#show_classifiedLevel').val(data[0].classifiedLevel);
+				$('#show_accordingDoc').val(data[0].accordingDoc);
+			}
 		}
 	});
 
+	// 得到交接单对应样品的信息
 	// 得到交接单对应样品的信息
 	$('#sampleTable').bootstrapTable({
 		striped : true,// 隔行变色效果
@@ -83,12 +85,6 @@ $(function() {
 			valign : 'middle',// 垂直居中显示
 			width : '16%'// 宽度
 		}, {
-			field : 'testName',// 返回值名称
-			title : '检测/校准项目',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : '16%'// 宽度
-		}, {
 			field : 'require',// 返回值名称
 			title : '要求描述',// 列名
 			align : 'center',// 水平居中显示
@@ -104,6 +100,7 @@ $(function() {
 	// 列配置项,详情请查看 列参数 表格
 	/* 事件 */
 	});
+
 
 	// 得到交接单对应文件的信息
 	$('#fileTable').bootstrapTable({
@@ -164,7 +161,6 @@ $(function() {
 	});
 });
 
-
 function getUrlParam(name) {
 	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
 	var r = window.location.search.substr(1).match(reg);
@@ -173,10 +169,58 @@ function getUrlParam(name) {
 	return null;
 }
 
-function sure(){
-	window.location.href = window.location.href.split("?")[0]
-	.replace('receiptlistView.jsp',
-			'receiptlistManage.jsp');
+function sure() {
+	window.location.href = window.location.href.split("?")[0].replace(
+			'receiptlistView.jsp', 'receiptlistManage.jsp');
 }
 
+function checkData(data) {
+	if (!data.hasOwnProperty("receiptlistCode") || data.receiptlistCode == null
+			|| data.receiptlistCode.trim() == "NULL") {
+		data.receiptlistCode = "";
+	}
+	if (!data.hasOwnProperty("contractCode") || data.contractCode == null
+			|| data.contractCode.trim() == "NULL") {
+		data.contractCode = "";
+	}
 
+	if (!data.hasOwnProperty("linkMan") || data.linkMan == null
+			|| data.linkMan.trim() == "NULL") {
+		data.linkMan = "";
+	}
+
+	if (!data.hasOwnProperty("createTime") || data.createTime == null
+			|| data.createTime.trim() == "NULL") {
+		data.createTime = "";
+	}
+
+	if (!data.hasOwnProperty("completeTime") || data.completeTime == null
+			|| data.completeTime.trim() == "NULL") {
+		data.completeTime = "";
+	}
+
+	if (!data.hasOwnProperty("companyName") || data.companyName == null
+			|| data.companyName.trim() == "NULL") {
+		data.companyName = "";
+	}
+
+	if (!data.hasOwnProperty("linkPhone") || data.linkPhone == null
+			|| data.linkPhone.trim() == "NULL") {
+		data.linkPhone = "";
+	}
+
+	if (!data.hasOwnProperty("address") || data.address == null
+			|| data.address.trim() == "NULL") {
+		data.address = "";
+	}
+
+	if (!data.hasOwnProperty("classifiedLevel") || data.classifiedLevel == null
+			|| data.classifiedLevel.trim() == "NULL") {
+		data.classifiedLevel = "";
+	}
+
+	if (!data.hasOwnProperty("accordingDoc") || data.accordingDoc == null
+			|| data.accordingDoc.trim() == "NULL") {
+		data.accordingDoc = "";
+	}
+}
