@@ -14,7 +14,6 @@
 	width: 98%;
 	margin-top: 10px;
 	margin-bottom: 10px
-	
 }
 
 .row {
@@ -60,13 +59,28 @@
 }
 
 .buttonGroup button:hover {
-	border: none;
 	color: #fff;
 	background-color: rgb(255, 173, 51);
 }
 
+.uploadFileText {
+	width: 96%;
+	margin: 10px auto;
+}
+
+.uploadFileText label {
+	float: left;
+	width: 20%;
+	margin-top: 10px;
+}
+
+.uploadFileText input {
+	width: 75% !important;
+}
 
 #recoverReport textarea {
+	width: 75%;
+	height: 100px;
 	resize: none;
 	overflow-y: scroll;
 }
@@ -81,12 +95,6 @@
 
 #testReportID {
 	display: none;
-}
-
-#table thead,.modal-header {
-	background-color: #364760;
-	color: #fff;
-	font-size: blod 14px;
 }
 
 .bs-checkbox {

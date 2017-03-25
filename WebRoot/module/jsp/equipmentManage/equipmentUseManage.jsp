@@ -18,66 +18,66 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
+	<link rel="stylesheet" href="module/css/changeACE.css" />
+	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="module/css/equipmentManage/equipmentManage.css">
+	<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
+	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 	
 	<script src="assets/js/jquery-2.0.3.min.js"></script>
 	<script src="module/js/bootstrap.js"></script>
 	<script src="module/js/bootstrap-table.js"></script>
 	<script src="module/js/bootstrap-table-zh-CN.js"></script>
-	<script src="module/js/bootstrap-treeview.js"></script>
-	<style type="text/css">
-	.list-searcher {
-		min-width: 300px;
-		height: 40px;
-		margin-left: 60px;
-	}
-	.list-searcher input {
-		display: inline-block;
-		margin-right: 20px;
-		width: 200px;
-	}
-	
-	.list-searcher span {
-		display: inline-block;
-		
-	}
-	.list-searcher select {
-		width:120px;
-		display: inline-block;
-	}
-	.backgray{
-	  	background: gray;
-	}
-	.fixed-table-container .bs-checkbox {
-	    text-align: center;
-	    vertical-align: middle;
-	}
-	#searcherArea{
-	 	min-width: 1300px;
-	}
-	.bootstrap-table{
-		min-width: 1500px;
-	}
-	</style>
+	<script src="module/js/bootstrap-datetimepicker.js"></script>
+	<script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script src="module/js/bootstrap-datetimepicker.fr.js"></script>
+	<script src="module/js/sweetalert.min.js"></script>
 </head>
 <body>
-  
- 	 <!-- 功能按钮 -->
- 	 <div id="searcherArea">
-		<div class="list-searcher">
-			<span>样品名称：</span><input type="text" id="schSampleName" name="schSampleName" class="form-control" >
-			<span>检测项目：</span><input type="text" id="schTestProject" name="schTestProject" class="form-control" >
-			<span>使用人：</span><input type="text" id="schApplicat" name="schApplicat" class="form-control" >
+	<div id="searcherArea">
+		<div class="row">
+			<div class="col-xs-4 col-md-4 col-lg-4">
+				<label>样品名称:</label>
+				<input type="text" id="schSampleName" name="schSampleName" class="form-control" aria-describedby="basic-addon1" placeholder="请输入样品名称">
+			</div>
+			<div class="col-xs-4 col-md-4 col-lg-4">
+				<label>检测项目:</label>
+				<input type="text" id="schTestProject" name="schTestProject" class="form-control" aria-describedby="basic-addon1" placeholder="请输入检测项目">
+			</div>
+			<div class="col-xs-4 col-md-4 col-lg-4">
+				<label>登记人:</label>
+				<input type="text" id="schApplicat" name="schApplicat" class="form-control" aria-describedby="basic-addon1" placeholder="请输入登记人">
+			</div>
 		</div>
-		<div class="list-searcher">
-		    <span>设备名称：</span><input type="text" id="schEquipmentName" name="schEquipmentName" class="form-control" >
-			<span>使用时间：</span><input type="date" id="schStartTime" name="schStartTime" class="form-control" > 
-			<span> 至  </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="schEndTime" name="schEndTime" class="form-control" >
+		<div class="row">
+			<div class="col-xs-4 col-md-4 col-lg-4">
+				<label>设备名称:</label>
+				<input type="text" id="schEquipmentName" name="schEquipmentName" class="form-control" aria-describedby="basic-addon1" placeholder="请输入设备名称">
+			</div>
+			<div class="col-xs-4 col-md-4 col-lg-4">
+				<label class="control-label">使用时间:</label>
+				<div class="input-group date form_datetime timeChooseDiv"> 
+   					<input class="form-control" id="schStartTime" size="16" type="text" value="" readonly="true" placeholder="请选择使用时间">
+    				<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+				 </div>
+			</div>
+			<div class="col-xs-4 col-md-4 col-lg-4">
+				<label class="control-label">至</label>
+				<div class="input-group date form_datetime timeChooseDiv"> 
+   					<input class="form-control" id="schEndTime" size="16" type="text" value="" readonly="true" placeholder="请选择使用时间">
+    				<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+				 </div>
+			</div>
 		</div>
 	</div>
-  	 <div class="input-group" style="float: right;margin-bottom: 10px;">
+
+	<div class="input-group-area" >
   	 	<button type="button" onclick="search()" class="btn btn-primary glyphicon glyphicon-search">&nbsp;查询</button>
   		<button id="refresh" onclick="refresh()" type="button" class="btn btn-primary glyphicon glyphicon-refresh">&nbsp;刷新</button>
-  		</div> 
+	</div>
   		
   	<!-- 表格 -->
   	<table id="table">

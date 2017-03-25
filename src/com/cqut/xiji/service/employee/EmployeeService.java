@@ -16,10 +16,12 @@ import net.sf.json.JSONArray;
 
 import org.springframework.stereotype.Service;
 
+import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.contract.Contract;
 import com.cqut.xiji.entity.employee.Employee;
+import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
@@ -28,7 +30,10 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 
 	@Resource(name="entityDao")
 	EntityDao entityDao;
-
+	
+	@Resource(name = "baseEntityDao")
+	BaseEntityDao baseEntityDao;
+	
 	@Resource(name="searchDao")
 	SearchDao searchDao;
 
@@ -294,8 +299,8 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			String joinEntity = " left join role on employee.roleID = role.ID "
 					+ " left join department on employee.departmentID = department.ID "
 					+ " left join duty on employee.dutyID = duty.ID ";
-			
-			String condition = "1 = 1 ";
+			int permission=1;
+			String condition = "1 = 1 and employee.permission="+permission;
 			
 			if (employeeName != null && !employeeName.equals("")) {
 				condition += " and employee.employeeName like '%"
@@ -356,9 +361,11 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			employee.setPassword("123456");
 			employee.setState(0);
 			employee.setLevel(0);
+			employee.setPermission(1);
 			int result = entityDao.save(employee);
 			return result + "";
 		}
+		
 		/**
 		 * @description 删除员工
 		 * @author Hzz
@@ -448,7 +455,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			if(employeeID == null || employeeID.isEmpty()){
 				return null;
 			}
-			String condition = " 1 = 1 AND employee.ID = " + employeeID;
+			String condition = " 1 = 1 AND employee.ID = '" + employeeID+"'";
 			List<Map<String, Object>> result = originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false);
 			return result;
 		}
@@ -479,4 +486,25 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			return result +"";
 		}
 		
+		@Override
+	public boolean addSignatrueAndStamp(String fileID, String selectorName) {
+		Map<String, Object> fileInfo = baseEntityDao.findByID( new String[] { "path,belongtoID" }, fileID, "ID", "fileinformation");
+		if (fileInfo != null && fileInfo.size() > 0) {
+			String employeeID = fileInfo.get("belongtoID").toString();
+			String imagePath = fileInfo.get("path").toString();
+			Employee ee = entityDao.getByID(employeeID, Employee.class);
+			if (selectorName.equals("#singnatureImg")) {
+				ee.setSingnature(imagePath);
+				return baseEntityDao.updatePropByID(ee, employeeID) > 0 ? true
+						: false;
+			} else {
+				ee.setStamp(imagePath);
+				return baseEntityDao.updatePropByID(ee, employeeID) > 0 ? true
+						: false;
+			}
+		} else {
+			return false;
+		}
+
+	}
 }

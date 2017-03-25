@@ -130,6 +130,7 @@ function search() {
 		reportName : $.trim($('#reportName').val()),
 		beginTime : $.trim($('#beginTime').val()),
 		endTime : $.trim($('#endTime').val()),
+		selectPart : $.trim($('#selectPart').val())
 	};
 	$('#table').bootstrapTable('refresh', {
 		silent : true,
@@ -142,7 +143,7 @@ function search() {
 function filelDown() {
 	var rows = $('#table').bootstrapTable('getSelections');
 	if (rows.length == 0) {
-		chen.alert("请选择一个或多个文件下载");
+		alert("请选择一个或多个文件下载");
 		return;
 	}
 	if (rows.length == 1) {
@@ -163,11 +164,11 @@ function filelDown() {
 function checkReport() {
 	var rows = $("#table").bootstrapTable('getSelections');
 	if (rows.length == 0) {
-		chen.alert("请选择要查看的检测报告");
+		alert("请选择要查看的检测报告");
 		return;
 	}
 	if (rows.length > 1) {
-		chen.alert("请选择一条数据");
+		alert("请选择一条数据");
 		return;
 	} else {
 		var testReportID = rows[0].ID;
@@ -180,68 +181,102 @@ function checkReport() {
 
 // 二次审核通过
 function secondAuditPass() {
-	var keyID = arguments[0];
-	var taskID = arguments[1];
-	var fileName = arguments[2];
+	var keyID = arguments[0],
+	    taskID = arguments[1],
+	    fileName = arguments[2];
 	if (confirm("是否通过审核")) {
-		$.post("testReportController/secondPassReport.do",
-						{
-							ID : keyID,
-							taskID : taskID
-						},
-						function(result) {
-							if (result == true || result == "true") {
-								refresh();
-								chen.alert("审核通过成功");
-								$.post("messageController/addReportSecondAuditPassMessage.do",
+		$("#PassTestReportID").text(keyID);
+		$("#PassTaskID").text(taskID);
+		$("#PassFileName").text(fileName);
+		$.post("testReportController/secndAuditOperateCheck.do", {
+			ID : keyID
+		}, function(result) {
+			if (result == true || result == "true") {
+				$("#PassReason").val("");
+				$("#secondAuditPassModal").modal("show");
+			} else {
+				alert("当前报告不允许设置审核通过");
+			}
+		});
+	}
+}
+
+// 确认审核通过
+function secondAuditPassSure(){
+	var keyID = $("#PassTestReportID").text(),
+	    taskID = $("#PassTaskID").text(),
+	    fileName = $("#PassFileName").text(),
+	    auditPassAgreement = $("#PassReason").val();
+	$.post("testReportController/secondPassReport.do",
+	{
+		ID : keyID,
+		taskID : taskID,
+		passAgreement : auditPassAgreement
+	},
+	function(result) {
+		if (result == true || result == "true") {
+			refresh();
+			alert("审核通过成功");
+			$.post("messageController/addReportSecondAuditPassMessage.do",
+							{
+                                fileName : fileName
+							},
+							function(result) {
+								var re = new RegExp("\"","g");
+								result = result.replace(re,"");
+								$.post("messageNoticeController/addReportAuditMessageNotice.do",
 												{
-                                                    fileName : fileName
-												},
-												function(result) {
-													var re = new RegExp("\"","g");
-													result = result.replace(re,"");
-													$.post("messageNoticeController/addReportAuditMessageNotice.do",
-																	{
-																		messageID : result,
-																		testreportID : keyID
-																	});
+													messageID : result,
+													testreportID : keyID
 												});
-								$.post("messageController/addWaitThirdAuditReportMessage.do",
+							});
+			$.post("messageController/addWaitThirdAuditReportMessage.do",
+					{
+                        fileName : fileName
+					},
+					function(result) {
+						var re = new RegExp("\"","g");
+						result = result.replace(re,"");
+						$.post("messageNoticeController/addReportThridAuditPersonMessageNotice.do",
 										{
-                                            fileName : fileName
-										},
-										function(result) {
-											var re = new RegExp("\"","g");
-											result = result.replace(re,"");
-											$.post("messageNoticeController/addReportThridAuditPersonMessageNotice.do",
-															{
-																messageID : result
-															});
+											messageID : result
 										});
-							} else {
-								refresh();
-								chen.alert("通过审核失败");
-							}
-						});
+					});
+		} else {
+			refresh();
+			alert("通过审核失败");
 		}
+	});
+	$("#secondAuditPassModal").modal("hide");
 }
 
 // 二次审核驳回
 function secondAuditReject() {
 	var keyID = arguments[0];
-	var taskID = arguments[1];
-	var fileName = arguments[2];
-	$("#testReportID").text(keyID);
-	$("#taskID").text(taskID);
-	$("#fileName").text(fileName);
-	$("#secondAuditRejectModal").modal("show");
+	    taskID = arguments[1],
+	    fileName = arguments[2];
+	if (confirm("是否驳回报告")) {
+		$("#testReportID").text(keyID);
+		$("#taskID").text(taskID);
+		$("#fileName").text(fileName);
+		$.post("testReportController/secndAuditOperateCheck.do", {
+			ID : keyID
+		}, function(result) {
+			if (result == true || result == "true") {
+				$("#rejectReason").val("");
+				$("#secondAuditRejectModal").modal("show");
+			} else {
+				alert("当前报告不允许驳回审核");
+			}
+		});
+	}
 }
 
 // 确认驳回
 function secondAuditRejectSure() {
-	var keyID = $("#testReportID").text();
-	var taskID = $("#taskID").text();
-	var fileName = $("#fileName").text();
+	var keyID = $("#testReportID").text(),
+	    taskID = $("#taskID").text(),
+	    fileName = $("#fileName").text();
 	$.post("testReportController/secondRejectReport.do",
 					{
 						ID : keyID,
@@ -251,7 +286,7 @@ function secondAuditRejectSure() {
 					function(result) {
 						if (result == true || result == "true") {
 							refresh();
-							chen.alert("驳回成功");
+							alert("驳回成功");
 							$.post("messageController/addReportSecondAuditRejectMessage.do",
 											{
 												fileName : fileName
@@ -267,7 +302,7 @@ function secondAuditRejectSure() {
 											});
 						} else {
 							refresh();
-							chen.alert("驳回失败");
+							alert("驳回失败");
 						}
 					});
 	$("#secondAuditRejectModal").modal("hide");
@@ -281,6 +316,7 @@ function refresh() {
 		reportName : "",
 		beginTime : "",
 		endTime : "",
+		selectPart : ""
 	};
 	$("#table").bootstrapTable('refresh', {
 		silent : true,

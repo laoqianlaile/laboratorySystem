@@ -1,6 +1,7 @@
+@CHARSET "UTF-8";
 .content input,.content select {
 	display: inline;
-	width: 150px;
+	width: 160px;
 }
 
 .top {
@@ -43,14 +44,10 @@
 
 .head {
 	width: 100%;
-	height: 55px;
 }
 
 .content {
 	margin-left: 30px;
-	position: relative;
-	top: 50%;
-	transform: translateY(-50%);
 }
 
 .content label {
@@ -124,4 +121,12 @@
 
 .col-xs-12 {
 	padding: 0;
+}
+
+.col-md-3{
+	margin-bottom:10px;
+}
+
+.btn3:hover{
+	background:#ffad33;
 }

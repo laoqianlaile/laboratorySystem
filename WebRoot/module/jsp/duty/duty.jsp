@@ -26,7 +26,9 @@
 <link rel="stylesheet" type="text/css"
 	href="module/css/timecheck/suggest.css">
 	<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
-		
+		 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+ 		
+	<script src="module/js/sweetalert.min.js"></script>
 	
 <script src="assets/js/autoPage.js"></script>
 
@@ -66,11 +68,15 @@ span {
 	margin-top: 11px;
 	float: left;
 	text-indent: 1em;
+	font-weight: 500;
+	font-size: 18px;
 }
  #Jobprofile label {
 	margin-top: 11px;
 	float: left;
 	text-indent: 1em;
+	font-weight: 500;
+	font-size: 18px;
 }
 
 textarea {
@@ -183,7 +189,7 @@ textarea {
 						</div>
 						<div style="margin-top:20px" id="departin">
 							<label>&nbsp;职务简介:</label>
-							<textarea rows="6" cols="40" id="add_introduction"></textarea>
+							<textarea rows="6" cols="66" id="add_introduction"></textarea>
 							<input id="ID" type="hidden"></input>
 						</div>
 					</div>
@@ -229,7 +235,7 @@ textarea {
 						</div>
 						<div style="margin-top:20px"id="Jobprofile" >
 							<label>职务简介:</label>
-							<textarea rows="6" cols="40" id="edit_introduction"></textarea>
+							<textarea rows="7" cols="66" id="edit_introduction"></textarea>
 							<input id="ID" type="hidden"></input>
 						</div>
 					</div>

@@ -18,19 +18,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
+	<link rel="stylesheet" type="text/css" href="module/css/fileManage/fileManage.css">
+	<link rel="stylesheet" type="text/css" href="module/css/changeACE.css" />
+	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="module/css/contractManage/contractAudit.css">
+	<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
+	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 	
 	<script src="assets/js/jquery-2.0.3.min.js"></script>
 	<script src="module/js/bootstrap.js"></script>
 	<script src="module/js/bootstrap-table.js"></script>
 	<script src="module/js/bootstrap-table-zh-CN.js"></script>
-	<script src="module/js/bootstrap-treeview.js"></script>
+	<script src="module/js/bootstrap-datetimepicker.js"></script>
+	<script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script src="module/js/bootstrap-datetimepicker.fr.js"></script>
+	<script src="module/js/sweetalert.min.js"></script>
 </head>
 <body>
   
  	 <!-- 功能按钮 -->
-	 <div class="content">
 		<div class="searchArea">
 			<div class="row">
 				<div class="col-xs-3 col-md-3 col-lg-3">
@@ -38,33 +45,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input type="text" id="schContractCode" name="schContractCode" class="form-control" aria-describedby="basic-addon1" placeholder="请输入合同编号查找"/>
 				</div>
 				<div class="col-xs-3 col-md-3 col-lg-3">
-					<label class="wide">乙方法定代表人(代理人):</label><input type="text" id="schEmployeeName" name="schEmployeeName" class="form-control narrow" aria-describedby="basic-addon1"  placeholder="请输入员工名查找"/>
+					<label class="wide">乙方代表:</label><input type="text" id="schEmployeeName" name="schEmployeeName" class="form-control narrow" aria-describedby="basic-addon1"  placeholder="请输入员工名查找"/>
 				</div>
 				<div class="col-xs-3 col-md-3 col-lg-3">
-					<div class="timeLabelDiv">
-						<label class="control-label">签订时间:</label>
-					</div>
-					<div class="input-group date form_datetime timeChooseDiv">
-						<input class="form-control" name="schStartTime" id="schStartTime"
-							size="16" type="text" value="" readonly="true"
-							placeholder="请选择签订时间"> <span class="input-group-addon"><span
-							class="glyphicon glyphicon-remove"></span></span> <span
-							class="input-group-addon"><span
-							class="glyphicon glyphicon-calendar"></span></span>
-					</div>
+					<label>签订时间:</label>
+					<div class="input-group date form_datetime_schTime timeChooseDiv"> 
+   						<input class="form-control" id="schStartTime" size="16" type="text" value="" readonly="true" placeholder="请选择签订时间">
+    					<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+						<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+				 	</div>
 				</div>
 				<div class="col-xs-3 col-md-3 col-lg-3">
-					<div class="timeLabelDiv">
-						<label class="control-label">至</label>
-					</div>
-					<div class="input-group date form_datetime timeChooseDiv">
-						<input class="form-control" name="schEndTime" id="schEndTime" size="16"
-							type="text" value="" readonly="true" placeholder="请选择签订时间">
-						<span class="input-group-addon"><span
-							class="glyphicon glyphicon-remove"></span></span> <span
-							class="input-group-addon"><span
-							class="glyphicon glyphicon-calendar"></span></span>
-					</div>
+					<label>至</label>
+					<div class="input-group date form_datetime_schTime timeChooseDiv"> 
+   						<input class="form-control" id="schEndTime" size="16" type="text" value="" readonly="true" placeholder="请选择签订时间">
+    					<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+						<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+				 	</div>
 				</div>
 			</div>
 
@@ -73,7 +70,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<label>甲方:</label><input type="text" id="schCompanyName" name="schCompanyName" class="form-control" aria-describedby="basic-addon1" placeholder="请输入甲方公司名查找"/>
 				</div>
 				<div class="col-xs-3 col-md-3 col-lg-3">
-					<label class="wide">甲方法定代表人(代理人):</label><input type="text" id="schOppositeMen" name="schOppositeMen" class="form-control narrow" aria-describedby="basic-addon1" placeholder="请输入甲方代理人查找"/>
+					<label class="wide">甲方代表:</label><input type="text" id="schOppositeMen" name="schOppositeMen" class="form-control narrow" aria-describedby="basic-addon1" placeholder="请输入甲方代理人查找"/>
 				</div>
 				<div class="col-xs-3 col-md-3 col-lg-3">
 					<label>联系电话:</label><input type="text" id="schLinkPhone" name="schLinkPhone" class="form-control" aria-describedby="basic-addon1" placeholder="请输入联系电话查找"/> 
@@ -94,17 +91,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 
-
-		<div class="buttonGroup">
-			<div>
-  	 			<button type="button" onclick="searchContract()" class="btn btn-primary">查询</button>
-  				&nbsp;<button type="button" onclick="showContractA()" class="btn btn-primary">审查</button>
-  				&nbsp;<button type="button" onclick="writeModal1()" class="btn btn-primary">通过</button>
-  				&nbsp;<button type="button" onclick="writeModal2()" class="btn btn-primary">驳回</button>
-  				&nbsp;<button id="refresh" onclick="refresh()" type="button" class="btn btn-primary">刷新</button>
+		<div class="input-group-area">
+  	 			<button type="button" onclick="searchContract()" class="btn btn-primary glyphicon glyphicon-search">&nbsp;查询</button>
+  				<button type="button" onclick="showContractA()" class="btn btn-primary glyphicon glyphicon-show">&nbsp;审查</button>
+  				<button type="button" onclick="writeModal1()" class="btn btn-primary glyphicon glyphicon-ok">&nbsp;通过</button>
+  				<button type="button" onclick="writeModal2()" class="btn btn-primary glyphicon glyphicon-remove">&nbsp;驳回</button>
+  				<button id="refresh" onclick="refresh()" type="button" class="btn btn-primary glyphicon glyphicon-refresh">&nbsp;刷新</button>
 			</div>
 		</div>
-	</div>
   	
   	<!-- 填写审核意见弹框 -->
   	<div id="writeModal1" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
@@ -123,7 +117,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      	</div>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-primary" onclick="approved()">通过</button>
+	        <button type="button" class="btn btn-primary glyphicon glyphicon-ok" onclick="approved()">通过</button>
 	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 	      </div>
 	  </div>

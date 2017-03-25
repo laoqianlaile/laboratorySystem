@@ -347,46 +347,7 @@ function isContains(str, substr) {
 }
 	
 
-function playTestProjectHtml(data, testNamevalue, isAdd) {
 
-	var html = "";
-	var checkName = "";
-	
-	for (var i = 0; i < data.length; i++) {
-		html += "<div class='col-xs-12  col-md-12' style='text-align:center' >";
-		if (isContains(testNamevalue, data[i].employeeName))
-			html += '<input type="hidden"  checked="chenked" value="'
-					+ data[i].ID + '" name="' + checkName + '"'
-					+ 'class="chooseInput" ><label class="fontStyle">'
-					+ data[i].employeeName + '</label></div>';
-		else
-			html += '<input type="hidden"   value="' + data[i].ID
-					+ '" name="' + checkName + '"'
-					+ 'class="chooseInput" ><label class="fontStyle" >'
-					+ data[i].employeeName + '</label></div>';
-	}
-	return html;
-}
-function playTestProjectHtml1(data, testNamevalue, isAdd) {
-
-	var html = "";
-	var checkName = "";
-	
-	for (var i = 0; i < data.length; i++) {
-		html += "<div class='col-xs-12  col-md-12' style='text-align:center' >";
-		if (isContains(testNamevalue, data[i].employeeName))
-			html += '<input type="hidden"  checked="chenked" value="'
-					+ data[i].ID + '" name="' + checkName + '"'
-					+ 'class="chooseInput" ><label class="fontStyle1">'
-					+ data[i].testName + '</label></div>';
-		else
-			html += '<input type="hidden"   value="' + data[i].ID
-					+ '" name="' + checkName + '"'
-					+ 'class="chooseInput" ><label class="fontStyle1" >'
-					+ data[i].employeeName + '</label></div>';
-	}
-	return html;
-}
 function getdataLisk() {
 	var data;
 	$.ajax({
@@ -420,18 +381,25 @@ function add(){
 	parame.returnMan = $('#add_returnMan').attr('name');
 	parame.returnTime = $('#add_returnTime').val();
 	parame.remarks = $('#add_remarks').val();
+	
+	if(parame.getMan!=""){
 	$("input").val("");
+	if(parame.sampleName!=""){
 	$.ajax({
 	  url:'sampleRecordController/addSampleRecord.do',
 	  data:parame,
 	  success:function(o){
 		  if(o<=0){
-			  alert("新增失败");
+			  swal("新增失败");
 		  }
 		  $('#addModal').modal('hide');
 		  refresh();
 	  }
 	});
+	 }else swal("没这个样品");
+	}else swal("没领样人")
+	
+		
 }
 /* 查找方法 */
 function find(){
@@ -452,7 +420,7 @@ function find(){
 function lookData(){
 	var data = $('#table').bootstrapTable('getSelections');
 	if(data.length==0 || data.length>1){
-		alert("请选中一条数据");
+		swal("请选中一条数据");
 		return;
 	}
 
@@ -479,7 +447,7 @@ function openModal(){
 	var data = $('#table').bootstrapTable('getSelections');
 	
 	if(data.length==0 || data.length>1){
-		alert("请选中一条数据");
+		swal("请选中一条数据");
 		return;
 	}
 	$("div#only1 .form-control").attr({"disabled":false});
@@ -489,10 +457,10 @@ function openModal(){
 	$('#edit_sampleName').val(data[0].sampleName);
 	$('#edit_specifications').val(data[0].specifications);
 	$('#edit_getMan').val(data[0].getMan);
-	//$('#edit_getMan1').val(data[0].getMan);
+	$('#edit_getMan').attr({'name' : "" + data[0].getManID + ""});
 	$('#edit_getTime').val(data[0].getTime);
-	//$('#edit_returnMan1').val(data[0].returnMan);
 	$('#edit_returnMan').val(data[0].returnMan);
+	$('#edit_returnMan').attr({'name' : "" + data[0].returnManID + ""});
 	$('#edit_returnTime').val(data[0].returnTime);
 	$('#edit_remarks').val(data[0].remarks);
 	$('#editModal').modal('show');
@@ -509,13 +477,12 @@ $("#edit_factoryCode").change(function upperCase(factoryCode){
 		  data:parame,
 		  dataType:"json",
 		  success:function(result){
-			  alert("666666666");
 			$('#edit_sampleName').val(result.sampleName);
 			$('#edit_specifications').val(result.specifications);
 
 			  },
 			error:function(result){
-					alert("没这个样品");
+					swal("没这个样品");
 				}
 		});	
 	}
@@ -542,7 +509,7 @@ $("#add_factoryCode").change(function upperCase(factoryCode){
 			$('#add_specifications').val(result.specifications);
 		},
 		error:function(result){
-			alert("没这个样品");
+			swal("没这个样品");
 		}
 	
 		});	
@@ -584,7 +551,7 @@ function edit(){
 	  data:parame,
 	  success:function(o){
 		  if(o<=0){
-			  alert("修改失败");
+			  swal("修改失败");
 		  }
 		  $('#editModal').modal('hide');
 		  refresh();

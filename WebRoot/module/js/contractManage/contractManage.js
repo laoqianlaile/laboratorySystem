@@ -11,7 +11,7 @@ function initData(){
 		//height : 800,// 定义表格的高度
 		striped : true,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
-		pageSize : 10,// 页面数据条数
+		pageSize : 5,// 页面数据条数
 		pageNumber : 1,// 首页页码
 		pageList : [ 5,10,15 ],// 设置可供选择的页面数据条数
 		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
@@ -42,134 +42,178 @@ function initData(){
 		selectItemName : '',// radio or checkbox 的字段名
 		columns : [ {
 			checkbox : true,
-			width :"2%",// 宽度
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width :'3%',// 宽度
+			formatter : function(value, row, index) {
+				 checkData(row);	 //验证数据合理性					
+		    }
 		},{
 			field:'ID',//返回值名称
 			title:'合同ID',//列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : "10%",// 宽度
+			width : '10%',// 宽度
 			visible : false
 		},{
 			field:'fileID',//返回值名称
 			title:'文件ID',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"10%",//宽度
+			width:'10%',//宽度
 			visible:false
 		},{
 			field:'contractCode',//返回值名称
 			title:'合同编号',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"9%",//宽度
+			width:'11%',//宽度
 		},{
 			field:'contractName',//返回值名称
 			title:'合同名称',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"9%",//宽度
+			width:'11%',//宽度
 		},{
 			field:'companyName',//返回值名称
 			title:'甲方',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"9%",//宽度
+			width:'10%',//宽度
 		},{
 			field:'oppositeMen',//返回值名称
 			title:'甲方代表',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"6%",//宽度
+			width:'5%',//宽度
 		},{
 			field:'linkPhone',//返回值名称
 			title:'联系电话',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"7%",//宽度
+			width:'7%',//宽度
 		},{
 			field:'employeeName',//返回值名称
 			title:'乙方代表',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"5%",//宽度
+			width:'5%',//宽度
 		},{
 			field:'signAddress',//返回值名称
 			title:'签订地点',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"10%",//宽度
+			width:'11%',//宽度
 		},{
 			field:'signTime',//返回值名称
 			title:'签订时间',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"7%",//宽度
+			width:'8%',//宽度
 		},{
 			field:'startTime',//返回值名称
 			title:'履行开始时间',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"7%",//宽度
+			width:'8%',//宽度
 		},{
 			field:'endTime',//返回值名称
 			title:'履行结束时间',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"7%",//宽度
+			width:'8%',//宽度
 		},{
 			field:'contractAmount',//返回值名称
 			title:'合同金额',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"3%",//宽度
+			width:'5%',//宽度
 		},{
 			field:'isClassified',//返回值名称
 			title:'是否涉密',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"3%",//宽度
+			width:'3%',//宽度
+			visible:false
 		},{
 			field:'classifiedLevel',//返回值名称
 			title:'涉密等级',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"3%",//宽度
+			width:'3%',//宽度
+			visible:false
 		},{
 			field:'state',//返回值名称
 			title:'合同状态',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"3%",//宽度
+			width:'8%',//宽度
 		},{
 			field:'viewpoint',//返回值名称
 			title:'审核意见',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"4%",//宽度
+			width:'4%',//宽度
+			visible:false
 		}]//列配置项,详情请查看 列参数 表格
 		/*事件*/
 	});
 }
 
-/*//请求数据时的额外参数
-function queryParams(){
-	var searchCondition = {
-		limit : 10,
-		offset : 0,
-		sort : 'contractCode', 
-		order : 'asc',
-		contractCode : $.trim($('#schContractCode').val()),
-		employeeName : $.trim($('#schEmployeeName').val()),
-		companyName : $.trim($('#schCompanyName').val()),
-		startTime : $.trim($('#schStartTime').val()),
-		endTime : $.trim($('#schEndTime').val()),
-		oppositeMen : $.trim($('#schOppositeMen').val()),
-		linkPhone : $.trim($('#schLinkPhone').val()),
-		state : $.trim($('#schState').val()),
-	};
-    return searchCondition;
-}*/
+//检查合同数据是否合理并处理
+function checkData(dataObj) { // 后台数据字段为空就不会传上来
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null || dataObj.ID.trim() == "NULL" || dataObj.ID == undefined) {
+		dataObj.ID = "";
+	}
+	if (!dataObj.hasOwnProperty("fileID") || dataObj.fileID == null || dataObj.fileID.trim() == "NULL") {
+		  dataObj.fileID = "";
+	}
+	if (!dataObj.hasOwnProperty("contractCode") || dataObj.contractCode == null || dataObj.contractCode == undefined ) {
+		dataObj.contractCode = ""; //没有合同文件
+	}
+	if (!dataObj.hasOwnProperty("contractName") || dataObj.contractName == null || dataObj.contractName.trim() == "NULL") {
+		 dataObj.contractName = "";
+	}
+	if (!dataObj.hasOwnProperty("companyName") || dataObj.companyName == null || dataObj.companyName == undefined ) {
+		dataObj.companyName = ""; //能编辑
+	}
+	if (!dataObj.hasOwnProperty("oppositeMen") || dataObj.oppositeMen == null || dataObj.oppositeMen.trim() == "NULL") {
+		dataObj.oppositeMen = "";
+	}
+	if (!dataObj.hasOwnProperty("linkPhone") || dataObj.linkPhone == null) {
+		dataObj.linkPhone = "";
+	}
+	if (!dataObj.hasOwnProperty("employeeName") || dataObj.employeeName == null || dataObj.employeeName.trim() == "NULL") {
+		dataObj.employeeName = "";
+	}
+	if (!dataObj.hasOwnProperty("signAddress") || dataObj.signAddress == null || dataObj.signAddress.trim() == "NULL") {
+		dataObj.signAddress = "";
+	}
+	if (!dataObj.hasOwnProperty("signTime") || dataObj.signTime == null || dataObj.signTime.trim() == "NULL") {
+		dataObj.signTime = "";
+	}
+	if (!dataObj.hasOwnProperty("startTime") || dataObj.startTime == null || dataObj.startTime.trim() == "NULL") {
+		dataObj.startTime = "";
+	}
+	if (!dataObj.hasOwnProperty("endTime") || dataObj.endTime == null || dataObj.endTime.trim() == "NULL") {
+		dataObj.endTime = "";
+	}
+	if (!dataObj.hasOwnProperty("contractAmount") || dataObj.contractAmount == null) {
+		dataObj.contractAmount = "0";
+	}
+	if (!dataObj.hasOwnProperty("isClassified") || dataObj.isClassified == null || dataObj.isClassified.trim() == "NULL") {
+		dataObj.isClassified = "";
+	}
+	if (!dataObj.hasOwnProperty("classifiedLevel") || dataObj.classifiedLevel == null || dataObj.classifiedLevel.trim() == "NULL") {
+		dataObj.classifiedLevel = "";
+	}
+	if (!dataObj.hasOwnProperty("state") || dataObj.state == null || dataObj.state.trim() == "NULL") {
+		dataObj.state = "";
+	}
+	if (!dataObj.hasOwnProperty("viewpoint") || dataObj.viewpoint == null || dataObj.viewpoint.trim() == "NULL") {
+		dataObj.viewpoint = "";
+	}
+}
 
 /**
  * 搜索方法
@@ -188,14 +232,14 @@ function refresh(){
 function delData(){
 	var data = $('#table').bootstrapTable('getSelections');
 	if(data.length==0){
-		alert("请至少选中一条数据");
+		swal("请至少选中一条数据");
 		return;
 	}
 	var ID = "";
 	for(var i=0; i<data.length; i++){
 		ID += "ID = '" + data[i].ID + "' or ";
 	}
-	alert(ID.substring(0, (ID.length-3)));
+	//swal(ID.substring(0, (ID.length-3)));
 	var ajaxParameter = {
 			ids:ID.substring(0, (ID.length-3))	
 	};
@@ -206,7 +250,7 @@ function delData(){
 	  data:ajaxParameter,
 	  success:function(o){
 		  if(o<=0){
-			  alert("删除失败");
+			  swal("删除失败");
 		  }
 		  refresh();
 	  }
@@ -229,72 +273,76 @@ function add(){
 		var endTime = $('#add_endTime').val();
 		var isClassified = $("input[name='isClassified']:checked").val();
 		var classifiedLevel = $('#add_classifiedLevel').val();
-		alert(classifiedLevel);
 		if (!contractName && typeof(contractName)!="undefined" && contractName=='') 
 		{ 
-			alert("合同名不能为空！"); 
+			swal("合同名称为空");
 			return;
 		}
 		if (!companyName && typeof(companyName)!="undefined" && companyName=='') 
 		{ 
-			alert("公司名不能为空！");
+			swal("公司名不能为空！");
 			return;
 		}
 		if (!address && typeof(address)!="undefined" && address=='') 
 		{ 
-			alert("签约地点地址不能为空！");
+			swal("签约地点地址不能为空！");
 			return;
 		}
 		if (!signAddress && typeof(signAddress)!="undefined" && signAddress=='') 
 		{ 
-			alert("签约地点不能为空！");
+			swal("签约地点不能为空！");
 			return;
 		}
 		if (!oppositeMen && typeof(oppositeMen)!="undefined" && oppositeMen=='') 
 		{ 
-			alert("甲方法定代表人或代理人不能为空！");
+			swal("甲方法定代表人或代理人不能为空！");
 			return;
 		}
 		if (!linkPhone && typeof(linkPhone)!="undefined" && linkPhone=='') 
 		{ 
-			alert("联系电话不能为空！");
+			swal("联系电话不能为空！");
 			return;
 		}
 		else {
 			var reg = /^1(3|4|5|7|8)\d{9}$/;
 			 if (!reg.test(linkPhone)) {
-				 alert("联系电话格式错误！");
+				 swal("联系电话格式错误！");
 				 return;
 			 }
 		}
 		if (!employeeName && typeof(employeeName)!="undefined" && employeeName=='') 
 		{ 
-			alert("乙方法定代表人或代理人不能为空！");
+			swal("乙方法定代表人或代理人不能为空！");
 			return;
 		}
 		if (!signTime && typeof(signTime)!="undefined" && signTime=='') 
 		{ 
-			alert("签订日期不能为空！");
+			swal("签订日期不能为空！");
 			return;
 		}
 		if (!startTime && typeof(startTime)!="undefined" && startTime=='') 
 		{ 
-			alert("合同开始执行日期不能为空！");
-			return;
-		}if (!endTime && typeof(endTime)!="undefined" && endTime=='') 
-		{ 
-			alert("合同截至日期不能为空！"); 
+			swal("合同开始执行日期不能为空！");
 			return;
 		}
-		
+		if (!endTime && typeof(endTime)!="undefined" && endTime=='') 
+		{ 
+			swal("合同截至日期不能为空！"); 
+			return;
+		}
+		if (endTime <= startTime) 
+		{ 
+			swal("时间先后顺序选择错误！"); 
+			return;
+		}
 		if (!isClassified && typeof(isClassified)!="undefined" && isClassified=='') 
 		{ 
-			alert("是否保密不能为空！");
+			swal("是否保密不能为空！");
 			return;
 		}
 		if (!classifiedLevel && typeof(classifiedLevel)!="undefined" && classifiedLevel=='') 
 		{ 
-			alert("保密等级不能为空！");
+			swal("保密等级不能为空！");
 			return;
 		}
 		else {
@@ -316,7 +364,7 @@ function add(){
 				  data:parame,
 				  success:function(o){
 					  if(o<=0){
-						  alert("新增失败");
+						  swal("新增失败");
 					  }
 					  $('#addModal').modal('hide');
 					  refresh();
@@ -455,7 +503,6 @@ function addClick(){
  */
 function classifiedSth(){
 	var isClassified = $('input[name="isClassified"]:checked').val();
-	alert(isClassified);
 	if(isClassified == "0"){
 		$('#add_classifiedLevel').val("3");
 		$('#add_classifiedLevel #Level3').show();
@@ -473,19 +520,19 @@ function classifiedSth(){
 function showContractM() {
 	var data = $('#table').bootstrapTable('getSelections');
 	if(data.length==0 || data.length>1){
-		alert("请选中一条数据");
+		swal("请选中一条数据");
 		return;
 	}
 	var ID = data[0].ID;
 	if (!ID && typeof(ID)!="undefined" && ID=='') 
 	{ 
-		alert("合同编号不能为空！"); 
+		swal("合同编号不能为空！"); 
 	}else {
 		window.location.href="module/jsp/contractManage/contractView.jsp?ID="+ ID + "&type=0";
 	}
 	/*var data = $('#table').bootstrapTable('getSelections');
 	if (data.length == 0 || data.length > 1) {
-		alert("请选中一条数据");
+		swal("请选中一条数据");
 		return;
 	} else {
 		$.post("fileOperateController/onlinePreview.do", {
@@ -494,7 +541,7 @@ function showContractM() {
 			if (result != null && result != "null") {
 				window.location.href = "module/jsp/documentOnlineView.jsp";
 			} else {
-				alert("无法查看");
+				swal("无法查看");
 			}
 		});
 
@@ -503,7 +550,7 @@ function showContractM() {
 /*	var ID = data[0].ID;
 	if (!ID && typeof(ID)!="undefined" && ID=='') 
 	{ 
-		alert("合同ID为空！"); 
+		swal("合同ID为空！"); 
 	}else {
 		window.location.href="module/jsp/contractManage/contractView.jsp?ID=" + ID + "&type=0";
 	}*/
@@ -515,13 +562,13 @@ function showContractM() {
 function showContractA(){
 	var data = $('#table').bootstrapTable('getSelections');
 	if(data.length==0 || data.length>1){
-		alert("请选中一条数据");
+		swal("请选中一条数据");
 		return;
 	}
 	var ID = data[0].ID;
 	if (!ID && typeof(ID)!="undefined" && ID=='') 
 	{ 
-		alert("合同编号不能为空！"); 
+		swal("合同编号不能为空！"); 
 	}else {
 		window.location.href="module/jsp/contractManage/contractView.jsp?ID="+ ID + "&type=1";
 	}
@@ -533,18 +580,42 @@ function showContractA(){
 function EditContract(){
 	var data = $('#table').bootstrapTable('getSelections');
 	if(data.length==0 || data.length>1){
-		alert("请选中一条数据");
+		swal("请选中一条数据");
 		return;
 	}
 	if(data[0].state == "审核通过"){
-		alert("该合同已经审核通过！");
+		swal("该合同已经审核通过！");
 		return;
 	}
 	var ID = data[0].ID;
 	if (!ID && typeof(ID)!="undefined" && ID=='') 
 	{ 
-		alert("合同ID为空！"); 
+		swal("合同ID为空！"); 
 	}else {
 		window.location.href="module/jsp/contractManage/EditContract.jsp?ID="+ ID;
 	}
 }
+
+$('.form_datetime_schTime').datetimepicker({
+    language: 'zh-CN',
+    weekStart: 1,
+    todayBtn: 1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    minView: 2,
+    forceParse: 0,
+    format: 'yyyy.mm.dd'
+});
+$('.form_datetime_addTime').datetimepicker({
+    language: 'zh-CN',
+    weekStart: 1,
+    todayBtn: 1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    minView: 2,
+    forceParse: 0,
+    pickerPosition: 'top-right',
+    format: 'yyyy.mm.dd'
+});

@@ -8,11 +8,16 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
+
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
+import com.cqut.xiji.entity.employee.Employee;
 import com.cqut.xiji.entity.equipment.Equipment;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
@@ -86,6 +91,7 @@ public class EquipmentService extends SearchService implements
 				"equipment.useYear",
 				"equipmentType.ID as equipmentTypeID",
 				"equipmentType.name",
+				"equipment.employeeID",
 				"employee.employeeName",
 				"equipment.factoryCode",
 				"equipment.credentials",
@@ -113,7 +119,7 @@ public class EquipmentService extends SearchService implements
 				properties, tableName, joinEntity, null, condition, null,sort,
 				order, index, pageNum);
 		System.out.println("初始化成功:"+result);
-		int count = entityDao.getByCondition(" 1=1 ", Equipment.class).size();
+		int count = entityDao.searchForeign(properties, tableName, joinEntity, null, condition).size();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("total", count);
 		map.put("rows", result);
@@ -124,9 +130,23 @@ public class EquipmentService extends SearchService implements
 	public int addEquipment(String equipmentName,
 			String equipmentType, String model, String department,
 			String buyTime, int useYear, String factoryCode, String credentials,
-			String effectiveTime, String employeeID, String remarks){
+			String effectiveTime, String remarks,HttpServletRequest request,HttpServletResponse response){
+		HttpSession session = request.getSession();
+	    Object LOGINNAME = session.getAttribute("LOGINNAME");
+	    //操作对应的操作员
+	    String condition = "LOGINNAME = '"+LOGINNAME+"'";
+	    List<Employee> employee = entityDao.getByCondition(condition, Employee.class);
+
+	     //没找到对应用户
+	    if(employee.size()==0){
+	    	 return -1;
+	    }
+	    Employee employee2 = employee.get(0);
+		String employeeID = employee2.getID();
+		System.out.println("employeeID:"+employeeID);
 		Equipment equipment = new Equipment();
-		equipment.setID(EntityIDFactory.createId());
+		String ID = EntityIDFactory.createId();
+		equipment.setID(ID);
 		equipment.setEquipmentName(equipmentName);
 		equipment.setEquipmentTypeID(equipmentType);
 		equipment.setModel(model);
@@ -134,6 +154,7 @@ public class EquipmentService extends SearchService implements
 		equipment.setUseYear(useYear);
 		equipment.setFactoryCode(factoryCode);
 		equipment.setCredentials(credentials);
+		
 		equipment.setEmployeeID(employeeID);
 		equipment.setRemarks(remarks);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
@@ -155,6 +176,11 @@ public class EquipmentService extends SearchService implements
 		}
 		
 		int result = entityDao.save(equipment);
+		if(result <= 0){
+			String position = "ID =" + ID;
+			entityDao.deleteByCondition(position, Equipment.class);
+		}
+		
 		return result;
 	}
 	

@@ -25,9 +25,10 @@
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 <link rel="stylesheet" type="text/css" href="module/css/uploadify.css">
 <link rel="stylesheet" type="text/css" href="module/css/fileManage/fileManage.css">
-<link rel="stylesheet" type="text/css" href="module/css/fileManage/fileProcessManage.css">
 <link rel="stylesheet"  type="text/css" href="module/css/wait.css">
 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+<link rel="stylesheet" type="text/css" href="module/css/fileManage/fileProcessManage.css">
+<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
@@ -37,7 +38,7 @@
 <script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="module/js/bootstrap-datetimepicker.fr.js"></script>
 <script src="module/js/sweetalert.min.js"></script>
-<script src="module/js/alert.js"></script>
+<script src="assets/js/autoPage.js"></script>
 
 </head>
 

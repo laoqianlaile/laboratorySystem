@@ -24,6 +24,7 @@
 <link rel="stylesheet" type="text/css" href="module/css/uploadify.css">
 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 <link rel="stylesheet" type="text/css" href="module/css/testReportManage/testReportManage.css">
+<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
@@ -34,7 +35,13 @@
 <script src="module/js/bootstrap-datetimepicker.fr.js"></script>
 <script src="module/js/jquery.uploadify.min.js"></script>
 <script src="module/js/sweetalert.min.js"></script>
-<script src="module/js/alert.js"></script>
+<script src="assets/js/autoPage.js"></script>
+
+<style>
+.content button {
+	margin-left: 26px;
+}
+</style>
 
 </head>
 
@@ -113,6 +120,7 @@
 				<button type="button" class="btn btn-primary " onclick="recover()">重新覆盖</button>
 			</div>
 		</div>
+		
 	</div>
 
 	<div id="recoverReport" class="modal fade" role="dialog"  
@@ -131,7 +139,6 @@
 							<div class="uploadFileText">
 								<label>版本号码:</label> <input type="text" class="form-control"
 									name="fileVersionNumber" id="fileVersionNumber"">
-								</textarea>
 							</div>
 							<div class="uploadFileText">
 								<label>版本信息:</label>

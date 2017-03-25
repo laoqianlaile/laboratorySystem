@@ -12,11 +12,12 @@ public interface ITestReportService {
 	public Map<String, Object> getTestReporSecondtAuditWithPaging(int limit,
 			int offset, String order, String sort, String receiptlistCode,
 			String client, String reportName, String beginTime, String endTime,
-			String auditPerson);
+			String selectPart, String auditPerson);
 
 	public Map<String, Object> getTestReporThirdtAuditWithPaging(int limit,
 			int offset, String order, String sort, String transitreceiptNumber,
-			String client, String reportName, String beginTime, String endTime);
+			String client, String reportName, String beginTime, String endTime,
+			String selectPart);
 
 	public List<Map<String, Object>> getProjectName(String ID);
 
@@ -45,12 +46,17 @@ public interface ITestReportService {
 
 	public boolean deleteOtherTableInfo(String ID, String taskID);
 
-	public boolean secondPassReport(String ID, String taskID);
+	public boolean secndAuditOperateCheck(String ID);
+
+	public boolean secondPassReport(String ID, String taskID,
+			String auditPassAgreement);
 
 	public boolean secondRejectReport(String ID, String taskID,
 			String dismissreason);
 
-	public boolean thirdPassReport(String ID, String taskID);
+	public boolean thirdAuditOperateCheck(String ID); 
+	
+	public boolean thirdPassReport(String ID, String taskID,String auditPassAgreement);
 
 	public boolean thirdRejectReport(String ID, String taskID,
 			String dismissreason);

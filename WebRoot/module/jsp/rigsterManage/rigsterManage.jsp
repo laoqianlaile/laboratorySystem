@@ -18,7 +18,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="description" content="This is my page">
 	 <link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
-	<!-- <link rel="stylesheet" type="text/css" href="module/css/moduleManage/moduleManage.css"> -->
+	<link rel="stylesheet" type="text/css" href="module/css/registerManage/registerManage.css">
 	<style type="text/css">
 	
 	.input_top{
@@ -50,9 +50,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	.input-self{
 	width:200px;
 	}
-	#search{
+	/*#search{
 	margin-left: 56px;
-	}
+	}*/
 	#self-company{
 	margin-left: 20px;
 	}
@@ -75,6 +75,36 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	.self_padding{
 	padding-left:0px;
 	padding-right:0px;
+	}
+	
+	.th-inner {
+	height:40px;
+	line-height:40px;
+	padding:0px;
+    background-color: #364760;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+	}
+	
+	.input-group-addon{
+	papadd: 0 10px;
+    padding: 0 10px;
+    background: #fff;
+    border: none;
+    line-height: 32px;
+    text-align: right;
+    font-size: 16px;
+    color: #333;
+    width:100px;
+	font-weight:bold;
+	}
+
+	.btn{
+	margin-right:20px;
+	width:106px;
+	height:40px;
+	padding:0px;
 	}
 	</style>
 	
@@ -109,7 +139,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  <div id="isTouchReviewStatus" style="display: none;"></div>
      </div>
      <div class="col-xs-3 col-md-3">
-      <button class="btn btn-primary" id="search" onclick="formSearch1()">查询</button>
+      <button class="btn btn-primary glyphicon glyphicon-search" id="search" onclick="formSearch1()">&nbsp;查询</button>
      </div>
 	<!-- </form> -->
 	<div  id="opration_btn" >
@@ -127,7 +157,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <div class="modal-title" style="text-align: center" >注册详情</div>
+	        <div class="modal-title">注册详情</div>
 	      </div>
 	      <div class="modal-body">
 	      	<div class="row">
@@ -183,7 +213,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
              
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+	        <button type="button" class="btn btn-primary newButton" data-dismiss="modal">关闭</button>
 	     <!--    <button type="button" class="btn btn-primary" onclick="add()">新增</button> -->
 	      </div>
 	    </div>
@@ -260,8 +290,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
              
 	      </div>
 	      <div class="modal-footer">
-	      <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="updateStatus()">确认</button>
-	        <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+	      <button type="button" class="btn btn-primary sure" data-dismiss="modal" onclick="updateStatus()">确认</button>
+	        <button type="button" class="btn btn-primary newButton" data-dismiss="modal">关闭</button>
 	      </div>
 	    </div>
 	  </div>

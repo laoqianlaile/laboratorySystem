@@ -317,7 +317,7 @@ function openModal(){
 	var data = $('#table').bootstrapTable('getSelections');
 	
 	if(data.length==0 || data.length>1){
-		alert("请选中一条数据");
+		swal("请选中一条数据");
 		return;
 	}
 	//$("div#only1 .form-control").attr({"disabled":false});
@@ -345,7 +345,7 @@ function edit(){
 		  data:parame,
 		  success:function(o){
 			  if(o<=0){
-				  alert("修改失败");
+				  swal("修改失败");
 			  }
 			  $('#editModal').modal('hide');
 			  refresh();
@@ -353,8 +353,8 @@ function edit(){
 		  }
 		});	
 	
-	}else alert("请把信息修改完整");
-	}else alert("不能把自己作为上级部门");
+	}else swal("请把信息修改完整");
+	}else swal("不能把自己作为上级部门");
 }
 function find(){
 	var parame = {};
@@ -402,20 +402,20 @@ function add(){
 	  data:parame,
 	  success:function(o){
 		  if(o<=0){
-			  alert("新增失败");
+			  swal("新增失败");
 		  }
 		  $('#addModal').modal('hide');
 		  refresh();
 		  departrefresh();
 	  }
 	});
-	}else alert("请把信息填完");
+	}else swal("请把信息填完");
 }
 function delData(){
 	var data = $('#table').bootstrapTable('getSelections');
 	
 	if(data.length==0){
-		alert("请至少选中一条数据");
+		swal("请至少选中一条数据");
 		return;
 	}
 	
@@ -433,10 +433,11 @@ function delData(){
 	  data:ajaxParameter,
 	  success:function(o){
 		  if(o<=0){
-			  alert("删除失败");
+			  swal("删除失败");
 		  }
 		  refresh();
 		  departrefresh();
+		  swal("删除成功!")
 	  }
 	});
 }

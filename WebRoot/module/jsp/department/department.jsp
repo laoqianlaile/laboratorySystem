@@ -29,8 +29,9 @@
 <link rel="stylesheet" type="text/css" href="module/css/themes/bootstrap-theme/jquery.fonticonpicker.bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="module/css/themes/inverted-theme/jquery.fonticonpicker.inverted.min.css" />
 <link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
-		
-	
+ <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+ 		
+	<script src="module/js/sweetalert.min.js"></script>
 <script src="assets/js/autoPage.js"></script>
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/fileManage/fileManage.js"></script>
@@ -312,7 +313,7 @@ position:relative;
 					<em class="glyphicon glyphicon-pencil"></em> 修改
 				</button>
 
-				<button class="btn btn-primary" button" id="del" onclick="delData()">
+				<button class="btn btn-primary" button" id="del" onclick="delData() ">
 					<em class="glyphicon glyphicon-trash"></em> 删除
 				</button>
 

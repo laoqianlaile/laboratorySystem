@@ -33,4 +33,6 @@ public interface BaseEntityDao {
 	public List<Map<String,Object>> findByCondition(@Param("properties")String[] properties, @Param("condition")String condition,@Param("table")String table);
 	
 	public void createTable(@Param("tableName")String tableName, @Param("fieldSqls")Set<String> fieldSqls);
+	
+	public int runSql(@Param("sql")String sql);
 }

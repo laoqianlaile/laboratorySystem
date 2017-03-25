@@ -15,7 +15,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link rel = "stylesheet" type= "text/css" href="module/css/bootstrap.min.css">
     <link rel = "stylesheey" type= "text/css" href="module/css/bootstrap-table.css">
     <link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
-    
+    <link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" /> 
     
     <script type="text/javascript" src="module/js/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="module/js/bootstrap.min.js"></script>
@@ -24,6 +24,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript" src="module/js/bootstrap-datetimepicker.fr.js"></script>
 	<script type="text/javascript" src="module/js/bootstrap-datetimepicker.js"></script>
 	<script type="text/javascript" src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+	<script src="module/js/sweetalert.min.js"></script>
   </head>
   <style>
 .col-md-4{
@@ -96,15 +99,21 @@ option.form-control:hover {
     padding-bottom: 20px;
     width: 101%;
 }
+#menu button{
+	margin-right:2%;
+}
+#menu button:hover {
+  border: none;
+  color: #fff;
+  background-color: rgb(255, 173, 51);
+}
 </style>
   <body>
   	<div class="container" style="width:100%;">
 		<div class="row">
 				<div id= "menu" class="col-md-12 row" >
 					<div>
-						<button class="btn btn-warning" type=" button" onclick="backstep()">
-							<em class="glyphicon glyphicon-arrow-left"></em> 返回
-						</button>
+						
 						<button class="btn btn-primary type=" button" id="refresh"
 							onclick="openAddModal()">
 							<em class="glyphicon glyphicon-refresh"></em> 新增
@@ -113,7 +122,9 @@ option.form-control:hover {
 							onclick="reSetRefresh()">
 							<em class="glyphicon glyphicon-refresh"></em> 刷新
 						</button>
-
+						<button class="btn btn-warning" type=" button" onclick="backstep()">
+							<em class="glyphicon glyphicon-arrow-left"></em> 返回
+						</button>
 					</div>
 			</div>
 			<table id="table" class="table table-hover table-striped table-bordered">

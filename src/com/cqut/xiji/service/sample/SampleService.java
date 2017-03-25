@@ -395,7 +395,13 @@ public class SampleService extends SearchService implements ISampleService{
 			return "true";
 		else return "false";
 	}
-
+    /**
+     * 
+     * 模糊搜索样品
+     * @author wzj
+     * @date 2017年3月20日 下午5:28:19
+     *
+     */
 	@Override
 	public List<Map<String, Object>> getSampleListByCodeLimit(String sampleCode) {
 		// TODO Auto-generated method stub
@@ -403,7 +409,7 @@ public class SampleService extends SearchService implements ISampleService{
 				"sample.ID ",
 				"factoryCode as sampleCode"
 		};
-		String condition = " factoryCode like '%"+sampleCode+"%' order by factoryCode asc limit 0,5";
+		String condition = " factoryCode like '%"+sampleCode+"%' order by factoryCode asc ";
 		List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, Sample.class);
 		return list;
 	}

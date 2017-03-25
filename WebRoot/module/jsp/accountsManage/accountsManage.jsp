@@ -15,7 +15,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link rel = "stylesheet" type= "text/css" href="module/css/bootstrap.min.css">
     <link rel = "stylesheey" type= "text/css" href="module/css/bootstrap-table.css">
     <link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
-    
+    <link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" /> 
     
     <script type="text/javascript" src="module/js/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="module/js/bootstrap.min.js"></script>
@@ -24,6 +24,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript" src="module/js/bootstrap-datetimepicker.fr.js"></script>
 	<script type="text/javascript" src="module/js/bootstrap-datetimepicker.js"></script>
 	<script type="text/javascript" src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+	<script src="module/js/sweetalert.min.js"></script>
   </head>
   <style>
 .col-md-4{

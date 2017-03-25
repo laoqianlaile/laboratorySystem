@@ -838,22 +838,10 @@ public class TaskService extends SearchService implements ITaskService {
 		if (taskID != null && !taskID.equals("") && !taskID.isEmpty()) {
 			filteCondition += " where task.ID = '" + taskID + "'";
 		}
-		String baseEntiy = " ( "
-				+ " SELECT "
-				+ " contract.fileTypeID AS fileTypeID "
-				+ " FROM "
-				+ " ( "
-				+ " SELECT "
-				+ "task.receiptlistID"
-				+ " FROM "
-				+ " task "
-				+ filteCondition
-				+ " ) AS a "
-				+ " LEFT JOIN receiptlist ON a.receiptlistID = receiptlist.ID "
-				+ " LEFT JOIN contract ON receiptlist.contractID = contract.ID "
-				+ " ) AS b ";
-		String[] properties = new String[] { "filetype.name AS name" };
-		String joinEntity = " LEFT JOIN filetype ON b.fileTypeID = filetype.ID ";
+		String baseEntiy = " ( " + " SELECT " + " task.receiptlistID "
+				+ " FROM " + "task" + filteCondition + " ) AS a ";
+		String[] properties = new String[] { "receiptlist.projectID AS NAME" };
+		String joinEntity = " LEFT JOIN receiptlist ON a.receiptlistID = receiptlist.ID ";
 		List<Map<String, Object>> result = entityDao.searchForeign(properties,
 				baseEntiy, joinEntity, null, null);
 		return result;
