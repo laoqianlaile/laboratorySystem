@@ -126,13 +126,12 @@ public class TaskController{
 	 */
 	@RequestMapping("/updReceiptlistSampleInForInReturn")  
     @ResponseBody
-	public String updReceiptlistSampleInForInReturn(String ID, String testID, String factoryCode,
-			String sampleName, String specifications, String nameCn,String createTime
+    public String updReceiptlistSampleInForInReturn(String ID, String factoryCode,
+			String sampleName, String specifications,String createTime
 			) throws UnsupportedEncodingException {
 		System.out.println(sampleName);
 		sampleName=URLDecoder.decode(sampleName,"utf-8");
-		nameCn=URLDecoder.decode(nameCn,"utf-8");
-		String result = service.updReceiptlistSampleInForInReturn(ID,testID, factoryCode, sampleName, specifications, nameCn, createTime);
+		String result = service.updReceiptlistSampleInForInReturn(ID, factoryCode, sampleName, specifications,createTime);
 		return result;
 	}
 	
