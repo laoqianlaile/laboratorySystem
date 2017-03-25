@@ -220,6 +220,91 @@ function sendReportSure() {
 	$("#sendReport").modal("hide");
 }
 
+// 检查是否可以合并报告
+function recoatCheck() {
+	var rows = $("#table").bootstrapTable('getSelections');
+	if (rows.length == 0) {
+		alert("请选择需要合并的报告");
+		return;
+	}
+	if (rows.length == 1) {
+		alert("至少选择两个报告才能进行合并");
+		return;
+	} else {
+		var taskIDs = [], fileIDs = [], IDs = [];
+		$.each(rows, function() {
+			taskIDs.push(this.taskID);
+		});
+		$.ajax({
+			url : 'testReportController/recoatCheck.do',
+			type : 'POST',
+			data : {
+				taskIDs : taskIDs
+			},
+			traditional : true,
+			success : function(result) {
+				result = eval(result);
+				if (result) {
+					$.each(rows, function() {
+						fileIDs.push(this.fileID);
+					});
+					$.each(rows, function() {
+						IDs.push(this.ID);
+					});
+					recoatReport(fileIDs, IDs, taskIDs);
+				} else {
+					alert("当前选择报告不能合并");
+				}
+			}
+		});
+	}
+}
+
+// 合并报告
+function recoatReport(fileIDs, IDs, taskIDs) {
+	$.ajax({
+		url : 'testReportController/recoatReport.do',
+		type : 'POST',
+		data : {
+			fileIDs : fileIDs,
+			IDs : IDs,
+			taskIDs : taskIDs
+		},
+		traditional : true,
+		success : function(result) {
+			result = eval(result);
+			if (result == null && result == "null") {
+				alert("合并失败");
+			} else {
+				updateTestReportFileID(IDs,result);
+			}
+		}
+	});
+}
+
+// 更新参与合并的检测报告的文件ID
+function updateTestReportFileID(IDs,result) {
+	$.ajax({
+		url : 'testReportController/updateTestReportFileID.do',
+		type : 'POST',
+		data : {
+			IDs : IDs,
+			fileID : result
+		},
+		traditional : true,
+		success : function(result) {
+			result = eval(result);
+			if (result == true || result == "true") {
+				refresh();
+				alert("合并成功");
+			} else {
+				refresh();
+				alert("合并失败");
+			}
+		}
+	});
+}
+
 // 重新覆盖
 function recover() {
 	var rows = $("#table").bootstrapTable('getSelections');
@@ -228,7 +313,7 @@ function recover() {
 		return;
 	}
 	if (rows.length > 1) {
-		alert("请选择一条数据");
+		alert("只能选择一条数据");
 		return;
 	} else {
 		$.post("testReportController/recoverCheck.do", {
