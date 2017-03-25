@@ -193,7 +193,7 @@ function delData(){
  */
 function addGetEQName(){ 
 	var name = $('#add_equipmentName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
+	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{ 
 		$(".equipmentName").hide();
 	}else {
@@ -235,7 +235,7 @@ function addGetEQName(){
  */
 function addGetEMName(){
 	var name = $('#add_employeeName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
+	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{
 		$(".employeeN").hide();
 	}else {
@@ -314,7 +314,7 @@ function addClick(){
  */
 function editGetEQName(){ 
 	var name = $('#edit_equipmentName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
+	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{ 
 		$(".equipmentName").hide();
 	}else {
@@ -356,7 +356,7 @@ function editGetEQName(){
  */
 function editGetEMName(){
 	var name = $('#edit_employeeName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
+	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{
 		$(".employeeN").hide();
 	}else {
@@ -448,47 +448,47 @@ function add(){
 	var money = $('#add_money').val();
 	var remarks = $('#add_remarks').val();
 		
-	if (!factoryCode && typeof(factoryCode)!="undefined" && factoryCode=='') 
+	if (!factoryCode || typeof(factoryCode) == "undefined" || factoryCode.trim() == "") 
 	{ 
 		swal("设备出厂编号不能为空！"); 
 		return;
 	}
-	if (!equipmentName && typeof(equipmentName)!="undefined" && equipmentName=='') 
+	if (!equipmentName || typeof(equipmentName) == "undefined" || equipmentName.trim() == "") 
 	{ 
 		swal("仪器设备名称不能为空！");
 		return;
 	}
-	if (!beforeStatus && typeof(beforeStatus)!="undefined" && beforeStatus=='') 
+	if (!beforeStatus || typeof(beforeStatus) == "undefined" || beforeStatus.trim() == "") 
 	{ 
 		swal("维修前状态不能为空！");
 		return;
 	}
-	if (!mounting && typeof(mounting)!="undefined" && mounting=='') 
+	if (!mounting || typeof(mounting) == "undefined" || mounting.trim() == "") 
 	{ 
 		swal("所用配件不能为空！");
 		return;
 	}
-	if (!employeeName && typeof(employeeName)!="undefined" && employeeName=='') 
+	if (!employeeName || typeof(employeeName) == "undefined" || employeeName.trim() == "") 
 	{ 
 		swal("维修员不能为空！");
 		return;
 	}
-	if (!afterStatus && typeof(afterStatus)!="undefined" && afterStatus=='') 
+	if (!afterStatus || typeof(afterStatus) == "undefined" || afterStatus.trim() == "") 
 	{ 
 		swal("维修后状态不能为空！");
 		return;
 	}
-	if (!repairTime && typeof(repairTime)!="undefined" && repairTime=='') 
+	if (!repairTime || typeof(repairTime) == "undefined" || repairTime.trim() == "") 
 	{ 
 		swal("维修时间不能为空！");
 		return;
 	}
-	if (!money && typeof(money)!="undefined" && money=='') 
+	if (!money || typeof(money) == "undefined" || money.trim() == "") 
 	{ 
 		swal("维修费用不能为空！"); 
 		return;
 	}
-	if (!remarks && typeof(remarks)!="undefined" && remarks=='') 
+	if (!remarks || typeof(remarks) == "undefined" || remarks.trim() == "") 
 	{ 
 		swal("备注为空！");
 		remarks = "";
@@ -545,7 +545,7 @@ function edit(){
 	swal("edit");
 	var data = $('#table').bootstrapTable('getSelections');
 	var ID = data[0].ID; 
-	if (!ID && typeof(ID)!="undefined" && ID=='') 
+	if (!ID || typeof(ID) == "undefined" || ID.trim() == "") 
 	{ 
 		swal("仪器设备检验记录ID不能为空！"); 
 	}else {
@@ -562,47 +562,47 @@ function edit(){
 		var money = $('#edit_money').val();
 		var remarks = $('#edit_remarks').val();
 			
-		if (!factoryCode && typeof(factoryCode)!="undefined" && factoryCode=='') 
+		if (!factoryCode || typeof(factoryCode) == "undefined" || factoryCode.trim() == "") 
 		{ 
 			swal("仪器设备编号不能为空！"); 
 			return;
 		}
-		if (!equipmentName && typeof(equipmentName)!="undefined" && equipmentName=='') 
+		if (!equipmentName || typeof(equipmentName) == "undefined" || equipmentName.trim() == "") 
 		{ 
 			swal("仪器设备名称不能为空！");
 			return;
 		}
-		if (!beforeStatus && typeof(beforeStatus)!="undefined" && beforeStatus=='') 
+		if (!beforeStatus || typeof(beforeStatus) == "undefined" || beforeStatus.trim() == "") 
 		{ 
 			swal("维修前状态不能为空！");
 			return;
 		}
-		if (!mounting && typeof(mounting)!="undefined" && mounting=='') 
+		if (!mounting || typeof(mounting) == "undefined" || mounting.trim() == "") 
 		{ 
 			swal("所用配件不能为空！");
 			return;
 		}
-		if (!employeeName && typeof(employeeName)!="undefined" && employeeName=='') 
+		if (!employeeName || typeof(employeeName) == "undefined" || employeeName.trim() == "") 
 		{ 
 			swal("维修员不能为空！");
 			return;
 		}
-		if (!afterStatus && typeof(afterStatus)!="undefined" && afterStatus=='') 
+		if (!afterStatus || typeof(afterStatus) == "undefined" || afterStatus.trim() == "") 
 		{ 
 			swal("维修后状态不能为空！");
 			return;
 		}
-		if (!repairTime && typeof(repairTime)!="undefined" && repairTime=='') 
+		if (!repairTime || typeof(repairTime) == "undefined" || repairTime.trim() == "") 
 		{ 
 			swal("维修时间不能为空！");
 			return;
 		}
-		if (!money && typeof(money)!="undefined" && money=='') 
+		if (!money || typeof(money) == "undefined" || money.trim() == "") 
 		{ 
 			swal("维修费用不能为空！"); 
 			return;
 		}
-		if (!remarks && typeof(remarks)!="undefined" && remarks=='') 
+		if (!remarks || typeof(remarks) == "undefined" || remarks.trim() == "") 
 		{ 
 			swal("备注为空！");
 			remarks = "";

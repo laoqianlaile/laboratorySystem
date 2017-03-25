@@ -133,7 +133,7 @@ function delData(){
  */
 function isTypeExistA(){
 	var name = $('#add_equipmentTypeName').val(); 
-	if (!name && typeof(name)!="undefined" && name=='') 
+	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{ 
 		swal("设备类型名称不能为空！"); 
 	}else {
@@ -159,7 +159,7 @@ function isTypeExistA(){
  */
 function isCodeExistA(){
 	var code = $('#add_equipmentTypeCode').val(); 
-	if (!code && typeof(code)!="undefined" && code=='') 
+	if (!code || typeof(code) == "undefined" || code.trim() == "") 
 	{ 
 		swal("设备类型编号不能为空！");
 	}else {
@@ -185,7 +185,7 @@ function isCodeExistA(){
  */
 function isTypeExistE(){
 	var name = $('#add_equipmentTypeName').val(); 
-	if (!name && typeof(name)!="undefined" && name=='') 
+	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{ 
 		swal("设备类型名称不能为空！"); 
 	}else {
@@ -211,7 +211,7 @@ function isTypeExistE(){
  */
 function isCodeExistE(){
 	var code = $('#add_equipmentTypeCode').val(); 
-	if (!code && typeof(code)!="undefined" && code=='') 
+	if (!code || typeof(code) == "undefined" || code.trim() == "") 
 	{ 
 		swal("设备类型编号不能为空！");
 	}else {
@@ -238,15 +238,15 @@ function add(){
 	var equipmentTypeName = $('#add_equipmentTypeName').val();
     var remarks = $('#add_remarks').val();
     
-    if(!equipmentTypeCode && typeof(equipmentTypeCode)!="undefined" && equipmentTypeCode==''){
+    if(!equipmentTypeCode || typeof(equipmentTypeCode) == "undefined" || equipmentTypeCode.trim() == ""){
     	swal("设备类型编号不能为空！");
     	return;
     }
-    if(!equipmentTypeName && typeof(equipmentTypeName)!="undefined" && equipmentTypeName==''){
+    if(!equipmentTypeName || typeof(equipmentTypeName) == "undefined" || equipmentTypeName.trim() == ""){
     	swal("设备类型名称不能为空！");
     	return;
     }
-    if(!remarks && typeof(remarks)!="undefined" && remarks==''){
+    if(!remarks || typeof(remarks) == "undefined" || remarks.trim() == ""){
     	remarks = "";
     }
     
@@ -286,7 +286,7 @@ function openModal(){
 //得到需要修改的仪器的ID
 function getEquipmentTypeID(){
 	var code = $('#edit_equipmentTypeCode').val();
-	if (!code && typeof(code)!="undefined" && code=='') 
+	if (!code || typeof(code) == "undefined" || code.trim() == "") 
 	{ 
 		swal("合同编号不能为空！"); 
 	}else {
@@ -321,15 +321,15 @@ function edit(){
 	var equipmentTypeName = $('#edit_equipmentTypeName').val();
     var remarks = $('#edit_remarks').val();
     
-    if(!equipmentTypeCode && typeof(equipmentTypeCode)!="undefined" && equipmentTypeCode==''){
+    if(!equipmentTypeCode || typeof(equipmentTypeCode) == "undefined" || equipmentTypeCode.trim() == ""){
     	swal("设备类型编号不能为空！");
     	return;
     }
-    if(!equipmentTypeName && typeof(equipmentTypeName)!="undefined" && equipmentTypeName==''){
+    if(!equipmentTypeName || typeof(equipmentTypeName) == "undefined" || equipmentTypeName.trim() == ""){
     	swal("设备类型名称不能为空！");
     	return;
     }
-    if(!remarks && typeof(remarks)!="undefined" && remarks==''){
+    if(!remarks || typeof(remarks) == "undefined" || remarks.trim() == ""){
     	remarks = "";
     }
     

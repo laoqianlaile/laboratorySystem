@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
+
 import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
@@ -50,31 +51,26 @@ public class SampleRecordService extends SearchService implements
 
 			String condition = "1 = 1 " + "and sample.factoryCode= '"
 					+ factoryCode + "'";
-			// String str=(String)entityDao.findByCondition(properties,
-			// condition, Sample.class).get(0).get("ID");
 			List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, Sample.class);
 			if (list != null  && list.size() >0) {
 				Map<String, Object>  map =list.get(0) ;
                 return map;
 			} else return null;
-				/*Sample sample = entityDao.getByID(str, Sample.class);
-				if (sample.getSampleName() == null
-						|| sample.getSampleName().equals("") 
-						|| sample.getSpecifications() == null
-						|| sample.getSpecifications().equals("") ) {
-					return null;
-				} else {
-					return sample;
-				}
-			} else {
-				return null;
-			}
-		} catch (Exception e) {
-			return null;
-		}
-*/
 	}
+	@Override
+	public Map<String, Object> addJudge(String factoryCode) {
+		String[] properties = new String[] { "sample.state"};
 
+		String condition = "1 = 1 " + "and sample.factoryCode= '"
+				+ factoryCode + "'";
+		List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, Sample.class);
+		if (list != null  && list.size() >0) {
+			Map<String, Object>  map =list.get(0) ;
+            return map;
+		} else return null;
+}
+		
+	
 	@Override
 	public String getSampleRecordAll() {
 		List<SampleRecord> resultList = entityDao.getByCondition(" 1=1 ",
@@ -241,5 +237,7 @@ public class SampleRecordService extends SearchService implements
 		}
 		return date;
 	}
+
+	
 
 }

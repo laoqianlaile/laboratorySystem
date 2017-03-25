@@ -16,13 +16,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
-	<link rel="stylesheet" href="module/css/contractManage/contractView.css" />
+	<link rel="stylesheet" type="text/css" href="module/css/contractManage/contractView.css" />
+	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 	
 	<script src="assets/js/jquery-2.0.3.min.js"></script>
 	<script src="module/js/bootstrap.js"></script>
 	<script src="module/js/bootstrap-table.js"></script>
 	<script src="module/js/bootstrap-table-zh-CN.js"></script>
-	<script src="module/js/bootstrap-treeview.js"></script>
+	<script src="module/js/sweetalert.min.js"></script>
 </head>
 <body>
   <div class="main">

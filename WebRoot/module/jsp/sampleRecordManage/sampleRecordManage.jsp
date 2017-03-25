@@ -255,7 +255,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" onclick="add()">新增</button>
+					<button type="button" class="btn btn-primary" onclick="Judge()">新增</button>
 				</div>
 			</div>
 		</div>

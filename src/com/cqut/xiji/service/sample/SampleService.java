@@ -196,6 +196,7 @@ public class SampleService extends SearchService implements ISampleService{
 		if(takePhone != null && !takePhone.equals("")){
 			sample.setTakePhone(takePhone);
 		}*/
+		sample.setState(0);
 		sample.setUnit(unit);
 		sample.setCreateTime(new Date());
 		String condition = " factoryCode ='"+factoryCode+"'";

@@ -161,49 +161,49 @@ function initData(){
 
 //检查合同数据是否合理并处理
 function checkData(dataObj) { // 后台数据字段为空就不会传上来
-	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null || dataObj.ID == undefined || dataObj.ID.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null || dataObj.ID == undefined || dataObj.ID.trim() == "") {
 		dataObj.ID = "";
 	}
-	if (!dataObj.hasOwnProperty("factoryCode") || dataObj.factoryCode == null || dataObj.factoryCode == undefined || dataObj.factoryCode.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("factoryCode") || dataObj.factoryCode == null || dataObj.factoryCode == undefined || dataObj.factoryCode.trim() == "") {
 		  dataObj.factoryCode = "";
 	}
-	if (!dataObj.hasOwnProperty("equipmentName") || dataObj.equipmentName == null || dataObj.equipmentName == undefined || dataObj.equipmentName.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("equipmentName") || dataObj.equipmentName == null || dataObj.equipmentName == undefined || dataObj.equipmentName.trim() == "") {
 		dataObj.equipmentName = "";
 	}
-	if (!dataObj.hasOwnProperty("equipmentTypeID") || dataObj.equipmentTypeID == null || dataObj.equipmentTypeID == undefined || dataObj.equipmentTypeID.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("equipmentTypeID") || dataObj.equipmentTypeID == null || dataObj.equipmentTypeID == undefined || dataObj.equipmentTypeID.trim() == "") {
 		 dataObj.equipmentTypeID = "";
 	}
-	if (!dataObj.hasOwnProperty("name") || dataObj.name == null || dataObj.name == undefined || dataObj.name.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("name") || dataObj.name == null || dataObj.name == undefined || dataObj.name.trim() == "") {
 		dataObj.name = ""; //能编辑
 	}
-	if (!dataObj.hasOwnProperty("model") || dataObj.model == null || dataObj.model == undefined || dataObj.model.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("model") || dataObj.model == null || dataObj.model == undefined || dataObj.model.trim() == "") {
 		dataObj.model = "";
 	}
-	if (!dataObj.hasOwnProperty("departmentID") || dataObj.departmentID == null || dataObj.departmentID == undefined || dataObj.departmentID.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("departmentID") || dataObj.departmentID == null || dataObj.departmentID == undefined || dataObj.departmentID.trim() == "") {
 		dataObj.departmentID = "";
 	}
-	if (!dataObj.hasOwnProperty("departmentName") || dataObj.departmentName == null || dataObj.departmentName == undefined  || dataObj.departmentName.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("departmentName") || dataObj.departmentName == null || dataObj.departmentName == undefined  || dataObj.departmentName.trim() == "") {
 		dataObj.employeeName = "";
 	}
-	if (!dataObj.hasOwnProperty("buyTime") || dataObj.buyTime == null || dataObj.buyTime == undefined || dataObj.buyTime.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("buyTime") || dataObj.buyTime == null || dataObj.buyTime == undefined || dataObj.buyTime.trim() == "") {
 		dataObj.buyTime = "";
 	}
 	if (!dataObj.hasOwnProperty("useYear") || dataObj.useYear == null || dataObj.useYear == undefined) {
 		dataObj.useYear = "";
 	}
-	if (!dataObj.hasOwnProperty("credentials") || dataObj.credentials == null || dataObj.credentials == undefined || dataObj.credentials.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("credentials") || dataObj.credentials == null || dataObj.credentials == undefined || dataObj.credentials.trim() == "") {
 		dataObj.credentials = "";
 	}
-	if (!dataObj.hasOwnProperty("effectiveTime") || dataObj.effectiveTime == null || dataObj.effectiveTime == undefined || dataObj.effectiveTime.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("effectiveTime") || dataObj.effectiveTime == null || dataObj.effectiveTime == undefined || dataObj.effectiveTime.trim() == "") {
 		dataObj.effectiveTime = "";
 	}
-	if (!dataObj.hasOwnProperty("employeeID") || dataObj.employeeID == null || dataObj.employeeID == undefined || dataObj.employeeID.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("employeeID") || dataObj.employeeID == null || dataObj.employeeID == undefined || dataObj.employeeID.trim() == "") {
 		dataObj.employeeID = "";
 	}
-	if (!dataObj.hasOwnProperty("employeeName") || dataObj.employeeName == null || dataObj.employeeName == undefined || dataObj.employeeName.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("employeeName") || dataObj.employeeName == null || dataObj.employeeName == undefined || dataObj.employeeName.trim() == "") {
 		dataObj.employeeName = "";
 	}
-	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null || dataObj.remarks == undefined || dataObj.remarks.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null || dataObj.remarks == undefined || dataObj.remarks.trim() == "") {
 		dataObj.remarks = "";
 	}
 }
@@ -313,52 +313,52 @@ function add(){
 	var credentials = $('#add_credentials').val();
 	var effectiveTime = $('#add_effectiveTime').val();
 	var remarks = $('#add_remarks').val();
-	if (!equipmentName && typeof(equipmentName)!="undefined" && equipmentName=='') 
+	if (!equipmentName || typeof(equipmentName) == "undefined" || equipmentName.trim() == "") 
 	{ 
 		swal("仪器设备名称不能为空！");
 		return;
-	}	
-	if (!department && typeof(department)!="undefined" && department=='') 
-	{ 
-		swal("仪器设备所属部门不能为空！");
-		return;
 	}
-	if (!equipmentType && typeof(equipmentType)!="undefined" && equipmentType=='') 
-	{ 
-		swal("仪器设备类型不能为空！");
-		return;
-	}
-	if (!model && typeof(model)!="undefined" && model=='') 
-	{ 
-		swal("仪器设备型号不能为空！");
-		return;
-	}
-	if (!buyTime && typeof(buyTime)!="undefined" && buyTime=='') 
-	{ 
-		swal("仪器设备购买时间不能为空！");
-		return;
-	}
-	if (!useYear && typeof(useYear)!="undefined" && useYear=='') 
-	{ 
-		swal("仪器设备使用年限不能为空！");
-		return;
-	}
-	if (!factoryCode && typeof(factoryCode)!="undefined" && factoryCode=='') 
+	if (!factoryCode || typeof(factoryCode) == "undefined" || factoryCode.trim() == "") 
 	{ 
 		swal("设备出厂编号不能为空！"); 
 		return;
 	}
-	if (!credentials && typeof(credentials)!="undefined" && credentials=='') 
+	if (!department || typeof(department) == "undefined" || department.trim() == "") 
+	{ 
+		swal("仪器设备所属部门不能为空！");
+		return;
+	}
+	if (!equipmentType || typeof(equipmentType) == "undefined" || equipmentType.trim() == "") 
+	{ 
+		swal("仪器设备类型不能为空！");
+		return;
+	}
+	if (!model || typeof(model) == "undefined" || model.trim() == "") 
+	{ 
+		swal("仪器设备型号不能为空！");
+		return;
+	}
+	if (!buyTime || typeof(buyTime) == "undefined" || buyTime.trim() == "") 
+	{ 
+		swal("仪器设备购买时间不能为空！");
+		return;
+	}
+	if (!useYear || typeof(useYear) == "undefined" || useYear.trim() == "") 
+	{ 
+		swal("仪器设备使用年限不能为空！");
+		return;
+	}
+	if (!credentials || typeof(credentials) == "undefined" || credentials.trim() == "") 
 	{ 
 		swal("证书编号不能为空！");
 		return;
 	}
-	if (!effectiveTime && typeof(effectiveTime)!="undefined" && effectiveTime=='') 
+	if (!effectiveTime || typeof(effectiveTime) == "undefined" || effectiveTime.trim() == "") 
 	{ 
 		swal("有效期不能为空！");
 		return;
 	}
-	if (!remarks && typeof(remarks)!="undefined" && remarks=='') 
+	if (!remarks || typeof(remarks) == "undefined" || remarks.trim() == "") 
 	{ 
 		remarks = "";
 	}
@@ -505,52 +505,52 @@ function edit(){
 	var effectiveTime = $('#edit_effectiveTime').val();
 	var remarks = $('#edit_remarks').val();
 		
-	if (!equipmentName && typeof(equipmentName)!="undefined" && equipmentName=='') 
+	if (!equipmentName || typeof(equipmentName) == "undefined" || equipmentName.trim() == "") 
 	{ 
 		swal("仪器设备名称不能为空！");
 		return;
 	}
-	if (!department && typeof(department)!="undefined" && department=='') 
+	if (!department || typeof(department) == "undefined" || department.trim() == "") 
 	{ 
 		swal("仪器设备所属部门不能为空！");
 		return;
 	}
-	if (!equipmentType && typeof(equipmentType)!="undefined" && equipmentType=='') 
+	if (!equipmentType || typeof(equipmentType) == "undefined" || equipmentType.trim() == "") 
 	{ 
 		swal("仪器设备类型不能为空！");
 		return;
 	}
-	if (!model && typeof(model)!="undefined" && model=='') 
+	if (!model || typeof(model) == "undefined" || model.trim() == "") 
 	{ 
 		swal("仪器设备型号不能为空！");
 		return;
 	}
-	if (!buyTime && typeof(buyTime)!="undefined" && buyTime=='') 
+	if (!buyTime || typeof(buyTime) == "undefined" || buyTime.trim() == "") 
 	{ 
 		swal("仪器设备购买时间不能为空！");
 		return;
 	}
-	if (!useYear && typeof(useYear)!="undefined" && useYear=='') 
+	if (!useYear || typeof(useYear) == "undefined" || useYear.trim() == "") 
 	{ 
 		swal("仪器设备使用年限不能为空！");
 		return;
 	}
-	if (!factoryCode && typeof(factoryCode)!="undefined" && factoryCode=='') 
+	if (!factoryCode || typeof(factoryCode) == "undefined" || factoryCode.trim() == "") 
 	{ 
 		swal("出厂编号不能为空！"); 
 		return;
 	}
-	if (!credentials && typeof(credentials)!="undefined" && credentials=='') 
+	if (!credentials || typeof(credentials) == "undefined" || credentials.trim() == "") 
 	{ 
 		swal("证书编号不能为空！");
 		return;
 	}
-	if (!effectiveTime && typeof(effectiveTime)!="undefined" && effectiveTime=='') 
+	if (!effectiveTime || typeof(effectiveTime) == "undefined" || effectiveTime.trim() == "") 
 	{ 
 		swal("有效期不能为空！");
 		return;
 	}
-	if (!remarks && typeof(remarks)!="undefined" && remarks=='') 
+	if (!remarks || typeof(remarks) == "undefined" || remarks.trim() == "") 
 	{ 
 		remarks = "";
 	}

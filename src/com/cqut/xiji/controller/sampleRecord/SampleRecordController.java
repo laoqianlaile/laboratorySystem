@@ -73,22 +73,19 @@ public class SampleRecordController{
 	@ResponseBody
 	public Map<String, Object> getSample(String factoryCode){
 		Map<String, Object> result = service.getSample(factoryCode);
-		System.out.println(" result "+result);
 		return result;
 	}
-//	/**
-//	 * 
-//	 * @description 获取所有样品管理信息
-//	 * @author wujie
-//	 * @created 2016年9月26日 下午7:39:04
-//	 * @return
-//	 */
-//	@RequestMapping("/getSampleRecordAll")
-//	@ResponseBody
-//	public String getSampleRecordAll(){
-//		String result = service.getSampleRecordAll();
-//		return result;
-//	}
+	/**
+	 * 
+	 * @param factoryCode
+	 * @return
+	 */
+	@RequestMapping("/addJudge")
+	@ResponseBody
+	public Map<String, Object> addJudge(String factoryCode){
+		Map<String, Object> result = service.addJudge(factoryCode);
+		return result;
+	}
 	/**
 	 * 
 	 * @description 分页获样品记录信息
@@ -100,12 +97,6 @@ public class SampleRecordController{
 	 * @param sort
 	 * @return
 	 */
-//	@RequestMapping("/getSampleRecordWithPaging")  
-//    @ResponseBody
-//	public JSONObject getSampleRecordWithPaging(int limit, int offset, String sort, String order){
-//		Map<String, Object> result = service.getSampleRecordWithPaging(limit,offset,sort,order);
-//		return JSONObject.fromObject(result);
-//	}
 	@RequestMapping("/getSampleRecordWithPaging")  
     @ResponseBody
 	public JSONObject getSampleRecordWithPaging(String factoryCode,String sampleName,String specifications,String getMan,int limit, int offset, String sort, String order){
