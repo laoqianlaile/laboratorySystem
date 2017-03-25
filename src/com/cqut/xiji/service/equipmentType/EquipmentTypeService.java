@@ -63,7 +63,7 @@ public class EquipmentTypeService extends SearchService implements IEquipmentTyp
 				properties, tableName, joinEntity, null, condition, null,sort,
 				order, index, pageNum);
 		System.out.println("初始化成功:"+result);
-		int count = entityDao.getByCondition(" 1=1 ", EquipmentType.class).size();
+		int count = entityDao.searchForeign(properties, tableName, joinEntity, null, condition).size();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("total", count);
 		map.put("rows", result);

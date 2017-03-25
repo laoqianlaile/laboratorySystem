@@ -1,3 +1,4 @@
+
 @CHARSET "UTF-8";
 .contairw {
 	min-width: 1300px;
@@ -160,6 +161,8 @@ vertical-align: middle;
 	color: #fff;
 	border: 1px solid #253347;
 	padding:10px;
+	padding-left: 0;
+
 }
 
 .list-group-item a {

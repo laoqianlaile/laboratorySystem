@@ -35,6 +35,7 @@
 <script src="module/js/bootstrap-datetimepicker.fr.js"></script>
 <script src="module/js/jquery.uploadify.min.js"></script>
 <script src="module/js/sweetalert.min.js"></script>
+<script src="assets/js/autoPage.js"></script>
 
 <style>
 .content button {
@@ -114,7 +115,7 @@
 				&nbsp;
 				<button type="button" class="btn btn-primary " onclick="checkReport()">查看</button>
 				&nbsp;
-				<button type="button" class="btn btn-primary " onclick="recoat()">合并</button>
+				<button type="button" class="btn btn-primary " onclick="recoatCheck()">合并</button>
 				&nbsp;
 				<button type="button" class="btn btn-primary " onclick="recover()">重新覆盖</button>
 			</div>

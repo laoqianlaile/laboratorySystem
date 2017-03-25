@@ -9,13 +9,13 @@ function refresh(){
 function showContractA(){
 	var data = $('#table').bootstrapTable('getSelections');
 	if(data.length==0 || data.length>1){
-		alert("请选中一条数据");
+		swal("请选中一条数据");
 		return;
 	}
 	var ID = data[0].ID;
 	if (!ID && typeof(ID)!="undefined" && ID=='') 
 	{ 
-		alert("合同ID不能为空！"); 
+		swal("合同ID不能为空！"); 
 	}else {
 		window.location.href="module/jsp/contractManage/contractView.jsp?ID="+ ID + "&type=1";
 	}
@@ -27,13 +27,13 @@ function showContractA(){
 function writeModal1(){
 	var data = $('#table').bootstrapTable('getSelections');
 	if(data.length==0 || data.length>1){
-		alert("请选中一条数据");
+		swal("请选中一条数据");
 		return;
 	}
 	var ID = data[0].ID;
 	if (!ID && typeof(ID)!="undefined" && ID=='') 
 	{ 
-		alert("合同ID不能为空！"); 
+		swal("合同ID不能为空！"); 
 	}else {
 		$('#approveCause').attr({'name' : "" + ID + ""});
 		$('#writeModal1').modal('show');
@@ -47,13 +47,13 @@ function writeModal1(){
 function writeModal2(){
 	var data = $('#table').bootstrapTable('getSelections');
 	if(data.length==0 || data.length>1){
-		alert("请选中一条数据");
+		swal("请选中一条数据");
 		return;
 	}
 	var ID = data[0].ID;
 	if (!ID && typeof(ID)!="undefined" && ID=='') 
 	{ 
-		alert("合同ID不能为空！"); 
+		swal("合同ID不能为空！"); 
 	}else {
 		$('#rejecteCause').attr({'name' : "" + ID + ""});
 		$('#writeModal2').modal('show');
@@ -66,9 +66,9 @@ function writeModal2(){
  */
 function approved(){
 	var approveCause = $('#approveCause').val(); 
-	if (!approveCause && typeof(approveCause)!="undefined" && approveCause=='') 
+	if (!approveCause || typeof(approveCause)=="undefined" || approveCause.trim() == "") 
 	{ 
-		alert("审核意见不能为空！"); 
+		swal("审核意见不能为空！"); 
 	}else {
 		var parame = {};
 		parame.ID = $('#approveCause').attr("name");
@@ -81,7 +81,7 @@ function approved(){
 		  success:function(o){
 			  
 			  if(o <= 0){
-				  alert("操作失败！");
+				  swal("操作失败！");
 			  }
 			  $('#writeModal1').modal('hide');
 			  refresh();
@@ -95,9 +95,9 @@ function approved(){
  */
 function rejected(){
 	var rejecteCause = $('#rejecteCause').val(); 
-	if (!rejecteCause && typeof(rejecteCause)!="undefined" && rejecteCause=='') 
+	if (!rejecteCause || typeof(rejecteCause)=="undefined" || rejecteCause.trim() == "") 
 	{ 
-		alert("审核意见不能为空！"); 
+		swal("审核意见不能为空！"); 
 	}else {
 		var parame = {};
 		parame.ID = $('#rejecteCause').attr("name");
@@ -109,7 +109,7 @@ function rejected(){
 		  data:parame,
 		  success:function(o){
 			  if(o<=0){
-				  alert("操作失败！");
+				  swal("操作失败！");
 			  }
 			  $('#writeModal2').modal('hide');
 			  refresh();

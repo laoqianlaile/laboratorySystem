@@ -100,8 +100,8 @@ public class ContractController{
 	 */
 	@RequestMapping("/coverContractFile")  
     @ResponseBody
-	public int coverContractFile(String ID,String contractCode,String contractName,String companyName, String oppositeMen,String linkPhone, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime){
-		int result = service.coverContractFile(ID, contractCode,contractName,companyName, oppositeMen, linkPhone, employeeName, address, signAddress, startTime, signTime, endTime);
+	public int coverContractFile(String ID/*,String contractCode,String contractName,String companyName, String oppositeMen,String linkPhone, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime*/){
+		int result = service.coverContractFile(ID/*, contractCode,contractName,companyName, oppositeMen, linkPhone, employeeName, address, signAddress, startTime, signTime, endTime*/);
 		return result;
 	}
 	/**

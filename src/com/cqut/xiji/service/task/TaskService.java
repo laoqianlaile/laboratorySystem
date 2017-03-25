@@ -174,10 +174,29 @@ public class TaskService extends SearchService implements ITaskService {
 					}
 				}
 			} else if (type == 2) {// 修改
-				TaskMan taskMan = entityDao.getByID(taskManID, TaskMan.class);
-				taskMan.setDetector(IDs);
-				if (entityDao.updatePropByID(taskMan, taskManID) != 1) {
-					result = -1;
+				//  如果修改是检测人员为空，则新增
+				if (taskManID == null) {
+					// 更新分配状态
+					Task task = entityDao.getByID(taskID, Task.class);
+					task.setAllotstate(1);
+					entityDao.updatePropByID(task, taskID);
+
+					// 更新检测人员
+					for (int i = 0; i < temp.length; i++) {
+						TaskMan taskMan = new TaskMan();
+						taskMan.setID(EntityIDFactory.createId());
+						taskMan.setTaskID(taskID);
+						taskMan.setDetector(temp[i]);
+						if (entityDao.save(taskMan) != 1) {
+							result = -1;
+						}
+					}
+				} else { // 检测人员不为空
+					TaskMan taskMan = entityDao.getByID(taskManID, TaskMan.class);
+					taskMan.setDetector(IDs);
+					if (entityDao.updatePropByID(taskMan, taskManID) != 1) {
+						result = -1;
+					}
 				}
 			}
 			
@@ -819,22 +838,10 @@ public class TaskService extends SearchService implements ITaskService {
 		if (taskID != null && !taskID.equals("") && !taskID.isEmpty()) {
 			filteCondition += " where task.ID = '" + taskID + "'";
 		}
-		String baseEntiy = " ( "
-				+ " SELECT "
-				+ " contract.fileTypeID AS fileTypeID "
-				+ " FROM "
-				+ " ( "
-				+ " SELECT "
-				+ "task.receiptlistID"
-				+ " FROM "
-				+ " task "
-				+ filteCondition
-				+ " ) AS a "
-				+ " LEFT JOIN receiptlist ON a.receiptlistID = receiptlist.ID "
-				+ " LEFT JOIN contract ON receiptlist.contractID = contract.ID "
-				+ " ) AS b ";
-		String[] properties = new String[] { "filetype.name AS name" };
-		String joinEntity = " LEFT JOIN filetype ON b.fileTypeID = filetype.ID ";
+		String baseEntiy = " ( " + " SELECT " + " task.receiptlistID "
+				+ " FROM " + "task" + filteCondition + " ) AS a ";
+		String[] properties = new String[] { "receiptlist.projectID AS NAME" };
+		String joinEntity = " LEFT JOIN receiptlist ON a.receiptlistID = receiptlist.ID ";
 		List<Map<String, Object>> result = entityDao.searchForeign(properties,
 				baseEntiy, joinEntity, null, null);
 		return result;

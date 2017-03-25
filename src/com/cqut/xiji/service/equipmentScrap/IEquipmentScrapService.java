@@ -16,8 +16,7 @@ public interface IEquipmentScrapService {
 	 * @return
 	 */
 	public Map<String, Object> getEquipmentScrapWithPaging(int limit, int offset,
-			String sort, String order, String model, String equipmentName,
-			String departmentID);
+			String sort, String order, String equipmentName, String model, String employeeName,String departmentID);
 
 	/**
 	 * @param equipmentID
