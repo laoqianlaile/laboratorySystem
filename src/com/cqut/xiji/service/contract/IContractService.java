@@ -70,9 +70,9 @@ public interface IContractService {
 	 * @param endTime
 	 * @return
 	 */
-	public int coverContractFile(String ID,String contractCode,String contractName, String companyName,
+	public int coverContractFile(String ID/*,String contractCode,String contractName, String companyName,
 			String oppositeMen, String linkPhone, String employeeName,
 			String address, String signAddress, String startTime,
-			String signTime, String endTime);
+			String signTime, String endTime*/);
 
 }

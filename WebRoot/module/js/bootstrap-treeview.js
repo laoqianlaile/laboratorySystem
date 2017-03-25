@@ -539,15 +539,16 @@
 					}
 				}
 			}
-			else {
-				classList.push(_this.options.emptyIcon);
-			}
+//			else {
+//				classList.push(_this.options.emptyIcon);
+//			}
+			
+//			console.log(classList);
 
 			treeItem
 				.append($(_this.template.icon)
 					.addClass(classList.join(' '))
 				);
-
 
 			// Add node icon
 			if (_this.options.showIcon) {
