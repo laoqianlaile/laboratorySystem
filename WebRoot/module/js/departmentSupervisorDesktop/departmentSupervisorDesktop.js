@@ -17,7 +17,6 @@ $(function () {
 	
 	// 查看报告按钮点击事件
 	$('#viewReport').click(function (){
-		
 		var data = $('#table').bootstrapTable('getSelections');
 		
 		if(data.length==0 || data.length>1){
@@ -91,15 +90,29 @@ $(function () {
 		}
 		if (data.length == 1) {
 			var fileID = data[0].fileID;
-			downOneFile(fileID);
-			return;
+			
+			$.ajax({
+				url:'fileOperateController/filedownload.do',
+				data:fileID,
+				dataType:'json',
+				success:function(data){
+					
+			  	}
+			});
 		} else {
-			var ids = [];
 			var fileIDs = [];
 			for ( var i = 0; i < data.length; i++) {
-				ids.push(data[i].fileID);
+				fileIDs.push(data[i].fileID);
 			}
-			fileDownAll(ids);
+			
+			$.ajax({
+				url:'fileOperateController/downloadFiles.do',
+				data:fileIDs,
+				dataType:'json',
+				success:function(data){
+					
+			  	}
+			});
 		}
 		refresh();
 	});
@@ -157,9 +170,10 @@ function initTable(){
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'5%',//宽度
-			formatter : function(value,row,index){
-							return index+1;
-						}
+			formatter : 
+				function(value,row,index){
+					return index+1;
+				}
 		},{
 			field:'receiptlistCode',//返回值名称
 			title:'交接单号',//列名
