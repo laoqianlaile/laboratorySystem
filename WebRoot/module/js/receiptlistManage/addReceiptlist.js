@@ -124,6 +124,7 @@ function dealHaveCom(dara) {
 		success : function(o) {
 			data = JSON.parse(o);
 			if (data != false) {
+				checkCompany(data);
 				$("#companyName").val(data.companyName);
 				$("#address").val(data.address);
 			}
@@ -574,6 +575,10 @@ function initSampleCode_event() {
 	    
 	  var fn1 = $("#editSampleCode").blur(function(){
 		    $(".list_sampleCode").css("display", "block");  //隐藏面板
+		     isExitSample($(this).val()); //输入不点击搜索面板
+	     });
+	  var fn1 = $("#addSampleCode").blur(function(){
+		    $(".tip-factory").css("display", "block");  //隐藏面板
 		     isExitSample($(this).val()); //输入不点击搜索面板
 	     });
 	/* if($("#editSampleCode").val() == "") { // chen.alert("样品编号不能为空");
@@ -1128,6 +1133,16 @@ function checkDate(data, who) {
 	else
 		chenkDataTask(data);
 
+}
+function checkCompany(data){
+	if (!dataObj.hasOwnProperty("companyName") || dataObj.companyName == null
+			|| dataObj.companyName.trim() == "NULL" || dataObj.companyName == undefined) {
+		dataObj.companyName = "";
+	}
+	if (!dataObj.hasOwnProperty("address") || dataObj.address == null
+			|| dataObj.address.trim() == "NULL") {
+		dataObj.address = "";
+	}
 }
 // 检查任务数据是否合理
 function chenkDataTask(dataObj) { // 后台数据字段为空就不会传上来

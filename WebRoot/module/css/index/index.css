@@ -159,6 +159,7 @@ vertical-align: middle;
 	background: #37475f;
 	color: #fff;
 	border: 1px solid #253347;
+	padding:10px;
 }
 
 .list-group-item a {
@@ -196,5 +197,5 @@ vertical-align: middle;
 }
 
 .icon{
-	margin: 0 10px;
+	margin: 0 5px;
 }

@@ -22,7 +22,7 @@ function initData(){
 }
 
 function initContractTable(){
-	
+	var order = 0;
 	$('.contractTable').bootstrapTable({
 					
 				striped : false,// 隔行变色效果
@@ -68,6 +68,17 @@ function initContractTable(){
 						}
 				},
 				columns : [
+{
+	title : '序号',// 列名
+	align : 'center',// 水平居中显示
+	valign : 'middle',// 垂直居中显示
+	width : '5%',// 宽度
+	visible : true,
+	formatter : function(value, row, index) {
+		chenkDataTask(row);
+		return obj.order_c++;
+	}
+},
 						{
 							title : '序号',// 列名
 							align : 'center',// 水平居中显示
@@ -75,7 +86,7 @@ function initContractTable(){
 							width : '5%',// 宽度
 							visible : true,
 							formatter : function(value, row, index) { 
-								checkData("cAndRe",row);
+							
 								
 							 if(index == 0 && row != null)
 								{
@@ -127,7 +138,7 @@ function initContractTable(){
 							title : '交接单编码',// 列名
 							align : 'center',// 水平居中显示
 							valign : 'middle',// 垂直居中显示
-							width : '35%'// 宽度
+							width : '30%'// 宽度
 						},
 						{
 							field : 'reType',// 返回值名称
@@ -393,7 +404,7 @@ function refrehMessage(text){
 function viewRe(){
 	var data = $('.contractTable').bootstrapTable('getSelections');
     //弹出确认框
-	if (data.length != 1) {
+	if (data.length == 1) {
 		window.location = "module/receiptlistManage/receiptlistView.jsp?reID=" + data[0].reID;
 		return;
 	}
