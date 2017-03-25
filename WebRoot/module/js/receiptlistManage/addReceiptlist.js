@@ -58,6 +58,8 @@ function initPageData() {
 		$("#endTime").val(reInformation.endTime);
 		$("#accordingDoc").val(reInformation.accordingDoc);
 		$("#linkPhone").val(reInformation.linkPhone);
+		dealHaveCom(dara); 
+		obj.isCreate = true; //不删除
 	}
 	
 	
@@ -248,8 +250,14 @@ function set_alert_wb_comment(the, state) {
 				+ list_data[i].ID + '\')">' + list_data[i].sampleCode + '</li>';
 	}
 	html += '</ul>';
-	$(".tip-factory .tip-factory-content").html(html);
-	$(".list_sampleCode").css("display", "block");
+	if(list_data != null && list_data.length > 0)
+	{
+		$(".tip-factory .tip-factory-content").html(html);
+		$(".tip-factory").css("display", "none");
+	}
+	else{
+		$(".tip-factory").css("display", "none");
+	}
 }
 //选择搜索出来的样品后的操作
 function selectSample(the, state, sampleID) {
@@ -480,7 +488,7 @@ function searchCompany() {
 			},
 			success : function(o) {
 				data = JSON.parse(o);
-				// $(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框
+				// $(".tip-factory").css("display","none"); //隐藏下面的提示搜索框
 				if (data != null && data.length != 0)
 					showCompanylist(data);
 			},
@@ -522,7 +530,7 @@ function isExitSample(sampleCode) {
 		},
 		success : function(o) {
 			data = JSON.parse(o);
-			// $(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框
+			// $(".tip-factory").css("display","none"); //隐藏下面的提示搜索框
 		},
 		error : function() {
 			chen.alert(" 没有搜索到该样品");
@@ -574,33 +582,33 @@ function initSampleCode_event() {
     
 	    
 	  var fn1 = $("#editSampleCode").blur(function(){
-		    $(".list_sampleCode").css("display", "block");  //隐藏面板
+		    $(".tip-factory").css("display", "none");  //隐藏面板
 		     isExitSample($(this).val()); //输入不点击搜索面板
 	     });
-	  var fn1 = $("#addSampleCode").blur(function(){
-		    $(".tip-factory").css("display", "block");  //隐藏面板
+	  var fn2 = $("#addSampleCode").blur(function(){
+		    $(".tip-factory").css("display", "none");  //隐藏面板
 		     isExitSample($(this).val()); //输入不点击搜索面板
 	     });
 	/* if($("#editSampleCode").val() == "") { // chen.alert("样品编号不能为空");
 	 //sample_global.isAddEdit = false;
-	 //$(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框 } else
+	 //$(".tip-factory").css("display","none"); //隐藏下面的提示搜索框 } else
 	 setTimeout(isExitSample($("#addSampleCode").val()),400); }); var fn1 =
 	 $(document).on("blur", "#editSampleCode", function() { //需要blur事件填充剩余的数据
 	 
 	 if($("#editSampleCode").val() == "") { // chen.alert("样品编号不能为空");
 	 //sample_global.isAddEdit = false;
-	 //$(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框 } else
+	 //$(".tip-factory").css("display","none"); //隐藏下面的提示搜索框 } else
 	 isExitSample($("#editSampleCode").val()); }); var fn2 =
 	 $("#addSampleCode").blur(function(){ if($("#addSampleCode").val() == "") {
 	 //chen.alert("样品编号不能为空"); //sample_global.isAddEdit = false;
-	 //$(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框 } else
+	 //$(".tip-factory").css("display","none"); //隐藏下面的提示搜索框 } else
 	 setTimeout(isExitSample($("#addSampleCode").val()),400); });*/
 	 
 	/*
 	 * var fn2 = $(document).on("blur", "#addSampleCode", function() {
 	 * if($("#addSampleCode").val() == "") { //chen.alert("样品编号不能为空");
 	 * //sample_global.isAddEdit = false;
-	 * //$(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框 } else
+	 * //$(".tip-factory").css("display","none"); //隐藏下面的提示搜索框 } else
 	 * isExitSample($("#addSampleCode").val()); });
 	 */
 	/*
@@ -1134,7 +1142,7 @@ function checkDate(data, who) {
 		chenkDataTask(data);
 
 }
-function checkCompany(data){
+function checkCompany(dataObj){
 	if (!dataObj.hasOwnProperty("companyName") || dataObj.companyName == null
 			|| dataObj.companyName.trim() == "NULL" || dataObj.companyName == undefined) {
 		dataObj.companyName = "";
