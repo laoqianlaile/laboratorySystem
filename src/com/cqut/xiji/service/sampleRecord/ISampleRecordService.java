@@ -9,6 +9,7 @@ import java.util.Map;
 
 
 
+
 import net.sf.json.JSONArray;
 
 public interface ISampleRecordService {
@@ -21,6 +22,12 @@ public interface ISampleRecordService {
 	 * @return
 	 */
 	public Map<String, Object> getSample(String factoryCode);
+	/**
+	 * @description 判断状态
+	 * @param factoryCode
+	 * @return
+	 */
+	public Map<String, Object> addJudge(String factoryCode);
 	/**
 	 * 
 	 * @description 获取所有样品记录信息

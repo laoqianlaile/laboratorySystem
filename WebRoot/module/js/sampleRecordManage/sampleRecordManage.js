@@ -364,6 +364,31 @@ function getdataLisk() {
 	});
 	return data;
 }
+function Judge(){
+	var parame = {};
+	parame.factoryCode = $('#add_factoryCode').val();
+	var fl=true;
+
+	$.ajax({  
+	    url:'sampleRecordController/addJudge.do',// 跳转到 action  
+	    type:'post',
+	    data:parame,
+	    dataType:'json',
+	    success:function(data){  
+	    	
+	    	if (data.state=="1") {
+	    		swal("样品未还");
+		    }else {
+		    	add();
+		    }
+	    	
+	    	
+		}
+	});
+	
+}
+	
+	
 
 
 
@@ -371,33 +396,36 @@ function getdataLisk() {
 function add(){
 	
 	
+
+		var parame = {};
+		parame.factoryCode = $('#add_factoryCode').val();
+		parame.sampleName = $('#add_sampleName').val();
+		parame.specifications = $('#add_specifications').val();
+		parame.getMan = $('#add_getMan').attr('name');
+		parame.getTime = $('#add_getTime').val();
+		parame.returnMan = $('#add_returnMan').attr('name');
+		parame.returnTime = $('#add_returnTime').val();
+		parame.remarks = $('#add_remarks').val();
+
+		if (parame.getMan != "") {
+			$("input").val("");
+			if (parame.sampleName != "") {
+				$.ajax({
+					url : 'sampleRecordController/addSampleRecord.do',
+					data : parame,
+					success : function(o) {
+						if (o <= 0) {
+							swal("新增失败");
+						}
+						$('#addModal').modal('hide');
+						refresh();
+					}
+				});
+			} else
+				swal("没这个样品");
+		} else
+			swal("没领样人")
 	
-	var parame = {};
-	parame.factoryCode = $('#add_factoryCode').val();
-	parame.sampleName = $('#add_sampleName').val();
-	parame.specifications = $('#add_specifications').val();
-	parame.getMan = $('#add_getMan').attr('name');
-	parame.getTime = $('#add_getTime').val();
-	parame.returnMan = $('#add_returnMan').attr('name');
-	parame.returnTime = $('#add_returnTime').val();
-	parame.remarks = $('#add_remarks').val();
-	
-	if(parame.getMan!=""){
-	$("input").val("");
-	if(parame.sampleName!=""){
-	$.ajax({
-	  url:'sampleRecordController/addSampleRecord.do',
-	  data:parame,
-	  success:function(o){
-		  if(o<=0){
-			  swal("新增失败");
-		  }
-		  $('#addModal').modal('hide');
-		  refresh();
-	  }
-	});
-	 }else swal("没这个样品");
-	}else swal("没领样人")
 	
 		
 }
