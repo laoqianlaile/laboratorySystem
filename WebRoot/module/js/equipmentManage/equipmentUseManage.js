@@ -179,7 +179,7 @@ function refresh(){
 
 /* 删除方法 */
 function delData(id){
-	if (!id && typeof(id)!="undefined" && id=='') 
+	if (!id || typeof(id) == "undefined" || id.trim() == "") 
 	{ 
 		swal("仪器设备使用记录ID为空！");
 	}else{
