@@ -488,6 +488,14 @@ function assignCustodian(){
 // 分配检测人员
 function assignDetector(){
 	var data = $('#assignTable').bootstrapTable('getSelections');
+	
+	if(data.length === 0){
+		swal({
+			title: "请选中一条数据",
+			type: 'warning'
+		});
+		return;
+	}
 
 	var parame = {};
 	var IDs='';
