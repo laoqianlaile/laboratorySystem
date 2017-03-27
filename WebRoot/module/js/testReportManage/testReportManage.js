@@ -56,6 +56,13 @@ $(function() {
 			width : "9%",// 宽度
 			
 		},{
+			field : 'projectID',// 返回值名称
+			title : '项目ID',// 列名
+			align : 'center',// 水平居中显示
+		    valign : 'middle',// 垂直居中显示
+			width : "10%",// 宽度
+			visible : false
+		},{
 			field : 'taskID',// 返回值名称
 			title : '任务ID',// 列名
 			align : 'center',// 水平居中显示
@@ -93,6 +100,13 @@ $(function() {
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
 			width : "10%"// 宽度
+		},{
+			field : 'stateEn',// 返回值名称
+			title : '审核状态',// 列名
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width : "10%",// 宽度
+			visible : false
 		},{
 			field : 'state',// 返回值名称
 			title : '审核状态',// 列名
@@ -231,27 +245,36 @@ function recoatCheck() {
 		alert("至少选择两个报告才能进行合并");
 		return;
 	} else {
-		var taskIDs = [], fileIDs = [], IDs = [];
+		var taskIDs = [], fileIDs = [], IDs = [], projectIDs = [], stateEns = [];
 		$.each(rows, function() {
 			taskIDs.push(this.taskID);
+		});
+		$.each(rows, function() {
+			fileIDs.push(this.fileID);
+		});
+		$.each(rows, function() {
+			projectIDs.push(this.projectID);
+		});
+		$.each(rows, function() {
+			stateEns.push(this.stateEn);
 		});
 		$.ajax({
 			url : 'testReportController/recoatCheck.do',
 			type : 'POST',
 			data : {
-				taskIDs : taskIDs
+				taskIDs : taskIDs,
+				fileIDs : fileIDs,
+				projectIDs : projectIDs,
+				states : stateEns
 			},
 			traditional : true,
 			success : function(result) {
 				result = eval(result);
 				if (result) {
 					$.each(rows, function() {
-						fileIDs.push(this.fileID);
-					});
-					$.each(rows, function() {
 						IDs.push(this.ID);
 					});
-					recoatReport(fileIDs, IDs, taskIDs);
+					recoatReport(fileIDs, IDs, taskIDs, projectIDs);
 				} else {
 					alert("当前选择报告不能合并");
 				}
@@ -261,14 +284,16 @@ function recoatCheck() {
 }
 
 // 合并报告
-function recoatReport(fileIDs, IDs, taskIDs) {
+function recoatReport(fileIDs, IDs, taskIDs, projectIDs) {
+	var projectID = projectIDs[0];
 	$.ajax({
 		url : 'testReportController/recoatReport.do',
 		type : 'POST',
 		data : {
 			fileIDs : fileIDs,
 			IDs : IDs,
-			taskIDs : taskIDs
+			taskIDs : taskIDs,
+			projectID : projectID
 		},
 		traditional : true,
 		success : function(result) {
@@ -276,7 +301,7 @@ function recoatReport(fileIDs, IDs, taskIDs) {
 			if (result == null && result == "null") {
 				alert("合并失败");
 			} else {
-				updateTestReportFileID(IDs,result);
+				updateTestReportFileID(IDs, result);
 			}
 		}
 	});

@@ -76,10 +76,9 @@ public interface ITestReportService {
 
 	public List<Map<String, Object>> getReportInfo(String taskID);
 
-	public boolean recoatCheck(String[] taskIDs);
+	public boolean recoatCheck(String[] taskIDs, String fileIDs[], String[] projectIDs, String[] states);
 
-	public String recoatReport(String[] fileIDs, String[] IDs,
-			String[] taskIDs, String uploader);
+	public String recoatReport(String[] fileIDs, String[] IDs, String[] taskIDs, String projectID, String uploader);
 
 	public boolean updateTestReportFileID(String[] IDs, String fileID);
 }

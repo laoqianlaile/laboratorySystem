@@ -69,6 +69,7 @@ public class TestReportService extends SearchService implements
 				+ " SELECT "
 				+ "b.ID AS ID,"
 				+ "b.receiptlistCode AS receiptlistCode,"
+				+ "b.projectID AS projectID,"
 				+ "b.taskID AS taskID,"
 				+ "b.fileID AS fileID,"
 				+ "b.versionNumber AS versionNumber,"
@@ -82,6 +83,7 @@ public class TestReportService extends SearchService implements
 				+ " SELECT "
 				+ "a.ID AS ID,"
 				+ "a.receiptlistCode AS receiptlistCode,"
+				+ "a.projectID AS projectID,"
 				+ "a.taskID AS taskID,"
 				+ "a.fileID AS fileID,"
 				+ "a.versionNumber AS versionNumber,"
@@ -95,6 +97,7 @@ public class TestReportService extends SearchService implements
 				+ " SELECT "
 				+ "testreport.ID AS ID,"
 				+ "receiptlist.receiptlistCode AS receiptlistCode,"
+				+ "receiptlist.projectID AS projectID,"
 				+ "receiptlist.contractID AS contractID,"
 				+ "testreport.taskID AS taskID,"
 				+ "testreport.fileID AS fileID,"
@@ -114,9 +117,11 @@ public class TestReportService extends SearchService implements
 		String[] properties = new String[] {
 				"c.ID AS ID",
 				"c.receiptlistCode AS receiptlistCode",
+				"c.projectID AS projectID",
 				"c.taskID AS taskID",
 				"c.fileID AS fileID",
 				"c.versionNumber AS versionNumber",
+				"c.state AS stateEn",
 				"IF (c.state = 0,'未提交',IF (c.state = 1,'二审核中',IF (c.state = 2,'二审未通过',IF (c.state = 3,'三审核中',IF (c.state = 4,'三审未通过',IF (c.state = 5,'审核通过',IF(c.state = 6,'归档','其它'))))))) AS state",
 				"c.companyName AS companyName",
 				"fileinformation.fileName AS fileName",
@@ -984,56 +989,77 @@ public class TestReportService extends SearchService implements
 	}
 	
 	@Override
-	public boolean recoatCheck(String[] taskIDs){
-		String IDs = "";
-		if (taskIDs.length > 0) {
-			IDs = taskIDs[0];
-		}
-		if (taskIDs.length >= 2) {
-			for (int i = 1, len = taskIDs.length; i < len; i++) {
-				IDs += "," + taskIDs[i];
-			}
-		}
-		String condition = " ID IN " + " ( " + IDs + " )";
-		List<Map<String, Object>> result = baseEntityDao.findByCondition(new String[] { "testProjectID", "sampleID" },condition, "task");
-		System.out.println("晴天 :"+result);
-		int len = result.size();
-		if (len == 0) {
-			return false;
-		} else {
-			String[] pojectID = new String[len];
-			String[] sampleID = new String[len];
-			boolean flag = true;
-			for (int i = 0; i < len; i++) {
-				pojectID[i] = result.get(i).get("testProjectID").toString();
-				sampleID[i] = result.get(i).get("sampleID").toString();
-			}
-			int sampleLen = sampleID.length;
-			for (int i = 0; i < sampleLen - 1; i++) { // 遍历查看所合并报告是否对于同一样品
-				for (int j = 0; j < sampleLen - i; j++) {
-					if (i == j) {
-						continue;
-					} else {
-						if (!sampleID[i].equals(sampleID[j])) {
-							flag = false;
-							break;
-						}
+	public boolean recoatCheck(String[] taskIDs, String fileIDs[], String[] projectIDs, String[] states) {
+		boolean flag = true;
+		for (int i = 0, len = projectIDs.length; i < len - 1; i++) { // 遍历查看所合并报告是否在同一项目下
+			for (int j = 0; j < len - i; j++) {
+				if (i == j) {
+					continue;
+				} else {
+					if (!projectIDs[i].equals(projectIDs[j])) {
+						flag = false;
+						break;
 					}
 				}
-				if (flag == false) {
-					break;
+			}
+			if (flag == false) {
+				break;
+			}
+		}
+		for (int i = 0, len = fileIDs.length; i < len - 1; i++) { // 遍历查看所合并报告是否是同一文件
+			for (int j = 0; j < len - i; j++) {
+				if (i == j) {
+					continue;
+				} else {
+					if (fileIDs[i].equals(fileIDs[j])) {
+						flag = false;
+						break;
+					}
 				}
 			}
-			if (flag) {
-				return flag;
+			if (flag == false) {
+				break;
+			}
+		}
+		for (int i = 0, len = states.length; i < len - i; i++) { // 检查当前审核状态的报告是否能合并
+			if (!states[i].equals("0")) {
+				flag = false;
+				break;
+
+			}
+		}
+		if (flag) {
+			String IDs = "";
+			if (taskIDs.length > 0) {
+				IDs = taskIDs[0];
+			}
+			if (taskIDs.length >= 2) {
+				for (int i = 1, len = taskIDs.length; i < len; i++) {
+					IDs += "," + taskIDs[i];
+				}
+			}
+			String condition = " ID IN " + " ( " + IDs + " )";
+			List<Map<String, Object>> result = baseEntityDao.findByCondition(
+					new String[] { "testProjectID", "sampleID" }, condition,
+					"task");
+			System.out.println("晴天 :" + result);
+			int len = result.size();
+			if (len == 0) {
+				return false;
 			} else {
-				int pojectLen = pojectID.length;
-				for (int i = 0; i < pojectLen - 1; i++) { // 遍历查看所合并报告是否对于同一检测方法
-					for (int j = 0; j < pojectLen - i; j++) {
+				String[] pojectID = new String[len];
+				String[] sampleID = new String[len];
+				for (int i = 0; i < len; i++) {
+					pojectID[i] = result.get(i).get("testProjectID").toString();
+					sampleID[i] = result.get(i).get("sampleID").toString();
+				}
+				int sampleLen = sampleID.length;
+				for (int i = 0; i < sampleLen - 1; i++) { // 遍历查看所合并报告是否对于同一样品
+					for (int j = 0; j < sampleLen - i; j++) {
 						if (i == j) {
 							continue;
 						} else {
-							if (!pojectID[i].equals(pojectID[j])) {
+							if (!sampleID[i].equals(sampleID[j])) {
 								flag = false;
 								break;
 							}
@@ -1043,13 +1069,36 @@ public class TestReportService extends SearchService implements
 						break;
 					}
 				}
-				return flag;
+				if (flag) {
+					return flag;
+				} else {
+					int pojectLen = pojectID.length;
+					for (int i = 0; i < pojectLen - 1; i++) { // 遍历查看所合并报告是否对于同一检测方法
+						for (int j = 0; j < pojectLen - i; j++) {
+							if (i == j) {
+								continue;
+							} else {
+								if (!pojectID[i].equals(pojectID[j])) {
+									flag = false;
+									break;
+								}
+							}
+						}
+						if (flag == false) {
+							break;
+						}
+					}
+					return flag;
+				}
 			}
+		} else {
+			return false;
 		}
 	}
 	
 	@Override
-	public String recoatReport(String[] fileIDs, String[] IDs,String[] taskIDs,String uploader){
+	public String recoatReport(String[] fileIDs, String[] IDs, String[] taskIDs, String projectID, String uploader) {
+		System.out.println("项目ID ： "+ projectID);
 		PropertiesTool pt = new PropertiesTool();
 		String filePath = "", pathPassword = "", relativePath = "", fileName = "", path = "", cacheFilePath = "";
 		int length,x;
@@ -1082,13 +1131,7 @@ public class TestReportService extends SearchService implements
 			cacheFilePath = pt.getSystemPram("cacheFilePath") + "\\" + relativePath;
 			wp.comblineDocument(list, cacheFilePath);
 			wp.close();
-			
-			String directoryName = "F:\\upload\\linshi\\";
-			File directoryCreate = new File(directoryName);
-			if (!directoryCreate.exists()) {
-				directoryCreate.mkdirs();
-			}
-
+			relativePath = "项目文件" + "\\" + projectID + "\\" + "报告文件" + "\\" + relativePath;
 			FileInformation fi = new FileInformation();
 			fi.setID(ID);
 			String belongID = "";
@@ -1112,7 +1155,7 @@ public class TestReportService extends SearchService implements
 			fi.setType(2);
 			baseEntityDao.save(fi);
 			fileEncryptservice.encryptPath(relativePath, ID);// 加密路径
-			path = directoryName + relativePath;
+			path = pt.getSystemPram("filePath") + "\\"  + relativePath;
 			fileEncryptservice.encryptFile(cacheFilePath, path, ID);// 加密文件
 			return ID;
 		} catch (Exception e) {
