@@ -54,9 +54,10 @@ public interface ITestReportService {
 	public boolean secondRejectReport(String ID, String taskID,
 			String dismissreason);
 
-	public boolean thirdAuditOperateCheck(String ID); 
-	
-	public boolean thirdPassReport(String ID, String taskID,String auditPassAgreement);
+	public boolean thirdAuditOperateCheck(String ID);
+
+	public boolean thirdPassReport(String ID, String taskID,
+			String auditPassAgreement);
 
 	public boolean thirdRejectReport(String ID, String taskID,
 			String dismissreason);
@@ -74,4 +75,10 @@ public interface ITestReportService {
 	public boolean pigeonholeReport(String ID);
 
 	public List<Map<String, Object>> getReportInfo(String taskID);
+
+	public boolean recoatCheck(String[] taskIDs, String fileIDs[], String[] projectIDs, String[] states);
+
+	public String recoatReport(String[] fileIDs, String[] IDs, String[] taskIDs, String projectID, String uploader);
+
+	public boolean updateTestReportFileID(String[] IDs, String fileID);
 }

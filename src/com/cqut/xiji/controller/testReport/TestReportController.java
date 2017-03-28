@@ -493,4 +493,56 @@ public class TestReportController {
 		return result;
 
 	}
+	
+	/**
+	 * 
+     * @discription 检查是否可以合并
+     * @author zt       
+     * @created 2017-3-25 上午9:59:36     
+     * @param taskIDs
+     * @return
+	 */
+	@RequestMapping("/recoatCheck")
+	@ResponseBody
+	public boolean recoatCheck(String[] taskIDs, String[] fileIDs, String[] projectIDs, String[] states) {
+		boolean flag = service.recoatCheck(taskIDs, fileIDs, projectIDs, states);
+		return flag;
+
+	}
+	
+	/**
+	 * 
+     * @discription 合并报告
+     * @author zt       
+     * @created 2017-3-25 下午4:05:25     
+     * @param fileIDs
+     * @param IDs
+     * @param taskIDs
+     * @param req
+     * @return
+	 */
+	@RequestMapping("/recoatReport")
+	@ResponseBody
+	public String recoatReport(String[] fileIDs, String[] IDs, String[] taskIDs, String projectID, HttpServletRequest req) {
+		String uploader = (String) req.getSession().getAttribute("EMPLOYEEID");// 上传人
+		String result = service.recoatReport(fileIDs, IDs, taskIDs, projectID, uploader);
+		return result;
+
+	}
+	
+	/**
+	 * 
+	 * @discription 更新参与合并的报告的文件ID
+	 * @author zt
+	 * @created 2017-3-25 下午4:09:12
+	 * @param IDs
+	 * @return
+	 */
+	@RequestMapping("/updateTestReportFileID")
+	@ResponseBody
+	public boolean updateTestReportFileID(String[] IDs, String fileID) {
+		boolean flag = service.updateTestReportFileID(IDs, fileID);
+		return flag;
+
+	}
 }
