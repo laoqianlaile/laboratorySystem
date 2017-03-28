@@ -358,11 +358,7 @@ function uploadFile() {
 				dataType : 'json',
 				add : function(e, data) {
 					$("#ensure").click(function() {
-						if ($("#files").val().indexOf('.doc') < 0 || $("#files").val().indexOf('.docx') < 0) {
-							alert("不能将此类型文档作为检测报告上传");
-						} else {
-							data.submit();
-						}
+						data.submit();
 					});
 				},
 			})

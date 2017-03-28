@@ -117,6 +117,7 @@ public class FileOperateController {
 		String directoryName = "";
 		String fileSuffixName = fileNames[fileNames.length-1].toLowerCase();
 		if(TypeNumber == 2 ){
+			System.out.println("fileSuffixName :"+fileSuffixName);
 			if(!fileSuffixName.equals("docx") && !fileSuffixName.equals("doc")){
 				return null;
 			}
