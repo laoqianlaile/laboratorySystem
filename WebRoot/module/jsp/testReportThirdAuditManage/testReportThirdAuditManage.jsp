@@ -33,7 +33,6 @@
 <script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="module/js/bootstrap-datetimepicker.fr.js"></script>
 <script src="module/js/sweetalert.min.js"></script>
-<script src="module/js/alert.js"></script>
 <script src="assets/js/autoPage.js"></script>
 
 <style>
@@ -194,8 +193,7 @@
 					<hr />
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="keyishangchuan"
-						onclick="thirdAuditPassSure()">确定</button>
+					<button type="button" class="btn btn-primary" id="keyishangchuan">确定</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
 			</div>

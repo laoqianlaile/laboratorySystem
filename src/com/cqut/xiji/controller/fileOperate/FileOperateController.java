@@ -116,6 +116,11 @@ public class FileOperateController {
 		String cacheFilePath ="";//缓存文件路径
 		String directoryName = "";
 		String fileSuffixName = fileNames[fileNames.length-1].toLowerCase();
+		if(TypeNumber == 2 ){
+			if(!fileSuffixName.equals("docx") && !fileSuffixName.equals("doc")){
+				return null;
+			}
+		}
 		if (fileSuffixName.equals("jpg") || fileSuffixName.equals("png") || fileSuffixName.equals("gif")) {
 			path = pe.getSystemPram("imgPath") + "\\";
 			for (int j = 0; j < fileNames.length; j++) {
@@ -285,28 +290,6 @@ public class FileOperateController {
 				}
 			}
 		}
-
-	/*	Map<String, Object> results = service.getFileDecryptPassword(ID);
-		if (results != null) {
-			String fileEncryptPath = service.getFilePath(ID);// 获取文件路径
-			if (fileEncryptPath.equals("nofile")) {
-				return "没有记录";
-			} else {
-				String pathPassword = results.get("pathPassword").toString();
-				String relativePath = fileEncryptservice.decryptPath(fileEncryptPath,pathPassword);
-				System.out.println("relativePath :"+relativePath);
-				PropertiesTool pt = new PropertiesTool();
-				String path = pt.getSystemPram("filePath") + "\\" + relativePath;
-				File file = new File(path);
-				if (!file.exists()) {
-					return "真实文件已被删除！";
-				} else {
-					return "OK";
-				}
-			}
-		} else {
-			return "无法解密,无法下载";
-		}*/
 	}
 
 	/***

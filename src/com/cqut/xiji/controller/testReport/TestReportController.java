@@ -150,8 +150,8 @@ public class TestReportController {
 	 */
 	@RequestMapping("/updateTestReport")
 	@ResponseBody
-	public boolean updateTestReport(String ID,String taskID,String versionNumber,String versionInfo, String remarks) {
-		boolean result = service.updateTestReport(ID,taskID,versionNumber,versionInfo, remarks);
+	public boolean updateTestReport(String ID, String taskID, String fileID, String versionNumber, String versionInfo, String remarks) {
+		boolean result = service.updateTestReport(ID, taskID, fileID, versionNumber, versionInfo, remarks);
 		return result;
 	}
 
