@@ -2,7 +2,8 @@
 var param = {
 		path : "",
 		type : 2,
-		taskID : ""
+		taskID : "",
+		flag : false
 };
 
 // 初始化数据
@@ -349,10 +350,11 @@ function checkFile(o) {
 	}
 } 
 
+
+
 // 上传文件(覆盖上传)
 function uploadFile() {
-	$("#files")
-			.fileupload({
+	$("#files").fileupload({
 				autoUpload : true,
 				url : 'fileOperateController/upload.do',
 				dataType : 'json',
@@ -361,35 +363,24 @@ function uploadFile() {
 						data.submit();
 					});
 				},
-			})
-			.bind(
-					'fileuploaddone',
-					function(e, data) {
+			}).bind('fileuploaddone',function(e, data) {
 						var fileID = eval(data.result);
 						if (fileID != null && fileID != "null") {
-							var rows = $("#table").bootstrapTable('getSelections'),
-							    fileVersionNumber = $("#fileVersionNumber").val(),
-							    fileVersionInfo = $("#fileVersionNumber").val(), 
-							    fileRemarks = $("#fileRemarks").val();
+							var rows = $("#table").bootstrapTable(
+									'getSelections'), fileVersionNumber = $(
+									"#fileVersionNumber").val(), fileVersionInfo = $(
+									"#fileVersionNumber").val(), fileRemarks = $(
+									"#fileRemarks").val();
 							$.post("testReportController/updateTestReport.do",
-											{
-												ID : rows[0].ID,
-												taskID : rows[0].taskID,
-												fileID : fileID,
-												versionNumber : fileVersionNumber,
-												versionInfo : fileVersionInfo,
-												remarks : fileRemarks
-											}, function(result) {
-												if (result == true || result == "true") {
-													refresh();
-													alert("重新覆盖成功");
-													reload();
-												} else {
-													alert("重新覆盖失败,请检查网络设置或上传文件类型是否正确");
-													reload();
-												}
-											});
-							$("#recoverReport").modal("hide");
+									{
+										ID : rows[0].ID,
+										taskID : rows[0].taskID,
+										versionNumber : fileVersionNumber,
+										versionInfo : fileVersionInfo,
+										remarks : fileRemarks
+									}, function(result) {
+										reload();
+									});
 						}
 					});
 

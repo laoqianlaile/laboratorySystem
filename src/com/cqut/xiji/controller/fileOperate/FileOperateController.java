@@ -354,7 +354,6 @@ public class FileOperateController {
 				}
 				outp.flush();
 				outp.close();
-		
 			} catch (Exception e) {
 				System.err.println("下载出错!");
 			} finally {

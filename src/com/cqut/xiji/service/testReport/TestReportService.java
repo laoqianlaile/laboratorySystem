@@ -412,24 +412,32 @@ public class TestReportService extends SearchService implements
 	}
 
 	@Override
-	public boolean updateTestReport(String ID,String taskID,String fileID, String versionNumber, String versionInfo, String remarks) {
+	public boolean updateTestReport(String ID,String taskID, String versionNumber, String versionInfo, String remarks) {
 		TestReport tr = entityDao.getByID(ID, TestReport.class);
 		if (tr == null) {
 			return false;
 		} else {
-			Task tk = entityDao.getByID(taskID, Task.class);
-			tr.setFileID(fileID);
-			tr.setVersionNumber(versionNumber);
-			tr.setVersionInformation(versionInfo);
-			tr.setRemarks(remarks);
-			tr.setState(0);
-			tk.setDetectstate(1);
-			int updateTaskCount = baseEntityDao.updatePropByID(tr, ID);
-			int updateTestReportCount = baseEntityDao
-					.updatePropByID(tk, taskID);
-			return (updateTaskCount + updateTestReportCount) > 1 ? true : false;
-
-		}
+				String condition = " fileinformation.belongtoID = '" + taskID + "'";
+				List<Map<String, Object>> result = entityDao.searchWithpaging(
+						new String[] { "fileinformation.ID AS ID" },
+						"fileinformation", null, null, condition, null,
+						"fileinformation.uploadTime", "DESC", 1, 0);
+				if (result != null && result.size() > 0) {
+					Task tk = entityDao.getByID(taskID, Task.class);
+					String fileID = result.get(0).get("ID").toString();
+					tr.setFileID(fileID);
+					tr.setVersionNumber(versionNumber);
+					tr.setVersionInformation(versionInfo);
+					tr.setRemarks(remarks);
+					tr.setState(0);
+					tk.setDetectstate(1);
+					int updateTaskCount =  baseEntityDao.updatePropByID(tr, ID);
+					int updateTestReportCount =  baseEntityDao.updatePropByID(tk, taskID);
+					return (updateTaskCount + updateTestReportCount) > 1 ? true : false;
+				} else {
+					return false;
+				}
+			}
 	}
 	
 	@Override

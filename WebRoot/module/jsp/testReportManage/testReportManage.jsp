@@ -162,7 +162,7 @@
 				<div class="modal-footer">
 
 					<button type="button" class="btn btn-primary" id="ensure" name="ensure">确定</button>
-					<button type="button" class="btn btn-default" id="cancel" name="cancel" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-default" id="cancel" name="cancel">取消</button>
 				</div>
 			</div>
 		</div>
@@ -220,6 +220,12 @@
 		});
 		$('#chooseFile').click(function() {
 			$('#files').click();
+
+		});
+		$('#cancel').click(function() {
+			if (confirm("是否取消上传?")) {
+				reload();
+			}
 		});
 	</script>
 </body>

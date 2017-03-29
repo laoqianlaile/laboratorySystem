@@ -23,8 +23,7 @@ public interface ITestReportService {
 
 	public boolean recoverCheck(String ID);
 
-	public boolean updateTestReport(String ID, String taskID, String fileID,
-			String versionNumber, String versionInfo, String remarks);
+	public boolean updateTestReport(String ID, String taskID, String versionNumber, String versionInfo, String remarks);
 
 	public boolean submitReportCheck(String ID);
 

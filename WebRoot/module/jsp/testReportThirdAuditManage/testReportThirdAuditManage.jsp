@@ -193,8 +193,8 @@
 					<hr />
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="keyishangchuan">确定</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary" id="ensureUploadImg" name="ensureUploadImg" onclick="thirdAuditPassSure()">确定</button>
+					<button type="button" class="btn btn-default" id="canceUploadImg"  name="canceUploadImg" >取消</button>
 				</div>
 			</div>
 		</div>
@@ -225,8 +225,7 @@
 					<hr />
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary"
-						onclick="">确定</button>
+					<button type="button" class="btn btn-primary" onclick="thirdAuditRejectSure()">确定</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
 			</div>
@@ -255,11 +254,16 @@
 			forceParse : 0,
 			format : 'yyyy-mm-dd hh:ii:ss'
 		});
-		$("#Img1").click(function() {
+		$('#Img1').click(function() {
 			$('#singnatureImg').click();
 		});
-		$("#Img2").click(function() {
+		$('#Img2').click(function() {
 			$('#stampImg').click();
+		});
+		$('#canceUploadImg').click(function() {
+			if (confirm("是否取消上传?")) {
+				reload();
+			}
 		});
 	</script>
 </body>
