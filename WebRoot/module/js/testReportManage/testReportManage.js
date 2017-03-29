@@ -381,7 +381,7 @@ function uploadFile() {
 									}, function(result) {
 										reload();
 									});
-						}
+						} 
 					});
 
 	// 文件上传前触发事件

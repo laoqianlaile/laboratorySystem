@@ -370,8 +370,7 @@ function uploadTestReport() {
 							param.firstDirectory = "项目文件";
 							param.secondDirectory = result[0].NAME;
 							param.thirdDirectory = "报告文件";
-							param.fileSummaryInfo = $
-									.trim($("#fileSummaryInfo").val());
+							param.fileSummaryInfo = $.trim($("#fileSummaryInfo").val());
 							$("#uploadReport").modal("show");
 						} else {
 							alert("无法上传");

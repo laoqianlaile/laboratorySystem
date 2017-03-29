@@ -136,12 +136,14 @@ function uploadImage(selectorName) {
 		},
 	}).bind('fileuploaddone', function(e, data) {
 		var fileID = eval(data.result);
-		$.post("employeeController/addSignatrueAndStamp.do", {
-			fileID : fileID,
-			selectorName : selectorName
-		}, function(result) {
-			reload();
-		});
+		if (fileID != null && fileID != "null") {
+			$.post("employeeController/addSignatrueAndStamp.do", {
+				fileID : fileID,
+				selectorName : selectorName
+			}, function(result) {
+				reload();
+			});
+		}
 	});
 }
 
