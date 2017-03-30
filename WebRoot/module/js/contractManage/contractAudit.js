@@ -66,7 +66,7 @@ function writeModal2(){
  */
 function approved(){
 	var approveCause = $('#approveCause').val(); 
-	if (!approveCause && typeof(approveCause)!="undefined" && approveCause=='') 
+	if (!approveCause || typeof(approveCause)=="undefined" || approveCause.trim() == "") 
 	{ 
 		swal("审核意见不能为空！"); 
 	}else {
@@ -95,7 +95,7 @@ function approved(){
  */
 function rejected(){
 	var rejecteCause = $('#rejecteCause').val(); 
-	if (!rejecteCause && typeof(rejecteCause)!="undefined" && rejecteCause=='') 
+	if (!rejecteCause || typeof(rejecteCause)=="undefined" || rejecteCause.trim() == "") 
 	{ 
 		swal("审核意见不能为空！"); 
 	}else {

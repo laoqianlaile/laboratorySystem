@@ -1,5 +1,10 @@
 // 请求数据时的额外参数
-var param = {};
+var param = {
+		path : "",
+		type : 2,
+		taskID : "",
+		flag : false
+};
 
 // 初始化数据
 $(function() {
@@ -56,6 +61,13 @@ $(function() {
 			width : "9%",// 宽度
 			
 		},{
+			field : 'projectID',// 返回值名称
+			title : '项目ID',// 列名
+			align : 'center',// 水平居中显示
+		    valign : 'middle',// 垂直居中显示
+			width : "10%",// 宽度
+			visible : false
+		},{
 			field : 'taskID',// 返回值名称
 			title : '任务ID',// 列名
 			align : 'center',// 水平居中显示
@@ -93,6 +105,13 @@ $(function() {
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
 			width : "10%"// 宽度
+		},{
+			field : 'stateEn',// 返回值名称
+			title : '审核状态',// 列名
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width : "10%",// 宽度
+			visible : false
 		},{
 			field : 'state',// 返回值名称
 			title : '审核状态',// 列名
@@ -136,7 +155,7 @@ $(function() {
 			}
 		}]
 	});
-	
+	uploadFile();
 });
 
 // 查询
@@ -158,7 +177,7 @@ function search() {
 
 // 提交审核
 function submitReport() {
-	var keyID = arguments[0],
+	var keyID = arguments[0], 
 	    taskID = arguments[1];
 	if (confirm("是否提交审核")) {
 		$.post("testReportController/submitReportCheck.do", {
@@ -220,6 +239,162 @@ function sendReportSure() {
 	$("#sendReport").modal("hide");
 }
 
+// 检查是否可以合并报告
+function recoatCheck() {
+	var rows = $("#table").bootstrapTable('getSelections');
+	if (rows.length == 0) {
+		alert("请选择需要合并的报告");
+		return;
+	}
+	if (rows.length == 1) {
+		alert("至少选择两个报告才能进行合并");
+		return;
+	} else {
+		var taskIDs = [], fileIDs = [], IDs = [], projectIDs = [], stateEns = [];
+		$.each(rows, function() {
+			taskIDs.push(this.taskID);
+		});
+		$.each(rows, function() {
+			fileIDs.push(this.fileID);
+		});
+		$.each(rows, function() {
+			projectIDs.push(this.projectID);
+		});
+		$.each(rows, function() {
+			stateEns.push(this.stateEn);
+		});
+		$.ajax({
+			url : 'testReportController/recoatCheck.do',
+			type : 'POST',
+			data : {
+				taskIDs : taskIDs,
+				fileIDs : fileIDs,
+				projectIDs : projectIDs,
+				states : stateEns
+			},
+			traditional : true,
+			success : function(result) {
+				result = eval(result);
+				if (result) {
+					$.each(rows, function() {
+						IDs.push(this.ID);
+					});
+					recoatReport(fileIDs, IDs, taskIDs, projectIDs);
+				} else {
+					alert("当前选择报告不能合并");
+				}
+			}
+		});
+	}
+
+}
+
+// 合并报告
+function recoatReport(fileIDs, IDs, taskIDs, projectIDs) {
+	var projectID = projectIDs[0];
+	$.ajax({
+		url : 'testReportController/recoatReport.do',
+		type : 'POST',
+		data : {
+			fileIDs : fileIDs,
+			IDs : IDs,
+			taskIDs : taskIDs,
+			projectID : projectID
+		},
+		traditional : true,
+		success : function(result) {
+			result = eval(result);
+			if (result == null && result == "null") {
+				alert("合并失败");
+			} else {
+				updateTestReportFileID(IDs, result);
+			}
+		}
+	});
+}
+
+// 更新参与合并的检测报告的文件ID
+function updateTestReportFileID(IDs, result) {
+	$.ajax({
+		url : 'testReportController/updateTestReportFileID.do',
+		type : 'POST',
+		data : {
+			IDs : IDs,
+			fileID : result
+		},
+		traditional : true,
+		success : function(result) {
+			result = eval(result);
+			if (result == true || result == "true") {
+				refresh();
+				alert("合并成功");
+			} else {
+				refresh();
+				alert("合并失败");
+			}
+		}
+	});
+}
+
+// 检查文件类型
+function checkFile(o) {
+	$("#chooseFile").attr("disabled", "disabled");
+	var filePath = $(o).val();
+	if (filePath != "" && filePath != undefined) {
+		var arr = filePath.split('\\');
+		var fileName = arr[arr.length - 1];
+		$("#fileName").html(fileName);
+	}
+	if (o.value.indexOf('.doc') < 0 || o.value.indexOf('.docx') < 0) {
+		alert("不能将此类型文档作为检测报告上传");
+	}
+} 
+
+
+
+// 上传文件(覆盖上传)
+function uploadFile() {
+	$("#files").fileupload({
+				autoUpload : true,
+				url : 'fileOperateController/upload.do',
+				dataType : 'json',
+				add : function(e, data) {
+					$("#ensure").click(function() {
+						data.submit();
+					});
+				},
+			}).bind('fileuploaddone',function(e, data) {
+						var fileID = eval(data.result);
+						if (fileID != null && fileID != "null") {
+							var rows = $("#table").bootstrapTable(
+									'getSelections'), fileVersionNumber = $(
+									"#fileVersionNumber").val(), fileVersionInfo = $(
+									"#fileVersionNumber").val(), fileRemarks = $(
+									"#fileRemarks").val();
+							$.post("testReportController/updateTestReport.do",
+									{
+										ID : rows[0].ID,
+										taskID : rows[0].taskID,
+										versionNumber : fileVersionNumber,
+										versionInfo : fileVersionInfo,
+										remarks : fileRemarks
+									}, function(result) {
+										reload();
+									});
+						} 
+					});
+
+	// 文件上传前触发事件
+	$('#files').bind('fileuploadsubmit', function(e, data) {
+		data.formData = {
+			filePath : param.path,
+			TypeNumber : param.type,
+			belongtoID : param.taskID
+		}
+		// 如果需要额外添加参数可以在这里添加
+	});
+}
+	
 // 重新覆盖
 function recover() {
 	var rows = $("#table").bootstrapTable('getSelections');
@@ -228,71 +403,43 @@ function recover() {
 		return;
 	}
 	if (rows.length > 1) {
-		alert("请选择一条数据");
+		alert("只能选择一条数据");
 		return;
 	} else {
 		$.post("testReportController/recoverCheck.do", {
 			ID : rows[0].ID
 		}, function(result) {
 			if (result == true || result == "true") {
-				fileUploadInit("#file_upload");
+				$.post("fileOperateController/getFileDecryptPath.do", {
+					ID : rows[0].fileID
+				}, function(result) {
+					if (result == null || result == "null") {
+						alert("没有记录");
+					} else {
+						result = JSON.parse(result);
+						var path = result[0].path;
+						var i = path.lastIndexOf("\\");
+						path = path.substring(i + 1, length);
+						$.post("fileOperateController/getFilesInfo.do", {
+							ID : rows[0].fileID
+						}, function(fileInfos) {
+							fileInfos = JSON.parse(fileInfos);
+							if (fileInfos != null && fileInfos != "null") {
+								$("#chooseFile").removeAttr("disabled");
+								$("#fileName").html("");
+								param.path = path;
+							    param.type = fileInfos[0].type,
+							    param.taskID = rows[0].taskID
+							}
+						});
+					}
+				});
 				$("#recoverReport").modal("show");
 			} else {
 				alert("当前审核状态不可以重新覆盖");
 			}
 		});
 	}
-}
-
-// 确认覆盖
-function recoverSure() {
-	var rows = $("#table").bootstrapTable('getSelections');
-	if (rows[0].fileID != "") {
-		$.post("fileOperateController/getFileDecryptPath.do", {
-			ID : rows[0].fileID
-		}, function(result) {
-			if (result == null || result == "null") {
-				alert("没有记录");
-			} else {
-				result = JSON.parse(result);
-				var path = result[0].path;
-				var i = path.lastIndexOf("\\");
-				path = path.substring(i + 1, length);
-				$.post("fileOperateController/getFilesInfo.do", {
-					ID : rows[0].fileID
-				}, function(fileInfos) {
-					fileInfos = JSON.parse(fileInfos);
-					if (fileInfos != null && fileInfos != "null") {
-						fileUpload("#file_upload", path, fileInfos[0].type,
-								rows[0].taskID);
-					}
-				});
-			}
-		});
-	}
-	
-	setTimeout(function() {
-		var rows = $("#table").bootstrapTable('getSelections'),
-		    fileVersionNumber = $("#fileVersionNumber").val(),
-		    fileVersionInfo = $("#fileVersionNumber").val(),
-		    fileRemarks = $("#fileRemarks").val();
-		$.post("testReportController/updateTestReport.do", {
-			ID : rows[0].ID,
-			taskID : rows[0].taskID,
-			versionNumber : fileVersionNumber,
-			versionInfo : fileVersionInfo,
-			remarks : fileRemarks
-		}, function(result) {
-			if (result == true || result == "true") {
-				refresh();
-				alert("重新覆盖成功");
-			} else {
-				refresh();
-				alert("重新覆盖失败");
-			}
-		});
-		$("#recoverReport").modal("hide");
-	}, 4000);
 }
 
 // 查看检测报告
@@ -308,7 +455,8 @@ function checkReport() {
 	} else {
 		var testReportID = rows[0].ID;
 		if (testReportID != "") {
-			window.location.href = "module/jsp/testReportManage/testReportView.jsp?testReportID="+ testReportID;
+			window.location.href = "module/jsp/testReportManage/testReportView.jsp?testReportID="
+					+ testReportID;
 		}
 	}
 }
@@ -334,6 +482,11 @@ function refresh() {
 		url : "testReportController/getTestReportWithPaging.do",
 		query : additionalCondition
 	});
+}
+
+// 重新加载页面
+function reload() {
+	window.location.reload();
 }
 
 // 检查数据合理性

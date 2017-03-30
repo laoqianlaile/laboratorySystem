@@ -547,12 +547,22 @@ public class ReceiptlistService extends SearchService implements
 			}
 		}
 		//将任务改为保存状态--是正常退出页面的
-		  String sql = "update task set task.saveState = 1 where task.receiptlistID ='"+reID+"' and  ( task.saveState = 0  or task.saveSave is null )";
+		  String sql = "update task set task.saveState = 1 where task.receiptlistID ='"+reID+"' and  ( task.saveState = 0  or task.saveState is null )";
 		  entityDao.runSql(sql);
 		return entityDao.updatePropByID(receiptlist, reID) == 1 ? "true"
 				: "false";
 	}
+	public static Date StrToDate(String str) {
 
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = null;
+		try {
+			date = format.parse(str);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return date;
+	}
 	// 新增交接单--各种类型
 	@Override
 	public Map<String, Object> addReceiptList(HttpSession session, String coID,

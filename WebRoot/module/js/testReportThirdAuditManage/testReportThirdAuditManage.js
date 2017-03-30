@@ -130,16 +130,20 @@ function uploadImage(selectorName) {
 		url : 'fileOperateController/upload.do?TypeNumber=' + 3,
 		dataType : 'text',
 		add : function(e, data) {
-			$("#keyishangchuan").click(function() {
+			$("#ensureUploadImg").click(function() {
 				data.submit();
 			});
 		},
 	}).bind('fileuploaddone', function(e, data) {
 		var fileID = eval(data.result);
-		$.post("employeeController/addSignatrueAndStamp.do", {
-			fileID : fileID,
-			selectorName : selectorName
-		});
+		if (fileID != null && fileID != "null") {
+			$.post("employeeController/addSignatrueAndStamp.do", {
+				fileID : fileID,
+				selectorName : selectorName
+			}, function(result) {
+				reload();
+			});
+		}
 	});
 }
 
@@ -270,8 +274,7 @@ function thirdAuditPassSure(){
 										fileName : fileName
 									},
 									function(result) {
-										var re = new RegExp("\"","g");
-										result = result.replace(re,"");
+										result = eval(result);
 										$.post("messageNoticeController/addReportAuditMessageNotice.do",
 														{
 															messageID : result,
@@ -368,6 +371,11 @@ function refresh() {
 		url : "testReportController/getTestReporThirdtAuditWithPaging.do",
 		query : additionalCondition
 	});
+}
+
+// 重新加载页面
+function reload() {
+	window.location.reload();
 }
 
 //检查数据合理性

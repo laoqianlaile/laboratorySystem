@@ -29,9 +29,9 @@ function getContractByID(){
 		writeModal2.style.display = "inline-block";
 	}
 	var ID = GetQueryString("ID");
-	if (!ID && typeof(ID)!="undefined" && ID=='') 
+	if (!ID || typeof(ID) == "undefined" || ID.trim() == "") 
 	{ 
-		alert("合同ID不能为空！"); 
+		swal("合同ID不能为空！"); 
 	}else {
 		var parame = {};
 		parame.ID = ID;
@@ -84,17 +84,17 @@ function goback(){
 
 function showContractFile(){
 	var ID = $('#fileID').html();
-	if (!ID && typeof(ID)!="undefined" && ID=='') 
+	if (!ID || typeof(ID) == "undefined" || ID.trim() == "") 
 	{ 
-		alert("文件ID不能为空！"); 
+		swal("文件ID不能为空！"); 
 	}else{
 		$.post("fileOperateController/onlinePreview.do", {
 			ID : ID
 		}, function(result) {
-			if (result != null && result != "null") {
+			if (result != null || result != "null") {
 				window.location.href = "module/jsp/documentOnlineView.jsp";
 			} else {
-				alert("无法查看");
+				swal("无法查看");
 			}
 		});
 	}
@@ -124,9 +124,9 @@ function writeModal2(){
  */
 function approved(){
 	var approveCause = $('#approveCause').val(); 
-	if (!approveCause && typeof(approveCause)!="undefined" && approveCause=='') 
+	if (!approveCause || typeof(approveCause)=="undefined" || approveCause.trim() == "NULL") 
 	{ 
-		alert("审核意见不能为空！"); 
+		swal("审核意见不能为空！"); 
 	}else {
 		var parame = {};
 		parame.ID = $('#contractID').text();
@@ -139,7 +139,7 @@ function approved(){
 		  success:function(o){
 			  
 			  if(o <= 0){
-				  alert("操作失败！");
+				  swal("操作失败！");
 			  }
 			  goback();
 		  }
@@ -152,9 +152,9 @@ function approved(){
  */
 function rejected(){
 	var rejecteCause = $('#rejecteCause').val(); 
-	if (!rejecteCause && typeof(rejecteCause)!="undefined" && rejecteCause=='') 
+	if (!rejecteCause || typeof(rejecteCause)=="undefined" || rejecteCause.trim() == "NULL") 
 	{ 
-		alert("审核意见不能为空！"); 
+		swal("审核意见不能为空！"); 
 	}else {
 		var parame = {};
 		parame.ID = $('#contractID').text();
@@ -166,7 +166,7 @@ function rejected(){
 		  data:parame,
 		  success:function(o){
 			  if(o<=0){
-				  alert("操作失败！");
+				  swal("操作失败！");
 			  }
 			  goback();
 		  }
