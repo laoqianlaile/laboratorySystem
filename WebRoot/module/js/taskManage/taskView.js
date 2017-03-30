@@ -1,3 +1,7 @@
+var param = {
+	taskID : ""
+};
+
 $(function() {
 	var ID = getUrlParam("taskID");
 	$.post("taskController/checkTaskClientInfo.do", {
@@ -19,12 +23,15 @@ $(function() {
 	});
 	
 
-	$.post("taskController/getSampleManageInfo.do",{
+
+	$.post("taskController/getSampleManageInfo.do", {
 		taskID : ID
-	},function(result){
+	}, function(result) {
 		result = JSON.parse(result);
-		$("#sampleManage").text(result[0].employeeName);
-		$("#sampleCreateTime").text(result[0].createTime);
+		if (result != null && result != "null" && result != "") {
+			$("#sampleManage").text(result[0].employeeName);
+			$("#sampleCreateTime").text(result[0].createTime);
+		}
 	});
 	
 	$("#sampleInfoTable").bootstrapTable({
@@ -43,9 +50,21 @@ $(function() {
 		queryParams: queryParams, //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
 	    queryParamsType: "limit", 
 		selectItemName : '',// radio or checkbox 的字段名
-		columns : [{
+		columns : [ {
 			checkbox : true,
-			width :"1%"// 宽度
+			width :"1%",// 宽度
+			formatter : function(value, row, index) {
+				 checkSampleData(row);	 // 验证数据合理性
+		  }
+		},{
+			field: '',
+	        title: '序号',
+	        width:'1%',
+	        align:'center',
+	        valign:'middle',
+	        formatter: function (value, row, index) {
+	              return index+1;
+	        }
 		},{
 			field : 'ID',// 返回值名称
 			title : '任务ID',// 列名
@@ -122,10 +141,7 @@ $(function() {
 	    return searchCondition;
 	}
 	
-
-	var param = {
-		taskID : ID
-	};
+	param.taskID = ID;
 	
 	// 得到任务对应文件的信息
 	$("#taskFile").bootstrapTable({
@@ -202,25 +218,24 @@ $(function() {
 		}]
 	});
 	
-	
 	// 获取设备的信息
 	$.post("equipmentController/getEquipmentInfo.do",
-					function(result) {
-						result = JSON.parse(result);
-						if (result != null && result != "null") {
-							var htmlElement = "";
-							for ( var i = 0,len = result.length;i <len ; i++) {
-								htmlElement += "<div class='col-xs-4 col-md-4 col-lg-4'>"
-					                        	+ "<input type='checkbox' name='equipment" + i + "' id='equipment" + i + "' value=" + result[i].ID + ">" 
-					                        	+ "<label for='equipment" + i + "' >"
-						                        +  result[i].equipmentInfo 
-						                        + "</label>" 
-						                        + "</div>"
-							}
-							$(".equipmentList").append(htmlElement);
-						}
-					});
-	
+			function(result) {
+				result = JSON.parse(result);
+				if (result != null && result != "null") {
+					var htmlElement = "";
+					for ( var i = 0,len = result.length;i <len ; i++) {
+						htmlElement += "<div class='col-xs-4 col-md-4 col-lg-4'>"
+			                        	+ "<input type='checkbox' name='equipment" + i + "' id='equipment" + i + "' value=" + result[i].ID + ">" 
+			                        	+ "<label for='equipment" + i + "' >"
+				                        +  result[i].equipmentInfo 
+				                        + "</label>" 
+				                        + "</div>"
+					}
+					$(".equipmentList").append(htmlElement);
+				}
+			});
+	uploadFile();
 });
 
 // 获取地址栏的任务ID
@@ -234,6 +249,50 @@ function getUrlParam(name) {
 	}
 }
 
+// 初始化上传文件的方法
+function uploadFile() {
+	$("#files").fileupload({
+		autoUpload : true,
+		url : 'fileOperateController/upload.do',
+		dataType : 'json',
+		add : function(e, data) {
+			$("#ensureUpload").click(function() {
+				data.submit();
+			});
+		},
+	}).bind('fileuploaddone', function(e, data) {
+		var fileID = eval(data.result);
+		var ID = param.taskID;
+		if (fileID != null && fileID != "null" && fileID != "") {
+			$.post("taskController/setTaskDetectState.do", {
+				taskID : ID
+			}, function(result) {
+				if (result == true || result == "true") {
+					$.post("taskController/setTestReportInfo.do", {
+						taskID : ID,
+						remarks : $.trim($("#remarksInfo").val())
+					}, function(result) {
+						reload();
+					});
+				}
+			});
+		}
+	});
+
+	// 文件上传前触发事件
+	$('#files').bind('fileuploadsubmit', function(e, data) {
+		data.formData = {
+			filePath : param.path,
+			TypeNumber : param.type,
+			belongtoID : param.taskID,
+			firstDirectory : param.firstDirectory,
+			secondDirectory : param.secondDirectory,
+			thirdDirectory : param.thirdDirectory,
+			remark : param.fileSummaryInfo
+		}
+	});
+}
+
 // 设备登记
 function equipmentRegister() {
 	$("#equipmentInfo").modal("show");
@@ -241,8 +300,8 @@ function equipmentRegister() {
 
 // 确定登记的设备
 function sure() {
-	var equipmentArray = [];
-	var ID = getUrlParam("taskID");
+	var equipmentArray = [], 
+	    ID = getUrlParam("taskID");
 	$(".equipmentList input[type=checkbox]").each(function() {
 		if (this.checked) {
 			equipmentArray.push($(this).val());
@@ -273,17 +332,16 @@ function downReportTemplate() {
 	$.post("taskController/getProjectName.do", {
 		taskID : ID
 	}, function(result) {
-		if (result != null && result != "null") {
-			result = JSON.parse(result);
+		result = JSON.parse(result);
+		if(result != null && result != "null" && result != ""){
 			$.post("taskController/downReportTemplate.do", {
 				taskID : ID,
-				projectName : result[0].name
+				projectName : result[0].NAME
 			}, function(fileID) {
-				if (fileID != null && fileID != "null") {
-					var re = new RegExp("\"", "g");
-					fileID = fileID.replace(re, "");
-					downOneFile(fileID);
+				fileID = eval(fileID);
+				if (fileID != null && fileID != "null" && fileID != "") {
 					refresh();
+					downOneFile(fileID);
 				} else {
 					alert("下载模版出错");
 				}
@@ -294,47 +352,49 @@ function downReportTemplate() {
 	});
 }
 
+// 检查文件类型
+function checkFile(o) {
+	$("#chooseFile").attr("disabled", "disabled");
+	var filePath = $(o).val();
+	if (filePath != "" && filePath != undefined) {
+		var arr = filePath.split('\\');
+		var fileName = arr[arr.length - 1];
+		$("#fileName").html(fileName);
+	}
+	if (o.value.indexOf('.doc') < 0 && o.value.indexOf('.docx') < 0) {
+		alert("不能将此类型文档作为检测报告上传");
+	}
+} 
+
 // 上传报告
 function uploadTestReport() {
-	fileUploadInit("#file_upload");
-	var ID = getUrlParam("taskID");
+	var ID = param.taskID;
 	$.post("taskController/recoverFileCheck.do", {
 		taskID : ID
 	}, function(result) {
 		if (result == true || result == "true") {
-			$("#uploadReport").modal("show");
+			$.post("taskController/getProjectName.do", {
+				taskID : ID
+			},function(result) {
+				result = JSON.parse(result);
+				if(result != null && result != "null" && result != ""){
+					$("#chooseFile").removeAttr("disabled");
+					$("#fileName").html("");
+					param.path = "";
+					param.type = 2;
+					param.firstDirectory = "项目文件";
+					param.secondDirectory = result[0].NAME;
+					param.thirdDirectory = "报告文件";
+					param.fileSummaryInfo = $.trim($("#fileSummaryInfo").val());
+					$("#uploadReport").modal("show");
+				} else {
+					alert("未找到相关项目,无法上传");
+				}
+			});
 		} else {
 			alert("当前审核状态不可以上传报告");
 		}
 	});
-}
-
-// 确定上传
-function uploadSure() {
-	var ID = getUrlParam("taskID");
-	var fileSummaryInfo = $.trim($("#fileSummaryInfo").val());
-	var remarksInfo = $.trim($("#remarksInfo").val());
-	$.post("taskController/getProjectName.do", {
-		taskID : ID
-	}, function(result) {
-		if (result != null && result != "null") {
-			result = JSON.parse(result);
-			fileUpload("#file_upload", "", 2, ID, "项目文件", result[0].name,
-					"报告文件", "", fileSummaryInfo);
-			$.post("taskController/setTaskDetectState.do", {
-				taskID : ID
-			}, function(result) {
-				if (result == false || result == "false") {
-					alert("未成功上传或覆盖文件");
-				}
-			});
-		} else {
-			alert("无法上传");
-		}
-	});
-	setTimeout(function() {
-		setTestReportInfo(ID, remarksInfo);
-	}, 1500);
 }
 
 // 查看报告
@@ -344,13 +404,14 @@ function onlineViewReport() {
 	$.post("taskController/getReportFileID.do", {
 		taskID : taskID
 	}, function(result) {
-		if (result != null && result != "null") {
-			result = JSON.parse(result);
+		result = JSON.parse(result);
+		if(result != null && result != "null" && result != ""){
 			var fileID = result[0].ID;
 			$.post("fileOperateController/onlinePreview.do", {
 				ID : fileID
 			}, function(result) {
-				if (result != null && result != "null") {
+				result = JSON.parse(result);
+				if(result != null && result != "null" && result != ""){
 					window.location.href = "module/jsp/documentOnlineView.jsp";
 				} else {
 					alert("无法查看");
@@ -362,59 +423,40 @@ function onlineViewReport() {
 	});
 }
 
-// 添加或更新检测报告信息
-function setTestReportInfo() {
-	$.post("taskController/setTestReportInfo.do", {
-		taskID : arguments[0],
-		remarks : arguments[1]
-	}, function(result) {
-		if (result == true || result == "true") {
-			refresh();
-			alert("上传或覆盖成功");
-		} else {
-			refresh();
-			alert("未成功上传或覆盖文件");
-		}
-	});
-	$("#uploadReport").modal("hide");
-}
-
 // 提交审核
 function submitReport() {
 	if (confirm("确定要提交审核?")) {
     var taskID = getUrlParam("taskID");
     $.post("taskController/submitReport.do",
-    {
-    	taskID : taskID
-	},function(result) {
-		if (result == true || result == "true") {
-			$.post("testReportController/getReportInfo.do",
-							{
-								taskID : taskID
-							},function(result) {
-								if (result != null && result != "null") {
-									result = JSON.parse(result);
-									$.post("messageController/addReportAudiPersontMessage.do",
-													{
-														fileName : result[0].fileName
-													},function(messageID) {
-														var re = new RegExp("\"","g");
-														messageID = messageID.replace(re,"");
-														$.post("messageNoticeController/addReportAuditMessageNotice.do",
-																		{
-																			messageID : messageID,
-																			employeeID : result[0].levelTwo
-																		});
-													});
-
-								}
-							});
-			refresh();
-			alert("提交审核成功");
-		} else {
-				refresh();
-				alert("当前状态不能提交审核!请核对报告审核状态或者指定审核人");
-				}
+		    {
+		    	taskID : taskID
+			},function(result) {
+				if (result == true || result == "true") {
+					$.post("testReportController/getReportInfo.do",
+									{
+										taskID : taskID
+									},function(result) {
+										result = JSON.parse(result);
+										if(result != null && result != "null" && result != ""){
+											$.post("messageController/addReportAudiPersontMessage.do",
+															{
+																fileName : result[0].fileName
+															},function(messageID) {
+																messageID = eval(messageID);
+																$.post("messageNoticeController/addReportAuditMessageNotice.do",
+																				{
+																					messageID : messageID,
+																					employeeID : result[0].levelTwo
+																				});
+															});
+										}
+									});
+					refresh();
+					alert("提交审核成功");
+				} else {
+						refresh();
+						alert("当前状态不能提交审核!请核对报告审核状态或者指定审核人");
+						}
 		});
 	}
 }
@@ -426,9 +468,14 @@ function fileDown() {
 
 }
 
-//返回
-function turnBack(){
+// 返回
+function turnBack() {
 	window.history.back(-1);
+}
+
+// 重新加载页面
+function reload() {
+	window.location.reload();
 }
 
 // 刷新
@@ -482,6 +529,52 @@ function checkTaskData(dataObj) {
 		dataObj.requires = "";
 	}
 	return dataObj;
+}
+
+// 检查样品相关数据
+function checkSampleData(dataObj) {
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
+			|| dataObj.ID.trim() == "NULL") {
+		dataObj.ID = "";
+	}
+	if (!dataObj.hasOwnProperty("factoryCode") || dataObj.factoryCode == null
+			|| dataObj.factoryCode.trim() == "NULL") {
+		dataObj.factoryCode = "";
+	}
+	if (!dataObj.hasOwnProperty("sampleName") || dataObj.sampleName == null
+			|| dataObj.sampleName == undefined) {
+		dataObj.sampleName = "";
+	}
+	if (!dataObj.hasOwnProperty("specifications")
+			|| dataObj.specifications == null
+			|| dataObj.specifications.trim() == "NULL") {
+		dataObj.specifications = "";
+	}
+	if (!dataObj.hasOwnProperty("returnTime") || dataObj.returnTime == null
+			|| dataObj.returnTime.trim() == "NULL") {
+		dataObj.returnTime = "";
+	}
+	if (!dataObj.hasOwnProperty("getMan") || dataObj.getMan == null
+			|| dataObj.getMan.trim() == "NULL") {
+		dataObj.getMan = "";
+	}
+	if (!dataObj.hasOwnProperty("getTime") || dataObj.getTime == null
+			|| dataObj.getTime.trim() == "NULL") {
+		dataObj.getTime = "";
+	}
+	if (!dataObj.hasOwnProperty("returnMan") || dataObj.returnMan == null
+			|| dataObj.returnMan.trim() == "NULL") {
+		dataObj.returnMan = "";
+	}
+	if (!dataObj.hasOwnProperty("testProjectName")
+			|| dataObj.testProjectName == null
+			|| dataObj.testProjectName.trim() == "NULL") {
+		dataObj.testProjectName = "";
+	}
+	if (!dataObj.hasOwnProperty("detectstate") || dataObj.detectstate == null
+			|| dataObj.detectstate.trim() == "NULL") {
+		dataObj.detectstate = "";
+	}
 }
 
 // 检查文件数据

@@ -1,7 +1,9 @@
 package com.cqut.xiji.service.testReport;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,9 +16,18 @@ import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
+import com.cqut.xiji.entity.messageNotice.MessageNotice;
 import com.cqut.xiji.entity.task.Task;
 import com.cqut.xiji.entity.testReport.TestReport;
 import com.cqut.xiji.service.base.SearchService;
+import com.cqut.xiji.service.fileEncrypt.IFileEncryptService;
+import com.cqut.xiji.service.fileOperate.IFileOperateService;
+import com.cqut.xiji.tool.util.EntityIDFactory;
+import com.cqut.xiji.tool.util.PropertiesTool;
+import com.cqut.xiji.tool.word.WordProcess;
+import com.jacob.activeX.ActiveXComponent;
+import com.jacob.com.Dispatch;
+import com.jacob.com.Variant;
 
 @Service
 public class TestReportService extends SearchService implements
@@ -30,7 +41,13 @@ public class TestReportService extends SearchService implements
 
 	@Resource(name = "baseEntityDao")
 	BaseEntityDao baseEntityDao;
-
+	
+	@Resource(name = "fileOperateService")
+	IFileOperateService fileOperateService;
+	
+	@Resource(name = "fileEncryptService")
+	IFileEncryptService fileEncryptservice;
+	
 	@Override
 	public String getBaseEntityName() {
 		return "testReport";
@@ -52,6 +69,7 @@ public class TestReportService extends SearchService implements
 				+ " SELECT "
 				+ "b.ID AS ID,"
 				+ "b.receiptlistCode AS receiptlistCode,"
+				+ "b.projectID AS projectID,"
 				+ "b.taskID AS taskID,"
 				+ "b.fileID AS fileID,"
 				+ "b.versionNumber AS versionNumber,"
@@ -65,6 +83,7 @@ public class TestReportService extends SearchService implements
 				+ " SELECT "
 				+ "a.ID AS ID,"
 				+ "a.receiptlistCode AS receiptlistCode,"
+				+ "a.projectID AS projectID,"
 				+ "a.taskID AS taskID,"
 				+ "a.fileID AS fileID,"
 				+ "a.versionNumber AS versionNumber,"
@@ -78,6 +97,7 @@ public class TestReportService extends SearchService implements
 				+ " SELECT "
 				+ "testreport.ID AS ID,"
 				+ "receiptlist.receiptlistCode AS receiptlistCode,"
+				+ "receiptlist.projectID AS projectID,"
 				+ "receiptlist.contractID AS contractID,"
 				+ "testreport.taskID AS taskID,"
 				+ "testreport.fileID AS fileID,"
@@ -97,9 +117,11 @@ public class TestReportService extends SearchService implements
 		String[] properties = new String[] {
 				"c.ID AS ID",
 				"c.receiptlistCode AS receiptlistCode",
+				"c.projectID AS projectID",
 				"c.taskID AS taskID",
 				"c.fileID AS fileID",
 				"c.versionNumber AS versionNumber",
+				"c.state AS stateEn",
 				"IF (c.state = 0,'未提交',IF (c.state = 1,'二审核中',IF (c.state = 2,'二审未通过',IF (c.state = 3,'三审核中',IF (c.state = 4,'三审未通过',IF (c.state = 5,'审核通过',IF(c.state = 6,'归档','其它'))))))) AS state",
 				"c.companyName AS companyName",
 				"fileinformation.fileName AS fileName",
@@ -196,7 +218,7 @@ public class TestReportService extends SearchService implements
 				+ "testreport"
 				+ " LEFT JOIN task ON testreport.taskID = task.ID "
 				+ " LEFT JOIN receiptlist ON task.receiptlistID = receiptlist.ID "
-				+ " WHERE  testreport.state > 0 AND testreport.state < 6 AND task.levelTwo = '"
+				+ " WHERE  testreport.state > 0 AND task.levelTwo = '"
 				+ auditPerson + "'" + " ) AS a "
 				+ " LEFT JOIN contract ON a.contractID = contract.ID "
 				+ " ) AS b "
@@ -208,7 +230,7 @@ public class TestReportService extends SearchService implements
 				"c.receiptlistCode AS receiptlistCode",
 				"c.fileID AS fileID",
 				"c.versionNumber AS versionNumber",
-				"IF (c.state = 1,'二审待审核',IF (c.state = 2,'二审驳回',IF (	c.state = 3,'二审通过',IF (c.state = 4,'三审驳回',IF (c.state = 5,'审核通过',IF (c.state = 5,'审核通过','其它')))))) AS state",
+				"IF (c.state = 1,'二审待审核',IF (c.state = 2,'二审驳回',IF (	c.state = 3,'二审通过',IF (c.state = 4,'三审驳回',IF (c.state = 5,'审核通过','其它'))))) AS state",
 				"c.companyName AS companyName",
 				"fileinformation.fileName AS fileName",
 				"DATE_FORMAT(uploadTime,'%Y-%m-%d %H:%i:%s') AS uploadTime",
@@ -238,7 +260,7 @@ public class TestReportService extends SearchService implements
 				condition += " and c.state = '1' ";
 			}
 			if (selectPart.equals("1")) {
-				condition += " and c.state in ( '3','5' )";
+				condition += " and c.state in ( '3','5','6')";
 			}
 			if (selectPart.equals("2")) {
 				condition += " and c.state in ( '2','4' )";
@@ -257,7 +279,7 @@ public class TestReportService extends SearchService implements
 	@Override
 	public Map<String, Object> getTestReporThirdtAuditWithPaging(int limit,
 			int offset, String order, String sort, String receiptlistCode,
-			String client, String reportName, String beginTime, String endTime) {
+			String client, String reportName, String beginTime, String endTime,String selectPart) {
 		int index = limit;
 		int pageNum = offset / limit;
 		String baseEntity = " ( "
@@ -290,13 +312,13 @@ public class TestReportService extends SearchService implements
 				+ "receiptlist.contractID AS contractID,"
 				+ "fileID,"
 				+ "versionNumber,"
-				+ "IF (testreport.state = 3,'三审核中','其他') AS state,"
+				+ "testreport.state AS state,"
 				+ "testreport.remarks AS remarks"
 				+ " FROM "
 				+ "testreport"
 				+ " LEFT JOIN task ON testreport.taskID = task.ID "
 				+ " LEFT JOIN receiptlist ON task.receiptlistID = receiptlist.ID "
-				+ " WHERE " + " testreport.state = 3  " + " ) AS a "
+				+ " WHERE " + " testreport.state > 2  " + " ) AS a "
 				+ " LEFT JOIN contract ON a.contractID = contract.ID "
 				+ " ) AS b "
 				+ " LEFT JOIN company ON b.companyID = company.ID "
@@ -307,7 +329,7 @@ public class TestReportService extends SearchService implements
 				"c.receiptlistCode AS receiptlistCode",
 				"c.fileID AS fileID",
 				"c.versionNumber AS versionNumber",
-				"c.state AS state",
+				"IF (c.state = 3,'待审核',IF (	c.state = 4,'驳回',IF (c.state = 5,'审核通过',IF (c.state = 6,'归档','其它')))) AS state",
 				"c.companyName AS companyName",
 				"fileinformation.fileName AS fileName",
 				"DATE_FORMAT(uploadTime,'%Y-%m-%d %H:%i:%s') AS uploadTime",
@@ -331,6 +353,17 @@ public class TestReportService extends SearchService implements
 		}
 		if (endTime != null && !endTime.isEmpty() && !endTime.equals("")) {
 			condition += " and uploadTime <'" + endTime + "'";
+		}
+		if (selectPart != null && !selectPart.isEmpty() && !selectPart.equals("")) {
+			if (selectPart.equals("0")) {
+				condition += " and c.state = '3' ";
+			}
+			if (selectPart.equals("1")) {
+				condition += " and c.state in ('5','6')";
+			}
+			if (selectPart.equals("2")) {
+				condition += " and c.state = '4'";
+			}
 		}
 		List<Map<String, Object>> result = entityDao.searchWithpaging(
 				properties, baseEntity, joinEntity, null, condition, null, sort,
@@ -379,7 +412,7 @@ public class TestReportService extends SearchService implements
 	}
 
 	@Override
-	public boolean updateTestReport(String ID, String taskID,String versionNumber, String versionInfo, String remarks) {
+	public boolean updateTestReport(String ID,String taskID, String versionNumber, String versionInfo, String remarks) {
 		TestReport tr = entityDao.getByID(ID, TestReport.class);
 		if (tr == null) {
 			return false;
@@ -685,7 +718,7 @@ public class TestReportService extends SearchService implements
 	}
 
 	@Override
-	public boolean auditOperateCheck(String ID) {
+	public boolean secndAuditOperateCheck(String ID) {
 		String baseEntity = "testreport";
 		Map<String, Object> result = baseEntityDao.findByID(new String[] { "state" }, ID, "ID", baseEntity);
 		if (result != null && result.size() > 0) {
@@ -734,13 +767,31 @@ public class TestReportService extends SearchService implements
 	}
 
 	@Override
-	public boolean thirdPassReport(String ID, String taskID) {
+	public boolean thirdAuditOperateCheck(String ID) {
+		String baseEntity = "testreport";
+		Map<String, Object> result = baseEntityDao.findByID(new String[] { "state" }, ID, "ID", baseEntity);
+		if (result != null && result.size() > 0) {
+			String testState = result.get("state").toString();
+			if (testState.equals("3")) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+
+	}
+	
+	@Override
+	public boolean thirdPassReport(String ID, String taskID,String auditPassAgreement) {
 		TestReport tr = entityDao.getByID(ID, TestReport.class);
 		Task tk = entityDao.getByID(taskID, Task.class);
 		if (tr == null) {
 			return false;
 		} else {
 			tr.setState(5);
+			tr.setDismissreason3(auditPassAgreement);
 			tk.setDetectstate(6);
 			int updateReportCount = baseEntityDao.updatePropByID(tr, ID);
 			int updateTaskCount = baseEntityDao.updatePropByID(tk, taskID);
@@ -935,5 +986,197 @@ public class TestReportService extends SearchService implements
 		List<Map<String, Object>> result = entityDao.searchForeign(properties,
 				baseEntity, joinEntity, null, condition);
 		return result;
+	}
+	
+	@Override
+	public boolean recoatCheck(String[] taskIDs, String fileIDs[], String[] projectIDs, String[] states) {
+		boolean flag = true;
+		for (int i = 0, len = projectIDs.length; i < len - 1; i++) { // 遍历查看所合并报告是否在同一项目下
+			for (int j = 0; j < len - i; j++) {
+				if (i == j) {
+					continue;
+				} else {
+					if (!projectIDs[i].equals(projectIDs[j])) {
+						flag = false;
+						break;
+					}
+				}
+			}
+			if (flag == false) {
+				break;
+			}
+		}
+		for (int i = 0, len = fileIDs.length; i < len - 1; i++) { // 遍历查看所合并报告是否是同一文件
+			for (int j = 0; j < len - i; j++) {
+				if (i == j) {
+					continue;
+				} else {
+					if (fileIDs[i].equals(fileIDs[j])) {
+						flag = false;
+						break;
+					}
+				}
+			}
+			if (flag == false) {
+				break;
+			}
+		}
+		for (int i = 0, len = states.length; i < len - i; i++) { // 检查当前审核状态的报告是否能合并
+			if (!states[i].equals("0")) {
+				flag = false;
+				break;
+
+			}
+		}
+		if (flag) {
+			String IDs = "";
+			if (taskIDs.length > 0) {
+				IDs = taskIDs[0];
+			}
+			if (taskIDs.length >= 2) {
+				for (int i = 1, len = taskIDs.length; i < len; i++) {
+					IDs += "," + taskIDs[i];
+				}
+			}
+			String condition = " ID IN " + " ( " + IDs + " )";
+			List<Map<String, Object>> result = baseEntityDao.findByCondition(
+					new String[] { "testProjectID", "sampleID" }, condition,
+					"task");
+			System.out.println("晴天 :" + result);
+			int len = result.size();
+			if (len == 0) {
+				return false;
+			} else {
+				String[] pojectID = new String[len];
+				String[] sampleID = new String[len];
+				for (int i = 0; i < len; i++) {
+					pojectID[i] = result.get(i).get("testProjectID").toString();
+					sampleID[i] = result.get(i).get("sampleID").toString();
+				}
+				int sampleLen = sampleID.length;
+				for (int i = 0; i < sampleLen - 1; i++) { // 遍历查看所合并报告是否对于同一样品
+					for (int j = 0; j < sampleLen - i; j++) {
+						if (i == j) {
+							continue;
+						} else {
+							if (!sampleID[i].equals(sampleID[j])) {
+								flag = false;
+								break;
+							}
+						}
+					}
+					if (flag == false) {
+						break;
+					}
+				}
+				if (flag) {
+					return flag;
+				} else {
+					int pojectLen = pojectID.length;
+					for (int i = 0; i < pojectLen - 1; i++) { // 遍历查看所合并报告是否对于同一检测方法
+						for (int j = 0; j < pojectLen - i; j++) {
+							if (i == j) {
+								continue;
+							} else {
+								if (!pojectID[i].equals(pojectID[j])) {
+									flag = false;
+									break;
+								}
+							}
+						}
+						if (flag == false) {
+							break;
+						}
+					}
+					return flag;
+				}
+			}
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public String recoatReport(String[] fileIDs, String[] IDs, String[] taskIDs, String projectID, String uploader) {
+		System.out.println("项目ID ： "+ projectID);
+		PropertiesTool pt = new PropertiesTool();
+		String filePath = "", pathPassword = "", relativePath = "", fileName = "", path = "", cacheFilePath = "";
+		int length,x;
+		List<String> list = new ArrayList<String>();
+		for (int i = fileIDs.length, j = 0; i > j; i--) {
+			filePath = fileOperateService.getFilePath(fileIDs[i-1]);// 获取文件路径
+			Map<String, Object> results = fileOperateService.getFileDecryptPassword(fileIDs[i-1]);
+		    pathPassword = results.get("pathPassword").toString();
+			relativePath = fileEncryptservice.decryptPath(filePath, pathPassword);
+			fileName = "";
+			length = relativePath.length();
+			x = relativePath.lastIndexOf("\\");
+			x++;
+			fileName = relativePath.substring(x, length);// "文件名";
+			path = pt.getSystemPram("filePath") + "\\" + relativePath;
+			File file = new File(path);
+			if (!file.exists()) {
+				return "null";
+			} else {
+				cacheFilePath = pt.getSystemPram("cacheFilePath") + "\\" + fileName;
+				fileEncryptservice.decryptFile(path, cacheFilePath, fileIDs[i-1]);
+			}
+			list.add(cacheFilePath);
+		}
+		try {
+			WordProcess wp = new WordProcess(false);
+			String ID = EntityIDFactory.createId();
+		    fileName = "合并后的报告.docx";
+			relativePath = "合并后的报告" + "_" + ID + ".docx";
+			cacheFilePath = pt.getSystemPram("cacheFilePath") + "\\" + relativePath;
+			wp.comblineDocument(list, cacheFilePath);
+			wp.close();
+			relativePath = "项目文件" + "\\" + projectID + "\\" + "报告文件" + "\\" + relativePath;
+			FileInformation fi = new FileInformation();
+			fi.setID(ID);
+			String belongID = "";
+			if (taskIDs.length > 0) {
+				belongID = taskIDs[0];
+			}
+			if (taskIDs.length >= 2) {
+				for (int i = 1; i < taskIDs.length; i++) {
+					belongID += "," + taskIDs[i];
+				}
+			}
+			fi.setBelongtoID(belongID);
+			fi.setUploaderID(uploader);
+			fi.setFileName(fileName);
+			System.out.println("保存的相对路径是a: " + relativePath);
+			fi.setPath(relativePath);
+			Date now = new Date(System.currentTimeMillis());
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			fi.setUploadTime(dateFormat.parse(dateFormat.format(now)));
+			fi.setState(0);
+			fi.setType(2);
+			baseEntityDao.save(fi);
+			fileEncryptservice.encryptPath(relativePath, ID);// 加密路径
+			path = pt.getSystemPram("filePath") + "\\"  + relativePath;
+			fileEncryptservice.encryptFile(cacheFilePath, path, ID);// 加密文件
+			return ID;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "null";
+		}
+	}
+	
+	@Override
+	public boolean updateTestReportFileID(String[] IDs,String fileID) {
+		int updateTaskCount = 0;
+		boolean flag = true;
+		for (int i = 0, len = IDs.length; i < len; i++) {
+			TestReport tr = entityDao.getByID(IDs[i], TestReport.class);
+			tr.setFileID(fileID);
+			updateTaskCount = baseEntityDao.updatePropByID(tr, IDs[i]);
+			if (updateTaskCount == 0) {
+				flag = false;
+				break;
+			}
+		}
+		return flag;
 	}
 }

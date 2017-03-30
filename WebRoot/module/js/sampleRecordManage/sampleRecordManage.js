@@ -113,6 +113,61 @@
 function refresh(){
 	$('#table').bootstrapTable('refresh', null);
 }
+function addGetfactoryCode(){
+	var name = $('#add_factoryCode').val();
+	if (!name && typeof(name)!="undefined" && name=='') 
+	{
+		$(".employeeN3").hide();
+	}else {
+		var parame = {};
+		parame.employeeName = name;
+		
+		$.ajax({  
+		    url:'sampleRecordController/getFactoryCode.do',// 跳转到 action  
+		    type:'post',
+		    data:parame,
+		    dataType:'json',
+		    success:function(data){  
+		    	if (data) { 
+		    		var employee,length;
+		    		var myobj = JSON.parse(data);
+		    		var htmlElement = "";//定义HTML    
+		    		employee = $(".employeeN3");
+		    		if(myobj.length > 4){
+		    			length = 4;
+		    		}else{
+		    			length = myobj.length;
+		    		}
+		    		for(var i=0; i < length; i++){
+		    			htmlElement += "<ul><li value='" + myobj[i].factoryCode + "'>" + myobj[i].factoryCode + "</li></ul>";
+		    		}
+		    		
+		    		employee.show();
+		    		employee.empty();
+		    		employee.append(htmlElement);
+		    		addClickFactoryCode();
+			    }
+			}
+		});
+	}
+}
+function addClickFactoryCode(){ 
+	
+	
+	//给input赋值
+	$(".employeeN3 ul li").click(function(){
+		 var name =  $(this).attr("value");
+		 $("#add_factoryCode").val(name);
+		 $('#add_factoryCode').attr({'value' : "" + name + ""});
+		 $(".employeeN3").hide();
+	})
+
+	//隐藏提示框
+	$("#addContent").click(function(){
+		 $(".employeeN3").hide();
+	})
+}
+
 function addGetEMName(){
 	var name = $('#add_getMan').val();
 	if (!name && typeof(name)!="undefined" && name=='') 
@@ -364,6 +419,31 @@ function getdataLisk() {
 	});
 	return data;
 }
+function Judge(){
+	var parame = {};
+	parame.factoryCode = $('#add_factoryCode').val();
+	var fl=true;
+
+	$.ajax({  
+	    url:'sampleRecordController/addJudge.do',// 跳转到 action  
+	    type:'post',
+	    data:parame,
+	    dataType:'json',
+	    success:function(data){  
+	    	
+	    	if (data.state=="1") {
+	    		swal("样品未还");
+		    }else {
+		    	add();
+		    }
+	    	
+	    	
+		}
+	});
+	
+}
+	
+	
 
 
 
@@ -371,32 +451,36 @@ function getdataLisk() {
 function add(){
 	
 	
+
+		var parame = {};
+		parame.factoryCode = $('#add_factoryCode').val();
+		parame.sampleName = $('#add_sampleName').val();
+		parame.specifications = $('#add_specifications').val();
+		parame.getMan = $('#add_getMan').attr('name');
+		parame.getTime = $('#add_getTime').val();
+		parame.returnMan = $('#add_returnMan').attr('name');
+		parame.returnTime = $('#add_returnTime').val();
+		parame.remarks = $('#add_remarks').val();
+
+		if (parame.getMan != "") {
+			$("input").val("");
+			if (parame.sampleName != "") {
+				$.ajax({
+					url : 'sampleRecordController/addSampleRecord.do',
+					data : parame,
+					success : function(o) {
+						if (o <= 0) {
+							swal("新增失败");
+						}
+						$('#addModal').modal('hide');
+						refresh();
+					}
+				});
+			} else
+				swal("没这个样品");
+		} else
+			swal("没领样人")
 	
-	var parame = {};
-	parame.factoryCode = $('#add_factoryCode').val();
-	parame.sampleName = $('#add_sampleName').val();
-	parame.specifications = $('#add_specifications').val();
-	parame.getMan = $('#add_getMan').attr('name');
-	parame.getTime = $('#add_getTime').val();
-	parame.returnMan = $('#add_returnMan').attr('name');
-	parame.returnTime = $('#add_returnTime').val();
-	parame.remarks = $('#add_remarks').val();
-	if(parame.getMan==""){
-	$("input").val("");
-	if(parame.sampleName!=""){
-	$.ajax({
-	  url:'sampleRecordController/addSampleRecord.do',
-	  data:parame,
-	  success:function(o){
-		  if(o<=0){
-			  swal("新增失败");
-		  }
-		  $('#addModal').modal('hide');
-		  refresh();
-	  }
-	});
-	 }else swal("没这个样品");
-	}else swal("没领样人")
 	
 		
 }
@@ -456,10 +540,10 @@ function openModal(){
 	$('#edit_sampleName').val(data[0].sampleName);
 	$('#edit_specifications').val(data[0].specifications);
 	$('#edit_getMan').val(data[0].getMan);
-	//$('#edit_getMan1').val(data[0].getMan);
+	$('#edit_getMan').attr({'name' : "" + data[0].getManID + ""});
 	$('#edit_getTime').val(data[0].getTime);
-	//$('#edit_returnMan1').val(data[0].returnMan);
 	$('#edit_returnMan').val(data[0].returnMan);
+	$('#edit_returnMan').attr({'name' : "" + data[0].returnManID + ""});
 	$('#edit_returnTime').val(data[0].returnTime);
 	$('#edit_remarks').val(data[0].remarks);
 	$('#editModal').modal('show');

@@ -298,4 +298,15 @@ public class EmployeeController {
 			String result = service.editEmployeePwd(employeeID,newpwd);
 			return result;
 		}
+		
+		/**
+		 */
+		@RequestMapping("/addSignatrueAndStamp")
+		@ResponseBody
+		public boolean addSignatrueAndStamp(String fileID,String selectorName){
+			boolean result = service.addSignatrueAndStamp(fileID,selectorName);
+			return result;
+		}
+		
+		
 }

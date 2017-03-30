@@ -265,7 +265,7 @@ public class FileInformationService extends SearchService implements IFileInform
 				"fileName",
 				"content",
 				"DATE_FORMAT(uploadTime,'%Y-%m-%d %H:%i:%s') AS uploadTime",
-				"IF (fileinformation.type = '0','标准文件',IF (fileinformation.type = '1','模板文件',IF (fileinformation.type = '2','项目文件','其它'))) AS type",
+				"IF (fileinformation.type = '0','标准文件',IF (fileinformation.type = '1','模板文件',IF (fileinformation.type = '2','项目文件',IF(fileinformation.type = '3','图片','其它')))) AS type",
 				"remarks", "path", "employeeName" };
 
 		String joinEntity = " LEFT JOIN employee ON fileinformation.uploaderID = employee.ID   ";

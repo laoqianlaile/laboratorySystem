@@ -120,7 +120,32 @@ $(function() {
 			}
 		}]
 	});
+
 });
+
+// 上传图片
+function uploadImage(selectorName) {
+	$(selectorName).fileupload({
+		autoUpload : true,
+		url : 'fileOperateController/upload.do?TypeNumber=' + 3,
+		dataType : 'text',
+		add : function(e, data) {
+			$("#ensureUploadImg").click(function() {
+				data.submit();
+			});
+		},
+	}).bind('fileuploaddone', function(e, data) {
+		var fileID = eval(data.result);
+		if (fileID != null && fileID != "null" && fileID != "") {
+			$.post("employeeController/addSignatrueAndStamp.do", {
+				fileID : fileID,
+				selectorName : selectorName
+			});
+		} else {
+			alert("图片上传失败");
+		}
+	});
+}
 
 // 查询
 function search() {
@@ -130,6 +155,7 @@ function search() {
 		reportName : $.trim($('#reportName').val()),
 		beginTime : $.trim($('#beginTime').val()),
 		endTime : $.trim($('#endTime').val()),
+		selectPart : $.trim($('#selectPart').val())
 	};
 	$('#table').bootstrapTable('refresh', {
 		silent : true,
@@ -142,7 +168,7 @@ function search() {
 function filelDown() {
 	var rows = $('#table').bootstrapTable('getSelections');
 	if (rows.length == 0) {
-		chen.alert("请选择一个或多个文件下载");
+		alert("请选择一个或多个文件下载");
 		return;
 	}
 	if (rows.length == 1) {
@@ -164,11 +190,11 @@ function filelDown() {
 function checkReport() {
 	var rows = $("#table").bootstrapTable('getSelections');
 	if (rows.length == 0) {
-		chen.alert("请选择要查看的检测报告");
+		alert("请选择要查看的检测报告");
 		return;
 	}
 	if (rows.length > 1) {
-		chen.alert("请选择一条数据");
+		alert("请选择一条数据");
 		return;
 	} else {
 		var testReportID = rows[0].ID;
@@ -181,84 +207,149 @@ function checkReport() {
 
 // 三审通过
 function thirdAuditPass() {
-	var keyID = arguments[0];
-	var taskID = arguments[1];
-	var fileName = arguments[2];
-	if (confirm("是否通过审核?")) {
-		$.post("testReportController/thirdPassReport.do",
-						{
-							ID : keyID,
-							taskID : taskID
-						},
-						function(result) {
-							if (result == true || result == "true") {
-								refresh();
-								chen.alert("审核通过成功");
-								$.post("messageController/addReportThirdAuditPassMessage.do",
-												{
-													fileName : fileName
-												},
-												function(result) {
-													var re = new RegExp("\"","g");
-													result = result.replace(re,"");
-													$.post("messageNoticeController/addReportAuditMessageNotice.do",
-																	{
-																		messageID : result,
-																		testreportID : keyID
-																	});
-												});
-							} else {
-								refresh();
-								chen.alert("通过审核失败");
-							}
-						});
+	var keyID = arguments[0],
+	    taskID = arguments[1],
+	    fileName = arguments[2],
+	    auditPassAgreement = $("#PassReason").val();
+	if (confirm("是否通过审核")) {
+		$("#PassTestReportID").text(keyID);
+		$("#PassTaskID").text(taskID);
+		$("#PassFileName").text(fileName);
+		$.post("testReportController/thirdAuditOperateCheck.do", {
+			ID : keyID
+		}, function(result) {
+			if (result == true || result == "true") {
+				$("#PassReason").val("");
+				uploadImage("#singnatureImg");
+				uploadImage("#stampImg");
+				$("#thirdAuditPassModal").modal("show");
+			} else {
+				alert("当前报告不允许设置审核通过");
+			}
+		});
 	}
+}
+
+// 预览图片
+function previewImage(file, imgArea) {
+	if (file.files && file.files[0]) {
+		var fileSuffixName = file.value.toLowerCase();
+		if (fileSuffixName.indexOf('.jpg') < 0 && fileSuffixName.indexOf('.gif') < 0 &&  fileSuffixName.indexOf('.png') < 0) {
+			alert("不能将此类型文件作为电子签名上传");
+		}
+		var img = document.getElementById(imgArea);
+		var reader = new FileReader();
+		reader.onload = function(evt) {
+			img.src = evt.target.result;
+		}
+		reader.readAsDataURL(file.files[0]);
+	} else // 兼容IE
+	{
+		var sFilter = 'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
+		file.select();
+		var src = document.selection.createRange().text;
+		var img = document.getElementById(imgArea);
+		img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
+	}
+}
+
+// 确认审核通过
+function thirdAuditPassSure(){
+	var keyID = $("#PassTestReportID").text(),
+	    taskID = $("#PassTaskID").text(),
+	    fileName = $("#PassFileName").text(),
+	    auditPassAgreement = $("#PassReason").val();
+	$.post("testReportController/thirdPassReport.do",
+			{
+				ID : keyID,
+				taskID : taskID,
+				passAgreement : auditPassAgreement
+			},
+			function(result) {
+				if (result == true || result == "true") {
+					refresh();
+					$("#thirdAuditPassModal").modal("hide");
+					$.post("messageController/addReportThirdAuditPassMessage.do",
+									{
+										fileName : fileName
+									},
+									function(result) {
+										result = eval(result);
+										$.post("messageNoticeController/addReportAuditMessageNotice.do",
+														{
+															messageID : result,
+															testreportID : keyID
+														});
+									});
+				         	setTimeout(reloadPage, 1000);
+							alert("审核通过成功");
+				} else {
+					refresh();
+					alert("通过审核失败");
+				}
+			});
+	
+}
+
+//重新加载页面
+function reloadPage() {
+	window.location.reload();
 }
 
 // 三次审核驳回
 function thirdAuditReject() {
-	var keyID = arguments[0];
-	var taskID = arguments[1];
-	var fileName = arguments[2];
-	$("#testReportID").text(keyID);
-	$("#taskID").text(taskID);
-	$("#fileName").text(fileName);
-	$("#thirdAuditRejectModal").modal("show");
+	var keyID = arguments[0],
+	    taskID = arguments[1],
+	    fileName = arguments[2];
+	if (confirm("是否驳回报告")) {
+		$("#testReportID").text(keyID);
+		$("#taskID").text(taskID);
+		$("#fileName").text(fileName);
+		$.post("testReportController/thirdAuditOperateCheck.do", {
+			ID : keyID
+		}, function(result) {
+			if (result == true || result == "true") {
+				$("#rejectReason").val("");
+				$("#thirdAuditRejectModal").modal("show");
+			} else {
+				alert("当前报告不允许驳回审核");
+			}
+		});
+	}
 }
 
 // 确认驳回
 function thirdAuditRejectSure() {
-	var keyID = $("#testReportID").text();
-	var taskID = $("#taskID").text();
-	var fileName = $("#fileName").text();
-	$.post("testReportController/thirdRejectReport.do",
-					{
-						ID : keyID,
-						taskID : taskID,
-						dismissreason : $("#rejectReason").val()
-					},
-					function(result) {
-						if (result == true || result == "true") {
-							refresh();
-							chen.alert("驳回成功");
-							$.post("messageController/addReportThirdAuditRejectMessage.do",
-											{
-												fileName : fileName
-											},
-											function(result) {
-												var re = new RegExp("\"", "g");
-												result = result.replace(re, "");
-												$.post("messageNoticeController/addReportAuditMessageNotice.do",
-																{
-																	messageID : result,
-																	testreportID : keyID
-																});
-											});
-						} else {
-							refresh();
-							chen.alert("驳回失败");
-						}
-					});
+	var keyID = $("#testReportID").text(),
+	    taskID = $("#taskID").text(),
+	    fileName = $("#fileName").text();
+	$.post("testReportController/thirdRejectReport.do",		
+			{
+				ID : keyID,
+				taskID : taskID,
+				dismissreason : $("#rejectReason").val()
+				},
+				function(result) {
+					if (result == true || result == "true") {
+						refresh();
+						alert("驳回成功");
+						$.post("messageController/addReportThirdAuditRejectMessage.do",
+										{
+											fileName : fileName
+										},
+										function(result) {
+											resutl = eval(result);
+											$.post("messageNoticeController/addReportAuditMessageNotice.do",
+															{
+																messageID : result,
+																testreportID : keyID
+															});
+										});
+					} else {
+						refresh();
+						alert("驳回失败");
+					}
+				});
 	$("#thirdAuditRejectModal").modal("hide");
 }
 
@@ -270,12 +361,18 @@ function refresh() {
 		reportName : "",
 		beginTime : "",
 		endTime : "",
+		selectPart : "",
 	};
 	$("#table").bootstrapTable('refresh', {
 		silent : true,
 		url : "testReportController/getTestReporThirdtAuditWithPaging.do",
 		query : additionalCondition
 	});
+}
+
+// 重新加载页面
+function reload() {
+	window.location.reload();
 }
 
 //检查数据合理性

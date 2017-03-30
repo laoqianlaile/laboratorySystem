@@ -58,7 +58,7 @@ function initData(){
 			title:'设备出厂编号',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'17%',//宽度
+			width:'15%',//宽度
 //			visible:false
 		},{
 			field:'equipmentName',//返回值名称
@@ -71,7 +71,7 @@ function initData(){
 			title:'设备型号',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'6%',//宽度
+			width:'8%',//宽度
 		},{
 			field:'departmentID',//返回值名称
 			title:'所属科室ID',//列名
@@ -213,7 +213,7 @@ function searchSth(){
  */
 function addGetEQName(){ 
 	var name = $('#add_equipmentName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
+	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{ 
 		$(".equipmentName").hide();
 	}else {
@@ -255,7 +255,7 @@ function addGetEQName(){
  */
 function addGetEMName(){
 	var name = $('#add_employeeName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
+	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{
 		$(".employeeN").hide();
 	}else {
@@ -322,12 +322,12 @@ function addFillEQName(){
 function addGetUseTime(){
 	var buyTime = $('#add_buyTime').val();
 	var checkinTime = $('#add_checkinTime').val();
-	if (!buyTime && typeof(buyTime)!="undefined" && buyTime=='') 
+	if (!buyTime || typeof(buyTime) == "undefined" || buyTime.trim() == "") 
 	{ 
 		swal("设备购入时间不能为空！");
 		return;
 	}
-	if (!checkinTime && typeof(checkinTime)!="undefined" && checkinTime=='') 
+	if (!checkinTime || typeof(checkinTime) == "undefined" || checkinTime.trim() == "") 
 	{ 
 		swal("设备报销登记时间不能为空！");
 		return;
@@ -389,7 +389,7 @@ function addClick(){
  */
 function editGetEQName(){ 
 	var name = $('#edit_equipmentName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
+	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{ 
 		$(".equipmentName").hide();
 	}else {
@@ -431,7 +431,7 @@ function editGetEQName(){
  */
 function editGetEMName(){
 	var name = $('#edit_employeeName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
+	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{
 		$(".employeeN").hide();
 	}else {
@@ -473,7 +473,7 @@ function editGetEMName(){
  */
 function addGetEMName(){
 	var name = $('#add_employeeName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
+	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{
 		$(".employeeN").hide();
 	}else {
@@ -540,12 +540,12 @@ function editFillEQName(){
 function editGetUseTime(){
 	var buyTime = $('#edit_buyTime').val();
 	var checkinTime = $('#edit_checkinTime').val();
-	if (!buyTime && typeof(buyTime)!="undefined" && buyTime=='') 
+	if (!buyTime || typeof(buyTime) == "undefined" || buyTime.trim() == "") 
 	{ 
 		swal("设备购入时间不能为空！");
 		return;
 	}
-	if (!checkinTime && typeof(checkinTime)!="undefined" && checkinTime=='') 
+	if (!checkinTime || typeof(checkinTime) == "undefined" || checkinTime.trim() == "") 
 	{ 
 		swal("设备报销登记时间不能为空！");
 		return;
@@ -660,32 +660,32 @@ function add(){
 	var employeeName = $('#add_employeeName').val();
 	var remarks = $('#add_remarks').val();
 		
-	if (!factoryCode && typeof(factoryCode)!="undefined" && factoryCode=='') 
+	if (!factoryCode || typeof(factoryCode) == "undefined" || factoryCode.trim() == "") 
 	{ 
 		swal("仪器设备出厂编号不能为空！"); 
 		return;
 	}
-	if (!equipmentName && typeof(equipmentName)!="undefined" && equipmentName=='') 
+	if (!equipmentName || typeof(equipmentName) == "undefined" || equipmentName.trim() == "") 
 	{ 
 		swal("仪器设备名称不能为空！");
 		return;
 	}
-	if (!buyTime && typeof(buyTime)!="undefined" && buyTime=='') 
+	if (!buyTime || typeof(buyTime) == "undefined" || buyTime.trim() == "") 
 	{ 
 		swal("设备购入时间不能为空！");
 		return;
 	}
-	if (!checkinTime && typeof(checkinTime)!="undefined" && checkinTime=='') 
+	if (!checkinTime || typeof(checkinTime) == "undefined" || checkinTime.trim() == "") 
 	{ 
 		swal("设备报销登记时间不能为空！");
 		return;
 	}
-	if (!employeeName && typeof(employeeName)!="undefined" && employeeName=='') 
+	if (!employeeName || typeof(employeeName) == "undefined" || employeeName.trim() == "") 
 	{ 
 		swal("批准人不能为空！");
 		return;
 	}
-	if (!remarks && typeof(remarks)!="undefined" && remarks=='') 
+	if (!remarks || typeof(remarks) == "undefined" || remarks.trim() == "") 
 	{ 
 		remarks = "";
 	}
@@ -739,7 +739,7 @@ function openModal(){
 function edit(){
 	var data = $('#table').bootstrapTable('getSelections');
 	var ID = data[0].ID; 
-	if (!ID && typeof(ID)!="undefined" && ID=='') 
+	if (!ID || typeof(ID) == "undefined" || ID.trim() == "") 
 	{ 
 		swal("仪器设备检验记录ID不能为空！"); 
 	}else {
@@ -754,32 +754,32 @@ function edit(){
 		var employeeName = $('#edit_employeeName').val();
 		var remarks = $('#edit_remarks').val();
 			
-		if (!factoryCode && typeof(factoryCode)!="undefined" && factoryCode=='') 
+		if (!factoryCode || typeof(factoryCode) == "undefined" || factoryCode.trim() == "") 
 		{ 
 			swal("仪器设备出厂编号不能为空！"); 
 			return;
 		}
-		if (!equipmentName && typeof(equipmentName)!="undefined" && equipmentName=='') 
+		if (!equipmentName || typeof(equipmentName) == "undefined" || equipmentName.trim() == "") 
 		{ 
 			swal("仪器设备名称不能为空！");
 			return;
 		}
-		if (!buyTime && typeof(buyTime)!="undefined" && buyTime=='') 
+		if (!buyTime || typeof(buyTime) == "undefined" || buyTime.trim() == "") 
 		{ 
 			swal("设备购入时间不能为空！");
 			return;
 		}
-		if (!checkinTime && typeof(checkinTime)!="undefined" && checkinTime=='') 
+		if (!checkinTime || typeof(checkinTime) == "undefined" || checkinTime.trim() == "") 
 		{ 
 			swal("设备报销登记时间不能为空！");
 			return;
 		}
-		if (!employeeName && typeof(employeeName)!="undefined" && employeeName=='') 
+		if (!employeeName || typeof(employeeName) == "undefined" || employeeName.trim() == "") 
 		{ 
 			swal("批准人不能为空！");
 			return;
 		}
-		if (!remarks && typeof(remarks)!="undefined" && remarks=='') 
+		if (!remarks || typeof(remarks) == "undefined" || remarks.trim() == "") 
 		{ 
 			remarks = "";
 		}

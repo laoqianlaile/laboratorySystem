@@ -44,7 +44,6 @@ $(function () {
 		}
 		
 		var ID = data[0].ID;
-		swal('审核检测报告' + ID);
 		window.location.href = window.location.href.replace('testReportAuditDesktop/testReportAuditDesktop.jsp','testReportSecondAuditManage/testReportSecondAuditManage.jsp') + '?ID='+ID;
 	});
 	
@@ -61,7 +60,6 @@ $(function () {
 		}
 		
 		var ID = data[0].ID;
-		swal('打印报告' + ID);
 //		window.location.href = window.location.href.replace('departmentSupervisorDesktop/departmentSupervisorDesktop.jsp','taskAssignManage/taskAssign.jsp') + '?ID='+ID;
 	});
 	

@@ -212,7 +212,8 @@ function onlineView() {
 	$.post("fileOperateController/onlinePreview.do", {
 		ID : fileID
 	}, function(result) {
-		if (result != null && result != "null") {
+		result = eval(result); 
+		if (result != null && result != "null" && result != "") {
 			window.location.href = "module/jsp/documentOnlineView.jsp";
 		} else {
 			alert("无法查看");
@@ -222,9 +223,9 @@ function onlineView() {
 
 // 删除检测报告
 function deleteTestReport() {
-	var fileID = arguments[0];
-	var testReportID = arguments[1];
-	var taskID = arguments[2];
+	var fileID = arguments[0],
+	    testReportID = arguments[1],
+	    taskID = arguments[2];
 	if (confirm("确定删除?")) {
 		$.post("testReportController/deleteCheck.do", {
 			ID : testReportID

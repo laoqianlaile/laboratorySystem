@@ -1,6 +1,9 @@
 package com.cqut.xiji.service.sampleRecord;
 
+import java.util.List;
 import java.util.Map;
+
+
 
 
 
@@ -21,6 +24,12 @@ public interface ISampleRecordService {
 	 * @return
 	 */
 	public Map<String, Object> getSample(String factoryCode);
+	/**
+	 * @description 判断状态
+	 * @param factoryCode
+	 * @return
+	 */
+	public Map<String, Object> addJudge(String factoryCode);
 	/**
 	 * 
 	 * @description 获取所有样品记录信息
@@ -74,6 +83,7 @@ public interface ISampleRecordService {
 	public String updSampleRecord(String ID,String sampleID,String factoryCode,String sampleName,String specifications,String getManID,String getTime,String returnManID,String returnTime,String remarks);
 	
 	JSONArray getdatalist();
+	public List<Map<String, Object>> getFactoryCode(String factoryCode);
 		
 	
 	

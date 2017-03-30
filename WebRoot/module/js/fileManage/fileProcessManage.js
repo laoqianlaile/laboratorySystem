@@ -92,16 +92,12 @@ $(function() {
 								},
 								{
 									title : '操作',// 列名
-									align : 'center',// 水平居中显示
-									valign : 'middle',// 垂直居中显示
+									align : 'center',// 水平居中显示            
+									valign : 'middle',// 垂直居中显示                               
 									width : "10%",// 宽度
 									formatter : function(value, row, index) {
-										return "<img src ='module/img/view_icon.png'  onclick='viewFile(\""
-												+ row.ID
-												+ "\")'  title='查看报告' style='cursor:pointer;padding-right:8px;'></img> "
-												+ "<img src ='module/img/download_icon.png'  onclick='downFile(\""
-												+ row.ID
-												+ "\")'  title='下载报告'  style='cursor:pointer;padding-right:8px;'></img> "
+										return "<img src ='module/img/view_icon.png'  onclick='viewFile(\""+row.ID+"\",\""+row.fileName+"\")'   title='查看' style='cursor:pointer;padding-right:8px;'></img> "
+												+ "<img src ='module/img/download_icon.png'  onclick='downFile(\"" + row.ID + "\")'  title='下载报告'  style='cursor:pointer;padding-right:8px;'></img> "
 									}
 								} ]
 					});
@@ -132,17 +128,26 @@ function downFile() {
 
 // 查看文件
 function viewFile() {
-	displayDiv();
-	var fileID = arguments[0];
-	$.post("fileOperateController/onlinePreview.do", {
-		ID : fileID
-	}, function(result) {
-		if (result != null && result != "null") {
-			window.location.href = "module/jsp/documentOnlineView.jsp";
-		} else {
-			chen.alert("无法查看");
-		}
-	});
+	var fileID = arguments[0], fileNames = arguments[1];
+	fileSuffixName = "";
+	fileNames = fileNames.split(".");
+	fileSuffixName = fileNames[fileNames.length - 1].toLowerCase();
+	if (fileSuffixName == "png" || fileSuffixName == "jpg" || fileSuffixName == "gif") {
+		alert("查看图片请下载下来直接查看");
+	} else {
+		displayDiv();
+		$.post("fileOperateController/onlinePreview.do", {
+			ID : fileID
+		}, function(result) {
+			result = eval(result);
+			if (result != null && result != "null" && result != "") {
+				window.location.href = "module/jsp/documentOnlineView.jsp";
+			} else {
+				alert("无法查看");
+			}
+		});
+	}
+
 }
 
 // 检查数据合理性

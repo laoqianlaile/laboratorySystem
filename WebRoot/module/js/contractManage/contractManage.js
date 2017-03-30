@@ -11,9 +11,9 @@ function initData(){
 		//height : 800,// 定义表格的高度
 		striped : true,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
-		pageSize : 3,// 页面数据条数
+		pageSize : 5,// 页面数据条数
 		pageNumber : 1,// 首页页码
-		pageList : [ 3,5,10,15 ],// 设置可供选择的页面数据条数
+		pageList : [ 5,10,15 ],// 设置可供选择的页面数据条数
 		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache : false,// 禁用 AJAX 数据缓存
 		sortName : 'contractCode',// 定义排序列
@@ -162,55 +162,55 @@ function initData(){
 
 //检查合同数据是否合理并处理
 function checkData(dataObj) { // 后台数据字段为空就不会传上来
-	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null || dataObj.ID.trim() == "NULL" || dataObj.ID == undefined) {
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null || dataObj.ID.trim() == "" || dataObj.ID == undefined) {
 		dataObj.ID = "";
 	}
-	if (!dataObj.hasOwnProperty("fileID") || dataObj.fileID == null || dataObj.fileID.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("fileID") || dataObj.fileID == null || dataObj.fileID.trim() == "") {
 		  dataObj.fileID = "";
 	}
 	if (!dataObj.hasOwnProperty("contractCode") || dataObj.contractCode == null || dataObj.contractCode == undefined ) {
 		dataObj.contractCode = ""; //没有合同文件
 	}
-	if (!dataObj.hasOwnProperty("contractName") || dataObj.contractName == null || dataObj.contractName.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("contractName") || dataObj.contractName == null || dataObj.contractName.trim() == "") {
 		 dataObj.contractName = "";
 	}
 	if (!dataObj.hasOwnProperty("companyName") || dataObj.companyName == null || dataObj.companyName == undefined ) {
 		dataObj.companyName = ""; //能编辑
 	}
-	if (!dataObj.hasOwnProperty("oppositeMen") || dataObj.oppositeMen == null || dataObj.oppositeMen.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("oppositeMen") || dataObj.oppositeMen == null || dataObj.oppositeMen.trim() == "") {
 		dataObj.oppositeMen = "";
 	}
 	if (!dataObj.hasOwnProperty("linkPhone") || dataObj.linkPhone == null) {
 		dataObj.linkPhone = "";
 	}
-	if (!dataObj.hasOwnProperty("employeeName") || dataObj.employeeName == null || dataObj.employeeName.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("employeeName") || dataObj.employeeName == null || dataObj.employeeName.trim() == "") {
 		dataObj.employeeName = "";
 	}
-	if (!dataObj.hasOwnProperty("signAddress") || dataObj.signAddress == null || dataObj.signAddress.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("signAddress") || dataObj.signAddress == null || dataObj.signAddress.trim() == "") {
 		dataObj.signAddress = "";
 	}
-	if (!dataObj.hasOwnProperty("signTime") || dataObj.signTime == null || dataObj.signTime.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("signTime") || dataObj.signTime == null || dataObj.signTime.trim() == "") {
 		dataObj.signTime = "";
 	}
-	if (!dataObj.hasOwnProperty("startTime") || dataObj.startTime == null || dataObj.startTime.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("startTime") || dataObj.startTime == null || dataObj.startTime.trim() == "") {
 		dataObj.startTime = "";
 	}
-	if (!dataObj.hasOwnProperty("endTime") || dataObj.endTime == null || dataObj.endTime.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("endTime") || dataObj.endTime == null || dataObj.endTime.trim() == "") {
 		dataObj.endTime = "";
 	}
 	if (!dataObj.hasOwnProperty("contractAmount") || dataObj.contractAmount == null) {
 		dataObj.contractAmount = "0";
 	}
-	if (!dataObj.hasOwnProperty("isClassified") || dataObj.isClassified == null || dataObj.isClassified.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("isClassified") || dataObj.isClassified == null || dataObj.isClassified.trim() == "") {
 		dataObj.isClassified = "";
 	}
-	if (!dataObj.hasOwnProperty("classifiedLevel") || dataObj.classifiedLevel == null || dataObj.classifiedLevel.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("classifiedLevel") || dataObj.classifiedLevel == null || dataObj.classifiedLevel.trim() == "") {
 		dataObj.classifiedLevel = "";
 	}
-	if (!dataObj.hasOwnProperty("state") || dataObj.state == null || dataObj.state.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("state") || dataObj.state == null || dataObj.state.trim() == "") {
 		dataObj.state = "";
 	}
-	if (!dataObj.hasOwnProperty("viewpoint") || dataObj.viewpoint == null || dataObj.viewpoint.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("viewpoint") || dataObj.viewpoint == null || dataObj.viewpoint.trim() == "") {
 		dataObj.viewpoint = "";
 	}
 }
@@ -273,32 +273,32 @@ function add(){
 		var endTime = $('#add_endTime').val();
 		var isClassified = $("input[name='isClassified']:checked").val();
 		var classifiedLevel = $('#add_classifiedLevel').val();
-		if (!contractName && typeof(contractName)!="undefined" && contractName=='') 
+		if (!contractName || typeof(contractName) == "undefined" || contractName.trim() == "") 
 		{ 
 			swal("合同名称为空");
 			return;
 		}
-		if (!companyName && typeof(companyName)!="undefined" && companyName=='') 
+		if (!companyName || typeof(companyName) == "undefined" || companyName.trim() == "") 
 		{ 
 			swal("公司名不能为空！");
 			return;
 		}
-		if (!address && typeof(address)!="undefined" && address=='') 
+		if (!address || typeof(address) == "undefined" || address.trim() == "") 
 		{ 
 			swal("签约地点地址不能为空！");
 			return;
 		}
-		if (!signAddress && typeof(signAddress)!="undefined" && signAddress=='') 
+		if (!signAddress || typeof(signAddress) == "undefined" || signAddress.trim() == "") 
 		{ 
 			swal("签约地点不能为空！");
 			return;
 		}
-		if (!oppositeMen && typeof(oppositeMen)!="undefined" && oppositeMen=='') 
+		if (!oppositeMen || typeof(oppositeMen) == "undefined" || oppositeMen.trim() == "") 
 		{ 
 			swal("甲方法定代表人或代理人不能为空！");
 			return;
 		}
-		if (!linkPhone && typeof(linkPhone)!="undefined" && linkPhone=='') 
+		if (!linkPhone || typeof(linkPhone) == "undefined" || linkPhone.trim() == "") 
 		{ 
 			swal("联系电话不能为空！");
 			return;
@@ -310,22 +310,22 @@ function add(){
 				 return;
 			 }
 		}
-		if (!employeeName && typeof(employeeName)!="undefined" && employeeName=='') 
+		if (!employeeName || typeof(employeeName) == "undefined" || employeeName.trim() == "") 
 		{ 
 			swal("乙方法定代表人或代理人不能为空！");
 			return;
 		}
-		if (!signTime && typeof(signTime)!="undefined" && signTime=='') 
+		if (!signTime || typeof(signTime) == "undefined" || signTime.trim() == "") 
 		{ 
 			swal("签订日期不能为空！");
 			return;
 		}
-		if (!startTime && typeof(startTime)!="undefined" && startTime=='') 
+		if (!startTime || typeof(startTime) == "undefined" || startTime.trim() == "") 
 		{ 
 			swal("合同开始执行日期不能为空！");
 			return;
 		}
-		if (!endTime && typeof(endTime)!="undefined" && endTime=='') 
+		if (!endTime || typeof(endTime) == "undefined" || endTime.trim() == "") 
 		{ 
 			swal("合同截至日期不能为空！"); 
 			return;
@@ -335,12 +335,12 @@ function add(){
 			swal("时间先后顺序选择错误！"); 
 			return;
 		}
-		if (!isClassified && typeof(isClassified)!="undefined" && isClassified=='') 
+		if (!isClassified || typeof(isClassified) == "undefined" || isClassified.trim() == "") 
 		{ 
 			swal("是否保密不能为空！");
 			return;
 		}
-		if (!classifiedLevel && typeof(classifiedLevel)!="undefined" && classifiedLevel=='') 
+		if (!classifiedLevel || typeof(classifiedLevel) == "undefined" || classifiedLevel.trim() == "") 
 		{ 
 			swal("保密等级不能为空！");
 			return;
@@ -378,7 +378,7 @@ function add(){
  */
 function addShowMsg(){ 
 	var name = $('#add_companyName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
+	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{ 
 		$(".companyN").hide();
 	}else {
@@ -419,7 +419,7 @@ function addShowMsg(){
  */
 function addGetEName(){
 	var name = $('#add_employeeName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
+	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{
 		$(".employeeN").hide();
 	}else {
@@ -524,7 +524,7 @@ function showContractM() {
 		return;
 	}
 	var ID = data[0].ID;
-	if (!ID && typeof(ID)!="undefined" && ID=='') 
+	if (!ID || typeof(ID) == "undefined" || ID.trim() == "") 
 	{ 
 		swal("合同编号不能为空！"); 
 	}else {
@@ -538,7 +538,7 @@ function showContractM() {
 		$.post("fileOperateController/onlinePreview.do", {
 			ID : data[0].fileID
 		}, function(result) {
-			if (result != null && result != "null") {
+			if (result != null || result != "null") {
 				window.location.href = "module/jsp/documentOnlineView.jsp";
 			} else {
 				swal("无法查看");
@@ -548,7 +548,7 @@ function showContractM() {
 	}*/
 
 /*	var ID = data[0].ID;
-	if (!ID && typeof(ID)!="undefined" && ID=='') 
+	if (!ID || typeof(ID) == "undefined" || ID=='') 
 	{ 
 		swal("合同ID为空！"); 
 	}else {
@@ -566,7 +566,7 @@ function showContractA(){
 		return;
 	}
 	var ID = data[0].ID;
-	if (!ID && typeof(ID)!="undefined" && ID=='') 
+	if (!ID || typeof(ID) == "undefined" || ID.trim() == "") 
 	{ 
 		swal("合同编号不能为空！"); 
 	}else {
@@ -588,7 +588,7 @@ function EditContract(){
 		return;
 	}
 	var ID = data[0].ID;
-	if (!ID && typeof(ID)!="undefined" && ID=='') 
+	if (!ID || typeof(ID) == "undefined" || ID.trim() == "") 
 	{ 
 		swal("合同ID为空！"); 
 	}else {

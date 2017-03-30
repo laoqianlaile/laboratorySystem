@@ -5,7 +5,7 @@
 
 .content {
 	width: 100%;
-	min-width: 1300px;
+	min-width: 1100px;
 }
 
 .searchArea {
@@ -56,16 +56,13 @@
 	padding: 20px 0 20px 0;
 }
 
-.buttonGroup button:hover {
-	border: none;
-	color: #fff;
-	background-color: rgb(255, 173, 51);
+.buttonGroup button {
+	margin-left: 26px;
 }
 
-#table thead,.modal-header {
-	background-color: #364760;
+.buttonGroup button:hover {
 	color: #fff;
-	font-size: blod 14px;
+	background-color: rgb(255, 173, 51);
 }
 
 .bs-checkbox {

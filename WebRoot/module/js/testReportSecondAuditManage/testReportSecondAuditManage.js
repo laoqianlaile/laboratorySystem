@@ -181,14 +181,14 @@ function checkReport() {
 
 // 二次审核通过
 function secondAuditPass() {
-	var keyID = arguments[0];
-	var taskID = arguments[1];
-	var fileName = arguments[2];
+	var keyID = arguments[0],
+	    taskID = arguments[1],
+	    fileName = arguments[2];
 	if (confirm("是否通过审核")) {
 		$("#PassTestReportID").text(keyID);
 		$("#PassTaskID").text(taskID);
 		$("#PassFileName").text(fileName);
-		$.post("testReportController/auditOperateCheck.do", {
+		$.post("testReportController/secndAuditOperateCheck.do", {
 			ID : keyID
 		}, function(result) {
 			if (result == true || result == "true") {
@@ -203,10 +203,10 @@ function secondAuditPass() {
 
 // 确认审核通过
 function secondAuditPassSure(){
-	var keyID = $("#PassTestReportID").text();
-	var taskID = $("#PassTaskID").text();
-	var fileName = $("#PassFileName").text();
-	var auditPassAgreement = $("#PassReason").val();
+	var keyID = $("#PassTestReportID").text(),
+	    taskID = $("#PassTaskID").text(),
+	    fileName = $("#PassFileName").text(),
+	    auditPassAgreement = $("#PassReason").val();
 	$.post("testReportController/secondPassReport.do",
 	{
 		ID : keyID,
@@ -222,8 +222,7 @@ function secondAuditPassSure(){
                                 fileName : fileName
 							},
 							function(result) {
-								var re = new RegExp("\"","g");
-								result = result.replace(re,"");
+								result = eval(result);
 								$.post("messageNoticeController/addReportAuditMessageNotice.do",
 												{
 													messageID : result,
@@ -235,8 +234,7 @@ function secondAuditPassSure(){
                         fileName : fileName
 					},
 					function(result) {
-						var re = new RegExp("\"","g");
-						result = result.replace(re,"");
+						result = eval(result);
 						$.post("messageNoticeController/addReportThridAuditPersonMessageNotice.do",
 										{
 											messageID : result
@@ -253,13 +251,13 @@ function secondAuditPassSure(){
 // 二次审核驳回
 function secondAuditReject() {
 	var keyID = arguments[0];
-	var taskID = arguments[1];
-	var fileName = arguments[2];
+	    taskID = arguments[1],
+	    fileName = arguments[2];
 	if (confirm("是否驳回报告")) {
 		$("#testReportID").text(keyID);
 		$("#taskID").text(taskID);
 		$("#fileName").text(fileName);
-		$.post("testReportController/auditOperateCheck.do", {
+		$.post("testReportController/secndAuditOperateCheck.do", {
 			ID : keyID
 		}, function(result) {
 			if (result == true || result == "true") {
@@ -274,9 +272,9 @@ function secondAuditReject() {
 
 // 确认驳回
 function secondAuditRejectSure() {
-	var keyID = $("#testReportID").text();
-	var taskID = $("#taskID").text();
-	var fileName = $("#fileName").text();
+	var keyID = $("#testReportID").text(),
+	    taskID = $("#taskID").text(),
+	    fileName = $("#fileName").text();
 	$.post("testReportController/secondRejectReport.do",
 					{
 						ID : keyID,
@@ -292,8 +290,7 @@ function secondAuditRejectSure() {
 												fileName : fileName
 											},
 											function(result) {
-												var re = new RegExp("\"", "g");
-												result = result.replace(re, "");
+												result = eval(result);
 												$.post("messageNoticeController/addReportAuditMessageNotice.do",
 																{
 																	messageID : result,

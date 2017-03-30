@@ -72,7 +72,7 @@ public class EquipmentVerifyService extends SearchService implements IEquipmentV
 									"LEFT JOIN testProject ON a.testProjectID = testProject.ID ";
 				String condition = " 1 = 1 "; 
 				if (factoryCode != null && !factoryCode.isEmpty()) {
-					factoryCode += " and a.factoryCode like '%" + factoryCode+ "%'";
+					condition += " and a.factoryCode like '%" + factoryCode+ "%'";
 				}if (equipmentName != null && !equipmentName.isEmpty()) {
 					condition += " and a.equipmentName like '%" + equipmentName+ "%'";
 				}if (employeeName != null && !employeeName.isEmpty()) {
@@ -84,9 +84,7 @@ public class EquipmentVerifyService extends SearchService implements IEquipmentV
 						properties, baseEntity, joinEntity, null, condition, null,sort,
 						order, index, pageNum);
 				System.out.println("result:"+result);
-				int count = entityDao.searchWithpaging(
-						properties, baseEntity, joinEntity, null, condition, null,sort,
-						order, index, pageNum).size();
+				int count = entityDao.searchForeign(properties, baseEntity, joinEntity, null, condition).size();
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("total", count);
 				map.put("rows", result);

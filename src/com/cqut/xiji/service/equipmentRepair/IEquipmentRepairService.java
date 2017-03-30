@@ -16,9 +16,9 @@ public interface IEquipmentRepairService {
 	 * @param employeeName
 	 * @return
 	 */
-	public Map<String, Object> getEquipmentRepairWithPaging(int limit,
-			int offset, String sort, String order, String model,
-			String equipmentName, String employeeName);
+	public Map<String, Object> getEquipmentRepairWithPaging(int limit, int offset,
+			String sort, String order, String factoryCode, String equipmentName,
+			String model, String employeeName);
 
 	/**
 	 * @param equipmentID
