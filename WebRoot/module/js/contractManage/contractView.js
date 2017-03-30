@@ -83,6 +83,25 @@ function goback(){
 }
 
 function showContractFile(){
+	var ID = GetQueryString("ID");
+	var parame = {};
+	parame.ID = ID;
+	$.ajax({  
+	     url:'contractController/isContractFile.do',// 跳转到 action
+	     type:'post', 
+	     data:parame,
+	     dataType:'json',
+	     success:function(data){
+	    	 if (data == 0) {
+	    		swal("该合同没有合同文件！");
+	    	}else if (data == 1){
+	    		showFile();
+	    	}
+	     }
+	});
+}
+	
+function showFile(){
 	var ID = $('#fileID').html();
 	if (!ID || typeof(ID) == "undefined" || ID.trim() == "") 
 	{ 

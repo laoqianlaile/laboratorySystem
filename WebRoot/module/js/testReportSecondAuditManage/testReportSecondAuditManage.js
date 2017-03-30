@@ -222,8 +222,7 @@ function secondAuditPassSure(){
                                 fileName : fileName
 							},
 							function(result) {
-								var re = new RegExp("\"","g");
-								result = result.replace(re,"");
+								result = eval(result);
 								$.post("messageNoticeController/addReportAuditMessageNotice.do",
 												{
 													messageID : result,
@@ -235,8 +234,7 @@ function secondAuditPassSure(){
                         fileName : fileName
 					},
 					function(result) {
-						var re = new RegExp("\"","g");
-						result = result.replace(re,"");
+						result = eval(result);
 						$.post("messageNoticeController/addReportThridAuditPersonMessageNotice.do",
 										{
 											messageID : result
@@ -292,8 +290,7 @@ function secondAuditRejectSure() {
 												fileName : fileName
 											},
 											function(result) {
-												var re = new RegExp("\"", "g");
-												result = result.replace(re, "");
+												result = eval(result);
 												$.post("messageNoticeController/addReportAuditMessageNotice.do",
 																{
 																	messageID : result,

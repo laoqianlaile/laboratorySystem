@@ -85,16 +85,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 		<div class="sampleInfo">
 			<div class="row">
-				<div class="col-xs-6 col-md-6 col-lg-6">
-					<div class="col-xs-6 col-md-6 col-lg-6">
+				<div class="col-xs-5 col-md-5 col-lg-5">
+					<div class="col-xs-5 col-md-5 col-lg-5 sampleInfo" >
 						<label>样品管理员:</label> <span name="sampleManage" id="sampleManage"></span>
 					</div>
-					<div class="col-xs-6 col-md-6 col-lg-6">
+					<div class="col-xs-7 col-md-7 col-lg-7">
 						<label>接收时间:</label> <span name="sampleCreateTime"
 							id="sampleCreateTime"></span>
 					</div>
 				</div>
-				<div class="col-xs-6 col-md-6 col-lg-6 buttonGroup">
+				<div class="col-xs-7 col-md-7 col-lg-7 buttonGroup">
 					<button type="button" class="btn btn-primary"
 						onclick="equipmentRegister()">
 						<span class="glyphicon glyphicon-edit"></span> 设备登记
@@ -171,14 +171,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="modal-dialog" role="document" style="width:500px">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title">上传报告</h4>
+					<h4 class="modal-title">上传或重新覆盖报告</h4>
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div id="files" style="text-align:left">
-							<div id="uploadfileQueue"></div>
-							<input type="file" id="file_upload" name="file_upload"
-								multiple="multiple">
+						<div id="fileInfo" style="text-align:left">
+							<div id="fileQueue">
+								<input type="file" name="files" id="files" style="display:none" onchange="checkFile(this)">
+							</div>
+							
+							<button type="button" id="chooseFile" name="chooseFile" class="btn btn-default">
+								<span class="glyphicon glyphicon-folder-open "></span> 选择文件
+							</button>
+							<span id="fileName"></span>
 						</div>
 						<div class="fileSummary">
 							<label>附件概述:</label>
@@ -193,11 +198,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 				</div>
 				<div class="modal-footer">
-
-					<button type="button" class="btn btn-primary" id="ensure"
-						name="ensure" onclick="uploadSure()">确定</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal"
-						onclick="javascript:$('#file_upload').uploadify('cancel','*')">取消</button>
+				    <button type="button" class="btn btn-primary" id="ensureUpload" name="ensureUpload">确定</button>
+					<button type="button" class="btn btn-default" id="cancel" name="cancel">取消</button>
 				</div>
 			</div>
 		</div>
@@ -207,9 +209,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<img src="module/img/wait.jpg" style="width:48px;height:48px;" />
 	</div>
 	<div id="mask"></div>
-	
+
 	<script src="module/js/wait.js"></script>
 	<script src="module/js/taskManage/taskView.js"></script>
 	<script src="module/js/fileManage/fileManage.js"></script>
+	<script type="text/javascript" src="assets/fileupload/jquery.iframe-transport.js"></script>
+	<script type="text/javascript" src="assets/fileupload/jquery.ui.widget.js"></script>
+	<script type="text/javascript" src="assets/fileupload/jquery.fileupload.js"></script>
+	<script type="text/javascript">
+		$('#chooseFile').click(function() {
+			$('#files').click();
+
+		});
+		$('#cancel').click(function() {
+			if (confirm("是否取消上传?")) {
+				reload();
+			}
+		});
+	</script>
 </body>
 </html>

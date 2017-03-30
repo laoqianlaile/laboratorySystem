@@ -130,16 +130,20 @@ function uploadImage(selectorName) {
 		url : 'fileOperateController/upload.do?TypeNumber=' + 3,
 		dataType : 'text',
 		add : function(e, data) {
-			$("#keyishangchuan").click(function() {
+			$("#ensureUploadImg").click(function() {
 				data.submit();
 			});
 		},
 	}).bind('fileuploaddone', function(e, data) {
 		var fileID = eval(data.result);
-		$.post("employeeController/addSignatrueAndStamp.do", {
-			fileID : fileID,
-			selectorName : selectorName
-		});
+		if (fileID != null && fileID != "null" && fileID != "") {
+			$.post("employeeController/addSignatrueAndStamp.do", {
+				fileID : fileID,
+				selectorName : selectorName
+			});
+		} else {
+			alert("图片上传失败");
+		}
 	});
 }
 
@@ -226,27 +230,27 @@ function thirdAuditPass() {
 	}
 }
 
-// 上传图片
-function previewImage(file,imgArea)
-{	  
-	  if (file.files && file.files[0])
-	  {
-	      var img = document.getElementById(imgArea);
-	      var reader = new FileReader();
-	      reader.onload = function(evt)
-	      {
-	    	  img.src = evt.target.result;
-	      }
-	      reader.readAsDataURL(file.files[0]);
-	  }
-	  else //兼容IE
-	  {
-		  var sFilter='filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
-          file.select();
-          var src = document.selection.createRange().text;
-          var img = document.getElementById(imgArea);
-          img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
-	  }
+// 预览图片
+function previewImage(file, imgArea) {
+	if (file.files && file.files[0]) {
+		var fileSuffixName = file.value.toLowerCase();
+		if (fileSuffixName.indexOf('.jpg') < 0 && fileSuffixName.indexOf('.gif') < 0 &&  fileSuffixName.indexOf('.png') < 0) {
+			alert("不能将此类型文件作为电子签名上传");
+		}
+		var img = document.getElementById(imgArea);
+		var reader = new FileReader();
+		reader.onload = function(evt) {
+			img.src = evt.target.result;
+		}
+		reader.readAsDataURL(file.files[0]);
+	} else // 兼容IE
+	{
+		var sFilter = 'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
+		file.select();
+		var src = document.selection.createRange().text;
+		var img = document.getElementById(imgArea);
+		img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
+	}
 }
 
 // 确认审核通过
@@ -270,22 +274,20 @@ function thirdAuditPassSure(){
 										fileName : fileName
 									},
 									function(result) {
-										var re = new RegExp("\"","g");
-										result = result.replace(re,"");
+										result = eval(result);
 										$.post("messageNoticeController/addReportAuditMessageNotice.do",
 														{
 															messageID : result,
 															testreportID : keyID
 														});
 									});
-					setTimeout(reloadPage,1000);
-					alert("审核通过成功");
+				         	setTimeout(reloadPage, 1000);
+							alert("审核通过成功");
 				} else {
 					refresh();
 					alert("通过审核失败");
 				}
 			});
-	
 	
 }
 
@@ -293,7 +295,6 @@ function thirdAuditPassSure(){
 function reloadPage() {
 	window.location.reload();
 }
-
 
 // 三次审核驳回
 function thirdAuditReject() {
@@ -322,34 +323,33 @@ function thirdAuditRejectSure() {
 	var keyID = $("#testReportID").text(),
 	    taskID = $("#taskID").text(),
 	    fileName = $("#fileName").text();
-	$.post("testReportController/thirdRejectReport.do",
-					{
-						ID : keyID,
-						taskID : taskID,
-						dismissreason : $("#rejectReason").val()
-					},
-					function(result) {
-						if (result == true || result == "true") {
-							refresh();
-							alert("驳回成功");
-							$.post("messageController/addReportThirdAuditRejectMessage.do",
-											{
-												fileName : fileName
-											},
-											function(result) {
-												var re = new RegExp("\"", "g");
-												result = result.replace(re, "");
-												$.post("messageNoticeController/addReportAuditMessageNotice.do",
-																{
-																	messageID : result,
-																	testreportID : keyID
-																});
-											});
-						} else {
-							refresh();
-							alert("驳回失败");
-						}
-					});
+	$.post("testReportController/thirdRejectReport.do",		
+			{
+				ID : keyID,
+				taskID : taskID,
+				dismissreason : $("#rejectReason").val()
+				},
+				function(result) {
+					if (result == true || result == "true") {
+						refresh();
+						alert("驳回成功");
+						$.post("messageController/addReportThirdAuditRejectMessage.do",
+										{
+											fileName : fileName
+										},
+										function(result) {
+											resutl = eval(result);
+											$.post("messageNoticeController/addReportAuditMessageNotice.do",
+															{
+																messageID : result,
+																testreportID : keyID
+															});
+										});
+					} else {
+						refresh();
+						alert("驳回失败");
+					}
+				});
 	$("#thirdAuditRejectModal").modal("hide");
 }
 
@@ -368,6 +368,11 @@ function refresh() {
 		url : "testReportController/getTestReporThirdtAuditWithPaging.do",
 		query : additionalCondition
 	});
+}
+
+// 重新加载页面
+function reload() {
+	window.location.reload();
 }
 
 //检查数据合理性

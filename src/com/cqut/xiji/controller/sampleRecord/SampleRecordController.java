@@ -1,5 +1,6 @@
 package com.cqut.xiji.controller.sampleRecord;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -109,7 +110,13 @@ public class SampleRecordController{
 		
 		return service.getdatalist();
 	}
-	
+	@RequestMapping("/getFactoryCode")
+    @ResponseBody
+	public String getFactoryCode(String factoryCode){
+		List<Map<String, Object>> result = service.getFactoryCode(factoryCode);
+		return JSONArray.fromObject(result).toString();
+	}
+
 	
 	
 	

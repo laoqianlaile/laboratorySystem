@@ -23,8 +23,7 @@ public interface ITestReportService {
 
 	public boolean recoverCheck(String ID);
 
-	public boolean updateTestReport(String ID, String taskID,
-			String versionNumber, String versionInfo, String remarks);
+	public boolean updateTestReport(String ID, String taskID, String versionNumber, String versionInfo, String remarks);
 
 	public boolean submitReportCheck(String ID);
 
@@ -76,10 +75,11 @@ public interface ITestReportService {
 
 	public List<Map<String, Object>> getReportInfo(String taskID);
 
-	public boolean recoatCheck(String[] taskIDs);
+	public boolean recoatCheck(String[] taskIDs, String fileIDs[],
+			String[] projectIDs, String[] states);
 
 	public String recoatReport(String[] fileIDs, String[] IDs,
-			String[] taskIDs, String uploader);
+			String[] taskIDs, String projectID, String uploader);
 
 	public boolean updateTestReportFileID(String[] IDs, String fileID);
 }

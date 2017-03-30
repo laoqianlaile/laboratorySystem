@@ -983,7 +983,7 @@ public class WordProcess {
 	 * 合并word
 	 * 
 	 */
-	public void comblineDocument(List list, String outPath) {
+	public void comblineDocument(List<?> list, String outPath) {
 		ActiveXComponent app = new ActiveXComponent("Word.Application");// 启动word
 		try {
 			// 设置word不可见

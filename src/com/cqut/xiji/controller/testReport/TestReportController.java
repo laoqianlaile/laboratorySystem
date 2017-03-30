@@ -150,8 +150,8 @@ public class TestReportController {
 	 */
 	@RequestMapping("/updateTestReport")
 	@ResponseBody
-	public boolean updateTestReport(String ID,String taskID,String versionNumber,String versionInfo, String remarks) {
-		boolean result = service.updateTestReport(ID,taskID,versionNumber,versionInfo, remarks);
+	public boolean updateTestReport(String ID, String taskID, String versionNumber, String versionInfo, String remarks) {
+		boolean result = service.updateTestReport(ID, taskID,  versionNumber, versionInfo, remarks);
 		return result;
 	}
 
@@ -504,8 +504,8 @@ public class TestReportController {
 	 */
 	@RequestMapping("/recoatCheck")
 	@ResponseBody
-	public boolean recoatCheck(String[] taskIDs) {
-		boolean flag = service.recoatCheck(taskIDs);
+	public boolean recoatCheck(String[] taskIDs, String[] fileIDs, String[] projectIDs, String[] states) {
+		boolean flag = service.recoatCheck(taskIDs, fileIDs, projectIDs, states);
 		return flag;
 
 	}
@@ -523,9 +523,9 @@ public class TestReportController {
 	 */
 	@RequestMapping("/recoatReport")
 	@ResponseBody
-	public String recoatReport(String[] fileIDs, String[] IDs, String[] taskIDs, HttpServletRequest req) {
+	public String recoatReport(String[] fileIDs, String[] IDs, String[] taskIDs, String projectID, HttpServletRequest req) {
 		String uploader = (String) req.getSession().getAttribute("EMPLOYEEID");// 上传人
-		String result = service.recoatReport(fileIDs, IDs, taskIDs, uploader);
+		String result = service.recoatReport(fileIDs, IDs, taskIDs, projectID, uploader);
 		return result;
 
 	}
