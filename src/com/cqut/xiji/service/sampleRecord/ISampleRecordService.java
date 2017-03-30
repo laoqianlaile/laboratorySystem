@@ -1,6 +1,8 @@
 package com.cqut.xiji.service.sampleRecord;
 
+import java.util.List;
 import java.util.Map;
+
 
 
 
@@ -81,6 +83,7 @@ public interface ISampleRecordService {
 	public String updSampleRecord(String ID,String sampleID,String factoryCode,String sampleName,String specifications,String getManID,String getTime,String returnManID,String returnTime,String remarks);
 	
 	JSONArray getdatalist();
+	public List<Map<String, Object>> getFactoryCode(String factoryCode);
 		
 	
 	
