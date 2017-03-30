@@ -164,7 +164,7 @@ public class CompanyService extends SearchService implements ICompanyService {
 	public Map<String, Object> getCompanyInformation(String comID) {
 		// TODO Auto-generated method stub
 		if(comID == null || comID.equals(""))
-		return null;
+		   return null;
 		String[] properties = new String[]{
 				"company.ID",
 				"companyName",

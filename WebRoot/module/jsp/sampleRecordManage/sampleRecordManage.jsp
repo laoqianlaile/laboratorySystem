@@ -122,6 +122,36 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	#edit_getMan{
      position:relative;
 	}
+	.employeeN3{
+	 	width:568px;
+	 	display:none;
+	 	border:1px solid #ccc;
+	 	border-top:none;
+	 	border-radius:3px;
+	 	z-index:99999;
+	 	background: #fff;
+	 	position:absolute;
+	}
+	.employeeN3 ul {
+		width:567px;
+		height:30px;
+		border:none;
+		margin:0;
+		margin-left:-40px;
+	}
+	.employeeN3 ul li{
+		width:567px;
+		height:30px;
+		line-height: 30px;
+		list-style-type: none;
+		text-indent: 12px;
+	}
+	.employeeN3 ul li:hover{
+		background-color:#dcdcdc;
+	}
+	#add_factoryCode{
+     position:relative;
+	}
 	
 	
 		
@@ -195,6 +225,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<h4>出厂编号：</h4>
 							<input type="text"  id="add_factoryCode" name="factoryCode"
 								class="form-control" aria-describedby="basic-addon1"  />
+								<div class="employeeN3">
+	                   
+                   </div>
 						</div>
 						<div class="col-xs-12 col-md-12">
 							<h4>样品名称：</h4>

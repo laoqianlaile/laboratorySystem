@@ -415,21 +415,15 @@ public class TaskService extends SearchService implements ITaskService {
 		String[] properties = new String[] { "sample.ID", "task.ID as taskID",
 				"sample.factoryCode", "sample.sampleName",
 				"sample.specifications", "task.requires",
-				"testProject.ID AS testID", "testproject.nameCn as  testName",
 				"date_format(sample.createTime,'%Y-%m-%d') as createTime", };
-
-		String joinEntity = " left join sample on task.sampleID =sample.ID "
-				+ " left join testProject on task.testProjectID = testProject.ID ";
+		String joinEntity = " left join sample on task.sampleID =sample.ID ";
 		String condition = "1 = 1 and task.receiptlistID = " + ID;
-
 		List<Map<String, Object>> result = searchPagingWithJoin(properties,
 				joinEntity, null, condition, false, index, pageNum);
 		int count = getForeignCountWithJoin(joinEntity, null, condition, false);
-
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("total", count);
 		map.put("rows", result);
-
 		return map;
 	}
 
@@ -439,9 +433,8 @@ public class TaskService extends SearchService implements ITaskService {
 	 * @date 2016年 11月12日 早上09:30:15
 	 */
 	@Override
-	public String updReceiptlistSampleInForInReturn(String ID, String testID,
-			String factoryCode, String sampleName, String specifications,
-			String nameCn, String createTime) {
+	public String updReceiptlistSampleInForInReturn(String ID,
+			String factoryCode, String sampleName, String specifications, String createTime) {
 		if (ID == null || ID.equals("")) {
 			return "false";
 		}
@@ -462,18 +455,8 @@ public class TaskService extends SearchService implements ITaskService {
 		if (createTime1 != null) {
 			sample.setCreateTime(createTime1);
 		}
-		if (testID == null || testID.equals("")) {
-			return "false";
-		}
-		System.out.println(testID);
-		TestProject testproject = entityDao.getByID(testID, TestProject.class);
-		if (testproject == null)
-			return "false";
-		testproject.setNameCn(nameCn);
-		return entityDao.updatePropByID(sample, ID)
-				+ entityDao.updatePropByID(testproject, testID) == 2 ? "true"
+		return entityDao.updatePropByID(sample, ID) == 1 ? "true"
 				: "false";
-
 	}
 
 	/**

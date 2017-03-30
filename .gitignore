@@ -21,3 +21,5 @@ hs_err_pid*
 # IEDA ignore file
 *.iml
 *idea/
+
+resources/jdbc.properties

@@ -106,41 +106,51 @@ public class FileOperateController {
 			String filePath, String firstDirectory, String secondDirectory,
 			String thirdDirectory, int TypeNumber, String belongtoID,
 			String content, String remark) throws IOException {
-		String uploader = (String)req.getSession().getAttribute("EMPLOYEEID");//上传人
+		String uploader = (String) req.getSession().getAttribute("EMPLOYEEID");// 上传人
 		String ID = EntityIDFactory.createId();// 文件ID
 		String fileName = file.getOriginalFilename();// 获取文件全名
 		PropertiesTool pe = new PropertiesTool();
-		String path = ""; //实际文件存储路径
+		String path = ""; // 实际文件存储路径
 		String relativePath = "";// 文件的相对路径,加密后存入数据库
 		String[] fileNames = fileName.split("\\.");// 将文件名以\.分割成一个数组
-		String cacheFilePath ="";//缓存文件路径
+		String cacheFilePath = "";// 缓存文件路径
 		String directoryName = "";
-		String fileSuffixName = fileNames[fileNames.length-1].toLowerCase();
-		if (fileSuffixName.equals("jpg") || fileSuffixName.equals("png") || fileSuffixName.equals("gif")) {
-			path = pe.getSystemPram("imgPath") + "\\";
-			for (int j = 0; j < fileNames.length; j++) {
-				if (fileNames.length - j > 1) {
-					path += fileNames[j];
-					relativePath += fileNames[j];
-				} else {
-					path += "_" + ID + "." + fileNames[j];
-					relativePath += "_" + ID + "." + fileNames[j];
+		String fileSuffixName = fileNames[fileNames.length - 1].toLowerCase();
+		if (TypeNumber == 2) {
+			System.out.println("fileSuffixName :" + fileSuffixName);
+			if (!fileSuffixName.equals("docx") && !fileSuffixName.equals("doc")) {
+				return null;
+			}
+		}
+		if (TypeNumber == 3) {
+			if (fileSuffixName.equals("jpg") || fileSuffixName.equals("png") || fileSuffixName.equals("gif")) {
+				path = pe.getSystemPram("imgPath") + "\\";
+				for (int j = 0; j < fileNames.length; j++) {
+					if (fileNames.length - j > 1) {
+						path += fileNames[j];
+						relativePath += fileNames[j];
+					} else {
+						path += "_" + ID + "." + fileNames[j];
+						relativePath += "_" + ID + "." + fileNames[j];
+					}
 				}
-			}
-			File targetFile = new File(path);
-			if (!targetFile.exists()) {
-				targetFile.mkdirs();
-			}
+				File targetFile = new File(path);
+				if (!targetFile.exists()) {
+					targetFile.mkdirs();
+				}
 
-			try {
-				file.transferTo(targetFile);
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+				try {
+					file.transferTo(targetFile);
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				System.out.println("这里的path: " + path);
+			} else {
+				return null;
 			}
-			
-			System.out.println("这里的path: "+path);
 		} else {
 			path = pe.getSystemPram("filePath") + "\\";// 文件路径
 			cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\";// 缓存文件地址
@@ -195,7 +205,6 @@ public class FileOperateController {
 				e.printStackTrace();
 			}
 		}
-
 
 		System.out.println("fileName :" + fileName);
 		System.out.println("path :" + path);
@@ -285,28 +294,6 @@ public class FileOperateController {
 				}
 			}
 		}
-
-	/*	Map<String, Object> results = service.getFileDecryptPassword(ID);
-		if (results != null) {
-			String fileEncryptPath = service.getFilePath(ID);// 获取文件路径
-			if (fileEncryptPath.equals("nofile")) {
-				return "没有记录";
-			} else {
-				String pathPassword = results.get("pathPassword").toString();
-				String relativePath = fileEncryptservice.decryptPath(fileEncryptPath,pathPassword);
-				System.out.println("relativePath :"+relativePath);
-				PropertiesTool pt = new PropertiesTool();
-				String path = pt.getSystemPram("filePath") + "\\" + relativePath;
-				File file = new File(path);
-				if (!file.exists()) {
-					return "真实文件已被删除！";
-				} else {
-					return "OK";
-				}
-			}
-		} else {
-			return "无法解密,无法下载";
-		}*/
 	}
 
 	/***
@@ -351,43 +338,6 @@ public class FileOperateController {
 		    System.out.println("下载地址path :" + path);
 		    cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\" + filedisplay;
 			fileEncryptservice.decryptFile(path, cacheFilePath, ID);
-			if (request.getHeader("User-Agent").toLowerCase()
-					.indexOf("firefox") > 0) {// 火狐
-				filedisplay = JToolWeb.processFileName(request, filedisplay);
-			} else {
-				filedisplay = URLEncoder.encode(filedisplay, "UTF-8");
-			}
-			response.addHeader("Content-Disposition", "attachment;filename=" + filedisplay);
-			OutputStream outp = null;
-			FileInputStream in = null;
-			try {
-				outp = response.getOutputStream();
-				in = new FileInputStream(cacheFilePath);
-				byte[] b = new byte[1024];
-				int i = 0;
-				while ((i = in.read(b)) > 0) {
-					outp.write(b, 0, i);
-				}
-				outp.flush();
-				outp.close();
-		
-			} catch (Exception e) {
-				System.err.println("下载出错!");
-			} finally {
-
-				if (in != null) {
-					in.close();
-					in = null;
-				}
-				if (outp != null) {
-					outp.close();
-					outp = null;
-				}
-				File cacheFile = new File(cacheFilePath);
-				if(cacheFile.exists()){
-					cacheFile.delete();
-				}
-			}
 		}
 		if (request.getHeader("User-Agent").toLowerCase()
 				.indexOf("firefox") > 0) {// 火狐
@@ -410,6 +360,7 @@ public class FileOperateController {
 			outp.close();
 	
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.err.println("下载出错!");
 		} finally {
 

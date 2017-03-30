@@ -1,4 +1,5 @@
 package com.cqut.xiji.tool.word;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -933,6 +934,7 @@ public class WordProcess {
         Dispatch.put(font, "Size", 9);
         Dispatch.put(view, "SeekView", new Variant(0)); // wdSeekMainDocument-0恢复视图;
     }
+    
     /***
 	 * 获取word里面指定表格的内容
 	 * @param tableIndex 代表第几个表格
@@ -975,5 +977,52 @@ public class WordProcess {
 		}
 		moveStart();
         return wordTextLists;
+	}
+	
+	/**
+	 * 合并word
+	 * 
+	 */
+	public void comblineDocument(List<?> list, String outPath) {
+		ActiveXComponent app = new ActiveXComponent("Word.Application");// 启动word
+		try {
+			// 设置word不可见
+			app.setProperty("Visible", new Variant(false));
+			// 获得documents对象
+			Object docs = app.getProperty("Documents").toDispatch();
+			// 打开第一个文件
+			Object doc = Dispatch.invoke(
+					(Dispatch) docs,
+					"Open",
+					Dispatch.Method,
+					new Object[] { (String) list.get(0), new Variant(false),
+							new Variant(true) }, new int[3]).toDispatch();
+			// 追加文件
+			for (int i = 1; i < list.size(); i++) {
+				Dispatch.invoke(app.getProperty("Selection").toDispatch(),
+						"insertFile", Dispatch.Method, new Object[] {
+								(String) list.get(i), "", new Variant(false),
+								new Variant(false), new Variant(false) },
+						new int[3]);
+			}
+			// 保存新的word文件
+			Dispatch.invoke((Dispatch) doc, "SaveAs", Dispatch.Method,
+					new Object[] { outPath, new Variant(1) }, new int[3]);
+			Variant f = new Variant(false);
+			Dispatch.call((Dispatch) doc, "Close", f);
+		} catch (Exception e) {
+			throw new RuntimeException("合并word文件出错.原因:" + e);
+		} finally {
+			closeDocument();
+			app.invoke("Quit", new Variant[] {});
+		}
+		String filePath = "";
+		for (int j = 0, len = list.size(); j < len; j++) {
+			filePath = (String) list.get(j);
+			File file = new File(filePath);
+			if (file.exists()) {
+				file.delete();
+			}
+		}
 	}
 }

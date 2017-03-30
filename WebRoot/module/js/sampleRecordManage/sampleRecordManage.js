@@ -113,6 +113,61 @@
 function refresh(){
 	$('#table').bootstrapTable('refresh', null);
 }
+function addGetfactoryCode(){
+	var name = $('#add_factoryCode').val();
+	if (!name && typeof(name)!="undefined" && name=='') 
+	{
+		$(".employeeN3").hide();
+	}else {
+		var parame = {};
+		parame.employeeName = name;
+		
+		$.ajax({  
+		    url:'sampleRecordController/getFactoryCode.do',// 跳转到 action  
+		    type:'post',
+		    data:parame,
+		    dataType:'json',
+		    success:function(data){  
+		    	if (data) { 
+		    		var employee,length;
+		    		var myobj = JSON.parse(data);
+		    		var htmlElement = "";//定义HTML    
+		    		employee = $(".employeeN3");
+		    		if(myobj.length > 4){
+		    			length = 4;
+		    		}else{
+		    			length = myobj.length;
+		    		}
+		    		for(var i=0; i < length; i++){
+		    			htmlElement += "<ul><li value='" + myobj[i].factoryCode + "'>" + myobj[i].factoryCode + "</li></ul>";
+		    		}
+		    		
+		    		employee.show();
+		    		employee.empty();
+		    		employee.append(htmlElement);
+		    		addClickFactoryCode();
+			    }
+			}
+		});
+	}
+}
+function addClickFactoryCode(){ 
+	
+	
+	//给input赋值
+	$(".employeeN3 ul li").click(function(){
+		 var name =  $(this).attr("value");
+		 $("#add_factoryCode").val(name);
+		 $('#add_factoryCode').attr({'value' : "" + name + ""});
+		 $(".employeeN3").hide();
+	})
+
+	//隐藏提示框
+	$("#addContent").click(function(){
+		 $(".employeeN3").hide();
+	})
+}
+
 function addGetEMName(){
 	var name = $('#add_getMan').val();
 	if (!name && typeof(name)!="undefined" && name=='') 
