@@ -631,7 +631,7 @@ function displayChecked(equipmentInfo){
 	console.log(equipmentInfo);
 	
 	if(isSameID(equipmentInfo.value)){
-		html='<span class= "singleE" onclick="moveSingleE(this)" id ="'+equipmentInfo.value+'">'+equipmentInfo.text+'</span>';
+		html='<fieldset><legend align ="right">x</legend><span class= "singleE" onclick="moveSingleE(this)" id ="'+equipmentInfo.value+'">'+equipmentInfo.text+'</span></fieldset>';
 		$('#displayChecked').append(html);
 	}
 	else{
@@ -669,7 +669,7 @@ function matchEquipment(){
 		dataType : "json",
 		async : false,
 		data : {},
-		success :　function(o){
+		success :function(o){
 			date = JSON.parse(o);
 		},
 		error : function(){
