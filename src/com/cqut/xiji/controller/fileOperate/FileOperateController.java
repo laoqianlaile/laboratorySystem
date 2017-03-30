@@ -106,47 +106,51 @@ public class FileOperateController {
 			String filePath, String firstDirectory, String secondDirectory,
 			String thirdDirectory, int TypeNumber, String belongtoID,
 			String content, String remark) throws IOException {
-		String uploader = (String)req.getSession().getAttribute("EMPLOYEEID");//上传人
+		String uploader = (String) req.getSession().getAttribute("EMPLOYEEID");// 上传人
 		String ID = EntityIDFactory.createId();// 文件ID
 		String fileName = file.getOriginalFilename();// 获取文件全名
 		PropertiesTool pe = new PropertiesTool();
-		String path = ""; //实际文件存储路径
+		String path = ""; // 实际文件存储路径
 		String relativePath = "";// 文件的相对路径,加密后存入数据库
 		String[] fileNames = fileName.split("\\.");// 将文件名以\.分割成一个数组
-		String cacheFilePath ="";//缓存文件路径
+		String cacheFilePath = "";// 缓存文件路径
 		String directoryName = "";
-		String fileSuffixName = fileNames[fileNames.length-1].toLowerCase();
-		if(TypeNumber == 2 ){
-			System.out.println("fileSuffixName :"+fileSuffixName);
-			if(!fileSuffixName.equals("docx") && !fileSuffixName.equals("doc")){
+		String fileSuffixName = fileNames[fileNames.length - 1].toLowerCase();
+		if (TypeNumber == 2) {
+			System.out.println("fileSuffixName :" + fileSuffixName);
+			if (!fileSuffixName.equals("docx") && !fileSuffixName.equals("doc")) {
 				return null;
 			}
 		}
-		if (fileSuffixName.equals("jpg") || fileSuffixName.equals("png") || fileSuffixName.equals("gif")) {
-			path = pe.getSystemPram("imgPath") + "\\";
-			for (int j = 0; j < fileNames.length; j++) {
-				if (fileNames.length - j > 1) {
-					path += fileNames[j];
-					relativePath += fileNames[j];
-				} else {
-					path += "_" + ID + "." + fileNames[j];
-					relativePath += "_" + ID + "." + fileNames[j];
+		if (TypeNumber == 3) {
+			if (fileSuffixName.equals("jpg") || fileSuffixName.equals("png") || fileSuffixName.equals("gif")) {
+				path = pe.getSystemPram("imgPath") + "\\";
+				for (int j = 0; j < fileNames.length; j++) {
+					if (fileNames.length - j > 1) {
+						path += fileNames[j];
+						relativePath += fileNames[j];
+					} else {
+						path += "_" + ID + "." + fileNames[j];
+						relativePath += "_" + ID + "." + fileNames[j];
+					}
 				}
-			}
-			File targetFile = new File(path);
-			if (!targetFile.exists()) {
-				targetFile.mkdirs();
-			}
+				File targetFile = new File(path);
+				if (!targetFile.exists()) {
+					targetFile.mkdirs();
+				}
 
-			try {
-				file.transferTo(targetFile);
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+				try {
+					file.transferTo(targetFile);
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				System.out.println("这里的path: " + path);
+			} else {
+				return null;
 			}
-			
-			System.out.println("这里的path: "+path);
 		} else {
 			path = pe.getSystemPram("filePath") + "\\";// 文件路径
 			cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\";// 缓存文件地址
@@ -201,7 +205,6 @@ public class FileOperateController {
 				e.printStackTrace();
 			}
 		}
-
 
 		System.out.println("fileName :" + fileName);
 		System.out.println("path :" + path);

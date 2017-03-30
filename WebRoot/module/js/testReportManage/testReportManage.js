@@ -304,7 +304,7 @@ function recoatReport(fileIDs, IDs, taskIDs, projectIDs) {
 		traditional : true,
 		success : function(result) {
 			result = eval(result);
-			if (result == null && result == "null") {
+			if (result == null || result == "null" || result == "") {
 				alert("合并失败");
 			} else {
 				updateTestReportFileID(IDs, result);
@@ -345,12 +345,10 @@ function checkFile(o) {
 		var fileName = arr[arr.length - 1];
 		$("#fileName").html(fileName);
 	}
-	if (o.value.indexOf('.doc') < 0 || o.value.indexOf('.docx') < 0) {
+	if (o.value.indexOf('.doc') < 0 && o.value.indexOf('.docx') < 0) {
 		alert("不能将此类型文档作为检测报告上传");
 	}
 } 
-
-
 
 // 上传文件(覆盖上传)
 function uploadFile() {
@@ -365,12 +363,11 @@ function uploadFile() {
 				},
 			}).bind('fileuploaddone',function(e, data) {
 						var fileID = eval(data.result);
-						if (fileID != null && fileID != "null") {
-							var rows = $("#table").bootstrapTable(
-									'getSelections'), fileVersionNumber = $(
-									"#fileVersionNumber").val(), fileVersionInfo = $(
-									"#fileVersionNumber").val(), fileRemarks = $(
-									"#fileRemarks").val();
+						if (fileID != null && fileID != "null" && fileID != "") {
+							var rows = $("#table").bootstrapTable('getSelections'), 
+							    fileVersionNumber = $("#fileVersionNumber").val(), 
+							    fileVersionInfo = $("#fileVersionNumber").val(),
+							    fileRemarks = $("#fileRemarks").val();
 							$.post("testReportController/updateTestReport.do",
 									{
 										ID : rows[0].ID,
@@ -381,17 +378,18 @@ function uploadFile() {
 									}, function(result) {
 										reload();
 									});
+						} else {
+							alert("上传失败");
 						} 
 					});
 
-	// 文件上传前触发事件
+	// 文件上传前触发事件,如果需要额外添加参数可以在这里添加
 	$('#files').bind('fileuploadsubmit', function(e, data) {
 		data.formData = {
 			filePath : param.path,
 			TypeNumber : param.type,
 			belongtoID : param.taskID
 		}
-		// 如果需要额外添加参数可以在这里添加
 	});
 }
 	
@@ -413,10 +411,10 @@ function recover() {
 				$.post("fileOperateController/getFileDecryptPath.do", {
 					ID : rows[0].fileID
 				}, function(result) {
-					if (result == null || result == "null") {
+					result = JSON.parse(result);
+					if (result == null || result == "null" || result == "") {
 						alert("没有记录");
 					} else {
-						result = JSON.parse(result);
 						var path = result[0].path;
 						var i = path.lastIndexOf("\\");
 						path = path.substring(i + 1, length);
@@ -424,7 +422,7 @@ function recover() {
 							ID : rows[0].fileID
 						}, function(fileInfos) {
 							fileInfos = JSON.parse(fileInfos);
-							if (fileInfos != null && fileInfos != "null") {
+							if (fileInfos != null && fileInfos != "null" && fileInfos != "") {
 								$("#chooseFile").removeAttr("disabled");
 								$("#fileName").html("");
 								param.path = path;

@@ -139,7 +139,8 @@ function viewFile() {
 		$.post("fileOperateController/onlinePreview.do", {
 			ID : fileID
 		}, function(result) {
-			if (result != null && result != "null") {
+			result = eval(result);
+			if (result != null && result != "null" && result != "") {
 				window.location.href = "module/jsp/documentOnlineView.jsp";
 			} else {
 				alert("无法查看");
