@@ -227,7 +227,10 @@ function searchContract(){
 function refresh(){
 	window.location.href="module/jsp/contractManage/contractManage.jsp";
 }
-
+//新增成功后操作
+function refrehContractTable() {
+	$('#table').bootstrapTable('refresh', null);
+}
 /* 删除方法 */
 function delData(){
 	var data = $('#table').bootstrapTable('getSelections');
@@ -236,25 +239,38 @@ function delData(){
 		return;
 	}
 	var ID = "";
+	var message = "将要删除公司：";
 	for(var i=0; i<data.length; i++){
 		ID += "ID = '" + data[i].ID + "' or ";
+		message += data[i].companyName + " or ";
 	}
-	//swal(ID.substring(0, (ID.length-3)));
-	var ajaxParameter = {
-			ids:ID.substring(0, (ID.length-3))	
-	};
-	
-	$.ajax({
-	  url:'contractController/delContract.do',
-	  type:"post",
-	  data:ajaxParameter,
-	  success:function(o){
-		  if(o<=0){
-			  swal("删除失败");
+	if (confirm(message.substring(0, (message.length-3)))) {
+		var ajaxParameter = {
+				ids:ID.substring(0, (ID.length-3))	
+		};
+		
+		$.ajax({
+		  url:'contractController/delContract.do',
+		  type:"post",
+		  data:ajaxParameter,
+		  success:function(o){
+			  switch (o) {
+				case '1':swal("删除成功！");
+					refrehContractTable();
+					break;
+				case '0':swal("删除失败！");
+					break;
+				default:swal("出现未知错误，请重试！");
+					break;
+			  }
+		  },
+		  error : function() {
+			return false;
 		  }
-		  refresh();
-	  }
-	});
+		});
+	}else{
+		return;
+	}
 }
 
 /* 新增方法 */
@@ -266,7 +282,8 @@ function add(){
 		var address = $('#add_address').val();
 		var oppositeMen = $('#add_oppositeMen').val();
 		var linkPhone = $('#add_linkPhone').val();
-		var employeeName = $('#add_employeeName').attr("name");
+		var employeeName = $('#add_employeeName').val();
+		var employeeID = $('#add_employeeName').attr("name");
 		var signAddress = $('#add_signAddress').val();
 		var signTime = $('#add_signTime').val();
 		var startTime = $('#add_startTime').val();
@@ -351,6 +368,7 @@ function add(){
 			parame.companyName = companyName;
 			parame.oppositeMen = oppositeMen;
 			parame.linkPhone = linkPhone;
+			parame.employeeID = employeeID;
 			parame.employeeName = employeeName;
 			parame.address = address;
 			parame.signAddress = signAddress;
@@ -363,11 +381,24 @@ function add(){
 				  url:'contractController/addContract.do',
 				  data:parame,
 				  success:function(o){
-					  if(o<=0){
-						  swal("新增失败");
+					  switch (o) {
+					  	case '-2':swal("不存在该公司名的公司！");
+					  		break;
+					  	case '-4':swal("公司名与公司ID不相符！");
+				  			break;
+					  	case '-6':swal("不存在该员工！");
+				  			break;
+					  	case '-8':swal("员工名与员工ID不相符！");
+			  				break;
+						case '1':$('#addModal').modal('hide');
+							swal("新增成功！");
+							refrehContractTable();
+							break;
+						case '0':swal("新增失败！");
+							break;
+						default:
+							break;
 					  }
-					  $('#addModal').modal('hide');
-					  refresh();
 				  }
 			});
 		}
@@ -391,20 +422,22 @@ function addShowMsg(){
 		    data:parame,
 		    dataType:'json',
 		    success:function(data){  
-		    	if (data) { 
+		    	if (data) {
 		    		var company,length;
 		    		var myobj = JSON.parse(data);
 		    		var htmlElement = "";//定义HTML
 		    		company = $(".companyN");
 		    		if(myobj.length > 4){
 		    			length = 4;
+		    		}else if(myobj.length == 0){
+		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
 		    		}else{
 		    			length = myobj.length;
+		    			for(var i=0; i < length; i++){
+			    			htmlElement += "<ul><li id='" + myobj[i].mobilePhone +"' value='" + myobj[i].companyName + "' name='" + myobj[i].linkMan + "' title='" + myobj[i].address + "' class='" + myobj[i].ID + "'>" + myobj[i].companyName + "</li></ul>";
+			    		}
 		    		}
-		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li id='" + myobj[i].mobilePhone +"' value='" + myobj[i].companyName + "' name='" + myobj[i].linkMan + "' title='" + myobj[i].address + "' class='" + myobj[i].ID + "'>" + myobj[i].companyName + "</li></ul>";
-		    		}
-		    		 
+		    		
 		    		company.show();
 		    		company.empty();
 		    		company.append(htmlElement);
@@ -439,6 +472,8 @@ function addGetEName(){
 		    		employee = $(".employeeName");
 		    		if(myobj.length > 4){
 		    			length = 4;
+		    		}else if(myobj.length == 0){
+		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
 		    		}else{
 		    			length = myobj.length;
 		    		}
@@ -461,11 +496,26 @@ function addClick(){
 	//给input赋值
 	$(".companyN ul li").click(function(){
 		 var name = $(this).attr("value");
+		 if (name == null || name.trim() == "" || name == undefined) {
+			 name = "";
+			}
 		 $("#add_companyName").val(name);
 		 var ID =  $(this).attr("class");
 		 var mobilePhone =  $(this).attr("id");
 		 var linkMan =  $(this).attr("name");
 		 var address =  $(this).attr("title");
+		 if (ID == null || ID.trim() == "" || ID == undefined) {
+			 ID = "";
+			}
+		 if (mobilePhone == null || mobilePhone.trim() == "" || mobilePhone == undefined) {
+			 mobilePhone = "";
+			}
+		 if (linkMan == null || linkMan.trim() == "" || linkMan == undefined) {
+			 linkMan = "";
+			}
+		 if (address == null || address.trim() == "" || address == undefined) {
+			 address = "";
+			}
 		 $('#add_companyName').attr({'name' : "" + ID + ""});
 		 $('#add_companyName').attr({'value' : "" + name + ""});
 		 $("#add_oppositeMen").val(linkMan);
@@ -478,22 +528,28 @@ function addClick(){
 	})
 	
 	//隐藏提示框
-	$("#showContract").click(function(){
+	$(".row1").click(function(){
 		 $(".companyN").hide();
 	})
 	
 	//给input赋值
 	$(".employeeName ul li").click(function(){
 		 var name =  $(this).attr("value");
+		 if (name == null || name.trim() == "" || name == undefined) {
+			 name = "";
+			}
 		 $("#add_employeeName").val(name);
 		 var ID =  $(this).attr("class");
+		 if (ID == null || ID.trim() == "" || ID == undefined) {
+			 ID = "";
+			}
 		 $('#add_employeeName').attr({'name' : "" + ID + ""});
 		 $('#add_employeeName').attr({'value' : "" + name + ""});
 		 $(".employeeName").hide();
 	})
 
 	//隐藏提示框
-	$("#showContract").click(function(){
+	$(".row1").click(function(){
 		 $(".employeeName").hide();
 	})
 }

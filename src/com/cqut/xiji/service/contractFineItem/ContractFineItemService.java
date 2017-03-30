@@ -612,22 +612,41 @@ public class ContractFineItemService extends SearchService implements IContractF
 	}
 	
 	@Override
-	public int delContractFineItem(String itemID) {
+	public int delContractFineItem(String itemID,String contractID) {
 		// TODO Auto-generated method stub
 		if(itemID == null || itemID.isEmpty()){
 			return 0;
 		}
 		
-		String position = itemID;
+		String position = " ID = "+itemID;
 		int result = entityDao.deleteByCondition(position, ContractFineItem.class);
+		
+		if(result > 0){
+			updateContractAmount(contractID);
+		}
+		
 		return result;
 	}
 	
 	@Override
 	public int addContractFineItem(String fineItemCode, String testProjectID,
-			int isOutsourcing, int calculateType, int number, double price,
-			int hour, double money, String departmentID,
+			String testProjectName,int isOutsourcing, int calculateType, int number,
+			double price, int hour, double money, String departmentID,
 			String remarks, String contractID){
+		String[] properties1 = new String[] {"ID"};
+		String condition1 = " nameCn = '" + testProjectName + "'";
+		List<Map<String, Object>> result1 = entityDao.findByCondition(properties1, condition1, TestProject.class);
+		if(result1.isEmpty()){
+			System.out.println("不存在该检测项目");
+			return -2;
+		}else{
+			String testProjectID1 = result1.get(0).get("ID").toString();
+			if(!testProjectID1.equals(testProjectID)){
+				System.out.println("检测项目名与检测项目ID不相符");
+				return -4;
+			}
+		}
+		
 		ContractFineItem contractFineItem = new ContractFineItem();
 		String id = EntityIDFactory.createId();
 		contractFineItem.setID(id);
@@ -682,10 +701,23 @@ public class ContractFineItemService extends SearchService implements IContractF
 	
 	@Override
 	public int updContractFineItem(String ID, String fineItemCode,
-			String testProjectID, int isOutsourcing, int calculateType,
+			String testProjectID,String testProjectName, int isOutsourcing, int calculateType,
 			int number, double price, int hour, double money,
-			String departmentID, String remarks){
+			String departmentID, String remarks, String contractID){
 		// TODO Auto-generated method stub
+		String[] properties1 = new String[] {"ID"};
+		String condition1 = " nameCn = '" + testProjectName + "'";
+		List<Map<String, Object>> result1 = entityDao.findByCondition(properties1, condition1, TestProject.class);
+		if(result1.isEmpty()){
+			System.out.println("不存在该检测项目");
+			return -2;
+		}else{
+			String testProjectID1 = result1.get(0).get("ID").toString();
+			if(!testProjectID1.equals(testProjectID)){
+				System.out.println("检测项目名与检测项目ID不相符");
+				return -4;
+			}
+		}
 		ContractFineItem contractFineItem = entityDao.getByID(ID, ContractFineItem.class);
 		contractFineItem.setID(ID);
 		contractFineItem.setFineItemCode(fineItemCode);
@@ -700,6 +732,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 		contractFineItem.setRemarks(remarks);
 				
 		int results = entityDao.updatePropByID(contractFineItem,ID);
+		updateContractAmount(contractID);
 		return results;
 	}
 
