@@ -219,6 +219,14 @@ public class SampleRecordService extends SearchService implements
 
 		return result + "" + result1 + "";
 	}
+	@Override
+	public List<Map<String, Object>> getFactoryCode(String factoryCode) {
+		String[] properties = new String[] {"factoryCode"};
+		String condition = "factoryCode like '%" + factoryCode + "%'";
+		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Sample.class);
+		return result;
+	}
+
 
 	/**
 	 * 字符串转换成日期
