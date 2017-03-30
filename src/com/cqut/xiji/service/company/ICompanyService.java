@@ -23,7 +23,7 @@ public interface ICompanyService {
 			String CONTACTPHONE, String TELEPHONE, String ADDRESS,
 			String SCOPE, String CREATTIMES, String REMARKES);
 
-	public List<Map<String, Object>> getCompanyMsg();
+	public List<Map<String, Object>> getCompanyMsg(String companyName);
 
 	public List<Map<String, Object>> getCompanyName(String companyName);
    /**

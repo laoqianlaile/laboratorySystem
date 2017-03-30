@@ -213,22 +213,24 @@ public class ContractFineItemController{
 	
 	@RequestMapping("/addContractFineItem")  
     @ResponseBody
-	public int addContractFineItem(String fineItemCode, String testProjectID, int isOutsourcing,int calculateType, int number, double price, int hour, double money,  String departmentID, String remarks, String contractID){
-		int results = service.addContractFineItem(fineItemCode, testProjectID, isOutsourcing, calculateType, number, price, hour, money,departmentID, remarks, contractID);
+	public int addContractFineItem(String fineItemCode, String testProjectID, String testProjectName,
+			int isOutsourcing, int calculateType, int number, double price, int hour, double money,
+			String departmentID,String remarks, String contractID){
+		int results = service.addContractFineItem(fineItemCode, testProjectID,testProjectName, isOutsourcing, calculateType, number, price, hour, money,departmentID, remarks, contractID);
 		return results;
 	}
 	
 	@RequestMapping("/delContractFineItem")  
     @ResponseBody
-	public int delContractFineItem(String itemID){
-		int result = service.delContractFineItem(itemID);
+	public int delContractFineItem(String itemID,String contractID){
+		int result = service.delContractFineItem(itemID,contractID);
 		return result;
 	}
 	
 	@RequestMapping("/updContractFineItem")  
     @ResponseBody
-	public int updContractFineItem(String ID, String fineItemCode, String testProjectID, int isOutsourcing,int calculateType, int number, double price, int hour, double money,  String departmentID, String remarks){
-		int results = service.updContractFineItem(ID, fineItemCode, testProjectID, isOutsourcing, calculateType, number, price, hour, money,departmentID, remarks);
+	public int updContractFineItem(String ID, String fineItemCode, String testProjectID,String testProjectName, int isOutsourcing,int calculateType, int number, double price, int hour, double money,  String departmentID, String remarks, String contractID){
+		int results = service.updContractFineItem(ID, fineItemCode, testProjectID, testProjectName, isOutsourcing, calculateType, number, price, hour, money,departmentID, remarks, contractID);
 		return results;
 	}
 	

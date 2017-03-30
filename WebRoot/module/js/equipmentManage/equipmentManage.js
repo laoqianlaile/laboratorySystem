@@ -149,7 +149,7 @@ function initData(){
 				row.factoryCode + '\',\'' + row.equipmentName + '\',\'' + row.equipmentTypeID + '\',\'' + row.model +
 				'\',\'' + row.departmentID + '\',\'' + row.buyTime + '\',\'' + row.useYear + '\',\'' + row.credentials +
 				'\',\'' + row.effectiveTime + '\',\'' + row.remarks + '\')"'+ ' title="编辑设备" style="cursor:pointer;padding-right:8px;"></img>';
-                 var b = "<img src ='module/img/delete_icon.png' onclick='delData(\""+ row.ID +"\")' title='删除设备' style='cursor:pointer;padding-right:8px;'></img>";
+                 var b = "<img src ='module/img/delete_icon.png' onclick='delData(\""+ row.ID +"\",\"" + row.equipmentName +"\")' title='删除设备' style='cursor:pointer;padding-right:8px;'></img>";
                  return a+b;
                  }
           }]//列配置项,详情请查看 列参数 表格
@@ -236,27 +236,29 @@ function refresh(){
 }
 
 /* 删除方法 */
-function delData(id){
+function delData(id,equipmentName){
 	//swal("已经删除!", "该条数据被删除", "success");
 	//swal(swal({   title: "确认删除?",   text: "你会失去这条数据!",   type: "warning",   showCancelButton: true,   confirmButtonColor: "#DD6B55",   confirmButtonText: "删除",   closeOnConfirm: false }, function(){   swal("已经删除!", "该条数据被删除", "success"); }));	
-	
-	return;
-	var Ids = "ID = '" + id + "'";
-	var ajaxParameter = {
-			equipmentIds:Ids	
-	};
-	
-	$.ajax({
-	  url:'equipmentController/delEquipment.do',
-	  type:"post",
-	  data:ajaxParameter,
-	  success:function(o){
-		  if(o<=0){
-			  swal("删除失败");
+	if (confirm("确认删除：" + equipmentName)) {
+		var Ids = "ID = '" + id + "'";
+		var ajaxParameter = {
+				equipmentIds:Ids	
+		};
+		
+		$.ajax({
+		  url:'equipmentController/delEquipment.do',
+		  type:"post",
+		  data:ajaxParameter,
+		  success:function(o){
+			  if(o<=0){
+				  swal("删除失败");
+			  }
+			  refresh();
 		  }
-		  refresh();
-	  }
-	});
+		});
+	}else{
+		return;
+	}
 }
 
 /**
