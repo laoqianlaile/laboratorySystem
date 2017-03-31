@@ -208,16 +208,10 @@ $(function() {
 function addRe() {
 	var data = $('#table').bootstrapTable('getSelections');
 	if (data.length == 0 || data.length > 1) {
-		chen.alert("请选中一条数据");
+		sweetAlert("请选中一条数据");
 		return;
 	}
-	if(data[0].coState >= 4 ){
-		;
-		//alert(data[0].coState +" 表示已经审核通过了")
-	}else{
-		;
-		//alert(data[0].coState +" 表示没有审核通过了")
-	}
+
 	var result = initAddReceiptlist(data[0],"yes");  //创建交接单跳转
 	window.location.href = "./addRecelist.jsp?reID="
 		    +result.reID+"&coID=" 
@@ -243,7 +237,7 @@ function initAddReceiptlist(data,state) {
 					 console.log(result);
 				},
 				error : function() {
-					chen.alert(" 创建交接单失败 ");
+					sweetAlert(""," 创建交接单失败 ","error");
 				}
           });
           return result;
@@ -251,12 +245,26 @@ function initAddReceiptlist(data,state) {
 // 无合同新增--接受类交接单
 function addReNo() {
 	// 在这里创建新的合同
-	var result = initAddReceiptlist({},"no");  //创建交接单跳转
-	window.location.href = "./addRecelist.jsp?reID="
-			+result.reID+"&coID=" 
-			+ result.coID + "&comID="
-			+ "" + "&coCode=" + result.coCode
-			+ "&state=no&reCode=" + result.reCode+"&proID="+result.proID;
+	sweetAlert({
+		  title: "Are you sure?",
+		  text: "确认无合同新增!",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "是",
+		  cancelButtonText: "否"
+		
+		}, function(isConfirm){
+		        if(isConfirm){
+		        	var result = initAddReceiptlist({},"no");  //创建交接单跳转
+		        	window.location.href = "./addRecelist.jsp?reID="
+		        			+result.reID+"&coID=" 
+		        			+ result.coID + "&comID="
+		        			+ "" + "&coCode=" + result.coCode
+		        			+ "&state=no&reCode=" + result.reCode+"&proID="+result.proID;
+		        }
+		});
+	
 }
 
 
@@ -264,11 +272,11 @@ function addReNo() {
 function returnSample() {
 	var data = $('#table').bootstrapTable('getSelections');
 	if (data.length == 0 || data.length > 1) {
-		chen.alert("请选中一条数据");
+		sweetAlert("请选中一条数据");
 		return;
 	}
 	if(data[0].comID == null || data[0].comID == ""){
-		chen.alert("此时你还没有样品可以退");
+		sweetAlert("此时你还没有样品可以退");
 	}
 	var result = initAddReceiptlist(data[0],"return");
 	window.location.href = "./receiptlistReturn.jsp?reID="+result.reID
@@ -342,11 +350,30 @@ function refresh() {
 
 /* 删除交接单方法 */
 function deleteRe() {
-	var isDelete = confirm("确认删除");
+
+	sweetAlert({
+		  title: "Are you sure?",
+		  text: "确认删除!",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "是",
+		  cancelButtonText: "否"
+		
+		}, function(isConfirm){
+		        if(isConfirm){
+		        	deleteRe_ok();
+		        }
+		});
+	
+
+}
+//删除交接单
+function deleteRe_ok(){
 	var data = $('#table').bootstrapTable('getSelections');
 
 	if (data.length == 0 ) {
-		chen.alert("请至少选择一条数据");
+		sweetAlert("请至少选择一条数据");
 		return;
 	}
    var ids = "";
@@ -365,9 +392,9 @@ function deleteRe() {
 	   ids = ids.substring(0 , ids.length-1);
    }
    else{
-	   alert("没有任何的交接单可以删除");
+	   sweetAlert("没有任何的交接单可以删除");
    }
-	if (isDelete == true) {
+
 		$.ajax({
 			url : '/laboratorySystem/receiptlistController/delReceiptlist.do',
 			dataType : "json",
@@ -376,19 +403,22 @@ function deleteRe() {
 			},
 			success : function(o) {
 				if (o == false) {
-					chen.alert("删除失败");
+					sweetAlert("","删除失败","error");
 				} else {
-					chen.alert("删除成功",1000);
+					sweetAlert({
+						title:"删除成功",
+						type:"success",
+						timer:100
+						});
+					}
 					$('#table').bootstrapTable('refresh',null);
 				}
 				
-			}
+		
 		});
 
-	}
-
+	
 }
-
 //下载交接单文件 
 function downloadReFile(reID ,coID,proID){
 	var fileID = "";
@@ -406,7 +436,7 @@ function downloadReFile(reID ,coID,proID){
 		success : function(o) {
 		
 			if (o == "false") {
-				chen.alert("还没有交接单文件模板");
+				sweetAlert("还没有交接单文件模板");
 			} else {
 				
 				fileID = o;

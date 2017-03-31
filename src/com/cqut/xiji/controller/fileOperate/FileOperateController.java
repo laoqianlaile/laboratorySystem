@@ -330,10 +330,7 @@ public class FileOperateController {
 			String pathpassword = results.get("pathPassword").toString();
 			String relativePath = fileEncryptservice.decryptPath(filePath, pathpassword);
 			System.out.println("relativePath :" + relativePath);
-			int length = relativePath.length();
-			int x = relativePath.lastIndexOf("\\");
-			x++;
-		    filedisplay = relativePath.substring(x, length);// "给用户提供的下载文件名";
+		    filedisplay = fileName;// "给用户提供的下载文件名";
 		    String path = pe.getSystemPram("filePath") + "\\" + relativePath;
 		    System.out.println("下载地址path :" + path);
 		    cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\" + filedisplay;
@@ -477,77 +474,6 @@ public class FileOperateController {
 				}
 			}
 		}
-		/*response.reset();// 可以加也可以不加,注意加了之后tomcate需要配置UTF-8否则乱码
-		response.setContentType("application/x-download");
-		List<Map<String, Object>> list = service.getFilesInfo(IDs);
-		ZipOutputStream zos = null;
-		ServletOutputStream sos = null;
-		try {
-			response.reset();
-			response.setContentType("application/x-msdownload"); // 通知客户文件的MIME类型,因为部分浏览器文件名中文或文字过多会乱码，故用方法转化文件名
-			String filename = JToolWeb.processFileName(request, "下载文件.zip");
-			response.setHeader("Content-disposition", "attachment;filename="
-					+ filename);
-			sos = response.getOutputStream();
-			zos = new ZipOutputStream(sos);
-
-			ZipEntry ze = null;
-			byte[] buf = new byte[2048]; // 输出文件用的字节数组,每次发送2048个字节到输出流：
-			int readLength = 0;
-			String relativeFilePath = "", password = "", fileTurePath = "", FileName = "";
-			PropertiesTool pe = new PropertiesTool();
-		    String path = "";
-		    String cacheFilePath = "";
-		    String ID = "";
-			for (int i = 0; i < list.size(); i++) {
-				ID = list.get(i).get("ID").toString();
-				
-				relativeFilePath = list.get(i).get("path").toString(); // list为存放路径的数组
-
-				password = list.get(i).get("pathPassword").toString();
-				
-				fileTurePath = fileEncryptservice.decryptPath(relativeFilePath,password); // 循环可以得到路径和文件名
-
-				FileName = list.get(i).get("fileName").toString();
-							
-				path = pe.getSystemPram("filePath") + "\\";
-				
-				cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\"+FileName ;
-				
-				
-				path += fileTurePath;
-				
-				fileEncryptservice.decryptFile(path, cacheFilePath, ID);
-			    
-				System.out.println("多文件下载时path: "+path);
-				System.out.println("多文件下载cacheFilePath :"+cacheFilePath);
-				
-				File f = new File(cacheFilePath);
-				if (!f.exists()) {
-					continue;
-				}
-				ze = new ZipEntry(FileName);
-				ze.setSize(f.length());
-				ze.setTime(f.lastModified());
-				zos.putNextEntry(ze);
-				InputStream is = new BufferedInputStream(new FileInputStream(f));
-				while ((readLength = is.read(buf, 0, 2048)) != -1) {
-					zos.write(buf, 0, readLength);
-				}
-				is.close();
-			}
-		} catch (Exception ex) {
-			System.out.println("Error download:" + ex.toString());
-		} finally {
-			if (zos != null) {
-				try {
-					zos.close();
-				} catch (Exception ex) {
-					System.out.println("Error download:" + ex.toString());
-				}
-			}
-		}
-		return "true";*/ 
 		return "true";
 	}
 

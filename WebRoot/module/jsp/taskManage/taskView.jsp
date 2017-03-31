@@ -85,16 +85,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 		<div class="sampleInfo">
 			<div class="row">
-				<div class="col-xs-6 col-md-6 col-lg-6">
-					<div class="col-xs-6 col-md-6 col-lg-6">
+				<div class="col-xs-5 col-md-5 col-lg-5">
+					<div class="col-xs-5 col-md-5 col-lg-5 sampleInfo" >
 						<label>样品管理员:</label> <span name="sampleManage" id="sampleManage"></span>
 					</div>
-					<div class="col-xs-6 col-md-6 col-lg-6">
+					<div class="col-xs-7 col-md-7 col-lg-7">
 						<label>接收时间:</label> <span name="sampleCreateTime"
 							id="sampleCreateTime"></span>
 					</div>
 				</div>
-				<div class="col-xs-6 col-md-6 col-lg-6 buttonGroup">
+				<div class="col-xs-7 col-md-7 col-lg-7 buttonGroup">
 					<button type="button" class="btn btn-primary"
 						onclick="equipmentRegister()">
 						<span class="glyphicon glyphicon-edit"></span> 设备登记
