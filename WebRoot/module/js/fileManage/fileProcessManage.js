@@ -139,7 +139,7 @@ function viewFile() {
 		$.post("fileOperateController/onlinePreview.do", {
 			ID : fileID
 		}, function(result) {
-			result = eval(result);
+			result = JSON.parse(result);
 			if (result != null && result != "null" && result != "") {
 				window.location.href = "module/jsp/documentOnlineView.jsp";
 			} else {

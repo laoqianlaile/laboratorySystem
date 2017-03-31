@@ -135,7 +135,7 @@ function uploadImage(selectorName) {
 			});
 		},
 	}).bind('fileuploaddone', function(e, data) {
-		var fileID = eval(data.result);
+		var fileID = JSON.parse(data.result);
 		if (fileID != null && fileID != "null" && fileID != "") {
 			$.post("employeeController/addSignatrueAndStamp.do", {
 				fileID : fileID,
@@ -274,7 +274,7 @@ function thirdAuditPassSure(){
 										fileName : fileName
 									},
 									function(result) {
-										result = eval(result);
+										result = JSON.parse(result);
 										$.post("messageNoticeController/addReportAuditMessageNotice.do",
 														{
 															messageID : result,
@@ -338,7 +338,7 @@ function thirdAuditRejectSure() {
 											fileName : fileName
 										},
 										function(result) {
-											resutl = eval(result);
+											resutl = JSON.parse(result);
 											$.post("messageNoticeController/addReportAuditMessageNotice.do",
 															{
 																messageID : result,
