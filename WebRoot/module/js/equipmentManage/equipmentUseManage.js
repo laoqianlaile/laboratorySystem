@@ -36,7 +36,12 @@ function initData(){
 			param.endTime = $.trim($('#schEndTime').val());
 			return param;
 		}, //参数
+		queryParamsType: "limit", 
 		selectItemName : '',// radio or checkbox 的字段名
+		onLoadSuccess : function(data) {
+			checkDate(data,"con");
+			console.log(data);
+		},
 		columns : [/* {
 			checkbox : true,
 			width :'3%'// 宽度
@@ -146,6 +151,57 @@ function initData(){
 	});
 }
 
+//检查合同数据、合同文件数据和合同细项是否合理
+function checkDate(data, who) {
+	if (who == "con"){
+		chenkDataCon(data);
+	}
+}
+//检查仪器使用数据是否合理并处理
+function chenkDataCon(dataObj) { // 后台数据字段为空就不会传上来
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null || dataObj.ID == undefined || dataObj.ID.trim() == "") {
+		dataObj.ID = "";
+	}
+	if (!dataObj.hasOwnProperty("equipmentID") || dataObj.equipmentID == null || dataObj.equipmentID == undefined || dataObj.equipmentID.trim() == "") {
+		dataObj.equipmentID = "";
+	}
+	if (!dataObj.hasOwnProperty("equipmentFactoryCode") || dataObj.equipmentFactoryCode == null || dataObj.equipmentFactoryCode == undefined || dataObj.equipmentFactoryCode.trim() == "") {
+		  dataObj.equipmentFactoryCode = "";
+	}
+	if (!dataObj.hasOwnProperty("equipmentName") || dataObj.equipmentName == null || dataObj.equipmentName == undefined || dataObj.equipmentName.trim() == "") {
+		dataObj.equipmentName = "";
+	}
+	if (!dataObj.hasOwnProperty("testProjectID") || dataObj.testProjectID == null || dataObj.testProjectID == undefined || dataObj.testProjectID.trim() == "") {
+		dataObj.testProjectID = "";
+	}
+	if (!dataObj.hasOwnProperty("nameCn") || dataObj.nameCn == null || dataObj.nameCn == undefined || dataObj.nameCn.trim() == "") {
+		dataObj.nameCn = "";
+	}
+	if (!dataObj.hasOwnProperty("sampleID") || dataObj.sampleID == null || dataObj.sampleID == undefined || dataObj.sampleID.trim() == "") {
+		dataObj.sampleID = "";
+	}
+	if (!dataObj.hasOwnProperty("departmentName") || dataObj.departmentName == null || dataObj.departmentName == undefined  || dataObj.departmentName.trim() == "") {
+		dataObj.departmentName = "";
+	}
+	if (!dataObj.hasOwnProperty("sampleName") || dataObj.sampleName == null || dataObj.sampleName == undefined || dataObj.sampleName.trim() == "") {
+		dataObj.sampleName = "";
+	}
+	if (!dataObj.hasOwnProperty("factoryCode") || dataObj.factoryCode == null || dataObj.factoryCode == undefined || dataObj.factoryCode.trim() == "") {
+		  dataObj.factoryCode = "";
+	}
+	if (!dataObj.hasOwnProperty("applyTime") || dataObj.applyTime == null || dataObj.applyTime == undefined || dataObj.applyTime.trim() == "") {
+		dataObj.applyTime = "";
+	}
+	if (!dataObj.hasOwnProperty("application") || dataObj.application == null || dataObj.application == undefined || dataObj.application.trim() == "") {
+		dataObj.application = "";
+	}
+	if (!dataObj.hasOwnProperty("employeeName") || dataObj.employeeName == null || dataObj.employeeName == undefined || dataObj.employeeName.trim() == "") {
+		dataObj.employeeName = "";
+	}
+	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null || dataObj.remarks == undefined || dataObj.remarks.trim() == "") {
+		dataObj.remarks = "";
+	}
+}
 /*//请求数据时的额外参数
 function queryParams(){
 	var searchCondition = {

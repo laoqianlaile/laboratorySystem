@@ -35,7 +35,12 @@ function initData(){
 		selectItemName : '',// radio or checkbox 的字段名
 		columns : [ {
 			checkbox : true,
-			width :'5%'// 宽度
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width :'5%',// 宽度
+			formatter : function(value, row, index) {
+				checkData(row);	 //验证数据合理性					
+			}
 		},{
 			field:'ID',//返回值名称
 			title:'设备类型ID',//列名
@@ -71,6 +76,25 @@ function initData(){
 		}]//列配置项,详情请查看 列参数 表格
 		/*事件*/
 	});
+}
+
+//检查仪器类型数据是否合理并处理
+function checkData(dataObj) { // 后台数据字段为空就不会传上来
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null || dataObj.ID == undefined || dataObj.ID.trim() == "") {
+		dataObj.ID = "";
+	}
+	if (!dataObj.hasOwnProperty("name") || dataObj.name == null || dataObj.name == undefined || dataObj.name.trim() == "") {
+		dataObj.name = "";
+	}
+	if (!dataObj.hasOwnProperty("factoryCode") || dataObj.factoryCode == null || dataObj.factoryCode == undefined || dataObj.factoryCode.trim() == "") {
+		  dataObj.factoryCode = "";
+	}
+	if (!dataObj.hasOwnProperty("createTime") || dataObj.createTime == null || dataObj.createTime == undefined || dataObj.createTime.trim() == "") {
+		dataObj.createTime = "";
+	}
+	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null || dataObj.remarks == undefined || dataObj.remarks.trim() == "") {
+		dataObj.remarks = "";
+	}
 }
 
 /*//请求数据时的额外参数

@@ -437,7 +437,6 @@ function checkDate(data, who) {
 }
 //检查合同文件数据是否合理
 function chenkDataCon(dataObj) { // 后台数据字段为空就不会传上来
-	swal("12");
 	if (!dataObj.hasOwnProperty("contractCode") || dataObj.contractCode == null || dataObj.contractCode == undefined ) {
 		dataObj.contractCode = ""; //没有合同文件
 	}
