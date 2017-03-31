@@ -26,7 +26,7 @@
 <script src="../../js/bootstrap-datetimepicker.fr.js"></script>
 <script src="../../js/fileManage/fileManage.js" type="text/javascript"></script>
 <script src="../../js/sweetalert.min.js"></script>
-<script src="../../js/alert.js"></script>
+
 
 
 </head>

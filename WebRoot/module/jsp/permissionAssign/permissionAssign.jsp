@@ -42,6 +42,6 @@
 <script src="module/js/permissionAssign/permissionAssign.js"></script>
 <script src="assets/js/autoPage.js"></script>
 <script src="module/js/sweetalert.min.js"></script>
-<script src="module/js/alert.js"></script>
+
 </body>
 </html>

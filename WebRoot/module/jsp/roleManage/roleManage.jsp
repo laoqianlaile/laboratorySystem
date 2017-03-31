@@ -36,7 +36,7 @@
 <script src="module/js/bootstrap-table-zh-CN.js"></script>
 <script src="assets/js/autoPage.js"></script>
 <script src="module/js/sweetalert.min.js"></script>
-<script src="module/js/alert.js"></script>
+
 
 <style type="text/css">
 .input-group {

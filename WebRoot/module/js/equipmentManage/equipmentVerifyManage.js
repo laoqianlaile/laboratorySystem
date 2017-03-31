@@ -38,7 +38,12 @@ function initData(){
 		selectItemName : '',// radio or checkbox 的字段名
 		columns : [ {
 			checkbox : true,
-			width :5// 宽度
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width :'3%',// 宽度
+			formatter : function(value, row, index) {
+				checkData(row);	 //验证数据合理性					
+			}
 		},{
 			field:'ID',//返回值名称
 			title:'仪器设备检验记录ID',//列名
@@ -128,6 +133,49 @@ function initData(){
 	});
 	showSth();
 	editSth();
+}
+
+//检查仪器检验数据是否合理并处理
+function checkData(dataObj) { // 后台数据字段为空就不会传上来
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null || dataObj.ID == undefined || dataObj.ID.trim() == "") {
+		dataObj.ID = "";
+	}
+	if (!dataObj.hasOwnProperty("equipmentID") || dataObj.equipmentID == null || dataObj.equipmentID == undefined || dataObj.equipmentID.trim() == "") {
+		dataObj.equipmentID = "";
+	}
+	if (!dataObj.hasOwnProperty("factoryCode") || dataObj.factoryCode == null || dataObj.factoryCode == undefined || dataObj.factoryCode.trim() == "") {
+		  dataObj.factoryCode = "";
+	}
+	if (!dataObj.hasOwnProperty("equipmentName") || dataObj.equipmentName == null || dataObj.equipmentName == undefined || dataObj.equipmentName.trim() == "") {
+		dataObj.equipmentName = "";
+	}
+	if (!dataObj.hasOwnProperty("testProjectID") || dataObj.testProjectID == null || dataObj.testProjectID == undefined || dataObj.testProjectID.trim() == "") {
+		dataObj.testProjectID = "";
+	}
+	if (!dataObj.hasOwnProperty("nameCn") || dataObj.nameCn == null || dataObj.nameCn == undefined || dataObj.nameCn.trim() == "") {
+		dataObj.nameCn = "";
+	}
+	if (!dataObj.hasOwnProperty("departmentID") || dataObj.departmentID == null || dataObj.departmentID == undefined || dataObj.departmentID.trim() == "") {
+		dataObj.departmentID = "";
+	}
+	if (!dataObj.hasOwnProperty("departmentName") || dataObj.departmentName == null || dataObj.departmentName == undefined  || dataObj.departmentName.trim() == "") {
+		dataObj.departmentName = "";
+	}
+	if (!dataObj.hasOwnProperty("accuracy") || dataObj.accuracy == null || dataObj.accuracy == undefined || dataObj.accuracy.trim() == "") {
+		dataObj.accuracy = "";
+	}
+	if (!dataObj.hasOwnProperty("result") || dataObj.result == null || dataObj.result == undefined || dataObj.result.trim() == "") {
+		dataObj.result = "";
+	}
+	if (!dataObj.hasOwnProperty("employeeID") || dataObj.employeeID == null || dataObj.employeeID == undefined || dataObj.employeeID.trim() == "") {
+		dataObj.employeeID = "";
+	}
+	if (!dataObj.hasOwnProperty("employeeName") || dataObj.employeeName == null || dataObj.employeeName == undefined || dataObj.employeeName.trim() == "") {
+		dataObj.employeeName = "";
+	}
+	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null || dataObj.remarks == undefined || dataObj.remarks.trim() == "") {
+		dataObj.remarks = "";
+	}
 }
 
 /*//请求数据时的额外参数

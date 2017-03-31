@@ -37,7 +37,12 @@ function initData(){
 		selectItemName : '',// radio or checkbox 的字段名
 		columns : [ {
 			checkbox : true,
-			width :'3%'// 宽度
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width :'3%',// 宽度
+			formatter : function(value, row, index) {
+				 checkData(row);	 //验证数据合理性					
+		    }
 		},{
 			field:'ID',//返回值名称
 			title:'仪器设备维修记录ID',//列名
@@ -129,6 +134,52 @@ function initData(){
 		}]//列配置项,详情请查看 列参数 表格
 		/*事件*/
 	});
+}
+
+//检查仪器维修数据是否合理并处理
+function checkData(dataObj) { // 后台数据字段为空就不会传上来
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null || dataObj.ID == undefined || dataObj.ID.trim() == "") {
+		dataObj.ID = "";
+	}
+	if (!dataObj.hasOwnProperty("equipmentID") || dataObj.equipmentID == null || dataObj.equipmentID == undefined || dataObj.equipmentID.trim() == "") {
+		dataObj.equipmentID = "";
+	}
+	if (!dataObj.hasOwnProperty("factoryCode") || dataObj.factoryCode == null || dataObj.factoryCode == undefined || dataObj.factoryCode.trim() == "") {
+		  dataObj.factoryCode = "";
+	}
+	if (!dataObj.hasOwnProperty("equipmentName") || dataObj.equipmentName == null || dataObj.equipmentName == undefined || dataObj.equipmentName.trim() == "") {
+		dataObj.equipmentName = "";
+	}
+	if (!dataObj.hasOwnProperty("useYear") || dataObj.useYear == null || dataObj.useYear == undefined) {
+		 dataObj.useYear = "";
+	}
+	if (!dataObj.hasOwnProperty("beforeStatus") || dataObj.beforeStatus == null || dataObj.beforeStatus == undefined || dataObj.beforeStatus.trim() == "") {
+		dataObj.beforeStatus = ""; //能编辑
+	}
+	if (!dataObj.hasOwnProperty("model") || dataObj.model == null || dataObj.model == undefined || dataObj.model.trim() == "") {
+		dataObj.model = "";
+	}
+	if (!dataObj.hasOwnProperty("afterStatus") || dataObj.afterStatus == null || dataObj.afterStatus == undefined || dataObj.afterStatus.trim() == "") {
+		dataObj.afterStatus = "";
+	}
+	if (!dataObj.hasOwnProperty("mounting") || dataObj.mounting == null || dataObj.mounting == undefined  || dataObj.mounting.trim() == "") {
+		dataObj.mounting = "";
+	}
+	if (!dataObj.hasOwnProperty("repairTime") || dataObj.repairTime == null || dataObj.repairTime == undefined || dataObj.repairTime.trim() == "") {
+		dataObj.repairTime = "";
+	}
+	if (!dataObj.hasOwnProperty("money") || dataObj.money == null || dataObj.money == undefined) {
+		dataObj.money = "";
+	}
+	if (!dataObj.hasOwnProperty("employeeID") || dataObj.employeeID == null || dataObj.employeeID == undefined || dataObj.employeeID.trim() == "") {
+		dataObj.employeeID = "";
+	}
+	if (!dataObj.hasOwnProperty("employeeName") || dataObj.employeeName == null || dataObj.employeeName == undefined || dataObj.employeeName.trim() == "") {
+		dataObj.employeeName = "";
+	}
+	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null || dataObj.remarks == undefined || dataObj.remarks.trim() == "") {
+		dataObj.remarks = "";
+	}
 }
 
 /*//请求数据时的额外参数
@@ -490,7 +541,6 @@ function add(){
 	}
 	if (!remarks || typeof(remarks) == "undefined" || remarks.trim() == "") 
 	{ 
-		swal("备注为空！");
 		remarks = "";
 	}
 	
@@ -604,7 +654,6 @@ function edit(){
 		}
 		if (!remarks || typeof(remarks) == "undefined" || remarks.trim() == "") 
 		{ 
-			swal("备注为空！");
 			remarks = "";
 		}
 		
