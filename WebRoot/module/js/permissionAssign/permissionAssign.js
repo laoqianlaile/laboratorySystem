@@ -130,7 +130,7 @@ function getModuleIDByRoleID(roleID){
 			console.log(moduleIDs);
 		},
 		error : function() {
-			chen.alert(" 没有权限 ");
+			sweetAlert(" 没有权限 ");
 			return false;
 		}
 	});
@@ -151,7 +151,7 @@ function initModuleTree(){
 				var thisParentId = node.parentId;
 				var total = "";
 				if(permission_global.roleID == "" ||  permission_global.roleID == null){
-					chen.alert("请先选择角色");
+					sweetAlert("请先选择角色");
 				} 
 				else if(node.id == undefined || node.id == ""){ //是头节点
 					 $('#treeModule').treeview('checkAll', { silent: false });
@@ -206,7 +206,7 @@ function initModuleTree(){
 					var thisParentId = node.parentId;
 					var total = ""; //最后一个节点才用
 					if(permission_global.roleID == "" ||  permission_global.roleID == null){
-						chen.alert("请先选择角色");
+						sweetAlert("请先选择角色");
 					} else	if(node.id == undefined || node.id == ""){ //所有节点
 						
 					
@@ -278,7 +278,7 @@ function addPermission(roleID,moduleID){
 			moduleIDs = JSON.parse(o);
 		},
 		error : function() {
-			chen.alert("没有权限");
+			sweetAlert("没有权限");
 			return false;
 		}
 	});
@@ -298,7 +298,7 @@ function deletePermission(roleID,moduleID){
 			moduleIDs = JSON.parse(o);
 		},
 		error : function() {
-			chen.alert("删除权限失败");
+			sweetAlert("删除权限失败");
 			return false;
 		}
 	});

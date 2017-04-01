@@ -301,7 +301,7 @@ public class ReceiptlistService extends SearchService implements
 					"sample.factoryCode",
 					"sample.specifications as sampleStyle",
 					"sample.qrcode",
-					// "sample.unit",
+					"sample.unit",
 					"IF(testproject.nameCn IS  NULL , testproject.nameEn , "
 							+ " if ( testproject.nameEn is null ,testproject.nameCn,"
 							+ " CONCAT(testproject.nameCn,'(',testproject.nameEn,')') )) as testName " };
@@ -341,7 +341,7 @@ public class ReceiptlistService extends SearchService implements
 	 * 
 	 */
 	@Override
-	public Map<String, Object> getReFiletByReID(String reID, int limit,
+	public Map<String, Object> getRelateFiletByReID(String reID, int limit,
 			int offset, String order, String sort) {
 		// TODO Auto-generated method stub
 		int pageNum = limit;
@@ -490,18 +490,18 @@ public class ReceiptlistService extends SearchService implements
 	public String saveSubmitReceipt(String reID, String saveState,
 			String addState, String companyName, String address,
 			String linkMan, String startTime, String endTime, String linkPhone,
-			String accordingDoc, String coID) {
+			String accordingDoc, String coID ,String comID) {
 		// TODO Auto-generated method stub
 		Contract contract = null;
 		Company company = null;
-		if (addState == null || addState.equals("") || addState.equals("no")) {
+		if (addState == null || addState.equals("") || addState.equals("no") ||  addState.equals("edit") ) {
 			contract = entityDao.getByID(coID, Contract.class); // 即使是编辑进来的addState也是No
-			company = new Company();
+		/*	company = new Company();
 			company.setID(EntityIDFactory.createId());
 			company.setCompanyName(companyName);
 			company.setAddress(address);
-			entityDao.save(company);
-			contract.setCompanyID(company.getID());
+			entityDao.save(company);*/
+			contract.setCompanyID(comID);
 			entityDao.updatePropByID(contract, coID);
 		}
 		Receiptlist receiptlist = entityDao.getByID(reID, Receiptlist.class);

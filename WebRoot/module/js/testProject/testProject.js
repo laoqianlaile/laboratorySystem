@@ -162,7 +162,7 @@ function init() {
 							columns : [
 									{
 										checkbox : true,
-										width : '1%'// 宽度
+										width : '2%'// 宽度
 									},
 									{
 										field : '',
@@ -361,11 +361,13 @@ function addTestProject() {
 			.val());
 	parame.STANDARDID = ($('#add_STANDARDID').val());
 	
-	parame.EQUIPMENTID = "";
+//	parame.EQUIPMENTID = "";
+//
+//	var total = getTestTatol("add").ids;
+//	
+//	parame.EQUIPMENTID = total;
 	
-	var total = getTestTatol("add").ids;
-	
-	parame.EQUIPMENTID = total;
+	parame.EQUIPMENTID =getEquipmentsID();
 	
 	parame.describes = ($('#add_DESCRIBE').val());
 	parame.remarks = ($('#add_REMARKS').val());
@@ -617,6 +619,7 @@ function fullEquipments(equipmentDate){
 	$('#showEquipments').html(html);
 	$('#showEquipments').show();
 }
+
 // 获得焦点展示部分设备
 function showPartEquipment(date){
 	fullEquipments(getTestLisk());
@@ -631,11 +634,28 @@ function displayChecked(equipmentInfo){
 	console.log(equipmentInfo);
 	
 	if(isSameID(equipmentInfo.value)){
-		html='<span class= "singleE" onclick="moveSingleE(this)" id ="'+equipmentInfo.value+'">'+equipmentInfo.text+'</span>';
+		html=' <span class= "singleE" onclick="moveSingleE(this)" id ="'+equipmentInfo.value+'">'+equipmentInfo.text+'</span>';
 		$('#displayChecked').append(html);
+		$('#showEquipments').hide();
 	}
 	else{
 		swal("请不要重复选中同一设备");
+		$('#showEquipments').hide();
+	}
+}
+//获取所有被选中仪器的id
+function getEquipmentsID(){
+	var total = ""
+	var allEquipmentIDs =$('#displayChecked span.singleE');
+	if(allEquipmentIDs.length == 0){
+		swal("请至少选中一个仪器设备");
+		return;
+	}
+	else{
+		for(var i=0;i<allEquipmentIDs.length;i++){
+			total += allEquipmentIDs[i].id+" , ";
+		}
+		return total;
 	}
 }
 //检测是否有重复的ID设备
@@ -669,7 +689,7 @@ function matchEquipment(){
 		dataType : "json",
 		async : false,
 		data : {},
-		success :　function(o){
+		success :function(o){
 			date = JSON.parse(o);
 		},
 		error : function(){

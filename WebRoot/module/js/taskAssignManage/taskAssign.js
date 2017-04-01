@@ -532,7 +532,7 @@ $('#return').click(function(){
 
 //下载文件按钮
 function download(ID){
-	swal('the file ID is : ' + ID);
+//	swal('the file ID is : ' + ID);
 		
 	$.ajax({
 		url:'fileOperateController/filedownload.do',
