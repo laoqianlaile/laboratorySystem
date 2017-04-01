@@ -321,7 +321,7 @@ function downReportTemplate() {
 			result = JSON.parse(result);
 			$.post("taskController/downReportTemplate.do", {
 				taskID : ID,
-				projectName : result[0].name
+				projectName : result[0].NAME
 			}, function(fileID) {
 				if (fileID != null && fileID != "null") {
 					fileID = eval(fileID);
