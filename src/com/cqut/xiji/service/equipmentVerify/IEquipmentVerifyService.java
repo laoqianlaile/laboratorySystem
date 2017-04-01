@@ -29,8 +29,8 @@ public interface IEquipmentVerifyService {
 	 * @param remarks
 	 * @return
 	 */
-	public int addEquipmentVerify(String equipmentID, String testProjectID, int accuracy,
-			String departmentID, int result, String verifyID, String remarks);
+	public int addEquipmentVerify(String equipmentID,String equipmentName, String testProjectID, int accuracy,
+			String departmentID, int result, String verifyID,String employeeName, String remarks);
 
 	/**
 	 * @param equipmentVerifyids
@@ -50,7 +50,7 @@ public interface IEquipmentVerifyService {
 	 * @param remarks
 	 * @return
 	 */
-	public int updEquipmentVerify(String ID, String equipmentID, String testProjectID, int accuracy,
-			String departmentID, int result, String verifyID, String remarks);
+	public int updEquipmentVerify(String ID, String equipmentID,String equipmentName, String testProjectID, int accuracy,
+			String departmentID, int result, String verifyID,String employeeName, String remarks);
 	
 }

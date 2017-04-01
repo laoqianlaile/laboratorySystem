@@ -33,10 +33,8 @@
 <script src="module/js/sampleDesktop/sampleDesktop.js"></script>
 <script src="assets/js/autoPage.js"></script>
 <script src="module/js/sweetalert.min.js"></script>
-<script src="module/js/alert.js"></script>
-<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
+
+
 
 </head>
 
@@ -52,19 +50,16 @@
 						<img src="module/img/receiptDesktop/lookRe.png">
 						<p><a href="javascript:void(0)">查看交接单</a></p>
 					</div>
-					<div class="sample_button sample_button_2">
+					<div class="sample_button sample_button_2" onclick="takeSample()">
 						<img src="module/img/receiptDesktop/getSample_icon.png">
 						<p><a href="javascript:void(0)">领样</a></p>
 					</div>
-					<div class="sample_button sample_button_3">
-						<img src="module/img/receiptDesktop/withDrawSample_icon.png">
-						<p><a href="javascript:void(0)">退样</a></p>
-					</div>
+				
 					<div class="sample_button sample_button_4" onclick="addRe()">
 						<img src="module/img/receiptDesktop/newReceipt_icon.png">
 						<p><a href="javascript:void(0)">新增交接单</a></p>
 					</div>
-					<div class="sample_button sample_button_5">
+					<div class="sample_button sample_button_5" onclick="viewTestreport()">
 						<img src="module/img/receiptDesktop/checkReport_icon.png">
 						<p><a href="javascript:void(0)">查看报告列表</a></p>
 					</div>
@@ -72,7 +67,10 @@
 						<img src="module/img/receiptDesktop/printReport_icon.png">
 						<p><a href="javascript:void(0)">打印报告</a></p>
 					</div>
-				
+					<div class="sample_button sample_button_3" onclick="takeSample()">
+						<img src="module/img/receiptDesktop/withDrawSample_icon.png">
+						<p><a href="javascript:void(0)">退样</a></p>
+					</div>
 				</div>
 				<div class="row">
 				<div class="sample_button sample_button_1">
@@ -83,10 +81,10 @@
 						<img src="module/img/receiptDesktop/updateReceipt_icon.png">
 						<p><a href="javascript:void(0)">修改交接单</a></p>
 					</div>
-					<div class="sample_button sample_button_3">
+				<!-- 	<div class="sample_button sample_button_3">
 						<img src="module/img/receiptDesktop/rebackSample_icon.png">
 						<p><a href="javascript:void(0)">还样</a></p>
-					</div>
+					</div> -->
 					<div class="sample_button sample_button_4" onclick="sendTestreport()">
 						<img src="module/img/receiptDesktop/sendReport_icon.png">
 						<p><a href="module/jsp/testReportManage/testReportSendRecordManage.jsp">发报告</a></p>
@@ -111,19 +109,21 @@
 					<div class="col-xs-8 col-md-8 col-lg-8">
 						<span index="0">当前文档名称：</span> <span index="1">XJHJ-226-14-1013-PAT</span>
 					</div>
-					<div class="col-xs-3 col-md-3 col-lg-3">
+					<div class="col-xs-2 col-md-2 col-lg-2">
 						<button class="btn btn-primary  ">查看</button>
 					</div>
-					<div class="col-xs-1 col-md-1 col-lg-1">
+					<div class="col-xs-2 col-md-2 col-lg-2">
 						<button class="btn btn-primary  ">下载</button>
 					</div>
 				</div>
 				<div class="fileTable"></div>
 				<div class="tidings">
-					<div class="tidingHead"><ul>
-					<li class=" selected ">提示信息</li>
-					<li>已读信息</li>
-					</ul></div>
+					<div class="tidingHead">
+					<ul>
+						<li class=" selected ">提示信息</li>
+						<li>已读信息</li>
+					</ul>
+					</div>
 					<div class="tidingsTable"></div>
 				</div>
 			</div>

@@ -82,7 +82,7 @@ function delData(){
 	var data = $('#table').bootstrapTable('getSelections');
 	
 	if(data.length ==0){
-		chen.alert("请至少选中一条数据");
+		sweetAlert("请至少选中一条数据");
 		return;
 	}
 	
@@ -104,7 +104,7 @@ function delRole(roleIDs){
 		  },
 		  success:function(o){
 			  if(o == "false"){
-				  chen.alert("没有权限");
+				  sweetAlert("没有权限");
 			  }
 			  refresh();
 		  }
@@ -116,7 +116,7 @@ function add(){
 	var name = $('#add_roleName').val(); 
 	if (!name && typeof(name)!="undefined" && name=='') 
 	{ 
-		chen.alert("角色名不能为空！"); 
+		sweetAlert("角色名不能为空！"); 
 	}else {
 		var parame = {};
 		parame.roleName = name;
@@ -128,7 +128,7 @@ function add(){
 		  data:parame,
 		  success:function(o){
 			  if(o == "该角色已经存在"){
-				  chen.alert("该角色已经存在");
+				  sweetAlert("该角色已经存在");
 			  }
 			  $('#addModal').modal('hide');
 			  refresh();
@@ -188,7 +188,7 @@ function edit(){
 	var name = $('#edit_roleName').val(); 
 	if (!name && typeof(name)!="undefined" && name=='') 
 	{ 
-		chen.alert("角色名不能为空！"); 
+		sweetAlert("角色名不能为空！"); 
 	}else {
 		
 		var ids =  $('#edit_roleID').val();
@@ -201,7 +201,7 @@ function edit(){
 		  data:parame,
 		  success:function(o){
 			  if(o<=0){
-				  chen.alert("修改失败");
+				  sweetAlert("修改失败");
 			  }
 			  $('#editModal').modal('hide');
 			  refresh();

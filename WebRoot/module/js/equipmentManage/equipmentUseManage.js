@@ -36,7 +36,12 @@ function initData(){
 			param.endTime = $.trim($('#schEndTime').val());
 			return param;
 		}, //参数
+		queryParamsType: "limit", 
 		selectItemName : '',// radio or checkbox 的字段名
+		onLoadSuccess : function(data) {
+			checkDate(data,"con");
+			console.log(data);
+		},
 		columns : [/* {
 			checkbox : true,
 			width :'3%'// 宽度
@@ -138,7 +143,7 @@ function initData(){
 			valign:'middle',//垂直居中显示
 			width:'10%',
 			 formatter:function(value,row,index){
-				 var a = "<img src ='module/img/delete_icon.png' onclick='delData(\""+ row.ID +"\")' title='删除设备' style='cursor:pointer;padding-right:8px;'></img>";
+				 var a = "<img src ='module/img/delete_icon.png' onclick='delData(\""+ row.ID + "\",\"" + row.equipmentName +"\")' title='删除设备' style='cursor:pointer;padding-right:8px;'></img>";
                  return a;    
              }   
 		}]//列配置项,详情请查看 列参数 表格
@@ -146,6 +151,57 @@ function initData(){
 	});
 }
 
+//检查合同数据、合同文件数据和合同细项是否合理
+function checkDate(data, who) {
+	if (who == "con"){
+		chenkDataCon(data);
+	}
+}
+//检查仪器使用数据是否合理并处理
+function chenkDataCon(dataObj) { // 后台数据字段为空就不会传上来
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null || dataObj.ID == undefined || dataObj.ID.trim() == "") {
+		dataObj.ID = "";
+	}
+	if (!dataObj.hasOwnProperty("equipmentID") || dataObj.equipmentID == null || dataObj.equipmentID == undefined || dataObj.equipmentID.trim() == "") {
+		dataObj.equipmentID = "";
+	}
+	if (!dataObj.hasOwnProperty("equipmentFactoryCode") || dataObj.equipmentFactoryCode == null || dataObj.equipmentFactoryCode == undefined || dataObj.equipmentFactoryCode.trim() == "") {
+		  dataObj.equipmentFactoryCode = "";
+	}
+	if (!dataObj.hasOwnProperty("equipmentName") || dataObj.equipmentName == null || dataObj.equipmentName == undefined || dataObj.equipmentName.trim() == "") {
+		dataObj.equipmentName = "";
+	}
+	if (!dataObj.hasOwnProperty("testProjectID") || dataObj.testProjectID == null || dataObj.testProjectID == undefined || dataObj.testProjectID.trim() == "") {
+		dataObj.testProjectID = "";
+	}
+	if (!dataObj.hasOwnProperty("nameCn") || dataObj.nameCn == null || dataObj.nameCn == undefined || dataObj.nameCn.trim() == "") {
+		dataObj.nameCn = "";
+	}
+	if (!dataObj.hasOwnProperty("sampleID") || dataObj.sampleID == null || dataObj.sampleID == undefined || dataObj.sampleID.trim() == "") {
+		dataObj.sampleID = "";
+	}
+	if (!dataObj.hasOwnProperty("departmentName") || dataObj.departmentName == null || dataObj.departmentName == undefined  || dataObj.departmentName.trim() == "") {
+		dataObj.departmentName = "";
+	}
+	if (!dataObj.hasOwnProperty("sampleName") || dataObj.sampleName == null || dataObj.sampleName == undefined || dataObj.sampleName.trim() == "") {
+		dataObj.sampleName = "";
+	}
+	if (!dataObj.hasOwnProperty("factoryCode") || dataObj.factoryCode == null || dataObj.factoryCode == undefined || dataObj.factoryCode.trim() == "") {
+		  dataObj.factoryCode = "";
+	}
+	if (!dataObj.hasOwnProperty("applyTime") || dataObj.applyTime == null || dataObj.applyTime == undefined || dataObj.applyTime.trim() == "") {
+		dataObj.applyTime = "";
+	}
+	if (!dataObj.hasOwnProperty("application") || dataObj.application == null || dataObj.application == undefined || dataObj.application.trim() == "") {
+		dataObj.application = "";
+	}
+	if (!dataObj.hasOwnProperty("employeeName") || dataObj.employeeName == null || dataObj.employeeName == undefined || dataObj.employeeName.trim() == "") {
+		dataObj.employeeName = "";
+	}
+	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null || dataObj.remarks == undefined || dataObj.remarks.trim() == "") {
+		dataObj.remarks = "";
+	}
+}
 /*//请求数据时的额外参数
 function queryParams(){
 	var searchCondition = {
@@ -170,7 +226,10 @@ function search(){
 	initData();
 	$('#table').bootstrapTable('refresh', null);
 }
-
+/*刷新表格*/
+function refrehTable() {
+	$('#table').bootstrapTable('refresh', null);
+}
 /* 刷新方法 */
 function refresh(){
 	window.location.href="module/jsp/equipmentManage/equipmentUseManage.jsp";
@@ -178,12 +237,9 @@ function refresh(){
 
 
 /* 删除方法 */
-function delData(id){
-	if (!id || typeof(id) == "undefined" || id.trim() == "") 
-	{ 
-		swal("仪器设备使用记录ID为空！");
-	}else{
-	
+function delData(id,equipmentName){
+	if (confirm("确认删除：" + equipmentName)) {
+		var Ids = "ID = '" + id + "'";
 		var ajaxParameter = {
 				equipmentUseId : id	
 		};
@@ -193,12 +249,19 @@ function delData(id){
 		  type:"post",
 		  data:ajaxParameter,
 		  success:function(o){
-			  if(o<=0){
-				  swal("删除失败");
+			  switch (o) {
+				case '1':swal("删除成功！");
+					refrehTable();
+					break;
+				case '0':swal("删除失败！");
+					break;
+				default:swal("出现未知错误，请重试！");
+					break;
 			  }
-			  refresh();
 		  }
 		});
+	}else{
+		return;
 	}
 }
 

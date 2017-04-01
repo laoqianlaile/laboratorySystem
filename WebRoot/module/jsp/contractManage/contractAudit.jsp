@@ -78,9 +78,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  		<div class="col-xs-3 col-md-3 col-lg-3">
 		   		 	<label>状态:</label>
 		    		<select id="schState" name="schState" class="form-control" aria-describedby="basic-addon1">
-		    			<option value="2">审核中</option>
-		    			<option value="8">全部合同</option>
-						<option value="1">未提交</option>
+		    			<option value="2">待审核</option>
+		    			<option value="9">全部合同</option>
 						<option value="3">驳回</option>
 						<option value="4">审核通过</option>
 						<option value="5">执行中</option>
@@ -152,6 +151,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<table id="table">
   	</table>
   </body>
-  <script src="module/js/contractManage/contractManage.js"></script>
   <script src="module/js/contractManage/contractAudit.js"></script>
  </html>

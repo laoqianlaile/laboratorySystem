@@ -28,8 +28,8 @@ public class EquipmentVerifyController{
 	
 	@RequestMapping("/addEquipmentVerify")  
     @ResponseBody
-	public int addEquipmentVerify(String equipmentID, String testProjectID, int accuracy, String departmentID, int result,  String verifyID, String remarks){
-		int results = service.addEquipmentVerify(equipmentID, testProjectID, accuracy, departmentID, result, verifyID, remarks);
+	public int addEquipmentVerify(String equipmentID,String equipmentName, String testProjectID, int accuracy, String departmentID, int result,  String verifyID,String employeeName, String remarks){
+		int results = service.addEquipmentVerify(equipmentID, equipmentName, testProjectID, accuracy, departmentID, result, verifyID,employeeName, remarks);
 		return results;
 	}
 	
@@ -42,8 +42,8 @@ public class EquipmentVerifyController{
 	
 	@RequestMapping("/updEquipmentVerify")  
     @ResponseBody
-	public int updEquipmentVerify(String ID, String equipmentID, String testProjectID, int accuracy, String departmentID, int result,  String verifyID, String remarks){
-		int results = service.updEquipmentVerify(ID, equipmentID, testProjectID, accuracy, departmentID, result, verifyID, remarks);
+	public int updEquipmentVerify(String ID, String equipmentID,String equipmentName, String testProjectID, int accuracy, String departmentID, int result,  String verifyID,String employeeName, String remarks){
+		int results = service.updEquipmentVerify(ID, equipmentID, equipmentName, testProjectID, accuracy, departmentID, result, verifyID,employeeName, remarks);
 		return results;
 	}
 }

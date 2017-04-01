@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
+import com.cqut.xiji.entity.employee.Employee;
+import com.cqut.xiji.entity.equipment.Equipment;
 import com.cqut.xiji.entity.equipmentRepair.EquipmentRepair;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
@@ -112,9 +114,35 @@ public class EquipmentRepairService extends SearchService implements IEquipmentR
 	}
 	
 	@Override
-	public int addEquipmentRepair(String equipmentID, String repairTime,
-			String employeeID, String beforeStatus, String afterStatus,
+	public int addEquipmentRepair(String equipmentID,String equipmentName, String repairTime,
+			String employeeID,String employeeName, String beforeStatus, String afterStatus,
 			String mounting, int money, String remarks){
+		String[] properties1 = new String[] {"ID"};
+		String condition1 = " equipment.equipmentName = '" + equipmentName + "'";
+		List<Map<String, Object>> result1 = entityDao.findByCondition(properties1, condition1, Equipment.class);
+		if(result1.isEmpty()){
+			System.out.println("不存在该仪器");
+			return -2;
+		}else{
+			String equipmentID1 = result1.get(0).get("ID").toString();
+			if(!equipmentID1.equals(equipmentID)){
+				System.out.println("仪器名与仪器ID不相符");
+				return -4;
+			}
+		}
+		String[] properties2 = new String[] {"ID"};
+		String condition2 = " employeeName = '" + employeeName + "'";
+		List<Map<String, Object>> result2 = entityDao.findByCondition(properties2, condition2, Employee.class);
+		if(result2.isEmpty()){
+			System.out.println("不存在该员工");
+			return -6;
+		}else{
+			String employeeID1 = result2.get(0).get("ID").toString();
+			if(!employeeID1.equals(employeeID)){
+				System.out.println("员工名与员工ID不相符");
+				return -8;
+			}
+		}
 		EquipmentRepair equipmentRepair = new EquipmentRepair();
 		String id = EntityIDFactory.createId();
 		equipmentRepair.setID(id);
@@ -150,10 +178,36 @@ public class EquipmentRepairService extends SearchService implements IEquipmentR
 	}
 	
 	@Override
-	public int updEquipmentRepair(String ID, String equipmentID, String repairTime,
-			String employeeID, String beforeStatus, String afterStatus,
+	public int updEquipmentRepair(String ID, String equipmentID,String equipmentName, String repairTime,
+			String employeeID,String employeeName, String beforeStatus, String afterStatus,
 			String mounting, int money, String remarks){
 		// TODO Auto-generated method stub
+		String[] properties1 = new String[] {"ID"};
+		String condition1 = " equipment.equipmentName = '" + equipmentName + "'";
+		List<Map<String, Object>> result1 = entityDao.findByCondition(properties1, condition1, Equipment.class);
+		if(result1.isEmpty()){
+			System.out.println("不存在该仪器");
+			return -2;
+		}else{
+			String equipmentID1 = result1.get(0).get("ID").toString();
+			if(!equipmentID1.equals(equipmentID)){
+				System.out.println("仪器名与仪器ID不相符");
+				return -4;
+			}
+		}
+		String[] properties2 = new String[] {"ID"};
+		String condition2 = " employeeName = '" + employeeName + "'";
+		List<Map<String, Object>> result2 = entityDao.findByCondition(properties2, condition2, Employee.class);
+		if(result2.isEmpty()){
+			System.out.println("不存在该员工");
+			return -6;
+		}else{
+			String employeeID1 = result2.get(0).get("ID").toString();
+			if(!employeeID1.equals(employeeID)){
+				System.out.println("员工名与员工ID不相符");
+				return -8;
+			}
+		}
 		EquipmentRepair equipmentRepair = new EquipmentRepair();
 		equipmentRepair.setID(ID);
 		equipmentRepair.setEquipmentID(equipmentID);
