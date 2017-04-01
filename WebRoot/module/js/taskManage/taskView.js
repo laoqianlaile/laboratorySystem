@@ -261,7 +261,7 @@ function uploadFile() {
 			});
 		},
 	}).bind('fileuploaddone', function(e, data) {
-		var fileID = eval(data.result);
+		var fileID = JSON.parse(data.result);
 		var ID = param.taskID;
 		if (fileID != null && fileID != "null" && fileID != "") {
 			$.post("taskController/setTaskDetectState.do", {
@@ -338,7 +338,7 @@ function downReportTemplate() {
 				taskID : ID,
 				projectName : result[0].NAME
 			}, function(fileID) {
-				fileID = eval(fileID);
+				fileID = JSON.parse(fileID);
 				if (fileID != null && fileID != "null" && fileID != "") {
 					refresh();
 					downOneFile(fileID);
@@ -442,7 +442,7 @@ function submitReport() {
 															{
 																fileName : result[0].fileName
 															},function(messageID) {
-																messageID = eval(messageID);
+																messageID = JSON.parse(messageID);
 																$.post("messageNoticeController/addReportAuditMessageNotice.do",
 																				{
 																					messageID : messageID,

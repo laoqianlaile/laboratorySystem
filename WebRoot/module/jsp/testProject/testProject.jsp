@@ -207,7 +207,7 @@
 							<div id="displayChecked" style="width: 100%;height: 100px;border: 1px solid;"></div>
 						</div>
 						<!-- 新模式 -->
-						<div class = "col-md-6 col-xs-6 " >
+						<div id="equipmentsBox" class = "col-md-6 col-xs-6 "  >
 							<h4>搜索查询添加仪器：</h4>
 							<input type = "text" id ="searchEquipments"  class="form-control" placeholder="选择所需仪器" onfocus="showPartEquipment()"  oninput="searchEquipment()"
 									onpropertychange="searchEquipment()"/>

@@ -229,7 +229,12 @@ function searchEquipment(){
 	initData();
 	$('#table').bootstrapTable('refresh', null);
 }
-
+/**
+ * 刷新表格
+ */
+function refrehTable() {
+	$('#table').bootstrapTable('refresh', null);
+}
 /* 刷新方法 */
 function refresh(){
 	window.location.href="module/jsp/equipmentManage/equipmentManage.jsp";
@@ -237,8 +242,6 @@ function refresh(){
 
 /* 删除方法 */
 function delData(id,equipmentName){
-	//swal("已经删除!", "该条数据被删除", "success");
-	//swal(swal({   title: "确认删除?",   text: "你会失去这条数据!",   type: "warning",   showCancelButton: true,   confirmButtonColor: "#DD6B55",   confirmButtonText: "删除",   closeOnConfirm: false }, function(){   swal("已经删除!", "该条数据被删除", "success"); }));	
 	if (confirm("确认删除：" + equipmentName)) {
 		var Ids = "ID = '" + id + "'";
 		var ajaxParameter = {
@@ -250,10 +253,18 @@ function delData(id,equipmentName){
 		  type:"post",
 		  data:ajaxParameter,
 		  success:function(o){
-			  if(o<=0){
-				  swal("删除失败");
+			  switch (o) {
+				case '1':swal("删除成功！");
+					refrehTable();
+					break;
+				case '0':swal("删除失败！");
+					break;
+				default:swal("出现未知错误，请重试！");
+					break;
 			  }
-			  refresh();
+		  },
+		  error : function() {
+			return false;
 		  }
 		});
 	}else{
@@ -384,13 +395,14 @@ function add(){
 	  url:'equipmentController/addEquipment.do',
 	  data:parame,
 	  success:function(o){
-		  if(o<=0){
-			  swal("新增失败");
+		  if(o <= 0){
+			  swal("新增失败!");
+		  }else if(o == 1){
+			  swal("新增成功!");
+			  $('#addModal').modal('hide');
+			  refrehTable();
 		  }
-		  swal("已经新增!", "该条数据成新增", "success");
-		  $('#addModal').modal('hide');
-		  refresh();
-		  }
+	  }
 	});
 }
 
@@ -571,19 +583,19 @@ function edit(){
 		parame.factoryCode = factoryCode;
 		parame.credentials = credentials;
 		parame.effectiveTime = effectiveTime;
-		parame.employeeID = "1";
 		parame.remarks = remarks;
 		
 		$.ajax({
 		  url:'equipmentController/updEquipment.do',
 		  data:parame,
 		  success:function(o){
-			  if(o<=0){
-				  swal("修改失败");
-			  }
-			  swal("已经修改!", "该条数据成功修改", "success");
-			  $('#editModal').modal('hide');
-			  refresh();
+			  if(o <= 0){
+					swal("修改失败!");
+				}else if(o == 1){
+					swal("修改成功!");
+					$('#editModal').modal('hide');
+					refrehTable();
+				}
 		  }
 		});
 }

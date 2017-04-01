@@ -143,7 +143,7 @@ function initData(){
 			valign:'middle',//垂直居中显示
 			width:'10%',
 			 formatter:function(value,row,index){
-				 var a = "<img src ='module/img/delete_icon.png' onclick='delData(\""+ row.ID +"\")' title='删除设备' style='cursor:pointer;padding-right:8px;'></img>";
+				 var a = "<img src ='module/img/delete_icon.png' onclick='delData(\""+ row.ID + "\",\"" + row.equipmentName +"\")' title='删除设备' style='cursor:pointer;padding-right:8px;'></img>";
                  return a;    
              }   
 		}]//列配置项,详情请查看 列参数 表格
@@ -226,7 +226,10 @@ function search(){
 	initData();
 	$('#table').bootstrapTable('refresh', null);
 }
-
+/*刷新表格*/
+function refrehTable() {
+	$('#table').bootstrapTable('refresh', null);
+}
 /* 刷新方法 */
 function refresh(){
 	window.location.href="module/jsp/equipmentManage/equipmentUseManage.jsp";
@@ -234,12 +237,9 @@ function refresh(){
 
 
 /* 删除方法 */
-function delData(id){
-	if (!id || typeof(id) == "undefined" || id.trim() == "") 
-	{ 
-		swal("仪器设备使用记录ID为空！");
-	}else{
-	
+function delData(id,equipmentName){
+	if (confirm("确认删除：" + equipmentName)) {
+		var Ids = "ID = '" + id + "'";
 		var ajaxParameter = {
 				equipmentUseId : id	
 		};
@@ -249,12 +249,19 @@ function delData(id){
 		  type:"post",
 		  data:ajaxParameter,
 		  success:function(o){
-			  if(o<=0){
-				  swal("删除失败");
+			  switch (o) {
+				case '1':swal("删除成功！");
+					refrehTable();
+					break;
+				case '0':swal("删除失败！");
+					break;
+				default:swal("出现未知错误，请重试！");
+					break;
 			  }
-			  refresh();
 		  }
 		});
+	}else{
+		return;
 	}
 }
 
