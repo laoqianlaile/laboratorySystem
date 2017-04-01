@@ -12,6 +12,8 @@ var weeks = ['星期天', '星期一', '星期二', '星期三', '星期四', '�
 
 var nodeId, // 节点id
 	node, // 节点
+	currentNodeId, // 当前节点id
+	currentNode, // 当前节点
 	data = []; // breadcrumbs 数据
 
 $(function(){
@@ -28,8 +30,8 @@ $(function(){
 // 左侧菜单点击改变breadcrumb
 function changeBreadCrumb(){
 	data = [];
-	nodeId = $(this).attr('data-nodeid'); // 获取点击选项节点的id
-	node = $('.tree').treeview('getNode', nodeId); // 获取点击选项节点
+	currentNodeId = nodeId = $(this).attr('data-nodeid'); // 获取点击选项节点的id
+	currentNode = node = $('.tree').treeview('getNode', nodeId); // 获取点击选项节点
 	
 	// 循环向上寻找所有父节点，并获取每个节点的文字，链接地址和图标
 	while(node.level0 >= '1'){
@@ -65,11 +67,27 @@ function changeBreadCrumb(){
 	
 	$('.page-header').html('<img class="icon" alt="" src="module\\img\\word_icon.png">' + column);
 	$('.breadcrumb').html(html); // 设置breadcrumb结构
+	
+	// 收缩其他节点
+	collapseOtherNode();
+}
+
+// 收缩其他节点
+function collapseOtherNode() {
+	var siblingsNodes = $('.tree').treeview('getSiblings', currentNode);
+	siblingsNodes.forEach((node) => {
+		$('.tree').treeview('collapseNode', [ node, { silent: true, ignoreChildren: false } ]);
+	});
 }
 
 function initTree1(){  
-	$('.tree').treeview({collapsed:false,data: getTree(),levels:1,enableLinks : true
-		});   
+	$('.tree').treeview({
+		collapsed:false,
+		data: getTree(),
+		levels:1,
+		enableLinks : true,
+		multiSelect: false
+	});   
 }
 
 function display(data){  
