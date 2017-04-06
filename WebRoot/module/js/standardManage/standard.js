@@ -195,8 +195,15 @@ function openAddmodal(){
 	else{
 		
 		if(arguments[0] === "add"){
-			fileUploadInit("#file_upload");
-			$('#addModal').modal('show');
+			var date = $('#table').bootstrapTable('getSelections');
+			
+			if(date.length == 0 || date.length > 1){
+				swal("请选中一个进行操作");
+			}
+			else{
+				fileUploadInit("#file_upload");
+				$('#addModal').modal('show');
+			}
 		}
 		else{
 			fileUploadInit("#upFile");
@@ -230,7 +237,7 @@ function add(){
 	}
 	
 }
-/*   只上传文件    
+  //只上传文件    
 function addfile(){
 	path = ""; // 文件上传路径，如果此参数没有值，则使用firstDirectoryName,secondDirectoryName,thirdDirectoryName
 	type = "0"; // 文件类型       该处默认为模板文件
@@ -244,7 +251,6 @@ function addfile(){
 	fileUpload("#upFile",path, type, belongID,firstDirectoryName, secondDirectoryName,thirdDirectoryName,
 			otherInfo, remarks);
 }
-   */
 //新增标准（处理文件ID）
 function addstandard(fileIDs){
 	

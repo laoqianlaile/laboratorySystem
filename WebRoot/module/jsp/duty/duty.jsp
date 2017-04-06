@@ -105,6 +105,9 @@ textarea {
 #search {
 	float: left;
 }
+.btn-primary:hover {
+    background-color: #ffad33;
+}
 	
 </style>
 

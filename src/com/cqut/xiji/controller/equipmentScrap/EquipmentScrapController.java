@@ -28,8 +28,8 @@ public class EquipmentScrapController{
 	
 	@RequestMapping("/addEquipmentScrap")  
     @ResponseBody
-	public int addEquipmentScrap(String equipmentID, String employeeID, String buyTime, String checkinTime, int useTime, String remarks){
-		int results = service.addEquipmentScrap(equipmentID,employeeID,buyTime,checkinTime,useTime,remarks);
+	public int addEquipmentScrap(String equipmentID,String equipmentName, String employeeID,String employeeName, String buyTime, String checkinTime, int useTime, String remarks){
+		int results = service.addEquipmentScrap(equipmentID,equipmentName,employeeID,employeeName,buyTime,checkinTime,useTime,remarks);
 		return results;
 	}
 	
@@ -42,8 +42,8 @@ public class EquipmentScrapController{
 	
 	@RequestMapping("/updEquipmentScrap")  
     @ResponseBody
-	public int updEquipmentScrap(String ID, String equipmentID, String employeeID, String buyTime, String checkinTime, int useTime, String remarks){
-		int results = service.updEquipmentScrap(ID,equipmentID,employeeID,buyTime,checkinTime,useTime,remarks);
+	public int updEquipmentScrap(String ID, String equipmentID,String equipmentName, String employeeID,String employeeName, String buyTime, String checkinTime, int useTime, String remarks){
+		int results = service.updEquipmentScrap(ID,equipmentID,equipmentName,employeeID,employeeName,buyTime,checkinTime,useTime,remarks);
 		return results;
 	}
 }

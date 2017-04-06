@@ -216,7 +216,7 @@ function NoPass(){
 	var parame = {};
 	parame.ID = $('#ID').val();
 	parame.SUGGEST = $('#Nopasstemplate').val();
-	parame.verifyMan=$('#verifyMan').val();
+	
 	
 	$.ajax({	
 		  url:'templateController/updNoPasstemplate.do',
@@ -236,7 +236,6 @@ function Pass(){
 	var parame = {};
 	parame.ID = $('#ID').val();
 	parame.SUGGEST = $('#Passtemplate').val();
-	parame.verifyMan=$('#verifyMan').val();
 	
 	$.ajax({	
 		  url:'templateController/updPasstemplate.do',

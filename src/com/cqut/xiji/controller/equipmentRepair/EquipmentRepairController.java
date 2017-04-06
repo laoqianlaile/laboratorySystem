@@ -28,8 +28,8 @@ public class EquipmentRepairController{
 	
 	@RequestMapping("/addEquipmentRepair")  
     @ResponseBody
-	public int addEquipmentRepair(String ID, String equipmentID, String repairTime, String employeeID, String beforeStatus, String afterStatus, String mounting, int money, String remarks){
-		int results = service.addEquipmentRepair(equipmentID,repairTime,employeeID,beforeStatus,afterStatus,mounting,money,remarks);
+	public int addEquipmentRepair(String equipmentID,String equipmentName, String repairTime, String employeeID,String employeeName, String beforeStatus, String afterStatus, String mounting, int money, String remarks){
+		int results = service.addEquipmentRepair(equipmentID,equipmentName,repairTime,employeeID,employeeName,beforeStatus,afterStatus,mounting,money,remarks);
 		return results;
 	}
 	
@@ -42,8 +42,8 @@ public class EquipmentRepairController{
 	
 	@RequestMapping("/updEquipmentRepair")  
     @ResponseBody
-	public int updEquipmentRepair(String ID, String equipmentID, String repairTime, String employeeID, String beforeStatus, String afterStatus, String mounting, int money, String remarks){
-		int results = service.updEquipmentRepair(ID,equipmentID,repairTime,employeeID,beforeStatus,afterStatus,mounting,money,remarks);
+	public int updEquipmentRepair(String ID, String equipmentID,String equipmentName, String repairTime, String employeeID,String employeeName, String beforeStatus, String afterStatus, String mounting, int money, String remarks){
+		int results = service.updEquipmentRepair(ID,equipmentID,equipmentName,repairTime,employeeID,employeeName,beforeStatus,afterStatus,mounting,money,remarks);
 		return results;
 	}
 }

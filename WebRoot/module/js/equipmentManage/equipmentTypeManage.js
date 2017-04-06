@@ -117,7 +117,12 @@ function search(){
 	initData();
 	$('#table').bootstrapTable('refresh', null);
 }
-
+/**
+ * 刷新表格
+ */
+function refrehTable() {
+	$('#table').bootstrapTable('refresh', null);
+}
 /* 刷新方法 */
 function refresh(){
 	window.location.href="module/jsp/equipmentManage/equipmentTypeManage.jsp";
@@ -131,25 +136,36 @@ function delData(){
 		return;
 	}
 	var Ids = "";
+	var message = "将要删除仪器：";
 	for(var i=0; i<data.length; i++){
-		Ids += "ID = '" + data[i].ID + "' or ";
+		ids += "ID = '" + data[i].ID + "' or ";
+		message += data[i].name + " or ";
 	}
-	swal(Ids.substring(0, (Ids.length-3)));
-	var ajaxParameter = {
-			equipmentTypeIds:Ids.substring(0, (Ids.length-3))	
-	};
-	
-	$.ajax({
-	  url:'equipmentTypeController/delEquipmentType.do',
-	  type:"post",
-	  data:ajaxParameter,
-	  success:function(o){
-		  if(o<=0){
-			  swal("删除失败");
+	if (confirm(message.substring(0, (message.length-3)))) {
+		var ajaxParameter = {
+				equipmentTypeIds:Ids.substring(0, (Ids.length-3))	
+		};
+		
+		$.ajax({
+		  url:'equipmentTypeController/delEquipmentType.do',
+		  type:"post",
+		  data:ajaxParameter,
+		  success:function(o){
+			  switch (o) {
+				case '1':swal("删除成功！");
+					refrehTable();
+					break;
+				case '0':swal("删除失败！");
+					break;
+				default:swal("出现未知错误，请重试！");
+					break;
+			  }
+		  },
+		  error : function() {
+			return false;
 		  }
-		  refresh();
-	  }
-	});
+		});
+	}
 }
 
 /*
@@ -283,11 +299,13 @@ function add(){
 		url : 'equipmentTypeController/addEquipmentType.do',
 		data : parame,
 		success : function(o) {
-			if (o <= 0) {
-				swal("新增失败");
+			if(o == 0){
+				swal("新增失败!");
+			}else if(o == 1){
+				swal("新增成功!");
+				$('#addModal').modal('hide');
+				refrehTable();
 			}
-			$('#addModal').modal('hide');
-			refresh();
 		}
 	});
 }
@@ -369,11 +387,13 @@ function edit(){
 		data : parame,
 		dataType : 'json',
 		success : function(o) {
-			if (o <= 0) {
-				swal("修改失败");
+			if(o == 0){
+				swal("修改失败!");
+			}else if(o == 1){
+				swal("修改成功!");
+				$('#editModal').modal('hide');
+				refrehTable();
 			}
-			$('#editModal').modal('hide');
-			refresh();
 		},
 		error : function(o) {
 			console.log(o);

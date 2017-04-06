@@ -27,7 +27,7 @@ public interface IEquipmentScrapService {
 	 * @param remarks
 	 * @return
 	 */
-	public int addEquipmentScrap(String equipmentID, String employeeID,
+	public int addEquipmentScrap(String equipmentID,String equipmentName, String employeeID,String employeeName,
 			 String buyTime,String checkinTime, int useTime, String remarks);
 
 	/**
@@ -47,7 +47,7 @@ public interface IEquipmentScrapService {
 	 * @param remarks
 	 * @return
 	 */
-	public int updEquipmentScrap(String ID, String equipmentID,String employeeID,
+	public int updEquipmentScrap(String ID, String equipmentID,String equipmentName,String employeeID,String employeeName,
 			 String buyTime,String checkinTime, int useTime,String remarks);
 	
 }

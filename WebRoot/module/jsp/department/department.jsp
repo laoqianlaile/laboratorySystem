@@ -272,6 +272,9 @@ label {
 #responsibleMan{
 position:relative;
 }
+.btn-primary:hover {
+    background-color: #ffad33;
+}
 
 
 

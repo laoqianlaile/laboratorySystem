@@ -31,8 +31,8 @@ public interface IEquipmentRepairService {
 	 * @param remarks
 	 * @return
 	 */
-	public int addEquipmentRepair(String equipmentID, String repairTime,
-			String employeeID, String beforeStatus, String afterStatus,
+	public int addEquipmentRepair(String equipmentID,String equipmentName, String repairTime,
+			String employeeID,String employeeName, String beforeStatus, String afterStatus,
 			String mounting, int money, String remarks);
 
 	/**
@@ -53,7 +53,7 @@ public interface IEquipmentRepairService {
 	 * @param remarks
 	 * @return
 	 */
-	public int updEquipmentRepair(String ID, String equipmentID, String repairTime,
-			String employeeID, String beforeStatus, String afterStatus,
+	public int updEquipmentRepair(String ID, String equipmentID,String equipmentName, String repairTime,
+			String employeeID,String employeeName, String beforeStatus, String afterStatus,
 			String mounting, int money, String remarks);
 }

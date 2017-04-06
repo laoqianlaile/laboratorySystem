@@ -491,33 +491,33 @@ function chenkDataCon(dataObj) { // 后台数据字段为空就不会传上来
 //检查合同文件数据是否合理
 function chenkDataFile(dataObj) { // 后台数据字段为空就不会传上来
 	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
-			|| dataObj.ID == undefined
+			|| dataObj.ID == undefined 
 			|| dataObj.ID.trim() == "") {
 		dataObj.ID = "";
 	}
 	if (!dataObj.hasOwnProperty("fileName") || dataObj.fileName == null
-			|| dataObj.fileName == undefined
+			|| dataObj.fileName == undefined 
 			|| dataObj.fileName.trim() == "") {
 		dataObj.fileName = "";
 	}
 	if (!dataObj.hasOwnProperty("uploaderID") || dataObj.uploaderID == null
-			|| dataObj.uploaderID == undefined
+			|| dataObj.uploaderID == undefined 
 			|| dataObj.uploaderID.trim() == "") {
 		dataObj.uploaderID = "";
 	}
 	if (!dataObj.hasOwnProperty("employeeName") || dataObj.employeeName == null
-			|| dataObj.employeeName == undefined
+			|| dataObj.employeeName == undefined 
 			|| dataObj.employeeName.trim() == "") {
 		dataObj.employeeName = "";
 	}
 	if (!dataObj.hasOwnProperty("uploadTime") || dataObj.uploadTime == null
-			|| dataObj.uploadTime == undefined
+			|| dataObj.uploadTime == undefined 
 			|| dataObj.uploadTime.trim() == "") {
 		dataObj.uploadTime = "";
 	}
 	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null
-			|| dataObj.remarks == undefined
-			|| dataObj.isOutsourcing.trim() == "") {
+			|| dataObj.remarks == undefined 
+			|| dataObj.remarks.trim() == "") {
 		dataObj.remarks = "";
 	}
 }
@@ -525,32 +525,32 @@ function chenkDataFile(dataObj) { // 后台数据字段为空就不会传上来
 //检查合同细项是否合理
 function chenkDataItem(dataObj) { // 后台数据字段为空就不会传上来
 	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
-			|| dataObj.ID == undefined
+			|| dataObj.ID == undefined 
 			|| dataObj.ID.trim() == "") {
 		dataObj.ID = "";
 	}
 	if (!dataObj.hasOwnProperty("fineItemCode") || dataObj.fineItemCode == null
-			|| dataObj.fineItemCode == undefined
+			|| dataObj.fineItemCode == undefined 
 			|| dataObj.fineItemCode.trim() == "") {
 		dataObj.fineItemCode = "";
 	}
 	if (!dataObj.hasOwnProperty("testProjectID") || dataObj.testProjectID == null
-			|| dataObj.testProjectID == undefined
+			|| dataObj.testProjectID == undefined 
 			|| dataObj.testProjectID.trim() == "") {
 		dataObj.testProjectID = "";
 	}
 	if (!dataObj.hasOwnProperty("nameCn") || dataObj.nameCn == null
-			|| dataObj.nameCn == undefined
+			|| dataObj.nameCn == undefined 
 			|| dataObj.nameCn.trim() == "") {
 		dataObj.nameCn = "";
 	}
 	if (!dataObj.hasOwnProperty("nameEn") || dataObj.nameEn == null
-			|| dataObj.nameEn == undefined
+			|| dataObj.nameEn == undefined 
 			|| dataObj.nameEn.trim() == "") {
 		dataObj.nameEn = "";
 	}
 	if (!dataObj.hasOwnProperty("isOutsourcing") || dataObj.isOutsourcing == null
-			|| dataObj.nameEn == undefined
+			|| dataObj.nameEn == undefined 
 			|| dataObj.isOutsourcing.trim() == "") {
 		dataObj.isOutsourcing = "";
 	}
@@ -575,17 +575,17 @@ function chenkDataItem(dataObj) { // 后台数据字段为空就不会传上来
 		dataObj.calculateType = "";
 	}
 	if (!dataObj.hasOwnProperty("departmentID") || dataObj.departmentID == null
-			|| dataObj.departmentID == undefined
+			|| dataObj.departmentID == undefined 
 			|| dataObj.isOutsourcing.trim() == "") {
 		dataObj.departmentID = "";
 	}
 	if (!dataObj.hasOwnProperty("departmentName") || dataObj.departmentName == null
-			|| dataObj.departmentName == undefined
+			|| dataObj.departmentName == undefined 
 			|| dataObj.isOutsourcing.trim() == "") {
 		dataObj.departmentName = "";
 	}
 	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null
-			|| dataObj.remarks == undefined
+			|| dataObj.remarks == undefined 
 			|| dataObj.isOutsourcing.trim() == "") {
 		dataObj.remarks = "";
 	}
@@ -602,10 +602,11 @@ function showFileUploadModal(){
 function submitFile(){
 	//loadingData();
 	var remarks = $('#fileRemarks').val()
-	if (!remarks || typeof(remarks) == "undefined" || remarks == '') 
+	if (!remarks || typeof(remarks) == "undefined" || remarks.trim() == "") 
 	{ 
-		remarks = "";
+		remarks = " ";
 	}
+	
 	var fileObj = {};
 	fileObj.path = "";//filePath; // 文件上传路径，如果此参数没有值，则使用firstDirectoryName,secondDirectoryName,thirdDirectoryName
 	fileObj.fileTypeNumber = 1;//fileTypeNumber; // 文件类型
