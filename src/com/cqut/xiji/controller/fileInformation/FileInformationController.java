@@ -133,6 +133,23 @@ public class FileInformationController{
 		return JSONObject.fromObject(result);
 	}
 	
+	/**
+	 * 
+     * @discription 获取符合条件的文件数据
+     * @author zt       
+     * @created 2017-4-5 下午10:15:23     
+     * @param limit
+     * @param offset
+     * @param sort
+     * @param order
+     * @param fileName
+     * @param projectID
+     * @param uploadName
+     * @param beginTime
+     * @param endTime
+     * @param selectPart
+     * @return
+	 */
 	@RequestMapping("/getFileWithPaging")
 	@ResponseBody
 	public JSONObject getFileWithPaging(int limit, int offset, String sort,

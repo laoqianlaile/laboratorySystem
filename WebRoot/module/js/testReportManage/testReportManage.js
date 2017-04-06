@@ -149,9 +149,9 @@ $(function() {
 			valign : 'middle',// 垂直居中显示
 			width : "10%",// 宽度
 			formatter : function(value, row, index) {
-				return "<img src ='module/img/download_icon.png'  onclick='fileDown(\""+row.fileID+"\")'  title='下载报告'  style='cursor:pointer;padding-right:8px;'></img> "
-				+"<img src ='module/img/edit_icon.png'  onclick='submitReport(\""+row.ID+"\",\""+row.taskID+"\")'   title='提交审核'  style='cursor:pointer;padding-right:8px;'></spimgan> "
-				+"<img src ='module/img/contractDetail_icon.png' onclick='showSendReportModal(\""+row.ID+"\")'  title='发送报告'  style='cursor:pointer;padding-right:8px;'></img> "
+				return "<img src ='module/img/download_icon.png'  onclick='fileDown(\""+row.fileID+"\")'  title='下载报告'  style='cursor:pointer;'></img> "
+				+"<img src ='module/img/edit_icon.png'  onclick='submitReport(\""+row.ID+"\",\""+row.taskID+"\")'   title='提交审核'  style='cursor:pointer;'></spimgan> "
+				+"<img src ='module/img/contractDetail_icon.png' onclick='showSendReportModal(\""+row.ID+"\")'  title='发送报告'  style='cursor:pointer;'></img> "
 			}
 		}]
 	});

@@ -220,8 +220,8 @@ function thirdAuditPass() {
 		}, function(result) {
 			if (result == true || result == "true") {
 				$("#PassReason").val("");
-				uploadImage("#singnatureImg");
-				uploadImage("#stampImg");
+				uploadImage(".singnatureImg");
+				uploadImage(".stampImg");
 				$("#thirdAuditPassModal").modal("show");
 			} else {
 				alert("当前报告不允许设置审核通过");
