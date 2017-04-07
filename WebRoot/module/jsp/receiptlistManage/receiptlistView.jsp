@@ -11,7 +11,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>西计实验室管理系统</title>
+<title>查看交接单</title>
 
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <meta http-equiv="pragma" content="no-cache">
@@ -27,12 +27,15 @@
 	href="module/css/bootstrap-table.css">
 <link rel="stylesheet" type="text/css"
 	href="module/css/receiptlistManage/receiptlistView.css">
-
+<link rel="stylesheet" type="text/css"
+	href="module/css/commonSystem/commonSystem.css" />
+	
+<script src="assets/js/autoPage.js"></script>
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
 <script src="module/js/bootstrap-table.js"></script>
 <script src="module/js/bootstrap-table-zh-CN.js"></script>
-<script src="assets/js/autoPage.js"></script>
+
 
 </head>
 
@@ -46,46 +49,46 @@
 		</div>
 		<div class="header">
 			<div class="row">
-				<div class="col-md-3 colum">
+				<div class="col-xs-3 col-md-3 col-lg-3">
 					<label>合同编号：</label> <input name="contractCode"
 						id="show_contractCode" class="form-control" type="text" readonly
 						style="border:0px;">
 				</div>
-				<div class="col-md-3 colum">
+				<div class="col-xs-3 col-md-3 col-lg-3">
 					<label>委托人：</label> <input id="show_linkMan" name="linkMan"
 						class="form-control" type="text" readonly style="border:0px;" />
 				</div>
-				<div class="col-md-3 colum">
+				<div class="col-xs-3 col-md-3 col-lg-3">
 					<label>委托时间：</label> <input id="show_createTime" name="createTime"
 						class="form-control" type="text" readonly style="border:0px;" />
 				</div>
-				<div class="col-md-3 colum">
+				<div class="col-xs-3 col-md-3 col-lg-3">
 					<label>完成时间：</label> <input id="show_completeTime"
 						name="completeTime" class="form-control" type="text" readonly
 						style="border:0px;" />
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-6 colum">
+				<div class="col-xs-6 col-md-6 col-lg-6">
 					<label>委托单位：</label> <input id="show_companyName"
 						name="companyName" class="form-control" type="text" readonly
 						style="border:0px;" />
 				</div>
 
-				<div class="col-md-3 colum"></div>
-				<div class="col-md-3 colum">
+				<div class="col-xs-3 col-md-3 col-lg-3"></div>
+				<div class="col-xs-3 col-md-3 col-lg-3">
 					<label>联系电话：</label> <input id="show_linkPhone" name="linkPhone"
 						class="form-control" type="text" readonly style="border:0px;" />
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-6 colum">
+				<div class="col-xs-6 col-md-6 col-lg-6">
 					<label>通讯地址：</label> <input id="show_address" name="address"
 						class="form-control" type="text" readonly style="border:0px;" />
 				</div>
-				<div class="col-md-3 colum"></div>
-				<div class="col-md-3 colum">
-					<label>密级&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;：</label> <input
+				<div class="col-xs-3 col-md-3 col-lg-3"></div>
+				<div class="col-xs-3 col-md-3 col-lg-3">
+					<label>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;级：</label> <input
 						id="show_classifiedLevel" name="classifiedLevel"
 						class="form-control" type="text" readonly style="border:0px;" />
 				</div>

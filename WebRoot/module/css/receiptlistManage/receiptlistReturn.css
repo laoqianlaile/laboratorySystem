@@ -92,3 +92,8 @@
  width: 50%;
  margin-top: 0px;
 }
+
+.container{
+	width:100%;
+	min-width:1200px;
+}
