@@ -222,7 +222,7 @@ function secondAuditPassSure(){
                                 fileName : fileName
 							},
 							function(result) {
-								result = eval(result);
+								result = JSON.parse(result);
 								$.post("messageNoticeController/addReportAuditMessageNotice.do",
 												{
 													messageID : result,
@@ -234,7 +234,7 @@ function secondAuditPassSure(){
                         fileName : fileName
 					},
 					function(result) {
-						result = eval(result);
+						result = JSON.parse(result);
 						$.post("messageNoticeController/addReportThridAuditPersonMessageNotice.do",
 										{
 											messageID : result
@@ -290,7 +290,7 @@ function secondAuditRejectSure() {
 												fileName : fileName
 											},
 											function(result) {
-												result = eval(result);
+												result = JSON.parse(result);
 												$.post("messageNoticeController/addReportAuditMessageNotice.do",
 																{
 																	messageID : result,

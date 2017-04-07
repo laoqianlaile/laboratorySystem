@@ -18,16 +18,20 @@
 
 .form-control {
 	display: inline;
-	width: auto;
+	width: 60%;
 }
 
 .row {
 	margin-bottom: 7px;
 }
 
-.col-md-6 input {
-	width: 79%;
+.row label{
+	min-width:70px;
 }
+
+/*.col-md-6 input {
+	width: 79%;
+}*/
 
 .col-md-12 textarea {
 	width: 90%;
@@ -62,4 +66,9 @@
 	float: right;
 	margin-right: 20px;
 	width: 90px;
+}
+
+.container{
+	width:100%;
+	min-width:1200px;
 }

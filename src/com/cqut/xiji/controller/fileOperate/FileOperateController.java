@@ -320,10 +320,7 @@ public class FileOperateController {
 		String cacheFilePath = "";// 缓存文件地址;
 		PropertiesTool pe = new PropertiesTool();
 		if (fileSuffixName.equals("jpg") || fileSuffixName.equals("png") || fileSuffixName.equals("gif")){
-		    int length = filePath.length();
-			int x = filePath.lastIndexOf("\\");
-			x++;
-		    filedisplay = filePath.substring(x, length);// "给用户提供的下载文件名";
+		    filedisplay = fileName;// "给用户提供的下载文件名";
 		    cacheFilePath  = pe.getSystemPram("imgPath") + "\\" + filePath;
 		}else{
 			Map<String, Object> results = service.getFileDecryptPassword(ID);
@@ -369,8 +366,7 @@ public class FileOperateController {
 				outp.close();
 				outp = null;
 			}
-			if (!fileSuffixName.equals("gif") && !fileSuffixName.equals("jpg")
-					&& !fileSuffixName.equals("png")) {
+			if (!fileSuffixName.equals("gif") && !fileSuffixName.equals("jpg") && !fileSuffixName.equals("png")) {
 				File cacheFile = new File(cacheFilePath);
 				if (cacheFile.exists()) {
 					cacheFile.delete();

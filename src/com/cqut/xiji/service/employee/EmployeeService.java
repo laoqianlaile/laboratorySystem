@@ -185,7 +185,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 		@Override
 		public List<Map<String, Object>> getEmployeeName(String employeeName) {
 			String[] properties = new String[] {"ID","employeeName"};
-			String condition = "employeeName like '%" + employeeName + "%'";
+			String condition = "employeeName like '%" + employeeName + "%'  and ID != '20170220super' and ID != '20170220xiji'";
 			List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Employee.class);
 			return result;
 		}
@@ -488,12 +488,16 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 		
 		@Override
 	public boolean addSignatrueAndStamp(String fileID, String selectorName) {
-		Map<String, Object> fileInfo = baseEntityDao.findByID( new String[] { "path,belongtoID" }, fileID, "ID", "fileinformation");
+		String condition = " fileinformation.ID = '" + fileID + "'";
+		List<Map<String, Object>> fileInfo = entityDao.searchWithpaging(
+				new String[] { "fileinformation.path AS path","fileinformation.belongtoID AS belongtoID"},
+				"fileinformation", null, null, condition, null,
+				"fileinformation.uploadTime", "DESC", 1, 0);
 		if (fileInfo != null && fileInfo.size() > 0) {
-			String employeeID = fileInfo.get("belongtoID").toString();
-			String imagePath = fileInfo.get("path").toString();
+			String employeeID = fileInfo.get(0).get("belongtoID").toString();
+			String imagePath = fileInfo.get(0).get("path").toString();
 			Employee ee = entityDao.getByID(employeeID, Employee.class);
-			if (selectorName.equals("#singnatureImg")) {
+			if (selectorName.equals(".singnatureImg")) {
 				ee.setSingnature(imagePath);
 				return baseEntityDao.updatePropByID(ee, employeeID) > 0 ? true
 						: false;

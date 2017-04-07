@@ -35,7 +35,12 @@ function initData(){
 		selectItemName : '',// radio or checkbox 的字段名
 		columns : [ {
 			checkbox : true,
-			width :'5%'// 宽度
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width :'5%',// 宽度
+			formatter : function(value, row, index) {
+				checkData(row);	 //验证数据合理性					
+			}
 		},{
 			field:'ID',//返回值名称
 			title:'设备类型ID',//列名
@@ -73,6 +78,25 @@ function initData(){
 	});
 }
 
+//检查仪器类型数据是否合理并处理
+function checkData(dataObj) { // 后台数据字段为空就不会传上来
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null || dataObj.ID == undefined || dataObj.ID.trim() == "") {
+		dataObj.ID = "";
+	}
+	if (!dataObj.hasOwnProperty("name") || dataObj.name == null || dataObj.name == undefined || dataObj.name.trim() == "") {
+		dataObj.name = "";
+	}
+	if (!dataObj.hasOwnProperty("factoryCode") || dataObj.factoryCode == null || dataObj.factoryCode == undefined || dataObj.factoryCode.trim() == "") {
+		  dataObj.factoryCode = "";
+	}
+	if (!dataObj.hasOwnProperty("createTime") || dataObj.createTime == null || dataObj.createTime == undefined || dataObj.createTime.trim() == "") {
+		dataObj.createTime = "";
+	}
+	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null || dataObj.remarks == undefined || dataObj.remarks.trim() == "") {
+		dataObj.remarks = "";
+	}
+}
+
 /*//请求数据时的额外参数
 function queryParams(){
 	var searchCondition = {
@@ -93,7 +117,12 @@ function search(){
 	initData();
 	$('#table').bootstrapTable('refresh', null);
 }
-
+/**
+ * 刷新表格
+ */
+function refrehTable() {
+	$('#table').bootstrapTable('refresh', null);
+}
 /* 刷新方法 */
 function refresh(){
 	window.location.href="module/jsp/equipmentManage/equipmentTypeManage.jsp";
@@ -107,25 +136,36 @@ function delData(){
 		return;
 	}
 	var Ids = "";
+	var message = "将要删除仪器：";
 	for(var i=0; i<data.length; i++){
-		Ids += "ID = '" + data[i].ID + "' or ";
+		ids += "ID = '" + data[i].ID + "' or ";
+		message += data[i].name + " or ";
 	}
-	swal(Ids.substring(0, (Ids.length-3)));
-	var ajaxParameter = {
-			equipmentTypeIds:Ids.substring(0, (Ids.length-3))	
-	};
-	
-	$.ajax({
-	  url:'equipmentTypeController/delEquipmentType.do',
-	  type:"post",
-	  data:ajaxParameter,
-	  success:function(o){
-		  if(o<=0){
-			  swal("删除失败");
+	if (confirm(message.substring(0, (message.length-3)))) {
+		var ajaxParameter = {
+				equipmentTypeIds:Ids.substring(0, (Ids.length-3))	
+		};
+		
+		$.ajax({
+		  url:'equipmentTypeController/delEquipmentType.do',
+		  type:"post",
+		  data:ajaxParameter,
+		  success:function(o){
+			  switch (o) {
+				case '1':swal("删除成功！");
+					refrehTable();
+					break;
+				case '0':swal("删除失败！");
+					break;
+				default:swal("出现未知错误，请重试！");
+					break;
+			  }
+		  },
+		  error : function() {
+			return false;
 		  }
-		  refresh();
-	  }
-	});
+		});
+	}
 }
 
 /*
@@ -259,11 +299,13 @@ function add(){
 		url : 'equipmentTypeController/addEquipmentType.do',
 		data : parame,
 		success : function(o) {
-			if (o <= 0) {
-				swal("新增失败");
+			if(o == 0){
+				swal("新增失败!");
+			}else if(o == 1){
+				swal("新增成功!");
+				$('#addModal').modal('hide');
+				refrehTable();
 			}
-			$('#addModal').modal('hide');
-			refresh();
 		}
 	});
 }
@@ -345,11 +387,13 @@ function edit(){
 		data : parame,
 		dataType : 'json',
 		success : function(o) {
-			if (o <= 0) {
-				swal("修改失败");
+			if(o == 0){
+				swal("修改失败!");
+			}else if(o == 1){
+				swal("修改成功!");
+				$('#editModal').modal('hide');
+				refrehTable();
 			}
-			$('#editModal').modal('hide');
-			refresh();
 		},
 		error : function(o) {
 			console.log(o);

@@ -19,6 +19,7 @@ import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.entity.message.Message;
 import com.cqut.xiji.entity.messageNotice.MessageNotice;
+import com.cqut.xiji.entity.receiptlist.Receiptlist;
 import com.cqut.xiji.entity.sample.Sample;
 import com.cqut.xiji.entity.task.Task;
 import com.cqut.xiji.entity.taskMan.TaskMan;
@@ -915,7 +916,7 @@ public class TaskService extends SearchService implements ITaskService {
 	public boolean submitReport(String taskID) {
 		Task tk = entityDao.getByID(taskID, Task.class);
 		Map<String, Object> result = baseEntityDao.findByID(
-				new String[] { "detectstate,testReportID,levelTwo" }, taskID,
+				new String[] { "receiptlistID,detectstate,testReportID,levelTwo" }, taskID,
 				"ID", "task");
 		if (result.get("levelTwo") == null) {
 			return false;
@@ -925,12 +926,18 @@ public class TaskService extends SearchService implements ITaskService {
 				tk.setDetectstate(2);
 				String testReportID = result.get("testReportID").toString();
 				TestReport tr = entityDao.getByID(testReportID,TestReport.class);
+				String receiptlistID = result.get("receiptlistID").toString();
+				Receiptlist rt = entityDao.getByID(receiptlistID,Receiptlist.class);
 				if (tr != null) {
 					tr.setState(1);
 				}
+				if (rt != null){
+					rt.setState(1);
+				}
 				int updateTaskSuccessCount = baseEntityDao.updatePropByID(tk,taskID);
 				int updateReportSuccessCount = baseEntityDao.updatePropByID(tr,testReportID);
-				return (updateTaskSuccessCount + updateReportSuccessCount) > 1 ? true : false;
+				int updateReceiptlistCount = baseEntityDao.updatePropByID(rt,receiptlistID);
+				return (updateTaskSuccessCount + updateReportSuccessCount + updateReceiptlistCount) > 2 ? true : false;
 
 			} else {
 				return false;

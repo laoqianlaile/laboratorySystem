@@ -69,6 +69,9 @@ label{
   .col-md-3{
    width: 20%;
   }
+  .btn-primary:hover {
+    background-color: #ffad33;
+}
 </style>
 
 <body>

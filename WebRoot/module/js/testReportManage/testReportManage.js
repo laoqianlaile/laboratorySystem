@@ -149,9 +149,9 @@ $(function() {
 			valign : 'middle',// 垂直居中显示
 			width : "10%",// 宽度
 			formatter : function(value, row, index) {
-				return "<img src ='module/img/download_icon.png'  onclick='fileDown(\""+row.fileID+"\")'  title='下载报告'  style='cursor:pointer;padding-right:8px;'></img> "
-				+"<img src ='module/img/edit_icon.png'  onclick='submitReport(\""+row.ID+"\",\""+row.taskID+"\")'   title='提交审核'  style='cursor:pointer;padding-right:8px;'></spimgan> "
-				+"<img src ='module/img/contractDetail_icon.png' onclick='showSendReportModal(\""+row.ID+"\")'  title='发送报告'  style='cursor:pointer;padding-right:8px;'></img> "
+				return "<img src ='module/img/download_icon.png'  onclick='fileDown(\""+row.fileID+"\")'  title='下载报告'  style='cursor:pointer;'></img> "
+				+"<img src ='module/img/edit_icon.png'  onclick='submitReport(\""+row.ID+"\",\""+row.taskID+"\")'   title='提交审核'  style='cursor:pointer;'></spimgan> "
+				+"<img src ='module/img/contractDetail_icon.png' onclick='showSendReportModal(\""+row.ID+"\")'  title='发送报告'  style='cursor:pointer;'></img> "
 			}
 		}]
 	});
@@ -274,7 +274,7 @@ function recoatCheck() {
 			},
 			traditional : true,
 			success : function(result) {
-				result = eval(result);
+				result = JSON.parse(result);
 				if (result) {
 					$.each(rows, function() {
 						IDs.push(this.ID);
@@ -303,7 +303,7 @@ function recoatReport(fileIDs, IDs, taskIDs, projectIDs) {
 		},
 		traditional : true,
 		success : function(result) {
-			result = eval(result);
+			result = JSON.parse(result);
 			if (result == null || result == "null" || result == "") {
 				alert("合并失败");
 			} else {
@@ -324,7 +324,7 @@ function updateTestReportFileID(IDs, result) {
 		},
 		traditional : true,
 		success : function(result) {
-			result = eval(result);
+			result = JSON.parse(result);
 			if (result == true || result == "true") {
 				refresh();
 				alert("合并成功");
@@ -362,7 +362,7 @@ function uploadFile() {
 					});
 				},
 			}).bind('fileuploaddone',function(e, data) {
-						var fileID = eval(data.result);
+						var fileID = JSON.parse(data.result);
 						if (fileID != null && fileID != "null" && fileID != "") {
 							var rows = $("#table").bootstrapTable('getSelections'), 
 							    fileVersionNumber = $("#fileVersionNumber").val(), 
