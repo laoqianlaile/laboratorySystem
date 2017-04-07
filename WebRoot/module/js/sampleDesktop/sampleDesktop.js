@@ -377,11 +377,11 @@ function viewRe() {
 	var data = $('.contractTable').bootstrapTable('getSelections');
 	// 弹出确认框
 	if (data.length == 1) {
-		window.location = "module/receiptlistManage/receiptlistView.jsp?reID="
+			 window.location = "module/jsp/receiptlistManage/receiptlistView.jsp?reID="
 				+ data[0].reID;
 		return;
 	} else {
-		 sweetAlert("请选中一条数据");
+		sweetAlert("请选中一条数据");
 		return;
 	}
 
@@ -426,15 +426,28 @@ function viewTestreport(){
 function addRe() {
 	var data = $('.contractTable').bootstrapTable('getSelections');
 	if (data.length == 0 || data.length > 1) {
-		alert("请选中一条数据");
+		sweetAlert("请选中一条数据");
 		return;
 	}
+	sweetAlert({
+		  title: "Are you sure?",
+		  text: "确认有合同新增交接单!",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "是",
+		  cancelButtonText: "否"
+		
+		}, function(isConfirm){
+		        if(isConfirm){
+		        	var result = initAddReceiptlist(data[0], "yes"); // 创建交接单跳转
+		        	window.location.href = "./addRecelist.jsp?reID=" + result.reID + "&coID="
+		        			+ data[0].coID + "&comID=" + data[0].comID + "&coCode="
+		        			+ data[0].coCode + "&addState=yes&reCode=" + result.reCode
+		        			+ "&proID=" + data[0].proID;
+		        }
+		});
 
-	var result = initAddReceiptlist(data[0], "yes"); // 创建交接单跳转
-	window.location.href = "./addRecelist.jsp?reID=" + result.reID + "&coID="
-			+ data[0].coID + "&comID=" + data[0].comID + "&coCode="
-			+ data[0].coCode + "&addState=yes&reCode=" + result.reCode
-			+ "&proID=" + data[0].proID;
 
 }
 // 创建交接单 --各种类型
@@ -454,7 +467,7 @@ function initAddReceiptlist(data, state) {
 			console.log(result);
 		},
 		error : function() {
-			alert(" 创建交接单失败 ");
+			sweetAlert(""," 创建交接单失败 ","error");
 		}
 	});
 	return result;
@@ -462,48 +475,87 @@ function initAddReceiptlist(data, state) {
 // 无合同新增--接受类交接单
 function addReNo() {
 	// 在这里创建新的合同
-	var isAdd = confirm("是否无合同新增交接单");
-	var result = initAddReceiptlist({}, "no"); // 创建交接单跳转
-	window.location.href = "./addRecelist.jsp?reID=" + result.reID + "&coID="
-			+ result.coID + "&comID=" + "" + "&coCode=" + result.coCode
-			+ "&addState=no&reCode=" + result.reCode + "&proID=" + result.proID;
+	
+	sweetAlert({
+		  title: "Are you sure?",
+		  text: "确认无合同新增交接单!",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "是",
+		  cancelButtonText: "否"
+		
+		}, function(isConfirm){
+		        if(isConfirm){
+		        	var result = initAddReceiptlist({}, "no"); // 创建交接单跳转
+		        	window.location.href = "./addRecelist.jsp?reID=" + result.reID + "&coID="
+		        			+ result.coID + "&comID=" + "" + "&coCode=" + result.coCode
+		        			+ "&addState=no&reCode=" + result.reCode + "&proID=" + result.proID;
+		        }
+		});
+
 }
 
-// 有合同新增--退还类交接单
+// 有合同--退还类交接单
 function returnSample() {
 	var data = $('.contractTable').bootstrapTable('getSelections');
 	if (data.length == 0 || data.length > 1) {
-		alert("请选中一条数据");
+		sweetAlert("请选中一条数据");
 		return;
 	}
 	if (data[0].comID == null || data[0].comID == "") {
-		alert("此时你还没有样品可以退");
+		sweetAlert("此时你还没有样品可以退");
 	}
-	var result = initAddReceiptlist(data[0], "return");
-	window.location.href = "./recelistReturn.jsp?reID=" + result.reID
-			+ "&coID=" + result.coID + "&comID=" + "" + "&coCode="
-			+ result.coCode + "&state=add&reCode=" + result.reCode;
+	
+	sweetAlert({
+		  title: "Are you sure?",
+		  text: "确认新增退还交接单!",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "是",
+		  cancelButtonText: "否"
+		
+		}, function(isConfirm){
+		        if(isConfirm){
+		        	var result = initAddReceiptlist(data[0], "return");
+		        	window.location.href = "../../receiptlistManage/receiptlistReturn.jsp?reID=" + result.reID
+		        			+ "&coID=" + result.coID + "&comID=" + "" + "&coCode="
+		        			+ result.coCode + "&state=add&reCode=" + result.reCode;
+		        }
+		});
 }
 function lookMessage(ID) {
-	var isLook = confirm("确认已经查看信息！");
-	if (isLook == true) {
-		$.ajax({
-			url : '/laboratorySystem/messageController/readedMessageByID.do',
-			dataType : "json",
-			type : "post",
-			contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
-			async : false,
-			data : {
-				messageNoticeID : ID
-			},
-			success : function(o) {
+	sweetAlert({
+		  title: "Are you sure?",
+		  text: "确认已经查看信息!",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "是",
+		  cancelButtonText: "否"
+		
+		}, function(isConfirm){
+		        if(isConfirm){
+		        	$.ajax({
+		    			url : '/laboratorySystem/messageController/readedMessageByID.do',
+		    			dataType : "json",
+		    			type : "post",
+		    			contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
+		    			async : false,
+		    			data : {
+		    				messageNoticeID : ID
+		    			},
+		    			success : function(o) {
 
-			},
-			error : function() {
-			}
+		    			},
+		    			error : function() {
+		    			}
+		    		});
+		    		$('.tidingsTable').bootstrapTable('refresh', null);
+		        }
 		});
-		$('.tidingsTable').bootstrapTable('refresh', null);
-	}
+	
 }
 function checkData(who, dataObj) {
 	switch (who) {

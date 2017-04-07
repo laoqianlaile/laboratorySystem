@@ -30,6 +30,7 @@
 <script src="module/js/bootstrap.js"></script>
 <script type="text/javascript" src="./module/js/bootstrap-table.js"></script>
 <script type="text/javascript" src="./module/js/bootstrap-table-zh-CN.js"></script>
+<script src="module/js/commonTool.js"></script>
 <script src="module/js/sampleDesktop/sampleDesktop.js"></script>
 <script src="assets/js/autoPage.js"></script>
 <script src="module/js/sweetalert.min.js"></script>
@@ -73,7 +74,7 @@
 					</div>
 				</div>
 				<div class="row">
-				<div class="sample_button sample_button_1">
+				<div class="sample_button sample_button_1" data-toggle="modal" data-target="#addModal">
 						<img src="module/img/receiptDesktop/checkTestSchedule_icon.png">
 						<p><a href="javascript:void(0)">查看检测进度</a></p>
 					</div>
@@ -103,6 +104,7 @@
 			</div>
 			<div class="contractTable"></div>
 		</div>
+		
 		<div class="RightArea">
 			<div class="Right_content">
 				<div class="row">
@@ -128,6 +130,34 @@
 				</div>
 			</div>
 		</div>
+		
+		<!-- 新增弹框 -->
+	<div id="addModal" class="modal fade" role="dialog"
+		aria-labelledby="gridSystemModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">查看检测状态</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-xs-2 col-lg-2 col-md-2"><img class="nomal achieve" src="./module/img/testProcess/check_icon.png"></div>	
+						 <div class="col-xs-1 col-lg-1 col-md-1"><img class="nomal achieve" src="./module/img/testProcess/arrowright_icon.png"></div>
+						<div class="col-xs-2 col-lg-2 col-md-2"><img class="nomal fail" src="./module/img/testProcess/check_icon.png"></div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" onclick="add()">新增</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	</div>
 </body>
 </html>

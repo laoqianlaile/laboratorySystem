@@ -30,7 +30,7 @@ function initData() {
 }
 
 
-//初始页头数据
+//初始页面数据
 function initPageData() {
 	/**
 	 * 获取参数
@@ -421,8 +421,7 @@ function dealReSave() {
 	else {
 		param.saveState = "submit";
 	}
-	$
-			.ajax({
+	$.ajax({
 				url : '/laboratorySystem/receiptlistController/saveSubmitReceipt.do',
 				dataType : "json",
 				type : "post",
@@ -806,8 +805,7 @@ function initSample() {
 						}, // 请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
 						selectItemName : '',// radio or checkbox 的字段名
 						onLoadSuccess : function(data) {
-							// checkDate(data,"task");
-							console.log(data);
+							
 						},
 						columns : [
 								{
@@ -958,8 +956,7 @@ function addTaskModel() {
 	// 验证数据
 	if (valTaskData(param)) {
 		// 传输数据
-		$
-				.ajax({
+		$.ajax({
 					url : '/laboratorySystem/receiptlistController/addTaskAndSampleWithEdit.do',
 					dataType : "json",
 					type : "post",
