@@ -319,4 +319,53 @@ function changeDateInfo() {
 	$('.season').text(season);
 	$('.time').text(time);
 }
- 
+
+//上传文件(覆盖上传)
+function uploadFile() {
+	$("#files").fileupload({
+				autoUpload : true,
+				url : 'fileOperateController/upload.do',
+				dataType : 'json',
+				add : function(e, data) {
+					$("#ensure").click(function() {
+						data.submit();
+					});
+				},
+			}).bind('fileuploaddone',function(e, data) {
+						var fileID = JSON.parse(data.result);
+						if (fileID != null && fileID != "null" && fileID != "") {
+							var rows = $("#table").bootstrapTable('getSelections'), 
+							    fileVersionNumber = $("#fileVersionNumber").val(), 
+							    fileVersionInfo = $("#fileVersionNumber").val(),
+							    fileRemarks = $("#fileRemarks").val();
+							$.post("testReportController/updateTestReport.do",
+									{
+										ID : rows[0].ID,
+										taskID : rows[0].taskID,
+										versionNumber : fileVersionNumber,
+										versionInfo : fileVersionInfo,
+										remarks : fileRemarks
+									}, function(result) {
+										reload();
+									});
+						} else {
+							alert("上传失败");
+						} 
+					});
+
+	// 文件上传前触发事件,如果需要额外添加参数可以在这里添加
+	$('#files').bind('fileuploadsubmit', function(e, data) {
+		data.formData = {
+			filePath : param.path,
+			TypeNumber : param.type,
+			belongtoID : param.taskID
+		}
+	});
+}
+
+function upSignature(){
+	console.log("上传电子签名图片");
+}
+function upStamp(){
+	console.log("上传电子盖章图片");
+}
