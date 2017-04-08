@@ -52,9 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		
 		
-		#search {
-			float:left;
-		}
+		
 	
 		.employeeN{
 	 	width:568px;
@@ -157,6 +155,48 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     background-color: #ffad33;
    
 }
+.employeeN4{
+	 	width:568px;
+	 	display:none;
+	 	border:1px solid #ccc;
+	 	border-top:none;
+	 	border-radius:3px;
+	 	z-index:99999;
+	 	background: #fff;
+	 	position:absolute;
+	}
+	.employeeN4 ul {
+		width:567px;
+		height:30px;
+		border:none;
+		margin:0;
+		margin-left:-40px;
+	}
+	.employeeN4 ul li{
+		width:567px;
+		height:30px;
+		line-height: 30px;
+		list-style-type: none;
+		text-indent: 12px;
+	}
+	.employeeN4 ul li:hover{
+		background-color:#dcdcdc;
+	}
+	#edit_factoryCode{
+     position:relative;
+	}
+	.input-group{
+	 width: 100%;
+	 background: #9abdd0;
+	     margin-bottom: 15px;
+	}
+	
+	.btn-primary {
+        background-color: #089beb;
+}
+.btn{
+margin: 15px;
+}
 	
 		
 		
@@ -189,7 +229,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<label class="control-label">领样人:</label>
 	  		<input class="form-control" id="linkgetMan">
   		</div>
-  		<button type="button" id="search" class="btn btn-primary" onclick="find()">查询</button>
+  		
   		<div class="item">
 			<label class="control-label">型&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</label>
 	  		<input class="form-control" id="linkspecifications">
@@ -199,7 +239,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		
 	
 	<!-- 功能按钮 -->
-	<div class="input-group" style="float: right;">
+	<div class="input-group" style="float: left;">
+	     <button type="button" id="search" class="btn btn-primary glyphicon glyphicon-zoom-in" onclick="find()">&nbsp;查询</button>
 		<button type="button" class="btn btn-primary glyphicon glyphicon-plus"
 			data-toggle="modal" data-target="#addModal">&nbsp;新增</button>
 		<button type="button" onclick="openModal()"
@@ -228,7 +269,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="col-xs-12 col-md-12">
 							<h4>出厂编号：</h4>
 							<input type="text"  id="add_factoryCode" name="factoryCode"
-								class="form-control" aria-describedby="basic-addon1"  />
+								class="form-control" aria-describedby="basic-addon1"   oninput="addGetfactoryCode()" onpropertychange="addGetfactoryCode()"/>
 								<div class="employeeN3">
 	                   
                    </div>
@@ -245,7 +286,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</div>
 						<div class="col-xs-12 col-md-12">
 							<h4>领样人：</h4>
-							<input type="text" id="add_getMan" name="getMan" oninput="addGetEMName()" onpropertychange="addGetEMName()"  
+							<input type="text" id="add_getMan" name="" oninput="addGetEMName()" onpropertychange="addGetEMName()"  
 							class="form-control" aria-describedby="basic-addon1" />
 							<div class="employeeN">
 	                   
@@ -324,7 +365,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="col-xs-12 col-md-12">
 							<h4>出厂编号：</h4>
 							<input type="text" id="edit_factoryCode" name="factoryCode"
-								class="form-control" aria-describedby="basic-addon1" />
+								class="form-control" aria-describedby="basic-addon1" oninput="editGetfactoryCode()" onpropertychange="editGetfactoryCode()" />
+								<div class="employeeN4">
+	                   
+                   </div>
+								
 						</div>
 						<div class="col-xs-12 col-md-12">
 							<h4>样品名称：</h4>
@@ -338,7 +383,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</div>
 						<div class="col-xs-12 col-md-12">
 							<h4>领样人：</h4>
-							<input type="text" id="edit_getMan" name="getMan" oninput="editGetEMName()" onpropertychange="editGetEMName()"  class="form-control"
+							<input type="text" id="edit_getMan" name="" oninput="editGetEMName()" onpropertychange="editGetEMName()"  class="form-control"
 								aria-describedby="basic-addon1" />
 								<div class="employeeN">
 	                   

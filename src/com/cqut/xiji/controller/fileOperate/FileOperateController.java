@@ -241,7 +241,7 @@ public class FileOperateController {
 			fileEncryptservice.encryptPath(relativePath, ID);// 加密路径
 			fileEncryptservice.encryptFile(cacheFilePath, path, ID);// 加密文件
 		}
-		return ID;
+		return ID + "";
 	}
 
 	/***
@@ -320,10 +320,7 @@ public class FileOperateController {
 		String cacheFilePath = "";// 缓存文件地址;
 		PropertiesTool pe = new PropertiesTool();
 		if (fileSuffixName.equals("jpg") || fileSuffixName.equals("png") || fileSuffixName.equals("gif")){
-		    int length = filePath.length();
-			int x = filePath.lastIndexOf("\\");
-			x++;
-		    filedisplay = filePath.substring(x, length);// "给用户提供的下载文件名";
+		    filedisplay = fileName;// "给用户提供的下载文件名";
 		    cacheFilePath  = pe.getSystemPram("imgPath") + "\\" + filePath;
 		}else{
 			Map<String, Object> results = service.getFileDecryptPassword(ID);
@@ -369,8 +366,7 @@ public class FileOperateController {
 				outp.close();
 				outp = null;
 			}
-			if (!fileSuffixName.equals("gif") && !fileSuffixName.equals("jpg")
-					&& !fileSuffixName.equals("png")) {
+			if (!fileSuffixName.equals("gif") && !fileSuffixName.equals("jpg") && !fileSuffixName.equals("png")) {
 				File cacheFile = new File(cacheFilePath);
 				if (cacheFile.exists()) {
 					cacheFile.delete();
@@ -661,7 +657,7 @@ public class FileOperateController {
 			int length = filePath.length();
 			int x = filePath.lastIndexOf("\\");
 			x++;
-			String fileName = filePath.substring(x, length);// "给用户提供的下载文件名";
+			String fileName = filePath.substring(x, length);// 文件名
 			cacheFilePath += fileName;
 			path += filePath;
 			fileEncryptservice.decryptFile(path, cacheFilePath, ID);
@@ -675,7 +671,7 @@ public class FileOperateController {
 					swfFilePath = swfFilePath.substring(2).replace("\\", "/");
 					HttpSession session = request.getSession();
 					session.setAttribute("swfFilePath", swfFilePath);
-					return swfFilePath;
+					return swfFilePath + "";
 				} else {
 					return null;
 				}

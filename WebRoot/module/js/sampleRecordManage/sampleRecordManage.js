@@ -121,36 +121,34 @@ function addGetfactoryCode(){
 	}else {
 		var parame = {};
 		parame.employeeName = name;
-		
-		$.ajax({  
-		    url:'sampleRecordController/getFactoryCode.do',// 跳转到 action  
-		    type:'post',
-		    data:parame,
-		    dataType:'json',
-		    success:function(data){  
-		    	if (data) { 
-		    		var employee,length;
-		    		var myobj = JSON.parse(data);
-		    		var htmlElement = "";//定义HTML    
-		    		employee = $(".employeeN3");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else{
-		    			length = myobj.length;
-		    		}
-		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].factoryCode + "'>" + myobj[i].factoryCode + "</li></ul>";
-		    		}
-		    		
-		    		employee.show();
-		    		employee.empty();
-		    		employee.append(htmlElement);
-		    		addClickFactoryCode();
-			    }
-			}
+		$.post("sampleRecordController/getFactoryCode.do",{
+			factoryCode : name
+		},function(data){
+			if (data) { 
+	    		var employee,length;
+	    		var myobj = JSON.parse(data);
+	    		var htmlElement = "";//定义HTML    
+	    		employee = $(".employeeN3");
+	    		if(myobj.length > 4){
+	    			length = 4;
+	    		}else{
+	    			length = myobj.length;
+	    		}
+	    		for(var i=0; i < length; i++){
+	    			htmlElement += "<ul><li value='" + myobj[i].factoryCode + "'>" + myobj[i].factoryCode + "</li></ul>";
+	    		}
+	    		
+	    		employee.show();
+	    		employee.empty();
+	    		employee.append(htmlElement);
+	    		$('#add_sampleName').val("");
+	    		$('#add_specifications').val("");
+	    		addClickFactoryCode();
+		    }
 		});
 	}
 }
+
 function addClickFactoryCode(){ 
 	
 	
@@ -160,13 +158,117 @@ function addClickFactoryCode(){
 		 $("#add_factoryCode").val(name);
 		 $('#add_factoryCode').attr({'value' : "" + name + ""});
 		 $(".employeeN3").hide();
+
+	     aaa();
 	})
 
-	//隐藏提示框
-	$("#addContent").click(function(){
-		 $(".employeeN3").hide();
-	})
+
 }
+
+function aaa(){
+		if($("#add_factoryCode").val()!=""&&$("#add_factoryCode").val()!=null){
+		var parame = {};
+		parame.factoryCode=$('#add_factoryCode').val();
+		$.ajax({	
+			  url:'sampleRecordController/getSample.do',
+			  data:parame,
+			  dataType:"json",
+			  success:function(result){
+				$('#add_sampleName').val(result.sampleName);
+				$('#add_specifications').val(result.specifications);
+			},
+			error:function(result){
+				swal("没这个样品");
+			}
+		
+			});	
+		
+		}
+		if($("#add_factoryCode").val()==""&&$("#add_factoryCode").val()==null){
+			$('#add_sampleName').val("");
+			$('#add_specifications').val("");
+		}
+
+}
+function editGetfactoryCode(){
+	var name = $('#edit_factoryCode').val();
+	if (!name && typeof(name)!="undefined" && name=='') 
+	{
+		$(".employeeN4").hide();
+	}else {
+		var parame = {};
+		parame.employeeName = name;
+		$.post("sampleRecordController/getFactoryCode.do",{
+			factoryCode : name
+		},function(data){
+			if (data) { 
+	    		var employee,length;
+	    		var myobj = JSON.parse(data);
+	    		var htmlElement = "";//定义HTML    
+	    		employee = $(".employeeN4");
+	    		if(myobj.length > 4){
+	    			length = 4;
+	    		}else{
+	    			length = myobj.length;
+	    		}
+	    		for(var i=0; i < length; i++){
+	    			htmlElement += "<ul><li value='" + myobj[i].factoryCode + "'>" + myobj[i].factoryCode + "</li></ul>";
+	    		}
+	    		
+	    		employee.show();
+	    		employee.empty();
+	    		employee.append(htmlElement);
+	    		$('#edit_sampleName').val("");
+	    		$('#edit_specifications').val("");
+	    		addClickeditFactoryCode();
+		    }
+		});
+	}
+}
+
+function addClickeditFactoryCode(){ 
+	
+	
+	//给input赋值
+	$(".employeeN4 ul li").click(function(){
+		 var name =  $(this).attr("value");
+		 $("#edit_factoryCode").val(name);
+		 $('#edit_factoryCode').attr({'value' : "" + name + ""});
+		 $(".employeeN4").hide();
+
+	     aaa();
+	})
+
+
+}
+
+function aaa(){
+		if($("#edit_factoryCode").val()!=""&&$("#edit_factoryCode").val()!=null){
+		var parame = {};
+		parame.factoryCode=$('#edit_factoryCode').val();
+		$.ajax({	
+			  url:'sampleRecordController/getSample.do',
+			  data:parame,
+			  dataType:"json",
+			  success:function(result){
+				$('#edit_sampleName').val(result.sampleName);
+				$('#edit_specifications').val(result.specifications);
+			},
+			error:function(result){
+				swal("没这个样品");
+			}
+		
+			});	
+		
+		}
+		if($("#edit_factoryCode").val()==""&&$("#edit_factoryCode").val()==null){
+			$('#edit_sampleName').val("");
+			$('#edit_specifications').val("");
+		}
+
+}
+
+
 
 function addGetEMName(){
 	var name = $('#add_getMan').val();
@@ -223,6 +325,7 @@ function addClick(){
 	$("#addContent").click(function(){
 		 $(".employeeN").hide();
 	})
+	
 }
 function addGetEMName1(){
 	var name = $('#add_returnMan').val();
@@ -429,8 +532,8 @@ function Judge(){
 	    type:'post',
 	    data:parame,
 	    dataType:'json',
-	    success:function(data){  
-	    	
+	    success:function(data){ 
+	    		
 	    	if (data.state=="1") {
 	    		swal("样品未还");
 		    }else {
@@ -438,7 +541,11 @@ function Judge(){
 		    }
 	    	
 	    	
-		}
+		},
+	   error:function(data){ 
+		swal("没这个样品");
+		} 
+	
 	});
 	
 }
@@ -469,9 +576,6 @@ function add(){
 					url : 'sampleRecordController/addSampleRecord.do',
 					data : parame,
 					success : function(o) {
-						if (o <= 0) {
-							swal("新增失败");
-						}
 						$('#addModal').modal('hide');
 						refresh();
 					}
@@ -549,62 +653,35 @@ function openModal(){
 	$('#editModal').modal('show');
 }
 
-$("#edit_factoryCode").change(function upperCase(factoryCode){
-	$('#edit_sampleName').val("");
-	$('#edit_specifications').val("");
-	if($("#edit_factoryCode").val()!=""&&$("#edit_factoryCode").val()!=null){
-	var parame = {};
-	parame.factoryCode=$('#edit_factoryCode').val();
-	$.ajax({	
-		  url:'sampleRecordController/getSample.do',
-		  data:parame,
-		  dataType:"json",
-		  success:function(result){
-			$('#edit_sampleName').val(result.sampleName);
-			$('#edit_specifications').val(result.specifications);
+//$("#edit_factoryCode").change(function upperCase(factoryCode){
+//	$('#edit_sampleName').val("");
+//	$('#edit_specifications').val("");
+//	if($("#edit_factoryCode").val()!=""&&$("#edit_factoryCode").val()!=null){
+//	var parame = {};
+//	parame.factoryCode=$('#edit_factoryCode').val();
+//	$.ajax({	
+//		  url:'sampleRecordController/getSample.do',
+//		  data:parame,
+//		  dataType:"json",
+//		  success:function(result){
+//			$('#edit_sampleName').val(result.sampleName);
+//			$('#edit_specifications').val(result.specifications);
+//
+//			  },
+//			error:function(result){
+//					swal("没这个样品");
+//				}
+//		});	
+//	}
+//	if($("#edit_factoryCode").val()==""&&$("#edit_factoryCode").val()==null){
+//		$('#edit_sampleName').val("");
+//		$('#edit_specifications').val("");
+//	}
+//	
+//	
+//
+//});
 
-			  },
-			error:function(result){
-					swal("没这个样品");
-				}
-		});	
-	}
-	if($("#edit_factoryCode").val()==""&&$("#edit_factoryCode").val()==null){
-		$('#edit_sampleName').val("");
-		$('#edit_specifications').val("");
-	}
-	
-	
-
-});
-$("#add_factoryCode").change(function upperCase(factoryCode){
-	$('#add_sampleName').val("");
-	$('#add_specifications').val("");
-	if($("#add_factoryCode").val()!=""&&$("#add_factoryCode").val()!=null){
-	var parame = {};
-	parame.factoryCode=$('#add_factoryCode').val();
-	$.ajax({	
-		  url:'sampleRecordController/getSample.do',
-		  data:parame,
-		  dataType:"json",
-		  success:function(result){
-			$('#add_sampleName').val(result.sampleName);
-			$('#add_specifications').val(result.specifications);
-		},
-		error:function(result){
-			swal("没这个样品");
-		}
-	
-		});	
-	
-	}
-	if($("#add_factoryCode").val()==""&&$("#add_factoryCode").val()==null){
-		$('#add_sampleName').val("");
-		$('#add_specifications').val("");
-	}
-	
-
-});
 
 function upperCase(factoryCode)
 {

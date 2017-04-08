@@ -211,11 +211,13 @@ public class RoleService extends SearchService implements IRoleService{
 	public String delRole(String roleIDs) {
 		// TODO Auto-generated method stub
 		if(roleIDs == null || roleIDs.isEmpty()){
-			return 0+"";
+			return "false";
 		}
 		String[] ids = roleIDs.split(",");
-		String condition = "  locate(role.ID ,"+roleIDs+" ) > 0 AND isDelete != 1";
+		String condition = "  locate('"+roleIDs+"',role.ID ) > 0 AND isDelete != 1";
+	
 		 int	result = entityDao.deleteByCondition(condition,Role.class);
+			System.out.println(ids.length +" "+ result);
 		 if(result < ids.length){
 			return "false";
 		 }else{

@@ -415,6 +415,7 @@ public class ReceiptlistService extends SearchService implements
 				Task task = new Task();
 				task.setID(EntityIDFactory.createId());
 				task.setReceiptlistID(reID);
+				task.setRequires(require);
 				task.setSampleID(sampleID);
 				task.setStartTime(new Date());
 				task.setSaveState(0);
@@ -453,6 +454,7 @@ public class ReceiptlistService extends SearchService implements
 			task.setReceiptlistID(reID);
 			task.setSampleID(sampleID);
 			task.setStartTime(new Date());
+			task.setRequires(require);
 			task.setAllotstate(0);
 			task.setSaveState(0);
 			task.setDetectstate(0);

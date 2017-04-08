@@ -59,7 +59,9 @@
 							</span> <i class="fa fa-caret-down"></i>
 							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 								<li onclick = "openEditpwd()"><a> <i class="icon-cog"></i> 修改密码</a></li>
-								<li onclick="openPersonModal()"><a href="#"> <i class="icon-user"></i> 个人资料</a></li>
+								<li onclick="openPersonModal()"><a> <i class="icon-user"></i> 个人资料</a></li>
+								<li><a><i class="upSignature()">电子签名 </i></a></li>
+								<li><a><i class="upStamp()">电子盖章</i></a></li>
 							</ul>
 							<%}%>
 						</li>
@@ -682,6 +684,11 @@
 	
 	<script src="module/js/index/index.js"></script>
 	<script src="module/js/bootstrap-treeview.js"></script>
+	<script src="module/js/testReportManage/testReportManage.js"></script>
+	<script src="module/js/fileManage/fileManage.js"></script>
+	<script type="text/javascript" src="assets/fileupload/jquery.iframe-transport.js"></script>
+    <script type="text/javascript" src="assets/fileupload/jquery.ui.widget.js"></script> 
+    <script type="text/javascript"src="assets/fileupload/jquery.fileupload.js"></script>
 	<!-- 	<script src="module/js/bootstrap-treeview.min.js"></script> -->
 </body>
 </html>

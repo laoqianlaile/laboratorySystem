@@ -67,7 +67,8 @@ public interface ITaskService {
     
 	public boolean submitReport(String taskID);
 
-
+	public String getFileIdOfTask(String taskID);
+	
 	public String downReportTemplate(String taskID, String projectName, String UPLOADER); 
 
 	

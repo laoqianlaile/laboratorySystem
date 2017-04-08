@@ -108,6 +108,20 @@ textarea {
 .btn-primary:hover {
     background-color: #ffad33;
 }
+#bt{
+ 
+	 width: 100%;
+	 background: #9abdd0;
+}
+
+.btn-primary {
+    background-color: #089beb;
+  
+}
+.btn{
+margin: 15px;
+}
+
 	
 </style>
 
@@ -138,7 +152,7 @@ textarea {
 	<div class="row clearfix">
 
 		<div class="col-md-3.5 column">
-			<div style="float: right;margin-right: 16px;">
+			<div style="float: left;margin: 16px;" id="bt">
 				<button id="query" onclick="find()" class="btn btn-primary"
 					type="button">
 					<em class="glyphicon glyphicon-search"></em> 查询
@@ -157,7 +171,7 @@ textarea {
 
 				<button class="btn btn-primary" button" id="refresh"
 					onclick="refresh()">
-					<em class="glyphicon glyphicon-refresh"></em> 全部数据
+					<em class="glyphicon glyphicon-refresh"></em> 刷新
 				</button>
 
 			</div>
