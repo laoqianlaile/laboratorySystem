@@ -72,6 +72,13 @@ label{
   .btn-primary:hover {
     background-color: #ffad33;
 }
+.btn{
+margin: 6px;
+}
+.btn-primary {
+    background-color: #089beb;
+  
+}
 </style>
 
 <body>
@@ -118,7 +125,7 @@ label{
 						<div class="row clearfix">
 
 							<div class="col-md-3.5 column">
-								<div style="float: right;">
+								<div style="float: left;width:100%;height:50px;background: #9abdd0;margin-bottom: 15px;">
 									<button id="query" onclick="find()"
 										class="btn btn-primary" type="button">
 										<em class="glyphicon glyphicon-search"></em> 查询

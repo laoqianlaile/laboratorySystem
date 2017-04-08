@@ -52,9 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		
 		
-		#search {
-			float:left;
-		}
+		
 	
 		.employeeN{
 	 	width:568px;
@@ -187,6 +185,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	#edit_factoryCode{
      position:relative;
 	}
+	.input-group{
+	 width: 100%;
+	 background: #9abdd0;
+	     margin-bottom: 15px;
+	}
+	
+	.btn-primary {
+        background-color: #089beb;
+}
+.btn{
+margin: 15px;
+}
 	
 		
 		
@@ -219,7 +229,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<label class="control-label">领样人:</label>
 	  		<input class="form-control" id="linkgetMan">
   		</div>
-  		<button type="button" id="search" class="btn btn-primary" onclick="find()">查询</button>
+  		
   		<div class="item">
 			<label class="control-label">型&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</label>
 	  		<input class="form-control" id="linkspecifications">
@@ -229,7 +239,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		
 	
 	<!-- 功能按钮 -->
-	<div class="input-group" style="float: right;">
+	<div class="input-group" style="float: left;">
+	     <button type="button" id="search" class="btn btn-primary glyphicon glyphicon-zoom-in" onclick="find()">&nbsp;查询</button>
 		<button type="button" class="btn btn-primary glyphicon glyphicon-plus"
 			data-toggle="modal" data-target="#addModal">&nbsp;新增</button>
 		<button type="button" onclick="openModal()"
