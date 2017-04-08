@@ -275,6 +275,13 @@ position:relative;
 .btn-primary:hover {
     background-color: #ffad33;
 }
+.btn{
+margin: 6px;
+}
+.btn-primary {
+    background-color: #089beb;
+  
+}
 
 
 
@@ -303,7 +310,7 @@ position:relative;
 	<div class="row clearfix">
 
 		<div class="col-md-3.5 column">
-			<div style="float: right;margin-right: 16px;">
+			<div style="float: left;margin-left: 16px;width:100%;height:50px;background: #9abdd0;">
 				<button id="query" onclick="find()" class="btn btn-primary"
 					type="button">
 					<em class="glyphicon glyphicon-search"></em> 查询

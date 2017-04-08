@@ -242,34 +242,36 @@ function refresh(){
 
 /* 删除方法 */
 function delData(id,equipmentName){
-	if (confirm("确认删除：" + equipmentName)) {
-		var Ids = "ID = '" + id + "'";
-		var ajaxParameter = {
-				equipmentIds:Ids	
-		};
-		
-		$.ajax({
-		  url:'equipmentController/delEquipment.do',
-		  type:"post",
-		  data:ajaxParameter,
-		  success:function(o){
-			  switch (o) {
-				case '1':swal("删除成功！");
-					refrehTable();
-					break;
-				case '0':swal("删除失败！");
-					break;
-				default:swal("出现未知错误，请重试！");
-					break;
-			  }
-		  },
-		  error : function() {
-			return false;
-		  }
+	swal({
+		  title: "确认删除：" + equipmentName,
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "确定",
+		  closeOnConfirm: false
+		},
+		function(){
+			$.ajax({
+			  url:'equipmentController/delEquipment.do',
+			  type:"post",
+			  data:{
+					equipmentIds:id	
+				},
+			  success:function(o){
+				  switch (o) {
+				  	case '-2':swal("该设备与其他表数据有关联，请先删除关联！");
+				  		break;
+					case '1':swal("删除成功！");
+						setTimeout(refresh, 1000);
+						break;
+					case '0':swal("删除失败！");
+						break;
+					default:swal("出现未知错误，请重试！");
+						break;
+				  }
+			 }
 		});
-	}else{
-		return;
-	}
+	});
 }
 
 /**

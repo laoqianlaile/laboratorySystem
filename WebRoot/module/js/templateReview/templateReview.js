@@ -113,8 +113,8 @@ function init() {
 											valign : 'middle',
 											width : '10%',
 											formatter : function(value, row, index) {
-												var d = '<span onclick= "NoPassModal(\''+row.ID+'\',\''+row.SUGGEST+'\')" data-toggle="tooltip" data-placement="top" title="作废" class="glyphicon glyphicon-remove" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
-												var a = '<span  data-toggle="tooltip" data-placement="top" title="通过" onclick="PassModal(\''+row.ID+'\',\''+row.SUGGEST+'\')" class="glyphicon glyphicon-ok" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
+												var d = '<span onclick= "NoPassModal(\''+row.ID+'\',\''+row.SUGGEST+'\',\''+row.STATE+'\')" data-toggle="tooltip" data-placement="top" title="作废" class="glyphicon glyphicon-remove" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
+												var a = '<span  data-toggle="tooltip" data-placement="top" title="通过" onclick="PassModal(\''+row.ID+'\',\''+row.SUGGEST+'\',\''+row.STATE+'\')" class="glyphicon glyphicon-ok" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
 												return  a + d;
 											}
 										} ]
@@ -194,25 +194,32 @@ function find(){
 
 
 
-function NoPassModal(ID,SUGGEST){
-
+function NoPassModal(ID,SUGGEST,STATE){
+	 if(STATE=="待审核"){
 	$("#fileSubtype").find("option").remove();
 	$("#NoPassModal").modal("show");
 	$('#Nopasstemplate').val(SUGGEST);
 	$('#ID').val(ID);
-	
+	 }else{
+		 swal("无法操作已经审核的模板"); 
+	 }
 	
 }
-function PassModal(ID,SUGGEST){
-
+function PassModal(ID,SUGGEST,STATE){
+   if(STATE=="待审核"){
 	$("#fileSubtype").find("option").remove();
 	$("#PassModal").modal("show");
 	$('#passtemplate').val(SUGGEST);
 	$('#ID').val(ID);
+   }else {
+	   swal("无法操作已经审核的模板");
+   }
+   
 	
 	
 }
 function NoPass(){
+	if($('#ID').val())
 	var parame = {};
 	parame.ID = $('#ID').val();
 	parame.SUGGEST = $('#Nopasstemplate').val();

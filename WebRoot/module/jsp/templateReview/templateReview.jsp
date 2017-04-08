@@ -22,7 +22,9 @@
 <link rel="stylesheet" type="text/css" href="module/css/fileManage/fileManage.css">
  <link rel="stylesheet" href="module/css/changeACE.css" />
  <link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
-		
+	 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+ 		
+	<script src="module/js/sweetalert.min.js"></script>	
 	
 <script src="assets/js/autoPage.js"></script>
  
@@ -72,6 +74,13 @@ label{
   .btn-primary:hover {
     background-color: #ffad33;
 }
+.btn{
+margin: 6px;
+}
+.btn-primary {
+    background-color: #089beb;
+  
+}
 </style>
 
 <body>
@@ -118,7 +127,7 @@ label{
 						<div class="row clearfix">
 
 							<div class="col-md-3.5 column">
-								<div style="float: right;">
+								<div style="float: left;width:100%;height:50px;background: #9abdd0;margin: 15px;">
 									<button id="query" onclick="find()"
 										class="btn btn-primary" type="button">
 										<em class="glyphicon glyphicon-search"></em> 查询

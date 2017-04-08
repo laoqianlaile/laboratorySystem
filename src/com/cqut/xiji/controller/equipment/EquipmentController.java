@@ -129,8 +129,8 @@ public class EquipmentController {
 	 */
 	@RequestMapping("/updEquipment")  
     @ResponseBody
-	public String updEquipment(String ID, String equipmentName, String equipmentType, String model, String department, String buyTime, int useYear, String factoryCode, String credentials, String effectiveTime,  String employeeID, String remarks){
-		String result = service.updEquipment(ID, equipmentName, equipmentType, model, department, buyTime, useYear, factoryCode, credentials, effectiveTime, employeeID, remarks);
+	public int updEquipment(String ID, String equipmentName, String equipmentType, String model, String department, String buyTime, int useYear, String factoryCode, String credentials, String effectiveTime,  String employeeID, String remarks){
+		int result = service.updEquipment(ID, equipmentName, equipmentType, model, department, buyTime, useYear, factoryCode, credentials, effectiveTime, employeeID, remarks);
 		return result;
 	}
 

@@ -244,8 +244,16 @@ function openFile(id){
 
 //删除合同的文件
 function delFile(id,fileName) {
-	 if (confirm("确认删除：" + fileName)) {  
-		 var data;
+	var data;
+	swal({
+		title: "确认删除：" + fileName,
+		type: "warning",
+		showCancelButton: true,
+		confirmButtonColor: "#DD6B55",
+		confirmButtonText: "确定",
+		closeOnConfirm: false
+		},
+		function(){	 
 		   $.ajax({
 			url : 'fileInformationController/deleteFileByID.do',
 			dataType : "json",
@@ -264,15 +272,10 @@ function delFile(id,fileName) {
 			error : function() {
 				return false;
 			}
-		   });
-		   refresh();
-		   //$('#fileTable').bootstrapTable('refresh',null);  
-     }  
-     else {  
-         return;  
-     }  
-	
-
+		});
+		refresh();
+		//$('#fileTable').bootstrapTable('refresh',null);  
+	});  
 }
 
 //初始化数据(合同细项)
@@ -748,9 +751,18 @@ function addClick(){
 	//给input赋值
 	$(".testProjectName ul li").click(function(){
 		 var name =  $(this).attr("value");
+		 if (name == null || name.trim() == "" || name == "undefined") {
+			 name = "";
+			}
 		 $("#add_testProjectName").val(name);
 		 var ID =  $(this).attr("name");
 		 var nameCn =  $(this).attr("title");
+		 if (ID == null || ID.trim() == "" || ID == "undefined") {
+			 ID = "";
+			}
+		 if (nameCn == null || nameCn.trim() == "" || nameCn == "undefined") {
+			 nameCn = "";
+			}
 		 $('#add_testProjectName').attr({'name' : "" + ID + ""});
 		 $('#add_testProjectName').attr({'value' : "" + name + ""});
 		 $('#add_testProjectName').attr({'title' : "" + nameCn + ""});
@@ -1016,11 +1028,26 @@ function editClick(){
 	//给input赋值
 	$(".companyN ul li").click(function(){
 		 var name = $(this).attr("value");
+		 if (name == null || name.trim() == "" || name == "undefined") {
+			 name = "";
+			}
 		 $("#edit_companyName").val(name);
 		 var ID =  $(this).attr("class");
 		 var mobilePhone =  $(this).attr("id");
 		 var linkMan =  $(this).attr("name");
 		 var address =  $(this).attr("title");
+		 if (ID == null || ID.trim() == "" || ID == "undefined") {
+			 ID = "";
+			}
+		 if (mobilePhone == null || mobilePhone.trim() == "" || mobilePhone == "undefined") {
+			 mobilePhone = "";
+			}
+		 if (linkMan == null || linkMan.trim() == "" || linkMan == "undefined") {
+			 linkMan = "";
+			}
+		 if (address == null || address.trim() == "" || address == "undefined") {
+			 address = "";
+			}
 		 $('#edit_companyName').attr({'name' : "" + ID + ""});
 		 $('#edit_companyName').attr({'value' : "" + name + ""});
 		 $("#edit_oppositeMen").val(linkMan);
@@ -1043,6 +1070,12 @@ function editClick(){
 		 $("#edit_testProjectName").val(name);
 		 var ID =  $(this).attr("name");
 		 var nameCn =  $(this).attr("title");
+		 if (ID == null || ID.trim() == "" || ID == "undefined") {
+			 ID = "";
+			}
+		 if (nameCn == null || nameCn.trim() == "" || nameCn == "undefined") {
+			 nameCn = "";
+			}
 		 $('#edit_testProjectName').attr({'name' : "" + ID + ""});
 		 $('#edit_testProjectName').attr({'value' : "" + name + ""});
 		 $('#edit_testProjectName').attr({'title' : "" + nameCn + ""});
@@ -1057,8 +1090,14 @@ function editClick(){
 	//给input赋值
 	$(".employeeN ul li").click(function(){
 		 var name =  $(this).attr("value");
+		 if (name == null || name.trim() == "" || name == "undefined") {
+			 name = "";
+			}
 		 $("#edit_employeeName").val(name);
 		 var ID =  $(this).attr("class");
+		 if (ID == null || ID.trim() == "" || ID == "undefined") {
+			 ID = "";
+			}
 		 $('#edit_employeeName').attr({'name' : "" + ID + ""});
 		 $('#edit_employeeName').attr({'value' : "" + name + ""});
 		 $(".employeeN").hide();
@@ -1231,9 +1270,9 @@ function edit(){
 			  dataType:'json',
 			  success:function(o){
 				  switch (o) {
-				  	case -2:swal("不存在该检测项目！");
-			  			break;
-			  		case -4:swal("检测项目名与检测项目ID不相符！");
+				  	case -2:swal("不存在该公司名的公司！");
+				  		break;
+				  	case -4:swal("公司名与公司ID不相符！");
 			  			break;
 					case 1:swal("修改成功！");
 						setTimeout(goback, 1000);
@@ -1358,9 +1397,9 @@ function addItem(){
 			  dataType:'json',
 			  success:function(o){
 				  switch (o) {
-				  	case -2:swal("不存在该公司名的公司！");
-				  		break;
-				  	case -4:swal("公司名与公司ID不相符！");
+				  	case -2:swal("不存在该检测项目！");
+			  			break;
+			  		case -4:swal("检测项目名与检测项目ID不相符！");
 			  			break;
 					case 1:swal("新增成功！");
 						$('#addContractItemModal').modal('hide');
@@ -1379,26 +1418,32 @@ function addItem(){
 		});	
 }
 function delFileItem(id,fineItemCode){
-	if (confirm("删除合同细项：" + fineItemCode)) {
-		var parame = {};
-		parame.itemID = id;
-		parame.contractID = $('#edit_contractID').val();
-		$.ajax({
-			  url:'contractFineItemController/delContractFineItem.do',
-			  type:"post",
-			  data:parame,
-			  success:function(o){
-				  if(o == 1){
-					  swal("删除成功！");
-				  }else{
-					  swal("删除失败");
+	var parame = {};
+	parame.itemID = id;
+	parame.contractID = $('#edit_contractID').val();
+	swal({
+		title: "确认删除：" + fineItemCode,
+		type: "warning",
+		showCancelButton: true,
+		confirmButtonColor: "#DD6B55",
+		confirmButtonText: "确定",
+		closeOnConfirm: false
+		},
+		function(){
+			$.ajax({
+				  url:'contractFineItemController/delContractFineItem.do',
+				  type:"post",
+				  data:parame,
+				  success:function(o){
+					  if(o == 1){
+						  swal("删除成功！");
+					  }else{
+						  swal("删除失败");
+					  }
+					  setTimeout(refresh, 1000);
 				  }
-				  setTimeout(refresh, 1000);
-			  }
-		});
-	}else{
-		return;
-	}
+			});
+	});
 }
 
 //编辑合同细项方法 

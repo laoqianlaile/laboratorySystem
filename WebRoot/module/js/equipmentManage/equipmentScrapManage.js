@@ -221,31 +221,38 @@ function delData(){
 		ids += "ID = '" + data[i].ID + "' or ";
 		message += data[i].equipmentName + " or ";
 	}
-	if (confirm(message.substring(0, (message.length-3)))) {
-		var ajaxParameter = {
-				equipmentScrapIds:ids.substring(0, (ids.length-3))	
-		};
-		
-		$.ajax({
-		  url:'equipmentScrapController/delEquipmentScrap.do',
-		  type:"post",
-		  data:ajaxParameter,
-		  success:function(o){
-			  switch (o) {
-				case '1':swal("删除成功！");
-					refrehTable();
-					break;
-				case '0':swal("删除失败！");
-					break;
-				default:swal("出现未知错误，请重试！");
-					break;
+	var ajaxParameter = {
+		equipmentScrapIds:ids.substring(0, (ids.length-3))	
+	};
+	swal({
+		title: "确认删除：" + message.substring(0, (message.length-3)),
+		type: "warning",
+		showCancelButton: true,
+		confirmButtonColor: "#DD6B55",
+		confirmButtonText: "确定",
+		closeOnConfirm: false
+		},
+		function(){	
+			$.ajax({
+			  url:'equipmentScrapController/delEquipmentScrap.do',
+			  type:"post",
+			  data:ajaxParameter,
+			  success:function(o){
+				  switch (o) {
+					case '1':swal("删除成功！");
+						setTimeout(refresh, 1000);
+						break;
+					case '0':swal("删除失败！");
+						break;
+					default:swal("出现未知错误，请重试！");
+						break;
+				  }
+			  },
+			  error : function() {
+				return false;
 			  }
-		  },
-		  error : function() {
-			return false;
-		  }
 		});
-	}
+	});
 }
 
 /**
@@ -422,8 +429,14 @@ function addClick(){
 	//给input赋值
 	$(".equipmentName ul li").click(function(){
 		 var name = $(this).attr("value");
+		 if (name == null || name.trim() == "" || name == "undefined") {
+			 name = "";
+			}
 		 $("#add_equipmentName").val(name);
 		 var ID =  $(this).attr("class");
+		 if (ID == null || ID.trim() == "" || ID == "undefined") {
+			 ID = "";
+			}
 		 $('#add_equipmentName').attr({'name' : "" + ID + ""});
 		 $('#add_equipmentName').attr({'value' : "" + name + ""});
 		 addFillEQName();
@@ -438,8 +451,14 @@ function addClick(){
 	//给input赋值
 	$(".employeeN ul li").click(function(){
 		 var name =  $(this).attr("value");
+		 if (name == null || name.trim() == "" || name == "undefined") {
+			 name = "";
+			}
 		 $("#add_employeeName").val(name);
 		 var ID =  $(this).attr("class");
+		 if (ID == null || ID.trim() == "" || ID == "undefined") {
+			 ID = "";
+			}
 		 $('#add_employeeName').attr({'name' : "" + ID + ""});
 		 $('#add_employeeName').attr({'value' : "" + name + ""});
 		 $(".employeeN").hide();
@@ -604,8 +623,14 @@ function editClick(){
 	//给input赋值
 	$(".equipmentName ul li").click(function(){
 		 var name = $(this).attr("value");
+		 if (name == null || name.trim() == "" || name == "undefined") {
+			 name = "";
+			}
 		 $("#edit_equipmentName").val(name);
 		 var ID =  $(this).attr("class");
+		 if (ID == null || ID.trim() == "" || ID == "undefined") {
+			 ID = "";
+			}
 		 $('#edit_equipmentName').attr({'name' : "" + ID + ""});
 		 $('#edit_equipmentName').attr({'value' : "" + name + ""});
 		 editFillEQName();
@@ -620,8 +645,14 @@ function editClick(){
 	//给input赋值
 	$(".employeeN ul li").click(function(){
 		 var name =  $(this).attr("value");
+		 if (name == null || name.trim() == "" || name == "undefined") {
+			 name = "";
+			}
 		 $("#edit_employeeName").val(name);
 		 var ID =  $(this).attr("class");
+		 if (ID == null || ID.trim() == "" || ID == "undefined") {
+			 ID = "";
+			}
 		 $('#edit_employeeName').attr({'name' : "" + ID + ""});
 		 $('#edit_employeeName').attr({'value' : "" + name + ""});
 		 $(".employeeN").hide();
@@ -640,6 +671,7 @@ function add(){
 	var equipmentName = $('#add_equipmentName').val();
 	var equipmentID = $('#add_equipmentName').attr("name");
 	var buyTime = $('#add_buyTime').val();
+	var useTime = $('#add_remarks').attr("name");
 	var checkinTime = $('#add_checkinTime').val();
 	var employeeID = $('#add_employeeName').attr("name");
 	var employeeName = $('#add_employeeName').val();
@@ -660,9 +692,19 @@ function add(){
 		swal("设备购入时间不能为空！");
 		return;
 	}
+	if (!useTime || typeof(useTime) == "undefined") 
+	{ 
+		swal("设备使用时间不能为空！");
+		return;
+	}
 	if (!checkinTime || typeof(checkinTime) == "undefined" || checkinTime.trim() == "") 
 	{ 
 		swal("设备报销登记时间不能为空！");
+		return;
+	}
+	if (checkinTime <= buyTime) 
+	{ 
+		swal("时间先后顺序选择错误！"); 
 		return;
 	}
 	if (!employeeName || typeof(employeeName) == "undefined" || employeeName.trim() == "") 
@@ -674,8 +716,6 @@ function add(){
 	{ 
 		remarks = "";
 	}
-	
-	var useTime = $('#add_remarks').attr("name");
 	
 	parame.equipmentID = equipmentID;
 	parame.equipmentName = equipmentName;
@@ -812,11 +852,11 @@ function edit(){
 					break;
 				case '-8':swal("员工名与员工ID不相符！");
 					break;
-				case '1':swal("新增成功！");
+				case '1':swal("修改成功！");
 					$('#editModal').modal('hide');
 					refrehTable();
 					break;
-				case '0':swal("新增失败！");
+				case '0':swal("修改失败！");
 					break;
 				default:swal("出现未知错误，请重试！");
 					break;

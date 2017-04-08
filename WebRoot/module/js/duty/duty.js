@@ -143,18 +143,32 @@ function delData(){
 	var ajaxParameter = {
 			IDs:ids.substring(0, (ids.length-1))
 	};
-	
-	$.ajax({
-	  url:'dutyController/delDuty.do',
-	  data:ajaxParameter,
-	  success:function(o){
-		  if(o<=0){
-			  alert("删除失败");
-		  }
-		  refresh();
-		  swal("删除成功");
-	  }
+	swal({
+		title : "是否删除?",
+		text : "",
+		type : "warning",
+		showCancelButton : true,
+		cancelButtonText:"NO",
+		confirmButtonColor : "#DD6B55",
+		confirmButtonText : "Yes",
+		closeOnConfirm : false
+	}, function() {
+		 swal("Deleted!", "Your imaginary file has been deleted.", "success");
+		$.ajax({
+			  url:'dutyController/delDuty.do',
+			  data:ajaxParameter,
+			  success:function(o){
+				  if(o<=0){
+					  alert("删除失败");
+				  }
+				  refresh();
+				  swal("删除成功");
+			  }
+			});
+		
 	});
+	
+	
 }
 /* 弹出修改弹框方法 */
 function openModal(){
