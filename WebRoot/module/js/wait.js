@@ -14,10 +14,17 @@ function throttle(method, context) {
 	}, 100);
 }
 
-// 将图片和遮罩层展示出来
+// 展示图片和遮罩层
 function displayDiv() {
 	$("#wait_img,#mask").css({
 		"display" : "block"
+	});
+}
+
+// 隐藏 图片和遮罩层
+function hideDiv(){
+	$("#wait_img,#mask").css({
+		"display" : "none"
 	});
 }
 

@@ -328,7 +328,7 @@ function sure() {
 
 // 下载报告模版
 function downReportTemplate() {
-	var ID = getUrlParam("taskID");
+/*	var ID = getUrlParam("taskID");
 	$.post("taskController/getProjectName.do", {
 		taskID : ID
 	}, function(result) {
@@ -348,6 +348,37 @@ function downReportTemplate() {
 			});
 		} else {
 			alert("没有找到相关项目,不能下载模版");
+		}
+	});*/
+	var ID = getUrlParam("taskID");
+	$.post("taskController/getFileIdOfTask.do",{
+		taskID : ID
+	},function(fileID){
+		fileID = JSON.parse(fileID);
+		if(fileID == null || fileID == "null" || fileID == ""){
+			$.post("taskController/getProjectName.do",{
+				taskID : ID
+			},function(result){
+				result = JSON.parse(result);
+				if(result != null && result != "null" && result != ""){
+					$.post("taskController/downReportTemplate.do", {
+						taskID : ID,
+						projectName : result[0].NAME
+					}, function(fileID) {
+						fileID = JSON.parse(fileID);
+						if (fileID != null && fileID != "null" && fileID != "") {
+							refresh();
+							downOneFile(fileID);
+						} else {
+							alert("下载模版出错");
+						}
+					});
+				} else {
+					alert("没有找到相关项目,不能下载模版");
+				}
+			});
+		} else {
+			downOneFile(fileID);
 		}
 	});
 }
@@ -414,10 +445,12 @@ function onlineViewReport() {
 				if(result != null && result != "null" && result != ""){
 					window.location.href = "module/jsp/documentOnlineView.jsp";
 				} else {
+					hideDiv();
 					alert("无法查看");
 				}
 			});
 		} else {
+			hideDiv();
 			alert("无法查看");
 		}
 	});

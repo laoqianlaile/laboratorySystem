@@ -216,7 +216,7 @@ public class TestReportController {
 	@ResponseBody
 	public String getFileID(String ID) {
 		String result = service.getFileID(ID);
-		return result;
+		return result + "";
 	}
 	
 	/**

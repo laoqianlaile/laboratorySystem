@@ -241,7 +241,7 @@ public class FileOperateController {
 			fileEncryptservice.encryptPath(relativePath, ID);// 加密路径
 			fileEncryptservice.encryptFile(cacheFilePath, path, ID);// 加密文件
 		}
-		return ID;
+		return ID + "";
 	}
 
 	/***
@@ -657,7 +657,7 @@ public class FileOperateController {
 			int length = filePath.length();
 			int x = filePath.lastIndexOf("\\");
 			x++;
-			String fileName = filePath.substring(x, length);// "给用户提供的下载文件名";
+			String fileName = filePath.substring(x, length);// 文件名
 			cacheFilePath += fileName;
 			path += filePath;
 			fileEncryptservice.decryptFile(path, cacheFilePath, ID);
@@ -671,7 +671,7 @@ public class FileOperateController {
 					swfFilePath = swfFilePath.substring(2).replace("\\", "/");
 					HttpSession session = request.getSession();
 					session.setAttribute("swfFilePath", swfFilePath);
-					return swfFilePath;
+					return swfFilePath + "";
 				} else {
 					return null;
 				}
