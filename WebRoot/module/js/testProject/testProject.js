@@ -291,7 +291,7 @@ function init() {
 										valign : 'middle',
 										width : '10%',
 										formatter : function(value, row, index) {
-											var d = "<img src ='module/img/download_icon.png' onclick='delTestProject(\""+row.testProjectID+"\")' title='删除' style='cursor:pointer;margin-right:8px;' />"
+											var d = "<img src ='module/img/delete_icon.png' onclick='delTestProject(\""+row.testProjectID+"\")' title='删除' style='cursor:pointer;margin-right:8px;' />"
 											var a = "<img src ='module/img/edit_icon.png' onclick='openEditModal("+JSON.stringify(row)+")'  title='修改'  style='cursor:pointer;margin-right:8px;' />"
 											return  a + d;
 										}
@@ -697,7 +697,8 @@ function matchEquipment(){
 		}
 	});
 	if(date.length == 0){
-		console.log("没有搜索到人员，请重新输入或检查是否有员工。");
+		console.log("" +
+				"，请重新输入或检查是否有员工。");
 	}
 	return date;
 	

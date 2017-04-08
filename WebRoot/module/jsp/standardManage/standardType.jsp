@@ -45,6 +45,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   color: #fff;
   background-color: rgb(255, 173, 51);
 }
+
+#addModal .row .form-control{
+	display: initial;
+    width:80%;
+    height: 35px;
+}
+#addModal .row .labelName{
+	margin: 2%;
+	text-align: center;
+}
+#editModal .row .form-control{
+    display: initial;
+    width:80%;
+    height: 35px;
+}
+#editModal .row .labelName{
+	margin: 2%;
+	text-align: center;
+}
 </style>
   <body>
    	<body>
@@ -104,12 +123,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-xs-12 col-md-12">
-							<h4>标准类型编码：</h4>
+							<label class="labelName">标准类型编码</label>
 							<input type="text" id="add_StandardTypeCode" name="StandardTypeCode"
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>标准类型名称：</h4>
+							<label class="labelName">标准类型名称</label>
 							<input type="text" id="add_StandardTypeName" name="StandardTypeName"
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
@@ -135,23 +154,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-xs-12 col-md-12">
+						<div class="col-xs-12 col-md-12" style="display: none;">
 							<h4>ID：</h4>
 							<input type="text" id="edit_StandardTypeID" name="StandardTypeID"
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>标准类别编码：</h4>
+							<label class="labelName">标准类别编码</label>
 							<input type="text" id="edit_StandardTypeCode" name="StandardTypeCode"
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>标准类别名称：</h4>
+							<label class="labelName" >标准类别名称</label>
 							<input type="text" id="edit_StandardTypeName" name="StandardTypeName"
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>创建时间：</h4>
+							<label class="labelName">创建时间</label>
 							<input type="text" id="edit_CreateTime" name="CreateTime"
 								class="form-control" aria-describedby="basic-addon1" disabled="disabled" />
 						</div>

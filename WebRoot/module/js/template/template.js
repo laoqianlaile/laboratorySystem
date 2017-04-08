@@ -1,9 +1,9 @@
-﻿$(function() {
+﻿var fileParam = {};
+$(function() {
 	init();
 });
 
 function init() {
-
 	$(function() {
 		$('#table')
 				.bootstrapTable(
@@ -130,10 +130,16 @@ function init() {
 						/* 事件 */
 						});
 	});
+	uploadFile();
 }
 /* 刷新方法 */
 function refresh() {
 	$('#table').bootstrapTable('refresh', null);
+}
+
+//重新加载页面
+function reload() {
+	window.location.reload();
 }
 
 /* 重置刷新 */
@@ -212,7 +218,7 @@ function delTemplate() {
 				},
 				success : function(o) {
 					if (o <= 0) {
-						swal({title:"删除失败",type:"warning"});
+						swal({title:"删除失败",type:"error"});
 					} else {
 						swal({title:"删除成功",type:"success"});
 						refresh();
@@ -221,8 +227,22 @@ function delTemplate() {
 				}
 			});
 		});
-	
 }
+
+//检查文件类型
+function checkFile(o) {
+	$("#chooseFile").attr("disabled", "disabled");
+	var filePath = $(o).val();
+	if (filePath != "" && filePath != undefined) {
+		var arr = filePath.split('\\');
+		var fileName = arr[arr.length - 1];
+		$("#fileName").html(fileName);
+	}
+	if (o.value.indexOf('.doc') < 0 && o.value.indexOf('.docx') < 0) {
+		swal("不能将此类型文档作为模板文件上传!");
+	}
+} 
+
 /* 删除多个 方法 */
 function delData() {
 	var data = $('#table').bootstrapTable('getSelections');
@@ -247,7 +267,7 @@ function delData() {
 		data : ajaxParameter,
 		success : function(o) {
 			if (o <= 0) {
-				swal({title:"删除失败",type:"warning"});
+				swal({title:"删除失败",type:"error"});
 			} else {
 				swal({title:"删除成功",type:"success"});
 				refresh();
@@ -258,57 +278,82 @@ function delData() {
 }
 
 function openModal() {
-	if(!isLogin()){
-		return;
-	}
-	else{
-		var html = "";
-		$("#fileSubtype").find("option").remove();
-		$.post("fileOperateController/getFileTypeName.do", {
-			ID : $("#fileType").find("option:selected").val()
-		}, function(result) {
-			result = JSON.parse(result);
-			for (var i = 0; i < result.length; i++) {
-				html += "<option>" + result[i].name + "</option>";
-			}
-			$("#fileSubtype").append(html);
-		});
 
-		fileUploadInit("#file_upload");
-
-		$("#addModal").modal("show");
-	}
+	var html = "";
+	$("#fileSubtype").find("option").remove();
+	$.post("fileOperateController/getFileTypeName.do", {
+		ID : $("#fileType").find("option:selected").val()
+	}, function(result) {
+		result = JSON.parse(result);
+		for (var i = 0; i < result.length; i++) {
+			html += "<option>" + result[i].name + "</option>";
+		}
+		$("#fileSubtype").append(html);
+	});
+	
+	$("#chooseFile").removeAttr("disabled");
+	$("#fileName").html("");
+	fileParam.firstDirectoryName = $('#fileType option:checked').text();// 一级目录
+	fileParam.type = 1 ;
+	fileParam.remarks = $('#add_TemplateRemarks').val(); // 备注
+	$("#addModal").modal("show");
 	
 }
 
-/* 上传 文件 */
-function upfile() {
+//上传文件
+function uploadFile() {
+	$("#files").fileupload({
+				autoUpload : true,
+				url : 'fileOperateController/upload.do',
+				dataType : 'json',
+				add : function(e, data) {
+					$("#ensure").click(function() {
+						fileParam.secondDirectoryName = $('#fileSubtype option:checked').text(); // 二级目录
+						data.submit();
+					});
+				},
+			}).bind('fileuploaddone',function(e, data) {
+						var fileID = JSON.parse(data.result);
+						if (fileID != null && fileID != "null" && fileID != "") {
+							// 传过来的fileID 与数据库不匹配
+							addTemplate(fileID);
+							
+						} else {
+							swal({title:"上传失败! 网路繁忙",  type:"error",});
+						} 
+					});
 
-	path = ""; // 文件上传路径，如果此参数没有值，则使用firstDirectoryName,secondDirectoryName,thirdDirectoryName
-	type = "1"; // 文件类型 该处默认为模板文件
-	belongID = "";// 文件所属ID
-	firstDirectoryName = $('#fileType option:checked').text();// 一级目录
-	secondDirectoryName = $('#fileSubtype option:checked').text(); // 二级目录
-	thirdDirectoryName = ""; // 三级目录
-	otherInfo = ""; // 其他参数
-	remarks = $('#add_TemplateRemarks').val(); // 备注
-
-	fileUpload("#file_upload", path, type, belongID, firstDirectoryName,
-			secondDirectoryName, thirdDirectoryName, otherInfo, remarks);
-
-	// 延迟执行
-	setTimeout("addTemplate()", 3000);
-
+	// 文件上传前触发事件,如果需要额外添加参数可以在这里添加
+	$('#files').bind('fileuploadsubmit', function(e, data) {
+		data.formData = {
+			firstDirectory : fileParam.firstDirectoryName,
+			secondDirectory : fileParam.secondDirectoryName,
+			TypeNumber : fileParam.type,
+			remark : fileParam.remarks
+		}
+	});
 }
 
-function addTemplate() {
+// 判空处理
+function checkNull(){
+	if(arguments[0].TemplateName == ""){
+		swal({title:"模板名称不能为空",  type:"warning",});
+		return true;
+	}
+	if(arguments[0].fileID == ""){
+		swal({title:"请选择一个模板文件上传",  type:"warning",});
+		return true;
+	}
+}
+// 新增模板方法
+function addTemplate(fileID) {
 
 	var parame = {};
 	parame.TemplateName = $('#add_TemplateName').val();
 	parame.TemplateRemarks = $('#add_TemplateRemarks').val();
 	parame.uploaderID = $('#EMPLOYEEID').val();//上传人ID
 	parame.TestProjectID = $('#add_TestProjectID').val();
-	
+	parame.fileID = fileID;
 	var templateTypeString = $('#fileSubtype option:checked').text();
 
 	if (templateTypeString === "合同模板") {
@@ -320,19 +365,9 @@ function addTemplate() {
 	if (templateTypeString === "交接单模板") {
 		parame.TemplateType = 2;
 	}
-
-	parame.fileID = "";
-	fileIDs = fielIdReturn();
-	if (fileIDs.length == 0) {
-		swal("请选中一个文件!");
-		return;
-	} else if (fileIDs.length == 1) {
-		parame.fileID = fileIDs[0];
-	} else {
-		for (var i; i < fileIDs.length; i++) {
-			parame.fileID += fileIDs[i] + ",";
-		}
-	}
+	
+	if(checkNull(parame))return;
+	
 	var Content = "新的"+templateTypeString+":"+parame.TemplateName+"(模板名称)需要审核。"
 	
 	$.ajax({
@@ -352,50 +387,34 @@ function addTemplate() {
 		}
 	});
 }
-//登录验证
-function isLogin(){
-	 islogin = $('#uploaderID').val();
-	 if(islogin === null || islogin === "" || islogin === "null"){
-		 sweetAlert("你还没登录", "", "error");
-		 return false;
-	 }
-	 else{
-		 return true;
-	 }
-}
+
 /* 文件下载 */
 function downFile(fileID) {
-	if( ! isLogin()){
+	if(fileID === null || fileID === "" || fileID === "null"){
+		swal({  title: "文件丢失了", type: "error",});
 		return;
 	}
 	else{
-		if(fileID === null || fileID === "" || fileID === "null"){
-			swal({  title: "文件丢失了", type: "error",});
-			return;
-		}
-		else{
-			swal({
-				  title: "确定下载?",
-				  type: "warning",
-				  showCancelButton: true,
-				  confirmButtonColor: "#DD6B55",
-				  confirmButtonText: "确认",
-				  cancelButtonText: "取消",
-				  closeOnConfirm: false,
-				  closeOnCancel: false
-				},
-				function(isConfirm){
-				  if (isConfirm) {
-					//下载文件
-					downOneFile(fileID);
-					swal("Ok!", "", "success")
-				  } else {
-				    swal("Cancelled", "", "error");
-				  }
-				});
-			downOneFile(fileID);
-			return;
-		}
+		swal({
+			  title: "确定下载?",
+			  type: "warning",
+			  showCancelButton: true,
+			  confirmButtonColor: "#DD6B55",
+			  confirmButtonText: "确认",
+			  cancelButtonText: "取消",
+			  closeOnConfirm: false,
+			  closeOnCancel: false
+			},
+			function(isConfirm){
+			  if (isConfirm) {
+				//下载文件
+				downOneFile(fileID);
+				swal("Ok!", "", "success")
+			  } else {
+			    swal("Cancelled", "", "error");
+			  }
+			});
+		return;
 	}
 }
 //消息推送
@@ -589,6 +608,7 @@ function isReport(){
 	}
 }
 
+
 $(function () { $('#testProjectModal').on('hide.bs.modal', function () {
     $('#addModal').modal('show');
 	})
@@ -596,12 +616,34 @@ $(function () { $('#testProjectModal').on('hide.bs.modal', function () {
 
 function addTestproject(){
 	var  testProjectDate = $('#testProject').bootstrapTable('getSelections');
-	if(testProjectDate.leng <= 1){
-		swal("只可选中一个");
+	if(testProjectDate.length == 1){
+		$('#add_TestProjectNameCn').val(testProjectDate[0].NAMECN)
+		$('#add_TestProjectID').val(testProjectDate[0].testProjectID);
+		$('#testProjectModal').modal('hide');
 		return;
 	}
-	
-	$('#add_TestProjectNameCn').val(testProjectDate[0].NAMECN)
-	$('#add_TestProjectID').val(testProjectDate[0].testProjectID);
-	$('#testProjectModal').modal('hide');
+	swal("只可选中一个");
+}
+
+
+//查看word
+function ViewDoc(){
+	var rows = $('#table').bootstrapTable('getSelections');
+	if(rows.length > 1 || rows.length == 0){
+		swal("请选择且只能选择一条数据查看");
+	} else {
+		displayDiv();
+		var fileID = rows[0].fileID;
+		$.post("fileOperateController/onlinePreview.do", {
+			ID : fileID
+		}, function(result) {
+			result = JSON.parse(result);
+			if(result != null && result != "null" && result != ""){
+				window.location.href = "module/jsp/documentOnlineView.jsp";
+			} else {
+				hideDiv();
+				swal("无法查看");
+			}
+		});
+	}
 }
