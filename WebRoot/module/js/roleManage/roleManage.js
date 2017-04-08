@@ -93,20 +93,31 @@ function delData(){
 	
 
     var roleIDs= ids.substring(0, (ids.length-1))
-	delRole(ajaxParameter.roleIDs);
+	delRole(roleIDs);
 
 }
 function delRole(roleIDs){
 	$.ajax({
 		  url:'roleController/delRole.do',
+		  dataType:"json",
 		  data:{
 			  roleIDs : roleIDs
 		  },
 		  success:function(o){
+			  console.log( typeof o);
 			  if(o == "false"){
 				  sweetAlert("没有权限");
+			  }else{
+					sweetAlert({
+						title:"删除成功",
+						type:"success",
+						timer:1000
+						});
 			  }
 			  refresh();
+		  },
+		  error:function(o){
+			  sweetAlert("","删除失败","error");
 		  }
 		});
 }
@@ -199,6 +210,7 @@ function edit(){
 		$.ajax({
 		  url:'roleController/updRole.do',
 		  data:parame,
+		  dataType:"json",
 		  success:function(o){
 			  if(o<=0){
 				  sweetAlert("修改失败");

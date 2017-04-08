@@ -17,6 +17,7 @@ import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.entity.messageNotice.MessageNotice;
+import com.cqut.xiji.entity.receiptlist.Receiptlist;
 import com.cqut.xiji.entity.task.Task;
 import com.cqut.xiji.entity.testReport.TestReport;
 import com.cqut.xiji.service.base.SearchService;
@@ -443,13 +444,12 @@ public class TestReportService extends SearchService implements
 	@Override
 	public boolean submitReportCheck(String ID) {
 		String baseEntity = "testreport";
-		Map<String, Object> result = baseEntityDao.findByID(
-				new String[] { "state" }, ID, "ID", baseEntity);
+		Map<String, Object> result = baseEntityDao.findByID(new String[] { "state" }, ID, "ID", baseEntity);
 		String state = result.get("state").toString();
 		String tanleName = " task ";
 		String[] properties = new String[] { "task.levelTwo as levelTwo" };
 		String joinEntity = " LEFT JOIN testreport ON task.ID = testreport.taskID ";
-		String condition = " 1 = 1 AND testReport.ID ='" + ID + "'";
+		String condition = " 1 = 1 AND task.testReportID ='" + ID + "'";
 		List<Map<String, Object>> auditPersonIsExist = entityDao.searchForeign(
 				properties, tanleName, joinEntity, null, condition);
 		if (state.equals("0") && auditPersonIsExist != null
@@ -501,15 +501,20 @@ public class TestReportService extends SearchService implements
 	@Override
 	public boolean submitReport(String ID, String taskID) {
 		TestReport tr = entityDao.getByID(ID, TestReport.class);
-		Task tk = entityDao.getByID(taskID, Task.class);
+		Map<String, Object> result = baseEntityDao.findByID(new String[] { "receiptlistID" }, taskID, "ID", "task");
 		if (tr == null) {
 			return false;
 		} else {
+			Task tk = entityDao.getByID(taskID, Task.class);
 			tr.setState(1);
 			tk.setDetectstate(2);
+			String receiptlistID = result.get("receiptlistID").toString();
+			Receiptlist rt = entityDao.getByID(receiptlistID,Receiptlist.class);
+			rt.setState(1);
 			int updateReportCount = baseEntityDao.updatePropByID(tr, ID);
 			int updateTaskCount = baseEntityDao.updatePropByID(tk, taskID);
-			return (updateReportCount + updateTaskCount) > 1 ? true : false;
+			int updateReceiptlistCount = baseEntityDao.updatePropByID(rt,receiptlistID);
+			return (updateReportCount + updateTaskCount + updateReceiptlistCount) > 2 ? true : false;
 		}
 	}
 
@@ -786,16 +791,21 @@ public class TestReportService extends SearchService implements
 	@Override
 	public boolean thirdPassReport(String ID, String taskID,String auditPassAgreement) {
 		TestReport tr = entityDao.getByID(ID, TestReport.class);
-		Task tk = entityDao.getByID(taskID, Task.class);
 		if (tr == null) {
 			return false;
 		} else {
+			Map<String, Object> result = baseEntityDao.findByID( new String[] { "receiptlistID" }, taskID, "ID", "task");
+			Task tk = entityDao.getByID(taskID, Task.class);
 			tr.setState(5);
 			tr.setDismissreason3(auditPassAgreement);
 			tk.setDetectstate(6);
+			String receiptlistID = result.get("receiptlistID").toString();
+			Receiptlist rt = entityDao.getByID(receiptlistID,Receiptlist.class);
+			rt.setState(2);
 			int updateReportCount = baseEntityDao.updatePropByID(tr, ID);
 			int updateTaskCount = baseEntityDao.updatePropByID(tk, taskID);
-			return (updateReportCount + updateTaskCount) > 0 ? true : false;
+			int updateReceiptlistCount = baseEntityDao.updatePropByID(rt,receiptlistID);
+			return (updateReportCount + updateTaskCount + updateReceiptlistCount) > 2 ? true : false;
 		}
 	}
 	

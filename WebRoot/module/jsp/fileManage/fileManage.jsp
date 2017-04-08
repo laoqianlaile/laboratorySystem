@@ -51,15 +51,24 @@
 						id="fileName" class="form-control"
 						aria-describedby="basic-addon1" placeholder="请输入文件名称查找">
 				</div>
-				<div class="col-xs-4 col-md-4 col-lg-4">
+			<!-- 	<div class="col-xs-4 col-md-4 col-lg-4">
 					<label>项目ID:</label> <input type="text" name="projectID" id="projectID"
 						class="form-control" aria-describedby="basic-addon1"
 						placeholder="请输入项目ID查找">
-				</div>
+				</div> -->
 				<div class="col-xs-4 col-md-4 col-lg-4">
 					<label>上传人:</label> <input type="text" name="uploadName"
 						id="uploadName" class="form-control"
 						aria-describedby="basic-addon1" placeholder="请输入文件上传人姓名查找">
+				</div>
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<label>文件类型:</label>
+				    <select class="form-control" name="selectPart" id="selectPart">
+						<option value="3">所有情况</option>
+						<option value="0">标准文件</option>
+						<option value="1">模版文件</option>
+						<option value="2">项目文件</option>
+					</select>
 				</div>
 			</div>
 
@@ -90,15 +99,6 @@
 							class="input-group-addon"><span
 							class="glyphicon glyphicon-calendar"></span></span>
 					</div>
-				</div>
-				<div class="col-xs-4 col-md-4 col-lg-4">
-					<label>文件类型:</label> <select class="form-control" name="selectPart"
-						id="selectPart">
-						<option value="3">所有情况</option>
-						<option value="0">标准文件</option>
-						<option value="1">模版文件</option>
-						<option value="2">项目文件</option>
-					</select>
 				</div>
 			</div>
 		</div>

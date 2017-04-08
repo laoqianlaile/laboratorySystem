@@ -216,6 +216,7 @@ function onlineView() {
 		if (result != null && result != "null" && result != "") {
 			window.location.href = "module/jsp/documentOnlineView.jsp";
 		} else {
+			hideDiv();
 			alert("无法查看");
 		}
 	});

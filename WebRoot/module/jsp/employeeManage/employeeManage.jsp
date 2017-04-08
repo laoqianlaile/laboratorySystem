@@ -43,29 +43,30 @@
 
 <body>
 	<!-- 功能 -->
+	<div class="container">
 	<div class="searchArea">
 		<div class="head">
 			<div class="content">
 				<div class="row" style="margin-top:10px;">
-					<div class="col-md-3">
+					<div class="col-xs-3 col-md-3 col-lg-3">
 						<label>员工姓名 ： </label> <input type="text" id="search_employeeName"
 							name="employeeName" class="form-control" placeholder="请输入名称查找" />
 					</div>
-					<div class="col-md-3">
+					<div class="col-xs-3 col-md-3 col-lg-3">
 						<label>员工编码 ： </label> <input type="text" id="search_employeeCode"
 							name="employeeCode" class="form-control" placeholder="请输入员工编码查找" />
 					</div>
-					<div class="col-md-3">
+					<div class="col-xs-3 col-md-3 col-lg-3">
 						<label>登&nbsp;&nbsp;录&nbsp;&nbsp;名 ： </label> <input type="text" id="search_loginName"
 							name="loginName" class="form-control" placeholder="请输入登录名查找" />
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-3">
+					<div class="col-xs-3 col-md-3 col-lg-3">
 						<label>电话号码 ： </label> <input type="text" id="search_phoneNumber"
 							name="phoneNumber" class="form-control" placeholder="请输入电话号码查找" />
 					</div>
-					<div class="col-md-3">
+					<div class="col-xs-3 col-md-3 col-lg-3">
 						<label>部&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;门 ： </label> <select
 							id="search_departmentName" name="departmentName"
 							class="form-control">
@@ -88,6 +89,7 @@
 		<table id="table" class="table table-hover">
 
 		</table>
+	</div>
 	</div>
 
 	<!--新增弹框 -->

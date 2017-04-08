@@ -176,17 +176,17 @@
 					    <img id="Img1"  src="module/img/file/defaultPhoto.jpg"
 							data-holder-rendered="true"/>
 							
-						 <input id="singnatureImg"
+						 <input class="singnatureImg"
 							type="file" name="files" id="files" onchange="previewImage(this,'Img1')"
 							accept="image/png, image/gif, image/jpg, image/jpeg"
 							style="width:66px;height:25px;position:absolute;left:10px;top:155px;opacity: 0;filter: alpha(opacity = 0);" />
 				       
 					</div>
 					<div class="stamp">
-						<label>电子签名:</label>
+						<label>电子盖章:</label>
 						 <img id="Img2"  src="module/img/file/defaultPhoto.jpg"
 							data-holder-rendered="true""/>
-						<input id="stampImg" type="file" name="files" id="files" onchange="previewImage(this,'Img2')"
+						<input class="stampImg" type="file" name="files" id="files" onchange="previewImage(this,'Img2')"
 							accept="image/png, image/gif, image/jpg, image/jpeg" 
 							style="width:66px;height:25px;position:absolute;left:10px;top:155px;opacity: 0;filter: alpha(opacity = 0);" />
 					</div>
@@ -255,10 +255,10 @@
 			format : 'yyyy-mm-dd hh:ii:ss'
 		});
 		$('#Img1').click(function() {
-			$('#singnatureImg').click();
+			$('.singnatureImg').click();
 		});
 		$('#Img2').click(function() {
-			$('#stampImg').click();
+			$('.stampImg').click();
 		});
 		$('#canceUploadImg').click(function() {
 			if (confirm("是否取消上传?")) {
