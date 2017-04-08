@@ -196,13 +196,29 @@ public class EquipmentService extends SearchService implements
 	@Override
 	public int delEquipment(String equipmentIds) {
 		// TODO Auto-generated method stub
+		String condition = "";
 		if(equipmentIds == null || equipmentIds.isEmpty()){
 			return 0;
+		}else{
+			String[] properties = new String[] {"equipmentrepair.ID as R","equipmentuse.ID as U","equipmentverify.ID as V","equipmentscrap.ID as S"};
+			String tableName = "equipment";
+			String joinEntity = " LEFT JOIN equipmentrepair ON equipment.ID = equipmentrepair.equipmentID " +
+					" LEFT JOIN equipmentuse ON equipment.ID = equipmentuse.equipmentID " +
+					" LEFT JOIN equipmentverify ON equipment.ID = equipmentverify.equipmentID " +
+					" LEFT JOIN equipmentscrap ON equipment.ID = equipmentscrap.equipmentID ";
+			condition = "equipment.ID = '" + equipmentIds + "'";
+			int count = entityDao.searchForeign(properties, tableName, joinEntity, null, condition).size();
+			
+			if(count == 0){
+				int result = entityDao.deleteByCondition(condition, Equipment.class);
+				return result;
+		    }else {
+		    	System.out.println("该设备与其他表数据有关联，请先删除关联");
+		    	return -2;
+		    }
+			
+			
 		}
-		
-		String position = equipmentIds;
-		int result = entityDao.deleteByCondition(position, Equipment.class);
-		return result;
 	}
 	
 	/**
@@ -252,7 +268,7 @@ public class EquipmentService extends SearchService implements
 	}
 	
 	@Override
-	public String updEquipment(String ID,
+	public int updEquipment(String ID,
 			String equipmentName, String equipmentType, String model,
 			String department, String buyTime, int useYear, String factoryCode,
 			String credentials, String effectiveTime, String employeeID,
@@ -288,7 +304,7 @@ public class EquipmentService extends SearchService implements
 		}
 				
 		int result = entityDao.updatePropByID(equipment,ID);
-		return result + "";
+		return result;
 	}
 	
 	@Override

@@ -244,33 +244,38 @@ function delData(){
 		ID += "ID = '" + data[i].ID + "' or ";
 		message += data[i].companyName + " or ";
 	}
-	if (confirm(message.substring(0, (message.length-3)))) {
-		var ajaxParameter = {
-				ids:ID.substring(0, (ID.length-3))	
-		};
-		
-		$.ajax({
-		  url:'contractController/delContract.do',
-		  type:"post",
-		  data:ajaxParameter,
-		  success:function(o){
-			  switch (o) {
-				case '1':swal("删除成功！");
-					refrehContractTable();
-					break;
-				case '0':swal("删除失败！");
-					break;
-				default:swal("出现未知错误，请重试！");
-					break;
+	var ajaxParameter = {
+		ids:ID.substring(0, (ID.length-3))	
+	};
+	swal({
+		title: "确认删除：" + message.substring(0, (message.length-3)),
+		type: "warning",
+		showCancelButton: true,
+		confirmButtonColor: "#DD6B55",
+		confirmButtonText: "确定",
+		closeOnConfirm: false
+		},
+		function(){	
+			$.ajax({
+			  url:'contractController/delContract.do',
+			  type:"post",
+			  data:ajaxParameter,
+			  success:function(o){
+				  switch (o) {
+					case '1':swal("删除成功！");
+						setTimeout(refresh, 1000);
+						break;
+					case '0':swal("删除失败！");
+						break;
+					default:swal("出现未知错误，请重试！");
+						break;
+				  }
+			  },
+			  error : function() {
+				return false;
 			  }
-		  },
-		  error : function() {
-			return false;
-		  }
 		});
-	}else{
-		return;
-	}
+	});
 }
 
 /* 新增方法 */
@@ -302,7 +307,7 @@ function add(){
 		}
 		if (!address || typeof(address) == "undefined" || address.trim() == "") 
 		{ 
-			swal("签约地点地址不能为空！");
+			swal("签约单位地址不能为空！");
 			return;
 		}
 		if (!signAddress || typeof(signAddress) == "undefined" || signAddress.trim() == "") 
@@ -433,9 +438,10 @@ function addShowMsg(){
 		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
 		    		}else{
 		    			length = myobj.length;
-		    			for(var i=0; i < length; i++){
-			    			htmlElement += "<ul><li id='" + myobj[i].mobilePhone +"' value='" + myobj[i].companyName + "' name='" + myobj[i].linkMan + "' title='" + myobj[i].address + "' class='" + myobj[i].ID + "'>" + myobj[i].companyName + "</li></ul>";
-			    		}
+		    		}
+		    		
+		    		for(var i=0; i < length; i++){
+		    			htmlElement += "<ul><li id='" + myobj[i].mobilePhone +"' value='" + myobj[i].companyName + "' name='" + myobj[i].linkMan + "' title='" + myobj[i].address + "' class='" + myobj[i].ID + "'>" + myobj[i].companyName + "</li></ul>";
 		    		}
 		    		
 		    		company.show();
@@ -477,6 +483,7 @@ function addGetEName(){
 		    		}else{
 		    			length = myobj.length;
 		    		}
+		    		
 		    		for(var i=0; i < length; i++){
 		    			htmlElement += "<ul><li value='" + myobj[i].employeeName + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + "</li></ul>";
 		    		}
@@ -496,7 +503,7 @@ function addClick(){
 	//给input赋值
 	$(".companyN ul li").click(function(){
 		 var name = $(this).attr("value");
-		 if (name == null || name.trim() == "" || name == undefined) {
+		 if (name == null || name.trim() == "" || name == "undefined") {
 			 name = "";
 			}
 		 $("#add_companyName").val(name);
@@ -504,16 +511,16 @@ function addClick(){
 		 var mobilePhone =  $(this).attr("id");
 		 var linkMan =  $(this).attr("name");
 		 var address =  $(this).attr("title");
-		 if (ID == null || ID.trim() == "" || ID == undefined) {
+		 if (ID == null || ID.trim() == "" || ID == "undefined") {
 			 ID = "";
 			}
-		 if (mobilePhone == null || mobilePhone.trim() == "" || mobilePhone == undefined) {
+		 if (mobilePhone == null || mobilePhone.trim() == "" || mobilePhone == "undefined") {
 			 mobilePhone = "";
 			}
-		 if (linkMan == null || linkMan.trim() == "" || linkMan == undefined) {
+		 if (linkMan == null || linkMan.trim() == "" || linkMan == "undefined") {
 			 linkMan = "";
 			}
-		 if (address == null || address.trim() == "" || address == undefined) {
+		 if (address == null || address.trim() == "" || address == "undefined") {
 			 address = "";
 			}
 		 $('#add_companyName').attr({'name' : "" + ID + ""});
@@ -535,12 +542,12 @@ function addClick(){
 	//给input赋值
 	$(".employeeName ul li").click(function(){
 		 var name =  $(this).attr("value");
-		 if (name == null || name.trim() == "" || name == undefined) {
+		 if (name == null || name.trim() == "" || name == "undefined") {
 			 name = "";
 			}
 		 $("#add_employeeName").val(name);
 		 var ID =  $(this).attr("class");
-		 if (ID == null || ID.trim() == "" || ID == undefined) {
+		 if (ID == null || ID.trim() == "" || ID == "undefined") {
 			 ID = "";
 			}
 		 $('#add_employeeName').attr({'name' : "" + ID + ""});
