@@ -1,3 +1,5 @@
+// 请求数据时的额外参数
+var param = {};
 
 $(function() {
 	initData();
@@ -9,24 +11,36 @@ function initData(){
 		//height : 800,// 定义表格的高度
 		striped : true,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
-	//	pageSize : 10,// 页面数据条数
+		pageSize : 3,// 页面数据条数
 		pageNumber : 1,// 首页页码
-		pageList : [ 5,10,15 ],// 设置可供选择的页面数据条数
+		pageList : [ 3,5,10,15 ],// 设置可供选择的页面数据条数
 		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache : false,// 禁用 AJAX 数据缓存
-	//	sortName : 'ID',// 定义排序列
-	//	sortOrder : 'asc',// 定义排序方式
+		sortName : 'typeCode',// 定义排序列
+		sortOrder : 'asc',// 定义排序方式
 		url:'equipmentTypeController/getEquipmentTypeWithPaging.do',//服务器数据的加载地址
 		sidePagination:'server',//设置在哪里进行分页
 		contentType:'application/json',//发送到服务器的数据编码类型
 		dataType:'json',//服务器返回的数据类型
 	    //queryParams:search,//请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
-		queryParams: queryParams, //参数
-	    queryParamsType: "limit", 
+		queryParams: function queryParams(params) { //请求服务器数据时,添加一些额外的参数
+			param.limit = params.limit;// 页面大小
+			param.offset = params.offset; // 偏移量
+			param.sort = params.sort; // 排序列名
+			param.order = params.order; // 排位方式
+			param.equipmentTypeCode = $.trim($('#schEquipmentTypeCode').val());
+			param.equipmentTypeName = $.trim($('#schEquipmentName').val());
+			return param;
+		}, //参数
 		selectItemName : '',// radio or checkbox 的字段名
 		columns : [ {
 			checkbox : true,
-			width :'5%'// 宽度
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width :'5%',// 宽度
+			formatter : function(value, row, index) {
+				checkData(row);	 //验证数据合理性					
+			}
 		},{
 			field:'ID',//返回值名称
 			title:'设备类型ID',//列名
@@ -49,7 +63,7 @@ function initData(){
 			width:'23%'//宽度
 		},{
 			field:'createTime',//返回值名称
-			title:'购入时间',//列名
+			title:'登记时间',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'18%'//宽度
@@ -64,7 +78,26 @@ function initData(){
 	});
 }
 
-//请求数据时的额外参数
+//检查仪器类型数据是否合理并处理
+function checkData(dataObj) { // 后台数据字段为空就不会传上来
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null || dataObj.ID == undefined || dataObj.ID.trim() == "") {
+		dataObj.ID = "";
+	}
+	if (!dataObj.hasOwnProperty("name") || dataObj.name == null || dataObj.name == undefined || dataObj.name.trim() == "") {
+		dataObj.name = "";
+	}
+	if (!dataObj.hasOwnProperty("factoryCode") || dataObj.factoryCode == null || dataObj.factoryCode == undefined || dataObj.factoryCode.trim() == "") {
+		  dataObj.factoryCode = "";
+	}
+	if (!dataObj.hasOwnProperty("createTime") || dataObj.createTime == null || dataObj.createTime == undefined || dataObj.createTime.trim() == "") {
+		dataObj.createTime = "";
+	}
+	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null || dataObj.remarks == undefined || dataObj.remarks.trim() == "") {
+		dataObj.remarks = "";
+	}
+}
+
+/*//请求数据时的额外参数
 function queryParams(){
 	var searchCondition = {
 		limit : 10,
@@ -75,16 +108,21 @@ function queryParams(){
 		equipmentName : $.trim($('#schEquipmentTypeName').val()),
 	};
     return searchCondition;
-}
+}*/
 
 /**
  * 搜索方法
  */
-function searchEquipment(){
+function search(){
 	initData();
 	$('#table').bootstrapTable('refresh', null);
 }
-
+/**
+ * 刷新表格
+ */
+function refrehTable() {
+	$('#table').bootstrapTable('refresh', null);
+}
 /* 刷新方法 */
 function refresh(){
 	window.location.href="module/jsp/equipmentManage/equipmentTypeManage.jsp";
@@ -94,29 +132,40 @@ function refresh(){
 function delData(){
 	var data = $('#table').bootstrapTable('getSelections');
 	if(data.length==0){
-		alert("请至少选中一条数据");
+		swal("请至少选中一条数据");
 		return;
 	}
 	var Ids = "";
+	var message = "将要删除仪器：";
 	for(var i=0; i<data.length; i++){
-		Ids += "ID = '" + data[i].ID + "' or ";
+		ids += "ID = '" + data[i].ID + "' or ";
+		message += data[i].name + " or ";
 	}
-	alert(Ids.substring(0, (Ids.length-3)));
-	var ajaxParameter = {
-			equipmentTypeIds:Ids.substring(0, (Ids.length-3))	
-	};
-	
-	$.ajax({
-	  url:'equipmentTypeController/delEquipmentType.do',
-	  type:"post",
-	  data:ajaxParameter,
-	  success:function(o){
-		  if(o<=0){
-			  alert("删除失败");
+	if (confirm(message.substring(0, (message.length-3)))) {
+		var ajaxParameter = {
+				equipmentTypeIds:Ids.substring(0, (Ids.length-3))	
+		};
+		
+		$.ajax({
+		  url:'equipmentTypeController/delEquipmentType.do',
+		  type:"post",
+		  data:ajaxParameter,
+		  success:function(o){
+			  switch (o) {
+				case '1':swal("删除成功！");
+					refrehTable();
+					break;
+				case '0':swal("删除失败！");
+					break;
+				default:swal("出现未知错误，请重试！");
+					break;
+			  }
+		  },
+		  error : function() {
+			return false;
 		  }
-		  refresh();
-	  }
-	});
+		});
+	}
 }
 
 /*
@@ -124,9 +173,9 @@ function delData(){
  */
 function isTypeExistA(){
 	var name = $('#add_equipmentTypeName').val(); 
-	if (!name && typeof(name)!="undefined" && name=='') 
+	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{ 
-		alert("设备类型名称不能为空！"); 
+		swal("设备类型名称不能为空！"); 
 	}else {
 		var parame = {};
 		parame.equipmentTypeName = $('#add_equipmentTypeName').val();
@@ -136,7 +185,7 @@ function isTypeExistA(){
 			  data:parame,
 			  success:function(o){
 				  if(o>0){
-					  alert("该设备类型名称已存档");
+					  swal("该设备类型名称已存档");
 					  var n= "";
 					  $('#add_equipmentTypeName').val(n);
 				  }
@@ -150,9 +199,9 @@ function isTypeExistA(){
  */
 function isCodeExistA(){
 	var code = $('#add_equipmentTypeCode').val(); 
-	if (!code && typeof(code)!="undefined" && code=='') 
+	if (!code || typeof(code) == "undefined" || code.trim() == "") 
 	{ 
-		alert("设备类型编号不能为空！");
+		swal("设备类型编号不能为空！");
 	}else {
 		var parame = {};
 		parame.equipmentTypeCode = $('#add_equipmentTypeCode').val();
@@ -162,7 +211,7 @@ function isCodeExistA(){
 			  data:parame,
 			  success:function(o){
 				  if(o>0){
-					  alert("该设备类型名称编号已存档");
+					  swal("该设备类型名称编号已存档");
 					  var n="";
 					  $('#add_equipmentTypeCode').val(n);
 				  }
@@ -176,9 +225,9 @@ function isCodeExistA(){
  */
 function isTypeExistE(){
 	var name = $('#add_equipmentTypeName').val(); 
-	if (!name && typeof(name)!="undefined" && name=='') 
+	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{ 
-		alert("设备类型名称不能为空！"); 
+		swal("设备类型名称不能为空！"); 
 	}else {
 		var parame = {};
 		parame.equipmentTypeName = $('#add_equipmentTypeName').val();
@@ -188,7 +237,7 @@ function isTypeExistE(){
 			  data:parame,
 			  success:function(o){
 				  if(o>0){
-					  alert("该设备类型名称已存档");
+					  swal("该设备类型名称已存档");
 					  var n= "";
 					  $('#add_equipmentTypeName').val(n);
 				  }
@@ -202,9 +251,9 @@ function isTypeExistE(){
  */
 function isCodeExistE(){
 	var code = $('#add_equipmentTypeCode').val(); 
-	if (!code && typeof(code)!="undefined" && code=='') 
+	if (!code || typeof(code) == "undefined" || code.trim() == "") 
 	{ 
-		alert("设备类型编号不能为空！");
+		swal("设备类型编号不能为空！");
 	}else {
 		var parame = {};
 		parame.equipmentTypeCode = $('#add_equipmentTypeCode').val();
@@ -214,7 +263,7 @@ function isCodeExistE(){
 			  data:parame,
 			  success:function(o){
 				  if(o>0){
-					  alert("该设备类型名称编号已存档");
+					  swal("该设备类型名称编号已存档");
 					  var n="";
 					  $('#add_equipmentTypeCode').val(n);
 				  }
@@ -229,16 +278,15 @@ function add(){
 	var equipmentTypeName = $('#add_equipmentTypeName').val();
     var remarks = $('#add_remarks').val();
     
-    if(!equipmentTypeCode && typeof(equipmentTypeCode)!="undefined" && equipmentTypeCode==''){
-    	alert("设备类型编号不能为空！");
+    if(!equipmentTypeCode || typeof(equipmentTypeCode) == "undefined" || equipmentTypeCode.trim() == ""){
+    	swal("设备类型编号不能为空！");
     	return;
     }
-    if(!equipmentTypeName && typeof(equipmentTypeName)!="undefined" && equipmentTypeName==''){
-    	alert("设备类型名称不能为空！");
+    if(!equipmentTypeName || typeof(equipmentTypeName) == "undefined" || equipmentTypeName.trim() == ""){
+    	swal("设备类型名称不能为空！");
     	return;
     }
-    if(!remarks && typeof(remarks)!="undefined" && remarks==''){
-    	alert("备注为空！");
+    if(!remarks || typeof(remarks) == "undefined" || remarks.trim() == ""){
     	remarks = "";
     }
     
@@ -251,11 +299,13 @@ function add(){
 		url : 'equipmentTypeController/addEquipmentType.do',
 		data : parame,
 		success : function(o) {
-			if (o <= 0) {
-				alert("新增失败");
+			if(o == 0){
+				swal("新增失败!");
+			}else if(o == 1){
+				swal("新增成功!");
+				$('#addModal').modal('hide');
+				refrehTable();
 			}
-			$('#addModal').modal('hide');
-			refresh();
 		}
 	});
 }
@@ -264,7 +314,7 @@ function add(){
 function openModal(){
 	var data = $('#table').bootstrapTable('getSelections');
 	if(data.length==0 || data.length>1){
-		alert("请选中一条数据");
+		swal("请选中一条数据");
 		return;
 	}
 	$('#edit_equipmentTypeCode').val(data[0].typeCode);
@@ -278,9 +328,9 @@ function openModal(){
 //得到需要修改的仪器的ID
 function getEquipmentTypeID(){
 	var code = $('#edit_equipmentTypeCode').val();
-	if (!code && typeof(code)!="undefined" && code=='') 
+	if (!code || typeof(code) == "undefined" || code.trim() == "") 
 	{ 
-		alert("合同编号不能为空！"); 
+		swal("合同编号不能为空！"); 
 	}else {
 		var parame = {};
 		parame.equipmentTypeCode = code;
@@ -313,16 +363,15 @@ function edit(){
 	var equipmentTypeName = $('#edit_equipmentTypeName').val();
     var remarks = $('#edit_remarks').val();
     
-    if(!equipmentTypeCode && typeof(equipmentTypeCode)!="undefined" && equipmentTypeCode==''){
-    	alert("设备类型编号不能为空！");
+    if(!equipmentTypeCode || typeof(equipmentTypeCode) == "undefined" || equipmentTypeCode.trim() == ""){
+    	swal("设备类型编号不能为空！");
     	return;
     }
-    if(!equipmentTypeName && typeof(equipmentTypeName)!="undefined" && equipmentTypeName==''){
-    	alert("设备类型名称不能为空！");
+    if(!equipmentTypeName || typeof(equipmentTypeName) == "undefined" || equipmentTypeName.trim() == ""){
+    	swal("设备类型名称不能为空！");
     	return;
     }
-    if(!remarks && typeof(remarks)!="undefined" && remarks==''){
-    	alert("备注为空！");
+    if(!remarks || typeof(remarks) == "undefined" || remarks.trim() == ""){
     	remarks = "";
     }
     
@@ -338,11 +387,13 @@ function edit(){
 		data : parame,
 		dataType : 'json',
 		success : function(o) {
-			if (o <= 0) {
-				alert("修改失败");
+			if(o == 0){
+				swal("修改失败!");
+			}else if(o == 1){
+				swal("修改成功!");
+				$('#editModal').modal('hide');
+				refrehTable();
 			}
-			$('#editModal').modal('hide');
-			refresh();
 		},
 		error : function(o) {
 			console.log(o);

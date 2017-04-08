@@ -11,7 +11,7 @@ public interface IContractService {
 			String order, String sort, String taleName,HttpSession session);
 
 	public int addContract(String contractName, String companyID,String companyName,
-			String oppositeMen, String linkPhone, String employeeName,
+			String oppositeMen, String linkPhone,String employeeID, String employeeName,
 			String address, String signAddress, String startTime,
 			String signTime, String endTime, int isClassified, int classifiedLevel);
 	
@@ -24,7 +24,7 @@ public interface IContractService {
 			String oppositeMen, String linkPhone, String employeeID,
 			String employeeName, String signAddress, String startTime,
 			String signTime, String endTime,
-			int isClassified, int classifiedLevel, int state);
+			int isClassified, int classifiedLevel);
 			
 	public int auditContract(String ID, String viewpoint, int state);
 
@@ -43,14 +43,28 @@ public interface IContractService {
 
 	List<Map<String, Object>> getContract();
 
+	/**
+	 * 
+	 * @description 根据ID得到合同信息
+	 * @author hujiajun
+	 * @created 2017年3月29日 上午11:40:33
+	 * @param ID
+	 * @return
+	 */
 	public List<Map<String, Object>> getContractByID(String ID);
 
 	/**
-	 * @param fileID
+	 * 
+	 * @description 更新合同表fileID
+	 * @author hujiajun
+	 * @created 2017年3月29日 上午11:39:52
+	 * @param contractID
 	 * @return
 	 */
 	public int updateContractFileID(String contractID);
 
+	public int isContractFile(String ID);
+	
 	/**
 	 * 
 	 * @description 覆盖合同信息，生成新合同
@@ -70,9 +84,42 @@ public interface IContractService {
 	 * @param endTime
 	 * @return
 	 */
-	public int coverContractFile(String ID,String contractCode,String contractName, String companyName,
+	public int coverContractFile(String ID/*,String contractCode,String contractName, String companyName,
 			String oppositeMen, String linkPhone, String employeeName,
 			String address, String signAddress, String startTime,
-			String signTime, String endTime);
+			String signTime, String endTime*/);
+
+	
+	/**
+	 * @description 更新合同状态
+	 * @author hujiajun
+	 * @created 2017年3月29日 上午11:38:52
+	 * @param ID
+	 * @param state
+	 * @return
+	 */
+	public int updContractState(String ID, int state);
+
+	/**
+	 * @param limit
+	 * @param offset
+	 * @param sort
+	 * @param order
+	 * @param contractName
+	 * @param contractCode
+	 * @param employeeName
+	 * @param companyName
+	 * @param startTime
+	 * @param endTime
+	 * @param oppositeMen
+	 * @param linkPhone
+	 * @param state
+	 * @return
+	 */
+	public Map<String, Object> getContractAuditWithPaging(int limit, int offset,
+			String sort, String order, String contractName,
+			String contractCode, String employeeName, String companyName,
+			String startTime, String endTime, String oppositeMen,
+			String linkPhone, int state);
 
 }

@@ -13,6 +13,9 @@ import javax.annotation.Resource;
 
 
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
@@ -91,7 +94,8 @@ public class TemplateController{
 	 */
 	@RequestMapping("/updNoPasstemplate")
 	@ResponseBody
-	public String updNoPasstemplate(String ID,String SUGGEST,String verifyMan){
+	public String updNoPasstemplate(String ID,String SUGGEST,HttpSession session){
+		String verifyMan = (String) session.getAttribute("EMPLOYEEID");
 		String result = service.updNoPasstemplate(ID,SUGGEST,verifyMan);
 		return result;
 
@@ -105,7 +109,8 @@ public class TemplateController{
 	 */
 	@RequestMapping("/updPasstemplate")
 	@ResponseBody
-	public String updPasstemplate(String ID,String SUGGEST,String verifyMan){
+	public String updPasstemplate(String ID,String SUGGEST,HttpSession session){
+		String verifyMan = (String) session.getAttribute("EMPLOYEEID");
 		String result = service.updPasstemplate(ID,SUGGEST,verifyMan);
 		return result;
 

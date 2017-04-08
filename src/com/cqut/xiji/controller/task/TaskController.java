@@ -126,13 +126,12 @@ public class TaskController{
 	 */
 	@RequestMapping("/updReceiptlistSampleInForInReturn")  
     @ResponseBody
-	public String updReceiptlistSampleInForInReturn(String ID, String testID, String factoryCode,
-			String sampleName, String specifications, String nameCn,String createTime
+    public String updReceiptlistSampleInForInReturn(String ID, String factoryCode,
+			String sampleName, String specifications,String createTime
 			) throws UnsupportedEncodingException {
 		System.out.println(sampleName);
 		sampleName=URLDecoder.decode(sampleName,"utf-8");
-		nameCn=URLDecoder.decode(nameCn,"utf-8");
-		String result = service.updReceiptlistSampleInForInReturn(ID,testID, factoryCode, sampleName, specifications, nameCn, createTime);
+		String result = service.updReceiptlistSampleInForInReturn(ID, factoryCode, sampleName, specifications,createTime);
 		return result;
 	}
 	
@@ -433,6 +432,21 @@ public class TaskController{
 		return JSONArray.fromObject(result).toString();
 	}
 	
+	/**
+	 * 
+     * @discription 获取任务对应的检测报告的文件ID
+     * @author zt       
+     * @created 2017-4-8 上午10:44:30     
+     * @param taskID
+     * @return
+	 */
+	@RequestMapping("/getFileIdOfTask")
+	@ResponseBody
+	public String getFileIdOfTask(String taskID) {
+		String fileID = service.getFileIdOfTask(taskID);
+		return fileID + "";
+	}
+	
     /**
      * 
      * @discription 下载报告模版
@@ -449,10 +463,10 @@ public class TaskController{
 		Object obj = req.getSession().getAttribute("EMPLOYEEID");
 		String UPLOADER = "";
 		if (obj != null) {
-			UPLOADER = (String) obj;// 上传ID,从session里面取出来
+			UPLOADER = (String) obj;// 员工ID,从session里面取出来
 		}
 		String result = service.downReportTemplate(taskID, projectName,UPLOADER);
-		return result;
+		return result + "";
 	}
 
     /**

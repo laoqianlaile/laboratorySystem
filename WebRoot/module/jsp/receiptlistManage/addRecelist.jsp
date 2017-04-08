@@ -483,9 +483,9 @@
 		autoclose : 1,
 		todayHighlight : 1,
 		startView : 2,
-		minView : 2,
+		minView : 3,
 		forceParse : 0,
-		format : 'yyyy-mm-dd HH:ii:ss'
+		format : 'yyyy-mm-dd'
 	});
 </script>
 </html>

@@ -26,7 +26,7 @@
 <script src="../../js/bootstrap-datetimepicker.fr.js"></script>
 <script src="../../js/fileManage/fileManage.js" type="text/javascript"></script>
 <script src="../../js/sweetalert.min.js"></script>
-<script src="../../js/alert.js"></script>
+
 
 
 </head>
@@ -107,7 +107,7 @@
 	    minView: 2,
 	    maxView: 3,
 	    forceParse: 0,
-	    format: 'yyyy-mm-dd HH:ii:ss'
+	    format: 'yyyy-mm-dd'
 	});
 	</script>
 </html>

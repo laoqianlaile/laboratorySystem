@@ -61,7 +61,7 @@ public class MessageController{
 	@ResponseBody
 	public String addMessage(String content,String remarks){
 		String result = service.addMessage(content, remarks);
-		return result;
+		return result + "";
 	}
 	
 	
@@ -76,7 +76,7 @@ public class MessageController{
 	@ResponseBody
 	public String addReportSecondAuditPassMessage(String fileName) {
 		String result = service.addReportSecondAuditPassMessage(fileName);
-		return result;
+		return result + "";
 	}
 	
     /**
@@ -90,7 +90,7 @@ public class MessageController{
 	@ResponseBody
 	public String addReportThirdAuditPassMessage(String fileName){
 		String result = service.addReportThirdAuditPassMessage(fileName);
-		return result;
+		return result + "";
 	}
 	
 	/**
@@ -104,7 +104,7 @@ public class MessageController{
 	@ResponseBody
 	public String addReportSecondAuditRejectMessage(String fileName){
 		String result = service.addReportSecondAuditRejectMessage(fileName);
-		return result;
+		return result + "";
 	}
 	
 	/**
@@ -118,7 +118,7 @@ public class MessageController{
 	@ResponseBody
 	public String addReportThirdAuditRejectMessage(String fileName){
 		String result = service.addReportThirdAuditRejectMessage(fileName);
-		return result;
+		return result + "";
 	}
 	
 	/**
@@ -133,7 +133,7 @@ public class MessageController{
 	@ResponseBody
 	public String addReportAudiPersontMessage(String fileName){
 		String result = service.addReportAudiPersontMessage(fileName);
-		return result;
+		return result + "";
 	}
 	
 	/**
@@ -148,7 +148,7 @@ public class MessageController{
 	@ResponseBody
 	public String addWaitThirdAuditReportMessage(String fileName){
 		String result = service.addWaitThirdAuditReportMessage(fileName);
-		return result;
+		return result + "";
 	}
 	
 }

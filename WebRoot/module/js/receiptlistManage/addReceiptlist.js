@@ -30,7 +30,7 @@ function initData() {
 }
 
 
-//初始页头数据
+//初始页面数据
 function initPageData() {
 	/**
 	 * 获取参数
@@ -58,6 +58,8 @@ function initPageData() {
 		$("#endTime").val(reInformation.endTime);
 		$("#accordingDoc").val(reInformation.accordingDoc);
 		$("#linkPhone").val(reInformation.linkPhone);
+		dealHaveCom(dara); 
+		obj.isCreate = true; //不删除
 	}
 	
 	
@@ -124,6 +126,7 @@ function dealHaveCom(dara) {
 		success : function(o) {
 			data = JSON.parse(o);
 			if (data != false) {
+				checkCompany(data);
 				$("#companyName").val(data.companyName);
 				$("#address").val(data.address);
 			}
@@ -247,8 +250,14 @@ function set_alert_wb_comment(the, state) {
 				+ list_data[i].ID + '\')">' + list_data[i].sampleCode + '</li>';
 	}
 	html += '</ul>';
-	$(".tip-factory .tip-factory-content").html(html);
-	$(".list_sampleCode").css("display", "block");
+	if(list_data != null && list_data.length > 0)
+	{
+		$(".tip-factory .tip-factory-content").html(html);
+		$(".tip-factory").css("display", "block");
+	}
+	else{
+		$(".tip-factory").css("display", "none");
+	}
 }
 //选择搜索出来的样品后的操作
 function selectSample(the, state, sampleID) {
@@ -342,7 +351,7 @@ function onbeforeunload_handler() {
 					       ;
 					},
 					error : function() {
-						chen.alert(" 保存交接单失败");
+						sweetAlert(""," 保存交接单失败","error");
 					}
 
 				});
@@ -351,33 +360,39 @@ function onbeforeunload_handler() {
 function initSaveAndSubmitRe_event() {
 	$("#linkPhone").blur(function() {
 		if ($(this).val() == null || $(this).val().trim() == "") {
-			chen.alert("联系人电话不能为空");
+			sweetAlert("联系人电话不能为空");
 		} else if (!isNoramlPhone($(this).val().trim())) {
-			chen.alert("联系人电话格式不正确");
+			sweetAlert("联系人电话格式不正确");
 		}
 	});
 
 	$("#linkMan").blur(function() {
 		if ($(this).val() == null || $(this).val().trim() == "") {
-			chen.alert("联系人不能为空");
+			sweetAlert("联系人不能为空");
 			return;
 		}
 	});
 	
 	 $("#companyName").blur(function() {
-		 $("#companyContainer").css("display","none");
+		 setTimeout("hideCpmpanyOver()" ,1000);
 		 
      });
 	 
 	$("#address").blur(function() {
 		if ($(this).val() == null || $(this).val().trim() == "")
-			chen.alert("公司通讯地址不能为空");
+			sweetAlert("公司通讯地址不能为空");
 	});
 
 	$(".footer button").click(function() { // 保存和提交按钮的点击操作
 		dealReSave();
 
 	});
+}
+function hideCpmpanyOver(){
+	$("#companyContainer").css("display","none");
+	//处理输入没有的公司
+	obj.comID = "";
+	$("#address").val("");
 }
 // 处理交接单的保存和提交事件
 function dealReSave() {
@@ -386,7 +401,7 @@ function dealReSave() {
 	var data;
 	btnName = $(this).text();
 
-	param.addState = obj.addState;
+	param.addState = obj.state;
 	param.companyName = $("#companyName").val().trim();
 	param.address = $("#address").val().trim();
 	param.linkMan = $("#linkMan").val().trim();
@@ -396,6 +411,7 @@ function dealReSave() {
 	param.accordingDoc = $("#accordingDoc").val().trim();
 	param.reID = obj.reID;
 	param.coID = obj.coID;
+	param.comID = obj.comID;
 	if (vaildInputData(param) == false) {
 		return;
 	}
@@ -405,8 +421,7 @@ function dealReSave() {
 	else {
 		param.saveState = "submit";
 	}
-	$
-			.ajax({
+	$.ajax({
 				url : '/laboratorySystem/receiptlistController/saveSubmitReceipt.do',
 				dataType : "json",
 				type : "post",
@@ -419,7 +434,7 @@ function dealReSave() {
 						window.location = "./module/jsp/receiptlistManage/receiptlistManage.jsp";
 				},
 				error : function() {
-					chen.alert(" 保存交接单失败");
+					sweetAlert(" 保存交接单失败");
 				}
 
 			});
@@ -429,37 +444,38 @@ function dealReSave() {
 function vaildInputData(param) {
 	if (param.linkMan == null || param.linkMan == undefined
 			|| param.linkMan == "") {
-		chen.alert("联系人为空");
+		sweetAlert("联系人为空");
 		return false;
 	}
 	if (param.startTime == null || param.startTime == undefined
 			|| param.startTime == "") {
-		chen.alert("委托时间为空");
+		sweetAlert("委托时间为空");
 		return false;
 	}
 
 	if (param.endTime == null || param.endTime == undefined
 			|| param.endTime == "") {
-		chen.alert("结束时间为空");
+		sweetAlert("结束时间为空");
 		return false;
 	}
 	if (param.endTime <= param.startTime) {
-		chen.alert("时间先后顺序选择错误");
+		sweetAlert("时间先后顺序选择错误");
 		return false;
 	}
-	if (param.companyName == null || param.companyName == undefined
-			|| param.companyName == "") {
-		chen.alert("请选择委托单位");
+	if(param.comID == null || param.comID == undefined
+			|| param.comID == "") {
+		sweetAlert("请选择已存在的委托单位");
 		return false;
 	}
+	
 	/*if (param.address == null || param.address == undefined
 			|| param.address == "") {
-		chen.alert("通讯地址为空");
+		sweetAlert("通讯地址为空");
 		return false;
 	}*/
 
 	if (!isNoramlPhone(param.linkPhone)) {
-		chen.alert("联系人电话格式不正确");
+		sweetAlert("联系人电话格式不正确");
 		return false;
 	}
 	return true;
@@ -479,12 +495,12 @@ function searchCompany() {
 			},
 			success : function(o) {
 				data = JSON.parse(o);
-				// $(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框
+				// $(".tip-factory").css("display","none"); //隐藏下面的提示搜索框
 				if (data != null && data.length != 0)
 					showCompanylist(data);
 			},
 			error : function() {
-				chen.alert(" 没有搜索到该样品");
+				sweetAlert(" 没有搜索到该样品");
 			}
 		});
 	}
@@ -502,10 +518,11 @@ function showCompanylist(data){
 }
 //选择公司名字后处理
 function selectedCompany(company){
-	$("#companyContainer").css("display","none");
+
 	$("#companyName").val(company.companyName);
 	obj.comID = company.ID;
 	$("#address").val(company.address);
+	$("#companyContainer").css("display","none");
 }
 // 输入样品编号检查样品库是否存在--避免选择后重新输入没有的样品
 function isExitSample(sampleCode) {
@@ -521,10 +538,10 @@ function isExitSample(sampleCode) {
 		},
 		success : function(o) {
 			data = JSON.parse(o);
-			// $(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框
+			// $(".tip-factory").css("display","none"); //隐藏下面的提示搜索框
 		},
 		error : function() {
-			chen.alert(" 没有搜索到该样品");
+			sweetAlert(" 没有搜索到该样品");
 		}
 	});
 	if (data != false) {
@@ -573,34 +590,46 @@ function initSampleCode_event() {
     
 	    
 	  var fn1 = $("#editSampleCode").blur(function(){
-		    $(".list_sampleCode").css("display", "block");  //隐藏面板
-		     isExitSample($(this).val()); //输入不点击搜索面板
+		    var self = this.id ;
+		    setTimeout("hideSampleOver('"+self+"')",1000);
+		  
 	     });
-	/* if($("#editSampleCode").val() == "") { // chen.alert("样品编号不能为空");
+	  var fn2 = $("#addSampleCode").blur(function(){
+		  var self = this.id ;
+		    setTimeout("hideSampleOver('"+self+"')",1000);
+		 
+	     });
+	/* if($("#editSampleCode").val() == "") { // sweetAlert("样品编号不能为空");
 	 //sample_global.isAddEdit = false;
-	 //$(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框 } else
+	 //$(".tip-factory").css("display","none"); //隐藏下面的提示搜索框 } else
 	 setTimeout(isExitSample($("#addSampleCode").val()),400); }); var fn1 =
 	 $(document).on("blur", "#editSampleCode", function() { //需要blur事件填充剩余的数据
 	 
-	 if($("#editSampleCode").val() == "") { // chen.alert("样品编号不能为空");
+	 if($("#editSampleCode").val() == "") { // sweetAlert("样品编号不能为空");
 	 //sample_global.isAddEdit = false;
-	 //$(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框 } else
+	 //$(".tip-factory").css("display","none"); //隐藏下面的提示搜索框 } else
 	 isExitSample($("#editSampleCode").val()); }); var fn2 =
 	 $("#addSampleCode").blur(function(){ if($("#addSampleCode").val() == "") {
-	 //chen.alert("样品编号不能为空"); //sample_global.isAddEdit = false;
-	 //$(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框 } else
+	 //sweetAlert("样品编号不能为空"); //sample_global.isAddEdit = false;
+	 //$(".tip-factory").css("display","none"); //隐藏下面的提示搜索框 } else
 	 setTimeout(isExitSample($("#addSampleCode").val()),400); });*/
 	 
 	/*
 	 * var fn2 = $(document).on("blur", "#addSampleCode", function() {
-	 * if($("#addSampleCode").val() == "") { //chen.alert("样品编号不能为空");
+	 * if($("#addSampleCode").val() == "") { //sweetAlert("样品编号不能为空");
 	 * //sample_global.isAddEdit = false;
-	 * //$(".list_sampleCode").css("display","none"); //隐藏下面的提示搜索框 } else
+	 * //$(".tip-factory").css("display","none"); //隐藏下面的提示搜索框 } else
 	 * isExitSample($("#addSampleCode").val()); });
 	 */
 	/*
 	 * setTimeout(fn1,200); setTimeout(fn2,200);
 	 */
+}
+// 离开出厂编号搜索框处理
+function hideSampleOver(id){
+	    $(".tip-factory").css("display", "none");  //隐藏面板
+	    var val = $("#"+id).val();
+	     isExitSample(val); //输入不点击搜索面板
 }
 /**
  * 打开新增任务框清除数据事件
@@ -640,7 +669,7 @@ function initFile() {
 						cache : false,// 禁用 AJAX 数据缓存
 						sortName : 'ID',// 定义排序列
 						sortOrder : 'asc',// 定义排序方式 getRceiptlistWithPaging
-						url : '/laboratorySystem/receiptlistController/getReFiletByReID.do',// 服务器数据的加载地址
+						url : '/laboratorySystem/receiptlistController/getRelateFiletByReID.do',// 服务器数据的加载地址
 						sidePagination : 'server',// 设置在哪里进行分页
 						method : "post",
 						dataType : "json",// 服务器返回的数据类型
@@ -776,8 +805,7 @@ function initSample() {
 						}, // 请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
 						selectItemName : '',// radio or checkbox 的字段名
 						onLoadSuccess : function(data) {
-							// checkDate(data,"task");
-							console.log(data);
+							
 						},
 						columns : [
 								{
@@ -815,14 +843,7 @@ function initSample() {
 									width : '10',// 宽度
 									visible : false
 								},
-								{
-									field : 'unit',// 返回值名称
-									title : '单位',// 列名
-									align : 'center',// 水平居中显示
-									valign : 'middle',// 垂直居中显示
-									width : '10',// 宽度
-									visible : false
-								},
+								
 								{
 									field : 'factoryCode',// 返回值名称
 									title : '出厂编号',// 列名
@@ -843,6 +864,13 @@ function initSample() {
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
 									width : '10%'// 宽度
+								},{
+									field : 'unit',// 返回值名称
+									title : '单位',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '5',// 宽度
+								
 								},
 								{
 									field : 'testName',// 返回值名称
@@ -863,14 +891,14 @@ function initSample() {
 									title : '录入时间',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '15%'// 宽度
+									width : '13%'// 宽度
 								},
 								{
 									field : '',// 返回值名称
 									title : '操作',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '15%',// 宽度
+									width : '12%',// 宽度
 									formatter : function(value, row, index) {
 										var dele = "", edit = "", print = "";
 										edit = "<button onclick='editTask("
@@ -928,8 +956,7 @@ function addTaskModel() {
 	// 验证数据
 	if (valTaskData(param)) {
 		// 传输数据
-		$
-				.ajax({
+		$.ajax({
 					url : '/laboratorySystem/receiptlistController/addTaskAndSampleWithEdit.do',
 					dataType : "json",
 					type : "post",
@@ -941,10 +968,10 @@ function addTaskModel() {
 						if (data == true) {
 							$('#addTaskModal').modal('hide');
 							$('#sampleTable').bootstrapTable('refresh', null);
-							chen.alert("任务新增成功");
+							sweetAlert("任务新增成功");
 
 						} else
-							chen.alert("任务新增失败");
+							sweetAlert("","任务新增失败","error");
 					},
 					error : function() {
 						return false;
@@ -959,11 +986,11 @@ function addTaskModel() {
 function valTaskData(data) {
 
 	if (data.sampleCode == "" || data.sampleCode == "null") {
-		chen.alert("出厂编号不能为空");
+		sweetAlert("出厂编号不能为空");
 		return false;
 	}
 	if (data.sampleName == "" || data.sampleName == "null") {
-		chen.alert("样品名称不能为空");
+		sweetAlert("样品名称不能为空");
 		return false;
 	}
 	return true;
@@ -999,10 +1026,10 @@ function editTaskModel() {
 						data = JSON.parse(o);
 						if (data == true) {
 							$('#editTaskModal').modal('hide');
-							chen.alert("编辑任务成功");
+							sweetAlert("编辑任务成功");
 							$('#sampleTable').bootstrapTable('refresh', null);
 						} else
-							chen.alert("编辑任务失败");
+							sweetAlert("","编辑任务失败","error");
 					},
 					error : function() {
 						return false;
@@ -1033,7 +1060,7 @@ function getTestTatol(isAdd) {
 	console.log(total);
 	return total;
 }
-// 编辑任务弹框确认
+// 编辑文件弹框确认
 function editFileModel() {
 	var param = {};
 	var data;
@@ -1052,11 +1079,11 @@ function editFileModel() {
 					if (data == true) {
 						{
 							$('#editFileModal').modal('hide');
-							chen.alert("sucueessful");
+					
 							$('#fileTable').bootstrapTable('refresh', null);
 						}
 					} else
-						chen.alert("FILE faire");
+						sweetAlert("","文件更新失败","error");
 				},
 				error : function() {
 					return false;
@@ -1085,9 +1112,14 @@ function deleteFile(fileID) {
 		success : function(o) {
 			data = JSON.parse(o); // error
 			if (data == true) {
-				chen.alert("文件删除成功");
+				
+				sweetAlert({
+					title:"文件删除成功",
+					type:"success",
+					timer:100
+					});
 			} else {
-				chen.alert("文件删除失败 ");
+				sweetAlert("","文件删除失败 ","error");
 			}
 		},
 		error : function() {
@@ -1110,9 +1142,9 @@ function deleteTask(taskID) {
 		success : function(o) {
 			data = JSON.parse(o); // error
 			if (data == true) {
-				chen.alert("任务删除成功 ");
+				sweetAlert("任务删除成功 ");
 			} else {
-				chen.alert("任务删除失败");
+				sweetAlert("","任务删除失败","error");
 			}
 		},
 		error : function() {
@@ -1128,6 +1160,16 @@ function checkDate(data, who) {
 	else
 		chenkDataTask(data);
 
+}
+function checkCompany(dataObj){
+	if (!dataObj.hasOwnProperty("companyName") || dataObj.companyName == null
+			|| dataObj.companyName.trim() == "NULL" || dataObj.companyName == undefined) {
+		dataObj.companyName = "";
+	}
+	if (!dataObj.hasOwnProperty("address") || dataObj.address == null
+			|| dataObj.address.trim() == "NULL") {
+		dataObj.address = "";
+	}
 }
 // 检查任务数据是否合理
 function chenkDataTask(dataObj) { // 后台数据字段为空就不会传上来

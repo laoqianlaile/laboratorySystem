@@ -111,11 +111,12 @@ public class TestReportController {
 	@RequestMapping("/getTestReporThirdtAuditWithPaging")
 	@ResponseBody
 	public JSONObject getTestReporThirdtAuditWithPaging(int limit, int offset,
-			String order, String sort, String receiptlistCode,
-			String client, String reportName, String beginTime, String endTime ) {
+			String order, String sort, String receiptlistCode, String client,
+			String reportName, String beginTime, String endTime,
+			String selectPart) {
 		Map<String, Object> result = service.getTestReporThirdtAuditWithPaging(
 				limit, offset, order, sort, receiptlistCode, client,
-				reportName, beginTime, endTime);
+				reportName, beginTime, endTime, selectPart);
 		return JSONObject.fromObject(result);
 	}
 	
@@ -149,8 +150,8 @@ public class TestReportController {
 	 */
 	@RequestMapping("/updateTestReport")
 	@ResponseBody
-	public boolean updateTestReport(String ID,String taskID,String versionNumber,String versionInfo, String remarks) {
-		boolean result = service.updateTestReport(ID,taskID,versionNumber,versionInfo, remarks);
+	public boolean updateTestReport(String ID, String taskID, String versionNumber, String versionInfo, String remarks) {
+		boolean result = service.updateTestReport(ID, taskID,  versionNumber, versionInfo, remarks);
 		return result;
 	}
 
@@ -215,7 +216,7 @@ public class TestReportController {
 	@ResponseBody
 	public String getFileID(String ID) {
 		String result = service.getFileID(ID);
-		return result;
+		return result + "";
 	}
 	
 	/**
@@ -313,10 +314,10 @@ public class TestReportController {
      * @param ID
      * @return
 	 */
-	@RequestMapping("/auditOperateCheck")
+	@RequestMapping("/secndAuditOperateCheck")
 	@ResponseBody
-	public boolean auditOperateCheck(String ID) {
-		boolean result = service.auditOperateCheck(ID);
+	public boolean secndAuditOperateCheck(String ID) {
+		boolean result = service.secndAuditOperateCheck(ID);
 		return result;
 	}
 	
@@ -350,7 +351,22 @@ public class TestReportController {
 		boolean result = service.secondRejectReport(ID, taskID,dismissreason);
 		return result;
 	}
-
+    
+	/**
+	 * 
+     * @discription 检查当前审核状态是否可以进行操作
+     * @author zt       
+     * @created 2017-3-20 下午7:54:24     
+     * @param ID
+     * @return
+	 */
+	@RequestMapping("/thirdAuditOperateCheck")
+	@ResponseBody
+	public boolean thirdAuditOperateCheck(String ID) {
+		boolean result = service.thirdAuditOperateCheck(ID);
+		return result;
+	}
+	
 	/**
 	 * 
 	 * @discription 设置通过三审
@@ -361,8 +377,8 @@ public class TestReportController {
 	 */
 	@RequestMapping("/thirdPassReport")
 	@ResponseBody
-	public boolean thirdPassReport(String ID, String taskID) {
-		boolean result = service.thirdPassReport(ID, taskID);
+	public boolean thirdPassReport(String ID, String taskID ,String passAgreement) {
+		boolean result = service.thirdPassReport(ID, taskID,passAgreement);
 		return result;
 	}
 
@@ -475,6 +491,58 @@ public class TestReportController {
 	public List<Map<String, Object>> getReportInfo(String taskID) {
 		List<Map<String, Object>> result = service.getReportInfo(taskID);
 		return result;
+
+	}
+	
+	/**
+	 * 
+     * @discription 检查是否可以合并
+     * @author zt       
+     * @created 2017-3-25 上午9:59:36     
+     * @param taskIDs
+     * @return
+	 */
+	@RequestMapping("/recoatCheck")
+	@ResponseBody
+	public boolean recoatCheck(String[] taskIDs, String[] fileIDs, String[] projectIDs, String[] states) {
+		boolean flag = service.recoatCheck(taskIDs, fileIDs, projectIDs, states);
+		return flag;
+
+	}
+	
+	/**
+	 * 
+     * @discription 合并报告
+     * @author zt       
+     * @created 2017-3-25 下午4:05:25     
+     * @param fileIDs
+     * @param IDs
+     * @param taskIDs
+     * @param req
+     * @return
+	 */
+	@RequestMapping("/recoatReport")
+	@ResponseBody
+	public String recoatReport(String[] fileIDs, String[] IDs, String[] taskIDs, String projectID, HttpServletRequest req) {
+		String uploader = (String) req.getSession().getAttribute("EMPLOYEEID");// 上传人
+		String result = service.recoatReport(fileIDs, IDs, taskIDs, projectID, uploader);
+		return result;
+
+	}
+	
+	/**
+	 * 
+	 * @discription 更新参与合并的报告的文件ID
+	 * @author zt
+	 * @created 2017-3-25 下午4:09:12
+	 * @param IDs
+	 * @return
+	 */
+	@RequestMapping("/updateTestReportFileID")
+	@ResponseBody
+	public boolean updateTestReportFileID(String[] IDs, String fileID) {
+		boolean flag = service.updateTestReportFileID(IDs, fileID);
+		return flag;
 
 	}
 }

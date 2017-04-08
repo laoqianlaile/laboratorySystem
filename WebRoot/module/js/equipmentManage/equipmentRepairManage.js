@@ -28,15 +28,21 @@ function initData(){
 			param.offset = params.offset; // 偏移量
 			param.sort = params.sort; // 排序列名
 			param.order = params.order; // 排位方式
-			param.model = $.trim($('#schModel').val());
+			param.factoryCode = $.trim($('#schFactoryCode').val());
 			param.equipmentName = $.trim($('#schEquipmentName').val());
+			param.model = $.trim($('#schModel').val());
 			param.employeeName = $.trim($('#schEmployeeName').val());
 			return param;
 		}, //参数
 		selectItemName : '',// radio or checkbox 的字段名
 		columns : [ {
 			checkbox : true,
-			width :'3%'// 宽度
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width :'3%',// 宽度
+			formatter : function(value, row, index) {
+				 checkData(row);	 //验证数据合理性					
+		    }
 		},{
 			field:'ID',//返回值名称
 			title:'仪器设备维修记录ID',//列名
@@ -56,27 +62,26 @@ function initData(){
 			title:'设备出厂编号',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'12%',//宽度
+			width:'11%',//宽度
 //			visible:false
 		},{
 			field:'equipmentName',//返回值名称
 			title:'设备名称',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'13%'//宽度
+			width:'11%'//宽度
 		},{
 			field:'model',//返回值名称
 			title:'设备型号',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10',//宽度
-			visible:false
+			width:'6%',//宽度
 		},{
 			field:'useYear',//返回值名称
 			title:'使用年限',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'7%'//宽度
+			width:'6%'//宽度
 		},{
 			field:'beforeStatus',//返回值名称
 			title:'维修前状态',//列名
@@ -119,16 +124,62 @@ function initData(){
 			title:'维修费用',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'8%'//宽度
+			width:'7%'//宽度
 		},{
 			field:'remarks',//返回值名称
 			title:'备注',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'12%'//宽度
+			width:'11%'//宽度
 		}]//列配置项,详情请查看 列参数 表格
 		/*事件*/
 	});
+}
+
+//检查仪器维修数据是否合理并处理
+function checkData(dataObj) { // 后台数据字段为空就不会传上来
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null || dataObj.ID == undefined || dataObj.ID.trim() == "") {
+		dataObj.ID = "";
+	}
+	if (!dataObj.hasOwnProperty("equipmentID") || dataObj.equipmentID == null || dataObj.equipmentID == undefined || dataObj.equipmentID.trim() == "") {
+		dataObj.equipmentID = "";
+	}
+	if (!dataObj.hasOwnProperty("factoryCode") || dataObj.factoryCode == null || dataObj.factoryCode == undefined || dataObj.factoryCode.trim() == "") {
+		  dataObj.factoryCode = "";
+	}
+	if (!dataObj.hasOwnProperty("equipmentName") || dataObj.equipmentName == null || dataObj.equipmentName == undefined || dataObj.equipmentName.trim() == "") {
+		dataObj.equipmentName = "";
+	}
+	if (!dataObj.hasOwnProperty("useYear") || dataObj.useYear == null || dataObj.useYear == undefined) {
+		 dataObj.useYear = "";
+	}
+	if (!dataObj.hasOwnProperty("beforeStatus") || dataObj.beforeStatus == null || dataObj.beforeStatus == undefined || dataObj.beforeStatus.trim() == "") {
+		dataObj.beforeStatus = ""; //能编辑
+	}
+	if (!dataObj.hasOwnProperty("model") || dataObj.model == null || dataObj.model == undefined || dataObj.model.trim() == "") {
+		dataObj.model = "";
+	}
+	if (!dataObj.hasOwnProperty("afterStatus") || dataObj.afterStatus == null || dataObj.afterStatus == undefined || dataObj.afterStatus.trim() == "") {
+		dataObj.afterStatus = "";
+	}
+	if (!dataObj.hasOwnProperty("mounting") || dataObj.mounting == null || dataObj.mounting == undefined  || dataObj.mounting.trim() == "") {
+		dataObj.mounting = "";
+	}
+	if (!dataObj.hasOwnProperty("repairTime") || dataObj.repairTime == null || dataObj.repairTime == undefined || dataObj.repairTime.trim() == "") {
+		dataObj.repairTime = "";
+	}
+	if (!dataObj.hasOwnProperty("money") || dataObj.money == null || dataObj.money == undefined) {
+		dataObj.money = "";
+	}
+	if (!dataObj.hasOwnProperty("employeeID") || dataObj.employeeID == null || dataObj.employeeID == undefined || dataObj.employeeID.trim() == "") {
+		dataObj.employeeID = "";
+	}
+	if (!dataObj.hasOwnProperty("employeeName") || dataObj.employeeName == null || dataObj.employeeName == undefined || dataObj.employeeName.trim() == "") {
+		dataObj.employeeName = "";
+	}
+	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null || dataObj.remarks == undefined || dataObj.remarks.trim() == "") {
+		dataObj.remarks = "";
+	}
 }
 
 /*//请求数据时的额外参数
@@ -152,7 +203,12 @@ function search(){
 	initData();
 	$('#table').bootstrapTable('refresh', null);
 }
-
+/**
+ * 刷新表格
+ */
+function refrehTable() {
+	$('#table').bootstrapTable('refresh', null);
+}
 /* 刷新方法 */
 function refresh(){
 	window.location.href="module/jsp/equipmentManage/equipmentRepairManage.jsp";
@@ -166,25 +222,36 @@ function delData(){
 		return;
 	}
 	var ids = "";
+	var message = "将要删除仪器：";
 	for(var i=0; i<data.length; i++){
 		ids += "ID = '" + data[i].ID + "' or ";
+		message += data[i].equipmentName + " or ";
 	}
-	swal(ids.substring(0, (ids.length-3)));
-	var ajaxParameter = {
-			equipmentRepairIds:ids.substring(0, (ids.length-3))	
-	};
-	
-	$.ajax({
-	  url:'equipmentRepairController/delEquipmentRepair.do',
-	  type:"post",
-	  data:ajaxParameter,
-	  success:function(o){
-		  if(o<=0){
-			  swal("删除失败");
+	if (confirm(message.substring(0, (message.length-3)))) {
+		var ajaxParameter = {
+				equipmentRepairIds:ids.substring(0, (ids.length-3))	
+		};
+		
+		$.ajax({
+		  url:'equipmentRepairController/delEquipmentRepair.do',
+		  type:"post",
+		  data:ajaxParameter,
+		  success:function(o){
+			  switch (o) {
+				case '1':swal("删除成功！");
+					refrehTable();
+					break;
+				case '0':swal("删除失败！");
+					break;
+				default:swal("出现未知错误，请重试！");
+					break;
+			  }
+		  },
+		  error : function() {
+			return false;
 		  }
-		  refresh();
-	  }
-	});
+		});
+	}
 }
 
 /**
@@ -193,7 +260,7 @@ function delData(){
  */
 function addGetEQName(){ 
 	var name = $('#add_equipmentName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
+	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{ 
 		$(".equipmentName").hide();
 	}else {
@@ -213,6 +280,8 @@ function addGetEQName(){
 		    		equipment = $(".equipmentName");
 		    		if(myobj.length > 4){
 		    			length = 4;
+		    		}else if(myobj.length == 0){
+		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
 		    		}else{
 		    			length = myobj.length;
 		    		}
@@ -235,7 +304,7 @@ function addGetEQName(){
  */
 function addGetEMName(){
 	var name = $('#add_employeeName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
+	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{
 		$(".employeeN").hide();
 	}else {
@@ -255,6 +324,8 @@ function addGetEMName(){
 		    		employee = $(".employeeN");
 		    		if(myobj.length > 4){
 		    			length = 4;
+		    		}else if(myobj.length == 0){
+		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
 		    		}else{
 		    			length = myobj.length;
 		    		}
@@ -314,7 +385,7 @@ function addClick(){
  */
 function editGetEQName(){ 
 	var name = $('#edit_equipmentName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
+	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{ 
 		$(".equipmentName").hide();
 	}else {
@@ -334,6 +405,8 @@ function editGetEQName(){
 		    		equipment = $(".equipmentName");
 		    		if(myobj.length > 4){
 		    			length = 4;
+		    		}else if(myobj.length == 0){
+		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
 		    		}else{
 		    			length = myobj.length;
 		    		}
@@ -356,7 +429,7 @@ function editGetEQName(){
  */
 function editGetEMName(){
 	var name = $('#edit_employeeName').val();
-	if (!name && typeof(name)!="undefined" && name=='') 
+	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{
 		$(".employeeN").hide();
 	}else {
@@ -376,6 +449,8 @@ function editGetEMName(){
 		    		employee = $(".employeeN");
 		    		if(myobj.length > 4){
 		    			length = 4;
+		    		}else if(myobj.length == 0){
+		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
 		    		}else{
 		    			length = myobj.length;
 		    		}
@@ -433,8 +508,6 @@ function editClick(){
 
 /* 新增方法 */
 function add(){
-	swal("add");
-	
 	var parame = {};
 	var factoryCode = $('#add_factoryCode').val();
 	var equipmentName = $('#add_equipmentName').val();
@@ -448,49 +521,48 @@ function add(){
 	var money = $('#add_money').val();
 	var remarks = $('#add_remarks').val();
 		
-	if (!factoryCode && typeof(factoryCode)!="undefined" && factoryCode=='') 
+	if (!factoryCode || typeof(factoryCode) == "undefined" || factoryCode.trim() == "") 
 	{ 
 		swal("设备出厂编号不能为空！"); 
 		return;
 	}
-	if (!equipmentName && typeof(equipmentName)!="undefined" && equipmentName=='') 
+	if (!equipmentName || typeof(equipmentName) == "undefined" || equipmentName.trim() == "") 
 	{ 
 		swal("仪器设备名称不能为空！");
 		return;
 	}
-	if (!beforeStatus && typeof(beforeStatus)!="undefined" && beforeStatus=='') 
+	if (!beforeStatus || typeof(beforeStatus) == "undefined" || beforeStatus.trim() == "") 
 	{ 
 		swal("维修前状态不能为空！");
 		return;
 	}
-	if (!mounting && typeof(mounting)!="undefined" && mounting=='') 
+	if (!mounting || typeof(mounting) == "undefined" || mounting.trim() == "") 
 	{ 
 		swal("所用配件不能为空！");
 		return;
 	}
-	if (!employeeName && typeof(employeeName)!="undefined" && employeeName=='') 
+	if (!employeeName || typeof(employeeName) == "undefined" || employeeName.trim() == "") 
 	{ 
 		swal("维修员不能为空！");
 		return;
 	}
-	if (!afterStatus && typeof(afterStatus)!="undefined" && afterStatus=='') 
+	if (!afterStatus || typeof(afterStatus) == "undefined" || afterStatus.trim() == "") 
 	{ 
 		swal("维修后状态不能为空！");
 		return;
 	}
-	if (!repairTime && typeof(repairTime)!="undefined" && repairTime=='') 
+	if (!repairTime || typeof(repairTime) == "undefined" || repairTime.trim() == "") 
 	{ 
 		swal("维修时间不能为空！");
 		return;
 	}
-	if (!money && typeof(money)!="undefined" && money=='') 
+	if (!money || typeof(money) == "undefined" || money.trim() == "") 
 	{ 
 		swal("维修费用不能为空！"); 
 		return;
 	}
-	if (!remarks && typeof(remarks)!="undefined" && remarks=='') 
+	if (!remarks || typeof(remarks) == "undefined" || remarks.trim() == "") 
 	{ 
-		swal("备注为空！");
 		remarks = "";
 	}
 	
@@ -498,6 +570,7 @@ function add(){
 	parame.beforeStatus = beforeStatus;
 	parame.afterStatus = afterStatus;
 	parame.employeeID = employeeID;
+	parame.employeeName = employeeName;
 	parame.mounting = mounting;
 	parame.money = money;
 	parame.repairTime = repairTime;
@@ -507,11 +580,24 @@ function add(){
 		url:'equipmentRepairController/addEquipmentRepair.do',
 		data:parame,
 		success:function(o){
-			if(o<=0){
-				swal("新增失败");
-			}
-			$('#addModal').modal('hide');
-			refresh();
+			 switch (o) {
+				case '-2':swal("不存在该仪器！");
+					break;
+				case '-4':swal("仪器名与仪器ID不相符！");
+					break;
+				case '-6':swal("不存在该员工！");
+					break;
+				case '-8':swal("员工名与员工ID不相符！");
+					break;
+				case '1':swal("新增成功！");
+					$('#addModal').modal('hide');
+					refrehTable();
+					break;
+				case '0':swal("新增失败！");
+					break;
+				default:swal("出现未知错误，请重试！");
+					break;
+			 }
 		}
 	});
 }
@@ -545,7 +631,7 @@ function edit(){
 	swal("edit");
 	var data = $('#table').bootstrapTable('getSelections');
 	var ID = data[0].ID; 
-	if (!ID && typeof(ID)!="undefined" && ID=='') 
+	if (!ID || typeof(ID) == "undefined" || ID.trim() == "") 
 	{ 
 		swal("仪器设备检验记录ID不能为空！"); 
 	}else {
@@ -562,49 +648,48 @@ function edit(){
 		var money = $('#edit_money').val();
 		var remarks = $('#edit_remarks').val();
 			
-		if (!factoryCode && typeof(factoryCode)!="undefined" && factoryCode=='') 
+		if (!factoryCode || typeof(factoryCode) == "undefined" || factoryCode.trim() == "") 
 		{ 
 			swal("仪器设备编号不能为空！"); 
 			return;
 		}
-		if (!equipmentName && typeof(equipmentName)!="undefined" && equipmentName=='') 
+		if (!equipmentName || typeof(equipmentName) == "undefined" || equipmentName.trim() == "") 
 		{ 
 			swal("仪器设备名称不能为空！");
 			return;
 		}
-		if (!beforeStatus && typeof(beforeStatus)!="undefined" && beforeStatus=='') 
+		if (!beforeStatus || typeof(beforeStatus) == "undefined" || beforeStatus.trim() == "") 
 		{ 
 			swal("维修前状态不能为空！");
 			return;
 		}
-		if (!mounting && typeof(mounting)!="undefined" && mounting=='') 
+		if (!mounting || typeof(mounting) == "undefined" || mounting.trim() == "") 
 		{ 
 			swal("所用配件不能为空！");
 			return;
 		}
-		if (!employeeName && typeof(employeeName)!="undefined" && employeeName=='') 
+		if (!employeeName || typeof(employeeName) == "undefined" || employeeName.trim() == "") 
 		{ 
 			swal("维修员不能为空！");
 			return;
 		}
-		if (!afterStatus && typeof(afterStatus)!="undefined" && afterStatus=='') 
+		if (!afterStatus || typeof(afterStatus) == "undefined" || afterStatus.trim() == "") 
 		{ 
 			swal("维修后状态不能为空！");
 			return;
 		}
-		if (!repairTime && typeof(repairTime)!="undefined" && repairTime=='') 
+		if (!repairTime || typeof(repairTime) == "undefined" || repairTime.trim() == "") 
 		{ 
 			swal("维修时间不能为空！");
 			return;
 		}
-		if (!money && typeof(money)!="undefined" && money=='') 
+		if (!money || typeof(money) == "undefined" || money.trim() == "") 
 		{ 
 			swal("维修费用不能为空！"); 
 			return;
 		}
-		if (!remarks && typeof(remarks)!="undefined" && remarks=='') 
+		if (!remarks || typeof(remarks) == "undefined" || remarks.trim() == "") 
 		{ 
-			swal("备注为空！");
 			remarks = "";
 		}
 		
@@ -613,6 +698,7 @@ function edit(){
 		parame.beforeStatus = beforeStatus;
 		parame.afterStatus = afterStatus;
 		parame.employeeID = employeeID;
+		parame.employeeName = employeeName;
 		parame.mounting = mounting;
 		parame.money = money;
 		parame.repairTime = repairTime;
@@ -622,11 +708,24 @@ function edit(){
 			url:'equipmentRepairController/updEquipmentRepair.do',
 			data:parame,
 			success:function(o){
-				if(o<=0){
-					swal("修改失败");
-				}
-				$('#editModal').modal('hide');
-				refresh();
+				switch (o) {
+				case '-2':swal("不存在该仪器！");
+					break;
+				case '-4':swal("仪器名与仪器ID不相符！");
+					break;
+				case '-6':swal("不存在该员工！");
+					break;
+				case '-8':swal("员工名与员工ID不相符！");
+					break;
+				case '1':swal("新增成功！");
+					$('#editModal').modal('hide');
+					refrehTable();
+					break;
+				case '0':swal("新增失败！");
+					break;
+				default:swal("出现未知错误，请重试！");
+					break;
+			 }
 			}
 		});
 	}

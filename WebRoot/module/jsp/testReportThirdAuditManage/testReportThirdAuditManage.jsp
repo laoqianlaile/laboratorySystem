@@ -23,6 +23,7 @@
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
 <link rel="stylesheet" type="text/css" href="module/css/testReportManage/testReportManage.css">
 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
@@ -32,9 +33,39 @@
 <script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="module/js/bootstrap-datetimepicker.fr.js"></script>
 <script src="module/js/sweetalert.min.js"></script>
-<script src="module/js/alert.js"></script>
+<script src="assets/js/autoPage.js"></script>
 
 <style>
+.content button {
+	margin-left: 26px;
+}
+
+.audtiAgreement {
+	width: 100%;
+	margin: 10px auto;
+}
+.signature,.stamp{
+ margin-top:20px;
+}
+
+.audtiAgreement label,.signature label,.stamp label {
+	float: left;
+	width: 20%;
+	margin-top: 10px;
+}
+
+#Img1,#Img2 {
+	height: 140px;
+	width: 250px;
+	cursor: pointer;
+}
+
+#PassReason {
+	resize: none;
+	width: 75%;
+	height: 150px;
+}
+
 #rejectReason {
 	resize: none;
 	width: 90%;
@@ -92,6 +123,17 @@
 							class="glyphicon glyphicon-calendar"></span></span>
 					</div>
 				</div>
+
+				<div class="col-xs-4 col-md-4 col-lg-4">
+					<label>审核状态:</label> <select class="form-control" name="selectPart"
+						id="selectPart">
+						<option value="3">所有情况</option>
+						<option value="0">待审核</option>
+						<option value="1">审核通过</option>
+						<option value="2">驳回</option>
+					</select>
+				</div>
+
 			</div>
 		</div>
 
@@ -108,6 +150,57 @@
 			</div>
 		</div>
 	</div>
+	
+	<div id="thirdAuditPassModal" class="modal fade" role="dialog"
+		aria-labelledby="gridSystemModalLabel">
+		<div class="modal-dialog" role="document" style="width:600px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close"></button>
+					<h4 class="modal-title">
+						<strong>填写审核通过意见</strong>
+					</h4>
+				</div>
+				<div class="modal-body">
+					<hr />
+					<div class="audtiAgreement">
+						<span id="PassTestReportID" style="display:none"></span>
+						 <span id="PassTaskID" style="display:none"></span> 
+						 <span id="PassFileName" style="display:none"></span>
+						<label>审核意见:</label>
+						<textarea id="PassReason" class="form-control" style="overflow-y:scroll"></textarea>
+					</div>
+					<div class="signature">
+						<label>电子签名:</label>
+					    <img id="Img1"  src="module/img/file/defaultPhoto.jpg"
+							data-holder-rendered="true"/>
+							
+						 <input class="singnatureImg"
+							type="file" name="files" id="files" onchange="previewImage(this,'Img1')"
+							accept="image/png, image/gif, image/jpg, image/jpeg"
+							style="width:66px;height:25px;position:absolute;left:10px;top:155px;opacity: 0;filter: alpha(opacity = 0);" />
+				       
+					</div>
+					<div class="stamp">
+						<label>电子盖章:</label>
+						 <img id="Img2"  src="module/img/file/defaultPhoto.jpg"
+							data-holder-rendered="true""/>
+						<input class="stampImg" type="file" name="files" id="files" onchange="previewImage(this,'Img2')"
+							accept="image/png, image/gif, image/jpg, image/jpeg" 
+							style="width:66px;height:25px;position:absolute;left:10px;top:155px;opacity: 0;filter: alpha(opacity = 0);" />
+					</div>
+					<hr />
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="ensureUploadImg" name="ensureUploadImg" onclick="thirdAuditPassSure()">确定</button>
+					<button type="button" class="btn btn-default" id="canceUploadImg"  name="canceUploadImg" >取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
 	<div id="thirdAuditRejectModal" class="modal fade" role="dialog"
 		aria-labelledby="gridSystemModalLabel">
 		<div class="modal-dialog" role="document" style="width:450px; ">
@@ -132,8 +225,7 @@
 					<hr />
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary"
-						onclick="thirdAuditRejectSure()">确定</button>
+					<button type="button" class="btn btn-primary" onclick="thirdAuditRejectSure()">确定</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
 			</div>
@@ -145,9 +237,11 @@
 
 	</table>
 
-	<script
-		src="module/js/testReportThirdAuditManage/testReportThirdAuditManage.js"></script>
+	<script src="module/js/testReportThirdAuditManage/testReportThirdAuditManage.js"></script>
 	<script src="module/js/fileManage/fileManage.js"></script>
+	<script type="text/javascript" src="assets/fileupload/jquery.iframe-transport.js"></script>
+    <script type="text/javascript" src="assets/fileupload/jquery.ui.widget.js"></script> 
+    <script type="text/javascript"src="assets/fileupload/jquery.fileupload.js"></script>
 	<script type="text/javascript">
 		$('.form_datetime').datetimepicker({
 			language : 'zh-CN',
@@ -159,6 +253,17 @@
 			minView : 2,
 			forceParse : 0,
 			format : 'yyyy-mm-dd hh:ii:ss'
+		});
+		$('#Img1').click(function() {
+			$('.singnatureImg').click();
+		});
+		$('#Img2').click(function() {
+			$('.stampImg').click();
+		});
+		$('#canceUploadImg').click(function() {
+			if (confirm("是否取消上传?")) {
+				reload();
+			}
 		});
 	</script>
 </body>

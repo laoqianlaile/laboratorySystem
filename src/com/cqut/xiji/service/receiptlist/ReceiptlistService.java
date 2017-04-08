@@ -301,7 +301,7 @@ public class ReceiptlistService extends SearchService implements
 					"sample.factoryCode",
 					"sample.specifications as sampleStyle",
 					"sample.qrcode",
-					// "sample.unit",
+					"sample.unit",
 					"IF(testproject.nameCn IS  NULL , testproject.nameEn , "
 							+ " if ( testproject.nameEn is null ,testproject.nameCn,"
 							+ " CONCAT(testproject.nameCn,'(',testproject.nameEn,')') )) as testName " };
@@ -341,7 +341,7 @@ public class ReceiptlistService extends SearchService implements
 	 * 
 	 */
 	@Override
-	public Map<String, Object> getReFiletByReID(String reID, int limit,
+	public Map<String, Object> getRelateFiletByReID(String reID, int limit,
 			int offset, String order, String sort) {
 		// TODO Auto-generated method stub
 		int pageNum = limit;
@@ -415,6 +415,7 @@ public class ReceiptlistService extends SearchService implements
 				Task task = new Task();
 				task.setID(EntityIDFactory.createId());
 				task.setReceiptlistID(reID);
+				task.setRequires(require);
 				task.setSampleID(sampleID);
 				task.setStartTime(new Date());
 				task.setSaveState(0);
@@ -453,6 +454,7 @@ public class ReceiptlistService extends SearchService implements
 			task.setReceiptlistID(reID);
 			task.setSampleID(sampleID);
 			task.setStartTime(new Date());
+			task.setRequires(require);
 			task.setAllotstate(0);
 			task.setSaveState(0);
 			task.setDetectstate(0);
@@ -490,18 +492,18 @@ public class ReceiptlistService extends SearchService implements
 	public String saveSubmitReceipt(String reID, String saveState,
 			String addState, String companyName, String address,
 			String linkMan, String startTime, String endTime, String linkPhone,
-			String accordingDoc, String coID) {
+			String accordingDoc, String coID ,String comID) {
 		// TODO Auto-generated method stub
 		Contract contract = null;
 		Company company = null;
-		if (addState == null || addState.equals("") || addState.equals("no")) {
+		if (addState == null || addState.equals("") || addState.equals("no") ||  addState.equals("edit") ) {
 			contract = entityDao.getByID(coID, Contract.class); // 即使是编辑进来的addState也是No
-			company = new Company();
+		/*	company = new Company();
 			company.setID(EntityIDFactory.createId());
 			company.setCompanyName(companyName);
 			company.setAddress(address);
-			entityDao.save(company);
-			contract.setCompanyID(company.getID());
+			entityDao.save(company);*/
+			contract.setCompanyID(comID);
 			entityDao.updatePropByID(contract, coID);
 		}
 		Receiptlist receiptlist = entityDao.getByID(reID, Receiptlist.class);
@@ -547,12 +549,22 @@ public class ReceiptlistService extends SearchService implements
 			}
 		}
 		//将任务改为保存状态--是正常退出页面的
-		  String sql = "update task set task.saveState = 1 where task.receiptlistID ='"+reID+"' and  ( task.saveState = 0  or task.saveSave is null )";
+		  String sql = "update task set task.saveState = 1 where task.receiptlistID ='"+reID+"' and  ( task.saveState = 0  or task.saveState is null )";
 		  entityDao.runSql(sql);
 		return entityDao.updatePropByID(receiptlist, reID) == 1 ? "true"
 				: "false";
 	}
+	public static Date StrToDate(String str) {
 
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = null;
+		try {
+			date = format.parse(str);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return date;
+	}
 	// 新增交接单--各种类型
 	@Override
 	public Map<String, Object> addReceiptList(HttpSession session, String coID,

@@ -181,7 +181,7 @@ function delData() {
 	var data = $('#table').bootstrapTable('getSelections');
     //弹出确认框
 	if (data.length == 0) {
-		chen.alert("请至少选中一条数据");
+		sweetAlert("请至少选中一条数据");
 		return;
 	}
 
@@ -204,7 +204,7 @@ function deleSample(sampleIDs){
 		},
 		success : function(o) {
 			if (o == "false") {
-				chen.alert("删除失败");
+				sweetAlert("删除失败");
 			}
 			refresh();
 		}
@@ -217,11 +217,11 @@ function add() {
 	var sampleType= $('#addSampleType').val();
 	var factoryCode = $("#addFactoryCode").val();
 	if (!factoryCode || typeof (factoryCode) == "undefined" || factoryCode == '' ) 
-		chen.alert("样品编号不能为空！");
+		sweetAlert("样品编号不能为空！");
 	else if (!name || typeof (name) == "undefined" || name == '' ) {
-		chen.alert("样品名称不能为空！");
+		sweetAlert("样品名称不能为空！");
 	} else if(!sampleType || typeof (sampleType) == "undefined" || sampleType == ''){
-		chen.alert("样品型号规格不能为空！");
+		sweetAlert("样品型号规格不能为空！");
 	}else  if(  sample_global.isAddEdit == true){
 	//	parame.receiptlistCode =  $('#addReceiptlistCode').val();
 		parame.sampleName = name;
@@ -238,7 +238,7 @@ function add() {
 			data : parame,
 			success : function(o) {
 				if (o == "false") {
-					chen.alert("新增失败");
+					sweetAlert("新增失败");
 				}
 				else {
 					 $('#addModal').modal('hide');
@@ -248,7 +248,7 @@ function add() {
 			}
 		});
 		
-	} else chen.alert("请重新输入出厂编码");
+	} else sweetAlert("请重新输入出厂编码");
 }
 
 /* 弹出查看弹框方法 */
@@ -262,7 +262,7 @@ function showModal(data) {
 /*	var data = $('#table').bootstrapTable('getSelections');
 
 	if (data.length == 0 || data.length > 1) {
-		chen.alert("请选中一条数据");
+		sweetAlert("请选中一条数据");
 		return;
 	}*/
 	fillLookEdit(data,"look");
@@ -282,8 +282,7 @@ function  initEvent(){
 	 
 }
 function set_alert_wb_comment(the,state){
-	chen.alert(state);
-	chen.alert($(the).val());
+	sweetAlert($(the).val());
 	var html="";
 }
 /**
@@ -326,7 +325,7 @@ function isNoramlPhone(phone){
 			},
 			success : function(o) {
 				if (o == "true") {
-					 chen.alert("出厂编码已经存在--请重新输入出厂编码");
+					 sweetAlert("出厂编码已经存在--请重新输入出厂编码");
 					 sample_global.isAddEdit = false;
 				}
 				else  sample_global.isAddEdit = true;
@@ -343,9 +342,9 @@ function edit(){
 	var sampleType= $('#editSampleType').val();
 	var factoryCode = $("#editFactoryCode").val();
 	if (!name ||  typeof (name) == "undefined" || name == '' ) {
-		chen.alert("样品名称不能为空！");
+		sweetAlert("样品名称不能为空！");
 	} else if(!sampleType ||  typeof (sampleType) == "undefined" || sampleType == ''){
-		chen.alert("样品型号规格不能为空！");
+		sweetAlert("样品型号规格不能为空！");
 	}else if(  sample_global.isAddEdit == true){
 	
 		parame.sampleName = name;
@@ -366,7 +365,7 @@ function edit(){
 			data : parame,
 			success : function(o) {
 				if (o == "false") {
-					chen.alert("修改失败");
+					sweetAlert("修改失败");
 				}
 				else {
 					 $('#editModal').modal('hide');
@@ -375,7 +374,7 @@ function edit(){
 			}
 		});
 		
-	} else chen.alert("请重新输入出厂编码");
+	} else sweetAlert("请重新输入出厂编码");
 
 }
 //检查数据是否合理

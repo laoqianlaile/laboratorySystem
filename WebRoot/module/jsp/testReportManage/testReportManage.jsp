@@ -35,6 +35,7 @@
 <script src="module/js/bootstrap-datetimepicker.fr.js"></script>
 <script src="module/js/jquery.uploadify.min.js"></script>
 <script src="module/js/sweetalert.min.js"></script>
+<script src="assets/js/autoPage.js"></script>
 
 <style>
 .content button {
@@ -114,7 +115,7 @@
 				&nbsp;
 				<button type="button" class="btn btn-primary " onclick="checkReport()">查看</button>
 				&nbsp;
-				<button type="button" class="btn btn-primary " onclick="recoat()">合并</button>
+				<button type="button" class="btn btn-primary " onclick="recoatCheck()">合并</button>
 				&nbsp;
 				<button type="button" class="btn btn-primary " onclick="recover()">重新覆盖</button>
 			</div>
@@ -131,10 +132,16 @@
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div id="files" style="text-align:left">
-							<div id="uploadfileQueue"></div>
-							<input type="file" id="file_upload" name="file_upload"
-								multiple="multiple">
+						<div id="fileInfo" style="text-align:left">
+							<div id="fileQueue">
+								<input type="file" name="files" id="files" style="display:none" onchange="checkFile(this)">
+							</div>
+							
+							<button type="button" id="chooseFile" name="chooseFile" class="btn btn-default">
+								<span class="glyphicon glyphicon-folder-open "></span> 选择文件
+							</button>
+							<span id="fileName"></span>
+               
 							<div class="uploadFileText">
 								<label>版本号码:</label> <input type="text" class="form-control"
 									name="fileVersionNumber" id="fileVersionNumber"">
@@ -154,10 +161,8 @@
 				</div>
 				<div class="modal-footer">
 
-					<button type="button" class="btn btn-primary" id="ensure"
-						name="ensure" onclick="recoverSure()">确定</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal"
-						onclick="javascript:$('#file_upload').uploadify('cancel','*')">取消</button>
+					<button type="button" class="btn btn-primary" id="ensure" name="ensure">确定</button>
+					<button type="button" class="btn btn-default" id="cancel" name="cancel">取消</button>
 				</div>
 			</div>
 		</div>
@@ -198,6 +203,9 @@
 
 	<script src="module/js/testReportManage/testReportManage.js"></script>
 	<script src="module/js/fileManage/fileManage.js"></script>
+	<script type="text/javascript" src="assets/fileupload/jquery.iframe-transport.js"></script>
+    <script type="text/javascript" src="assets/fileupload/jquery.ui.widget.js"></script> 
+    <script type="text/javascript"src="assets/fileupload/jquery.fileupload.js"></script>
 	<script type="text/javascript">
 		$('.form_datetime').datetimepicker({
 			language : 'zh-CN',
@@ -209,6 +217,15 @@
 			minView : 2,
 			forceParse : 0,
 			format : 'yyyy-mm-dd hh:ii:ss'
+		});
+		$('#chooseFile').click(function() {
+			$('#files').click();
+
+		});
+		$('#cancel').click(function() {
+			if (confirm("是否取消上传?")) {
+				reload();
+			}
 		});
 	</script>
 </body>

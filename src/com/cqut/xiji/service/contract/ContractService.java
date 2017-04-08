@@ -25,6 +25,7 @@ import com.cqut.xiji.entity.equipment.Equipment;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.entity.receiptlist.Receiptlist;
 import com.cqut.xiji.service.base.SearchService;
+import com.cqut.xiji.service.company.CompanyService;
 import com.cqut.xiji.service.fileEncrypt.IFileEncryptService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 import com.cqut.xiji.tool.util.PropertiesTool;
@@ -131,12 +132,79 @@ public class ContractService extends SearchService implements IContractService{
 			condition += " and linkPhone like '%" + linkPhone + "%'";
 		}if (state > 0 && state < 8 ) {
 				condition += " and contract.state = '" + state + "'";
+		}if (state == 9) {
+			condition += " and contract.state != '0' and contract.state != '1' ";
 		}
 		List<Map<String, Object>> result = entityDao.searchWithpaging(
 				properties, tableName, joinEntity, null, condition, null,sort,
 				order, index, pageNum);
-		System.out.println("result:"+result);
-		int count = entityDao.getByCondition(" 1=1 ", Contract.class).size();
+		int count = entityDao.searchForeign(properties, tableName, joinEntity, null, condition).size();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("total", count);
+		map.put("rows", result);
+		return map;
+	}
+	
+	@Override
+	public Map<String, Object> getContractAuditWithPaging(int limit, int offset, String sort, String order, String contractName, String contractCode, String employeeName, String companyName, String startTime, String endTime, String oppositeMen, String linkPhone, int state) {
+		// TODO Auto-generated method stub
+		int index = limit;
+		int pageNum = offset/limit ;
+		String tableName = "contract";
+		String[] properties = new String[]{
+				"contract.fileID",
+				"contract.ID",
+				"contract.contractCode",
+				"contract.contractName",
+				"company.companyName",
+				"contract.oppositeMen",
+				"contract.linkPhone",
+				"employee.employeeName",
+				"contract.signAddress",
+				"date_format(contract.signTime,'%Y.%m.%d') as signTime",
+				"date_format(contract.startTime,'%Y.%m.%d') as startTime",
+				"date_format(contract.endTime,'%Y.%m.%d') as endTime",
+				"contract.contractAmount",
+				"case when contract.isClassified = 0 then '否' "
+				+ "when contract.isClassified = 1 then '是' end as isClassified",
+				"case when contract.classifiedLevel = 0 then '秘密' "
+				+ "when contract.classifiedLevel = 1 then '机密' "
+				+ "when contract.classifiedLevel = 2 then '绝密' "
+				+ "when contract.classifiedLevel = 3 then '无密级' end as classifiedLevel",
+				"case when contract.state = 2 then '待审核' "
+				+ "when contract.state = 3 then '驳回' "
+				+ "when contract.state = 4 then '审核通过' "
+				+ "when contract.state = 5 then '执行中' "
+				+ "when contract.state = 6 then '执行完成' "
+				+ "when contract.state = 7 then '异常终止' end as state",
+				"contract.viewpoint"
+		};
+		String joinEntity = " LEFT JOIN company ON contract.companyID = company.ID " +
+				" LEFT JOIN employee ON contract.employeeID = employee.ID ";
+		String condition = " 1 = 1 "; 
+		if (contractCode != null && !contractCode.isEmpty()) {
+			condition += " and contractCode like '%" + contractCode+ "%'";
+		}if (employeeName != null && !employeeName.isEmpty()) {
+			condition += " and employeeName like '%" + employeeName + "%'";
+		}if (companyName != null && !companyName.isEmpty()) {
+			condition += " and companyName like '%" + companyName + "%'";
+		}if (startTime != null && !startTime.isEmpty()) {
+			condition += " and signTime >'" + startTime + "'";
+		}if (endTime != null && !endTime.isEmpty()) {
+			condition += " and signTime <'" + endTime + "'";
+		}if (oppositeMen != null && !oppositeMen.isEmpty()) {
+			condition += " and oppositeMen like '%" + oppositeMen + "%'";
+		}if (linkPhone != null && !linkPhone.isEmpty()) {
+			condition += " and linkPhone like '%" + linkPhone + "%'";
+		}if (state > 0 && state < 8 ) {
+				condition += " and contract.state = '" + state + "'";
+		}if (state == 9) {
+			condition += " and contract.state != '0' and contract.state != '1' ";
+		}
+		List<Map<String, Object>> result = entityDao.searchWithpaging(
+				properties, tableName, joinEntity, null, condition, null,sort,
+				order, index, pageNum);
+		int count = entityDao.searchForeign(properties, tableName, joinEntity, null, condition).size();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("total", count);
 		map.put("rows", result);
@@ -259,9 +327,34 @@ public class ContractService extends SearchService implements IContractService{
 	 * @see com.cqut.xiji.service.contract.IContractService#addContract(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public int addContract(String contractName, String companyID, String companyName, String oppositeMen,String linkPhone, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel) {
+	public int addContract(String contractName, String companyID, String companyName, String oppositeMen,String linkPhone,String employeeID, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel) {
 		// TODO Auto-generated method stub
-	
+		String[] properties1 = new String[] {"ID"};
+		String condition1 = " companyName = '" + companyName + "'";
+		List<Map<String, Object>> result1 = entityDao.findByCondition(properties1, condition1, Company.class);
+		if(result1.isEmpty()){
+			System.out.println("不存在该公司名的公司");
+			return -2;
+		}else{
+			String companyID1 = result1.get(0).get("ID").toString();
+			if(!companyID1.equals(companyID)){
+				System.out.println("公司名与公司ID不相符");
+				return -4;
+			}
+		}
+		String[] properties2 = new String[] {"ID"};
+		String condition2 = " employeeName = '" + employeeName + "'";
+		List<Map<String, Object>> result2 = entityDao.findByCondition(properties2, condition2, Employee.class);
+		if(result2.isEmpty()){
+			System.out.println("不存在该员工");
+			return -6;
+		}else{
+			String employeeID1 = result2.get(0).get("ID").toString();
+			if(!employeeID1.equals(employeeID)){
+				System.out.println("员工名与员工ID不相符");
+				return -8;
+			}
+		}
 		Contract contract = new Contract();
 		String ID = EntityIDFactory.createId();
 		String contractCode = "20161010";
@@ -272,7 +365,7 @@ public class ContractService extends SearchService implements IContractService{
 		contract.setCompanyID(companyID);
 		contract.setOppositeMen(oppositeMen);
 		contract.setLinkPhone(linkPhone);
-		contract.setEmployeeID(employeeName);
+		contract.setEmployeeID(employeeID);
 		contract.setSignAddress(signAddress);
 		contract.setIsClassified(isClassified);
 		contract.setClassifiedLevel(classifiedLevel);
@@ -296,7 +389,6 @@ public class ContractService extends SearchService implements IContractService{
 		}
 		
 		int result = entityDao.save(contract);
-		
 		if(result <= 0){
 			String position = "ID =" + ID;
 			entityDao.deleteByCondition(position,Contract.class);
@@ -304,6 +396,18 @@ public class ContractService extends SearchService implements IContractService{
 		return result;
 	}
 	
+	@Override
+	public int isContractFile(String ID){
+		String[] properties1 = new String[] {"ID"};
+		String condition1 = " fileinformation.belongtoID = '" + ID + "'";
+		List<Map<String, Object>> result1 = entityDao.findByCondition(properties1, condition1, FileInformation.class);
+		
+		if(result1.isEmpty()){
+			System.out.println("不存在合同模板文件");
+			return 0;
+		}
+		return 1;
+	}
 	/**
 	 * 
 	 * @description 覆盖合同信息，生成新合同
@@ -324,34 +428,80 @@ public class ContractService extends SearchService implements IContractService{
 	 * @return
 	 * @see com.cqut.xiji.service.contract.IContractService#coverContractFile(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
-	public int coverContractFile(String ID,String contractCode,String contractName, String companyName,
+	public int coverContractFile(String ID/*,String contractCode,String contractName, String companyName,
 			String oppositeMen, String linkPhone, String employeeName,
 			String address, String signAddress, String startTime,
-			String signTime, String endTime){
+			String signTime, String endTime*/){
+		int index = 1;
+		int pageNum = 0;
+		String sort = "fileInformation.uploadTime";
+		String order = "desc";
+		String tableNamef = "fileInformation";
+		String[] propertiesf = new String[]{
+			" fileInformation.ID AS fileID,fileinformation.pathPassword,fileinformation.path,fileinformation.filePassword ",
+		};
+		String joinEntityf = " LEFT JOIN template ON template.fileID = fileInformation.ID ";
 		
-		String baseEntiy = "";
-		String[] properties = null;
-		String condition = "";
-		String fileID = "20170317204346035";
-		//String joinEntity = "";
-		baseEntiy = "fileinformation";
-		properties = new String[] { "fileinformation.pathPassword,fileinformation.path,fileinformation.filePassword"};
-		condition = "fileinformation.ID = " + fileID;
-		
-		List<Map<String, Object>> result1 = entityDao.searchForeign(
-				properties, baseEntiy, null, null, condition);
+		String conditionf = " fileinformation.id = template.fileID and template.templateType = 0 and fileinformation.type = 1 ";
+		List<Map<String, Object>> result1  = entityDao.searchWithpaging(propertiesf, tableNamef, joinEntityf, null, conditionf, null, sort, order, index, pageNum);
 		
 		if(result1.isEmpty()){
 			System.out.println("不存在合同模板文件");
 			return 0;
 		}
-		String fileInfoID = fileID;
+		String fileInfoID = result1.get(0).get("fileID").toString();;
 		String filePath = result1.get(0).get("path").toString();
 		String pathPassword = result1.get(0).get("pathPassword").toString();
-		String contractItem = "";
 		
-		baseEntiy = "contractFineItem";
-		properties = new String[] { 
+		String baseEntity1 = "contract";
+		String[] properties1 = new String[]{
+				"contract.ID",
+				"contract.contractCode",
+				"contract.contractName",
+				"contract.companyID",
+				"contract.fileID",
+				"company.companyName",
+				"company.address",
+				"contract.oppositeMen",
+				"contract.linkPhone",
+				"contract.employeeID",
+				"employee.employeeName",
+				"contract.signAddress",
+				"date_format(contract.signTime,'%Y年%m月%d日') as signTime",
+				"date_format(contract.startTime,'%Y年%m月%d日') as startTime",
+				"date_format(contract.endTime,'%Y年%m月%d日') as endTime",
+				"contract.contractAmount",
+				"contract.isClassified",
+				"contract.classifiedLevel",
+				"case when contract.state = 0 then '未上传合同文件' "
+				+ "when contract.state = 1 then '未提交' "
+				+ "when contract.state = 2 then '审核中' "
+				+ "when contract.state = 3 then '驳回' "
+				+ "when contract.state = 4 then '审核通过' "
+				+ "when contract.state = 5 then '执行中' "
+				+ "when contract.state = 6 then '执行完成' "
+				+ "when contract.state = 7 then '异常终止' end as state"
+		};
+		String joinEntity1 = " LEFT JOIN company ON contract.companyID = company.ID " +
+				" LEFT JOIN employee ON contract.employeeID = employee.ID ";
+		String condition1 = "contract.ID='" + ID + "'";
+		List<Map<String, Object>> contractA = entityDao.searchForeign(properties1,baseEntity1,joinEntity1,null,condition1);
+		String contractCode = contractA.get(0).get("contractCode").toString();
+		String contractName = contractA.get(0).get("contractName").toString();
+		String companyName = contractA.get(0).get("companyName").toString();
+		String oppositeMen = contractA.get(0).get("oppositeMen").toString();
+		String linkPhone = contractA.get(0).get("linkPhone").toString();
+		String employeeName = contractA.get(0).get("employeeName").toString();
+		String address = contractA.get(0).get("address").toString();
+		String contractAmount = contractA.get(0).get("contractAmount").toString();
+		String signAddress = contractA.get(0).get("signAddress").toString();
+		String startTime = contractA.get(0).get("startTime").toString();
+		String signTime = contractA.get(0).get("signTime").toString();
+		String endTime = contractA.get(0).get("endTime").toString();
+		
+		String contractItem = "";
+		String baseEntiy = "contractFineItem";
+		String[] properties = new String[] { 
 			"contractFineItem.ID",
 			"contractFineItem.fineItemCode",
 			"testProject.nameCn",
@@ -366,7 +516,7 @@ public class ContractService extends SearchService implements IContractService{
 		String joinEntity = " LEFT JOIN testProject ON contractFineItem.testProjectID = testProject.ID " +
 				" LEFT JOIN department ON contractFineItem.departmentID = department.ID ";
 		
-		condition = "contractFineItem.contractID = " + ID;
+		String condition = "contractFineItem.contractID = " + ID;
 		
 		List<Map<String, Object>> result2 = entityDao.searchForeign(
 				properties, baseEntiy, joinEntity, null, condition);
@@ -381,7 +531,7 @@ public class ContractService extends SearchService implements IContractService{
 			String number = "";
 			String hour = "";
 			for(int i = 0; i < result2.size(); i++){
-				nameCn = result2.get(0).get("nameCn").toString();
+				nameCn = result2.get(i).get("nameCn").toString();
 				nameEn = result2.get(i).get("nameEn").toString();
 				fineItemCode = result2.get(i).get("fineItemCode").toString();
 				//departmentName = result2.get(i).get("departmentName").toString();
@@ -394,8 +544,8 @@ public class ContractService extends SearchService implements IContractService{
 					contractItem +="\n  "+ fineItemCode + ". " + nameCn + "(" + nameEn + ")， 每次" + price +
 							"元，共" + number + "次，共计" + money + "元。";
 				}else if(calculateType.equals("1")){
-					contractItem +="\n  "+ fineItemCode + ". " + nameCn + "(" + nameEn + ")， 每小时" + hour +
-							"元，共" + number + "次，共计" + money + "元。";
+					contractItem +="\n  "+ fineItemCode + ". " + nameCn + "(" + nameEn + ")， 每小时" + price +
+							"元，共" + hour + "次，共计" + money + "元。";
 				}
 			}
 			
@@ -446,13 +596,15 @@ public class ContractService extends SearchService implements IContractService{
 			if (contractName != null)
 				wp.replaceText("{合同名称}",contractName.toString());
 			if (endTime != null)
-				wp.replaceText("{履行结束日期}",endTime.toString());
+				wp.replaceText("{结束日期}",endTime.toString());
 			if (contractItem != null)
 				wp.replaceText("{合同细项}",contractItem.toString());
+			if (contractAmount != null)
+				wp.replaceText("{合同金额}",contractAmount.toString());
 			wp.save(cacheFilePath);
 			wp.close();
 			
-			fileID = EntityIDFactory.createId();
+			String fileID = EntityIDFactory.createId();
 			FileInformation fi = new FileInformation();
 			fi.setID(fileID);
 			fi.setBelongtoID(ID);
@@ -468,6 +620,7 @@ public class ContractService extends SearchService implements IContractService{
 			fi.setType(1);
 			fi.setRemarks("系统生成");
 		    baseEntityDao.save(fi);
+		    updateContractFileID(ID);
 		    fileEncryptservice.encryptPath(relativePath, fileID);
 			fileEncryptservice.encryptFile(cacheFilePath,path,fileID);
 		} catch (Exception e) {
@@ -491,7 +644,6 @@ public class ContractService extends SearchService implements IContractService{
 		if(ids == null || ids.isEmpty()){
 			return 0;
 		}
-		System.out.println("删除合同ID是："+ids);
 		int result = entityDao.deleteByCondition(ids, Contract.class);
 		return result;
 	}
@@ -528,38 +680,35 @@ public class ContractService extends SearchService implements IContractService{
 			String oppositeMen, String linkPhone, String employeeID,
 			String employeeName, String signAddress, String startTime,
 			String signTime, String endTime,
-			int isClassified, int classifiedLevel, int state) {
+			int isClassified, int classifiedLevel) {
 		// TODO Auto-generated method stub
 		System.out.println("进入updContract");
-		
-		String employeeid = "";
 		String[] properties1 = new String[] {"ID"};
-		String condition1 = "employeeName like '%" + employeeName + "%'";
-		
-		List<Map<String, Object>> list1 = entityDao.findByCondition(properties1, condition1, Employee.class);
-		Map<String, Object> temp1 = list1.get(0);
-		
-		for (String obj : temp1.keySet()) {
-			
-			Object value = temp1.get(obj);
-			// 判断取出来的值是否为空
-			if (value != null && !"".equals(value.toString())) {
-				// 转换为String类型
-				employeeid = value.toString();
-				System.out.println("employeeid"+employeeid);
-			}
-		} 
-		
-		if(employeeid != null && !"".equals(employeeid)){
-			if(employeeid.equals(employeeID)){
-				System.out.println(employeeid);
-			}else{
-				employeeID = employeeid;
-			}
+		String condition1 = " companyName = '" + companyName + "'";
+		List<Map<String, Object>> result1 = entityDao.findByCondition(properties1, condition1, Company.class);
+		if(result1.isEmpty()){
+			System.out.println("不存在该公司名的公司");
+			return -2;
 		}else{
-			System.out.println("没有员工,此项不会改变");
+			String companyID1 = result1.get(0).get("ID").toString();
+			if(!companyID1.equals(companyID)){
+				System.out.println("公司名与公司ID不相符");
+				return -4;
+			}
 		}
-		
+		String[] properties2 = new String[] {"ID"};
+		String condition2 = " employeeName = '" + employeeName + "'";
+		List<Map<String, Object>> result2 = entityDao.findByCondition(properties2, condition2, Employee.class);
+		if(result2.isEmpty()){
+			System.out.println("不存在该员工");
+			return -6;
+		}else{
+			String employeeID1 = result2.get(0).get("ID").toString();
+			if(!employeeID1.equals(employeeID)){
+				System.out.println("员工名与员工ID不相符");
+				return -8;
+			}
+		}
 		Contract contract = entityDao.getByID(ID, Contract.class);
 		contract.setContractCode(contractCode);
 		contract.setContractName(contractName);
@@ -568,7 +717,7 @@ public class ContractService extends SearchService implements IContractService{
 		contract.setLinkPhone(linkPhone);
 		contract.setEmployeeID(employeeID);
 		contract.setSignAddress(signAddress);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
 		Date startTime1 = null;
 		Date signTime1 = null;
 		Date endTime1 = null;
@@ -589,8 +738,24 @@ public class ContractService extends SearchService implements IContractService{
 		//contract.setContractAmount(contractAmount);
 		contract.setIsClassified(isClassified);
 		contract.setClassifiedLevel(classifiedLevel);
-		contract.setState(state);
 		
+		int result = entityDao.updatePropByID(contract,ID);
+		return result;
+	}
+	
+	@Override
+	public int updContractState(String ID,int state){
+		if(state == 2){
+			String[] properties1 = new String[] {"ID"};
+			String condition1 = "fileinformation.state = '0' and fileinformation.belongtoID = '" + ID + "'";
+			List<Map<String, Object>> result1 = entityDao.findByCondition(properties1, condition1, FileInformation.class);
+			if(result1.isEmpty()){
+				System.out.println("该合同没有合同文件");
+				return -2;
+			}
+		}
+		Contract contract = entityDao.getByID(ID, Contract.class);
+		contract.setState(state);
 		int result = entityDao.updatePropByID(contract,ID);
 		return result;
 	}

@@ -34,7 +34,7 @@ public class ContractController{
 	
 	/**
 	 * 
-	 * @description 初始化数据
+	 * @description 初始化数据（合同管理）
 	 * @author hujiajun
 	 * @created 2016-10-17 下午9:30:39
 	 * @param limit
@@ -55,8 +55,33 @@ public class ContractController{
 	@RequestMapping("/getContractWithPaging2")  
     @ResponseBody
 	public JSONObject getContractWithPaging2(int limit, int offset, String sort, String order, String contractName, String contractCode, String employeeName, String companyName, String startTime, String endTime, String oppositeMen, String linkPhone, int state){
-		System.out.println(oppositeMen);
 		Map<String, Object> result = service.getContractWithPaging2(limit,offset,sort,order,contractName,contractCode,employeeName,companyName,startTime,endTime,oppositeMen,linkPhone,state);
+		return JSONObject.fromObject(result);
+	}
+	
+	/**
+	 * @description 初始化数据(合同审核)
+	 * @author hujiajun
+	 * @created 2017-3-17 下午9:30:39
+	 * @param limit
+	 * @param offset
+	 * @param sort
+	 * @param order
+	 * @param contractName
+	 * @param contractCode
+	 * @param employeeName
+	 * @param companyName
+	 * @param startTime
+	 * @param endTime
+	 * @param oppositeMen
+	 * @param linkPhone
+	 * @param state
+	 * @return
+	 */
+	@RequestMapping("/getContractAuditWithPaging")  
+    @ResponseBody
+	public JSONObject getContractAuditWithPaging(int limit, int offset, String sort, String order, String contractName, String contractCode, String employeeName, String companyName, String startTime, String endTime, String oppositeMen, String linkPhone, int state){
+		Map<String, Object> result = service.getContractAuditWithPaging(limit,offset,sort,order,contractName,contractCode,employeeName,companyName,startTime,endTime,oppositeMen,linkPhone,state);
 		return JSONObject.fromObject(result);
 	}
 	
@@ -74,11 +99,17 @@ public class ContractController{
 	 */
 	@RequestMapping("/addContract")  
     @ResponseBody
-	public int addContract(String contractName, String companyID,String companyName, String oppositeMen,String linkPhone, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel){
-		int result = service.addContract(contractName, companyID, companyName, oppositeMen, linkPhone, employeeName, address, signAddress, startTime, signTime, endTime,isClassified,classifiedLevel);
+	public int addContract(String contractName, String companyID,String companyName, String oppositeMen,String linkPhone, String employeeID, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel){
+		int result = service.addContract(contractName, companyID, companyName, oppositeMen, linkPhone,employeeID, employeeName, address, signAddress, startTime, signTime, endTime,isClassified,classifiedLevel);
 		return result;
 	}
 	
+	@RequestMapping("/isContractFile")  
+    @ResponseBody
+	public int isContractFile(String ID){
+		int result = service.isContractFile(ID);
+		return result;
+	}
 	/**
 	 * 
 	 * @description 覆盖合同信息，生成新合同
@@ -100,8 +131,8 @@ public class ContractController{
 	 */
 	@RequestMapping("/coverContractFile")  
     @ResponseBody
-	public int coverContractFile(String ID,String contractCode,String contractName,String companyName, String oppositeMen,String linkPhone, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime){
-		int result = service.coverContractFile(ID, contractCode,contractName,companyName, oppositeMen, linkPhone, employeeName, address, signAddress, startTime, signTime, endTime);
+	public int coverContractFile(String ID/*,String contractCode,String contractName,String companyName, String oppositeMen,String linkPhone, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime*/){
+		int result = service.coverContractFile(ID/*, contractCode,contractName,companyName, oppositeMen, linkPhone, employeeName, address, signAddress, startTime, signTime, endTime*/);
 		return result;
 	}
 	/**
@@ -162,8 +193,24 @@ public class ContractController{
 	 */
     @RequestMapping("/updContract")  
     @ResponseBody
-	public int updContract(String ID, String contractCode,String contractName, String companyID, String companyName, String address, String oppositeMen,String linkPhone, String employeeID, String employeeName, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel,int state){
-		int result = service.updContract(ID, contractCode, contractName, companyID, companyName, address, oppositeMen, linkPhone, employeeID, employeeName, signAddress, startTime, signTime, endTime, isClassified, classifiedLevel, state);
+	public int updContract(String ID, String contractCode,String contractName, String companyID, String companyName, String address, String oppositeMen,String linkPhone, String employeeID, String employeeName, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel){
+		int result = service.updContract(ID, contractCode, contractName, companyID, companyName, address, oppositeMen, linkPhone, employeeID, employeeName, signAddress, startTime, signTime, endTime, isClassified, classifiedLevel);
+		return result;
+	}
+    
+    /**
+     * 
+     * @description 更新合同状态
+     * @author hujiajun
+     * @created 2017年3月29日 上午11:38:06
+     * @param ID
+     * @param state
+     * @return
+     */
+    @RequestMapping("/updContractState")  
+    @ResponseBody
+	public int updContractState(String ID,int state){
+		int result = service.updContractState(ID, state);
 		return result;
 	}
     

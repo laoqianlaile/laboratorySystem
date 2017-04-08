@@ -105,6 +105,9 @@ textarea {
 #search {
 	float: left;
 }
+.btn-primary:hover {
+    background-color: #ffad33;
+}
 	
 </style>
 
@@ -154,7 +157,7 @@ textarea {
 
 				<button class="btn btn-primary" button" id="refresh"
 					onclick="refresh()">
-					<em class="glyphicon glyphicon-refresh"></em> 全部数据
+					<em class="glyphicon glyphicon-refresh"></em> 刷新
 				</button>
 
 			</div>

@@ -104,7 +104,7 @@ public class ReceiptlistController{
 	    return JSONObject.fromObject(result);
 	}
 	/**
-	 * 获取交接单文件通过交接单ID
+	 * 获取交接单相关的附件信息通过交接单ID
 	 * @author wzj
 	 * @date 2016年11月17日 下午7:48:29
 	 * @param reID
@@ -114,10 +114,10 @@ public class ReceiptlistController{
 	 * @param sort
 	 * @return
 	 */
-	@RequestMapping("/getReFiletByReID")
+	@RequestMapping("/getRelateFiletByReID")
 	@ResponseBody
-	public JSONObject getReFiletByReID(String reID, int limit, int offset, String order,  String sort) {
-		Map<String, Object> result = service.getReFiletByReID(reID,limit,offset,order,sort);
+	public JSONObject getRelateFiletByReID(String reID, int limit, int offset, String order,  String sort) {
+		Map<String, Object> result = service.getRelateFiletByReID(reID,limit,offset,order,sort);
 		return JSONObject.fromObject(result);
 	}
 	/**
@@ -175,8 +175,8 @@ public class ReceiptlistController{
 	 */
 	@RequestMapping("/saveSubmitReceipt")
 	@ResponseBody
-	public String saveSubmitReceipt(String reID ,String saveState ,String addState ,String companyName ,String address ,String linkMan ,String startTime ,String endTime ,String linkPhone , String accordingDoc ,String coID ) {
-		String result = service.saveSubmitReceipt( reID , saveState , addState , companyName , address , linkMan , startTime , endTime , linkPhone ,  accordingDoc , coID ) ;
+	public String saveSubmitReceipt(String reID ,String saveState ,String addState ,String companyName ,String address ,String linkMan ,String startTime ,String endTime ,String linkPhone , String accordingDoc ,String coID ,String comID) {
+		String result = service.saveSubmitReceipt( reID , saveState , addState , companyName , address , linkMan , startTime , endTime , linkPhone ,  accordingDoc , coID ,comID) ;
 		return result;
 	}
 	/**

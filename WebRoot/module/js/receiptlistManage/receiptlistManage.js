@@ -1,452 +1,555 @@
+/**
+ * 交接单搜索条件参数设置
+ */
 
-$(function () {
-	// 设置
-	  initTable();
-});
-function initTable(){
-	  //隐藏不需要展示的列
-	
-	$('#table').bootstrapTable({
-		height: 400,//定义表格的高度
-		striped: true,// 隔行变色效果
-		pagination: true,//在表格底部显示分页条
-		pageSize:5,//页面数据条数
-		pageNumber:1,//首页页码
-		pageList: [5,10,20, 100, 200, 500],//设置可供选择的页面数据条数
-		clickToSelect:true,//设置true 将在点击行时，自动选择rediobox 和 checkbox
-		cache: false,//禁用 AJAX 数据缓存
-		sortName:'ID',//定义排序列
-		sortOrder:'asc',//定义排序方式
-		url:'clientController/getRegistryWithPaging.do',//服务器数据的加载地址
-		sidePagination:'server',//设置在哪里进行分页
-		contentType:'application/json',//发送到服务器的数据编码类型
-		dataType:'json',//服务器返回的数据类型
-	    queryParams:queryParams,
-		selectItemName:'',//radio or checkbox 的字段名
-		columns:[{
-			checkbox:true,
-			field:'ID'
-		},{
-			field:'id',//返回值名称
-			title:'clientId',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-		},{
-			field:'companyName',//返回值名称
-			title:'公司名称',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-		},{
-			field:'address',//返回值名称
-			title:'通讯地址',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-		},{
-			field:'clientNo',//返回值名称
-			title:'登录名',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-		},{
-			field:'password',//返回值名称
-			title:'密码',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-		},{
-			field:'reviewStatus',//返回值名称
-			title:'审核状态',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-		},/*{
-			field:'fileID1',//返回值名称
-			title:'执照图',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-		},{
-			field:'fileID2',///返回值名称
-			title:'资质图',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-		},*/{
-			field:'mobilePhone',///返回值名称
-			title:'联系电话',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-		},{
-			field:'scope',///返回值名称
-			title:'经营范围',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-		},{
-			field:'legal',///返回值名称
-			title:'法定代表',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-		},{
-			field:'companyType',///返回值名称
-			title:'公司类型',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-		},{
-			field:'companyRemarks',///返回值名称
-			title:'备注',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-		}]//列配置项,详情请查看 列参数 表格
-	});
-	$('#table').bootstrapTable('hideColumn', 'id');
-    $('#table').bootstrapTable('hideColumn', 'address');
-    $('#table').bootstrapTable('hideColumn', 'password');
-    $('#table').bootstrapTable('hideColumn', 'businessLicence');
-    $('#table').bootstrapTable('hideColumn', 'qulicationPic');
-    $('#table').bootstrapTable('hideColumn', 'scope');
-    $('#table').bootstrapTable('hideColumn', 'legal');
-	function queryParams(pageReqeust) {  
-	    //console.log("-----params-----"); 
-	    pageReqeust.userName = "admin";  //
-	    pageReqeust.querys = $(".input-outline").val(); 
-	    pageReqeust.pageNo = this.offset;  
-	    pageReqeust.pageSize = this.pageNumber;  
-	    pageReqeust.length = 6;
-	//form表单的按钮要刷新页面，直接获取form表单的值，如果一直刷新页面，每次获取的值必定为空，
-	    if($("#isTouchReviewStatus").val()==""||$("#isTouchReviewStatus").val().length==0)
-       	 pageReqeust.isTouchReviewStatus = encodeURI("null");
-       else
-	    pageReqeust.isTouchReviewStatus =  encodeURI($("#isTouchReviewStatus").val()) ;
-	    
-	    
-        if($("#companyName").val()==""||$("#companyName").val().length==0)
-        	 pageReqeust.companyName = encodeURI("null");
-        else
-	    pageReqeust.companyName =  encodeURI($("#companyName").val()) ;//传递中文参数乱码的解决方法
-	  
-	    if($("#clientNo").val()==""||$("#clientNo").val().length==0)
-    	pageReqeust.clientNo = encodeURI("null");
-	    else
-	    pageReqeust.clientNo =  encodeURI($("#clientNo").val());
-	    var options=$("#reviewStatus option:selected");  //获取选中的项
-	    reviewStatus = options.val();
-		   pageReqeust.reviewStatus = encodeURI(reviewStatus);
-	    /*if($('select').val()==""||$('select').val().length==0)
-	    	 pageReqeust.reReviewStatus = encodeURI("null");
-	    else
-	    	pageReqeust.reReviewStatus = encodeURI($('select').val());*/
-	    console.log(pageReqeust);
-	    return pageReqeust;  
-	}
+var param = {
+	reCode : $('#schReCode').val(),// 
+	coCode : $('#schCoCode').val(),
+	companyName : $("#schCompnyName").val(),
+	reType : $('#schReType').val(),
+	linkMan : $('#schLinkMan').val(),
+	startTime : $('#schStratTime').val(),
+	endTime : $("#schEndTime").val(),
+	state : $("#schState").val()
 }
-/* 刷新方法 */
-function refresh(){
-	$('#table').bootstrapTable('refresh', null);
+/**
+ * 全局设置项目ID
+ */
+var globl = {
+	proID : "",
 }
-
-/*是否只是审核状态筛选事件*/
-function changeIsTouchReviewStatus(){
-	$("#isTouchReviewStatus").val("not first");
-	 $('#table').bootstrapTable('destroy');
-	  initTable();
-	  $("#isTouchReviewStatus").val("");
+/* 初始化数据 */
+$(function() {
 	
-}
-
-
-/* 弹出注册详情弹框 */
-function registerModal(){
-	var frameSrc = "module/jsp/roleManage/testFrame.html";
-    $("#NoPermissioniframe").attr("src", frameSrc);
-    $('#NoPermissionModal').modal({ show: true, backdrop: 'static' });
-	var data = $('#table').bootstrapTable('getSelections');
-	
-	if(data.length==0 || data.length>1){
-		alert("请选中一条数据");
-		return;
-	}
-	
-	$('#show_companyName').val(data[0].companyName);
-	$('#address').val(data[0].address);
-	$('#show_clientNo').val(data[0].clientNo);
-	$('#password').val(data[0].password);
-	$('#reviewStatus1').val(data[0].reviewStatus);
-	$('#phoneNumber').val(data[0].mobilePhone);
-	$('#scope').val(data[0].scope);
-	$('#legal').val(data[0].legal);
-	$('#type').val(data[0].companyType);
-	$("#show_qulicationPic").attr('src',data[0].path1);
-	$("#show_businessLicence").attr('src',data[0].path2);
-	$('#remarks').val(data[0].companyRemarks);
-	$('#contactModal').modal('show');
-   $('#contactModal').modal({ show: true, backdrop: 'static' });
-}
-/*弹出审核详情弹框*/
-function checkModal(){
-	var frameSrc = "module/jsp/roleManage/testFrame.html";
-    $("#NoPermissioniframe").attr("src", frameSrc);
-    $('#NoPermissionModal').modal({ show: true, backdrop: 'static' });
-	var data = $('#table').bootstrapTable('getSelections');
-	
-	if(data.length==0 || data.length>1){
-		alert("请选中一条数据");
-		return;
-	}
-	if(data[0].reviewStatus=="审核成功"||data[0].reviewStatus=="审核失败"){
-		alert("请选择未审核数据");
-		return;
-	}
-	
-		
-	$('#check_clientId').val(data[0].id);
-	$('#check_companyName').val(data[0].companyName);
-	$('#check_address').val(data[0].address);
-	$('#check_clientNo').val(data[0].clientNo);
-	$('#check_password').val(data[0].password);
-	$('#check_phoneNumber').val(data[0].mobilePhone);
-	$('#check_scope').val(data[0].scope);
-	$('#check_legal').val(data[0].legal);
-	$('#check_type').val(data[0].companyType);
-	$('#check_remarks').val(data[0].companyRemarks);
-	$("#check_qulicationPic").attr('src',data[0].path2);
-	$("#check_businessLicence").attr('src',data[0].path1);
-	$('#checkModal').modal('show');
-   $('#checkModal').modal({ show: true, backdrop: 'static' });
-}
-
-/*表单查询方法
- * function:根据表单数据查询后，返回值显示在表格中*/
-function formSearch1(){
-	 /*companyName = $("#companyName").val();
-	 clientNo = $("#clientNo").val();*/
-	/* reviewStatus = $('reviewStatus').val();*/
-	  $('#table').bootstrapTable('destroy');
-	  initTable();
-}
-
-
-  /*表单查询方法*/
- function formSearch(){ 
-	 var selfSampleName = $("#selfSampleName").val();
-	 var selfCompanyName = $("#selfCompanyName").val();
-	 var selfHasContact = $('select').val();
-	 ajaxParameter = {
-				"selfSampleName":"sb",
-				"selfCompanyName":selfCompanyName,
-				"selfHasContact":selfHasContact,
-	};
-	 $.ajax({
-		  url:'selfapplicationController/getSelfApplicationWithPaging.do',
-		  data:{"selfSampleName":"sb","selfCompanyName":"sb","selfHasContact":"sb",},
-		  dataType:'json',
-		  success:function(o){
-			  if(o<=0){
-				  alert("查询失败");
-			  }
-			  alert("mmm");
-			  alert(o);
-			  refresh();
-		  }
-		});
-	
- }
- /*修改审核状态,并发送短信*/
- function updateStatus(){
-	 var options=$("#check_reviewStatus option:selected");  //获取选中的项
-	 check_reviewStatus = options.val();
-	 check_clientId = $("#check_clientId").val();
-	 if(check_reviewStatus=="通过")
-		  check_reviewStatus="1";
-		 else
-		  check_reviewStatus="2"; 
-	 /*alert("审核："+check_reviewStatus);//审核状态 0:未审核  1：审核成功  2：审核失败*/		
-	    var ajaxParameter = {
-				"reviewStatus":encodeURI(check_reviewStatus),
-				"clientID":check_clientId,
-		};
-		check_phoneNumber = $("#check_phoneNumber").val();
-		check_clientNo = $("#check_clientNo").val();
-		check_password = $("#check_password").val();
-		$.ajax({
-		  url:'clientController/updateStatus.do',
-		  data:ajaxParameter,
-		  success:function(o){
-			  if(o<=0){
-				  alert("更新失败");
-			  }
-			  alert("更新审核状态成功");
-			  refresh();
-			  if(check_reviewStatus=="1"){//发送审核成功的短信
-				  alert("进入审核成功发短信");
-			  $.ajax({
-				  url:'contractController/sendMessage.do',//审核完后给用户发短信
-				  data:{"phnumber":check_phoneNumber,"accountName":encodeURI(check_clientNo),"password":check_password},
-				  success:function(o){
-					  alert("发送短信返回值："+o);
-					  
-				  }
-				});
-			  }else{
-				  $.ajax({//发送审核失败的短信
-					  url:'contractController/sendFailureMessage.do',//审核完后给用户发短信
-					  data:{"phnumber":check_phoneNumber,"accountName":encodeURI(check_clientNo)},
-					  success:function(o){
-						  alert("发送短信返回值："+o);
-					  }
+	$('#table') .bootstrapTable(
+					{
+						// 定义表格的高度height: 500,
+						striped : true,// 隔行变色效果
+						pagination : true,// 在表格底部显示分页条
+						pageSize : 3,// 页面数据条数
+						pageNumber : 1,// 首页页码
+						pageList : [ 3, 5, 9, 10 ],// 设置可供选择的页面数据条数
+						clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和	// checkbox
+						cache : false,// 禁用 AJAX 数据缓存
+						sortName : 'ID',// 定义排序列
+						sortOrder : 'asc',// 定义排序方式 getRceiptlistWithPaging
+						url : '/laboratorySystem/receiptlistController/getReceiptlistWithPaging.do',// 服务器数据的加载地址
+						sidePagination : 'server',// 设置在哪里进行分页
+						method : "post",
+						contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
+						dataType : 'json',// 服务器返回的数据类型
+						queryParams : function queryParams(params) {
+							param.limit = params.limit;// 页面大小
+							param.offset = params.offset; // 偏移量
+							param.search = "";
+							param.sort = params.sort; // 排序列名
+							param.order = params.order; // 排位命令（desc，asc）
+							return param;
+						}, // 请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
+						selectItemName : '',// radio or checkbox 的字段名
+						onLoadSuccess : function(data) {
+							console.log(data);
+						},
+						columns : [
+								{
+									checkbox : true,
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '5%',// 宽度
+									formatter : function(value, row, index) {
+										 checkData(row);	 //验证数据合理性					
+								    }
+								},
+								{
+									field : 'ID',// 返回值名称
+									title : '交接单ID',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '10',// 宽度
+									visible : false
+								},
+								{
+									field : 'coID',// 返回值名称
+									title : '合同ID',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '10',// 宽度
+									visible : false
+								},
+								{
+									field : 'proID',// 返回值名称
+									title : '项目ID',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '10',// 宽度
+									visible : false
+								},
+								{
+									field : 'reCode',// 返回值名称
+									title : '交接单号',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '15%'// 宽度
+								},
+								{
+									field : 'coCode',// 返回值名称
+									title : '合同编号',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '10%'// 宽度
+								},
+								{
+									field : 'companyName',// 返回值名称
+									title : '委托单位',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '8%'// 宽度
+								},
+								{
+									field : 'linkMan',// 返回值名称
+									title : '委托人',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '8%'// 宽度
+								},
+								{
+									field : 'linkPhone',// 返回值名称
+									title : '联系电话',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '8%'// 宽度
+								},
+								{
+									field : 'startTime',// 返回值名称
+									title : '履行时间',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '8%'// 宽度
+								},
+								{
+									field : 'endTime',// 返回值名称
+									title : '结束时间',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '8%'// 宽度
+								},
+								{
+									field : 'employeeName',// 返回值名称
+									title : '样品管理员',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '8%'// 宽度
+								},
+								{
+									field : 'reType',// 返回值名称
+									title : '类型',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '3%'// 宽度
+								},
+								{
+									field : 'state',// 返回值名称
+									title : '检测/校准进度',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '7%'// 宽度
+								},
+								{
+									field : 'remarks',// 返回值名称
+									title : '操作',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '12%',// 宽度
+									formatter : function(value, row, index) { //操作按钮的设置
+									  var look = "", edit = "", dele = ""; download = "",submit = "";
+									  	if(row.ID != ""){   //没有交接单---就没有任何编辑，查看，删除等功能
+									  		look =	"<img src=\"../../img/view_icon.png\"  alt=\"查看\" title=\"查看\" onclick='lookRe(\""+row.ID+"\")'>";
+									  	/*	look = '<span onclick= "lookRe(\'' + row.ID
+												+ '\')" data-toggle="tooltip" data-toggle="top"  title="查看"  class="icon-eye-open" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
+									*/
+										if(row.isEditSample == 1)  //能否编辑--提交的不能编辑
+										 {    
+											if(row.reType == "接受")  //接受的交接单跳转的页面
+											edit = "<img src=\"../../img/edit_icon.png\"  alt=\"编辑\" title=\"编辑\" onclick='editRe(\"" + row.ID+"\" , \""+row.coID+"\",\""+row.proID+"\",\""+row.comID+"\",\""+row.coCode+"\",\""+row.reCode+"\",\""+"recive\""+")'>";
+											/*  edit = '<span  onclick= "editRe(\'' + row.ID+"\' , \'"+row.coID+"\',\'"+row.proID+"\',\'"+row.comID+"\',\'"+row.coCode+"\',\'"+row.reCode+"\',\'"+"recive\'"
+												+ ')" data-toggle="tooltip" data-placement="top" title="修改" class="glyphicon glyphicon-edit" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span> ';
+											*/
+											else   //退还的交接单跳转的页面
+											
+												{ 
+											      edit = "<img src=\"../../img/edit_icon.png\"  alt=\"编辑\" title=\"编辑\"  onclick='editRe(\"" + row.ID+"\" , \""+row.coID+"\",\""+row.proID+"\",\""+row.comID+"\",\""+row.coCode+"\",\""+row.reCode+"\",\""+"return\""+")'>";
+												  
+											    	/*edit = '<span  onclick= "editRe(\'' + row.ID+"\' , \'"+row.coID+"\',\'"+row.proID+"\',\'"+row.comID+"\',\'"+row.coCode+"\',\'"+row.reCode+"\',\'"+"return\'"
+												    + ')" data-toggle="tooltip" data-placement="top" title="修改" class="glyphicon glyphicon-edit" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span> ';*/
+												}
+										}
+									
+										 if (row.state == "未检测") //未检测的交接单(保存在自己的还没有提交的可以删除)
+										 {  
+											// dele = "<img src=\"../../img/delete_icon.png\" alt=\"删除\" title=\"删除\" onclick='deleteRe(\""+row.ID+"\")'>";
+											/*cancel = '<span onclick= "deleteRe(\'' + row.ID
+													+ '\')" data-toggle="tooltip" data-placement="top" title="删除"  class="glyphicon glyphicon-remove" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>'*/
+										 } 
+											download =  "<img src=\"../../img/download_icon.png\" alt=\"下载\" title=\"下载\" onclick='downloadReFile(\"" + row.ID+"\",\""+row.coID+"\",\""+row.proID+"\")'>";
+												/*'<span onclick= "downloadReFile(\'' + row.ID+'\''+',\''+row.coID+'\',\''+row.proID
+													+ '\')" data-toggle="tooltip" data-placement="top" title="下载"  class="glyphicon glyphicon-download-alt" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>'*/
+											submit = "<img src=\"../../img/submit_icon.png\" alt=\"提交\" title=\"提交\" onclick='dealReSave()'>";
+														
+									  	}
+									 
+										return look + edit + submit +download;
+									}
+								} ]
+					// 列配置项,详情请查看 列参数 表格
+					/* 事件 */
 					});
-				  
-			  }
-			  
-		  }
-		});
+});
+// 有合同新增--接受类交接单
+function addRe() {
+	var data = $('#table').bootstrapTable('getSelections');
+	if (data.length == 0 || data.length > 1) {
+		sweetAlert("请选中一条数据");
+		return;
 	}
- 
- function openModal(){
-		var data = $('#table').bootstrapTable('getSelections');
+
+	var result = initAddReceiptlist(data[0],"yes");  //创建交接单跳转
+	window.location.href = "./addRecelist.jsp?reID="
+		    +result.reID+"&coID=" 
+	        + data[0].coID + "&comID="
+			+ data[0].comID + "&coCode=" + data[0].coCode
+			+ "&state=yes&reCode=" + result.reCode+"&proID="+data[0].proID;
+
+}
+//创建交接单 --各种类型
+function initAddReceiptlist(data,state) {
+	var param = deepCopy(data);
+	var result ;
+	    param.state = state;
+          $.ajax({
+				url : '/laboratorySystem/receiptlistController/addReceiptList.do',
+				dataType : "json",
+				type : "post",
+				contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
+				async : false,
+				data : param,
+				success : function(o) {
+					 result  = JSON.parse(o);
+					 console.log(result);
+				},
+				error : function() {
+					sweetAlert(""," 创建交接单失败 ","error");
+				}
+          });
+          return result;
+}
+// 无合同新增--接受类交接单
+function addReNo() {
+	// 在这里创建新的合同
+	sweetAlert({
+		  title: "Are you sure?",
+		  text: "确认无合同新增!",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "是",
+		  cancelButtonText: "否"
 		
-		if(data.length==0 || data.length>1){
-			alert("请选中一条数据");
-			return;
+		}, function(isConfirm){
+		        if(isConfirm){
+		        	var result = initAddReceiptlist({},"no");  //创建交接单跳转
+		        	window.location.href = "./addRecelist.jsp?reID="
+		        			+result.reID+"&coID=" 
+		        			+ result.coID + "&comID="
+		        			+ "" + "&coCode=" + result.coCode
+		        			+ "&state=no&reCode=" + result.reCode+"&proID="+result.proID;
+		        }
+		});
+	
+}
+
+
+// 有合同新增--退还类交接单
+function returnSample() {
+	var data = $('#table').bootstrapTable('getSelections');
+	if (data.length == 0 || data.length > 1) {
+		sweetAlert("请选中一条数据");
+		return;
+	}
+	if(data[0].comID == null || data[0].comID == ""){
+		sweetAlert("此时你还没有样品可以退");
+	}
+	var result = initAddReceiptlist(data[0],"return");
+	window.location.href = "./receiptlistReturn.jsp?reID="+result.reID
+							+"&coID=" + result.coID + "&comID="
+							+ "" + "&coCode=" + result.coCode
+							+ "&state=add&reCode=" + result.reCode;
+}
+// 查看页面
+function lookRe(id) {
+	
+	window.location = "./receiptlistView.jsp?reID=" + id;
+	
+}
+// 编辑交接单
+function editRe(reID,coID,proID,comID,coCode,reCode,state) {
+	 //接受交接单--编辑的页面
+	if(state == "recive") 
+		 window.location.href = "./addRecelist.jsp?reID="+reID
+		 						+"&coID=" + coID + "&comID="
+		 						+ comID + "&coCode=" + coCode
+		 						+"&proID="+proID
+		 						+ "&state=edit&reCode=" + reCode;
+	 //退还样品-交接单编辑的页面
+	else {
+			window.location.href = "./receiptlistReturn.jsp?reID="
+									+reID+"&coID=" + coID + "&comID="
+									+ comID + "&coCode=" + coCode
+									+"&proID="+proID
+									+ "&state=edit";
 		}
+}
+/* 查询方法 */
+function seacher() {
+	// 查询的时候 他的limit 会依据页面上的数保留 不会变0
+	var param = {};
+	param.reCode = $('#schReCode').val();// 初始化搜索文字
+	param.coCode = $('#schCoCode').val();
+	param.companyName = $("#schCompnyName").val();
+	param.reType = $('#schReType').val();
+	param.linkMan = $('#schLinkMan').val();
+	param.startTime = $('#schStratTime').val();
+	param.endTime = $("#schEndTime").val();
+	param.state = $("#schState").val();
+	$('#table') .bootstrapTable( 'refresh',
+					{
+						silent : true,
+						url : "/laboratorySystem/receiptlistController/getReceiptlistWithPaging.do",
+						query : param
+					});
+}
+
+/* 刷新方法 */
+function refresh() {
+	// 清空查询数据
+	var param = {};
+	param.reCode = "";
+	param.coCode = "";
+	param.companyName = "";
+	param.reType = "";
+	param.linkMan = "";
+	param.startTime = "";
+	param.endTime = "";
+	param.state = "";
+	$('#table').bootstrapTable( 'refresh',
+					{
+						silent : false,
+						url : "/laboratorySystem/receiptlistController/getReceiptlistWithPaging.do",
+						query : param
+					});
+}
+
+/* 删除交接单方法 */
+function deleteRe() {
+
+	sweetAlert({
+		  title: "Are you sure?",
+		  text: "确认删除!",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "是",
+		  cancelButtonText: "否"
 		
-		//var ids =  data[0].ROLEID;
-		
-		
-		$('#edit_NAME').val(data[0].NAME);
-		$('#edit_REMARKS').val(data[0].REMARKS);
-		
-		$('#editModal').modal('show');
-	}
- 
-/* 删除方法 */
-function delData(){
-	var data = $('#table').bootstrapTable('getSelections');
+		}, function(isConfirm){
+		        if(isConfirm){
+		        	deleteRe_ok();
+		        }
+		});
 	
-	if(data.length==0){
-		alert("请至少选中一条数据");
+
+}
+//删除交接单
+function deleteRe_ok(){
+	var data = $('#table').bootstrapTable('getSelections');
+
+	if (data.length == 0 ) {
+		sweetAlert("请至少选择一条数据");
 		return;
 	}
+   var ids = "";
+   for(var i = 0; i < data.length ; i++){
+		   if (data[i].state == "未检测") // 未检测的才能删
+		{
+			if (data[i].ID == null || data[i].ID == undefined || data[i].ID == "") {
+				  ;
+			} else {
+				ids += data[i].ID + ",";
+			}
+		}
+   }
+   if(ids != "")
+   {
+	   ids = ids.substring(0 , ids.length-1);
+   }
+   else{
+	   sweetAlert("没有任何的交接单可以删除");
+   }
+
+		$.ajax({
+			url : '/laboratorySystem/receiptlistController/delReceiptlist.do',
+			dataType : "json",
+			data : {
+				reIDs : ids
+			},
+			success : function(o) {
+				if (o == false) {
+					sweetAlert("","删除失败","error");
+				} else {
+					sweetAlert({
+						title:"删除成功",
+						type:"success",
+						timer:100
+						});
+					}
+					$('#table').bootstrapTable('refresh',null);
+				}
+				
+		
+		});
+
 	
-	var ids = "";
-	for(var i=0; i<data.length; i++){
-		ids += data[i].ROLEID + ",";
-	}
-	
-	var ajaxParameter = {
-			roleIDs:ids.substring(0, (ids.length-1))
-	};
-	
+}
+//下载交接单文件 
+function downloadReFile(reID ,coID,proID){
+	var fileID = "";
 	$.ajax({
-	  url:'roleController/delRole.do',
-	  data:ajaxParameter,
-	  success:function(o){
-		  if(o<=0){
-			  alert("删除失败");
-		  }
-		  refresh();
-	  }
-	});
-}
-
-/* 新增方法 */
-function add(){
-	
-	
-
-	var name = $('#add_NAME').val(); 
-	if (!name && typeof(name)!="undefined" && name=='') 
-	{ 
-		alert("角色名不能为空！"); 
-	}else {
-		var parame = {};
-		parame.NAME = $('#add_NAME').val();
-		parame.REMARKS = $('#add_REMARKS').val();
-		parame.CREATOR = 'xjuc';
+		url : '/laboratorySystem/receiptlistController/downReceiptlist.do',
+		dataType : "json",
+		type : "post",
+		contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
+		async : false ,
+		data : {
+			reID : reID	,
+			coID : coID ,
+			proID: proID
+		},
+		success : function(o) {
 		
-		$.ajax({
-		  url:'roleController/addRole.do',
-		  data:parame,
-		  success:function(o){
-			  if(o<=0){
-				  alert("新增失败");
-			  }
-			  $('#addModal').modal('hide');
-			  refresh();
-		  }
-		});
-	}
-	
+			if (o == "false") {
+				sweetAlert("还没有交接单文件模板");
+			} else {
+				
+				fileID = o;
+				downOneFile(fileID);
+			}
+			
+		}
+	});
+
 }
+// 检查交接单数据是否合理并处理
+function checkData(dataObj) { // 后台数据字段为空就不会传上来
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null || dataObj.ID.trim() == "NULL") {
+	    
+		dataObj.ID = "";
+	}
+	if (!dataObj.hasOwnProperty("proID") || dataObj.proID == null 	|| dataObj.proID.trim() == "NULL") {
+		  dataObj.proID = "";
+	}
+	if (!dataObj.hasOwnProperty("coState") || dataObj.coState == null || dataObj.coState == undefined ) {
+		dataObj.coState = "0"; //没有合同文件
+	}
+	if (!dataObj.hasOwnProperty("coCode") || dataObj.coCode == null || dataObj.coCode.trim() == "NULL") {
+		 dataObj.coCode = "";
+	}
+	if (!dataObj.hasOwnProperty("isEditSample") || dataObj.isEditSample == null || dataObj.isEditSample == undefined ) {
+		dataObj.isEditSample = "1"; //能编辑
+	}
+	if (!dataObj.hasOwnProperty("comID") || dataObj.comID == null || dataObj.comID.trim() == "NULL") {
+		dataObj.comID = "";
+	}
+	if (!dataObj.hasOwnProperty("reCode") || dataObj.reCode == null || dataObj.reCode.trim() == "NULL") {
+		dataObj.reCode = "";
+	}
+	if (!dataObj.hasOwnProperty("companyName") || dataObj.companyName == null || dataObj.companyName.trim() == "NULL") {
+		dataObj.companyName = "";
+	}
+	if (!dataObj.hasOwnProperty("linkMan") || dataObj.linkMan == null || dataObj.linkMan.trim() == "NULL") {
+		dataObj.linkMan = "";
+	}
+	if (!dataObj.hasOwnProperty("startTime") || dataObj.startTime == null || dataObj.startTime.trim() == "NULL") {
+		dataObj.startTime = "";
+	}
+	if (!dataObj.hasOwnProperty("endTime") || dataObj.endTime == null || dataObj.endTime.trim() == "NULL") {
+		dataObj.endTime = "";
+	}
+	if (!dataObj.hasOwnProperty("employeeName") || dataObj.employeeName == null || dataObj.employeeName.trim() == "NULL") {
+		dataObj.employeeName = "";
+	}
+	if (!dataObj.hasOwnProperty("linkPhone") || dataObj.linkPhone == null || dataObj.linkPhone.trim() == "NULL") {
+		dataObj.linkPhone = "";
+	}
+	if (!dataObj.hasOwnProperty("reType") || dataObj.reType == null || dataObj.reType.trim() == "NULL") {
+		dataObj.reType = "";
+	}
+	if (!dataObj.hasOwnProperty("state") || dataObj.state == null || dataObj.state.trim() == "NULL") {
+		dataObj.state = "";
+	}
+}
+/*function fillLookEdit(id) {
+	var dataS = getOneDate(id);
+	chen.alert("2");
+	console.log(dataS);
+	checkData(dataS);
 
+	// 填充查看页面的
+	$('#lookSampleName').val(dataS.name);
+	$('#lookSampleType').val(dataS.type);
+	$('#lookUnit').val(dataS.unit);
+	$('#lookRemarks').val(dataS.remarks);
+	$('#lookCreateTime').val(dataS.createTime);
+	$('#lookTakeMan').val(dataS.takeMan);
+	$('#lookGiveMan').val(dataS.giveMan);
+	$("#lookFactoryCode").val(dataS.factoryCode);
+	$('#lookReceiptlistCode').val(dataS.receiptlistCode);
+	// 填充编辑页面的
+	$('#editSampleName').val(dataS.name);
+	$('#editSampleType').val(dataS.type);
+	$('#editUnit').val(dataS.unit);
+	$('#editRemarks').val(dataS.remarks);
+	$('#editCreateTime').val(dataS.createTime);
+	$('#editTakeMan').val(dataS.takeMan);
+	$('#editGiveMan').val(dataS.giveMan);
+	$("#editFactoryCode").val(dataS.factoryCode);
+	$('#editReceiptlistCode').val(dataS.receiptlistCode);
 
-
+}*/
+/*function getOneDate(id) {
+	var dataS;
+	$.ajax({
+		type : "post",
+		async : false,
+		url : '/laboratorySystem/sampleController/getSample.do',
+		contentType : "application/x-www-form-urlencoded; charset=UTF-8", // 中文乱码
+		data : {
+			sampleID : id
+		},
+		dataType : "json",
+		success : function(data) {
+			dataS = eval("(" + data + ")");
+		}
+	});
+	return dataS;
+}*/
 /* 弹出修改弹框方法 */
-function openModal(){
+/*function openModal() {
 	var data = $('#table').bootstrapTable('getSelections');
-	
-	if(data.length==0 || data.length>1){
-		alert("请选中一条数据");
+
+	if (data.length == 0 || data.length > 1) {
+		chen.alert("请选中一条数据");
 		return;
 	}
-	
-	//var ids =  data[0].ROLEID;
-	
-	
-	$('#edit_NAME').val(data[0].NAME);
-	$('#edit_REMARKS').val(data[0].REMARKS);
-	
+	// var ids = data[0].ROLEID;
+	fillLookEdit(data[0].ID);
 	$('#editModal').modal('show');
-}
-
-
-/* 修改方法 */
-function edit(){
-	var name = $('#edit_NAME').val(); 
-	if (!name && typeof(name)!="undefined" && name=='') 
-	{ 
-		alert("角色名不能为空！"); 
-	}else {
-		var data = $('#table').bootstrapTable('getSelections');
-		var ids =  data[0].ROLEID;
-		var parame = {};
-		parame.ROLEID = ids;
-		parame.NAME = $('#edit_NAME').val();
-		parame.REMARKS = $('#edit_REMARKS').val();
-		
-		$.ajax({
-		  url:'roleController/updRole.do',
-		  data:parame,
-		  success:function(o){
-			  if(o<=0){
-				  alert("修改失败");
-			  }
-			  $('#editModal').modal('hide');
-			  refresh();
-		  }
-		});
-	}
-	
-}
-/* //打开模态框
-function openModal1(){
-	  alert("openModal()");
-  var fatherBody = $(window.top.document.body);
-  var id = 'pages';
-  var dialog = $('#' + id);
-  if (dialog.length == 0) {
-      dialog = $('<div class="modal fade" role="dialog" id="' + id + '">ssbb</div>');
-      dialog.appendTo(fatherBody);
-  }
-  dialog.load("/laboratorySystem/index.jsp", function() {
-      dialog.modal({
-        backdrop: false
-      });
-  });
-  fatherBody.append("<div id='backdropId' class='modal-backdrop fade in'></div>");
-}
-
-//关闭模态框
-function closeModal(){
-  var fatherBody = $(window.top.document.body);
-  fatherBody.find("#pages").on('hidden.bs.modal', function (e) {
-      fatherBody.find("#backdropId").remove();
-  });
-}
-*/
-
-
+}*/

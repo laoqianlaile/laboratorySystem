@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
+import com.cqut.xiji.entity.employee.Employee;
+import com.cqut.xiji.entity.equipment.Equipment;
 import com.cqut.xiji.entity.equipmentScrap.EquipmentScrap;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
@@ -83,9 +85,7 @@ public class EquipmentScrapService extends SearchService implements IEquipmentSc
 						properties, baseEntity, joinEntity, null, condition, null,sort,
 						order, index, pageNum);
 				System.out.println("result:"+result);
-				int count = entityDao.searchWithpaging(
-						properties, baseEntity, joinEntity, null, condition, null,sort,
-						order, index, pageNum).size();
+				int count = entityDao.searchForeign(properties, baseEntity, joinEntity, null, condition).size();
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("total", count);
 				map.put("rows", result);
@@ -114,8 +114,34 @@ public class EquipmentScrapService extends SearchService implements IEquipmentSc
 	}
 	
 	@Override
-	public int addEquipmentScrap(String equipmentID, String employeeID,
+	public int addEquipmentScrap(String equipmentID,String equipmentName, String employeeID,String employeeName,
 			String buyTime, String checkinTime, int useTime, String remarks){
+		String[] properties1 = new String[] {"ID"};
+		String condition1 = " equipment.equipmentName = '" + equipmentName + "'";
+		List<Map<String, Object>> result1 = entityDao.findByCondition(properties1, condition1, Equipment.class);
+		if(result1.isEmpty()){
+			System.out.println("不存在该仪器");
+			return -2;
+		}else{
+			String equipmentID1 = result1.get(0).get("ID").toString();
+			if(!equipmentID1.equals(equipmentID)){
+				System.out.println("仪器名与仪器ID不相符");
+				return -4;
+			}
+		}
+		String[] properties2 = new String[] {"ID"};
+		String condition2 = " employeeName = '" + employeeName + "'";
+		List<Map<String, Object>> result2 = entityDao.findByCondition(properties2, condition2, Employee.class);
+		if(result2.isEmpty()){
+			System.out.println("不存在该员工");
+			return -6;
+		}else{
+			String employeeID1 = result2.get(0).get("ID").toString();
+			if(!employeeID1.equals(employeeID)){
+				System.out.println("员工名与员工ID不相符");
+				return -8;
+			}
+		}
 		EquipmentScrap equipmentScrap = new EquipmentScrap();
 		String id = EntityIDFactory.createId();
 		equipmentScrap.setID(id);
@@ -151,9 +177,35 @@ public class EquipmentScrapService extends SearchService implements IEquipmentSc
 	}
 	
 	@Override
-	public int updEquipmentScrap(String ID, String equipmentID,String employeeID,
+	public int updEquipmentScrap(String ID, String equipmentID,String equipmentName,String employeeID,String employeeName,
 			String buyTime, String checkinTime, int useTime,String remarks){
 		// TODO Auto-generated method stub
+		String[] properties1 = new String[] {"ID"};
+		String condition1 = " equipment.equipmentName = '" + equipmentName + "'";
+		List<Map<String, Object>> result1 = entityDao.findByCondition(properties1, condition1, Equipment.class);
+		if(result1.isEmpty()){
+			System.out.println("不存在该仪器");
+			return -2;
+		}else{
+			String equipmentID1 = result1.get(0).get("ID").toString();
+			if(!equipmentID1.equals(equipmentID)){
+				System.out.println("仪器名与仪器ID不相符");
+				return -4;
+			}
+		}
+		String[] properties2 = new String[] {"ID"};
+		String condition2 = " employeeName = '" + employeeName + "'";
+		List<Map<String, Object>> result2 = entityDao.findByCondition(properties2, condition2, Employee.class);
+		if(result2.isEmpty()){
+			System.out.println("不存在该员工");
+			return -6;
+		}else{
+			String employeeID1 = result2.get(0).get("ID").toString();
+			if(!employeeID1.equals(employeeID)){
+				System.out.println("员工名与员工ID不相符");
+				return -8;
+			}
+		}
 		EquipmentScrap equipmentScrap = new EquipmentScrap();
 		equipmentScrap.setID(ID);
 		equipmentScrap.setEquipmentID(equipmentID);

@@ -16,10 +16,12 @@ import net.sf.json.JSONArray;
 
 import org.springframework.stereotype.Service;
 
+import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.contract.Contract;
 import com.cqut.xiji.entity.employee.Employee;
+import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
@@ -28,7 +30,10 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 
 	@Resource(name="entityDao")
 	EntityDao entityDao;
-
+	
+	@Resource(name = "baseEntityDao")
+	BaseEntityDao baseEntityDao;
+	
 	@Resource(name="searchDao")
 	SearchDao searchDao;
 
@@ -180,7 +185,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 		@Override
 		public List<Map<String, Object>> getEmployeeName(String employeeName) {
 			String[] properties = new String[] {"ID","employeeName"};
-			String condition = "employeeName like '%" + employeeName + "%'";
+			String condition = "employeeName like '%" + employeeName + "%'  and ID != '20170220super' and ID != '20170220xiji'";
 			List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Employee.class);
 			return result;
 		}
@@ -481,4 +486,29 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			return result +"";
 		}
 		
+		@Override
+	public boolean addSignatrueAndStamp(String fileID, String selectorName) {
+		String condition = " fileinformation.ID = '" + fileID + "'";
+		List<Map<String, Object>> fileInfo = entityDao.searchWithpaging(
+				new String[] { "fileinformation.path AS path","fileinformation.belongtoID AS belongtoID"},
+				"fileinformation", null, null, condition, null,
+				"fileinformation.uploadTime", "DESC", 1, 0);
+		if (fileInfo != null && fileInfo.size() > 0) {
+			String employeeID = fileInfo.get(0).get("belongtoID").toString();
+			String imagePath = fileInfo.get(0).get("path").toString();
+			Employee ee = entityDao.getByID(employeeID, Employee.class);
+			if (selectorName.equals(".singnatureImg")) {
+				ee.setSingnature(imagePath);
+				return baseEntityDao.updatePropByID(ee, employeeID) > 0 ? true
+						: false;
+			} else {
+				ee.setStamp(imagePath);
+				return baseEntityDao.updatePropByID(ee, employeeID) > 0 ? true
+						: false;
+			}
+		} else {
+			return false;
+		}
+
+	}
 }

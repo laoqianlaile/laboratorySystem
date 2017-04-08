@@ -25,9 +25,8 @@ public interface ITaskService {
 	Map<String, Object> getReceiptlistSampleInforWithPaging(String ID,
 			int limit, int offset, String sort, String order);
 
-	public String updReceiptlistSampleInForInReturn(String ID, String testID,
-			String factoryCode, String sampleName, String specifications,
-			String nameCn, String createTime);
+	public String updReceiptlistSampleInForInReturn(String ID,
+			String factoryCode, String sampleName, String specifications, String createTime);
 
 	public String addTaskSample(String ID, String receiptlistID);
 
@@ -68,7 +67,8 @@ public interface ITaskService {
     
 	public boolean submitReport(String taskID);
 
-
+	public String getFileIdOfTask(String taskID);
+	
 	public String downReportTemplate(String taskID, String projectName, String UPLOADER); 
 
 	

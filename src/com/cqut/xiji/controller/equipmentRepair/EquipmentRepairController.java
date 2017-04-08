@@ -21,15 +21,15 @@ public class EquipmentRepairController{
 	
 	@RequestMapping("/getEquipmentRepairWithPaging")  
     @ResponseBody
-	public JSONObject getEquipmentRepairWithPaging(int limit, int offset, String sort, String order, String model, String equipmentName, String employeeName){
-		Map<String, Object> result = service.getEquipmentRepairWithPaging(limit,offset,sort,order,model,equipmentName,employeeName);
+	public JSONObject getEquipmentRepairWithPaging(int limit, int offset, String sort, String order, String factoryCode, String equipmentName, String model, String employeeName){
+		Map<String, Object> result = service.getEquipmentRepairWithPaging(limit,offset,sort,order,factoryCode,equipmentName,model,employeeName);
 		return JSONObject.fromObject(result);
 	}
 	
 	@RequestMapping("/addEquipmentRepair")  
     @ResponseBody
-	public int addEquipmentRepair(String ID, String equipmentID, String repairTime, String employeeID, String beforeStatus, String afterStatus, String mounting, int money, String remarks){
-		int results = service.addEquipmentRepair(equipmentID,repairTime,employeeID,beforeStatus,afterStatus,mounting,money,remarks);
+	public int addEquipmentRepair(String equipmentID,String equipmentName, String repairTime, String employeeID,String employeeName, String beforeStatus, String afterStatus, String mounting, int money, String remarks){
+		int results = service.addEquipmentRepair(equipmentID,equipmentName,repairTime,employeeID,employeeName,beforeStatus,afterStatus,mounting,money,remarks);
 		return results;
 	}
 	
@@ -42,8 +42,8 @@ public class EquipmentRepairController{
 	
 	@RequestMapping("/updEquipmentRepair")  
     @ResponseBody
-	public int updEquipmentRepair(String ID, String equipmentID, String repairTime, String employeeID, String beforeStatus, String afterStatus, String mounting, int money, String remarks){
-		int results = service.updEquipmentRepair(ID,equipmentID,repairTime,employeeID,beforeStatus,afterStatus,mounting,money,remarks);
+	public int updEquipmentRepair(String ID, String equipmentID,String equipmentName, String repairTime, String employeeID,String employeeName, String beforeStatus, String afterStatus, String mounting, int money, String remarks){
+		int results = service.updEquipmentRepair(ID,equipmentID,equipmentName,repairTime,employeeID,employeeName,beforeStatus,afterStatus,mounting,money,remarks);
 		return results;
 	}
 }

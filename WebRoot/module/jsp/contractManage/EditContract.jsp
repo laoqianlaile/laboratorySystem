@@ -22,16 +22,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="module/css/changeACE.css" />
 	<link rel="stylesheet" type="text/css" href="module/css/uploadify.css">
 	<link rel="stylesheet" href="module/css/contractManage/EditContract.css" />
+	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 	
-	<script src="assets/js/jquery-2.0.3.min.js"></script>
+	<script src="assets/js/jquery-2.0.3.min.js" type="text/javascript"></script>
 	<script src="module/js/jquery.uploadify.min.js" type="text/javascript"></script>
-	<script src="module/js/bootstrap.js"></script>
-	<script src="module/js/bootstrap-table.js"></script>
-	<script src="module/js/bootstrap-table-zh-CN.js"></script>
-	<script src="module/js/bootstrap-treeview.js"></script>
-	<script src="module/js/bootstrap-datetimepicker.js"></script>
-	<script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
-	<script src="module/js/bootstrap-datetimepicker.fr.js"></script>
+	<script src="module/js/bootstrap.js" type="text/javascript"></script>
+	<script src="module/js/bootstrap-table.js" type="text/javascript"></script>
+	<script src="module/js/bootstrap-table-zh-CN.js" type="text/javascript"></script>
+	<script src="module/js/bootstrap-datetimepicker.js" type="text/javascript"></script>
+	<script src="module/js/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
+	<script src="module/js/bootstrap-datetimepicker.fr.js" type="text/javascript"></script>
+	<script src="module/js/sweetalert.min.js" type="text/javascript"></script>
 </head>
 <body>
 	<div class="main">
@@ -56,7 +57,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="col-xs-4 col-md-4 col-lg-4">
 					<label class="control-label">甲方:</label>
-					<input type="text" id="edit_companyName" name="companyName" onclick="editShowMsg()" class="form-control" />
+					<input type="text" id="edit_companyName" name="companyName" oninput="editShowMsg()"
+						onpropertychange="editShowMsg()" class="form-control" />
 					<div class="companyN"></div>
 				</div>
 				<div class="col-xs-4 col-md-4 col-lg-4">
@@ -171,12 +173,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		<div class="footer">
-			<button type="button" id="btn-goback" onclick="goback()">返回</button>
-			<button type="button" id="btn-edit" onclick="edit()">提交审核</button>
+			<button type="button" id="btn-edit" onclick="edit()">保存</button>
+			<button type="button" id="btn-audit" onclick="submitAudit()">提交审核</button>
 		</div>
 
 		<!-- 新增弹框 -->
-		<div id="file_uploadModal" class="modal" role="dialog">
+		<div id="file_uploadModal" class="modal" role="dialog" aria-labelledby="gridSystemModalLabel">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -184,14 +186,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					<div class="modal-body">
 						<div id="uploadfileQueue"></div>
-						<input type="file" id="file_upload" name="file_upload"
-							onchanage="chooseFileNum(this)" multiple="multiple">
+						<input type="file" id="file_upload" name="file_upload" onchanage="chooseFileNum(this)" multiple="multiple"/>
 						<label class="control-label">备注:</label>
 						<input type="text" id="fileRemarks" name="fileRemarks" class="form-control"/>
 					</div>
 					<div class="modal-footer">
-						<button class="btn-primary glyphicon" id="submitFileBtn"
-							onclick="submitFile()">提交</button>
+						<button class="btn-primary glyphicon" id="submitFileBtn" onclick="submitFile()">提交</button>
 					</div>
 				</div>
 			</div>
@@ -231,22 +231,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="col-xs-12 col-md-12 add_number" >
                    	<label class="control-label fl" style="width:22.5%;">数量/次：</label>
                    	<input type="text" id="add_number" name="number" class="form-control fl" style="width:21%;"
-                   	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
-						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
+                   	onkeyup="checknum(this)"
+						onafterpaste="checknum(this)"/>
                    	<label class="control-label fl" style="width:22.5%;margin-left: 5.5%;">单价/元：</label>
                    	<input type="text" id="add_price1" name="price" class="form-control fl" style="width:21%;" 
-                   	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
-						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
+                   	onkeyup="checknum(this);"
+						onafterpaste="checknum(this);"/>
                	</div>
                	<div class="col-xs-12 col-md-12 add_hour" style="display: none;">
                    	<label class="control-label fl" style="width:22.5%;">时间/时：</label>
                    	<input type="text" id="add_hour" name="hour" class="form-control fl" style="width:21%;" 
-                   	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
-						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
+                   	onkeyup="checknum(this);" onafterpaste="checknum(this);"/>
                    	<label class="control-label fl" style="width:22.5%;margin-left: 5.5%;">单价/元：</label>
                    	<input type="text" id="add_price2" name="price" class="form-control fl" style="width:21%;" 
-                   	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
-						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
+                   	onkeyup="checknum(this);" onafterpaste="checknum(this);"/>
                 </div>
                	<div class="col-xs-12 col-md-12 departmentName0">
                    	<label class="control-label">检测单位：</label>
@@ -257,12 +255,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                	<div class="col-xs-12 col-md-12 departmentName1" style="display: none;">
                    	<label class="control-label">外包单位：</label>
                    	<select id="add_departmentName2" name="departmentName" class="form-control">
-						<option value='11'>虚拟部门</option>
+						<option value='11'>外包单位</option>
 		           	</select>
                	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label">备注:</label>
-                   	<textarea id="add_remarks" name="remarks" style="margin: -34px 0 0 22.5%;height:130px;width:400px;" class="form-control"></textarea>
+                   	<textarea id="add_remarks" name="remarks" style="margin: -34px 0 0 22.5%;" class="form-control"></textarea>
                	</div>
              </div>
 	      </div>
@@ -312,22 +310,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="col-xs-12 col-md-12 edit_number" >
                    	<label class="control-label fl" style="width:22.5%;">数量/次：</label>
                    	<input type="text" id="edit_number" name="number" class="form-control fl" style="width:21%;" 
-                   	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
-						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
+                   	onkeyup="checknum(this);" onafterpaste="checknum(this);"/>
                    	<label class="control-label fl" style="width:22.5%;margin-left:5.5%;">单价/元：</label>
                    	<input type="text" id="edit_price1" name="price" class="form-control fl" style="width:21%;" 
-                   	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
-						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
+                   	onkeyup="checknum(this);" onafterpaste="checknum(this);"/>
                	</div>
                	<div class="col-xs-12 col-md-12 edit_hour" style="display: none;">
                    	<label class="control-label fl" style="width:22.5%;">时间/时：</label>
                    	<input type="text" id="edit_hour" name="hour" class="form-control fl" style="width:21%;" 
-                   	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
-						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
+                   	onkeyup="checknum(this);" onafterpaste="checknum(this);"/>
                    	<label class="control-label fl" style="width:22.5%;margin-left:5.5%;">单价/元：</label>
                    	<input type="text" id="edit_price2" name="price" class="form-control fl" style="width:21%;" 
-                   	onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"
-						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"/>
+                   	onkeyup="checknum(this);" onafterpaste="checknum(this);"/>
                 </div>
                	<div class="col-xs-12 col-md-12 departmentName3">
                    	<label class="control-label">检测单位：</label>
@@ -338,12 +332,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                	<div class="col-xs-12 col-md-12 departmentName4" style="display: none;">
                    	<label class="control-label">外包单位：</label>
                    	<select id="edit_departmentName2" name="departmentName" class="form-control">
-						<option class='depart'>虚拟部门</option>
+						<option value='11'>外包单位</option>
 		           	</select>
                	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label">备注:</label>
-                   	<textarea id="edit_remarks" name="remarks" style="margin:-34px 0 0 22.5%;height:130px;width:400px;" class="form-control"></textarea>
+                   	<textarea id="edit_remarks" name="remarks" style="margin:-34px 0 0 22.5%;" class="form-control"></textarea>
                	</div>
              </div>
 	      </div>
@@ -358,6 +352,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
   </div>
   </body>
-  <script src="module/js/contractManage/EditContract.js"></script>
+  <script src="module/js/contractManage/EditContract.js"  type="text/javascript"></script>
 	<script src="module/js/fileManage/fileManage.js" type="text/javascript"></script>
  </html>

@@ -223,7 +223,7 @@ margin-left: 3px;
 }
 
 span {
-    font-weight: bold;
+   /*  font-weight: bold; */
 }
 #add_department{
     margin-top:8px
@@ -271,6 +271,9 @@ label {
 }
 #responsibleMan{
 position:relative;
+}
+.btn-primary:hover {
+    background-color: #ffad33;
 }
 
 

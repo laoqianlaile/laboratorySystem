@@ -18,7 +18,7 @@
 <script src="../../js/bootstrap-table-zh-CN.js"></script>
 <script src="../../../assets/js/autoPage.js"></script>
 <script src="../../js/sweetalert.min.js"></script>
-<script src="../../js/alert.js"></script>
+
 
 
 </head>
