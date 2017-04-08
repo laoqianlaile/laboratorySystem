@@ -87,6 +87,7 @@ public class SampleRecordController{
 		Map<String, Object> result = service.addJudge(factoryCode);
 		return result;
 	}
+	
 	/**
 	 * 
 	 * @description 分页获样品记录信息
@@ -104,17 +105,20 @@ public class SampleRecordController{
 		Map<String, Object> result = service.getSampleRecordWithPaging(factoryCode,sampleName,specifications,getMan,limit,offset,sort,order);
 		return JSONObject.fromObject(result);
 	}
+	
 	@RequestMapping("/getdatalist")
 	@ResponseBody
 	public JSONArray getdatalist(){
 		
 		return service.getdatalist();
 	}
+	
 	@RequestMapping("/getFactoryCode")
     @ResponseBody
-	public String getFactoryCode(String factoryCode){
+	public List<Map<String, Object>>  getFactoryCode(String factoryCode){
+		System.out.println(factoryCode);
 		List<Map<String, Object>> result = service.getFactoryCode(factoryCode);
-		return JSONArray.fromObject(result).toString();
+		return result;
 	}
 
 	
