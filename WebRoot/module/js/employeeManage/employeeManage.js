@@ -46,12 +46,12 @@ $(function() {
 									checkbox : true,
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '1%'// 宽度
+									width : '3%'// 宽度
 								},
 								{
 									field : '',
 									title : '序号',
-									width : '1%',
+									width : '3%',
 									align : 'center',
 									valign : 'middle',
 									formatter : function(value, row, index) {
@@ -117,7 +117,7 @@ $(function() {
 									title : '性别',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '3%'// 宽度
+									width : '4%'// 宽度
 								},
 								{
 									field : 'email',// 返回值名称
@@ -138,42 +138,42 @@ $(function() {
 									title : '地址',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '7%'// 宽度
+									width : '8%'// 宽度
 								},
 								{
 									field : 'name',// 返回值名称
 									title : '角色',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '7%'// 宽度
+									width : '8%'// 宽度
 								},
 								{
 									field : 'dutyName',// 返回值名称
 									title : '职务',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '7%'// 宽度
+									width : '8%'// 宽度
 								},
 								{
 									field : 'departmentName',// 返回值名称
 									title : '部门',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '7%'// 宽度
+									width : '8%'// 宽度
 								},
 								{
 									field : 'createTime',// 返回值名称
 									title : '创建日期',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '7%'// 宽度
+									width : '6%'// 宽度
 								},
 								{
 									field : 'state',// 返回值名称
 									title : '状态',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '7%',// 宽度
+									width : '6%',// 宽度
 									formatter : function(value, row, index) {
 										var state = row.state;
 										var sapn;
@@ -194,7 +194,7 @@ $(function() {
 									title : '操作',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '13%',// 宽度
+									width : '12%',// 宽度
 									formatter : function(value, row, index) {
 										var state = row.state;
 										var btn_change;
@@ -211,7 +211,7 @@ $(function() {
 													+ JSON.stringify(row)
 													+ ")'>";
 										}
-										btn_edit = "<input type=\"image\" src=\"module/img/inspectionStaffDesktop/edit_icon.png\" style=\"margin-left:5px;\" title=\"编辑\" onclick='openedit("
+										btn_edit = "<input type=\"image\" src=\"module/img/inspectionStaffDesktop/edit_icon.png\" style=\"margin-left:5px;\"  title=\"编辑\" onclick='openedit("
 												+ JSON.stringify(row) + ")'>";
 										btn_view = "<input type=\"image\" src=\"module/img/inspectionStaffDesktop/view_icon.png\" style=\"margin-left:5px;\" title=\"查看\" onclick='view("
 												+ JSON.stringify(row) + ")'>";
