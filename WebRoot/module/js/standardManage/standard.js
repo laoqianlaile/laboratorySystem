@@ -242,7 +242,19 @@ function uploadFile() {
 				dataType : 'json',
 				add : function(e, data) {
 					$("#ensure").click(function() {
-						data.submit();
+						var parame = {};
+						parame.uploaderID = ($('#uploaderID').val());
+						parame.STANDARDCODE = ($('#add_STANDARDCODE').val());
+						parame.STANDARDNAME = ($('#add_STANDARDNAME').val());//
+						parame.TYPE = $('#add_TYPE').val();
+						parame.SCOPE = $('#add_SCOPE').val();
+						parame.APPLICATIONTYPE = $('#add_APPLICATIONTYPE').val();
+						parame.EDITSTATE = $('#add_EDITSTATE').val();
+						parame.DESCRIPTION = $('#add_DESCRIPTION').val();//
+						if(!checkNull(parame)){
+							data.submit();
+						}
+						
 					});
 				},
 			}).bind('fileuploaddone',function(e, data) {
@@ -313,7 +325,6 @@ function checkNull(){
 	}
 	
 }
-
 //新增标准（处理文件ID）
 function addstandard(fileIDs){
 	

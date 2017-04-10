@@ -175,6 +175,9 @@ function delAccounts(){
 /* 新增弹窗  */
 function openAddModal(){
 	fillContract("add_contractCode");
+	var loginInfo =  getLoginerInfo();
+	$('#add_employeeName').val(loginInfo[0].employeeName);
+	$('#add_employeeID').val(loginInfo[0].employeeID);
 	$('#addModal').modal('show');
 }
 
@@ -194,8 +197,10 @@ function addAccounts(){
 	var parame = {};
 	
 	parame.contractID = $('#add_contractCode').val();
-	parame.employeeID = $('#add_employeeName').val();
+	parame.employeeID = $('#add_employeeID').val();
 	parame.remarks = $('#add_remarks').val();
+	if(checkNull(parame))return;
+	
 	$.ajax({
 		  url:'accountsController/addAccounts.do',
 		  data:parame,
@@ -211,7 +216,8 @@ function addAccounts(){
 }
 /* 合同信息html  */
 function fillContract(id){
-	var html = "";
+	$('#'+id+'').empty();
+	var html = '<option ></option>';
 	for(var i = 0 ; i < ContractInfo.data.length; i++){
 		html += "<option value ='"+ ContractInfo.data[i].contractID +"'>"+ ContractInfo.data[i].contractCode +"</option>";
 	}
@@ -295,6 +301,23 @@ function getContract(){
 	var data;
 	$.ajax({
 		url : 'contractController/getContract.do',
+		dataType : "json",
+		async : false,
+		data : {},
+		success : function(o) {
+			data = JSON.parse(o);
+		},
+		error : function() {
+			return false;
+		}
+	});
+	return data;
+}
+/*获取当前session*/
+function getLoginerInfo(){
+	var data;
+	$.ajax({
+		url : 'employeeController/getEmployeeinfo.do',
 		dataType : "json",
 		async : false,
 		data : {},
