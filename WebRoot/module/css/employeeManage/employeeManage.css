@@ -27,14 +27,15 @@
 	font-size: 14px;
 	margin-top: 30px;
 	margin-left: 26px;
+	min-width:1170px;
 }
 
-#table  thead tr {
+#table  thead tr {	
 	background: #364760;
 }
 
-#table td {
-	font-size: 14px;
+#table td {	
+	font-size: 14px;	
 	color: #333;
 }
 
@@ -104,7 +105,7 @@
 .modal-body input,.modal-body select {
 	display: inline;
 	width: 270px;
-	height: 30px;
+	height: 32px;
 	margin-top: 20px;
 	margin-left: 10px;
 	font-size: 14px;
