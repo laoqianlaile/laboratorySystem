@@ -223,14 +223,6 @@
 								class="form-control" aria-describedby="basic-addon1"></textarea>
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<!-- <label class="labelName">文件上传</label>
-							<div id="uploadfileQueue"></div>
-							<input type="file" id="file_upload" name="file_upload">
-							<div class="col-md-6 column">
-								<select id="fileType">
-									<option value="17">标准文件</option>
-								</select>
-							</div> -->
 							<div id="fileInfo">
 								<div id="fileQueue">
 									<input type="file" name="files" id="files" style="display:none" onchange="checkFile(this)">

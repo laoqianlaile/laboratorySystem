@@ -95,17 +95,25 @@
   background-color: rgb(255, 173, 51);
 }
 #showEquipments div {
-
 	position: relative;
-	width:200px;
+	width:228px;
+	height:100px;
 	margin:0px;
 	padding:0px;
 	border:0px;
-	z-index: 100;
+	overflow-y:scroll;
+}
+#showEquipments option.form-control {
+    height:28px;
+    z-index:100;
 }
 #showEquipments option.form-control:hover {
 	background-color: #ccc;
     color: #6fb3e0;
+}
+#addModal .row .labelName{
+	margin: 2%;
+	text-align: center;
 }
 </style>
 <body>
@@ -154,9 +162,9 @@
 						</div>
 					</div>
 				</div>
-				<table id="table">
-				</table>
 			</div>
+			<table id="table">
+			</table>
 		</div>
 	</div>
 	<!-- 新增弹窗 -->
@@ -174,65 +182,52 @@
 					<div class="row">
 						<div class="col-md-12 col-xs-12" >
 							<div class="col-md-6 col-xs-6">
-								<h4>中文名称：</h4>
+								<label class="labelName">中文名称</label>
 								<input type=" text" id="add_NAMECN" name="NAMECN"
 									class="form-control" aria-describedby="basic-addon1" />
-								<h4>所属科室：</h4>
+								<label class="labelName">所属科室</label>
 								<select class="form-control" id="add_DEPARTMENTID"
 									name="DEPARTMENTID"></select>
-								<h4>所属标准：</h4>
+								<label class="labelName">所属标准</label>
 								<select class="form-control" id="add_STANDARDID"
 									name="STANDARDID"></select>
 							</div>
 							<div class="col-md-6 col-xs-6">
-								<h4>英文名称：</h4>
+								<label class="labelName">英文名称</label>
 								<input type=" text" id="add_NAMEEN" name="NAMEEN"
 									class="form-control" aria-describedby="basic-addon1" />
-								<h4>环境要求：</h4>
+								<label class="labelName">环境要求</label>
 								<input type=" text" id="add_ENVIRONMENTALREQUIREMENTS"
 									name="ENVIRONMENTALREQUIREMENTS" class="form-control"
 									aria-describedby="basic-addon1" />
 							</div>
 						</div>
+						<div class="col-md-12 col-xs-12" style="padding-bottom:10px;">
+							<div class="col-md-6 col-xs-6 ">
+								<label class="labelName">所需仪器</label>
+								<div id="displayChecked" style="width: 100%;height: 100px;border: 1px solid;"></div>
+							</div>
+							<!-- 新模式 -->
+							<div id="equipmentsBox" class = "col-md-6 col-xs-6 "  >
+								<div >
+									<label class="labelName">搜索查询添加仪器</label>
+									<input type = "text" id ="searchEquipments"  class="form-control" placeholder="选择所需仪器" onfocus="showPartEquipment()"  oninput="searchEquipment()"
+											onpropertychange="searchEquipment()"/>
+								</div>
+								<div  id ="showEquipments" style="position: fixed;" ></div>
+							</div>
+							
+						</div>
 						<div class="col-md-12 col-xs-12 ">
-							<h4>标准描述：</h4>
-							<input type=" text" id="add_DESCRIBE" name="DESCRIBE"
-								class="form-control" aria-describedby="basic-addon1" />
-							<h4>备注：</h4>
-							<input type=" text" id="add_REMARKS" name="REMARKS"
-								class="form-control" aria-describedby="basic-addon1" />
+							<label class="labelName">标准描述</label>
+							<textarea  id="add_DESCRIBE" name="DESCRIBE"
+								class="form-control" aria-describedby="basic-addon1"></textarea>
+						</div>
+						<div class="col-md-12 col-xs-12 ">
+								<label class="labelName">　备注　</label>
+								<textarea  id="add_REMARKS" name="REMARKS"
+								class="form-control" aria-describedby="basic-addon1"></textarea>
 						</div>	
-						<div class="col-md-6 col-xs-6 ">
-							<h4>所需仪器：</h4>
-							<div id="displayChecked" style="width: 100%;height: 100px;border: 1px solid;"></div>
-						</div>
-						<!-- 新模式 -->
-						<div id="equipmentsBox" class = "col-md-6 col-xs-6 "  >
-							<h4>搜索查询添加仪器：</h4>
-							<input type = "text" id ="searchEquipments"  class="form-control" placeholder="选择所需仪器" onfocus="showPartEquipment()"  oninput="searchEquipment()"
-									onpropertychange="searchEquipment()"/>
-							<div  id ="showEquipments" style="position: fixed;" ></div>
-						</div>
-						<!--  
-							<div class ="box-icon_close">
-								<div>
-								<span>玻璃器</span>
-								<img alt="删除" src="module/img/icon_close.png" style="cursor:pointer;background-color: #898b77;"/>
-								</div>
-							</div>
-						-->
-						<!-- 所需仪器 
-						<div class="over" id ="addOver">
-							<div class="overChoose">
-							-->
-								<!-- 隐藏滑动条 
-								<div class="choose">
-									<div class="row">
-									</div>
-								</div>
-							</div>
-						</div>
-						-->
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -244,6 +239,7 @@
 		</div>
 	</div>
 	<!-- 修改弹窗 -->
+	<!-- 
 	<div class="modal fade" id="editModal" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -257,13 +253,13 @@
 				<div>
 					<div class="col-md-12">
 						<div class="col-md-6 column">
-						 	<!--	检测项目id  -->
+						 		检测项目id 
 							<input type=" text" id="edit_testProjectID" name="testProjectID"
 								class="form-control" aria-describedby="basic-addon1" style="display: none;" />
-							<!--	检测标准id  -->
+								检测标准id 
 							<input type=" text" id="edit_testStandardID" name="testStandardID"
 								class="form-control" aria-describedby="basic-addon1" style="display: none;" />
-							<!--	检测仪器id  -->
+								检测仪器id 
 							<input type=" text" id="edit_testInstumentID" name="testInstumentID"
 								class="form-control" aria-describedby="basic-addon1" style="display: none;" />
 								
@@ -285,7 +281,6 @@
 							<input type=" text" id="edit_ENVIRONMENTALREQUIREMENTS"
 								name="ENVIRONMENTALREQUIREMENTS" class="form-control"
 								aria-describedby="basic-addon1" />
-
 						</div>
 					</div>
 					<div class="col-md-12 column">
@@ -301,10 +296,10 @@
 						<textarea id= "editTestProject" rows="6" cols="30" class="testProjectName" placeholder="选择所需仪器"></textarea>
 					</div>
 					
-					<!-- 所需仪器 -->
+					所需仪器
 					<div class="over" id ="editOver">
 						<div class="overChoose">
-							<!-- 隐藏滑动条 -->
+							隐藏滑动条
 							<div class="choose">
 								<div class="row">
 									
@@ -319,7 +314,7 @@
 			</div>
 		</div>
 	</div>
-	</div>
+	</div> -->
 <script src="module/js/testProject/testProject.js"></script>
 </body>
 </html>

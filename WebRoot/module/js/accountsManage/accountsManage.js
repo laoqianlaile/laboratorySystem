@@ -145,27 +145,49 @@ function viewDetailed(){
 }
 /* 新增弹窗  */
 function delAccounts(){
-	if(confirm("确定要删除？")){
-		 accountsID = arguments[0];
-		 $.ajax({
-				url: 'accountsController/delAccounts.do',
-				data:{
-					accountsID : accountsID
-				},
-				success:function(o){
-					if(o <= 0){
-						alert("修改失败");
+	accountsID = arguments[0];
+	swal({
+		  title: "确定要删除 ?",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "确定",
+		  closeOnConfirm: false
+		},
+		function(){
+			 $.ajax({
+					url: 'accountsController/delAccounts.do',
+					data:{
+						accountsID : accountsID
+					},
+					success:function(o){
+						if (o <= 0) {
+							swal({title:"删除失败",type:"error"});
+						} else {
+							swal({title:"删除成功",type:"success"});
+							refresh();
+						}
 					}
-					refresh();
-				}
-         });
-	 }
+	         });
+		});
 }
 
 /* 新增弹窗  */
 function openAddModal(){
 	fillContract("add_contractCode");
 	$('#addModal').modal('show');
+}
+
+// 判空处理
+function checkNull(){
+	if(arguments[0].contractID == ""){
+		swal({title:"合同编号不能为空",type:"warning"});
+		return true;
+	}
+	if(arguments[0].employeeID == ""){
+		swal({title:"报账专员不能为空",type:"warning"});
+		return true;
+	}
 }
 /* 新增账目  */
 function addAccounts(){
@@ -179,7 +201,7 @@ function addAccounts(){
 		  data:parame,
 		  success:function(o){
 			  if(o<=0){
-				  alert("修改失败");
+				  swal({title:"修改失败",type:"error"});
 			  }
 			  $('#addModal').modal('hide');
 			  refresh();

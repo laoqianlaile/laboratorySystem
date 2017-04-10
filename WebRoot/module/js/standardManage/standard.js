@@ -202,7 +202,7 @@ function checkFile(o) {
 		$("#fileName").html(fileName);
 	}
 	if (o.value.indexOf('.doc') < 0 && o.value.indexOf('.docx') < 0) {
-		alert("不能将此类型文档作为检测报告上传");
+		swal({title:"不能将此类型文档作为标准文件上传",  type:"warning",});
 	}
 } 
 
