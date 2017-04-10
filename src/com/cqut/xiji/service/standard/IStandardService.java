@@ -27,7 +27,7 @@ public interface IStandardService {
 	public String upStandard(String ID,String STANDARDCODE, String STANDARDNAME,
 			String TYPE, String SCOPE, String APPLICATIONTYPE,
 			String EDITSTATE,String SUGGEST, String STATE, String ABANDONAPPLYMAN,
-			String ABANDONAPPLYTIME, String ABANDONAPPLYREASON);
+			 String ABANDONAPPLYREASON);
 
 	public List<Map<String, Object>> getStandardType();
 

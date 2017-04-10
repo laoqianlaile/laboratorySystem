@@ -135,37 +135,44 @@ function delData(){
 		swal("请至少选中一条数据");
 		return;
 	}
-	var Ids = "";
+	var ids = "";
 	var message = "将要删除仪器：";
 	for(var i=0; i<data.length; i++){
 		ids += "ID = '" + data[i].ID + "' or ";
 		message += data[i].name + " or ";
 	}
-	if (confirm(message.substring(0, (message.length-3)))) {
-		var ajaxParameter = {
-				equipmentTypeIds:Ids.substring(0, (Ids.length-3))	
-		};
-		
-		$.ajax({
-		  url:'equipmentTypeController/delEquipmentType.do',
-		  type:"post",
-		  data:ajaxParameter,
-		  success:function(o){
-			  switch (o) {
-				case '1':swal("删除成功！");
-					refrehTable();
-					break;
-				case '0':swal("删除失败！");
-					break;
-				default:swal("出现未知错误，请重试！");
-					break;
+	var ajaxParameter = {
+		equipmentTypeIds:ids.substring(0, (ids.length-3))	
+	};
+	swal({
+		title: "确认删除：" + message.substring(0, (message.length-3)),
+		type: "warning",
+		showCancelButton: true,
+		confirmButtonColor: "#DD6B55",
+		confirmButtonText: "确定",
+		closeOnConfirm: false
+		},
+		function(){		
+			$.ajax({
+			  url:'equipmentTypeController/delEquipmentType.do',
+			  type:"post",
+			  data:ajaxParameter,
+			  success:function(o){
+				  switch (o) {
+					case '1':swal("删除成功！");
+						setTimeout(refresh, 1000);
+						break;
+					case '0':swal("删除失败！");
+						break;
+					default:swal("出现未知错误，请重试！");
+						break;
+				  }
+			  },
+			  error : function() {
+				return false;
 			  }
-		  },
-		  error : function() {
-			return false;
-		  }
 		});
-	}
+	});
 }
 
 /*

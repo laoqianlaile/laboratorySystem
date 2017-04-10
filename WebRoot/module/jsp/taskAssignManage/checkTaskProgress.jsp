@@ -37,15 +37,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
     <script src="module/js/sweetalert.min.js"></script>
     <script src="module/js/alert.js"></script>
+    
+    <style>
+    #return:hover {
+    	background: #ffc773;
+    }
+    </style>
   </head>
   
   <body>
 	<div class="container" style="width:100%">
   		<div class="row">
-			<div class="col-xs-10 col-md-10 col-lg-10">
+			<div class="col-xs-9 col-md-9 col-lg-9">
 				<h4>查看任务交接单进度</h4>
 			</div>
-			<div class="col-xs-2 col-md-2 col-lg-2">
+			<div class="col-xs-3 col-md-3 col-lg-3">
 				<h5 id="receiptlistCode">交接单号:&nbsp;<span></span></h5>
 			</div>
 		</div>

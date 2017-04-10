@@ -1,3 +1,4 @@
+var fileParam = {};
 $(function(){
 	init();
 });
@@ -129,6 +130,7 @@ function init(){
 			/* 事件 */
 		});
 	});
+	uploadFile();
 }
 
 /* 刷新方法 */
@@ -140,6 +142,8 @@ function refresh(){
 window.onload = function(){
 	getStandardType("query_TYPE");
 	getStandardType("add_TYPE");
+	getStandardType("edit_TYPE");
+	getStandardType("apply_TYPE");
 }
 
 function queryParams(params) {  //配置参数 
@@ -188,69 +192,128 @@ function isLogin(){
 	 }
 }
 
+//检查文件类型
+function checkFile(o) {
+	$("#chooseFile").attr("disabled", "disabled");
+	var filePath = $(o).val();
+	if (filePath != "" && filePath != undefined) {
+		var arr = filePath.split('\\');
+		var fileName = arr[arr.length - 1];
+		$("#fileName").html(fileName);
+	}
+	if (o.value.indexOf('.doc') < 0 && o.value.indexOf('.docx') < 0) {
+		swal({title:"不能将此类型文档作为标准文件上传",  type:"warning",});
+	}
+} 
+
+// 弹窗
 function openAddmodal(){
-	if( ! isLogin()){
-		return;
+
+	// 文件上传参数配置
+	$("#chooseFile").removeAttr("disabled");
+	$("#fileName").html("");
+	fileParam.firstDirectoryName = $('#fileType option:checked').text();// 一级目录
+	fileParam.type = 1 ;
+	fileParam.remarks = $('#add_TemplateRemarks').val(); // 备注
+	
+	if(arguments[0] === "add"){
+		fileUploadInit("#file_upload");
+		$('#addModal').modal('show');
 	}
 	else{
+		var date = $('#table').bootstrapTable('getSelections');
 		
-		if(arguments[0] === "add"){
-			var date = $('#table').bootstrapTable('getSelections');
-			
-			if(date.length == 0 || date.length > 1){
-				swal("请选中一个进行操作");
-			}
-			else{
-				fileUploadInit("#file_upload");
-				$('#addModal').modal('show');
-			}
+		if(date.length == 0 || date.length > 1){
+			swal("请选中一个进行操作");
+			return;
 		}
-		else{
-			fileUploadInit("#upFile");
-			$('#upfileModal').modal('show');
+		fileUploadInit("#upFile");
+		$('#upfileModal').modal('show');
+	}
+	
+}
+
+
+//上传文件
+function uploadFile() {
+	$("#files").fileupload({
+				autoUpload : true,
+				url : 'fileOperateController/upload.do',
+				dataType : 'json',
+				add : function(e, data) {
+					$("#ensure").click(function() {
+						data.submit();
+					});
+				},
+			}).bind('fileuploaddone',function(e, data) {
+						var fileID = JSON.parse(data.result);
+						if (fileID != null && fileID != "null" && fileID != "") {
+							swal("文件id:"+fileID);
+							// 调用新增标准文件
+							addstandard(fileID);
+							
+						} else {
+							swal({title:"上传失败! 网路繁忙",  type:"error",});
+						} 
+					});
+
+	// 文件上传前触发事件,如果需要额外添加参数可以在这里添加
+	$('#files').bind('fileuploadsubmit', function(e, data) {
+		data.formData = {
+			firstDirectory : fileParam.firstDirectoryName,
+			secondDirectory : fileParam.secondDirectoryName,
+			TypeNumber : fileParam.type,
+			remark : fileParam.remarks
 		}
-	}
+	});
 }
-// 文件上传
-function add(){
-	
-	path = ""; // 文件上传路径，如果此参数没有值，则使用firstDirectoryName,secondDirectoryName,thirdDirectoryName
-	type = "0"; // 文件类型       该处默认为模板文件
-	belongID = "";//文件所属ID
-	firstDirectoryName = $('#fileType option:checked').text();// 一级目录
-	secondDirectoryName = ""; // 二级目录
-	thirdDirectoryName = ""; //三级目录
-	otherInfo = ""; // 其他参数
-	remarks = ""; // 备注
-	
-	fileUpload("#file_upload",path, type, belongID,firstDirectoryName, secondDirectoryName,thirdDirectoryName,
-			otherInfo, remarks);
-	
-	fileIDs = fielIdReturn();
-	
-	if(fileIDs === "" || fileIDs === null){
-		sweetAlert("请上传文件", "", "error");
+
+//判空处理
+
+function checkNull(){
+	if(　arguments[0].STANDARDCODE　== ""){
+		swal({title:"标准编码不能为空",  type:"warning",});
+		return true;
 	}
-	else{
-		// 延迟执行
-		setTimeout("addstandard("+fileIDs+")",3000); 
+	if(　arguments[0].STANDARDNAME　== ""){
+		swal({title:"标准名称不能为空",  type:"warning",});
+		return true;
+	}
+	if(　arguments[0].TYPE　== ""){
+		swal({title:"类别不能为空",  type:"warning",});
+		return true;
+	}
+	if(arguments[0].SCOPE　== ""){
+		swal({title:"适用范围不能为空",  type:"warning",});
+		return true;
+	}
+	if(arguments[0].APPLICATIONTYPE　== ""){
+		swal({title:"引用类型不能为空",  type:"warning",});
+		return true;
+	}
+	if(　arguments[0].EDITSTATE　== ""){
+		swal({title:"编辑状态不能为空",  type:"warning",});
+		return true;
+	}
+	if(　arguments[0].DESCRIPTION　== ""){
+		swal({title:"描述信息不能为空",  type:"warning",});
+		return true;
+	}
+	if(　arguments[0].fileID　== ""){
+		swal({title:"请选择一个标准文件进行上传",  type:"warning",});
+		return true;
+	}
+	if(　arguments[0].SUGGEST　== ""){
+		swal({title:"审核意见不能为空",  type:"warning",});
+		return true;
+	}
+	if(arguments[0].ABANDONAPPLYREASON　== ""){
+		swal({title:"废弃理由不能为空",  type:"warning",});
+		return true;
 	}
 	
 }
-  //只上传文件    
-function addfile(){
-	path = ""; // 文件上传路径，如果此参数没有值，则使用firstDirectoryName,secondDirectoryName,thirdDirectoryName
-	type = "0"; // 文件类型       该处默认为模板文件
-	belongID = "";//文件所属ID
-	firstDirectoryName = $('#fileType option:checked').text();// 一级目录
-	secondDirectoryName = ""; // 二级目录
-	thirdDirectoryName = ""; //三级目录
-	otherInfo = ""; // 其他参数
-	remarks = ""; // 备注
-	
-	fileUpload("#upFile",path, type, belongID,firstDirectoryName, secondDirectoryName,thirdDirectoryName,
-			otherInfo, remarks);
-}
+
 //新增标准（处理文件ID）
 function addstandard(fileIDs){
 	
@@ -263,28 +326,16 @@ function addstandard(fileIDs){
 	parame.APPLICATIONTYPE = $('#add_APPLICATIONTYPE').val();
 	parame.EDITSTATE = $('#add_EDITSTATE').val();
 	parame.DESCRIPTION = $('#add_DESCRIPTION').val();//
-	parame.fileID = "";
+	parame.fileID = fileIDs;
+	if(checkNull(parame))return;
 	
-//	fileIDs = fielIdReturn();
-	if(fileIDs.length == 0){
-		sweetAlert("出错了...", "没有获取数据，正在全力解决!", "error");
-		return;
-	}
-	else if(fileIDs.length == 1 ){
-		parame.fileID = fileIDs[0];
-	}
-	else {
-		for(var i; i < fileIDs.length; i++){
-			parame.fileID += fileIDs[i] + ",";
-		}
-	}
 	var Content = "有新的标准:"+parame.STANDARDNAME+"(标准名称)"+"-"+parame.STANDARDCODE+"(标准编码)需要审核。";
 	$.ajax({
 		  url:'standardController/addStandard.do',
 		  data:parame,
 		  success:function(o){
 			  if(o <= 2){
-				  alert("新增失败");
+				  swal({title:"新增失败",  type:"error",});
 			  }
 			  sendMessage(Content,"标准审核人");
 			  $('#addModal').modal('hide');
@@ -294,61 +345,62 @@ function addstandard(fileIDs){
 		});
 }
 
+
+
 /* 废弃申请弹窗*/
 function applyMondal(){
 	
-	if(! isLogin()){
+	
+	var data = $('#table').bootstrapTable('getSelections');
+	
+	if(data.length == 0 || data.length > 1){
+		swal({
+			  title: "请选中一条数据",
+			  type: "warning",
+			});
 		return;
 	}
-	else{
-		var data = $('#table').bootstrapTable('getSelections');
-		
-		if(data.length == 0 || data.length > 1){
-			swal({
-				  title: "请选中一条数据",
-				  type: "warning",
-				});
-			return;
-		}
-		
-		$('#apply_STANDARDID').val(data[0].ID);
-		
-		$('#apply_STANDARDCODE').val(data[0].STANDARDCODE);
-		$('#apply_STANDARDCODE').attr("disabled","disabled");
-		
-		$('#apply_STANDARDNAME').val(data[0].STANDARDNAME);
-		$('#apply_STANDARDNAME').attr("disabled","disabled");
-		
-		$('#apply_TYPE').val(data[0].TYPE);
-		$('#apply_TYPE').attr("disabled","disabled");
-		
-		/* 应用类型处理*/
-		if(data[0].APPLICATIONTYPE == "国家标准"){
-			$('#apply_APPLICATIONTYPE').val("0");		
-		}
-		if(data[0].APPLICATIONTYPE == "企业标准"){
-			$('#apply_APPLICATIONTYPE').val("1");	
-		}
-		if(data[0].APPLICATIONTYPE == "作业指导书"){
-			$('#apply_APPLICATIONTYPE').val("2");	
-		} 
-		$('#apply_APPLICATIONTYPE').attr("disabled","disabled"); 
-		
-		$('#apply_SUGGEST').val(data[0].SUGGEST);
-		$('#apply_SUGGEST').attr("disabled","disabled"); 
-		
-		
-		$('#applyModal').modal('show');
+	
+	$('#apply_STANDARDID').val(data[0].ID);
+	
+	$('#apply_STANDARDCODE').val(data[0].STANDARDCODE);
+	$('#apply_STANDARDCODE').attr("disabled","disabled");
+	
+	$('#apply_STANDARDNAME').val(data[0].STANDARDNAME);
+	$('#apply_STANDARDNAME').attr("disabled","disabled");
+	
+	$('#apply_TYPE').val(data[0].TYPE);
+	$('#apply_TYPE').attr("disabled","disabled");
+	
+	/* 应用类型处理*/
+	if(data[0].APPLICATIONTYPE == "国家标准"){
+		$('#apply_APPLICATIONTYPE').val("0");		
 	}
+	if(data[0].APPLICATIONTYPE == "企业标准"){
+		$('#apply_APPLICATIONTYPE').val("1");	
+	}
+	if(data[0].APPLICATIONTYPE == "作业指导书"){
+		$('#apply_APPLICATIONTYPE').val("2");	
+	} 
+	$('#apply_APPLICATIONTYPE').attr("disabled","disabled"); 
+	
+	$('#apply_SUGGEST').val(data[0].SUGGEST);
+	$('#apply_SUGGEST').attr("disabled","disabled"); 
+	
+	
+	$('#applyModal').modal('show');
 }
+
+
+
 /* 废弃申请*/
 function apply(){
 	
 	var parame = {};
 	parame.ID = $('#apply_STANDARDID').val();
-	parame.ABANDONAPPLYMAN = $('#apply_ABANDONAPPLYMAN').val();
-	parame.ABANDONAPPLYTIME = $('#apply_ABANDONAPPLYTIME').val();
+	parame.ABANDONAPPLYMAN = $('#uploaderID').val();
 	parame.ABANDONAPPLYREASON = $('#apply_ABANDONAPPLYREASON').val();
+	if(checkNull(parame))return;
 	$.ajax({
 	  url:'standardController/upStandard.do',
 	  data:parame,
@@ -365,37 +417,31 @@ function apply(){
 
 /*文件下载*/
 function downFile(fileID){
-	if( ! isLogin()){
+	if(fileID === null || fileID === "" || fileID === "null"){
+		swal({  title: "文件丢失了", type: "error",});
 		return;
 	}
 	else{
-		if(fileID === null || fileID === "" || fileID === "null"){
-			swal({  title: "文件丢失了", type: "error",});
-			return;
-		}
-		else{
-			swal({
-				  title: "确定下载?",
-				  type: "warning",
-				  showCancelButton: true,
-				  confirmButtonColor: "#DD6B55",
-				  confirmButtonText: "确认",
-				  cancelButtonText: "取消",
-				  closeOnConfirm: false,
-				  closeOnCancel: false
-				},
-				function(isConfirm){
-				  if (isConfirm) {
-					//下载文件
-					downOneFile(fileID);
-					swal("Ok!", "", "success")
-				  } else {
-				    swal("Cancelled", "", "error");
-				  }
-				});
-			downOneFile(fileID);
-			return;
-		}
+		swal({
+			  title: "确定下载?",
+			  type: "warning",
+			  showCancelButton: true,
+			  confirmButtonColor: "#DD6B55",
+			  confirmButtonText: "确认",
+			  cancelButtonText: "取消",
+			  closeOnConfirm: false,
+			  closeOnCancel: false
+			},
+			function(isConfirm){
+			  if (isConfirm) {
+				//下载文件
+				downOneFile(fileID);
+				swal("Ok!", "", "success")
+			  } else {
+			    swal("Cancelled", "", "error");
+			  }
+			});
+		return;
 	}
 }
 
@@ -403,10 +449,6 @@ function downFile(fileID){
 /* 弹出修改弹框方法 */
 function openEditModal(){
 
-	if(! isLogin()){
-		return ;
-	}
-	else{
 		$('#edit_STANDARDID').val(arguments[0].ID);
 		$('#edit_STANDARDCODE').val(arguments[0].STANDARDCODE);
 		$('#edit_STANDARDNAME').val(arguments[0].STANDARDNAME);
@@ -452,43 +494,8 @@ function openEditModal(){
 		}
 		$('#edit_DESCRIPTION').val(arguments[0].DESCRIPTION);
 		
-		
 		$('#editModal').modal('show');
-	}
 }
-// 消息推送
-function  sendMessage(Content,recipient){
-	$.ajax({
-		url:'messageController/addMessage.do',
-		data:{
-			content:Content
-		},
-		success:function(o){
-			  if(o == ""){
-				 alert("信息新增失败（1）");
-			  }
-			  else{
-				  var messageID = o;
-				  messageID = messageID.substring(1,messageID.length-1);
-				  alert(messageID);
-				  $.ajax({
-					  url:'messageNoticeController/addMessageNotice.do?MessageID='+messageID+'&recipient='+recipient,
-					  success:function(s){
-						  if(s <= 0){
-							  if(s == -1){
-								  alert("信息新增失败（2）:不存在该角色名"+recipient);
-							  }
-							  else{
-								  alert("未知错误");
-							  }
-						  }
-					  }
-				  });
-			  }
-		  }
-	});
-}
-	
 
 /* 修改*/
 function edit(){
@@ -503,16 +510,50 @@ function edit(){
 	parame.SUGGEST = $('#edit_SUGGEST').val();
 	parame.STATE = $('#edit_STATE').val();
 	
+	if(checkNull(parame))return;
 	$.ajax({
 	  url:'standardController/upStandard.do',
 	  data:parame,
 	  success:function(o){
 		  if(o<=0){
-			  alert("修改失败");
+			  swal({  title: "修改失败", type: "error",});
 		  }
 		  $('#editModal').modal('hide');
 		  refresh();
 	  }
+	});
+}
+
+// 消息推送
+function  sendMessage(Content,recipient){
+	$.ajax({
+		url:'messageController/addMessage.do',
+		data:{
+			content:Content
+		},
+		success:function(o){
+			  if(o == ""){
+				  swal({  title: "信息新增失败（1）", type: "error",});
+			  }
+			  else{
+				  var messageID = o;
+				  messageID = messageID.substring(1,messageID.length-1);
+				  alert(messageID);
+				  $.ajax({
+					  url:'messageNoticeController/addMessageNotice.do?MessageID='+messageID+'&recipient='+recipient,
+					  success:function(s){
+						  if(s <= 0){
+							  if(s == -1){
+								  swal({  title: "信息新增失败（2）:不存在该角色名" + recipient, type: "error",});
+							  }
+							  else{
+								  swal({  title: "未知错误", type: "error",});
+							  }
+						  }
+					  }
+				  });
+			  }
+		  }
 	});
 }
 

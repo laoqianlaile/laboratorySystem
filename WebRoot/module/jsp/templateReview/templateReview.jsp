@@ -22,7 +22,9 @@
 <link rel="stylesheet" type="text/css" href="module/css/fileManage/fileManage.css">
  <link rel="stylesheet" href="module/css/changeACE.css" />
  <link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
-		
+	 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+ 		
+	<script src="module/js/sweetalert.min.js"></script>	
 	
 <script src="assets/js/autoPage.js"></script>
  
@@ -125,7 +127,7 @@ margin: 6px;
 						<div class="row clearfix">
 
 							<div class="col-md-3.5 column">
-								<div style="float: left;width:100%;height:50px;background: #9abdd0;margin-bottom: 15px;">
+								<div style="float: left;width:100%;height:50px;background: #9abdd0;margin: 15px;">
 									<button id="query" onclick="find()"
 										class="btn btn-primary" type="button">
 										<em class="glyphicon glyphicon-search"></em> 查询
