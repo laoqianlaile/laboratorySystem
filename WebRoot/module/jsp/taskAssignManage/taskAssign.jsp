@@ -33,6 +33,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
     <script src="module/js/sweetalert.min.js"></script>
     <script src="module/js/alert.js"></script>
+    
+    <style>
+    #btn-assign:hover {
+    	background: #ffc773;
+    }
+     #return:hover {
+    	background: #ffc773;
+    }
+    </style>
   </head>
   
   <body>
@@ -78,10 +87,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<br />
 		<div class="row">
-			<div class="col-xs-1 col-md-1 col-lg-1">
+			<div class="col-xs-2 col-md-2 col-lg-2">
 				<span>依据的技术文件（代号、名称）及客户要求:</span>
 			</div>
-			<div class="col-xs-11 col-md-11 col-lg-11">
+			<div class="col-xs-10 col-md-10 col-lg-10">
 				<span id="accordingDoc"></span>
 			</div>
 		</div>

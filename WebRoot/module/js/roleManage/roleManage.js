@@ -97,29 +97,45 @@ function delData(){
 
 }
 function delRole(roleIDs){
-	$.ajax({
-		  url:'roleController/delRole.do',
-		  dataType:"json",
-		  data:{
-			  roleIDs : roleIDs
-		  },
-		  success:function(o){
-			  console.log( typeof o);
-			  if(o == "false"){
-				  sweetAlert("没有权限");
-			  }else{
-					sweetAlert({
-						title:"删除成功",
-						type:"success",
-						timer:1000
-						});
-			  }
-			  refresh();
-		  },
-		  error:function(o){
-			  sweetAlert("","删除失败","error");
-		  }
+	sweetAlert({
+		  title: "Are you sure?",
+		  text: "是否删除角色!",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "是",
+		  cancelButtonText: "否"
+		
+		}, function(isConfirm){
+			if(isConfirm){
+				
+			}else{
+				$.ajax({
+					  url:'roleController/delRole.do',
+					  dataType:"json",
+					  data:{
+						  roleIDs : roleIDs
+					  },
+					  success:function(o){
+						  console.log( typeof o);
+						  if(o == "false"){
+							  sweetAlert("没有权限");
+						  }else{
+								sweetAlert({
+									title:"删除成功",
+									type:"success",
+									timer:1000
+									});
+						  }
+						  refresh();
+					  },
+					  error:function(o){
+						  sweetAlert("","删除失败","error");
+					  }
+					});
+			}
 		});
+	
 }
 /* 新增方法 */
 function add(){
@@ -140,9 +156,15 @@ function add(){
 		  success:function(o){
 			  if(o == "该角色已经存在"){
 				  sweetAlert("该角色已经存在");
-			  }
+			  }else{
+				  sweetAlert({
+					title:"删除成功",
+					type:"success",
+					timer:1000
+					});
 			  $('#addModal').modal('hide');
 			  refresh();
+			  }
 		  }
 		});
 	}
