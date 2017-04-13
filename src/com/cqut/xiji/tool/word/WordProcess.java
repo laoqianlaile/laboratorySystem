@@ -934,50 +934,6 @@ public class WordProcess {
         Dispatch.put(font, "Size", 9);
         Dispatch.put(view, "SeekView", new Variant(0)); // wdSeekMainDocument-0恢复视图;
     }
-    
-    /***
-	 * 获取word里面指定表格的内容
-	 * @param tableIndex 代表第几个表格
-	 * @return
-	 */
-	@SuppressWarnings("deprecation")
-	public List<Map<String, Object>> gainWordText(int tableIndex) {
-		List<Map<String, Object>> wordTextLists = new ArrayList<Map<String, Object>>();// 获取的word文本集合
-		Map<String, Object> wordTextList = null;
-		String wordText = "";
-		Dispatch tables = Dispatch.get(doc, "Tables").toDispatch();// 表格集合
-		// int count = Dispatch.get(tables, "Count").toInt();// 表格数量
-		Dispatch cell = null;// 单列
-		Dispatch table = Dispatch.call(tables, "Item", new Variant(1)).toDispatch();// 获取第几个表格
-		Dispatch rows = Dispatch.get(table, "Rows").toDispatch();// 获取所有行对象
-		Dispatch cells = Dispatch.get(table, "Columns").toDispatch();// 获取所有行对象
-		int rowCount = Dispatch.get(rows, "Count").toInt();// 获取行数量
-		int cellCount = Dispatch.get(cells, "Count").toInt();// 获取列数量
-		List<String> name = new ArrayList<String>();// 第一列名字的集合
-		for (int i = 1; i <= rowCount; i++) {
-			wordTextList = new HashMap<String, Object>();
-			int index = 0;
-			for (int j = 2; j <= cellCount; j++) {
-				cell = Dispatch.call(table, "Cell", new Variant(i),
-						new Variant(j)).toDispatch();// 第几行第几列
-				Dispatch.call(cell, "Select");// 选中这一行这一列
-				wordText = Dispatch.get(selection, "Text").toString();// 获取文本
-				wordText = wordText.replaceAll("[\\t\\n\\r]", "");
-				if (i == 1) {
-					name.add(wordText);
-				} else {
-					wordTextList.put(name.get(index), wordText);
-					index++;
-				}
-			}
-			if (i > 1) {
-				wordTextLists.add(wordTextList);
-			}
-			index = 0;
-		}
-		moveStart();
-        return wordTextLists;
-	}
 	
 	/**
 	 * 合并word

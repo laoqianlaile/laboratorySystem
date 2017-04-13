@@ -239,10 +239,11 @@ public class TaskController{
 	public JSONObject getTaskWithPaging(int limit, int offset, String order,
 			String sort, String receiptlistCode, String testProjectName,
 			String sampleName, String beginTime, String endTime,
-			String testProcess) {
+			String testProcess,HttpServletRequest req) {
+		String uploader = (String) req.getSession().getAttribute("EMPLOYEEID");
 		Map<String, Object> result = service.getTaskWithPaging(limit, offset,
 				order, sort, receiptlistCode, testProjectName, sampleName,
-				beginTime, endTime, testProcess);
+				beginTime, endTime, testProcess,uploader);
 		return JSONObject.fromObject(result);
 	}
 	

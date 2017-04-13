@@ -29,6 +29,7 @@ import com.cqut.xiji.tool.word.WordProcess;
 import com.jacob.activeX.ActiveXComponent;
 import com.jacob.com.Dispatch;
 import com.jacob.com.Variant;
+import com.sun.star.beans.StringPair;
 
 @Service
 public class TestReportService extends SearchService implements
@@ -77,6 +78,7 @@ public class TestReportService extends SearchService implements
 				+ "b.state AS state,"
 				+ "b.dismissreason2 AS dismissreason2,"
 				+ "b.dismissreason3 AS dismissreason3,"
+				+ "b.completeTime AS completeTime,"
 				+ "b.remarks AS remarks,"
 				+ "company.companyName AS companyName"
 				+ " FROM "
@@ -91,6 +93,7 @@ public class TestReportService extends SearchService implements
 				+ "a.state AS state,"
 				+ "a.dismissreason2 AS dismissreason2,"
 				+ "a.dismissreason3 AS dismissreason3,"
+				+ "a.completeTime AS completeTime,"
 				+ "a.remarks AS remarks,"
 				+ "contract.companyID AS companyID"
 				+ " FROM "
@@ -106,6 +109,7 @@ public class TestReportService extends SearchService implements
 				+ "testreport.state AS state,"
 				+ "testreport.dismissreason2 AS dismissreason2,"
 				+ "testreport.dismissreason3 AS dismissreason3,"
+				+ "task.completeTime AS completeTime,"
 				+ "testreport.remarks AS remarks"
 				+ " FROM "
 				+ " testreport "
@@ -128,7 +132,8 @@ public class TestReportService extends SearchService implements
 				"fileinformation.fileName AS fileName",
 				"DATE_FORMAT(uploadTime,'%Y-%m-%d %H:%i:%s') AS uploadTime",
 				"c.dismissreason2 AS dismissreason2",
-				"c.dismissreason3 AS dismissreason3", "c.remarks AS remarks" };
+				"c.dismissreason3 AS dismissreason3",
+				"c.completeTime AS completeTime", "c.remarks AS remarks" };
 
 		String joinEntity = " LEFT JOIN fileinformation ON c.fileID = fileinformation.ID   ";
 		String condition = " 1 = 1 AND (fileInformation.state = 0 OR fileInformation.state IS NULL)";
@@ -169,7 +174,6 @@ public class TestReportService extends SearchService implements
 		List<Map<String, Object>> result = entityDao.searchWithpaging(
 				properties, baseEntity, joinEntity, null, condition, null, sort,
 				order, index, pageNum);
-		System.out.println("List :" + result);
 		int count = entityDao.searchForeign(properties, baseEntity, joinEntity, null, condition).size();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("total", count);
@@ -508,6 +512,13 @@ public class TestReportService extends SearchService implements
 			Task tk = entityDao.getByID(taskID, Task.class);
 			tr.setState(1);
 			tk.setDetectstate(2);
+			Date now = new Date(System.currentTimeMillis());
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			try {
+				tk.setCompleteTime(dateFormat.parse(dateFormat.format(now)));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 			String receiptlistID = result.get("receiptlistID").toString();
 			Receiptlist rt = entityDao.getByID(receiptlistID,Receiptlist.class);
 			rt.setState(1);
@@ -749,9 +760,16 @@ public class TestReportService extends SearchService implements
 			tr.setState(3);
 			tr.setDismissreason2(auditPassAgreement);
 			tk.setDetectstate(4);
+			Date now = new Date(System.currentTimeMillis());
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			try {
+				tk.setCompleteTime(dateFormat.parse(dateFormat.format(now)));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 			int updateReportCount = baseEntityDao.updatePropByID(tr, ID);
 			int updateTaskCount = baseEntityDao.updatePropByID(tk, taskID);
-			return (updateReportCount + updateTaskCount) > 0 ? true : false;
+			return (updateReportCount + updateTaskCount) > 1 ? true : false;
 		}
 	}
 
@@ -765,9 +783,16 @@ public class TestReportService extends SearchService implements
 			tr.setState(2);
 			tr.setDismissreason2(dismissreason);
 			tk.setDetectstate(3);
+			Date now = new Date(System.currentTimeMillis());
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			try {
+				tk.setCompleteTime(dateFormat.parse(dateFormat.format(now)));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 			int updateReportCount = baseEntityDao.updatePropByID(tr, ID);
 			int updateTaskCount = baseEntityDao.updatePropByID(tk, taskID);
-			return (updateReportCount + updateTaskCount) > 0 ? true : false;
+			return (updateReportCount + updateTaskCount) > 1 ? true : false;
 		}
 	}
 
@@ -789,18 +814,76 @@ public class TestReportService extends SearchService implements
 	}
 	
 	@Override
-	public boolean thirdPassReport(String ID, String taskID,String auditPassAgreement) {
+	public boolean thirdPassReport(String ID, String taskID,String auditPassAgreement,String employeeID) {
 		TestReport tr = entityDao.getByID(ID, TestReport.class);
 		if (tr == null) {
 			return false;
 		} else {
+			Map<String, Object> employeeSignImage = baseEntityDao.findByID( new String[] { "singnature,stamp" }, employeeID, "ID",
+					"employee");
+			if (employeeSignImage != null && employeeSignImage.size() > 0) {
+				String baseEntity = " ( "
+			                      + " SELECT " 
+						          + " testreport.fileID "
+						          + " FROM " 
+						          + " testreport "
+						          + " WHERE testreport.ID = '"  + ID + "'" 
+						          + " ) AS a";
+				String[] properties = new String[] { "fileinformation.ID",
+						"fileinformation.filePassword",
+						"fileinformation.pathPassword", "fileinformation.path" };
+				String joinEntity = " LEFT JOIN fileinformation ON a.fileID = fileinformation.ID";
+				String condition = " 1=1 ";
+				List<Map<String, Object>> result = entityDao.searchForeign(properties, baseEntity, joinEntity, null, condition);
+				PropertiesTool pe = new PropertiesTool();
+				String fileID = result.get(0).get("ID").toString();
+				String path = result.get(0).get("path").toString();
+				String passWord = result.get(0).get("pathPassword").toString();
+				String fileTruePath = pe.getSystemPram("filePath") + "\\" + fileEncryptservice.decryptPath(path, passWord); // 文件真实路径
+
+				int length = fileTruePath.length();
+				int x = fileTruePath.lastIndexOf("\\");
+				x++;
+
+				String filedisplay = fileTruePath.substring(x, length);// 文件名
+
+				String cachePath = pe.getSystemPram("cacheFilePath") + "\\"
+						+ filedisplay;
+
+				System.out.println("cachePath  :" + cachePath);
+
+				System.out.println("fileTruePath :" + fileTruePath);
+
+				try {
+					fileEncryptservice.decryptFile(fileTruePath, cachePath, fileID);
+
+					String imgPath = pe.getSystemPram("imgPath") + "\\";
+					String singnaturePath = imgPath + employeeSignImage.get("singnature").toString();
+					String stampPath = imgPath + employeeSignImage.get("stamp").toString();
+					WordProcess wp = new WordProcess(false);
+					wp.openDocument(cachePath);
+					wp.insertImage("{电子签名}", singnaturePath, 100, 100);
+					wp.replaceAllText("{电子签名}", "");
+					wp.insertImage("{电子盖章}", stampPath, 100, 100);
+					wp.replaceAllText("{电子盖章}", "");
+					wp.save(cachePath);
+					wp.close();
+				    fileEncryptservice.encryptFile(cachePath, fileTruePath, fileID); // 将文件重新加密
+					
+
+				} catch (Exception e) {
+					return false;
+				}
+
+			}
+			
 			Map<String, Object> result = baseEntityDao.findByID( new String[] { "receiptlistID" }, taskID, "ID", "task");
 			Task tk = entityDao.getByID(taskID, Task.class);
 			tr.setState(5);
 			tr.setDismissreason3(auditPassAgreement);
 			tk.setDetectstate(6);
 			String receiptlistID = result.get("receiptlistID").toString();
-			Receiptlist rt = entityDao.getByID(receiptlistID,Receiptlist.class);
+			Receiptlist rt = entityDao.getByID(receiptlistID, Receiptlist.class);
 			rt.setState(2);
 			int updateReportCount = baseEntityDao.updatePropByID(tr, ID);
 			int updateTaskCount = baseEntityDao.updatePropByID(tk, taskID);
@@ -821,7 +904,7 @@ public class TestReportService extends SearchService implements
 			tk.setDetectstate(5);
 			int updateReportCount = baseEntityDao.updatePropByID(tr, ID);
 			int updateTaskCount = baseEntityDao.updatePropByID(tk, taskID);
-			return (updateReportCount + updateTaskCount) > 0 ? true : false;
+			return (updateReportCount + updateTaskCount) > 1 ? true : false;
 		}
 	}
 	
