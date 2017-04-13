@@ -65,7 +65,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	text-align: center;
 }
 </style>
-  <body>
    	<body>
 	<div class="container" style="width: 100%;">
 		<div class="row clearfix">
@@ -103,9 +102,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</div>
 					</div>
 				</div>
-				<table id="table">
-				</table>
 			</div>
+			<table id="table">
+			</table>
 		</div>
 	</div>
 	<!-- 新增弹窗 -->

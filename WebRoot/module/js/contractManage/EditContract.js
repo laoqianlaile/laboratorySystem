@@ -209,11 +209,14 @@ function coverContractFile(){
 			  data:parame,
 			  dataType:'json',
 			  success:function(o){
-				  if(o<=0){
-					  swal("不存在合同模板文件");
+				  if(o == 0){
+					  swal("不存在合同模板文件!");
+				  }else if(o == -4){
+					  swal("合同模板文件被删除!");
+				  }else if(o == 1){
+					  swal("合同已生成！"); 
+					  setTimeout(refrehFileTable, 1000);
 				  }
-				  swal("合同已生成！"); 
-				  setTimeout(refrehFileTable, 1000);
 			  },
 			  error:function(o){
 				  console.log(o);

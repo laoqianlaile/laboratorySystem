@@ -24,8 +24,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
-<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">x
+<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
 <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
+<link rel="stylesheet" type="text/css" href="module/css/changeACE.css" />
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
@@ -37,7 +39,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- <script src="assets/js/autoPage.js"></script> -->
 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
     <script src="module/js/sweetalert.min.js"></script>
-    <script src="module/js/alert.js"></script>
 <style>
 .list-searcher {
 	min-width: 300px;
@@ -109,6 +110,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 .row {
 	margin-left: 0;
 	margin-right: 0;
+}
+
+.button-wrap {
+	height: 70px;
+	background-color: #e8f3f9;
+	position: relative;
+}
+
+#search {
+	position: absolute;
+	right: 30px;
+	top: 50%;
+	margin-top: -17px;
+}
+
+#search:hover {
+	background: #ffc773;
 }
 </style>
 
@@ -183,12 +201,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</select>
 			</div>
 		</div>
-			<div class="row">
-				<div class="<col-xs-11></col-xs-11> col-md-11 col-lg-11"></div>
-				<div class="col-xs-1 col-md-1 col-lg-1">
-					<button type="button" id="search" class="btn btn-primary">查询</button>
-				</div>
-			</div>
+		<div class="button-wrap">
+			<button type="button" id="search" class="btn btn-primary">查询</button>
+		</div>
 		</div>
 	</div>
 	<hr />

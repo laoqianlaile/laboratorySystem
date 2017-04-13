@@ -139,9 +139,9 @@ span {
 						</div>
 					</div>
 				</div>
-				<table id="table">
-				</table>
 			</div>
+			<table id="table">
+			</table>
 		</div>
 	</div>
 	<!-- 检测项目弹框 -->

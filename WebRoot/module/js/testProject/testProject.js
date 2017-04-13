@@ -282,14 +282,14 @@ function init() {
 										title : '备注',// 列名
 										align : 'center',// 水平居中显示
 										valign : 'middle',// 垂直居中显示
-										width : '10%'// 宽度
+										width : '8%'// 宽度
 									},
 									{
 										field : '',
 										title : '操作',
 										align : 'center',
 										valign : 'middle',
-										width : '10%',
+										width : '8%',
 										formatter : function(value, row, index) {
 											var d = "<img src ='module/img/delete_icon.png' onclick='delTestProject(\""+row.testProjectID+"\")' title='删除' style='cursor:pointer;margin-right:8px;' />"
 											var a = "<img src ='module/img/edit_icon.png' onclick='openEditModal("+JSON.stringify(row)+")'  title='修改'  style='cursor:pointer;margin-right:8px;' />"
@@ -349,6 +349,38 @@ function addModal() {
 	
 }
 
+// 判空处理
+function checkNull(){
+	if(arguments[0].NAMECN == ""){
+		swal({title:"中文名称不能为空",  type:"warning",});
+		return true;
+	}
+	if(arguments[0].NAMEEN == ""){
+		swal({title:"英文名称不能为空",  type:"warning",});
+		return true;
+	}
+	if(arguments[0].DEPARTMENTID == ""){
+		swal({title:"所属科室不能为空",  type:"warning",});
+		return true;
+	}
+	if(arguments[0].ENVIRONMENTALREQUIREMENTS == ""){
+		swal({title:"坏境要求不能为空",  type:"warning",});
+		return true;
+	}
+	if(arguments[0].STANDARDID == ""){
+		swal({title:"所属标准不能为空",  type:"warning",});
+		return true;
+	}
+	if(arguments[0].describes == ""){
+		swal({title:"标准描述不能为空",  type:"warning",});
+		return true;
+	}
+	if(arguments[0].EQUIPMENTID == ""){
+		swal({title:"所需仪器不能为空",  type:"warning",});
+		return true;
+	}
+	return false;
+}
 
 function addTestProject() {
 
@@ -361,23 +393,19 @@ function addTestProject() {
 			.val());
 	parame.STANDARDID = ($('#add_STANDARDID').val());
 	
-//	parame.EQUIPMENTID = "";
-//
-//	var total = getTestTatol("add").ids;
-//	
-//	parame.EQUIPMENTID = total;
-	
 	parame.EQUIPMENTID =getEquipmentsID();
 	
 	parame.describes = ($('#add_DESCRIBE').val());
 	parame.remarks = ($('#add_REMARKS').val());
+	
+	if(checkNull(parame))return;
 	
 	$.ajax({
 		url : 'testProjectController/addTestProject.do',
 		data : parame,
 		success : function(o) {
 			if (o <= 0) {
-				alert("新增失败");
+				swert("新增失败");
 			}
 			$('#addModal').modal('hide');
 
@@ -387,31 +415,40 @@ function addTestProject() {
 	});
 }
 
-/**/
+/* 删除一个*/
 function delTestProject(){
-	if(confirm("确定要删除？")){
-		 TestProjectIDs = arguments[0];
+	 TestProjectIDs = arguments[0];
+	 swal({
+		  title: "确定要删除 ?",
+	  type: "warning",
+	  showCancelButton: true,
+	  confirmButtonColor: "#DD6B55",
+	  confirmButtonText: "确定",
+	  closeOnConfirm: false
+	},
+	function(){
 		 $.ajax({
 				url: 'testProjectController/delTestProject.do',
 				data:{
 					TestProjectIDs : TestProjectIDs
 				},
 				success:function(o){
-					if(o <= 0){
-						alert("修改失败");
+					if (o <= 0) {
+						swal({title:"删除失败",type:"error"});
+					} else {
+						swal({title:"删除成功",type:"success"});
+						refresh();
 					}
-					$('#editModal').modal('hide');
-					refresh();
 				}
-          });
-	 }
+	      });
+	});
 }
-/* 删除方法 */
+/* 删除多个 */
 function delData() {
 	var data = $('#table').bootstrapTable('getSelections');
 
 	if (data.length == 0) {
-		alert("请至少选中一条数据");
+		swal({title:"请至少选中一条数据",  type:"warning",});
 		return;
 	}
 
@@ -424,17 +461,28 @@ function delData() {
 	var ajaxParameter = {};
 	ajaxParameter.TestProjectIDs = ids.substring(0, (ids.length - 1))
 
-	console.log(ajaxParameter.TestProjectIDs);
-	$.ajax({
-		url : 'testProjectController/delTestProject.do',
-		data : ajaxParameter,
-		success : function(o) {
-			if (o <= 0) {
-				alert("删除失败");
-			}
-			refresh();
-		}
-	});
+	swal({
+		  title: "确定要删除 ?",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "确定",
+		  closeOnConfirm: false
+		},
+		function(){
+			$.ajax({
+				url : 'testProjectController/delTestProject.do',
+				data : ajaxParameter,
+				success : function(o) {
+					if (o <= 0) {
+						swal({title:"删除失败",type:"error"});
+					} else {
+						swal({title:"删除成功",type:"success"});
+						refresh();
+					}
+				}
+			});
+		});
 }
 
 /* 修改方法 */
@@ -471,7 +519,6 @@ function openEditModal(){
 //	}
 	
 	
-	console.log(arguments[0].EQUIPMENTID);
 	$('#editModal').modal('show');
 }
 
@@ -507,7 +554,7 @@ function editTestProject(){
 		data : parame,
 		success : function(o) {
 			if (o <= 0) {
-				alert("修改失败");
+				swal("修改失败");
 			}
 			$('#editModal').modal('hide');
 
@@ -605,16 +652,16 @@ function getStandard(id){
 // 填充设备数据
 function fullEquipments(equipmentDate){
 	var html = "<div class='form-control' >";
-	if(equipmentDate.length < 5){
+//	if(equipmentDate.length < 5){
 		for(var i = 0; i < equipmentDate.length ; i++){
 			html += "<option class='form-control' value ='"+equipmentDate[i].ID+"' onclick='displayChecked(this)'>" + equipmentDate[i].equipmentName+ " </option>";
 		}
-	}
-	else{
-		for(var i = 0; i < 4 ; i++){
-			html += "<option class='form-control' value ='"+equipmentDate[i].ID+"' onclick='displayChecked(this)'>" + equipmentDate[i].equipmentName+ " </option>";
-		}
-	}
+//	}
+//	else{
+//		for(var i = 0; i < 4 ; i++){
+//			html += "<option class='form-control' value ='"+equipmentDate[i].ID+"' onclick='displayChecked(this)'>" + equipmentDate[i].equipmentName+ " </option>";
+//		}
+//	}
 	html +="</div>"
 	$('#showEquipments').html(html);
 	$('#showEquipments').show();
@@ -697,8 +744,7 @@ function matchEquipment(){
 		}
 	});
 	if(date.length == 0){
-		console.log("" +
-				"，请重新输入或检查是否有员工。");
+		console.log("请重新输入");
 	}
 	return date;
 	

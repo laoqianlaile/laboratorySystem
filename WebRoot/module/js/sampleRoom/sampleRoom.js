@@ -195,21 +195,58 @@ function delData() {
 	deleSample(sampleIDs);
 	
 }
-function deleSample(sampleIDs){
-	$.ajax({
-		url : '/laboratorySystem/sampleController/delSample.do',
-		dataType:"json",
-		data : {
-			sampleIDs : sampleIDs
-		},
-		success : function(o) {
-			if (o == "false") {
-				sweetAlert("删除失败");
-			}
-			refresh();
-		}
-	});
+function isSure(message,sucesshandle,errorhandle){
+	sweetAlert({
+		  title: "Are you sure?",
+		  text: message,
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "是",
+		  cancelButtonText: "否"
+		
+		}, function(isConfirm){
+		        if(isConfirm){
+		        	sucesshandle();
+		        }else errorhandle();
+		});
 }
+function deleSample(sampleIDs){
+	sweetAlert({
+		  title: "Are you sure?",
+		  text: "是否删除样品!",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "是",
+		  cancelButtonText: "否"
+		
+		}, function(isConfirm){
+		        if(isConfirm){
+		        	$.ajax({
+		        		url : '/laboratorySystem/sampleController/delSample.do',
+		        		dataType:"json",
+		        		data : {
+		        			sampleIDs : sampleIDs
+		        		},
+		        		success : function(o) {
+		        			if (o == "false") {
+		        				sweetAlert("删除失败");
+		        			}else{
+		        				sweetAlert({
+		        					title:"删除成功",
+		        					type:"success",
+		        					timer:1000
+		        					});
+		        		  }
+		        			refresh();
+		        		}
+		        	});
+		        }
+		});
+	
+}
+function deleteSample()
 /* 新增方法 */
 function add() {
 	var parame = {};
@@ -241,6 +278,11 @@ function add() {
 					sweetAlert("新增失败");
 				}
 				else {
+						sweetAlert({
+							title:"新增成功",
+							type:"success",
+							timer:1000
+							});
 					 $('#addModal').modal('hide');
 					 refresh();
 				}
@@ -368,6 +410,11 @@ function edit(){
 					sweetAlert("修改失败");
 				}
 				else {
+						sweetAlert({
+							title:"修改成功",
+							type:"success",
+							timer:1000
+							});
 					 $('#editModal').modal('hide');
 					 refresh();
 				}
