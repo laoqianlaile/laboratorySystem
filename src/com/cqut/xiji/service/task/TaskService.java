@@ -926,6 +926,13 @@ public class TaskService extends SearchService implements ITaskService {
 			String detectstate = result.get("detectstate").toString();
 			if (detectstate.equals("1")) {
 				tk.setDetectstate(2);
+				Date now = new Date(System.currentTimeMillis());
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				try {
+					tk.setCompleteTime(dateFormat.parse(dateFormat.format(now)));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 				String testReportID = result.get("testReportID").toString();
 				TestReport tr = entityDao.getByID(testReportID,TestReport.class);
 				String receiptlistID = result.get("receiptlistID").toString();

@@ -882,6 +882,13 @@ public class TestReportService extends SearchService implements
 			tr.setState(5);
 			tr.setDismissreason3(auditPassAgreement);
 			tk.setDetectstate(6);
+			Date now = new Date(System.currentTimeMillis());
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			try {
+				tk.setCompleteTime(dateFormat.parse(dateFormat.format(now)));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 			String receiptlistID = result.get("receiptlistID").toString();
 			Receiptlist rt = entityDao.getByID(receiptlistID, Receiptlist.class);
 			rt.setState(2);
@@ -902,6 +909,13 @@ public class TestReportService extends SearchService implements
 			tr.setState(4);
 			tr.setDismissreason3(dismissreason);
 			tk.setDetectstate(5);
+			Date now = new Date(System.currentTimeMillis());
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			try {
+				tk.setCompleteTime(dateFormat.parse(dateFormat.format(now)));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 			int updateReportCount = baseEntityDao.updatePropByID(tr, ID);
 			int updateTaskCount = baseEntityDao.updatePropByID(tk, taskID);
 			return (updateReportCount + updateTaskCount) > 1 ? true : false;
