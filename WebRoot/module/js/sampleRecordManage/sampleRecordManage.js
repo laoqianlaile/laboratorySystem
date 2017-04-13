@@ -236,13 +236,13 @@ function addClickeditFactoryCode(){
 		 $('#edit_factoryCode').attr({'value' : "" + name + ""});
 		 $(".employeeN4").hide();
 
-	     aaa();
+	     aaa1();
 	})
 
 
 }
 
-function aaa(){
+function aaa1(){
 		if($("#edit_factoryCode").val()!=""&&$("#edit_factoryCode").val()!=null){
 		var parame = {};
 		parame.factoryCode=$('#edit_factoryCode').val();

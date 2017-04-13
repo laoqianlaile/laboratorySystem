@@ -489,10 +489,10 @@ public class ContractService extends SearchService implements IContractService{
 		String contractCode = contractA.get(0).get("contractCode").toString();
 		String contractName = contractA.get(0).get("contractName").toString();
 		String companyName = contractA.get(0).get("companyName").toString();
-		String oppositeMen = contractA.get(0).get("oppositeMen").toString();
-		String linkPhone = contractA.get(0).get("linkPhone").toString();
-		String employeeName = contractA.get(0).get("employeeName").toString();
-		String address = contractA.get(0).get("address").toString();
+		//String oppositeMen = contractA.get(0).get("oppositeMen").toString();
+		//String linkPhone = contractA.get(0).get("linkPhone").toString();
+		//String employeeName = contractA.get(0).get("employeeName").toString();
+		//String address = contractA.get(0).get("address").toString();
 		String contractAmount = contractA.get(0).get("contractAmount").toString();
 		String signAddress = contractA.get(0).get("signAddress").toString();
 		String startTime = contractA.get(0).get("startTime").toString();
@@ -548,12 +548,16 @@ public class ContractService extends SearchService implements IContractService{
 							"元，共" + hour + "次，共计" + money + "元。";
 				}
 			}
-			
 		}
 		System.out.println(contractItem);
 		PropertiesTool pe = new PropertiesTool();
 		
 		filePath = fileEncryptservice.decryptPath(filePath, pathPassword);
+		File file = new File(filePath);
+		if(!file.exists()){
+			System.out.println("合同模板文件被删除");
+			return -4;
+		}
 		String path = pe.getSystemPram("filePath") + "\\" ;
 
 		String cacheFilePath = pe.getSystemPram("cacheFilePath")+"\\";

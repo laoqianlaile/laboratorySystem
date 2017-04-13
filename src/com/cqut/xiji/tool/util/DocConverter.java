@@ -73,8 +73,7 @@ public class DocConverter {
 					converter.convert(newfile, pdfFile);
 					// close the connection
 					connection.disconnect();
-					System.out.println("****pdf转换成功，PDF输出：" + pdfFile.getPath()
-							+ "****");
+					System.out.println("****pdf转换成功，PDF输出：" + pdfFile.getPath() + "****");
 				} catch (java.net.ConnectException e) {
 					// ToDo Auto-generated catch block
 					e.printStackTrace();
