@@ -79,49 +79,51 @@ function initData(){
 			title:'甲方',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10%',//宽度
+			width:'11%',//宽度
 		},{
 			field:'oppositeMen',//返回值名称
 			title:'甲方代表',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'5%',//宽度
+			width:'6%',//宽度
 		},{
 			field:'linkPhone',//返回值名称
 			title:'联系电话',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'7%',//宽度
+			width:'8%',//宽度
 		},{
 			field:'employeeName',//返回值名称
 			title:'乙方代表',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'5%',//宽度
+			width:'6%',//宽度
 		},{
 			field:'signAddress',//返回值名称
 			title:'签订地点',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'11%',//宽度
+			width:'12%',//宽度
 		},{
 			field:'signTime',//返回值名称
 			title:'签订时间',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'8%',//宽度
+			width:'9%',//宽度
 		},{
 			field:'startTime',//返回值名称
 			title:'履行开始时间',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'8%',//宽度
+			visible:false
 		},{
 			field:'endTime',//返回值名称
 			title:'履行结束时间',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'8%',//宽度
+			visible:false
 		},{
 			field:'contractAmount',//返回值名称
 			title:'合同金额',//列名
@@ -147,14 +149,13 @@ function initData(){
 			title:'合同状态',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'8%',//宽度
+			width:'10%',//宽度
 		},{
 			field:'viewpoint',//返回值名称
 			title:'审核意见',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'4%',//宽度
-			visible:false
+			width:'8%',//宽度
 		}]//列配置项,详情请查看 列参数 表格
 		/*事件*/
 	});
