@@ -154,11 +154,11 @@ function query() {
 function lookfile() {
 	var rows = $("#table").bootstrapTable('getSelections');
 	if (rows.length == 0) {
-		alert("请选择要查看的模板");
+		swal("请选择要查看的模板");
 		return;
 	}
 	if (rows.length > 1) {
-		alert("请选择一条数据");
+		swal("请选择一条数据");
 		return;
 	} else {
 		var fileID = rows[0].fileID;
@@ -168,7 +168,7 @@ function lookfile() {
 			if (result != null && result != "null") {
 				window.location.href = "module/jsp/documentOnlineView.jsp";
 			} else {
-				alert("无法查看");
+				swal("无法查看");
 			}
 		});
 	}
@@ -230,7 +230,7 @@ function NoPass(){
 		  data:parame,
 		  success:function(o){
 			  if(o<=0){
-				  alert("审核失败");
+				  swal("审核失败");
 			  }
 			  $('#NoPassModal').modal('hide');
 			  refresh();
@@ -249,7 +249,7 @@ function Pass(){
 		  data:parame,
 		  success:function(o){
 			  if(o<=0){
-				  alert("审核失败");
+				  swal("审核失败");
 			  }
 			  $('#PassModal').modal('hide');
 			  refresh();
