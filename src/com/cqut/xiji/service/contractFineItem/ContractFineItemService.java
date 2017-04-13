@@ -738,14 +738,14 @@ public class ContractFineItemService extends SearchService implements IContractF
 
 	@Override
 	public List<Map<String, Object>> getContractFineItemByContractIDs(
-			String contractID) {
+			String ContractID) {
 		String[] properties = new String[] {
 				"contractfineitem.ID",
 				"contractfineitem.fineItemCode",
 				"contractfineitem.fineItemNameCn",
 				"contractfineitem.isOutsourcing"
 		};
-		String condition = " 1 = 1 AND contractID = " + contractID;
+		String condition = " 1 = 1 AND contractID = " + ContractID;
 		List<Map<String, Object>> list = entityDao.findByCondition(properties,
 				condition, ContractFineItem.class);
 		return list;

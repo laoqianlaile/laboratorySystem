@@ -92,7 +92,6 @@ public class FileEncryptService implements IFileEncryptService {
 		if (fileInformation == null)
 			return false;
 		filePassword = fileInformation.getFilePassword();
-		System.out.println(filePassword);
 		DES des3 = new DES(filePassword);
 
 		try {

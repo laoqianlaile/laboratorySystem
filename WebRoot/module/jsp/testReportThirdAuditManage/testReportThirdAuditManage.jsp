@@ -1,9 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
 	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://"
-			+ request.getServerName() + ":" + request.getServerPort()
-			+ path + "/";
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -19,11 +17,15 @@
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
-<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
-<link rel="stylesheet" type="text/css" href="module/css/testReportManage/testReportManage.css">
+<link rel="stylesheet" type="text/css"
+	href="module/css/bootstrap-table.css">
+<link rel="stylesheet" type="text/css"
+	href="module/css/bootstrap-datetimepicker.css">
+<link rel="stylesheet" type="text/css"
+	href="module/css/testReportManage/testReportManage.css">
 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
-<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
+<link rel="stylesheet" type="text/css"
+	href="module/css/commonSystem/commonSystem.css" />
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
@@ -44,31 +46,16 @@
 	width: 100%;
 	margin: 10px auto;
 }
-.signature,.stamp{
- margin-top:20px;
-}
 
-.audtiAgreement label,.signature label,.stamp label {
+.audtiAgreement label {
 	float: left;
 	width: 20%;
 	margin-top: 10px;
 }
 
-#Img1,#Img2 {
-	height: 140px;
-	width: 250px;
-	cursor: pointer;
-}
-
-#PassReason {
+#PassReason,#rejectReason {
 	resize: none;
 	width: 75%;
-	height: 150px;
-}
-
-#rejectReason {
-	resize: none;
-	width: 90%;
 	height: 200px;
 }
 </style>
@@ -125,10 +112,9 @@
 				</div>
 
 				<div class="col-xs-4 col-md-4 col-lg-4">
-					<label>审核状态:</label> <select class="form-control" name="selectPart"
-						id="selectPart">
+					<label>审核状态:</label> <select class="form-control" name="selectPart" id="selectPart">
 						<option value="3">所有情况</option>
-						<option value="0">待审核</option>
+						<option value="0" selected="selected">待审核</option>
 						<option value="1">审核通过</option>
 						<option value="2">驳回</option>
 					</select>
@@ -136,7 +122,6 @@
 
 			</div>
 		</div>
-
 
 		<div class="buttonGroup">
 			<div>
@@ -153,7 +138,7 @@
 	
 	<div id="thirdAuditPassModal" class="modal fade" role="dialog"
 		aria-labelledby="gridSystemModalLabel">
-		<div class="modal-dialog" role="document" style="width:600px;">
+		<div class="modal-dialog" role="document" style="width:500px;">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
@@ -171,7 +156,7 @@
 						<label>审核意见:</label>
 						<textarea id="PassReason" class="form-control" style="overflow-y:scroll"></textarea>
 					</div>
-					<div class="signature">
+		<!-- 			<div class="signature">
 						<label>电子签名:</label>
 					    <img id="Img1"  src="module/img/file/defaultPhoto.jpg"
 							data-holder-rendered="true"/>
@@ -189,21 +174,20 @@
 						<input class="stampImg" type="file" name="files" id="files" onchange="previewImage(this,'Img2')"
 							accept="image/png, image/gif, image/jpg, image/jpeg" 
 							style="width:66px;height:25px;position:absolute;left:10px;top:155px;opacity: 0;filter: alpha(opacity = 0);" />
-					</div>
+					</div> -->
 					<hr />
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="ensureUploadImg" name="ensureUploadImg" onclick="thirdAuditPassSure()">确定</button>
-					<button type="button" class="btn btn-default" id="canceUploadImg"  name="canceUploadImg" >取消</button>
+					<button type="button" class="btn btn-primary" onclick="thirdAuditPassSure()">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	
-	
+
 	<div id="thirdAuditRejectModal" class="modal fade" role="dialog"
 		aria-labelledby="gridSystemModalLabel">
-		<div class="modal-dialog" role="document" style="width:450px; ">
+		<div class="modal-dialog" role="document" style="width:500px; ">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
@@ -214,13 +198,12 @@
 				</div>
 				<div class="modal-body">
 					<hr />
-					<div class="row" style="text-align:center">
+					<div class=" audtiAgreement">
 						<span id="testReportID" style="display:none"></span> <span
 							id="taskID" style="display:none"></span> <span id="fileName"
-							style="display:none"></span>
+							style="display:none"></span> <label>审核意见:</label>
 						<textarea id="rejectReason" class="form-control"
-							style="overflow-y:scroll">
-					 </textarea>
+							style="overflow-y:scroll"></textarea>
 					</div>
 					<hr />
 				</div>
@@ -239,9 +222,6 @@
 
 	<script src="module/js/testReportThirdAuditManage/testReportThirdAuditManage.js"></script>
 	<script src="module/js/fileManage/fileManage.js"></script>
-	<script type="text/javascript" src="assets/fileupload/jquery.iframe-transport.js"></script>
-    <script type="text/javascript" src="assets/fileupload/jquery.ui.widget.js"></script> 
-    <script type="text/javascript"src="assets/fileupload/jquery.fileupload.js"></script>
 	<script type="text/javascript">
 		$('.form_datetime').datetimepicker({
 			language : 'zh-CN',
@@ -253,17 +233,6 @@
 			minView : 2,
 			forceParse : 0,
 			format : 'yyyy-mm-dd hh:ii:ss'
-		});
-		$('#Img1').click(function() {
-			$('.singnatureImg').click();
-		});
-		$('#Img2').click(function() {
-			$('.stampImg').click();
-		});
-		$('#canceUploadImg').click(function() {
-			if (confirm("是否取消上传?")) {
-				reload();
-			}
 		});
 	</script>
 </body>

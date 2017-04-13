@@ -101,8 +101,9 @@ $(function() {
 									}
 								} ]
 					});
-
+	uploadFile();
 });
+
 // 查询
 function search() {
 	var additionalCondition = {
@@ -148,6 +149,61 @@ function viewFile() {
 		});
 	}
 
+}
+
+// 上传报告模版(临时)
+function openModal(){
+	param.firstDirectoryName = "模版文件";
+	param.secondDirectoryName = "报告模版";
+	param.thirdDirectoryName = "";
+	param.type = 1;
+	$("#chooseFile").removeAttr("disabled");
+	$("#recoverReport").modal("show");
+}
+
+//检查文件类型
+function checkFile(o) {
+	$("#chooseFile").attr("disabled", "disabled");
+	var filePath = $(o).val();
+	if (filePath != "" && filePath != undefined) {
+		var arr = filePath.split('\\');
+		var fileName = arr[arr.length - 1];
+		$("#fileName").html(fileName);
+	}
+	if (o.value.indexOf('.doc') < 0 && o.value.indexOf('.docx') < 0) {
+		alert("不能将此类型文档作为检测报告上传");
+	}
+}
+
+// 上传文件
+function uploadFile() {
+	$("#files").fileupload({
+		autoUpload : true,
+		url : 'fileOperateController/upload.do',
+		dataType : 'json',
+		add : function(e, data) {
+			$("#ensure").click(function() {
+				data.submit();
+			});
+		},
+	}).bind('fileuploaddone', function(e, data) {
+		reload();
+	});
+	
+	// 文件上传前触发事件,如果需要额外添加参数可以在这里添加
+	$('#files').bind('fileuploadsubmit', function(e, data) {
+		data.formData = {
+			TypeNumber : param.type,
+			firstDirectory : param.firstDirectoryName,
+			secondDirectory : param.secondDirectoryName,
+			thirdDirectory : param.thirdDirectoryName
+		}
+	});
+}
+
+// 重新加载页面
+function reload() {
+	window.location.reload();
 }
 
 // 检查数据合理性

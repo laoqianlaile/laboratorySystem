@@ -25,6 +25,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="module/js/bootstrap-datetimepicker.js"></script>
 	<script type="text/javascript" src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
 	
+<!-- 提示弹框 -->
 	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 	<script src="module/js/sweetalert.min.js"></script>
   </head>
@@ -107,6 +108,58 @@ option.form-control:hover {
   color: #fff;
   background-color: rgb(255, 173, 51);
 }
+#addModal .row .form-control{
+    display: initial;
+    width:80%;
+}
+#addModal .row .labelName{
+	margin: 2%;
+	text-align: center;
+}
+#editModal .row .form-control{
+    display: initial;
+    width:80%;
+}
+#editModal .row .labelName{
+	margin: 2%;
+	text-align: center;
+}
+.DrawData{
+	margin-left:17.65%;
+	position:absolute;
+	width:74%;
+	height:auto;
+	max-height:120px;
+	display:none;
+	border:1px solid #ccc;
+	border-top:none;
+	border-radius:3px;
+	background-color:#fff;
+	z-index: 10;
+	overflow-x:hidden;
+	overflow-y:hidden;
+}
+.DrawData ul {
+	border:none;
+	max-height:120px;
+	overflow-y:auto;
+	margin:0;
+	margin-left:-40px;
+}
+.DrawData ul li{
+	height:30px;
+	line-height: 30px;
+	list-style-type: none;
+	text-indent: 12px;
+	background-color:#fff;
+}
+.DrawData ul li.noDate{
+ 	color: red;
+}
+.DrawData ul li:hover{
+	background-color:#dcdcdc;
+}
+
 </style>
   <body>
   	<div class="container" style="width:100%;">
@@ -146,33 +199,32 @@ option.form-control:hover {
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class ="col-xs-6 col-md-6">
-							<label>委托单位：</label> 
+						<div class="col-xs-12 col-md-12">
+							<label class = "labelName">委托单位</label> 
 							<input type="text" id="add_companyName" name="companyName" disabled="disabled" class="form-control" aria-describedby="basic-addon1"/>
 						</div>
-						<div class ="col-xs-6 col-md-6" >
-							<label>发票编号：</label> 
+						<div class="col-xs-12 col-md-12">
+							<label class = "labelName">发票编号</label> 
 							<input type="text" id="add_invoice" name="invoice" disabled="disabled" class="form-control" aria-describedby="basic-addon1"/>
 						</div>
-						<div class ="col-xs-6 col-md-6">
-							<label>交接单号：</label>
+						<div class="col-xs-12 col-md-12">
+							<label class = "labelName">交接单号</label>
 							<select id = "add_receiptlistID" name="receiptlistCode"  class="form-control"></select>
 						</div>
-						<div class ="col-xs-6 col-md-6">
-							<label>支付金额：</label> 
+						<div class="col-xs-12 col-md-12">
+							<label class = "labelName">支付金额</label> 
 							<input type="text" id="add_payMoney" name="payMoney"  class="form-control" aria-describedby="basic-addon1"/>
 						</div>
-						<div class ="col-xs-6 col-md-6">
-							<label>领取人：　</label> 
+						<div class="col-xs-12 col-md-12">
+							<label class = "labelName">领取人　</label> 
 							<input type="hidden" id="add_drawID" name="add_drawID">
 							<input type="text" id="add_drawName" name="add_drawName"   class="form-control" aria-describedby="basic-addon1" oninput="matchEmployee('add')"
 									onpropertychange="matchEmployee('add')"/>
-							<div id = "addDraw" style="position: fixed;">
-							</div>
+							<div id = "addDraw" class = "DrawData" ></div>
 						</div>
-						<div class ="col-xs-6 col-md-6">
-							<label>备注：　　</label> 
-							<input type="text" id="add_remarks" name="remarks"  class="form-control" aria-describedby="basic-addon1"/>
+						<div class="col-xs-12 col-md-12">
+							<label class = "labelName" style="position: relative;bottom: 25px;">　备注　</label> 
+							<textarea type="text" id="add_remarks" name="remarks"  class="form-control" aria-describedby="basic-addon1"></textarea>
 						</div>
 					</div>
 				</div>
@@ -192,39 +244,39 @@ option.form-control:hover {
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title">编辑</h4>
+					<h4 class="modal-title">编辑支付详细</h4>
 				</div>
 				<div class="modal-body">
 					<div class="row">
 						<input type ="hidden" id = "payMentDetailID">
 						<input type ="hidden" id = "receiptlistID">
-						<div class ="col-xs-6 col-md-6">
-							<label>委托单位：</label> 
+						<div class="col-xs-12 col-md-12">
+							<label class = "labelName">委托单位</label> 
 							<input type="text" id="edit_companyName" name="companyName" disabled="disabled" class="form-control" aria-describedby="basic-addon1"/>
 						</div>
-						<div class ="col-xs-6 col-md-6">
-							<label>发票编号：</label> 
+						<div class="col-xs-12 col-md-12">
+							<label class = "labelName">发票编号</label> 
 							<input type="text" id="edit_invoice" name="invoice"  disabled="disabled" class="form-control" aria-describedby="basic-addon1"/>
 						</div>
-						<div class ="col-xs-6 col-md-6">
-							<label>交接单号：</label>
+						<div class="col-xs-12 col-md-12">
+							<label class = "labelName">交接单号</label>
 							<select id = "edit_receiptlistCode" name="receiptlistCode"  class="form-control"></select>
 						</div>
-						<div class ="col-xs-6 col-md-6">
-							<label>支付金额：</label> 
+						<div class="col-xs-12 col-md-12">
+							<label class = "labelName">支付金额</label> 
 							<input type="text" id="edit_payMoney" name="payMoney"  class="form-control" aria-describedby="basic-addon1"/>
 						</div>
-						<div class ="col-xs-6 col-md-6">
-							<label>领取人：　</label> 
+						<div class="col-xs-12 col-md-12">
+							<label class = "labelName">领取人　</label> 
 							<input type="hidden" id="edit_drawID" name="edit_drawID">
 							<input type="text" id="edit_drawName" name="edit_drawName"   class="form-control" aria-describedby="basic-addon1" oninput="matchEmployee('edit')"
 									onpropertychange="matchEmployee('edit')"/>
-							<div id = "editDraw" style="position: fixed;">
+							<div id = "editDraw"  class = "DrawData" style="position: fixed;">
 							</div>
 						</div>
-						<div class ="col-xs-6 col-md-6">
-							<label>备注：　　</label> 
-							<input type="text" id="edit_remarks" name="remarks"  class="form-control" aria-describedby="basic-addon1"/>
+						<div class="col-xs-12 col-md-12">
+							<label class = "labelName"  style="position: relative;bottom: 25px;">　备注　</label> 
+							<textarea type="text" id="edit_remarks" name="remarks"  class="form-control" aria-describedby="basic-addon1"></textarea>
 						</div>
 					</div>
 				</div>

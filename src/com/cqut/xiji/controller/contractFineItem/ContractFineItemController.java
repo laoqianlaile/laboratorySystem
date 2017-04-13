@@ -240,11 +240,18 @@ public class ContractFineItemController{
 		int result = service.updateContractAmount(contractID);
 		return result;
 	}
-	
+	/**
+	 * 通过合同ID获取合同细项
+	 * 
+	 * @author zkl
+	 * @data 2017年4月12日 下午9:41:10
+	 * @param contractID
+	 * @return
+	 */
 	@RequestMapping("/getContractFineItemByContractIDs")
 	@ResponseBody
-	public String getContractFineItemByContractIDs(String contractID){
-		List<Map<String,Object>> result = service.getContractFineItemByContractIDs(contractID);
+	public String getContractFineItemByContractIDs(String ContractID){
+		List<Map<String,Object>> result = service.getContractFineItemByContractIDs(ContractID);
 		return JSONArray.fromObject(result).toString();
 	}
 }

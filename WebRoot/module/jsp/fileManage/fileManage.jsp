@@ -103,10 +103,55 @@
 			</div>
 		</div>
 
+  <div id="recoverReport" class="modal fade" role="dialog"  
+		aria-labelledby="gridSystemModalLabel">
+		<div class="modal-dialog" role="document" style="width:450px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">重新覆盖检测报告</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div id="fileInfo" style="text-align:left">
+							<div id="fileQueue">
+								<input type="file" name="files" id="files" style="display:none" onchange="checkFile(this)">
+							</div>
+							
+							<button type="button" id="chooseFile" name="chooseFile" class="btn btn-default">
+								<span class="glyphicon glyphicon-folder-open "></span> 选择文件
+							</button>
+							<span id="fileName"></span>
+               
+							<div class="uploadFileText">
+								<label>版本号码:</label> <input type="text" class="form-control"
+									name="fileVersionNumber" id="fileVersionNumber"">
+							</div>
+							<div class="uploadFileText">
+								<label>版本信息:</label>
+								<textarea rows="3" class="form-control" name="fileVersionInfo"
+									id="fileVersionInfo"></textarea>
+							</div>
+							<div class="uploadFileText">
+								<label>备注信息:</label>
+								<textarea rows="3" class="form-control" name="fileRemarks"
+									id="fileRemarks"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="ensure" name="ensure">确定</button>
+					<button type="button" class="btn btn-default" id="cancel" name="cancel">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 		<div class="buttonGroup">
 			<div>
 				<button type="button" class="btn btn-primary " onclick="search()">查询</button>
+				<button type="button" class="btn btn-primary " onclick="openModal()">上传报告模版</button>
 			</div>
 		</div>
 	</div>
@@ -125,6 +170,9 @@
 	<script src="module/js/wait.js"></script>
 	<script src="module/js/fileManage/fileManage.js"></script>
 	<script src="module/js/fileManage/fileProcessManage.js"></script>
+	<script type="text/javascript" src="assets/fileupload/jquery.iframe-transport.js"></script>
+    <script type="text/javascript" src="assets/fileupload/jquery.ui.widget.js"></script> 
+    <script type="text/javascript"src="assets/fileupload/jquery.fileupload.js"></script>
 	<script type="text/javascript">
 		$('.form_datetime').datetimepicker({
 			language : 'zh-CN',
@@ -136,6 +184,15 @@
 			minView : 2,
 			forceParse : 0,
 			format : 'yyyy-mm-dd hh:ii:ss'
+		});
+		$('#chooseFile').click(function() {
+			$('#files').click();
+
+		});
+		$('#cancel').click(function() {
+			if (confirm("是否取消上传?")) {
+				reload();
+			}
 		});
 	</script>
 </body>
