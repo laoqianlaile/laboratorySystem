@@ -91,17 +91,7 @@ function queryParams(params) {  //配置参数
     };  
     return temp;  
   }
-/* 判断是否登录  */
-function isLogin(){
-	islogin = $('#EMPLOYEEID').val();
-	if(islogin === null || islogin === "" || islogin === "null"){
-		 alert("您还没登录， 请先登录");
-		 return false;
-	}
-	else{
-		return true;
-	}
-}
+
 
 
 ///*删除标准类型*/
@@ -125,32 +115,40 @@ function isLogin(){
 //}
 
 function openEditModal(){
-	if(! isLogin()){
-		return;
-	}
-	else{
-		$('#edit_StandardTypeID').val(arguments[0].ID);
-		$('#edit_StandardTypeCode').val(arguments[0].STANDARDTYPECODE);
-		$('#edit_StandardTypeName').val(arguments[0].STANDARDTYPECODE);
-		$('#edit_CreateTime').val(arguments[0].CREATETIME);
+	
+	$('#edit_StandardTypeID').val(arguments[0].ID);
+	$('#edit_StandardTypeCode').val(arguments[0].STANDARDTYPECODE);
+	$('#edit_StandardTypeName').val(arguments[0].STANDARDTYPENAME);
+	$('#edit_CreateTime').val(arguments[0].CREATETIME);
 		
-		$('#editModal').modal('show');
-	}
+	$('#editModal').modal('show');
 	
 }
-
+// 判空或者判空字符串
+function  checkNull(){
+	
+	if(arguments[0].StandardTypeCode == null || arguments[0].StandardTypeCode == ""){
+		swal({  title: "标准类别编码不能为空", type: "error",});
+		return true;
+	}
+	if(arguments[0].StandardTypeName == null ||arguments[0].StandardTypeName == ""){
+		swal({  title: "标准类别名称不能为空", type: "error",});
+		return true;
+	}
+	return false;
+}
 function editStandardType(){
 	var parme = {};
 	parme.StandardTypeID = $('#edit_StandardTypeID').val();
 	parme.StandardTypeCode = $('#edit_StandardTypeCode').val();
 	parme.StandardTypeName = $('#edit_StandardTypeName').val();
-	
+	if(checkNull(parme))return;
 	$.ajax({
 		url: 'standardTypeController/upStandardType.do',
 		data:parme,
 		success:function(o){
 			if(o<=0){
-				alert("修改失败");
+				swal({  title: "修改失败", type: "error",});
 			}
 			$('#editModal').modal('hide');
 			refresh();
@@ -164,14 +162,14 @@ function addStandardType(){
 	var parme = {};
 	parme.StandardTypeCode = $('#add_StandardTypeCode').val();
 	parme.StandardTypeName = $('#add_StandardTypeName').val();
-	
+	if(checkNull(parme))return;
 	
 	$.ajax({
 		url: 'standardTypeController/addStandardType.do',
 		data:parme,
 		success:function(o){
 			if(o<=0){
-				alert("新增失败");
+				swal({  title: "新增失败", type: "error",});
 			}
 			$('#addModal').modal('hide');
 			refresh();

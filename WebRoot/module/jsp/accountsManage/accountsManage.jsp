@@ -82,6 +82,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   color: #fff;
   background-color: rgb(255, 173, 51);
 }
+
+#addModal .row .form-control{
+    display: initial;
+    width:80%;
+}
+#addModal .row .labelName{
+	margin: 2%;
+	text-align: center;
+}
 </style>
   <body>
   	<div class="container" style="width:100%;">
@@ -150,8 +159,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</table>
 		</div>
 	</div>
-	<!-- 获取当前操作人的ID -->
-	<input type="hidden"  id="employeeID" name="employeeID" value="<%=session.getAttribute("EMPLOYEEID")%>"/>
+
 	<!-- 新增弹窗 -->
 	<div id="addModal" class="modal fade">
 		<div class="modal-dialog">
@@ -165,27 +173,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class ="col-xs-6 col-md-6">
-							<label>合同编码：</label>
+						<div class ="col-xs-12 col-md-12">
+							<label class="labelName">报账专员</label> 
+							<input type="hidden" id="add_employeeID" name = "employeeID"/>
+							<input type="text" id="add_employeeName" name="employeeName" disabled="disabled" class="form-control" aria-describedby="basic-addon1"/>
+						</div>
+						<div class ="col-xs-12 col-md-12">
+							<label class="labelName">合同编码</label>
 							<select id="add_contractCode" name="contractCode" oninput="contractCodeChange('add')"
 									onpropertychange="contractCodeChange('add')" class="form-control">
 							</select>
 						</div>
-						<div class ="col-xs-6 col-md-6">
-							<label>合同名称：</label> 
+						<div class ="col-xs-12 col-md-12">
+							<label class="labelName">合同名称</label> 
 							<input type="text" id="add_contractName" name="contractName" disabled="disabled"  class="form-control" aria-describedby="basic-addon1"/>
 						</div>
-						<div class ="col-xs-6 col-md-6">
-							<label>合同金额：</label> 
+						<div class ="col-xs-12 col-md-12">
+							<label class="labelName">合同金额</label> 
 							<input type="text" id="add_contractAmount" name="contractAmount" disabled="disabled"  class="form-control" aria-describedby="basic-addon1"/>
 						</div>
-						<div class ="col-xs-6 col-md-6">
-							<label>报账专员：</label> 
-							<input type="text" id="add_employeeName" name="employeeName" disabled="disabled" value="<%=session.getAttribute("EmployeeName")%>" class="form-control" aria-describedby="basic-addon1"/>
-						</div>
 						<div class ="col-xs-12 col-md-12">
-							<label>备注：　　</label> 
-							<input type="text" id="add_remarks" name="remarks"  class="form-control" aria-describedby="basic-addon1"/>
+							<label class="labelName" style="position: relative;bottom: 25px;">　备注　</label> 
+							<textarea id="add_remarks" name="remarks"  class="form-control" aria-describedby="basic-addon1"></textarea>
 						</div>
 					</div>
 				</div>

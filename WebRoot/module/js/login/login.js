@@ -22,11 +22,10 @@ function login(){
 
 	if(loginName==''||loginName==null||employeeid==''||employeeid==null)
 			{
-			  alert('请检查用户名和密码是否填写完整');
+			swal({title:"请检查用户名和密码是否填写完整",  type:"warning",});
 			}
 	else if(code==''||code==null){
-		
-	            alert('请检查用户名和密码是否填写完整');
+			swal({title:"请检查用户名和密码是否填写完整",  type:"warning",});
            }
 	else{
 	$.ajax({
@@ -42,26 +41,24 @@ function login(){
 			
 			result = eval(result );
 			
-			console.log('登录连接数据库成功');
 			if(result == "1"){
 				window.location.href = "index.jsp";
 			}else if(result == "-1"){
-				alert('账号不存在！');
+				swal({title:"账号不存在！",  type:"warning",});
 			}else if(result == "-2"){
-				alert('账号禁用');
+				swal({title:"账号禁用！",  type:"warning",});
 			}else if(result=="-3"){
-				alert("请检查用户名和密码是否正确！");
+				swal({title:"请检查用户名和密码是否正确！",  type:"warning",});
 			}
 			else if(result =="-4"){
-				alert('验证码出错！');
+				swal({title:"验证码出错！",  type:"warning",});
 			}else if(result =="-5"){
-				alert('账号未分配使用用户！');
+				swal({title:"账号未分配使用用户！",  type:"error",});
 			}
 		
 		},
 		error:function(){
-			alert('连接后台失败！');
-			
+			swal({title:"连接后台失败！",  type:"error",});
 		}
 	});
 	

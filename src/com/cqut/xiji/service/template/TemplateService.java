@@ -134,6 +134,9 @@ public class TemplateService extends SearchService implements ITemplateService{
 		// 文件所属ID
 		
 		FileInformation fileInformation = entityDao.getByID(fileID, FileInformation.class);
+		if(fileInformation == null){
+			return -1 + "" ;
+		}
 		fileInformation.setRemarks(TemplateRemarks);
 		fileInformation.setBelongtoID(template.getID());
 		fileInformation.setUploaderID(uploaderID);

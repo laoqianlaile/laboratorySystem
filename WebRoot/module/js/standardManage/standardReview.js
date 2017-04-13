@@ -100,7 +100,7 @@ function init(){
 					 var e = "<img src = 'module/img/download_icon.png' onclick='downFile(\""+row.fileID+"\")' title='下载' style='cursor:pointer;margin-right:8px;' />"
 					 if(row.STATE == "待审核"){
 						 var a = "<img src = 'module/img/submit_icon.png'  onclick='openSuggest(1,\""+ row.ID+ "\")' title='通过'   style='cursor:pointer;margin-right:8px;'/>";
-						 var b = "<img src = 'module/img/icon_close.png' onclick='openSuggest(3,\""+ row.ID+ "\")' title='驳回'  style='cursor:pointer;margin-right:8px;'/>";
+						 var b = "<img src = 'module/img/reject_icon.png' onclick='openSuggest(3,\""+ row.ID+ "\")' title='驳回'  style='cursor:pointer;margin-right:8px;'/>";
 		                 return e + a + b ;    
 					 }
 					 else{
@@ -165,20 +165,31 @@ window.onload = function(){
 /* 下载文件*/
 
 function downFile(fileID){
-	if(! isLogin()){
+	if(fileID === null || fileID === "" || fileID === "null"){
+		swal({  title: "文件丢失了", type: "error",});
 		return;
 	}
 	else{
-		if(confirm("确定下载？")){
-			if(fileID === null || fileID === "" || fileID === "null"){
-				alert("该文件不存在");
-				return;
-			}
-			else{
+		swal({
+			  title: "确定下载?",
+			  type: "warning",
+			  showCancelButton: true,
+			  confirmButtonColor: "#DD6B55",
+			  confirmButtonText: "确认",
+			  cancelButtonText: "取消",
+			  closeOnConfirm: false,
+			  closeOnCancel: false
+			},
+			function(isConfirm){
+			  if (isConfirm) {
+				//下载文件
 				downOneFile(fileID);
-				return;
-			}
-		}
+				swal("Ok!", "", "success")
+			  } else {
+			    swal("Cancelled", "", "error");
+			  }
+			});
+		return;
 	}
 }
 
@@ -233,7 +244,7 @@ function AuditStandard(){
 	  data:parame,
 	  success:function(o){
 		  if(o<=0){
-			  alert("审核失败");
+			  swal({  title: "审核失败", type: "error",});
 		  }
 		  $('#Modal').modal('hide');
 		  refresh();
@@ -246,4 +257,26 @@ function query(){
 	
 	init();
 	refresh();
+}
+
+//查看word
+function ViewDoc(){
+	var rows = $('#table').bootstrapTable('getSelections');
+	if(rows.length > 1 || rows.length == 0){
+		swal("请选择且只能选择一条数据查看");
+	} else {
+		displayDiv();
+		var fileID = rows[0].fileID;
+		$.post("fileOperateController/onlinePreview.do", {
+			ID : fileID
+		}, function(result) {
+			result = JSON.parse(result);
+			if(result != null && result != "null" && result != ""){
+				window.location.href = "module/jsp/documentOnlineView.jsp";
+			} else {
+				hideDiv();
+				swal("无法查看");
+			}
+		});
+	}
 }

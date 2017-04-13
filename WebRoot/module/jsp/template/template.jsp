@@ -21,6 +21,7 @@
 <link rel="stylesheet" type="text/css" href="module/css/uploadify.css">
 <link rel="stylesheet" type="text/css" href="module/css/fileManage/fileManage.css">
 <link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" /> 
+<link rel="stylesheet"  type="text/css" href="module/css/wait.css">
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/fileManage/fileManage.js"></script>
@@ -122,8 +123,8 @@ span {
 									</button>
 
 									<button class="btn btn-primary type=" button" id=""
-										onclick="">
-										<em class="glyphicon glyphicon-trash"></em> 查看
+										onclick="ViewDoc()">
+										<em class="glyphicon glyphicon-search"></em> 查看
 									</button>
 
 									<button class="btn btn-primary  type=" button" id="del" onclick="delData()">
@@ -138,9 +139,9 @@ span {
 						</div>
 					</div>
 				</div>
-				<table id="table">
-				</table>
 			</div>
+			<table id="table">
+			</table>
 		</div>
 	</div>
 	<!-- 检测项目弹框 -->
@@ -163,8 +164,7 @@ span {
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					<button type="button" class="btn btn-primary" id="ensure"
-						name="ensure" onclick="addTestproject()">确定</button>
+					<button type="button" class="btn btn-primary" onclick="addTestproject()" >确定</button>
 				</div>
 			</div>
 		</div>
@@ -195,11 +195,20 @@ span {
 						</div>
 					</div>
 					<div class="row">
-						<div id="files">
-							<div id="uploadfileQueue"></div>
+						<div id="fileInfo" class="col-md-12 column">
+						<!-- 	<div id="uploadfileQueue"></div>
 							<input type="file" id="file_upload" name="file_upload"
-								multiple="multiple">
-							<div class="col-md-6 column">
+								multiple="multiple"> -->
+							<div id="fileQueue">
+								<input type="file" name="files" id="files" style="display:none" onchange="checkFile(this)">
+							</div>
+							<button type="button" id="chooseFile" name="chooseFile" class="btn btn-default">
+								<span class="glyphicon glyphicon-folder-open "></span> 选择文件
+							</button>
+							<span id="fileName"></span>
+							
+						</div>
+						<div class="col-md-6 column">
 								<select id="fileType">
 									<option value = "13">模板文件</option>
 								</select> 
@@ -211,14 +220,11 @@ span {
 								<label>备注信息</label>
 								<textarea id="add_TemplateRemarks" name = "TemplateReamarks"class="form-control"></textarea>
 							</div>
-						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal"
-						onclick="javascript:$('#file_upload').uploadify('cancel','*')">取消</button>
-					<button type="button" class="btn btn-primary" id="ensure"
-						name="ensure" onclick="upfile();">确定</button>
+					<button type="button" class="btn btn-default" id="cancel" name="cancel" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary" id="ensure" name="ensure" >确定</button>
 				</div>
 			</div>
 		</div>
@@ -227,6 +233,16 @@ span {
 
 
 
+    <div id="wait_img">
+		<img src="module/img/wait.jpg" style="width:48px;height:48px;" />
+	</div>
+	<div id="mask"></div>
+
+<script src="module/js/wait.js"></script>
+<script src="module/js/template/template.js"></script>
+<script type="text/javascript" src="assets/fileupload/jquery.iframe-transport.js"></script>
+<script type="text/javascript" src="assets/fileupload/jquery.ui.widget.js"></script> 
+<script type="text/javascript"src="assets/fileupload/jquery.fileupload.js"></script>
 <script type="text/javascript">
 	$('.form_datetime').datetimepicker({
 		language : 'zh-CN',
@@ -239,7 +255,14 @@ span {
 		forceParse : 0,
 		format : 'yyyy-mm-dd'
 	});
-</script>
+	$('#chooseFile').click(function() {
+		$('#files').click();
 
-<script src="module/js/template/template.js"></script>
+	});
+	$('#cancel').click(function() {
+		if (confirm("是否取消上传?")) {
+			reload();
+		}
+	});
+</script>
 </html>

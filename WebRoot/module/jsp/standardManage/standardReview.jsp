@@ -18,7 +18,7 @@
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 <link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" /> 
-
+<link rel="stylesheet"  type="text/css" href="module/css/wait.css">
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
@@ -52,7 +52,6 @@
   background-color: rgb(255, 173, 51);
 }
 </style>
-
 <body>
 	<div class="container" style="width: 100%;">
 		<div class="row clearfix">
@@ -109,8 +108,8 @@
 									<em class="glyphicon glyphicon-search"></em> 查询
 								</button>
 
-								<button class="btn btn-primary" type="button">
-									<em class="glyphicon glyphicon-plus"></em> 查看
+								<button class="btn btn-primary" type="button" onclick="ViewDoc()">
+									<em class="glyphicon glyphicon-search"></em> 查看
 								</button>
 
 								<button class="btn btn-primary type=" button" id="refresh"
@@ -155,6 +154,14 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- // 文件查看等待加载 -->
+    <div id="wait_img">
+		<img src="module/img/wait.jpg" style="width:48px;height:48px;" />
+	</div>
+	<div id="mask"></div>
+
+	<script src="module/js/wait.js"></script>
 	<script src="module/js/standardManage/standardReview.js"></script>
 </body>
 </html>
