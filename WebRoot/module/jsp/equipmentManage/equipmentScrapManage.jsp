@@ -46,7 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<input type="text" id="schModel" name="schModel" class="form-control" aria-describedby="basic-addon1" placeholder="请输入设备型号查找"/>
 			</div>
 			<div class="col-xs-3 col-md-3 col-lg-3">
-				<label>登记人:</label>
+				<label>批准人:</label>
 				<input type="text" id="schEmployeeName" name="schEmployeeName" class="form-control" aria-describedby="basic-addon1" placeholder="请输入维修员查找"/>
 			</div>
 			<div class="col-xs-3 col-md-3 col-lg-3">
@@ -99,7 +99,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 	</div>
                	</div>
                	<div class="col-xs-12 col-md-12">
-               	   	<label class="control-label">登记人:</label>
+               	   	<label class="control-label">批准人:</label>
                	   	<input type="text" id="add_employeeName" name="employeeName" oninput="addGetEMName()" onpropertychange="addGetEMName()"  class="form-control"/>
                    <div class="employeeN">
 	                   
@@ -153,7 +153,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 	</div>
                	</div>
                	<div class="col-xs-12 col-md-12">
-               	   	<label class="control-label">检测员:</label>
+               	   	<label class="control-label">批准人:</label>
                	   	<input type="text" id="edit_employeeName" name="employeeName" oninput="editGetEMName()" onpropertychange="editGetEMName()" class="form-control"/>
                    <div class="employeeN">
 	                   

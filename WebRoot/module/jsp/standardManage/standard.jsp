@@ -52,6 +52,33 @@
   color: #fff;
   background-color: rgb(255, 173, 51);
 }
+#addModal .row .form-control{
+    display: initial;
+    width:80%;
+}
+#addModal .row .labelName{
+	margin: 2%;
+	text-align: center;
+}
+#editModal .row .form-control{
+    display: initial;
+    width:80%;
+    height: 35px;
+}
+#editModal .row .labelName{
+	margin: 2%;
+	text-align: center;
+}
+#applyModal .row .form-control{
+    display: initial;
+    width:80%;
+    height: 35px;
+}
+
+#applyModal .row .labelName{
+	margin: 2%;
+	text-align: center;
+}
 </style>
 
 <body>
@@ -110,7 +137,7 @@
 
 								<button class="btn btn-primary type="
 									button" data-toggle="modal" onclick="openAddmodal('upfile')">
-									<em class="glyphicon glyphicon-arrow-up"></em> 上传文件
+									<em class="glyphicon glyphicon-arrow-up"></em> 覆盖上传
 								</button>
 
 								<button class="btn btn-primary" type="button" data-toggle="modal"
@@ -153,28 +180,28 @@
 					<input type= "hidden" id = "uploaderID" value = "<%=session.getAttribute("EMPLOYEEID")  %>" />
 					<div class="row">
 						<div class="col-xs-12 col-md-12">
-							<h4>标准编号：</h4>
+							<label class="labelName">标准编号</label>
 							<input type="text" id="add_STANDARDCODE" name="STANDARDCODE"
-								class="form-control" required aria-describedby="basic-addon1" />
+								class="form-control"   />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>标准名称：</h4>
+							<label class="labelName">标准名称</label>
 							<input type="text" id="add_STANDARDNAME" name="STANDARDNAME"
-								class="form-control" aria-describedby="basic-addon1" />
+								class="form-control"  />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>类别：</h4>
+							<label class="labelName">　类别　</label>
 							<select id="add_TYPE" name="TYPE" class="form-control"
 								aria-describedby="basic-addon1">
 							</select>
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>适用范围：</h4>
+							<label class="labelName">适用范围</label>
 							<input type="text" id="add_SCOPE" name="SCOPE"
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>引用类型：</h4>
+							<label class="labelName">引用类型</label>
 							<select id="add_APPLICATIONTYPE" name="APPLICATIONTYPE"
 								class="form-control" aria-describedby="basic-addon1">
 								<option class="form-control" value="0">国家标准</option>
@@ -183,7 +210,7 @@
 							</select>
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>编辑状态：</h4>
+							<label class="labelName">编辑状态</label>
 							<select id="add_EDITSTATE" name="EDITSTATE" class="form-control"
 								aria-describedby="basic-addon1">
 								<option class="form-control" value="0">不可编辑</option>
@@ -191,27 +218,32 @@
 							</select>
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>描述：</h4>
+							<label class="labelName" style="position: relative;bottom: 25px;">　描述　</label>
 							<textarea type="" id="add_DESCRIPTION" name="DESCRIPTION"
 								class="form-control" aria-describedby="basic-addon1"></textarea>
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>文件上传：</h4>
-							<div id="uploadfileQueue"></div>
-							<input type="file" id="file_upload" name="file_upload"
-								>
-							<div class="col-md-6 column">
-								<select id="fileType">
-									<option value="17">标准文件</option>
-								</select>
-
+							<div id="fileInfo">
+								<div id="fileQueue">
+									<input type="file" name="files" id="files" style="display:none" onchange="checkFile(this)">
+								</div>
+								<button type="button" id="chooseFile" name="chooseFile" class="btn btn-default">
+									<span class="glyphicon glyphicon-folder-open "></span> 选择文件
+								</button>
+								<span id="fileName"></span>
+								
 							</div>
+						</div>
+						<div class="col-md-6 column">
+							<select id="fileType">
+								<option value="17">标准文件</option>
+							</select>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" onclick="add()">新增</button>
+					<button type="button" class="btn btn-primary" id = "ensure" name ="ensure">新增</button>
 				</div>
 			</div>
 		</div>
@@ -236,43 +268,36 @@
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>标准编码：</h4>
+							<label class="labelName" >标准编码</label>
 							<input type="text" id="edit_STANDARDCODE" readonly
 								name="STANDARDCODE" class="form-control"
 								aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>标准名称：</h4>
+							<label class="labelName">标准名称</label>
 							<input type="text" id="edit_STANDARDNAME" name="STANDARDNAME"
-								class="form-control" aria-describedby="basic-addon1" />
+								class="form-control"  />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>类别：</h4>
-
-							<select id="edit_TYPE" name="TYPE" class="form-control"
-								aria-describedby="basic-addon1">
-								<option class="form-control" value="1111">电磁学</option>
-								<option class="form-control" value="1112">化学校验</option>
-								<option class="form-control" value="1113">物理模型</option>
+							<label class="labelName">　类别　</label>
+							<select id="edit_TYPE" name="TYPE" class="form-control" >
 							</select>
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>适用范围：</h4>
-							<input type="text" id="edit_SCOPE" name="SCOPE"
-								class="form-control" aria-describedby="basic-addon1" />
+							<label class="labelName">适用范围</label>
+							<input type="text" id="edit_SCOPE" name="SCOPE" class="form-control"  />
 
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>引用类型：</h4>
-							<select id="edit_APPLICATIONTYPE" name="APPLICATIONTYPE"
-								class="form-control" aria-describedby="basic-addon1">
+							<label class="labelName">引用类型</label>
+							<select id="edit_APPLICATIONTYPE" name="APPLICATIONTYPE" class="form-control" >
 								<option class="form-control" value="0">国家标准</option>
 								<option class="form-control" value="1">企业标准</option>
 								<option class="form-control" value="2">作业指导书</option>
 							</select>
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>编辑状态：</h4>
+							<label class="labelName" >编辑状态</label>
 							<select id="edit_EDITSTATE" name="EDITSTATE" class="form-control"
 								aria-describedby="basic-addon1">
 								<option class="form-control" value="0">不可编辑</option>
@@ -280,12 +305,12 @@
 							</select>
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>审核意见：</h4>
+							<label class="labelName" >审核意见</label>
 							<input type="text" id="edit_SUGGEST" name="SUGGEST"
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>状态：</h4>
+							<label class="labelName" >　状态　</label>
 							<select id="edit_STATE" name="STATE" class="form-control"
 								aria-describedby="basic-addon1">
 								<option class="form-control" value="0">待审核</option>
@@ -322,26 +347,22 @@
 								class="form-control" readonly aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>标准编号：</h4>
+							<label class="labelName" >标准编号</label>
 							<input type="text" id="apply_STANDARDCODE" name="STANDARDCODE"
 								class="form-control" readonly aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>标准名称：</h4>
+							<label class="labelName" >标准名称</label>
 							<input type="text" id="apply_STANDARDNAME" name="STANDARDNAME"
 								class="form-control" readonly aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>标准类别：</h4>
-							<select id="apply_TYPE" name="TYPE" class="form-control"
-								aria-describedby="basic-addon1">
-								<option class="form-control" value="1111">电磁学</option>
-								<option class="form-control" value="1112">化学校验</option>
-								<option class="form-control" value="1113">物理模型</option>
+							<label class="labelName" >标准类别</label>
+							<select id="apply_TYPE" name="TYPE" class="form-control">
 							</select>
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>引用类型：</h4>
+							<label class="labelName" >引用类型</label>
 							<select id="apply_APPLICATIONTYPE" name="APPLICATIONTYPE"
 								class="form-control" aria-describedby="basic-addon1">
 								<option class="form-control" value="0">国家标准</option>
@@ -349,20 +370,14 @@
 								<option class="form-control" value="2">作业指导书</option>
 							</select>
 						</div>
-						<div class="col-xs-12 col-md-12">
-							<h4>申请人：</h4>
+						<!-- <div class="col-xs-12 col-md-12">
+							<label class="labelName" >申请人　</label>
 							<input type="text" id="apply_ABANDONAPPLYMAN"
 								name="ABANDONAPPLYMAN" class="form-control"
 								aria-describedby="basic-addon1" />
-						</div>
+						</div> -->
 						<div class="col-xs-12 col-md-12">
-							<h4>申请时间：</h4>
-							<input type="text" id="apply_ABANDONAPPLYTIME"
-								name="ABANDONAPPLYTIME" class="form-control"
-								aria-describedby="basic-addon1" />
-						</div>
-						<div class="col-xs-12 col-md-12">
-							<h4>申请理由：</h4>
+							<label class="labelName" style="position: relative;bottom: 13px;" >申请理由</label>
 							<textarea type="" id="apply_ABANDONAPPLYREASON"
 								name="ABANDONAPPLYREASON" class="form-control"
 								aria-describedby="basic-addon1"></textarea>
@@ -413,9 +428,18 @@
 	
 </body>
 <script src="module/js/standardManage/standard.js"></script>
+<script type="text/javascript" src="assets/fileupload/jquery.iframe-transport.js"></script>
+<script type="text/javascript" src="assets/fileupload/jquery.ui.widget.js"></script> 
+<script type="text/javascript"src="assets/fileupload/jquery.fileupload.js"></script>
 <script type="text/javascript">
-	$(function() {
-		$("[data-toggle='tooltip']").tooltip();
+	$('#chooseFile').click(function() {
+		$('#files').click();
+
+	});
+	$('#cancel').click(function() {
+		if (confirm("是否取消上传?")) {
+			reload();
+		}
 	});
 </script>
 </html>

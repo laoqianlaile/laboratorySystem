@@ -43,7 +43,7 @@ public interface IEmployeeService {
 
 	public String updEmployeeState(String ID,int state);
 
-	List<Map<String, Object>> getEmployeeinfo(String employeeID);
+	List<Map<String, Object>> getEmployeeinfo(HttpSession session);
 
 	String editInfo(String employeeID, String employeeName, String sex,
 			String phoneNumber, String email, String address);

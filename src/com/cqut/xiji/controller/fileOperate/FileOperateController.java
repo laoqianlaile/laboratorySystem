@@ -79,7 +79,6 @@ public class FileOperateController {
 		return JSONObject.fromObject(result);
 	}
 
-
 	/**
 	 * 
      * @discription 文件上传
@@ -648,7 +647,7 @@ public class FileOperateController {
 	public String onlinePreview(String ID, HttpServletRequest request) {
 		List<Map<String, Object>> FileDecryptPath = service
 				.getFileDecryptPath(ID);
-		if (FileDecryptPath != null) {
+		if (FileDecryptPath != null && FileDecryptPath.size() > 0) {
 			String filePath = FileDecryptPath.get(0).get("path").toString();
 			PropertiesTool pe = new PropertiesTool();
 			String path = pe.getSystemPram("filePath") + "\\";

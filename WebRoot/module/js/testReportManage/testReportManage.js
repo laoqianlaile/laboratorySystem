@@ -8,153 +8,181 @@ var param = {
 
 // 初始化数据
 $(function() {
-	$("#table").bootstrapTable({
-		striped : false,// 隔行变色效果
-		pagination : true,// 在表格底部显示分页条
-		pageSize : 10,// 页面数据条数
-		pageNumber : 1,// 首页页码
-		pageList : [ 10 ,20 ],// 设置可供选择的页面数据条数
-		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
-		cache : false,// 禁用 AJAX 数据缓存
-		sortName : 'ID',// 定义排序列
-		sortOrder : 'ASC',// 定义排序方式
-		url : 'testReportController/getTestReportWithPaging.do',// 服务器数据的加载地址
-		sidePagination : 'server',// 设置在哪里进行分页
-		contentType : 'application/json',// 发送到服务器的数据编码类型
-		dataType : 'json',// 服务器返回的数据类型
-		queryParams: function queryParams(params) { //请求服务器数据时,添加一些额外的参数
-			param.limit = params.limit;// 页面大小
-			param.offset = params.offset; // 偏移量
-			param.sort = params.sort; // 排序列名
-			param.order = params.order; // 排位方式
-			return param;
-		},
-	    queryParamsType: "limit", 
-		selectItemName : '',// radio or checkbox 的字段名
-		columns : [ {
-			checkbox : true,
-			width :"1%",// 宽度
-			formatter : function(value, row, index) {
-					 checkData(row);	 // 验证数据合理性
-			  }
-		},{
-			field: '',
-	        title: '序号',
-	        width:'1%',
-	        align:'center',
-	        valign:'middle',
-	        formatter: function (value, row, index) {
-	              return index+1;
-	        }
-		},{
-			field : 'ID',// 返回值名称
-			title : '检测报告ID',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : "10%",// 宽度
-			visible : false
-		},{
-			field : 'receiptlistCode',// 返回值名称
-			title : '交接单号',// 列名
-			align : 'center',// 水平居中显示
-		    valign : 'middle',// 垂直居中显示
-			width : "9%",// 宽度
-			
-		},{
-			field : 'projectID',// 返回值名称
-			title : '项目ID',// 列名
-			align : 'center',// 水平居中显示
-		    valign : 'middle',// 垂直居中显示
-			width : "10%",// 宽度
-			visible : false
-		},{
-			field : 'taskID',// 返回值名称
-			title : '任务ID',// 列名
-			align : 'center',// 水平居中显示
-		    valign : 'middle',// 垂直居中显示
-			width : "10%",// 宽度
-			visible : false
-		},{
-			field : 'fileID',// 返回值名称
-			title : '文件ID',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : "10%",// 宽度
-			visible : false
-	    },{
-			field : 'fileName',// 返回值名称
-			title : '报告名称',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : "10%",// 宽度
-		},{
-			field : 'versionNumber',// 返回值名称
-			title : '报告版本',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : "10%"// 宽度
-		},{
-			field : 'companyName',// 返回值名称
-			title : '委托单位',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width :"10%"// 宽度
-		},{
-			field : 'uploadTime',// 返回值名称
-			title : '上传时间',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : "10%"// 宽度
-		},{
-			field : 'stateEn',// 返回值名称
-			title : '审核状态',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : "10%",// 宽度
-			visible : false
-		},{
-			field : 'state',// 返回值名称
-			title : '审核状态',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : "10%",// 宽度
-			formatter : function(value, row, index) {
-				if (value == "二审未通过" || value == "三审未通过") {
-					return "<p style='color:#CC3300;margin-top:15px'>" + value + " </p>";
-				} else{
-					return value;
-				}
-			}
-		},{
-			field : 'dismissreason2',// 返回值名称
-			title : '二审意见',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : "10%"// 宽度
-		},{
-			field : 'dismissreason3',// 返回值名称
-			title : '三审意见',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : "10%"// 宽度
-		},{
-			field : 'remarks',// 返回值名称
-			title : '备注',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : "10%"// 宽度
-		},{
-			title : '操作',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : "10%",// 宽度
-			formatter : function(value, row, index) {
-				return "<img src ='module/img/download_icon.png'  onclick='fileDown(\""+row.fileID+"\")'  title='下载报告'  style='cursor:pointer;'></img> "
-				+"<img src ='module/img/edit_icon.png'  onclick='submitReport(\""+row.ID+"\",\""+row.taskID+"\")'   title='提交审核'  style='cursor:pointer;'></spimgan> "
-				+"<img src ='module/img/contractDetail_icon.png' onclick='showSendReportModal(\""+row.ID+"\")'  title='发送报告'  style='cursor:pointer;'></img> "
-			}
-		}]
-	});
+	$("#table")
+			.bootstrapTable(
+					{
+						striped : false,// 隔行变色效果
+						pagination : true,// 在表格底部显示分页条
+						pageSize : 10,// 页面数据条数
+						pageNumber : 1,// 首页页码
+						pageList : [ 10, 20 ],// 设置可供选择的页面数据条数
+						clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 // checkbox
+						cache : false,// 禁用 AJAX 数据缓存
+						sortName : 'completeTime',// 定义排序列
+						sortOrder : 'DESC',// 定义排序方式
+						url : 'testReportController/getTestReportWithPaging.do',// 服务器数据的加载地址
+						sidePagination : 'server',// 设置在哪里进行分页
+						contentType : 'application/json',// 发送到服务器的数据编码类型
+						dataType : 'json',// 服务器返回的数据类型
+						queryParams : function queryParams(params) { // 请求服务器数据时,添加一些额外的参数
+							param.limit = params.limit;// 页面大小
+							param.offset = params.offset; // 偏移量
+							param.sort = params.sort; // 排序列名
+							param.order = params.order; // 排位方式
+							return param;
+						},
+						queryParamsType : "limit",
+						selectItemName : '',// radio or checkbox 的字段名
+						columns : [
+								{
+									checkbox : true,
+									width : "1%",// 宽度
+									formatter : function(value, row, index) {
+										checkData(row); // 验证数据合理性
+									}
+								},
+								{
+									field : '',
+									title : '序号',
+									width : '1%',
+									align : 'center',
+									valign : 'middle',
+									formatter : function(value, row, index) {
+										return index + 1;
+									}
+								},
+								{
+									field : 'ID',// 返回值名称
+									title : '检测报告ID',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "10%",// 宽度
+									visible : false
+								},
+								{
+									field : 'receiptlistCode',// 返回值名称
+									title : '交接单号',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "9%",// 宽度
+
+								},
+								{
+									field : 'projectID',// 返回值名称
+									title : '项目ID',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "10%",// 宽度
+									visible : false
+								},
+								{
+									field : 'taskID',// 返回值名称
+									title : '任务ID',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "10%",// 宽度
+									visible : false
+								},
+								{
+									field : 'fileID',// 返回值名称
+									title : '文件ID',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "10%",// 宽度
+									visible : false
+								},
+								{
+									field : 'fileName',// 返回值名称
+									title : '报告名称',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "10%",// 宽度
+								},
+								{
+									field : 'versionNumber',// 返回值名称
+									title : '报告版本',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "10%"// 宽度
+								},
+								{
+									field : 'companyName',// 返回值名称
+									title : '委托单位',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "10%"// 宽度
+								},
+								{
+									field : 'uploadTime',// 返回值名称
+									title : '上传时间',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "10%"// 宽度
+								},
+								{
+									field : 'stateEn',// 返回值名称
+									title : '审核状态',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "10%",// 宽度
+									visible : false
+								},
+								{
+									field : 'state',// 返回值名称
+									title : '审核状态',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "10%",// 宽度
+									formatter : function(value, row, index) {
+										if (value == "二审未通过" || value == "三审未通过") {
+											return "<p style='color:#CC3300;margin-top:15px'>"
+													+ value + " </p>";
+										} else {
+											return value;
+										}
+									}
+								},
+								{
+									field : 'dismissreason2',// 返回值名称
+									title : '二审意见',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "10%"// 宽度
+								},
+								{
+									field : 'dismissreason3',// 返回值名称
+									title : '三审意见',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "10%"// 宽度
+								},
+								{
+									field : 'remarks',// 返回值名称
+									title : '备注',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "10%"// 宽度
+								},
+								{
+									title : '操作',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "10%",// 宽度
+									formatter : function(value, row, index) {
+										return "<img src ='module/img/download_icon.png'  onclick='fileDown(\""
+												+ row.fileID
+												+ "\")'  title='下载报告'  style='cursor:pointer;'></img> "
+												+ "<img src ='module/img/point.png'  onclick='submitReport(\""
+												+ row.ID
+												+ "\",\""
+												+ row.taskID
+												+ "\")'   title='提交审核'  style='cursor:pointer;width:18x;height:18px'></spimgan> "
+												+ "<img src ='module/img/contractDetail_icon.png' onclick='showSendReportModal(\""
+												+ row.ID
+												+ "\")'  title='发送报告'  style='cursor:pointer;'></img> "
+									}
+								} ]
+					});
 	uploadFile();
 });
 
@@ -179,15 +207,19 @@ function search() {
 function submitReport() {
 	var keyID = arguments[0], 
 	    taskID = arguments[1];
-	if (confirm("是否提交审核")) {
-		$.post("testReportController/submitReportCheck.do", {
+	if (confirm("是否提交审核?")) {
+		$.post("testReportController/submitReportCheck.do", 
+		{
 			ID : keyID
-		}, function(result) {
+		}, 
+		function(result) {
 			if (result == true || result == "true") {
-				$.post("testReportController/submitReport.do", {
+				$.post("testReportController/submitReport.do", 
+				{
 					ID : keyID,
 					taskID : taskID
-				}, function(result) {
+				}, 
+				function(result) {
 					if (result == true || result == "true") {
 						refresh();
 						alert("提交成功");
@@ -208,9 +240,11 @@ function submitReport() {
 function showSendReportModal() {
 	var testReportID = arguments[0];
 	if (confirm("确定发送报告?")) {
-		$.post("testReportController/setReportSendCheck.do", {
+		$.post("testReportController/setReportSendCheck.do", 
+		{
 			ID : testReportID
-		}, function(result) {
+		}, 
+		function(result) {
 			if (result == true || result == "true") {
 				$("#testReportID").text(testReportID);
 				$("#sendReport").modal("show");
@@ -224,10 +258,12 @@ function showSendReportModal() {
 // 确定发送
 function sendReportSure() {
 	var receiveMan = $.trim($("#receiveMan").val());
-	$.post("testReportController/setReportSendInfo.do", {
+	$.post("testReportController/setReportSendInfo.do", 
+	{
 		ID : $("#testReportID").text(),
 		receiveMan : receiveMan
-	}, function(result) {
+	}, 
+	function(result) {
 		if (result == true || result == "true") {
 			refresh();
 			alert("发送成功");
@@ -353,36 +389,37 @@ function checkFile(o) {
 // 上传文件(覆盖上传)
 function uploadFile() {
 	$("#files").fileupload({
-				autoUpload : true,
-				url : 'fileOperateController/upload.do',
-				dataType : 'json',
-				add : function(e, data) {
-					$("#ensure").click(function() {
-						data.submit();
-					});
-				},
-			}).bind('fileuploaddone',function(e, data) {
-						var fileID = JSON.parse(data.result);
-						if (fileID != null && fileID != "null" && fileID != "") {
-							var rows = $("#table").bootstrapTable('getSelections'), 
-							    fileVersionNumber = $("#fileVersionNumber").val(), 
-							    fileVersionInfo = $("#fileVersionNumber").val(),
-							    fileRemarks = $("#fileRemarks").val();
-							$.post("testReportController/updateTestReport.do",
-									{
-										ID : rows[0].ID,
-										taskID : rows[0].taskID,
-										versionNumber : fileVersionNumber,
-										versionInfo : fileVersionInfo,
-										remarks : fileRemarks
-									}, function(result) {
-										reload();
-									});
-						} else {
-							alert("上传失败");
-						} 
-					});
-
+		autoUpload : true,
+		url : 'fileOperateController/upload.do',
+		dataType : 'json',
+		add : function(e, data) {
+		$("#ensure").click(function() {
+			data.submit();
+			});
+		},
+	}).bind('fileuploaddone',function(e, data) {
+    	var fileID = JSON.parse(data.result);
+		if (fileID != null && fileID != "null" && fileID != "") {
+		var rows = $("#table").bootstrapTable('getSelections'), 
+		fileVersionNumber = $("#fileVersionNumber").val(), 
+		fileVersionInfo = $("#fileVersionNumber").val(),
+		fileRemarks = $("#fileRemarks").val();
+		$.post("testReportController/updateTestReport.do",
+		{
+			ID : rows[0].ID,
+			taskID : rows[0].taskID,
+			versionNumber : fileVersionNumber,
+			versionInfo : fileVersionInfo,
+			remarks : fileRemarks
+			}, 
+			function(result) {
+				reload();
+				});
+		} else {
+			alert("上传失败");
+			} 
+		});
+	
 	// 文件上传前触发事件,如果需要额外添加参数可以在这里添加
 	$('#files').bind('fileuploadsubmit', function(e, data) {
 		data.formData = {
@@ -404,13 +441,17 @@ function recover() {
 		alert("只能选择一条数据");
 		return;
 	} else {
-		$.post("testReportController/recoverCheck.do", {
+		$.post("testReportController/recoverCheck.do", 
+		{
 			ID : rows[0].ID
-		}, function(result) {
+		},
+		function(result) {
 			if (result == true || result == "true") {
-				$.post("fileOperateController/getFileDecryptPath.do", {
+				$.post("fileOperateController/getFileDecryptPath.do",
+				{
 					ID : rows[0].fileID
-				}, function(result) {
+				}, 
+				function(result) {
 					result = JSON.parse(result);
 					if (result == null || result == "null" || result == "") {
 						alert("没有记录");
@@ -418,9 +459,11 @@ function recover() {
 						var path = result[0].path;
 						var i = path.lastIndexOf("\\");
 						path = path.substring(i + 1, length);
-						$.post("fileOperateController/getFilesInfo.do", {
+						$.post("fileOperateController/getFilesInfo.do", 
+						{
 							ID : rows[0].fileID
-						}, function(fileInfos) {
+						}, 
+						function(fileInfos) {
 							fileInfos = JSON.parse(fileInfos);
 							if (fileInfos != null && fileInfos != "null" && fileInfos != "") {
 								$("#chooseFile").removeAttr("disabled");

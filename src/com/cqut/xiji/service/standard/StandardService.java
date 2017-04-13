@@ -155,7 +155,7 @@ public class StandardService extends SearchService implements IStandardService{
 			condition += " and standard.APPLICATIONTYPE = " + APPLICATIONTYPE;
 		}
 		
-		String joinEntity =" LEFT JOIN standardtype on standardtype.ID = standard.ID ";
+		String joinEntity =" LEFT JOIN standardtype ON standardtype.ID = standard.type ";
 		
 		List<Map<String, Object>> result = originalSearchWithpaging(properties, tableName, joinEntity, null, condition, false, null, sort, order, index, pageNum);
 		int count = getForeignCountWithJoin(joinEntity, null, condition, false);
@@ -171,7 +171,7 @@ public class StandardService extends SearchService implements IStandardService{
 	public String upStandard(String ID,String STANDARDCODE, String STANDARDNAME,
 			String TYPE, String SCOPE, String APPLICATIONTYPE,
 			String EDITSTATE,String SUGGEST, String STATE, String ABANDONAPPLYMAN,
-			String ABANDONAPPLYTIME, String ABANDONAPPLYREASON) {
+			 String ABANDONAPPLYREASON) {
 		
 		Standard standard = entityDao.getByID(ID, Standard.class);
 		

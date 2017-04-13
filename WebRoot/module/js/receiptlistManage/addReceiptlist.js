@@ -1101,57 +1101,92 @@ function editFile(fileID) {
 }
 // 删除交接单的文件
 function deleteFile(fileID) {
-	var data;
-	$.ajax({
-		url : '/laboratorySystem/fileInformationController/deleteFileByID.do',
-		dataType : "json",
-		async : false,
-		data : {
-			fileID : fileID
-		},
-		success : function(o) {
-			data = JSON.parse(o); // error
-			if (data == true) {
-				
-				sweetAlert({
-					title:"文件删除成功",
-					type:"success",
-					timer:100
-					});
-			} else {
-				sweetAlert("","文件删除失败 ","error");
-			}
-		},
-		error : function() {
-			return false;
-		}
-	});
-	$('#fileTable').bootstrapTable('refresh', null);
+	sweetAlert({
+		  title: "Are you sure?",
+		  text: "是否删除交接单文件!",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "是",
+		  cancelButtonText: "否"
+		
+		}, function(isConfirm){
+			if(isConfirm){
+				var data;
+				$.ajax({
+					url : '/laboratorySystem/fileInformationController/deleteFileByID.do',
+					dataType : "json",
+					async : false,
+					data : {
+						fileID : fileID
+					},
+					success : function(o) {
+						data = JSON.parse(o); // error
+						if (data == true) {
+							
+							sweetAlert({
+								title:"文件删除成功",
+								type:"success",
+								timer:100
+								});
+						} else {
+							sweetAlert("","文件删除失败 ","error");
+						}
+					},
+					error : function() {
+						sweetAlert("","文件删除失败","error");
+						return false;
+					}
+				});
+				$('#fileTable').bootstrapTable('refresh', null);
 
+			}else{
+				
+			}
+			});
+	
+	
 }
 // 删除任务
 function deleteTask(taskID) {
-	var data;
-	$.ajax({
-		url : '/laboratorySystem/receiptlistController/deleteTaskByID.do',
-		dataType : "json",
-		async : false,
-		data : {
-			taskID : taskID
-		},
-		success : function(o) {
-			data = JSON.parse(o); // error
-			if (data == true) {
-				sweetAlert("任务删除成功 ");
-			} else {
-				sweetAlert("","任务删除失败","error");
+	sweetAlert({
+		  title: "Are you sure?",
+		  text: "是否删除任务！",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "是",
+		  cancelButtonText: "否"
+		
+		}, function(isConfirm){
+			if(isConfirm){
+				var data;
+				$.ajax({
+					url : '/laboratorySystem/receiptlistController/deleteTaskByID.do',
+					dataType : "json",
+					async : false,
+					data : {
+						taskID : taskID
+					},
+					success : function(o) {
+						data = JSON.parse(o); // error
+						if (data == true) {
+							sweetAlert("任务删除成功 ");
+						} else {
+							sweetAlert("","任务删除失败","error");
+						}
+					},
+					error : function() {
+						sweetAlert("","任务删除失败","error");
+						return false;
+					}
+				});
+				$('#sampleTable').bootstrapTable('refresh', null);
+			}else{
+				
 			}
-		},
-		error : function() {
-			return false;
-		}
-	});
-	$('#sampleTable').bootstrapTable('refresh', null);
+			});
+	
 }
 // 检查任务数据和文件数据是否合理
 function checkDate(data, who) {

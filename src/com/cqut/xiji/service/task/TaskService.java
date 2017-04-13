@@ -551,19 +551,20 @@ public class TaskService extends SearchService implements ITaskService {
 	@Override
 	public Map<String,Object> getTaskWithPaging(int limit, int offset, String order,
 			String sort, String receiptlistCode, String testProjectName, String sampleName,
-			String beginTime, String endTime, String testProcess){
+			String beginTime, String endTime, String testProcess ,String uploader){
 		int index = limit;
 		int pageNum = offset / limit ;
 		String tableName = " ( "+
 				" SELECT "+
 				"b.ID AS ID,"+
 				"b.startTime AS startTime,"+
-				"b.endTime AS endTime,"+
+				"b.completeTime AS completeTime,"+
 				"b.detectstate AS detectstate,"+
 				"b.receiptlistCode AS receiptlistCode,"+
 				"b.levelTwo AS levelTwo,"+
 				"b.testProjectName AS testProjectName,"+
 				"b.sampleName AS sampleName,"+
+				"b.detecotorID AS detecotorID,"+
 				"b.detector AS detector,"+
 				"employee.employeeName AS custodian"+
 			" FROM "+
@@ -572,12 +573,13 @@ public class TaskService extends SearchService implements ITaskService {
 						"a.ID AS ID,"+
 						"a.custodian AS custodian,"+
 						"a.startTime AS startTime,"+
-						"a.endTime AS endTime,"+
+						"a.completeTime AS completeTime,"+
 						"a.detectstate AS detectstate,"+
 						"a.receiptlistCode AS receiptlistCode,"+
 						"a.levelTwo AS levelTwo,"+
 						"a.testProjectName AS testProjectName,"+
 						"a.sampleName AS sampleName,"+
+						"a.detector AS detecotorID,"+
 						"employee.employeeName AS detector"+
 					" FROM "+
 						" ( "+
@@ -585,7 +587,7 @@ public class TaskService extends SearchService implements ITaskService {
 								"task.ID AS ID,"+
 								"task.custodian AS custodian,"+
 								"task.startTime AS startTime,"+
-								"task.endTime AS endTime,"+
+								"task.completeTime AS completeTime,"+
 								"task.detectstate AS detectstate,"+
 								"task.levelTwo AS levelTwo,"+
 								"receiptlist.receiptlistCode AS receiptlistCode,"+
@@ -606,17 +608,17 @@ public class TaskService extends SearchService implements ITaskService {
 		String[] properties = new String[] {
 				 "c.ID AS ID",
 				 "DATE_FORMAT(startTime,'%Y-%m-%d %H:%i:%s') AS startTime",
-				 "DATE_FORMAT(endTime,'%Y-%m-%d %H:%i:%s') AS endTime",
+				 "DATE_FORMAT(completeTime,'%Y-%m-%d %H:%i:%s') AS completeTime",
 				 "IF (c.detectstate = 0,'无报告',IF (c.detectstate = 1,'未提交',IF (c.detectstate = 2,'二审核中',IF (c.detectstate=3,'二审未通过',IF (c.detectstate = 4,'三审核中',"+
 				 "IF (c.detectstate = 5,'三审未通过',IF (c.detectstate = 6,'审核通过','其它'))))))) AS detectstate",
 				 "c.receiptlistCode AS receiptlistCode",
 				 "c.testProjectName AS testProjectName",
 				 "c.sampleName AS sampleName",
-				 "c.detector AS detector",
+				 "c.detector AS detecotor",
 				 "c.custodian AS custodian",
 				 "employee.employeeName AS levelTwo"};
 		String joinEntity = " LEFT JOIN employee ON c.levelTwo = employee.ID ";
-		String condition = " 1 = 1 ";
+		String condition = " 1 = 1 AND c.detecotorID ='" + uploader + "'";
 		
 		if (receiptlistCode != null && !receiptlistCode.isEmpty()) {
 			condition += " and receiptlistCode like '%" + receiptlistCode + "%'";
@@ -631,7 +633,7 @@ public class TaskService extends SearchService implements ITaskService {
 			condition += " and startTime >'" + beginTime + "'";
 		}
 		if (endTime != null && !endTime.isEmpty()) {
-			condition += " and endTime <'" + endTime + "'";
+			condition += " and completeTime <'" + endTime + "'";
 		}
 		if (testProcess != null && !testProcess.isEmpty()) {
 			if (!testProcess.equals("7")) {
@@ -924,6 +926,13 @@ public class TaskService extends SearchService implements ITaskService {
 			String detectstate = result.get("detectstate").toString();
 			if (detectstate.equals("1")) {
 				tk.setDetectstate(2);
+				Date now = new Date(System.currentTimeMillis());
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				try {
+					tk.setCompleteTime(dateFormat.parse(dateFormat.format(now)));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 				String testReportID = result.get("testReportID").toString();
 				TestReport tr = entityDao.getByID(testReportID,TestReport.class);
 				String receiptlistID = result.get("receiptlistID").toString();

@@ -145,41 +145,68 @@ function viewDetailed(){
 }
 /* 新增弹窗  */
 function delAccounts(){
-	if(confirm("确定要删除？")){
-		 accountsID = arguments[0];
-		 $.ajax({
-				url: 'accountsController/delAccounts.do',
-				data:{
-					accountsID : accountsID
-				},
-				success:function(o){
-					if(o <= 0){
-						alert("修改失败");
+	accountsID = arguments[0];
+	swal({
+		  title: "确定要删除 ?",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "确定",
+		  closeOnConfirm: false
+		},
+		function(){
+			 $.ajax({
+					url: 'accountsController/delAccounts.do',
+					data:{
+						accountsID : accountsID
+					},
+					success:function(o){
+						if (o <= 0) {
+							swal({title:"删除失败",type:"error"});
+						} else {
+							swal({title:"删除成功",type:"success"});
+							refresh();
+						}
 					}
-					refresh();
-				}
-         });
-	 }
+	         });
+		});
 }
 
 /* 新增弹窗  */
 function openAddModal(){
 	fillContract("add_contractCode");
+	var loginInfo =  getLoginerInfo();
+	$('#add_employeeName').val(loginInfo[0].employeeName);
+	$('#add_employeeID').val(loginInfo[0].employeeID);
 	$('#addModal').modal('show');
+}
+
+// 判空处理
+function checkNull(){
+	if(arguments[0].contractID == ""){
+		swal({title:"合同编号不能为空",type:"warning"});
+		return true;
+	}
+	if(arguments[0].employeeID == ""){
+		swal({title:"报账专员不能为空",type:"warning"});
+		return true;
+	}
 }
 /* 新增账目  */
 function addAccounts(){
 	var parame = {};
 	
 	parame.contractID = $('#add_contractCode').val();
-	parame.employeeID = $('#add_employeeName').val();
+	parame.employeeID = $('#add_employeeID').val();
 	parame.remarks = $('#add_remarks').val();
+	if(checkNull(parame))return;
+	
 	$.ajax({
 		  url:'accountsController/addAccounts.do',
 		  data:parame,
 		  success:function(o){
 			  if(o<=0){
-				  alert("修改失败");
+				  swal({title:"修改失败",type:"error"});
 			  }
 			  $('#addModal').modal('hide');
 			  refresh();
@@ -189,7 +216,8 @@ function addAccounts(){
 }
 /* 合同信息html  */
 function fillContract(id){
-	var html = "";
+	$('#'+id+'').empty();
+	var html = '<option ></option>';
 	for(var i = 0 ; i < ContractInfo.data.length; i++){
 		html += "<option value ='"+ ContractInfo.data[i].contractID +"'>"+ ContractInfo.data[i].contractCode +"</option>";
 	}
@@ -273,6 +301,23 @@ function getContract(){
 	var data;
 	$.ajax({
 		url : 'contractController/getContract.do',
+		dataType : "json",
+		async : false,
+		data : {},
+		success : function(o) {
+			data = JSON.parse(o);
+		},
+		error : function() {
+			return false;
+		}
+	});
+	return data;
+}
+/*获取当前session*/
+function getLoginerInfo(){
+	var data;
+	$.ajax({
+		url : 'employeeController/getEmployeeinfo.do',
 		dataType : "json",
 		async : false,
 		data : {},

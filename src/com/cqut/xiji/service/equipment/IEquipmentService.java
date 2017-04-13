@@ -69,7 +69,7 @@ public interface IEquipmentService {
 	 * @param remarks
 	 * @return
 	 */
-	public String updEquipment(String ID, String equipmentCode,
+	public int updEquipment(String ID, String equipmentCode,
 			String equipmentName, String equipmentType, String model,
 			String department, int useYear, String factoryCode,
 			String credentials, String effectiveTime, String employeeID,

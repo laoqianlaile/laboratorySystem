@@ -227,31 +227,38 @@ function delData(){
 		ids += "ID = '" + data[i].ID + "' or ";
 		message += data[i].equipmentName + " or ";
 	}
-	if (confirm(message.substring(0, (message.length-3)))) {
-		var ajaxParameter = {
-				equipmentRepairIds:ids.substring(0, (ids.length-3))	
-		};
-		
-		$.ajax({
-		  url:'equipmentRepairController/delEquipmentRepair.do',
-		  type:"post",
-		  data:ajaxParameter,
-		  success:function(o){
-			  switch (o) {
-				case '1':swal("删除成功！");
-					refrehTable();
-					break;
-				case '0':swal("删除失败！");
-					break;
-				default:swal("出现未知错误，请重试！");
-					break;
+	var ajaxParameter = {
+		equipmentRepairIds:ids.substring(0, (ids.length-3))	
+	};
+	swal({
+		title: "确认删除：" + message.substring(0, (message.length-3)),
+		type: "warning",
+		showCancelButton: true,
+		confirmButtonColor: "#DD6B55",
+		confirmButtonText: "确定",
+		closeOnConfirm: false
+		},
+		function(){	
+			$.ajax({
+			  url:'equipmentRepairController/delEquipmentRepair.do',
+			  type:"post",
+			  data:ajaxParameter,
+			  success:function(o){
+				  switch (o) {
+					case '1':swal("删除成功！");
+						setTimeout(refresh, 1000);
+						break;
+					case '0':swal("删除失败！");
+						break;
+					default:swal("出现未知错误，请重试！");
+						break;
+				  }
+			  },
+			  error : function() {
+				return false;
 			  }
-		  },
-		  error : function() {
-			return false;
-		  }
 		});
-	}
+	});
 }
 
 /**
@@ -348,11 +355,20 @@ function addClick(){
 	//给input赋值
 	$(".equipmentName ul li").click(function(){
 		 var name = $(this).attr("value");
+		 if (name == null || name.trim() == "" || name == "undefined") {
+			 name = "";
+			}
 		 $("#add_equipmentName").val(name);
 		 var ID =  $(this).attr("class");
 		 var code =  $(this).attr("title");
+		 if (ID == null || ID.trim() == "" || ID == "undefined") {
+			 ID = "";
+			}
+		 if (code == null || code.trim() == "" || code == "undefined") {
+			 code = "";
+			}
 		 $('#add_equipmentName').attr({'name' : "" + ID + ""});
-		 $('#add_factoryCode').attr({'value' : "" + code + ""});
+		 $("#add_factoryCode").val(code);
 		 $('#add_factoryCode').attr("disabled",true);
 		 $('#add_equipmentName').attr({'value' : "" + name + ""});
 		 $(".equipmentName").hide();
@@ -366,8 +382,14 @@ function addClick(){
 	//给input赋值
 	$(".employeeN ul li").click(function(){
 		 var name =  $(this).attr("value");
+		 if (name == null || name.trim() == "" || name == "undefined") {
+			 name = "";
+			}
 		 $("#add_employeeName").val(name);
 		 var ID =  $(this).attr("class");
+		 if (ID == null || ID.trim() == "" || ID == "undefined") {
+			 ID = "";
+			}
 		 $('#add_employeeName').attr({'name' : "" + ID + ""});
 		 $('#add_employeeName').attr({'value' : "" + name + ""});
 		 $(".employeeN").hide();
@@ -473,11 +495,20 @@ function editClick(){
 	//给input赋值
 	$(".equipmentName ul li").click(function(){
 		 var name = $(this).attr("value");
+		 if (name == null || name.trim() == "" || name == "undefined") {
+			 name = "";
+			}
 		 $("#edit_equipmentName").val(name);
 		 var ID =  $(this).attr("class");
 		 var code =  $(this).attr("title");
+		 if (ID == null || ID.trim() == "" || ID == "undefined") {
+			 ID = "";
+			}
+		 if (code == null || code.trim() == "" || code == "undefined") {
+			 code = "";
+			}
 		 $('#edit_equipmentName').attr({'name' : "" + ID + ""});
-		 $('#edit_factoryCode').attr({'value' : "" + code + ""});
+		 $('#edit_factoryCode').val(code);
 		 $('#edit_factoryCode').attr("disabled",true);
 		 $('#edit_equipmentName').attr({'value' : "" + name + ""});
 		 $(".equipmentName").hide();
@@ -491,8 +522,14 @@ function editClick(){
 	//给input赋值
 	$(".employeeN ul li").click(function(){
 		 var name =  $(this).attr("value");
+		 if (name == null || name.trim() == "" || name == "undefined") {
+			 name = "";
+			}
 		 $("#edit_employeeName").val(name);
 		 var ID =  $(this).attr("class");
+		 if (ID == null || ID.trim() == "" || ID == "undefined") {
+			 ID = "";
+			}
 		 $('#edit_employeeName').attr({'name' : "" + ID + ""});
 		 $('#edit_employeeName').attr({'value' : "" + name + ""});
 		 $(".employeeN").hide();
@@ -567,6 +604,7 @@ function add(){
 	}
 	
 	parame.equipmentID = equipmentID;
+	parame.equipmentName = equipmentName;
 	parame.beforeStatus = beforeStatus;
 	parame.afterStatus = afterStatus;
 	parame.employeeID = employeeID;
@@ -628,7 +666,6 @@ function openModal(){
 
  //修改方法 
 function edit(){
-	swal("edit");
 	var data = $('#table').bootstrapTable('getSelections');
 	var ID = data[0].ID; 
 	if (!ID || typeof(ID) == "undefined" || ID.trim() == "") 
@@ -695,6 +732,7 @@ function edit(){
 		
 		parame.ID = ID;
 		parame.equipmentID = equipmentID;
+		parame.equipmentName = equipmentName;
 		parame.beforeStatus = beforeStatus;
 		parame.afterStatus = afterStatus;
 		parame.employeeID = employeeID;
@@ -717,11 +755,11 @@ function edit(){
 					break;
 				case '-8':swal("员工名与员工ID不相符！");
 					break;
-				case '1':swal("新增成功！");
+				case '1':swal("修改成功！");
 					$('#editModal').modal('hide');
 					refrehTable();
 					break;
-				case '0':swal("新增失败！");
+				case '0':swal("修改失败！");
 					break;
 				default:swal("出现未知错误，请重试！");
 					break;
