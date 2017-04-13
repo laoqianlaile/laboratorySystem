@@ -8,8 +8,6 @@ $(function(){
 
 
 function init(){
-	
-
 	$(function(){
 		$('#table').bootstrapTable({
 			striped:true, // 隔行变色效果
@@ -144,9 +142,6 @@ function refresh(){
 	$('#table').bootstrapTable('refresh', null);
 }
 
-
-
-
 /* 查询方法 */
 function query(){
 	init();
@@ -155,30 +150,34 @@ function query(){
 
 /* 删除流水账目 */
 function delJouranlAccounts(){
-	if(confirm("确定要删除？")){
-		jouranlAccountsID = arguments[0];
-		 $.ajax({
+	jouranlAccountsID = arguments[0];
+	swal({
+		  title: "确定要删除 ?",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "确定",
+		  closeOnConfirm: false
+		},
+		function(){
+			$.ajax({
 				url: 'jouranlAccountController/delJouranlAccounts.do',
 				data:{
 					jouranlAccountsID : jouranlAccountsID
 				},
 				success:function(o){
-					if(o <= 0){
-						alert("删除失败");
+					if (o <= 0) {
+						swal({title:"删除失败",type:"error"});
+					} else {
+						swal({title:"删除成功",type:"success"});
+						refresh();
 					}
-					refresh();
 				}
         });
-	 }     
+		});
 }
 
-/* 新增选择  */
-
-function  openChooseModal(){
-	$('#addChooseModal').modal('show');
-}
-
-/* 新增收入  */
+/* 新增收入/支出  */
 function addIncomeorPayment(type){
 	if(type == 0){
 		openAddModal("Income");
@@ -188,10 +187,6 @@ function addIncomeorPayment(type){
 	}
 }
 
-/* 新增支出 */
-function addPayMent(){
-	
-}
 /* 拼接合同细项  */
 function playFineItem(){
 	var FineItemData = getContractFineItem();
@@ -206,6 +201,7 @@ function playFineItem(){
 }
 /* 新增弹窗 */
 function openAddModal(isIncome){
+	// 填写合同信息
 	for(var i = 0 ; i < ContractInfo.data.length; i++){
 		if(ContractInfo.contractID === ContractInfo.data[i].contractID){ //填充数据;
 			$('#add_contractCode').val(ContractInfo.data[i].contractCode);
@@ -213,12 +209,17 @@ function openAddModal(isIncome){
 			break;
 		}
 	}
-	var FineItemhtml = playFineItem();
-	if(isIncome !== "Income" && FineItemhtml === null ){
-		alert("没有合同细项,请确认是否操作正确");
-		return;
-	}
-	$('#add_contractFineItem').html(FineItemhtml);
+	
+	// 如果是支出判断是否有合同细项，没有则不能新增
+		var FineItemhtml = playFineItem();
+		
+		if(isIncome === "PayMent" && FineItemhtml === null ){
+			swal("没有合同细项,请确认是否操作正确");
+			return;
+		}
+		$('#add_contractFineItem').html(FineItemhtml);
+	
+	// 隐藏合同细项选项
 	if(isIncome === "Income"){
 		$("#displayFineItem").hide();
 	}
@@ -228,6 +229,7 @@ function openAddModal(isIncome){
 	
 	$('#addModal').modal('show');
 }
+
 
 /* 新增流水账 */
 function addJouranlAccounts(){
@@ -245,6 +247,31 @@ function addJouranlAccounts(){
 		parame.isIncome = 1;
 	}
 	parame.remarks = $('#add_remarks').val();
+	
+	if(parame.contractID == "" || parame.contractID == null){
+		swal({title:"合同未获取",type:"warning"});
+		return;
+	}
+	if(parame.employeeID == "" || parame.employeeID == null){
+		swal({title:"报账专员未获取",type:"warning"});
+		return;
+	}
+	if(parame.invoice == "" || parame.invoice == null){
+		swal({title:"发票编码不能为空",type:"warning"});
+		return;
+	}
+	if(parame.money == "" || parame.money == null ){
+		swal({title:"金额不能不为空",type:"warning"});
+		return;
+	}
+	if( isNaN(parame.money)){
+		swal({title:"金额只能是数字",type:"warning"});
+		return;
+	}
+	if( parame.money < 0){
+		swal({title:"金额不能为负",type:"warning"});
+		return;
+	}
 	
 	$.ajax({
 	  url:'jouranlAccountController/addJouranlAccounts.do',
@@ -271,15 +298,6 @@ function openEditModal(){
 	$('#jouranlAccountID').val(arguments[0].jouranlAccountID);
 	$('#edit_invoice').val(arguments[0].invoice);
 	$('#edit_money').val(arguments[0].money);
-	//单选按钮
-	if(arguments[0].isIncome === "收入"){
-		$('#edit_isIncome').val(0);
-		$("input:radio[value='0']").click();
-	}
-	else{
-		$('#edit_isIncome').val(1);
-		$("input:radio[value='1']").click();
-	}
 	
 	$('#edit_remarks').val(arguments[0].remarks);
 	
@@ -295,7 +313,27 @@ function editJouranlAccounts(){
 	parame.money= $('#edit_money').val();
 	parame.isIncome = $('input[name="edit_isIncome"]:checked').val();
 	parame.remarks= $('#edit_remarks').val();
-	
+
+	if(parame.jouranlAccountsID == "" || parame.jouranlAccountsID == null){
+		swal({title:"流水账号未获取",type:"warning"});
+		return;
+	}
+	if(parame.invoice == "" || parame.invoice == null){
+		swal({title:"发票编码不能为空",type:"warning"});
+		return;
+	}
+	if(parame.money == "" || parame.money == null ){
+		swal({title:"金额不能不为空",type:"warning"});
+		return;
+	}
+	if( isNaN(parame.money)){
+		swal({title:"金额只能是数字",type:"warning"});
+		return;
+	}
+	if( parame.money < 0){
+		swal({title:"金额不能为负",type:"warning"});
+		return;
+	}
 	$.ajax({
 		  url:'jouranlAccountController/upJouranlAccounts.do',
 		  data:parame,
@@ -317,16 +355,7 @@ function reSetRefresh(){
 	document.getElementById("checkTime2").value="";
 	query();
 }
-function isLogin(){
-	 islogin = $('#uploaderID').val();
-	 if(islogin === null || islogin === "" || islogin === "null"){
-		 alert("您还没登录， 请先登录");
-		 return false;
-	 }
-	 else{
-		 return true;
-	 }
-}
+
 /* 详细跳转 */
 function viewDetailed(){
 	window.location.href= window.location.href.split("?")[0].replace('jouranlAccounts.jsp','paymentDetail.jsp') + '?jouranlAccountID='+arguments[0]+'&contractIDs='+ContractInfo.contractID;

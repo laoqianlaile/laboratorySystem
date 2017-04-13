@@ -9,7 +9,16 @@ $(function(){
 	});
 	
 });
+// 回车登录
+$(function(){ 
+	$('input').keyup(function(event){
+		if(event.keyCode === 13){
+			login();
+		}
+	});
+ }); 
 
+// 登录
 function login(){
 	var loginName = $('#username').val();
 

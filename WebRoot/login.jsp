@@ -45,7 +45,9 @@ catch(Exception e){
 	<link rel="stylesheet" href="module/css/bootstrap.min.css">	
 	<link rel="stylesheet" type="text/css" href="module/css/login/login.css">
 	<link rel="stylesheet" type="text/css" href="module/css/login/style.css">
-	
+	<!-- 提示弹框 -->
+	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+	<script src="module/js/sweetalert.min.js"></script>
 
   </head>
   
@@ -99,7 +101,7 @@ catch(Exception e){
              </div>
              <div class="btnimg">
              	
-               <button class="btn btn-info" name="login"  onclick="login()" >登录</button>
+               <button class="btn btn-info" id = "loginbtn" name="login"  onclick="login()" >登录</button>
                
              </div>
            </div>

@@ -115,6 +115,27 @@
 	margin: 2%;
 	text-align: center;
 }
+#displayChecked .spanTag{
+	border: 1px solid #a5d24a;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    display: block;
+    float: left;
+    padding: 5px;
+    text-decoration: none;
+    background: #cde69c;
+    color: #638421;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-family: helvetica;
+    font-size: 13px;
+}
+#displayChecked .spanTag a{
+	font-weight: bold;
+    color: #82ad2b;
+    text-decoration: none;
+    font-size: 11px;
+}
 </style>
 <body>
 	<div class="container" style="width: 100%;">
@@ -203,7 +224,7 @@
 							</div>
 						</div>
 						<div class="col-md-12 col-xs-12" style="padding-bottom:10px;">
-							<div class="col-md-6 col-xs-6 ">
+							<div class="col-md-6 col-xs-6 " style="overflow-y:scroll;">
 								<label class="labelName">所需仪器</label>
 								<div id="displayChecked" style="width: 100%;height: 100px;border: 1px solid;"></div>
 							</div>
