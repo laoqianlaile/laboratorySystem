@@ -72,6 +72,12 @@ public class ReceiptlistController{
 		Map<String, Object> result = service.getReceiptlistWithPaging(reCode, coCode, companyName, reType, linkMan, startTime, endTime, state, limit, offset, order, sort);
 		return JSONObject.fromObject(result);
 	}
+	@RequestMapping("/getsecretWithPaging")  
+    @ResponseBody
+	public JSONObject getsecretWithPaging(String reCode,String coCode,String companyName,String reType,String linkMan,String startTime,String endTime,String classifiedLevel,int limit, int offset, String order, String sort){
+		Map<String, Object> result = service.getsecretWithPaging(reCode, coCode, companyName, reType, linkMan, startTime, endTime, classifiedLevel, limit, offset, order, sort);
+		return JSONObject.fromObject(result);
+	}
 	
 	/**
 	 * 
