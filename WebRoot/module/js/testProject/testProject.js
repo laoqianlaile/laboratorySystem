@@ -342,8 +342,8 @@ function query() {
 
 function addModal() {
 	
-	getDepartment("add_DEPARTMENTID"); //从数据库里获取部门信息
-	getStandard("add_STANDARDID");	// 从数据库里获取标准信息
+	getDepartment("add_DEPARTMENTID"); //从数据库里获取部门信息填充
+	getStandard("add_STANDARDID");	// 从数据库里获取标准信息填充
 	
 	$('#addModal').modal('show');
 	
@@ -359,7 +359,7 @@ function checkNull(){
 		swal({title:"英文名称不能为空",  type:"warning",});
 		return true;
 	}
-	if(arguments[0].DEPARTMENTID == ""){
+	if(arguments[0].DEPARTMENTID == "" || arguments[0].DEPARTMENTID == null){
 		swal({title:"所属科室不能为空",  type:"warning",});
 		return true;
 	}
@@ -367,7 +367,7 @@ function checkNull(){
 		swal({title:"坏境要求不能为空",  type:"warning",});
 		return true;
 	}
-	if(arguments[0].STANDARDID == ""){
+	if(arguments[0].STANDARDID == "" || arguments[0].STANDARDID == null){
 		swal({title:"所属标准不能为空",  type:"warning",});
 		return true;
 	}
@@ -485,7 +485,7 @@ function delData() {
 		});
 }
 
-/* 修改方法 */
+/* 修改方法 
 function openEditModal(){
 	
 	$("input#add_EQUIPMENT").removeAttr("checked");
@@ -520,9 +520,9 @@ function openEditModal(){
 	
 	
 	$('#editModal').modal('show');
-}
+}*/
 
-
+/*
 function editTestProject(){
 	
 	var parame = {};
@@ -543,9 +543,9 @@ function editTestProject(){
 	var total = getTestTatol("edit").ids;
 	
 	parame.EQUIPMENTID = total;
-	/*$('input[name="EQUIPMENTID"]:checked').each(function(){
+	$('input[name="EQUIPMENTID"]:checked').each(function(){
 		parame.EQUIPMENTID += ($(this).val()) + ",";
-	});*/
+	});
 	
 	parame.describes = ($('#edit_DESCRIBE').val());
 	parame.remarks = ($('#edit_REMARKS').val());
@@ -562,7 +562,7 @@ function editTestProject(){
 		}
 
 	});
-}
+}*/
 
 // 获取部门信息
 function getDepartment(id) {
@@ -578,7 +578,6 @@ function getDepartment(id) {
 					$('#' + id + '').append("<option value='" + data[i].ID + "' >" +data[i].departmentName + " </option>");
 				}
 			}
-			
 			
 		}
 
@@ -675,14 +674,23 @@ function showPartEquipment(date){
 function searchEquipment(){
 	fullEquipments(matchEquipment());
 }
+
+//删除点中的设备
+function moveSingleE(SingleEInfo){
+	console.log(SingleEInfo.previousSbiling);
+	console.log(SingleEInfo);
+	$('span#'+SingleEInfo.name+'').parent().remove();
+//	$('span').remove('[id ="'+SingleEInfo.name+'"]');
+}
 // 展示被选中的设备
 function displayChecked(equipmentInfo){
 
 	console.log(equipmentInfo);
 	
 	if(isSameID(equipmentInfo.value)){
+		newhtml='<span class = "spanTag"><span class= "singleE" id ="'+equipmentInfo.value+'" >'+ equipmentInfo.text +'&nbsp;&nbsp;</span><a name ="'+equipmentInfo.value+'" onclick="moveSingleE(this)">x</a></span>'
 		html=' <span class= "singleE" onclick="moveSingleE(this)" id ="'+equipmentInfo.value+'">'+equipmentInfo.text+'</span>';
-		$('#displayChecked').append(html);
+		$('#displayChecked').append(newhtml);
 		$('#showEquipments').hide();
 	}
 	else{
@@ -721,10 +729,7 @@ function isSameID(checkID){
 	}
 	
 }
-// 删除点中的设备
-function moveSingleE(SingleEInfo){
-	$('span').remove('[id="'+SingleEInfo.id+'"]');
-}
+
 // 匹配设备名称 返回数据
 function matchEquipment(){
 	$('#showEquipments').css("display","block");
