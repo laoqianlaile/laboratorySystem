@@ -310,7 +310,7 @@ function add(){
 			}else if(o == 1){
 				swal("新增成功!");
 				$('#addModal').modal('hide');
-				refrehTable();
+				setTimeout(refresh, 1000);
 			}
 		}
 	});

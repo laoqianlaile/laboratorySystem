@@ -162,12 +162,16 @@ function getContractByID(){
 		     success:getid=function(data){
 		    	 if (data) {
 		    		var myobj = JSON.parse(data);
-		    		
+		    		checkDate(myobj, "con");
 		    		$('#edit_contractCode').html(myobj[0].contractCode);
 		    		$('#edit_contractName').val(myobj[0].contractName);
 		    		$('#edit_address').val(myobj[0].address);
 		    		$('#edit_signAddress').val(myobj[0].signAddress);
-		    		$('#edit_companyName').attr({'value' : "" + myobj[0].companyName + "",'name' : "" + myobj[0].companyID + ""});
+		    		if(myobj[0].companyName == undefined){
+		    			$('#edit_companyName').attr({'value' : "" + myobj.companyName + "",'name' : "" + myobj[0].companyID + ""});
+		    		}else{
+		    			$('#edit_companyName').attr({'value' : "" + myobj[0].companyName + "",'name' : "" + myobj[0].companyID + ""});
+		    		}
 		    		$('#edit_oppositeMen').val(myobj[0].oppositeMen);
 		    		$('#edit_linkPhone').val(myobj[0].linkPhone);
 		    		$('#edit_startTime').val(myobj[0].startTime);
@@ -444,18 +448,18 @@ function checkDate(data, who) {
 }
 //检查合同文件数据是否合理
 function chenkDataCon(dataObj) { // 后台数据字段为空就不会传上来
-	if (!dataObj.hasOwnProperty("contractCode") || dataObj.contractCode == null || dataObj.contractCode == undefined ) {
+	if (!dataObj.hasOwnProperty("contractCode") || dataObj.contractCode == null || dataObj.contractCode == undefined || dataObj.contractCode.trim() == "") {
 		dataObj.contractCode = ""; //没有合同文件
 	}
 	if (!dataObj.hasOwnProperty("contractName") || dataObj.contractName == null || dataObj.contractName == undefined || dataObj.contractName.trim() == "") {
 		 dataObj.contractName = "";
 	}
-	swal(dataObj.contractName);
-	if (!dataObj.hasOwnProperty("companyID") || dataObj.companyID == null || dataObj.companyID == undefined ) {
+	if (!dataObj.hasOwnProperty("companyID") || dataObj.companyID == null || dataObj.companyID == undefined || dataObj.companyID.trim() == "") {
 		dataObj.companyID = ""; 
 	}
-	if (!dataObj.hasOwnProperty("companyName") || dataObj.companyName == null || dataObj.companyName == undefined ) {
-		dataObj.companyName = ""; 
+	if (!dataObj.hasOwnProperty("companyName") || dataObj.companyName == null || dataObj.companyName == undefined || dataObj.companyName.trim() == "") {
+		dataObj.companyName = "没有该公司,请新增";
+		alert("sdsd:"+dataObj.companyName);
 	}
 	if (!dataObj.hasOwnProperty("oppositeMen") || dataObj.oppositeMen == null || dataObj.oppositeMen == undefined || dataObj.oppositeMen.trim() == "") {
 		dataObj.oppositeMen = "";

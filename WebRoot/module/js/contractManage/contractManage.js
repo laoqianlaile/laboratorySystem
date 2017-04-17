@@ -397,7 +397,7 @@ function add(){
 			  				break;
 						case '1':$('#addModal').modal('hide');
 							swal("新增成功！");
-							refrehContractTable();
+							setTimeout(refresh, 1000);
 							break;
 						case '0':swal("新增失败！");
 							break;

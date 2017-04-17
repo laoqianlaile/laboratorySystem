@@ -340,7 +340,7 @@ public class ContractService extends SearchService implements IContractService{
 			String companyID1 = "";
 			for (int i = 0; i < result1.size(); i++) {
 				companyID1 = result1.get(i).get("ID").toString();
-				if(!companyID1.equals(companyID)){
+				if(companyID1.equals(companyID)){
 					com = 1;
 				}
 			}
