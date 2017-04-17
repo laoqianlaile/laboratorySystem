@@ -225,7 +225,7 @@ function delData(){
 		equipmentScrapIds:ids.substring(0, (ids.length-3))	
 	};
 	swal({
-		title: "确认删除：" + message.substring(0, (message.length-3)),
+		title: message.substring(0, (message.length-3)),
 		type: "warning",
 		showCancelButton: true,
 		confirmButtonColor: "#DD6B55",
@@ -238,14 +238,13 @@ function delData(){
 			  type:"post",
 			  data:ajaxParameter,
 			  success:function(o){
-				  switch (o) {
-					case '1':swal("删除成功！");
-						setTimeout(refresh, 1000);
-						break;
-					case '0':swal("删除失败！");
-						break;
-					default:swal("出现未知错误，请重试！");
-						break;
+				  if(o > 0){
+					  swal("删除成功！");
+					  setTimeout(refresh, 1000);
+				  }else if(o == 0){
+					  swal("删除失败！");
+				  }else{
+					  swal("出现未知错误，请重试！");
 				  }
 			  },
 			  error : function() {

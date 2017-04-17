@@ -136,7 +136,7 @@ function delData(){
 		return;
 	}
 	var ids = "";
-	var message = "将要删除仪器：";
+	var message = "将要删除仪器类型：";
 	for(var i=0; i<data.length; i++){
 		ids += "ID = '" + data[i].ID + "' or ";
 		message += data[i].name + " or ";
@@ -145,7 +145,7 @@ function delData(){
 		equipmentTypeIds:ids.substring(0, (ids.length-3))	
 	};
 	swal({
-		title: "确认删除：" + message.substring(0, (message.length-3)),
+		title: message.substring(0, (message.length-3)),
 		type: "warning",
 		showCancelButton: true,
 		confirmButtonColor: "#DD6B55",
@@ -158,14 +158,13 @@ function delData(){
 			  type:"post",
 			  data:ajaxParameter,
 			  success:function(o){
-				  switch (o) {
-					case '1':swal("删除成功！");
-						setTimeout(refresh, 1000);
-						break;
-					case '0':swal("删除失败！");
-						break;
-					default:swal("出现未知错误，请重试！");
-						break;
+				  if(o > 0){
+					  swal("删除成功！");
+					  setTimeout(refresh, 1000);
+				  }else if(o == 0){
+					  swal("删除失败！");
+				  }else{
+					  swal("出现未知错误，请重试！");
 				  }
 			  },
 			  error : function() {
@@ -180,10 +179,8 @@ function delData(){
  */
 function isTypeExistA(){
 	var name = $('#add_equipmentTypeName').val(); 
-	if (!name || typeof(name) == "undefined" || name.trim() == "") 
+	if (name && typeof(name) != "undefined" && name.trim() != "") 
 	{ 
-		swal("设备类型名称不能为空！"); 
-	}else {
 		var parame = {};
 		parame.equipmentTypeName = $('#add_equipmentTypeName').val();
 		
@@ -206,12 +203,10 @@ function isTypeExistA(){
  */
 function isCodeExistA(){
 	var code = $('#add_equipmentTypeCode').val(); 
-	if (!code || typeof(code) == "undefined" || code.trim() == "") 
-	{ 
-		swal("设备类型编号不能为空！");
-	}else {
+	if (code && typeof(code) != "undefined" && code.trim() != "") 
+	{
 		var parame = {};
-		parame.equipmentTypeCode = $('#add_equipmentTypeCode').val();
+		parame.equipmentTypeCode = code;
 		
 		$.ajax({
 			  url:'equipmentTypeController/isCodeExist.do',
@@ -231,13 +226,15 @@ function isCodeExistA(){
  * 判断设备类型名称是否存在(edit)
  */
 function isTypeExistE(){
-	var name = $('#add_equipmentTypeName').val(); 
-	if (!name || typeof(name) == "undefined" || name.trim() == "") 
-	{ 
-		swal("设备类型名称不能为空！"); 
-	}else {
+	var name1 = $('#edit_equipmentTypeName').val();
+	var name2 = $('#edit_equipmentTypeName').attr("name");
+	if (name1 && typeof(name1) != "undefined" && name1.trim() != "") 
+	{
+		if(name1 == name2){
+			return;
+		}
 		var parame = {};
-		parame.equipmentTypeName = $('#add_equipmentTypeName').val();
+		parame.equipmentTypeName = name1;
 		
 		$.ajax({
 			  url:'equipmentTypeController/isTypeExist.do',
@@ -257,13 +254,15 @@ function isTypeExistE(){
  * 判断设备类型编号是否存在(edit)
  */
 function isCodeExistE(){
-	var code = $('#add_equipmentTypeCode').val(); 
-	if (!code || typeof(code) == "undefined" || code.trim() == "") 
-	{ 
-		swal("设备类型编号不能为空！");
-	}else {
+	var code1 = $('#edit_equipmentTypeCode').val();
+	var code2 = $('#edit_equipmentTypeCode').attr("name");
+	if (code1 && typeof(code1) != "undefined" && code1.trim() != "") 
+	{
+		if(code1 == code2){
+			return;
+		}
 		var parame = {};
-		parame.equipmentTypeCode = $('#add_equipmentTypeCode').val();
+		parame.equipmentTypeCode = code1;
 		
 		$.ajax({
 			  url:'equipmentTypeController/isCodeExist.do',
@@ -324,8 +323,19 @@ function openModal(){
 		swal("请选中一条数据");
 		return;
 	}
-	$('#edit_equipmentTypeCode').val(data[0].typeCode);
-	$('#edit_equipmentTypeName').val(data[0].name);
+	var typeCode =  data[0].typeCode;
+	var name =  data[0].name;
+	if (typeCode == null || typeCode.trim() == "" || typeCode == "undefined") {
+		typeCode = "";
+	}
+	if (name == null || name.trim() == "" || name == "undefined") {
+		name = "";
+	}
+	 
+	$('#edit_equipmentTypeCode').attr({'value' : "" + typeCode + ""});
+	$('#edit_equipmentTypeCode').attr({'name' : "" + typeCode + ""});
+	$('#edit_equipmentTypeName').attr({'value' : "" + name + ""});
+	$('#edit_equipmentTypeName').attr({'name' : "" + name + ""});
 	$('#edit_remarks').val(data[0].remarks);
 	
 	$('#editModal').modal('show');
