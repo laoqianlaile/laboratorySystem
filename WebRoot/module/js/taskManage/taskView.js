@@ -231,7 +231,7 @@ $(function() {
 										return "<img src ='module/img/download_icon.png' title='下载'  onclick='fileDown(\""
 												+ row.ID
 												+ "\")' style='cursor:pointer;'>"
-												+ "</img>"
+												+ "</img>";
 									}
 								} ]
 					});
@@ -248,7 +248,7 @@ $(function() {
 			                        	+ "<label for='equipment" + i + "' >"
 				                        +  result[i].equipmentInfo 
 				                        + "</label>" 
-				                        + "</div>"
+				                        + "</div>";
 					}
 					$(".equipmentList").append(htmlElement);
 				}
@@ -310,7 +310,7 @@ function uploadFile() {
 			secondDirectory : param.secondDirectory,
 			thirdDirectory : param.thirdDirectory,
 			remark : param.fileSummaryInfo
-		}
+		};
 	});
 }
 
