@@ -94,26 +94,15 @@
   color: #fff;
   background-color: rgb(255, 173, 51);
 }
-#showEquipments div {
-	position: relative;
-	width:228px;
-	height:100px;
-	margin:0px;
-	padding:0px;
-	border:0px;
-	overflow-y:scroll;
-}
-#showEquipments option.form-control {
-    height:28px;
-    z-index:100;
-}
-#showEquipments option.form-control:hover {
-	background-color: #ccc;
-    color: #6fb3e0;
-}
-#addModal .row .labelName{
+.row .labelName{
 	margin: 2%;
 	text-align: center;
+}
+#displayChecked {
+	width: 100%;
+	height: 100px;
+	border: 1px solid;
+	overflow-y:auto;
 }
 #displayChecked .spanTag{
 	border: 1px solid #a5d24a;
@@ -136,6 +125,41 @@
     text-decoration: none;
     font-size: 11px;
 }
+.showEquipments{
+	margin-left: 6.65%;
+	position:absolute;
+	width:74%;
+	height:auto;
+	max-height:120px;
+	display:none;
+	border:1px solid #ccc;
+	border-top:none;
+	border-radius:3px;
+	background-color:#fff;
+	z-index: 10;
+	overflow-x:hidden;
+	overflow-y:hidden;
+}
+.showEquipments ul {
+	border:none;
+	max-height:120px;
+	overflow-y:auto;
+	margin:0;
+	margin-left:-40px;
+}
+.showEquipments ul li{
+	height:30px;
+	line-height: 30px;
+	list-style-type: none;
+	text-indent: 12px;
+	background-color:#fff;
+}
+.showEquipments ul li.noDate{
+ 	color: red;
+}
+.showEquipments ul li:hover{
+	background-color:#dcdcdc;
+}
 </style>
 <body>
 	<div class="container" style="width: 100%;">
@@ -144,16 +168,13 @@
 				<div class="row clearfix">
 					<div class="col-md-12 column">
 						<div class="row clearfix">
-						
 							<div class="col-md-4 column">
 								<label>项目名称： </label> <input id="query_nameCnORnameEn"
-									name="nameCnORnameEn" class="form-control" oninput="query()"
-									onpropertychange="query()" type="text">
+									name="nameCnORnameEn" class="form-control"  type="text">
 							</div>
 							<div class="col-md-3 column">
 								<label>所属科室： </label>
-								<select id="query_departmentID" class="form-control" name="departmentID" oninput="query()"
-									onpropertychange="query()">
+								<select id="query_departmentID" class="form-control" name="departmentID" >
 									<option value="">全部</option>
 								</select>
 							</div>
@@ -176,7 +197,7 @@
 								</button>
 
 								<button class="btn btn-primary type=" button" id="refresh"
-									onclick="reSetRefresh()">
+									onclick="refresh()">
 									<em class="glyphicon glyphicon-refresh"></em> 刷新
 								</button>
 							</div>
@@ -224,20 +245,19 @@
 							</div>
 						</div>
 						<div class="col-md-12 col-xs-12" style="padding-bottom:10px;">
-							<div class="col-md-6 col-xs-6 " style="overflow-y:scroll;">
+							<div class="col-md-6 col-xs-6 " >
 								<label class="labelName">所需仪器</label>
-								<div id="displayChecked" style="width: 100%;height: 100px;border: 1px solid;"></div>
+								<div id="displayChecked" name="add" ></div>
 							</div>
 							<!-- 新模式 -->
 							<div id="equipmentsBox" class = "col-md-6 col-xs-6 "  >
 								<div >
 									<label class="labelName">搜索查询添加仪器</label>
-									<input type = "text" id ="searchEquipments"  class="form-control" placeholder="选择所需仪器" onfocus="showPartEquipment()"  oninput="searchEquipment()"
-											onpropertychange="searchEquipment()"/>
+									<input type = "text" id ="AddsearchEquipments" name="add" class="form-control" placeholder="选择所需仪器" onfocus="showPartEquipment()"  oninput="searchEquipment('Add')"
+											onpropertychange="searchEquipment('Add')"/>
 								</div>
-								<div  id ="showEquipments" style="position: fixed;" ></div>
+								<div   class="showEquipments" name = "add"></div>
 							</div>
-							
 						</div>
 						<div class="col-md-12 col-xs-12 ">
 							<label class="labelName">标准描述</label>
@@ -260,7 +280,6 @@
 		</div>
 	</div>
 	<!-- 修改弹窗 -->
-	<!-- 
 	<div class="modal fade" id="editModal" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -272,61 +291,62 @@
 					<h4 class="modal-title">检测项目修改</h4>
 				</div>
 				<div>
-					<div class="col-md-12">
-						<div class="col-md-6 column">
-						 		检测项目id 
-							<input type=" text" id="edit_testProjectID" name="testProjectID"
+					<div class="row">
+						<div class="col-md-12 col-xs-12 ">
+						 		<!-- 检测项目id -->
+							<input type=" hidden" id="edit_testProjectID" name="testProjectID"
 								class="form-control" aria-describedby="basic-addon1" style="display: none;" />
-								检测标准id 
-							<input type=" text" id="edit_testStandardID" name="testStandardID"
+								<!-- 检测标准id --> 
+							<input type=" hidden" id="edit_testStandardID" name="testStandardID"
 								class="form-control" aria-describedby="basic-addon1" style="display: none;" />
-								检测仪器id 
-							<input type=" text" id="edit_testInstumentID" name="testInstumentID"
+								<!-- 检测仪器id  -->
+							<input type=" hidden" id="edit_testInstumentID" name="testInstumentID"
 								class="form-control" aria-describedby="basic-addon1" style="display: none;" />
-								
-							<h4>中文名称：</h4>
-							<input type=" text" id="edit_NAMECN" name="NAMECN"
-								class="form-control" aria-describedby="basic-addon1" />
-							<h4>所属科室：</h4>
-							<select class="form-control" id="edit_DEPARTMENTID"
-								name="DEPARTMENTID"></select>
-							<h4>所属标准：</h4>
-							<select class="form-control" id="edit_STANDARDID"
-								name="STANDARDID"></select>
-						</div>
-						<div class="col-md-6 column">
-							<h4>英文名称：</h4>
-							<input type=" text" id="edit_NAMEEN" name="NAMEEN"
-								class="form-control" aria-describedby="basic-addon1" />
-							<h4>环境要求：</h4>
-							<input type=" text" id="edit_ENVIRONMENTALREQUIREMENTS"
-								name="ENVIRONMENTALREQUIREMENTS" class="form-control"
-								aria-describedby="basic-addon1" />
-						</div>
-					</div>
-					<div class="col-md-12 column">
-						<h4>标准描述：</h4>
-						<input type=" text" id="edit_DESCRIBE" name="DESCRIBE"
-							class="form-control" aria-describedby="basic-addon1" />
-						<h4>备注：</h4>
-						<input type=" text" id="edit_REMARKS" name="REMARKS"
-							class="form-control" aria-describedby="basic-addon1" />
-					</div>
-					<div class="col-xs-12 col-md-12">
-						<h4>所需仪器：</h4>
-						<textarea id= "editTestProject" rows="6" cols="30" class="testProjectName" placeholder="选择所需仪器"></textarea>
-					</div>
-					
-					所需仪器
-					<div class="over" id ="editOver">
-						<div class="overChoose">
-							隐藏滑动条
-							<div class="choose">
-								<div class="row">
-									
-								</div>
+							<div  class="col-md-6 col-xs-6">
+								<label class="labelName">中文名称</label>
+								<input type=" text" id="edit_NAMECN" name="NAMECN"
+									class="form-control" aria-describedby="basic-addon1" />
+								<label class="labelName">所属科室</label>
+								<select class="form-control" id="edit_DEPARTMENTID"
+									name="DEPARTMENTID"></select>
+								<label class="labelName">所属标准</label>
+								<select class="form-control" id="edit_STANDARDID"
+									name="STANDARDID"></select>
+							</div>
+							<div class="col-md-6 col-xs-6">
+								<label class="labelName">英文名称</label>
+								<input type=" text" id="edit_NAMEEN" name="NAMEEN"
+									class="form-control" aria-describedby="basic-addon1" />
+								<label class="labelName">环境要求</label>
+								<input type=" text" id="edit_ENVIRONMENTALREQUIREMENTS"
+									name="ENVIRONMENTALREQUIREMENTS" class="form-control"
+									aria-describedby="basic-addon1" />
 							</div>
 						</div>
+						<div class="col-md-12 col-xs-12" style="padding-bottom:10px;">
+							<div class="col-md-6 col-xs-6 " >
+								<label class="labelName">所需仪器</label>
+								<div id="displayChecked" name="edit"></div>
+							</div>
+							<div id="equipmentsBox" class = "col-md-6 col-xs-6 "  >
+								<div >
+									<label class="labelName">搜索查询添加仪器</label>
+									<input type = "text" id ="EditsearchEquipments" name ="edit" class="form-control" placeholder="选择所需仪器" onfocus="showPartEquipment()"  oninput="searchEquipment('Edit')"
+											onpropertychange="searchEquipment('Edit')"/>
+								</div>
+								<div   class="showEquipments" name="edit" ></div>
+							</div>
+						</div>
+						
+					</div>
+					<div class="col-md-12 column">
+						
+						<label class="labelName">标准描述</label>
+						<textarea type=" text" id="edit_DESCRIBE" name="DESCRIBE"
+							class="form-control" aria-describedby="basic-addon1" ></textarea>
+						<label>　备注　</label>
+						<textarea type=" text" id="edit_REMARKS" name="REMARKS"
+							class="form-control" aria-describedby="basic-addon1"></textarea>
 					</div>
 				</div>
 			<div class="modal-footer">
@@ -335,7 +355,7 @@
 			</div>
 		</div>
 	</div>
-	</div> -->
+	</div>
 <script src="module/js/testProject/testProject.js"></script>
 </body>
 </html>

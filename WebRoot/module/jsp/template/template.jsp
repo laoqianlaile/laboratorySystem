@@ -83,8 +83,7 @@ span {
 							<div class="col-md-3 column" >
 								<label>模板名称： </label>
 								<input id="query_templateName" name="templateName"
-									class="form-control" type="text" oninput="query()"
-									onpropertychange="query()"
+									class="form-control" type="text" 
 									style="display: inline; width:40%;">
 							</div>
 							<div class="input-group date form_datetime col-md-3 column "
@@ -132,7 +131,7 @@ span {
 									</button>
 
 									<button class="btn btn-primary type=" button" id="refresh"
-										onclick="reSetRefresh()">
+										onclick="refresh()">
 										<em class="glyphicon glyphicon-refresh"></em> 刷新
 									</button>
 								</div>

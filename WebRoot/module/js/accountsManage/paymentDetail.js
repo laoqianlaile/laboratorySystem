@@ -187,18 +187,12 @@ function delPaymentDetail(){
 }
 /* 刷新方法 */
 function refresh(){
-	$('#table').bootstrapTable('refresh', null);
+	window.location.href = "module/jsp/accountsManage/paymentDetail.jsp?jouranlAccountID="+jouranlAccountID+"&contractIDs="+contractID;
 }
 /* 查询方法 */
 function query(){
 	init();
-	refresh();		
-}
-
-
-/* 重置刷新 */
-function reSetRefresh(){
-	query();
+	$('#table').bootstrapTable('refresh', null);		
 }
 
 

@@ -158,7 +158,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<em class="glyphicon glyphicon-circle-arrow-down"></em> 导出
 						</button>
 						<button class="btn btn-primary type=" button" id="refresh"
-							onclick="reSetRefresh()">
+							onclick="refresh()">
 							<em class="glyphicon glyphicon-refresh"></em> 刷新
 						</button>
 					</div>

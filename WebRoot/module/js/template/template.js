@@ -134,21 +134,12 @@ function init() {
 }
 /* 刷新方法 */
 function refresh() {
-	$('#table').bootstrapTable('refresh', null);
+	window.location.href = "module/jsp/template/template.jsp";
 }
 
 //重新加载页面
 function reload() {
 	window.location.reload();
-}
-
-/* 重置刷新 */
-function reSetRefresh() {
-	document.getElementById("query_templateName").value = "";
-	document.getElementById("uPLOADTIME1").value = "";
-	document.getElementById("uPLOADTIME2").value = "";
-
-	query();
 }
 
 function queryParams(params) { // 配置参数
@@ -170,10 +161,8 @@ function queryParams(params) { // 配置参数
 
 /* 查询方法 */
 function query() {
-
 	init();
-	refresh();
-
+	$('#table').bootstrapTable('refresh', null);
 }
 /* 检测时间段是否合理 */
 function correctTime() {
@@ -313,7 +302,7 @@ function uploadFile() {
 					});
 				},
 			}).bind('fileuploaddone',function(e, data) {
-						var fileID = JSON.parse(data.result);
+						var fileID = data.result;
 						if (fileID != null && fileID != "null" && fileID != "") {
 							// 传过来的fileID 与数据库不匹配
 							addTemplate(fileID);

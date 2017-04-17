@@ -139,13 +139,13 @@ function init(){
 
 /* 刷新方法 */
 function refresh(){
-	$('#table').bootstrapTable('refresh', null);
+	window.location.href = "module/jsp/accountsManage/jouranlAccounts.jsp?ID="+ ContractInfo.contractID;
 }
 
 /* 查询方法 */
 function query(){
 	init();
-	refresh();		
+	$('#table').bootstrapTable('refresh', null);	
 }
 
 /* 删除流水账目 */

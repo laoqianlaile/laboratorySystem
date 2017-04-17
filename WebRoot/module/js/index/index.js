@@ -380,7 +380,29 @@ function uploadFile() {
 		}
 	});
 }
-
+// 上传图片
+function uploadImage(selectorName) {
+	$(selectorName).fileupload({
+		autoUpload : true,
+		url : 'fileOperateController/upload.do?TypeNumber=' + 3,
+		dataType : 'text',
+		add : function(e, data) {
+			$("#ensureUploadImg").click(function() {
+				data.submit();
+			});
+		},
+	}).bind('fileuploaddone', function(e, data) {
+		var fileID = JSON.parse(data.result);
+		if (fileID != null && fileID != "null" && fileID != "") {
+			$.post("employeeController/addSignatrueAndStamp.do", {
+				fileID : fileID,
+				selectorName : selectorName
+			});
+		} else {
+			alert("图片上传失败");
+		}
+	});
+}
 function upSignature(){
 	console.log("上传电子签名图片");
 }
