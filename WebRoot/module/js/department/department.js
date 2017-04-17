@@ -103,10 +103,11 @@ function getdepartment1(){
 		data:{type:1},
 		async:false,
 		success:function(e){
+			$("#listul2 ").empty(); 
 			var myobj = eval(e);
 			var dom1 = $('#listul2');
 			$('#textspan2').html("");
-			var str2 = "<li role='presentation' onclick='changevalue2(1,\"\")'>\"\"</li>";
+			var str2 = "<li role='presentation' onclick='changevalue2(1,\"\")'>无</li>";
 			dom1.append(str2);
 			for(var i = 0;i< myobj.length;i++){
 				var str = "<li role='presentation' onclick='changevalue2(1,\""+myobj[i].departmentName+"\")'>"+myobj[i].departmentName+"</li>";
@@ -139,7 +140,7 @@ function getdepartment(){
 			var dom1 = $('#listul1');
 			
 			$('#textspan1').html("");
-			var str2 = "<li role='presentation' onclick='changevalue(1,\"\")'>\"\"</li>";
+			var str2 = "<li role='presentation' onclick='changevalue(1,\"\")'>无</li>";
 			dom1.append(str2);
 			for(var i = 0;i< myobj.length;i++){
 				var str = "<li role='presentation' onclick='changevalue(1,\""+myobj[i].departmentName+"\")'>"+myobj[i].departmentName+"</li>";
@@ -405,6 +406,8 @@ function add(){
 			  swal("新增失败");
 		  }
 		  $('#addModal').modal('hide');
+		  $('#add_responsibleMan').attr({'name' : ""});
+		  $('#add_responsibleMan').attr({'value' : ""});
 		  refresh();
 		  departrefresh();
 	  }

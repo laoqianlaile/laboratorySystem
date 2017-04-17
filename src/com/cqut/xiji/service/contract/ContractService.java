@@ -336,8 +336,15 @@ public class ContractService extends SearchService implements IContractService{
 			System.out.println("不存在该公司名的公司");
 			return -2;
 		}else{
-			String companyID1 = result1.get(0).get("ID").toString();
-			if(!companyID1.equals(companyID)){
+			int com = 0;
+			String companyID1 = "";
+			for (int i = 0; i < result1.size(); i++) {
+				companyID1 = result1.get(i).get("ID").toString();
+				if(companyID1.equals(companyID)){
+					com = 1;
+				}
+			}
+			if(com == 0){
 				System.out.println("公司名与公司ID不相符");
 				return -4;
 			}
@@ -553,13 +560,13 @@ public class ContractService extends SearchService implements IContractService{
 		PropertiesTool pe = new PropertiesTool();
 		
 		filePath = fileEncryptservice.decryptPath(filePath, pathPassword);
-		File file = new File(filePath);
+		
+		String path = pe.getSystemPram("filePath") + "\\" ;
+		File file = new File(path + filePath);
 		if(!file.exists()){
 			System.out.println("合同模板文件被删除");
 			return -4;
 		}
-		String path = pe.getSystemPram("filePath") + "\\" ;
-
 		String cacheFilePath = pe.getSystemPram("cacheFilePath")+"\\";
 		File dectoryName = new File(cacheFilePath);
 		if(!dectoryName.exists()){
@@ -625,6 +632,7 @@ public class ContractService extends SearchService implements IContractService{
 			fi.setRemarks("系统生成");
 		    baseEntityDao.save(fi);
 		    updateContractFileID(ID);
+		    updContractState(ID,1);
 		    fileEncryptservice.encryptPath(relativePath, fileID);
 			fileEncryptservice.encryptFile(cacheFilePath,path,fileID);
 		} catch (Exception e) {
@@ -694,8 +702,15 @@ public class ContractService extends SearchService implements IContractService{
 			System.out.println("不存在该公司名的公司");
 			return -2;
 		}else{
-			String companyID1 = result1.get(0).get("ID").toString();
-			if(!companyID1.equals(companyID)){
+			int com = 0;
+			String companyID1 = "";
+			for (int i = 0; i < result1.size(); i++) {
+				companyID1 = result1.get(i).get("ID").toString();
+				if(!companyID1.equals(companyID)){
+					com = 1;
+				}
+			}
+			if(com == 0){
 				System.out.println("公司名与公司ID不相符");
 				return -4;
 			}

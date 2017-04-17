@@ -142,7 +142,7 @@ function initData() {
 												+ row.ID
 												+ "\",\""
 												+ row.sampleName
-												+ "\")'  title='指定审核人' style='cursor:pointer;'></img> "
+												+ "\")'  title='指定审核人' style='cursor:pointer;'></img> ";
 									}
 								} ]
 					});
@@ -242,14 +242,14 @@ function bindProjectChange() {
 					for ( var i = 0; i < result.length; i++) {
 						htmlElement +="<li>"+
 						result[i].testProjectName+
-						"</li>"
+						"</li>";
 					}
 					$('#dropDownList').text('');
 					$('#dropDownList').append(htmlElement);
 					$('#dropDownList li').on('click',function(){
 						$('#testItem').val(($(this).text()));
 						$('#dropDownList').css('display', 'none');
-					})
+					});
 				}
 			});
 			$('#dropDownList').css('display', 'block');
@@ -298,39 +298,41 @@ function taskAssign() {
 // 提交审核
 function submitReport(){
 	var taskID = arguments[0];
-	$.post("taskController/submitReport.do",
-	{
-		taskID : taskID
-	},
-	function(result) {
-		if (result == true || result == "true") {
-			$.post("testReportController/getReportInfo.do",
-			{
-				taskID : taskID
-			},
-			function(result) {
-				result = JSON.parse(result);
-				if(result != null && result != "null" && result != ""){
-					$.post("messageController/addReportAudiPersontMessage.do",
-					{
-						fileName : result[0].fileName
-					},function(messageID) {
-						messageID = JSON.parse(messageID);
-						$.post("messageNoticeController/addReportAuditMessageNotice.do",
+	if(confirm("是否提交审核?")){
+		$.post("taskController/submitReport.do",
+		{
+			taskID : taskID
+		},
+		function(result) {
+			if (result == true || result == "true") {
+				$.post("testReportController/getReportInfo.do",
+				{
+					taskID : taskID
+				},
+				function(result) {
+					result = JSON.parse(result);
+					if(result != null && result != "null" && result != ""){
+						$.post("messageController/addReportAudiPersontMessage.do",
 						{
-							messageID : messageID,
-							employeeID : result[0].levelTwo
+							fileName : result[0].fileName
+						},function(messageID) {
+							messageID = JSON.parse(messageID);
+							$.post("messageNoticeController/addReportAuditMessageNotice.do",
+							{
+								messageID : messageID,
+								employeeID : result[0].levelTwo
+							});
 						});
+						}
 					});
-					}
-				});
-				refresh();
-				alert("提交审核成功");
-			} else {
-				refresh();
-				alert("当前状态不能提交审核!请核对报告审核状态或者指定审核人");
-			}
-		});
+					refresh();
+					alert("提交审核成功");
+				} else {
+					refresh();
+					alert("当前状态不能提交审核!请核对报告审核状态或者指定审核人");
+				}
+			});
+	}
 }
 
 // 指定审核人
@@ -390,9 +392,9 @@ function checkData(dataObj) {
 			|| dataObj.startTime.trim() == "NULL") {
 		dataObj.startTime = "";
 	}
-	if (!dataObj.hasOwnProperty("endTime") || dataObj.endTime == null
-			|| dataObj.endTime == undefined) {
-		dataObj.endTime = "";
+	if (!dataObj.hasOwnProperty("completeTime") || dataObj.completeTime == null
+			|| dataObj.completeTime == undefined) {
+		dataObj.completeTime = "";
 	}
 	if (!dataObj.hasOwnProperty("detectstate") || dataObj.detectstate == null
 			|| dataObj.detectstate.trim() == "NULL") {

@@ -179,7 +179,7 @@ $(function() {
 												+ "\")'   title='提交审核'  style='cursor:pointer;width:18x;height:18px'></spimgan> "
 												+ "<img src ='module/img/contractDetail_icon.png' onclick='showSendReportModal(\""
 												+ row.ID
-												+ "\")'  title='发送报告'  style='cursor:pointer;'></img> "
+												+ "\")'  title='发送报告'  style='cursor:pointer;'></img>";
 									}
 								} ]
 					});
@@ -426,7 +426,7 @@ function uploadFile() {
 			filePath : param.path,
 			TypeNumber : param.type,
 			belongtoID : param.taskID
-		}
+		};
 	});
 }
 	
@@ -469,8 +469,8 @@ function recover() {
 								$("#chooseFile").removeAttr("disabled");
 								$("#fileName").html("");
 								param.path = path;
-							    param.type = fileInfos[0].type,
-							    param.taskID = rows[0].taskID
+							    param.type = fileInfos[0].type;
+							    param.taskID = rows[0].taskID;
 							}
 						});
 					}

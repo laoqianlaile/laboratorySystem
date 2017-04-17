@@ -43,4 +43,9 @@ public interface IReceiptlistService {
 	String downReceiptlist(String reID, String coID, String proID);//下载交接单文件预处理
 	String deleteNewReceipt(String reID, String coID, String proID, String state);  //删除交接单的一系列操作
 	
+	Map<String, Object> getsecretWithPaging(String reCode, String coCode,
+			String companyName, String reType, String linkMan,
+			String startTime, String endTime, String classifiedLevel, int limit,
+			int offset, String order, String sort);
+	
 }
