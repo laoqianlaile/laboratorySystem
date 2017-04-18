@@ -73,8 +73,7 @@ public class DocConverter {
 					converter.convert(newfile, pdfFile);
 					// close the connection
 					connection.disconnect();
-					System.out.println("****pdf转换成功，PDF输出：" + pdfFile.getPath()
-							+ "****");
+					System.out.println("****pdf转换成功，PDF输出：" + pdfFile.getPath() + "****");
 				} catch (java.net.ConnectException e) {
 					// ToDo Auto-generated catch block
 					e.printStackTrace();
@@ -110,7 +109,7 @@ public class DocConverter {
 
 				try {
 					// 这里根据SWFTools安装路径需要进行相应更改
-					Process p = r.exec("F:/OnlineView/SWFTools/pdf2swf.exe "
+					Process p = r.exec("F:/install/viewWord/swftool/pdf2swf.exe "
 							+ pdfFile.getPath() + " -o " + swfFile.getPath()
 							+ " -T 9");
 					System.out.print(loadStream(p.getInputStream()));

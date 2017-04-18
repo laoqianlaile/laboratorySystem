@@ -319,3 +319,16 @@ h4,.h4 {
     background: #ddd;
     border-radius: 4px;
 }
+.col-xs-12 .col-xs-6{
+	padding:0px;
+}
+.col-md-12 .col-md-6{
+	padding:0px;
+}
+#addTestProject{
+	width: 90%;
+    height: 80px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+	display: inline-block;
+}
