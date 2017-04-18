@@ -51,10 +51,11 @@ $(function() {
 								{
 									field : '',
 									title : '序号',
-									width : '3%',
+									width : '2%',
 									align : 'center',
 									valign : 'middle',
 									formatter : function(value, row, index) {
+										checkData(row);
 										return index + 1;
 									}
 								},
@@ -117,7 +118,7 @@ $(function() {
 									title : '性别',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '4%'// 宽度
+									width : '3%'// 宽度
 								},
 								{
 									field : 'email',// 返回值名称
@@ -194,7 +195,7 @@ $(function() {
 									title : '操作',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '12%',// 宽度
+									width : '14%',// 宽度
 									formatter : function(value, row, index) {
 										var state = row.state;
 										var btn_change;
@@ -202,20 +203,20 @@ $(function() {
 										var btn_view;
 										var btn_dele;
 										if (state == "启用") {
-											btn_change = "<input type=\"image\" src=\"module/img/inspectionStaffDesktop/forbidden_icon.png\"  title=\"禁用\" onclick='changeState("
+											btn_change = "<input type=\"image\" src=\"module/img/employeeManage/forbidden_icon.png\"  title=\"禁用\" onclick='changeState("
 													+ JSON.stringify(row)
 													+ ")'>";
 										}
 										if (state == "禁用") {
-											btn_change = "<input type=\"image\" src=\"module/img/inspectionStaffDesktop/enable_icon.png\" title=\"启用\" onclick='changeState("
+											btn_change = "<input type=\"image\" src=\"module/img/employeeManage/enable_icon.png\" title=\"启用\" onclick='changeState("
 													+ JSON.stringify(row)
 													+ ")'>";
 										}
-										btn_edit = "<input type=\"image\" src=\"module/img/inspectionStaffDesktop/edit_icon.png\" style=\"margin-left:5px;\"  title=\"编辑\" onclick='openedit("
+										btn_edit = "<input type=\"image\" src=\"module/img/employeeManage/edit_icon.png\" style=\"margin-left:5px;\"  title=\"编辑\" onclick='openedit("
 												+ JSON.stringify(row) + ")'>";
-										btn_view = "<input type=\"image\" src=\"module/img/inspectionStaffDesktop/view_icon.png\" style=\"margin-left:5px;\" title=\"查看\" onclick='view("
+										btn_view = "<input type=\"image\" src=\"module/img/employeeManage/view_icon.png\" style=\"margin-left:5px;\" title=\"查看\" onclick='view("
 												+ JSON.stringify(row) + ")'>";
-										btn_dele = "<input type=\"image\" src=\"module/img/inspectionStaffDesktop/delete_icon.png\" style=\"margin-left:5px;\" title=\"删除\" onclick='del(\""
+										btn_dele = "<input type=\"image\" src=\"module/img/employeeManage/delete_icon.png\" style=\"margin-left:5px;\" title=\"删除\" onclick='del(\""
 												+ row.ID + "\")'>";
 										return btn_change + btn_edit + btn_view
 												+ btn_dele;
@@ -568,7 +569,7 @@ function checkdata(data) {
 		return false;
 	}
 
-	var filter = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+	var filter = /^[A-Za-zd]+([-_.][A-Za-zd]+)*@([A-Za-zd]+[-.])+[A-Za-zd]{2,5}$/;
 	if (!filter.test(data.email)) {
 		alert('您的邮箱格式不正确');
 		return false;
@@ -642,3 +643,53 @@ function del(IDs) {
 		});
 	});
 }
+
+function checkData(dataObj){
+	if (!dataObj.hasOwnProperty("employeeName") || dataObj.employeeName == null
+			|| dataObj.employeeName.trim() == "NULL") {
+		dataObj.employeeName = "";
+	}
+	if (!dataObj.hasOwnProperty("employeeCode") || dataObj.employeeCode == null
+			|| dataObj.employeeCode.trim() == "NULL") {
+		dataObj.employeeCode = "";
+	}
+	if (!dataObj.hasOwnProperty("loginName") || dataObj.loginName == null
+			|| dataObj.loginName.trim() == "NULL") {
+		dataObj.loginName = "";
+	}
+	if (!dataObj.hasOwnProperty("sex") || dataObj.sex == null
+			|| dataObj.sex.trim() == "NULL") {
+		dataObj.sex = "";
+	}
+	if (!dataObj.hasOwnProperty("email") || dataObj.email == null
+			|| dataObj.email.trim() == "NULL") {
+		dataObj.email = "";
+	}
+	if (!dataObj.hasOwnProperty("phoneNumber") || dataObj.phoneNumber == null
+			|| dataObj.phoneNumber.trim() == "NULL") {
+		dataObj.phoneNumber = "";
+	}
+	if (!dataObj.hasOwnProperty("address") || dataObj.address == null
+			|| dataObj.address.trim() == "NULL") {
+		dataObj.address = "";
+	}
+	if (!dataObj.hasOwnProperty("name") || dataObj.name == null
+			|| dataObj.name.trim() == "NULL") {
+		dataObj.name = "";
+	}
+	if (!dataObj.hasOwnProperty("dutyName") || dataObj.dutyName == null
+			|| dataObj.dutyName.trim() == "NULL") {
+		dataObj.dutyName = "";
+	}
+	if (!dataObj.hasOwnProperty("departmentName") || dataObj.departmentName == null
+			|| dataObj.departmentName.trim() == "NULL") {
+		dataObj.departmentName = "";
+	}
+	if (!dataObj.hasOwnProperty("createTime") || dataObj.createTime == null
+			|| dataObj.createTime.trim() == "NULL") {
+		dataObj.createTime = "";
+	}
+}
+
+
+
