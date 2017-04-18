@@ -927,6 +927,7 @@ public class ReceiptlistService extends SearchService implements
 				"contract.contractName as cName",
 				"receiptlist.ID as reID",
 				"receiptlist.receiptlistCode AS reCode ",
+				"receiptlist.allotState",
 				"company.ID as comID",
 				"project.ID as proID",
 				"IF ( receiptlist.receiptlistType = 0,'接受',IF (receiptlist.receiptlistType = 1,'退还','接受')) AS reType ",

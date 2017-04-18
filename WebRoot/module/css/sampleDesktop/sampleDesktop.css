@@ -189,7 +189,7 @@ img.lineImg{
 .row img.lineImgBottom{
 	margin-top: 30px;
     width: 10px;
-    margin-left: -15px;
+  
 }
 .achieve{
 	
@@ -220,8 +220,13 @@ img.lineImg{
 	height:74px;
 }
 .parentRightBottom{
-	margin-left:-15px;
+	margin-left:-15px; 
 }
 .parentLeftBottom{
-	 padding-left: 5.25%;
+	     padding: 0px;
+    margin-left: 15px;
+    margin-top: 1px;
 }
+.parentLeftBottom img{
+	float: right;
+}    

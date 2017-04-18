@@ -74,7 +74,7 @@
 					</div>
 				</div>
 				<div class="row">
-				<div class="sample_button sample_button_1" data-toggle="modal" data-target="#testProcessModal" onclick="showTestProcess()">
+				<div class="sample_button sample_button_1"  onclick="showTestProcess()">
 						<img src="module/img/receiptDesktop/checkTestSchedule_icon.png">
 						<p><a href="javascript:void(0)">查看检测进度</a></p>
 					</div>
@@ -161,28 +161,28 @@
 						</div>
 						<div class="row">
 						  <div class="col-xs-11 col-lg-11 col-md-11"></div>
-						  <div class="col-xs-1 col-lg-1 col-md-1 parentRightBottom"><img class="unit lineImg fail lineImgBottom" index="2" src="./module/img/testProcess/arrowbottom_icon.png"></div>
+						  <div class="col-xs-1 col-lg-1 col-md-1 parentRightBottom"><img class="unit lineImg   lineImgBottom" index="2" src="./module/img/testProcess/arrowbottom_icon.png"></div>
 					    </div>
 					    <div class="row">
-					     <div class="col-xs-2 col-lg-2 col-md-2"><img class="unit iconImg fail" index="3" src="./module/img/testProcess/examine_icon.png"></div>
+					     <div class="col-xs-2 col-lg-2 col-md-2"><img class="unit iconImg  " index="3" src="./module/img/testProcess/examine_icon.png"></div>
 					      
 					     <div class="col-xs-1 col-lg-1 col-md-1"></div>
-					     <div class="col-xs-1 col-lg-1 col-md-1"><img class="unit lineImg fail" index="3" src="./module/img/testProcess/arrowleft_icon.png"></div>
+					     <div class="col-xs-1 col-lg-1 col-md-1"><img class="unit lineImg  " index="3" src="./module/img/testProcess/arrowleft_icon.png"></div>
 					     <div class="col-xs-1 col-lg-1 col-md-1"></div>
 					    
-					     <div class="col-xs-2 col-lg-2 col-md-2"><img class="unit iconImg fail" index="4" src="./module/img/testProcess/produce_icon.png"></div>
+					     <div class="col-xs-2 col-lg-2 col-md-2"><img class="unit iconImg  " index="4" src="./module/img/testProcess/produce_icon.png"></div>
 					     
 					     <div class="col-xs-1 col-lg-1 col-md-1"></div>
-					     <div class="col-xs-1 col-lg-1 col-md-1"><img class="unit lineImg fail" index="4" src="./module/img/testProcess/arrowleft.png"></div>
+					     <div class="col-xs-1 col-lg-1 col-md-1"><img class="unit lineImg  " index="4" src="./module/img/testProcess/arrowleft_icon.png"></div>
 					     <div class="col-xs-1 col-lg-1 col-md-1"></div> 
 					     
-					     <div class="col-xs-2 col-lg-2 col-md-2"><img class="unit iconImg fail" index="5" src="./module/img/testProcess/check_icon.png"></div>
+					     <div class="col-xs-2 col-lg-2 col-md-2"><img class="unit iconImg  " index="5" src="./module/img/testProcess/check_icon.png"></div>
 					    </div>
 					     <div class="row">
-					     <div class="col-xs-1 col-lg-1 col-md-1 parentLeftBottom"><img class="unit lineImg fail lineImgBottom" index="5" src="./module/img/testProcess/arrowbottom_icon.png"></div>
+					     <div class="col-xs-1 col-lg-1 col-md-1 parentLeftBottom"><img class="unit lineImg   lineImgBottom" index="5" src="./module/img/testProcess/arrowbottom_icon.png"></div>
 					     </div>
 					     <div class="row">
-					     <div class="col-xs-2 col-lg-2 col-md-2"><img class="unit iconImg fail" index="6" src="./module/img/testProcess/printf_icon.png"></div>
+					     <div class="col-xs-2 col-lg-2 col-md-2"><img class="unit iconImg  " index="6" src="./module/img/testProcess/printf_icon.png"></div>
 
 					</div>
 
