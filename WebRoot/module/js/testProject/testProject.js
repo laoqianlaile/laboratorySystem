@@ -365,9 +365,14 @@ function openEditModal(){
 	$('#edit_REMARKS').val(arguments[0].remarks);
 	
 	var equipmentInfo = [];
+	
 	var EquipmentID = arguments[0].EQUIPMENTID.split(','); 
 	var EquipmentName = arguments[0].EQUIPMENTNAME.split(',');
-		for(var i = 0 ; i < EquipmentID.length; i++){
+	if(EquipmentID === undefined || EquipmentID === null || EquipmentID === "" 
+		|| EquipmentName === undefined || EquipmentName === null || EquipmentName ===""){
+		return;
+	}
+	for(var i = 0 ; i < EquipmentID.length; i++){
 		var ddd = {}
 		ddd.ID = EquipmentID[i];
 		ddd.equipmentName = EquipmentName[i];
