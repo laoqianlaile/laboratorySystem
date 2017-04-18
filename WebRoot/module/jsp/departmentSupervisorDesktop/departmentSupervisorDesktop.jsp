@@ -26,6 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
 	<link rel="stylesheet" href="module/css/changeACE.css" />
 	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+	<link rel="stylesheet"  type="text/css" href="module/css/wait.css">
 	
 	<script src="module/js/jquery-2.1.1.min.js"></script>
 	<script src="module/js/bootstrap.js"></script>
@@ -34,8 +35,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="module/js/bootstrap-datetimepicker.js"></script>
 	<script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
 	<script src="module/js/bootstrap-datetimepicker.fr.js"></script>
-    <script src="assets/js/autoPage.js"></script> 
     <script src="module/js/sweetalert.min.js"></script>
+    
+    <style>
+    .tidings {
+		margin-top: 35PX;
+	}
+	.tidingHead ul li:FIRST-CHILD {
+	margin-left:-33px;
+	}
+	.tidingHead ul li {
+		float:left;
+		width:80px;
+		list-style:none;
+		color: #fff;
+	    border-radius: 5px;
+	    padding-left: 13px;
+	    margin-right: 10px;
+	    margin-bottom: 4px;
+	    background: #c5d0dc;
+	}
+	.tidingHead ul li:hover {
+		
+	}
+	.tidingHead ul li.selected {
+		 background: #0a8fe7;
+	}
+    </style>
   </head>
   
   <body>
@@ -67,7 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 	<span id="departmentID" style="display:none"></span>
 	<div id="right" style="width:40%;float:right">
-		<div class="container" style="height:350px;width:100%;">
+		<div class="container" style="width:100%;min-height:200px;">
 			<div class="row">
 				<div class="col-xs-2 col-md-2 col-lg-2">
 					<h4>文档: </h4>
@@ -86,13 +112,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  		</table>
 		</div>
 		<div class="container" style="width:100%;">
-			<!-- 提醒消息表格 -->
-	  		<table id="messageTable">
-	  		</table>
+			<div class="tidings">
+				<div class="tidingHead">
+					<ul>
+						<li class=" selected ">提示信息</li>
+						<li>已读信息</li>
+					</ul>
+				</div>
+				<br />
+				<br />
+				<div class="tidingsTable"></div>
+			</div>
 		</div>
 	</div>
+	
+	<div id="wait_img" style="display:none">
+		<img src="module/img/wait.jpg" style="width:48px;height:48px;" />
+	</div>
+	<div id="mask" style="display:none"></div>
+	
+	<script src="module/js/departmentSupervisorDesktop/departmentSupervisorDesktop.js"></script>
+	<script src="module/js/wait.js"></script>
+	<script src="module/js/fileManage/fileManage.js"></script>
+	<script type="text/javascript" src="assets/fileupload/jquery.iframe-transport.js"></script>
+	<script type="text/javascript" src="assets/fileupload/jquery.ui.widget.js"></script> 
+	<script type="text/javascript"src="assets/fileupload/jquery.fileupload.js"></script>
   </body>
-  
-  <script src="module/js/departmentSupervisorDesktop/departmentSupervisorDesktop.js"></script>
-  <script src="module/js/fileManage/fileManage.js"></script>
 </html>

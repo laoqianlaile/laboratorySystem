@@ -6,7 +6,6 @@ var obj = {
 	order_c : 0,
 	order_f : 0,
 	order_t : 0
-
 }
 $(function() {
 	initData();
@@ -570,7 +569,6 @@ function checkData(who, dataObj) {
 		break;
 	default:
 		break;
-
 	}
 }
 

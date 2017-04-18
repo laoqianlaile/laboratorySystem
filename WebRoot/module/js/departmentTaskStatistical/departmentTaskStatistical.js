@@ -70,21 +70,21 @@ $(function () {
 			title:'价格',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'20%'//宽度
+			width:'15%'//宽度
 		},{
 			field:'amount',//返回值名称
 			title:'数目',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'20%'//宽度
+			width:'15%'//宽度
 		},{
 			field:'operate',//返回值名称
 			title:'操作',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10%',//宽度
+			width:'15%',//宽度
 			formatter:function(value,row,index){  
-				var btn_detail = '<span class="glyphicon glyphicon-search" onclick="viewDetail(\''+ ID + '\',\'' + row.ID +'\')" data-toggle="tooltip" data-placement="top" title="查看详细" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
+				var btn_detail = '<img src="module/img/view_icon.png" onclick="viewDetail(\''+ ID + '\',\'' + row.ID +'\')" data-toggle="tooltip" data-placement="top" title="查看详细" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></img>';
 		  			return btn_detail;  
             } 
 		}]//列配置项,详情请查看 列参数 表格

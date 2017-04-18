@@ -32,7 +32,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script src="assets/js/autoPage.js"></script>
     <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
     <script src="module/js/sweetalert.min.js"></script>
-    <script src="module/js/alert.js"></script>
     
     <style>
     #btn-assign:hover {
@@ -180,4 +179,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </body>
   
   <script src="module/js/taskAssignManage/taskAssign.js"></script>
+  <script src="module/js/fileManage/fileManage.js"></script>
+  <script type="text/javascript" src="assets/fileupload/jquery.iframe-transport.js"></script>
+  <script type="text/javascript" src="assets/fileupload/jquery.ui.widget.js"></script> 
+  <script type="text/javascript"src="assets/fileupload/jquery.fileupload.js"></script>
 </html>

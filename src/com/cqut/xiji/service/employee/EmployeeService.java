@@ -230,15 +230,16 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 		@Override
 		public List<Map<String,Object>> getDepartmentInfo(HttpSession session){
 			String ID = (String) session.getAttribute("EMPLOYEEID");//获取用户ID
+			String baseEntity = "department";
+			
 			String[] properties = {
 					"department.ID",
 					"department.departmentName"
 			};
 
-			String joinEntity =  " left join department on department.ID = employee.departmentID ";
-			String condtion = " 1 = 1 and employee.ID = '" + ID +"' ";
+			String joinEntity =  " left join employee on department.ID = employee.departmentID and employee.ID = '" + ID +"' ";
 
-			List<Map<String,Object>> result = this.searchForeignWithJoin(properties, joinEntity, null, condtion, false);
+			List<Map<String,Object>> result = this.originalSearchForeign(properties, baseEntity, joinEntity, null, null, false);
 			return result;
 		}
 
