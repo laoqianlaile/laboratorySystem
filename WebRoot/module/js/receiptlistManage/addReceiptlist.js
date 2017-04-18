@@ -9,6 +9,7 @@ var obj = {
 	coID : "",
 	state : "",
 	comID : "",
+	isSelectedCom:false,
 	isCreate : false
 }
 /**
@@ -374,10 +375,10 @@ function initSaveAndSubmitRe_event() {
 		}
 	});
 	
-	/* $("#companyName").blur(function() {
-		 setTimeout("hideCpmpanyOver()" ,1000);
+	$("#companyName").blur(function() {
+		 setTimeout("hideCpmpanyOver" ,500);
 		 
-     });*/
+     });
 	 
 	$("#address").blur(function() {
 		if ($(this).val() == null || $(this).val().trim() == "")
@@ -392,7 +393,13 @@ function initSaveAndSubmitRe_event() {
 function hideCpmpanyOver(){
 	$("#companyContainer").css("display","none");
 	//处理输入没有的公司
-	obj.comID = "";
+	if(obj.isSelectedCom == true){
+		;
+	}else{
+		obj.isSelectedCom = false;
+		obj.comID = "";
+	}
+	
 	$("#address").val("");
 }
 // 处理交接单的保存和提交事件
@@ -523,6 +530,7 @@ function selectedCompany(company){
 	$("#companyName").val(company.companyName);
 	obj.comID = company.ID;
 	$("#address").val(company.address);
+	obj.isSelectedCom = true;
 	$("#companyContainer").css("display","none");
 }
 // 输入样品编号检查样品库是否存在--避免选择后重新输入没有的样品
@@ -590,13 +598,18 @@ function isExitSample(sampleCode) {
 function initSearchTestProject() {
 
 var fn3 = $("#addsearchTestProjects").blur(function(){
-	$('.showTestProjects[name = "add"]').hide();
+	 setTimeout("hideTestList",1000);
+	
   
  });
 var fn4 = $("#editsearchTestProjects").blur(function(){
-	$('.showTestProjects[name = "edit"]').hide();
+	 setTimeout("hideTestList",1000);
  
  });
+}
+function hideTestList(){
+	$('.showTestProjects[name = "add"]').hide();
+	$('.showTestProjects[name = "edit"]').hide();
 }
 // 初始出厂编码填写框失去焦点事件
 function initSampleCode_event() {
@@ -604,12 +617,12 @@ function initSampleCode_event() {
 	    
 	  var fn1 = $("#editSampleCode").blur(function(){
 		    var self = this.id ;
-		    setTimeout("hideSampleOver('"+self+"')",1000);
+		    setTimeout("hideSampleOver('"+self+"')",500);
 		  
 	     });
 	  var fn2 = $("#addSampleCode").blur(function(){
 		  var self = this.id ;
-		    setTimeout("hideSampleOver('"+self+"')",1000);
+		    setTimeout("hideSampleOver('"+self+"')",500);
 		 
 	     });
 	/* if($("#editSampleCode").val() == "") { // sweetAlert("样品编号不能为空");

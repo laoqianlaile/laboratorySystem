@@ -385,6 +385,11 @@ function viewRe() {
 	}
 
 }
+//查看检测进度
+function showTestProcess(){
+	$("#testProcessModal").modal('show');
+	
+}
 // 编辑交接单
 function editRe() {
 	var data = $('.contractTable').bootstrapTable('getSelections');

@@ -178,6 +178,8 @@ public class CompanyService extends SearchService implements ICompanyService {
 		// TODO Auto-generated method stub
 		if(companyName == null || companyName.equals("")){
 			return null;
+		}else{
+			companyName = companyName.replaceAll(" ", "");
 		}
 		String[] properties = new String[]{
 				"company.ID ",
