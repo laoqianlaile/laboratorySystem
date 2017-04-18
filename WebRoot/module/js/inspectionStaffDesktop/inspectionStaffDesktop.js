@@ -208,7 +208,7 @@ function initMessage() {
 									width : '5%',// 宽度
 									visible : true,
 									formatter : function(value, row, index) {
-										checkData("tiding", row);
+										checkDataTiding(row);
 										return obj.order_t++;
 									}
 								},
