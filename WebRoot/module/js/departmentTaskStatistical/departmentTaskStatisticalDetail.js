@@ -107,7 +107,7 @@ $(function () {
 			valign:'middle',//垂直居中显示
 			width:'10%',//宽度
 			formatter:function(value,row,index){  
-				var btn_detail = '<span class="glyphicon glyphicon-search" onclick="viewDetail(\'' + ID + '\',\'' + testProjectID + '\',\'' + row.ID +'\')" data-toggle="tooltip" data-placement="top" title="查看" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
+				var btn_detail = '<img src="module/img/view_icon.png" onclick="viewDetail(\'' + ID + '\',\'' + testProjectID + '\',\'' + row.ID +'\')" data-toggle="tooltip" data-placement="top" title="查看" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></img>';
 		  			return btn_detail;  
             } 
 		}]//列配置项,详情请查看 列参数 表格
@@ -131,6 +131,27 @@ $(function () {
 			url: 'contractFineItemController/getDepartmentTaskStatisticalDetail.do',
 			query: parame1
 		});
+	});
+	
+	// 全部按钮点击事件
+	$('#all').click(function (){
+		
+		var parame1 = {};
+		
+		parame1.ID = ID;// 科室ID
+		parame1.testProjectID = testProjectID;// 检测项目ID
+		parame1.contractCode = '';
+		parame1.companyName = '';
+		parame1.startTime = '';
+		parame1.endTime = '';
+		
+		$('#table').bootstrapTable('refresh',{
+			silent: true,
+			url: 'contractFineItemController/getDepartmentTaskStatisticalDetail.do',
+			query: parame1
+		});
+		
+		$('input').val('');
 	});
 });
 

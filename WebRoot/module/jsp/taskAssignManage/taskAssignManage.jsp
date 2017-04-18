@@ -125,9 +125,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	margin-top: -17px;
 }
 
+#all {
+	position: absolute;
+	right: 110px;
+	top: 50%;
+	margin-top: -17px;
+}
+
 #search:hover {
 	background: #ffc773;
 }
+
+#all:hover {
+	background: #ffc773;
+}
+
 </style>
 
 </head>
@@ -202,6 +214,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		<div class="button-wrap">
+			<button type="button" id="all" class="btn btn-primary">全部</button>
 			<button type="button" id="search" class="btn btn-primary">查询</button>
 		</div>
 		</div>

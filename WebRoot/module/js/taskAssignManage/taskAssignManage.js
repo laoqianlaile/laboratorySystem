@@ -5,7 +5,6 @@ $(function () {
 		dataType:'json',
 		success:function(o){
 			var data = JSON.parse(o);
-			console.log(data[0]);
 			$('#departmentID').text(data[0].ID);
 	  	}
 	});
@@ -123,11 +122,11 @@ $(function () {
 			formatter:function(value,row,index){  
 				var temp = '';
 				if(row.assignState === "未分配"){
-					var btn_assign = '<span onclick="taskAssign(\'' + row.ID + '\')" data-toggle="tooltip" data-placement="top" title="分配"  class="glyphicon glyphicon-user" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
-					var btn_viewProgress = '<span onclick="checkTaskProgress(\'' + row.ID + '\',\'' + row.receiptlistCode + '\')" data-toggle="tooltip" ddata-placement="top"  title="查看任务进度"  class="glyphicon glyphicon-search" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
+					var btn_assign = '<img src="module/img/edit_icon.png" onclick="taskAssign(\'' + row.ID + '\')" data-toggle="tooltip" data-placement="top" title="分配" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></img>';
+					var btn_viewProgress = '<img src="module/img/view_icon.png" onclick="checkTaskProgress(\'' + row.ID + '\',\'' + row.receiptlistCode + '\')" data-toggle="tooltip" ddata-placement="top"  title="查看任务进度"  style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></img>';
 					temp += btn_assign + btn_viewProgress;
 				}else{
-					var btn_viewProgress = '<span onclick="checkTaskProgress(\'' + row.ID + '\',\'' + row.receiptlistCode + '\')" data-toggle="tooltip" data-placement="top"  title="查看任务进度"  class="glyphicon glyphicon-search" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
+					var btn_viewProgress = '<img src="module/img/view_icon.png" onclick="checkTaskProgress(\'' + row.ID + '\',\'' + row.receiptlistCode + '\')" data-toggle="tooltip" data-placement="top"  title="查看任务进度" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></img>';
 					temp += btn_viewProgress;
 				}
 		  		return temp;
@@ -154,6 +153,30 @@ $(function () {
 			url: 'receiptlistController/getReceiptlistWithPagingInTaskAssign.do',
 			query: parame1
 		});
+	});
+	
+	// 刷新显示全部信息点击事件
+	$('#all').click(function() {
+		var parame1 = {};
+		
+		parame1.receiptlistCode = '';
+		parame1.contractCode = '';
+		parame1.companyName = '';
+		parame1.linkMan = '';
+		parame1.acceptSampleTime_start = '';
+		parame1.acceptSampleTime_end = '';
+		parame1.state = -1;
+		parame1.assignState = -1;
+		
+		$('#table').bootstrapTable('refresh',{
+			silent: true,
+			url: 'receiptlistController/getReceiptlistWithPagingInTaskAssign.do',
+			query: parame1
+		});
+		
+		// 清空输入表单
+		$('input').val('');
+		$('select').val(-1);
 	});
 	
 });

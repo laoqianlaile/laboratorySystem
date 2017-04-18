@@ -134,6 +134,27 @@ $(function () {
 		});
 	});
 	
+	// 刷新显示全部信息点击事件
+	$('#all').click(function() {
+		var parame1 = {};
+		
+		parame1.contractCode = '';
+		parame1.receiptlistCode = '';
+		parame1.companyName = '';
+		parame1.acceptSampleTime_start = '';
+		parame1.acceptSampleTime_end = '';
+		parame1.sampleName = '';
+		
+		$('#table').bootstrapTable('refresh',{
+			silent: true,
+			url: 'contractFineItemController/getTaskStatisticalDetail.do',
+			query: parame1
+		});
+		
+		// 清空输入表单
+		$('input').val('');
+	});
+	
 	//返回按钮
 	$('#return').click(function(){
 		window.location.href = window.location.href.split("?")[0].replace('taskStatisticalDetail.jsp','taskStatistical.jsp');

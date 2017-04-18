@@ -66,10 +66,7 @@
 
 .page-header {
 	height: 50px;
-/* 	margin: 20px 10px;
-	border: 1px #ccc solid;
-	padding:0px; 
-	www*/
+	padding-left: 14px;
 }
 .ace-settings-container {
 	top: 90px;

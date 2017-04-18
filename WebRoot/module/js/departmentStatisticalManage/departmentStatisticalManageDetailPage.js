@@ -128,6 +128,25 @@ $(function () {
 		});
 	});
 	
+	// 全部按钮点击事件
+	$('#all').click(function (){
+		var parame1 = {};
+		
+		parame1.ID = ID;// 科室ID
+		parame1.contractCode = '';
+		parame1.contractName = '';
+		parame1.startTime = '';
+		parame1.endTime = '';
+		
+		$('#table').bootstrapTable('refresh',{
+			silent: true,
+			url: 'contractFineItemController/getDepartmentStatisticalDetailPage.do',
+			query: parame1
+		});
+		
+		$('input').val('');
+	});
+	
 	//返回按钮
 	$('#return').click(function(){
 		window.location.href = window.location.href.split("?")[0].replace('departmentStatisticalManageDetailPage.jsp','departmentStatisticalManageDetail.jsp') + '?ID='+ID ;
