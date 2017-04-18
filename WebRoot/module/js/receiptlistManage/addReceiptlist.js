@@ -323,6 +323,7 @@ function initEvent() {
 	initTestProject_event(); // 检测项目的事件-遮罩，点击，选取
 	initAddTask_event();// 打开新增任务框清除数据事件
 	initSampleCode_event();// 初始出厂编码填写框失去焦点事件
+	initSearchTestProject();
 	initSaveAndSubmitRe_event(); // 保存或提交交接单
 	window.onbeforeunload = function() {
 		onbeforeunload_handler();
@@ -585,6 +586,18 @@ function isExitSample(sampleCode) {
 
 	}
 }
+//检测项目方法失去焦点隐藏展示列表
+function initSearchTestProject() {
+
+var fn3 = $("#addsearchTestProjects").blur(function(){
+	$('.showTestProjects[name = "add"]').hide();
+  
+ });
+var fn4 = $("#editsearchTestProjects").blur(function(){
+	$('.showTestProjects[name = "edit"]').hide();
+ 
+ });
+}
 // 初始出厂编码填写框失去焦点事件
 function initSampleCode_event() {
     
@@ -641,7 +654,7 @@ function initAddTask_event() {
 		$("#addSampleName").val("");
 		$("#addSampleID").val("");
 		$("#addAskFor").val("");
-		$("#addTestProject").val("");
+		$('#displayChecked[name = "add"]').empty();
 		$("#addTaskModal").modal('show');
 	});
 }
@@ -843,6 +856,14 @@ function initSample() {
 									width : '10',// 宽度
 									visible : false
 								},
+								{
+									field : 'testProjectID',// 返回值名称
+									title : '检测项目ID',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '10',// 宽度
+									visible : false
+								},
 								
 								{
 									field : 'factoryCode',// 返回值名称
@@ -873,7 +894,7 @@ function initSample() {
 								
 								},
 								{
-									field : 'testName',// 返回值名称
+									field : 'testProjectName',// 返回值名称
 									title : '校准/检测项目',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
@@ -901,13 +922,6 @@ function initSample() {
 									width : '12%',// 宽度
 									formatter : function(value, row, index) {
 										var dele = "", edit = "", print = "";
-										edit = "<button onclick='editTask("
-												+ JSON.stringify(row)
-												+ ")'"
-												+ " data-toggle='tooltip' data-toggle='top'  title='编辑'  class='glyphicon glyphicon-edit' style='cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;'></button>";
-										remove = '<button  onclick= "deleteTask(\''
-												+ row.ID
-												+ '\')" data-toggle="tooltip" data-placement="top" title="删除" class="glyphicon glyphicon-remove" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></button> ';
 										print = "<img src=\"./module/img/printbarcode_icon.png\" alt=\"打印条形码\" title=\"打印条形码\" onclick='print(\""
 												+ row.qrcode + "\")'>";
 
@@ -927,12 +941,16 @@ function initSample() {
 // 编辑任务框打开
 function editTask() {
 	var data = arguments[0];
+	var html="";
 	// 填充数据
 	$("#editSampleCode").val(data.factoryCode);
 	$("#editSampleName").val(data.sampleName);
 	$("#editSampleStyle").val(data.sampleStyle);
 	$("#editSampleID").val(data.sampleID);
 	$("#editTaskID").val(data.ID);
+	html='<span class = "spanTag"><span class= "singleE" id ="'+data.testProjectID+'" >'+ data.testProjectName +'&nbsp;&nbsp;</span><a  onclick="moveSingleE(this)">x</a></span>'
+	$('#displayChecked[name = "edit"]').empty();
+	$('#displayChecked[name = "edit"]').append(html);
 	$(".testProjectName").val(data.testName);
 	$("#editUnit").val(data.unit);
 	$("#editAskFor").val(data.askFor);
@@ -947,7 +965,7 @@ function addTaskModel() {
 	param.sampleName = $("#addSampleName").val();
 	param.sampleStyle = $("#addSampleStyle").val();
 	param.sampleID = $("#addSampleID").val();
-	param.testProject = getTestTatol("add").ids;
+	param.testProjects = getTestProjectID();
 	console.log(param.testProject);
 	param.unit = $("#addUnit").val();
 	param.require = $("#addAskFor").val();
@@ -1006,7 +1024,7 @@ function editTaskModel() {
 	param.sampleStyle = $("#editSampleStyle").val();
 	param.sampleID = $("#editSampleID").val();
 	param.taskID = $("#editTaskID").val();
-	param.testProject = getTestTatol("edit").ids;
+	param.testProjects = getTestProjectID();
 	console.log(param.testProject);
 	param.unit = $("#editUnit").val();
 	param.require = $("#editAskFor").val();
@@ -1284,62 +1302,117 @@ function chenkDataFile(dataObj) { // 后台数据字段为空就不会传上来
 }
 
 //搜索展示部分设备
-function searchTestProject(){
-	fullTestProjects(matchTestProject());
+function searchTestProject(type){
+	fullEquipments(matchEquipment(type));
 }
 //匹配设备名称 返回数据
-function matchTestProject(){
-	$('#showEquipments').css("display","block");
-	var matchName = $('#searchTestProjects').val();
+function matchEquipment(type){
+//	$('.showTestProjects[name = "add"]').css("display","block");
+	var matchName = $('#'+type+'searchTestProjects').val();
 	console.log(matchName);
-	var date;
+	var data;
 	$.ajax({
-		url : 'equipmentController/getEquipmentByName.do?equipmentName=' + matchName,
+		url : '/laboratorySystem/testProjectController/getTestProjectListByName.do',
 		dataType : "json",
 		async : false,
-		data : {},
-		success :function(o){
-			date = JSON.parse(o);
+		data : {
+			matchName:matchName
 		},
-		error : function(){
+		success : function(o) {
+			data = JSON.parse(o);
+		},
+		error : function() {
 			return false;
 		}
 	});
-	if(date.length == 0){
-		console.log("请重新输入");
-	}
-	return date;
+
+	return data;
 	
 }
-
-function fullTestProjects(equipmentDate){
-	var html = "<div class='form-control' >";
-//	if(equipmentDate.length < 5){
-		for(var i = 0; i < equipmentDate.length ; i++){
-			html += "<option class='form-control' value ='"+equipmentDate[i].ID+"' onclick='displayChecked(this)'>" + equipmentDate[i].equipmentName+ " </option>";
+//填充设备数据
+function fullEquipments(equipmentDate){
+	
+	var html = "<ul>";
+	if(equipmentDate.length == 0){
+		html += "<li class='noDate'>没有查到数据</li>"
+	}
+	else{
+		for(var i = 0; i < equipmentDate.length; i++){
+			html+="<li  id ='"+equipmentDate[i].ID+"' onclick='displayChecked(this)'>" + equipmentDate[i].testName+ "</li>"
 		}
-//	}
-//	else{
-//		for(var i = 0; i < 4 ; i++){
-//			html += "<option class='form-control' value ='"+equipmentDate[i].ID+"' onclick='displayChecked(this)'>" + equipmentDate[i].equipmentName+ " </option>";
-//		}
-//	}
-	html +="</div>"
-	$('#showEquipments').html(html);
-	$('#showEquipments').show();
+	}
+	html +="</ul>";
+	if($("#editTaskModal").is(":visible")){
+		$('.showTestProjects[name = "edit"]').html(html);
+		$('.showTestProjects[name = "edit"]').show();
+	}
+	if($("#addTaskModal").is(":visible")){
+		$('.showTestProjects[name = "add"]').html(html);
+		$('.showTestProjects[name = "add"]').show();
+	}
 }
 //展示被选中的设备
 function displayChecked(equipmentInfo){
 
-	console.log(equipmentInfo);
-	
-	if(isSameID(equipmentInfo.value)){
-		html=' <span class= "singleE" onclick="moveSingleE(this)" id ="'+equipmentInfo.value+'">'+equipmentInfo.text+'</span>';
-		$('#displayChecked').append(html);
-		$('#showEquipments').hide();
+	if(isSameID(equipmentInfo.id)){
+		html='<span class = "spanTag"><span class= "singleE" id ="'+equipmentInfo.id+'" >'+ equipmentInfo.innerHTML +'&nbsp;&nbsp;</span><a  onclick="moveSingleE(this)">x</a></span>'
+		if($("#editTaskModal").is(":visible")){
+			$('#displayChecked[name = "edit"]').append(html);
+			$('.showTestProjects[name = "edit"]').hide();
+		}
+		if($("#addTaskModal").is(":visible")){
+			$('#displayChecked[name = "add"]').append(html);
+			$('.showTestProjects[name = "add"]').hide();
+		}
 	}
 	else{
-		swal("请不要重复选中同一设备");
-		$('#showEquipments').hide();
+		swal("请不要重复选中同一检测项目方法");
+	}
+}
+//检测是否有重复的ID检测项目
+function isSameID(checkID){
+	var allTestProjectIDs ;
+	if($("#editTaskModal").is(":visible")){
+		  allTestProjectIDs =$('#displayChecked[name= "edit"] span.singleE');
+	}
+	if($("#addTaskModal").is(":visible")){
+		  allTestProjectIDs =$('#displayChecked[name= "add"] span.singleE');
+	}
+	if(allTestProjectIDs.length == 0){
+		return true;
+	}
+	else{
+		for(var i=0;i<allTestProjectIDs.length;i++){
+			if(allTestProjectIDs[i].id === checkID){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+}
+function moveSingleE(SingleEInfo){
+	console.log(SingleEInfo);
+	$(SingleEInfo).parent().remove();
+}
+//获取所有被选中检测项目的id
+function getTestProjectID(){
+	var total = "" ;
+	var allTestprojectIDs ;
+	if($("#editTaskModal").is(":visible")){
+		allTestprojectIDs =$('#displayChecked[name= "edit"] span.singleE');
+	}
+	if($("#addTaskModal").is(":visible")){
+		allTestprojectIDs =$('#displayChecked[name= "add"] span.singleE');
+	}
+	if(allTestprojectIDs.length == 0){
+		//swal("请至少选中一个检测项目");
+		return;
+	}
+	else{
+		for(var i=0;i<allTestprojectIDs.length;i++){
+			total += allTestprojectIDs[i].id+",";
+		}
+		return total;
 	}
 }

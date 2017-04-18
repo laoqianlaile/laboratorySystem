@@ -327,14 +327,21 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 	 * 
 	 */
 	@Override
-	public List<Map<String, Object>> getTestProjectList() {
+	public List<Map<String, Object>> getTestProjectListByName(String matchName) {
 		// TODO Auto-generated method stub
+		String condition = "";
 		String[] properties = new String[] {
-				"testproject.ID",
+				"testproject.ID ",
 				"IF(testproject.nameCn IS  NULL , testproject.nameEn , "
 						+ " if ( testproject.nameEn is null ,testproject.nameCn,"
 						+ " CONCAT(testproject.nameCn,'(',testproject.nameEn,')') )) as testName " };
-		String condition = " 1 = 1 ";
+		if(matchName != null && !matchName.equals("")){
+			matchName = matchName.replaceAll(" ", "");
+			condition = " testproject.nameCn LIKE '%"+matchName+"%' or testproject.nameEn  like '%"+matchName+"%' ";
+		}else{
+			condition = " 1=1 ";
+		}
+		
 		List<Map<String, Object>> list = entityDao.findByCondition(properties,
 				condition, TestProject.class);
 		return list;

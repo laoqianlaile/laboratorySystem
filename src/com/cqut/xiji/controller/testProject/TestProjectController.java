@@ -140,11 +140,11 @@ public class TestProjectController{
 	 * @date 2016年11月19日 上午9:38:29
 	 * @return
 	 */
-	@RequestMapping("/getTestProjectList")
+	@RequestMapping("/getTestProjectListByName")
 	@ResponseBody
-    public String getTestProjectList(){
+    public String getTestProjectListByName(String matchName){
 		
-		List<Map<String, Object>> result = service.getTestProjectList();
+		List<Map<String, Object>> result = service.getTestProjectListByName(matchName);
 		return JSONArray.fromObject(result).toString();
 	}
 	

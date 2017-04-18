@@ -394,9 +394,10 @@ public class ReceiptlistService extends SearchService implements
 					"sample.specifications as sampleStyle",
 					"sample.qrcode",
 					"sample.unit",
+					"testproject.ID AS testProjectID",
 					"IF(testproject.nameCn IS  NULL , testproject.nameEn , "
 							+ " if ( testproject.nameEn is null ,testproject.nameCn,"
-							+ " CONCAT(testproject.nameCn,'(',testproject.nameEn,')') )) as testName " };
+							+ " CONCAT(testproject.nameCn,'(',testproject.nameEn,')') )) as testProjectName " };
 			// 关联条件
 			String joinEntity = "  "
 					+ " ( SELECT "

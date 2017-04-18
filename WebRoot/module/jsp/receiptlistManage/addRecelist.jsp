@@ -29,14 +29,16 @@
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 <link rel="stylesheet" type="text/css" href="module/css/receiptlistManage/addReceiptlist.css">
+<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" /> 
 
 <script type="text/javascript" src="./module/js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="./module/js/bootstrap.js"></script>
 <script type="text/javascript" src="./module/js/bootstrap-table.js"></script>
-<script type="text/javascript" src="./module/js/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript"
+	src="./module/js/bootstrap-table-zh-CN.js"></script>
 <script type="text/javascript" src="./module/js/commonTool.js"></script>
 
-<script src="module/js/jquery.uploadify.min.js"  type="text/javascript"></script>
+<script src="module/js/jquery.uploadify.min.js" type="text/javascript"></script>
 <script src="module/js/bootstrap-datetimepicker.js"></script>
 <script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="module/js/bootstrap-datetimepicker.fr.js"></script>
@@ -94,18 +96,19 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-6">
-					<label>委托单位：</label><input type="text" id="companyName" onpropertychange="searchCompany()"  oninput="searchCompany()"
+					<label>委托单位：</label><input type="text" id="companyName"
+						onpropertychange="searchCompany()" oninput="searchCompany()"
 						class="form-control">
 					<div id="companyContainer">
-					<div id="over_company">
-					  <ul>
-					<!--   <li>vdfgvfd</li>
+						<div id="over_company">
+							<ul>
+								<!--   <li>vdfgvfd</li>
 					    <li>vdfgvfd</li>
 					      <li>vdfgvfd</li>
 					        <li>vdfgvfd</li>
 					          <li>vdfgvfd</li> -->
-					  </ul>
-					</div>
+							</ul>
+						</div>
 					</div>
 				</div>
 				<div class=" col-xs-3"></div>
@@ -124,10 +127,10 @@
 				<div class=" col-xs-12">
 					<label class="kemiche ">依据的技术文件(代号、名称)及客户要求：</label>
 					<!-- &nbsp;&nbsp;QRX-1型雷达光电望远镜按《QRX-1型雷达光电望远镜系统更新技术状态鉴定试验大纲WLDGA》和《GJB50.11A-2009军用设备实验室环境实验方法第II部分：盐雾实验》进行24h喷雾，24h干燥，两种状态，供240h的盐雾实验 -->
-				
-			
+
+
 					<textarea type="text" id="accordingDoc" rows="6">	</textarea>
-						</div>
+				</div>
 			</div>
 			<hr class="headHr">
 			<div class="main">
@@ -194,57 +197,41 @@
 				<button class="btn btn-primary glyphicon " id="submitReceipt">提交</button>
 			</div>
 
-		<!-- 	<div id="file_uploadModal" class="modal" role="dialog">
-				<div class="modal-dialog" role="document">
+		
+			<!--文件上传框  -->
+			<div id="file_uploadModal" class="modal fade" role="dialog"
+				aria-labelledby="gridSystemModalLabel">
+				<div class="modal-dialog" role="document" style="width:450px">
 					<div class="modal-content">
 						<div class="modal-header">
-							<p>上传附件</p>
+							<p class="modal-title">上传附件</p>
 						</div>
 						<div class="modal-body">
-							<div id="uploadfileQueue"></div>
-							<input type="file" id="file_upload" name="file_upload"
-								onchanage="chooseFileNum(this)" multiple="multiple">
-						</div>
-						<div class="modal-footer">
-							<button class="btn-primary glyphicon" id="submitFileBtn"
-								onclick="submitFile()">提交</button>
-						</div>
-					</div>
-				</div>
-			</div> -->
-             <!--文件上传框  -->
-             <div id="file_uploadModal" class="modal fade" role="dialog"
-		aria-labelledby="gridSystemModalLabel">
-		<div class="modal-dialog" role="document" style="width:450px">
-			<div class="modal-content">
-				<div class="modal-header" >
-					<p class="modal-title">上传附件</p> 
-				</div>
-				<div class="modal-body">
-					<div class="row">
-						<div id="files" style="text-align:left">
-							<div id="uploadfileQueue"></div>
-							<input type="file" id="file_upload" name="file_upload"  class="btn-primary"
-								multiple="multiple">
-							<div class="uploadFileText">
-								<label>备注信息:</label>
-								<textarea rows="3" class="form-control" name="fileRemarks-u"
-									id="fileRemarks-u"></textarea>
+							<div class="row">
+								<div id="files" style="text-align:left">
+									<div id="uploadfileQueue"></div>
+									<input type="file" id="file_upload" name="file_upload"
+										class="btn-primary" multiple="multiple">
+									<div class="uploadFileText">
+										<label>备注信息:</label>
+										<textarea rows="3" class="form-control" name="fileRemarks-u"
+											id="fileRemarks-u"></textarea>
+									</div>
+								</div>
 							</div>
 						</div>
+						<div class="modal-footer">
+
+							<button type="button" class="btn btn-primary" id="ensure"
+								name="ensure" onclick="submitFile()">确定</button>
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal"
+								onclick="javascript:$('#file_upload').uploadify('cancel','*')">取消</button>
+						</div>
 					</div>
 				</div>
-				<div class="modal-footer">
-
-					<button type="button" class="btn btn-primary" id="ensure"
-						name="ensure" onclick="submitFile()">确定</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal"
-						onclick="javascript:$('#file_upload').uploadify('cancel','*')">取消</button>
-				</div>
 			</div>
-		</div>
-	</div>
-             
+
 			<!-- 新增任务弹框 -->
 			<div id="addTaskModal" class="modal fade" role="dialog"
 				aria-labelledby="gridSystemModalLabel">
@@ -285,46 +272,34 @@
 								</div>
 								<div class="col-xs-12 col-md-12">
 									<div class="col-md-6 col-xs-6 ">
-									<p>检测/校准项目：</p>
-								<!-- 	<textarea id="addTestProject" rows="3" cols="30"
+										<p>检测/校准项目：</p>
+										<!-- 	<textarea id="addTestProject" rows="3" cols="30"
 										class="testProjectName" placeholder="选择检测项目"></textarea> -->
-										<div id="addTestProject"  
-										class="testProjectName" placeholder="选择检测项目"></div>
-									<!-- 	<ul>
+										<div  class="testProjectName displayChecked" id="displayChecked"  name="add"
+											placeholder="选择检测项目"></div>
+										<!-- 	<ul>
 										<li><input type="checkbox">检测项目
 										</li>
 										<li><input type="checkbox">检测项目</li>
 										</ul> -->
+									</div>
+									<div class="col-md-6 col-xs-6 ">
+										<div>
+											<p class="labelName">搜索查询添加仪器</p>
+											<input type="text" id="addsearchTestProjects"
+												class="form-control" placeholder="选择所需仪器"
+												oninput="searchTestProject('add')"
+												onpropertychange="searchTestProject('add')" />
 										</div>
-							<div id="equipmentsBox" class = "col-md-6 col-xs-6 "  >
-								<div >
-									<p class="labelName">搜索查询添加仪器</p>
-									<input type = "text" id ="searchTestProjects"  class="form-control" placeholder="选择所需仪器"   oninput="searchTestProject()"
-											onpropertychange="searchTestProject()"/>
-								</div>
-								<div  id ="showEquipments" style="position: fixed;" ></div>
-							</div>
+										<div class="showTestProjects" name="add"></div>
+									</div>
 								</div>
 								<!-- 选择检测项目 -->
 								<div class="over" id="addOver">
 									<div class="overChoose  ">
 										<!-- 隐藏滑动条 -->
 										<div class="choose">
-											<div class="row">
-												<!-- <div class="col-xs-12 col-md-12">
-													<input type="checkbox" value="123" name="task"
-														class="chooseInput"><label class="fontStyle">电磁兼容</label>
-												</div>
-
-												<div class="col-xs-12 col-md-12">
-													<input type="checkbox" value="1234" name="task"
-														class="chooseInput"><label class="fontStyle">电压传导</label>
-												</div>
-												<div class="col-xs-12 col-md-12">
-													<input type="checkbox" value="1235" name="task"
-														class="chooseInput"><label class="fontStyle">环境测验</label>
-												</div> -->
-											</div>
+											<div class="row"></div>
 										</div>
 									</div>
 								</div>
@@ -345,7 +320,7 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default"
-								 onclick="addTaskModel()">确定</button>
+								onclick="addTaskModel()">确定</button>
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">取消</button>
 						</div>
@@ -395,11 +370,26 @@
 									<input type="text" id="editSampleStyle" name="sampleStyle"
 										class="form-control" aria-describedby="basic-addon1" />
 								</div>
+
 								<div class="col-xs-12 col-md-12">
-									<p>检测/校准项目：</p>
-									<textarea id="editTestProject" rows="3" cols="30"
-										class="testProjectName" placeholder="选择检测项目"></textarea>
+									<div class="col-md-6 col-xs-6 ">
+										<p>检测/校准项目：</p>
+										<div id="displayChecked" class="testProjectName" name="edit"
+											placeholder="选择检测项目"></div>
+
+									</div>
+									<div  class="col-md-6 col-xs-6 ">
+										<div>
+											<p class="labelName">搜索查询添加仪器</p>
+											<input type="text" id="editsearchTestProjects" name="edit"
+												class="form-control" placeholder="选择所需仪器"
+												oninput="searchTestProject('edit')"
+												onpropertychange="searchTestProject('edit')" />
+										</div>
+										<div class="showTestProjects" name="edit"></div>
+									</div>
 								</div>
+
 								<!-- 选择检测项目 -->
 								<div class="over" id="editOver">
 									<div class="overChoose  ">
