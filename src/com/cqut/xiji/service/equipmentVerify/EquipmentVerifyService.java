@@ -115,7 +115,7 @@ public class EquipmentVerifyService extends SearchService implements IEquipmentV
 	}
 	
 	@Override
-	public int addEquipmentVerify(String equipmentID,String equipmentName, String testProjectID, int accuracy,
+	public int addEquipmentVerify(String equipmentID,String equipmentName, String testProjectID,String testProjectName, int accuracy,
 			String departmentID, int result, String verifyID,String employeeName, String remarks){
 		String[] properties1 = new String[] {"ID"};
 		String condition1 = " equipment.equipmentName = '" + equipmentName + "'";
@@ -143,6 +143,19 @@ public class EquipmentVerifyService extends SearchService implements IEquipmentV
 				return -8;
 			}
 		}
+		String[] properties3 = new String[] {"ID"};
+		String condition3 = " testProjectName = '" + testProjectName + "'";
+		List<Map<String, Object>> result3 = entityDao.findByCondition(properties3, condition3, Employee.class);
+		if(result3.isEmpty()){
+			System.out.println("不存在该检测项目");
+			return -10;
+		}else{
+			String testProjectID1 = result3.get(0).get("ID").toString();
+			if(!testProjectID1.equals(testProjectID)){
+				System.out.println("检测项目名与检测项目ID不相符");
+				return -12;
+			}
+		}
 		EquipmentVerify equipmentVerify = new EquipmentVerify();
 		String id = EntityIDFactory.createId();
 		equipmentVerify.setID(id);
@@ -166,7 +179,7 @@ public class EquipmentVerifyService extends SearchService implements IEquipmentV
 	}
 	
 	@Override
-	public int updEquipmentVerify(String ID, String equipmentID,String equipmentName, String testProjectID, int accuracy,
+	public int updEquipmentVerify(String ID, String equipmentID,String equipmentName, String testProjectID,String testProjectName, int accuracy,
 			String departmentID, int result, String verifyID,String employeeName, String remarks){
 		// TODO Auto-generated method stub
 		String[] properties1 = new String[] {"ID"};
@@ -193,6 +206,19 @@ public class EquipmentVerifyService extends SearchService implements IEquipmentV
 			if(!employeeID1.equals(verifyID)){
 				System.out.println("员工名与员工ID不相符");
 				return -8;
+			}
+		}
+		String[] properties3 = new String[] {"ID"};
+		String condition3 = " testProjectName = '" + testProjectName + "'";
+		List<Map<String, Object>> result3 = entityDao.findByCondition(properties3, condition3, Employee.class);
+		if(result3.isEmpty()){
+			System.out.println("不存在该检测项目");
+			return -10;
+		}else{
+			String testProjectID1 = result3.get(0).get("ID").toString();
+			if(!testProjectID1.equals(testProjectID)){
+				System.out.println("检测项目名与检测项目ID不相符");
+				return -12;
 			}
 		}
 		EquipmentVerify equipmentVerify = new EquipmentVerify();

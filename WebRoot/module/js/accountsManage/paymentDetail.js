@@ -159,47 +159,43 @@ function init(){
 }
 /* 删除方法 */
 function delPaymentDetail(){
-	if(confirm("确定要删除？")){
-		paymentDetailID = arguments[0];
-		 $.ajax({
-				url: 'paymentDetailController/delPaymentDetail.do',
-				data:{
-					paymentDetailID : paymentDetailID
-				},
-				success:function(o){
-					if(o <= 0){
-						alert("删除失败");
+	paymentDetailID = arguments[0];
+	swal({
+		  title: "确定要删除 ?",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "确定",
+		  closeOnConfirm: false
+		},
+		function(){
+			 $.ajax({
+					url: 'paymentDetailController/delPaymentDetail.do',
+					data:{
+						paymentDetailID : paymentDetailID
+					},
+					success:function(o){
+						if (o <= 0) {
+							swal({title:"删除失败",type:"error"});
+						} else {
+							swal({title:"删除成功",type:"success"});
+							refresh();
+						}
 					}
-					refresh();
-				}
-        });
-	 }     
+	        });
+		});
 }
 /* 刷新方法 */
 function refresh(){
-	$('#table').bootstrapTable('refresh', null);
+	window.location.href = "module/jsp/accountsManage/paymentDetail.jsp?jouranlAccountID="+jouranlAccountID+"&contractIDs="+contractID;
 }
 /* 查询方法 */
 function query(){
 	init();
-	refresh();		
+	$('#table').bootstrapTable('refresh', null);		
 }
 
 
-/* 重置刷新 */
-function reSetRefresh(){
-	query();
-}
-function isLogin(){
-	 islogin = $('#uploaderID').val();
-	 if(islogin === null || islogin === "" || islogin === "null"){
-		 alert("您还没登录， 请先登录");
-		 return false;
-	 }
-	 else{
-		 return true;
-	 }
-}
 /* 新增 弹窗 */
 function openAddModal(){
 	$('#add_companyName').val(JouranlAccountDate.data[0].companyName);
@@ -222,6 +218,7 @@ function addPaymentDetail(){
 	parame.receiptlistID = $('#add_receiptlistID').val();//交接单ID
 	parame.payMoney = $('#add_payMoney').val(); // 支付金额
 	parame.remarks = $('#add_remarks').val();
+	
 	
 	$.ajax({
 		  url:'paymentDetailController/addPaymentDetail.do',
@@ -266,32 +263,35 @@ function matchEmployee(Type){
 			return false;
 		}
 	});
-	if(data.length == 0){
-		console.log("没有搜索到人员，请重新输入或检查是否有员工。");
-	}
 	return fullDrawMan(data);
 	
 }
-
+function getDrawHtml(){
+	
+	data = getReceiptlistInfo(); //获取数据
+	var html = "<ul>";
+	
+	html +="</ul>";
+}
 /* 生成Html */
 function fullDrawMan(data){
-	var html = "<div class='form-control' >";
-	if(data.length < 4){
-		for(var i = 0; i < data.length ; i++){
-			html += "<option class='form-control' value ='"+data[i].ID+"' onclick='getDrawMan(this)'>" + data[i].employeeName +"-"+ data[i].departmentName  + " </option>";
-		}
+	
+	var html = "<ul>";
+	if(data.length == 0){
+		html += "<li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li>"
 	}
 	else{
-		for(var i = 0; i < 4 ; i++){
-			html += "<option class='form-control' value ='"+data[i].ID+"' onclick='getDrawMan(this)'>" + data[i].employeeName +"-"+ data[i].departmentName  + " </option>";
+		for(var i = 0; i < data.length; i++){
+			html+="<li id ='"+data[i].ID+"' onclick='getDrawMan(this)'>" + data[i].employeeName +"-"+ data[i].departmentName  + "</li>"
 		}
 	}
-		
-	html +="</div>"
+	html +="</ul>";
 	if($("#editModal").is(":visible")){
+		$('#editDraw').empty();
 		$('#editDraw').html(html);
 	}
 	if($("#addModal").is(":visible")){
+		$('#addDraw').empty();
 		$('#addDraw').html(html);
 	}
 }
@@ -300,13 +300,13 @@ function getDrawMan(d){
 	console.log("getDrawMan is used");
 	if($("#editModal").is(":visible")){
 		$('#editDraw').css("display","none");
-		$('#edit_drawName').val(d.text);
-		$('#edit_drawID').val(d.value);
+		$('#edit_drawName').val(d.innerHTML);
+		$('#edit_drawID').val(d.id);
 	}
 	if($("#addModal").is(":visible")){
 		$('#addDraw').css("display","none");
-		$('#add_drawName').val(d.text);
-		$('#add_drawID').val(d.value);
+		$('#add_drawName').val(d.innerHTML);
+		$('#add_drawID').val(d.id);
 	}
 	
 }

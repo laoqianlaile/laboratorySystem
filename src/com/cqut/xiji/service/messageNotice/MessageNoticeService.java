@@ -68,7 +68,7 @@ public class MessageNoticeService extends SearchService implements IMessageNotic
 		List<Map<String, Object>>  employeeIDs = originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false);
 		
 		if(employeeIDs.size() == 0){
-			return -1 +"";
+			return -1+ "";
 		}
 		else{
 			for (Map<String, Object> m : employeeIDs) {

@@ -228,7 +228,7 @@ function delData(){
 		equipmentVerifyids:ids.substring(0, (ids.length-3))	
 	};
 	swal({
-		title: "确认删除：" + message.substring(0, (message.length-3)),
+		title: message.substring(0, (message.length-3)),
 		type: "warning",
 		showCancelButton: true,
 		confirmButtonColor: "#DD6B55",
@@ -241,14 +241,13 @@ function delData(){
 			  type:"post",
 			  data:ajaxParameter,
 			  success:function(o){
-				  switch (o) {
-					case '1':swal("删除成功！");
-						setTimeout(refresh, 1000);
-						break;
-					case '0':swal("删除失败！");
-						break;
-					default:swal("出现未知错误，请重试！");
-						break;
+				  if(o > 0){
+					  swal("删除成功！");
+					  setTimeout(refresh, 1000);
+				  }else if(o == 0){
+					  swal("删除失败！");
+				  }else{
+					  swal("出现未知错误，请重试！");
 				  }
 			  }
 		});
@@ -717,6 +716,11 @@ function add(){
 		swal("仪器设备名称不能为空！");
 		return;
 	}
+	if (!testProjectID || typeof(testProjectID) == "undefined" || testProjectID.trim() == "") 
+	{ 
+		swal("检测项目ID不能为空！");
+		return;
+	}
 	if (!testProjectName || typeof(testProjectName) == "undefined" || testProjectName.trim() == "") 
 	{ 
 		swal("检测项目不能为空！");
@@ -750,6 +754,7 @@ function add(){
 	parame.equipmentID = equipmentID;
 	parame.equipmentName = equipmentName;
 	parame.testProjectID = testProjectID;
+	parame.testProjectName = testProjectName;
 	parame.accuracy = accuracy;
 	parame.departmentID = departmentID;
 	parame.verifyID = employeeID;
@@ -770,9 +775,13 @@ function add(){
 				break;
 			case '-8':swal("员工名与员工ID不相符！");
 				break;
+			case '-10':swal("不存在该检测项目！");
+				break;
+			case '-12':swal("检测项目名与检测项目ID不相符！");
+				break;
 			case '1':swal("新增成功！");
 				$('#addModal').modal('hide');
-				refrehTable();
+				setTimeout(refresh, 1000);
 				break;
 			case '0':swal("新增失败！");
 				break;
@@ -904,6 +913,11 @@ function edit(){
 			swal("仪器设备名称不能为空！");
 			return;
 		}
+		if (!testProjectID || typeof(testProjectID) == "undefined" || testProjectID.trim() == "") 
+		{ 
+			swal("检测项目ID不能为空！");
+			return;
+		}
 		if (!testProjectName || typeof(testProjectName) == "undefined" || testProjectName.trim() == "") 
 		{ 
 			swal("检测项目不能为空！");
@@ -936,6 +950,7 @@ function edit(){
 		parame.equipmentID = equipmentID;
 		parame.equipmentName = equipmentName;
 		parame.testProjectID = testProjectID;
+		parame.testProjectName = testProjectName;
 		parame.accuracy = accuracy;
 		parame.departmentID = departmentID;
 		parame.verifyID = employeeID;
@@ -955,6 +970,10 @@ function edit(){
 				case '-6':swal("不存在该员工！");
 					break;
 				case '-8':swal("员工名与员工ID不相符！");
+					break;
+				case '-10':swal("不存在该检测项目！");
+					break;
+				case '-12':swal("检测项目名与检测项目ID不相符！");
 					break;
 				case '1':swal("修改成功！");
 					$('#editModal').modal('hide');

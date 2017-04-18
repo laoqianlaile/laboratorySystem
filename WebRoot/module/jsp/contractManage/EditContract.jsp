@@ -20,12 +20,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
 	<link rel="stylesheet" type="text/css" href="module/css/fileManage/fileManage.css">
 	<link rel="stylesheet" type="text/css" href="module/css/changeACE.css" />
-	<link rel="stylesheet" type="text/css" href="module/css/uploadify.css">
 	<link rel="stylesheet" href="module/css/contractManage/EditContract.css" />
 	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 	
 	<script src="assets/js/jquery-2.0.3.min.js" type="text/javascript"></script>
-	<script src="module/js/jquery.uploadify.min.js" type="text/javascript"></script>
 	<script src="module/js/bootstrap.js" type="text/javascript"></script>
 	<script src="module/js/bootstrap-table.js" type="text/javascript"></script>
 	<script src="module/js/bootstrap-table-zh-CN.js" type="text/javascript"></script>
@@ -185,13 +183,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<p>上传文件</p>
 					</div>
 					<div class="modal-body">
-						<div id="uploadfileQueue"></div>
-						<input type="file" id="file_upload" name="file_upload" onchanage="chooseFileNum(this)" multiple="multiple"/>
-						<label class="control-label">备注:</label>
-						<input type="text" id="fileRemarks" name="fileRemarks" class="form-control"/>
-					</div>
+					 	<div id="fileQueue">
+							<input type="file" name="files" id="files" style="display:none" onchange="checkFile(this)">
+						</div>
+						<div>
+						<button type="button" id="chooseFile" name="chooseFile" class="btn btn-default">
+							<span class="glyphicon glyphicon-folder-open "></span> 选择文件
+						</button>
+						<span id="fileName"></span>
+						</div>
+						<div style="margin-top:10px;">
+					  	<label class="control-label" style="width:12%;">备注:</label>
+						<input type="text" id="fileRemarks" name="fileRemarks" class="form-control" style="width:85%;"/>
+					</div></div>
 					<div class="modal-footer">
-						<button class="btn-primary glyphicon" id="submitFileBtn" onclick="submitFile()">提交</button>
+						<button class="btn-primary glyphicon" id="submitFileBtn" >提交</button>
+						<button class="btn-primary glyphicon" id="cancel" >取消</button>
 					</div>
 				</div>
 			</div>
@@ -353,5 +360,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </div>
   </body>
   <script src="module/js/contractManage/EditContract.js"  type="text/javascript"></script>
-	<script src="module/js/fileManage/fileManage.js" type="text/javascript"></script>
+  <script src="module/js/fileManage/fileManage.js" type="text/javascript"></script>
+  <script type="text/javascript" src="assets/fileupload/jquery.iframe-transport.js"></script>
+  <script type="text/javascript" src="assets/fileupload/jquery.ui.widget.js"></script>
+  <script type="text/javascript" src="assets/fileupload/jquery.fileupload.js"></script>
+  <script>
+   $('#chooseFile').click(function() {
+		$('#files').click();
+	});
+	$('#cancel').click(function() {
+		swal({
+		title: "是否取消上传?",
+		type: "warning",
+		showCancelButton: true,
+		confirmButtonColor: "#DD6B55",
+		confirmButtonText: "确定",
+		closeOnConfirm: false
+		},
+		function(){
+			refresh();
+		});
+	});
+  </script>
  </html>

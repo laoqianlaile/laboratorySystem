@@ -102,4 +102,34 @@ public class StandardController{
 		return result; 
 	}
 	
+	/**
+	 *  检查是否可以覆盖上传
+	 * @author zkl
+	 * @data 2017年4月17日 下午9:06:17
+	 * @return
+	 */
+	@RequestMapping("/recoverCheck")
+	@ResponseBody
+	public boolean recoverCheck(String standardID){
+		boolean result = service.recoverCheck(standardID);
+		return result;
+	}
+	
+	
+	
+	/**
+	 * 覆盖上传后更新文件id
+	 * 
+	 * @author zkl
+	 * @data 2017年4月17日 下午9:50:05
+	 * @param standardID
+	 * @param fileID
+	 * @return
+	 */
+	@RequestMapping("/upFileID")
+	@ResponseBody
+	public String upFileID(String standardID,String fileID){
+		String result = service.upFileID(standardID,fileID);
+		return result;
+	}
 }

@@ -373,10 +373,10 @@ function initSaveAndSubmitRe_event() {
 		}
 	});
 	
-	 $("#companyName").blur(function() {
+	/* $("#companyName").blur(function() {
 		 setTimeout("hideCpmpanyOver()" ,1000);
 		 
-     });
+     });*/
 	 
 	$("#address").blur(function() {
 		if ($(this).val() == null || $(this).val().trim() == "")
@@ -1280,5 +1280,66 @@ function chenkDataFile(dataObj) { // 后台数据字段为空就不会传上来
 	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null
 			|| dataObj.remarks.trim() == "NULL") {
 		dataObj.remarks = "";
+	}
+}
+
+//搜索展示部分设备
+function searchTestProject(){
+	fullTestProjects(matchTestProject());
+}
+//匹配设备名称 返回数据
+function matchTestProject(){
+	$('#showEquipments').css("display","block");
+	var matchName = $('#searchTestProjects').val();
+	console.log(matchName);
+	var date;
+	$.ajax({
+		url : 'equipmentController/getEquipmentByName.do?equipmentName=' + matchName,
+		dataType : "json",
+		async : false,
+		data : {},
+		success :function(o){
+			date = JSON.parse(o);
+		},
+		error : function(){
+			return false;
+		}
+	});
+	if(date.length == 0){
+		console.log("请重新输入");
+	}
+	return date;
+	
+}
+
+function fullTestProjects(equipmentDate){
+	var html = "<div class='form-control' >";
+//	if(equipmentDate.length < 5){
+		for(var i = 0; i < equipmentDate.length ; i++){
+			html += "<option class='form-control' value ='"+equipmentDate[i].ID+"' onclick='displayChecked(this)'>" + equipmentDate[i].equipmentName+ " </option>";
+		}
+//	}
+//	else{
+//		for(var i = 0; i < 4 ; i++){
+//			html += "<option class='form-control' value ='"+equipmentDate[i].ID+"' onclick='displayChecked(this)'>" + equipmentDate[i].equipmentName+ " </option>";
+//		}
+//	}
+	html +="</div>"
+	$('#showEquipments').html(html);
+	$('#showEquipments').show();
+}
+//展示被选中的设备
+function displayChecked(equipmentInfo){
+
+	console.log(equipmentInfo);
+	
+	if(isSameID(equipmentInfo.value)){
+		html=' <span class= "singleE" onclick="moveSingleE(this)" id ="'+equipmentInfo.value+'">'+equipmentInfo.text+'</span>';
+		$('#displayChecked').append(html);
+		$('#showEquipments').hide();
+	}
+	else{
+		swal("请不要重复选中同一设备");
+		$('#showEquipments').hide();
 	}
 }

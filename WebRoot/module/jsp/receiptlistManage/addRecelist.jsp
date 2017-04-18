@@ -284,14 +284,26 @@
 										class="form-control" aria-describedby="basic-addon1" />
 								</div>
 								<div class="col-xs-12 col-md-12">
+									<div class="col-md-6 col-xs-6 ">
 									<p>检测/校准项目：</p>
-									<textarea id="addTestProject" rows="3" cols="30"
-										class="testProjectName" placeholder="选择检测项目"></textarea>
+								<!-- 	<textarea id="addTestProject" rows="3" cols="30"
+										class="testProjectName" placeholder="选择检测项目"></textarea> -->
+										<div id="addTestProject"  
+										class="testProjectName" placeholder="选择检测项目"></div>
 									<!-- 	<ul>
 										<li><input type="checkbox">检测项目
 										</li>
 										<li><input type="checkbox">检测项目</li>
 										</ul> -->
+										</div>
+							<div id="equipmentsBox" class = "col-md-6 col-xs-6 "  >
+								<div >
+									<p class="labelName">搜索查询添加仪器</p>
+									<input type = "text" id ="searchTestProjects"  class="form-control" placeholder="选择所需仪器"   oninput="searchTestProject()"
+											onpropertychange="searchTestProject()"/>
+								</div>
+								<div  id ="showEquipments" style="position: fixed;" ></div>
+							</div>
 								</div>
 								<!-- 选择检测项目 -->
 								<div class="over" id="addOver">

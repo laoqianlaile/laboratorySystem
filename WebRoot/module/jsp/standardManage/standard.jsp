@@ -90,18 +90,15 @@
 						<div class="row clearfix">
 							<div class="col-md-3 column">
 								<label>编码： </label> <input id="query_STANDARDCODE"
-									name="STANDARDCODE" class="form-control" oninput="query()"
-									onpropertychange="query()" type="text">
+									name="STANDARDCODE" class="form-control"  type="text">
 							</div>
 							<div class="col-md-3 column">
 								<label>名称： </label> <input id="query_STANDARDNAME"
-									name="STANDARDNAME"  class="form-control" oninput="query()"
-									onpropertychange="query()" type="text">
+									name="STANDARDNAME"  class="form-control"  type="text">
 							</div>
 							<div class="col-md-3 column">
 								<label>状态&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ： </label> <select
-									id="query_STATE" name="STATE" class="form-control" oninput="query()"
-									onpropertychange="query()">
+									id="query_STATE" name="STATE" class="form-control">
 									<option value="">全部</option>
 									<option value="0">待审核</option>
 									<option value="1">通过</option>
@@ -113,14 +110,13 @@
 						<div class="row clearfix">
 							<div class="col-md-6 column">
 								<label>类别： </label> <select id="query_TYPE" name="TYPE"
-									oninput="query()" class="form-control" onpropertychange="query()">
+									 class="form-control" >
 									<option value="">全部</option>
 								</select>
 							</div>
 							<div class="col-md-6 column">
 								<label>标准类型： </label> <select id="query_APPLICATIONTYPE"
-									name="APPLICATIONTYPE" class="form-control" oninput="query()"
-									onpropertychange="query()">
+									name="APPLICATIONTYPE" class="form-control">
 									<option value="">全部</option>
 									<option value="0">国家标准</option>
 									<option value="1">企业标准</option>
@@ -151,7 +147,7 @@
 								</button>
 
 								<button class="btn btn-primary type=" button" id="refresh"
-									onclick="reSetRefresh()">
+									onclick="refresh()">
 									<em class="glyphicon glyphicon-refresh"></em> 刷新
 								</button>
 
@@ -306,7 +302,7 @@
 						</div>
 						<div class="col-xs-12 col-md-12">
 							<label class="labelName" >审核意见</label>
-							<input type="text" id="edit_SUGGEST" name="SUGGEST"
+							<input type="text" id="edit_SUGGEST" name="SUGGEST" readonly
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
@@ -323,7 +319,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					<button type="button" class="btn btn-primary" onclick="edit()">修改</button>
+					<button type="button" class="btn btn-primary" id="editbtn" onclick="edit()">修改</button>
 				</div>
 			</div>
 		</div>
@@ -391,36 +387,32 @@
 			</div>
 		</div>
 	</div>
-		<!-- 上传文件弹框 -->
-	<div id="upfileModal" class="modal fade" role="dialog">
-		<div class="modal-dialog" role="document">
+	
+	<div id="recoverStandard" class="modal fade" role="dialog"  
+		aria-labelledby="gridSystemModalLabel">
+		<div class="modal-dialog" role="document" style="width:450px">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="  close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title">新增</h4>
+					<h4 class="modal-title">重新覆盖检测报告</h4>
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-xs-12 col-md-12">
-							<h4>文件上传：</h4>
-							<div id="uploadfileQueue"></div>
-							<input type="file" id="upFile" name="upFile"
-								multiple="multiple">
-							<div class="col-md-6 column">
-								<select id="fileType">
-									<option value="17">标准文件</option>
-								</select>
-
+						<div id="fileInfo" style="text-align:left">
+							<div id="recoverfileQueue">
+								<input type="file" name="recoverFiles" id="recoverFiles" style="display:none" onchange="checkRecoverFile(this)">
 							</div>
+							<button type="button" id="recoverButton" name="recoverButton" class="btn btn-default">
+								<span class="glyphicon glyphicon-folder-open "></span> 选择文件
+							</button>
+							<span id="recoverFileName"></span>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" onclick="addfile()">新增</button>
+
+					
+					<button type="button" class="btn btn-default" id="revocerCancel" name="revocerCancel">取消</button>
+					<button type="button" class="btn btn-primary" id="recoverEnsure" name="recoverEnsure">确定</button>
 				</div>
 			</div>
 		</div>
@@ -428,13 +420,16 @@
 	
 </body>
 <script src="module/js/standardManage/standard.js"></script>
+<script src="module/js/fileManage/fileManage.js"></script>
 <script type="text/javascript" src="assets/fileupload/jquery.iframe-transport.js"></script>
 <script type="text/javascript" src="assets/fileupload/jquery.ui.widget.js"></script> 
 <script type="text/javascript"src="assets/fileupload/jquery.fileupload.js"></script>
 <script type="text/javascript">
 	$('#chooseFile').click(function() {
 		$('#files').click();
-
+	});
+	$('#recoverButton').click(function() {
+		$('#recoverFiles').click();
 	});
 	$('#cancel').click(function() {
 		if (confirm("是否取消上传?")) {
