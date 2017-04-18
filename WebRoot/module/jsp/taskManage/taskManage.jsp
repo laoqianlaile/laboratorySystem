@@ -71,7 +71,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div class="input-group date form_datetime timeChooseDiv">
 						<input class="form-control" name="beginTime" id="beginTime"
 							size="16" type="text" value="" readonly="true"
-							placeholder="请选择委托时间"> <span class="input-group-addon"><span
+							placeholder="请选择开始时间"> <span class="input-group-addon"><span
 							class="glyphicon glyphicon-remove"></span></span> <span
 							class="input-group-addon"><span
 							class="glyphicon glyphicon-calendar"></span></span>
@@ -84,7 +84,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					<div class="input-group date form_datetime timeChooseDiv">
 						<input class="form-control" name="endTime" id="endTime" size="16"
-							type="text" value="" readonly="true" placeholder="请选择委托时间">
+							type="text" value="" readonly="true" placeholder="请选择结束时间">
 						<span class="input-group-addon"><span
 							class="glyphicon glyphicon-remove"></span></span> <span
 							class="input-group-addon"><span
@@ -159,7 +159,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			minView : 1,
 			maxView : 3,
 			forceParse : 0,
-			format : 'yyyy-mm-dd HH:ii:ss'
+			format : 'yyyy-mm-dd hh:ii:ss'
 		});
 	</script>
 </body>

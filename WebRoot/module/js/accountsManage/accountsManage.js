@@ -81,7 +81,7 @@ function init(){
 				valign:'middle',
 				width:'20%',
 				 formatter:function(value,row,index){    
-					 var e = "<img src ='module/img/view_icon.png' onclick='viewDetailed("+row.contractID+")'  title='查看详细' style='cursor:pointer;margin-right:8px'>"
+					 var e = "<img src ='module/img/view_icon.png' onclick='viewDetailed(\""+row.contractID+"\")'  title='查看详细' style='cursor:pointer;margin-right:8px'>"
 					 var a = "<img src ='module/img/edit_icon.png' onclick='openEditModal("+JSON.stringify(row)+")' title='修改' style='cursor:pointer;margin-right:8px;' />"
 					 var d = "<img src ='module/img/delete_icon.png' onclick='delAccounts(\""+row.accountsID+"\")' title='删除' style='cursor:pointer;margin-right:8px;' />"
 	                 return e+a+d;
@@ -94,7 +94,7 @@ function init(){
 
 /* 刷新方法 */
 function refresh(){
-	$('#table').bootstrapTable('refresh', null);
+	window.location.href = "module/jsp/accountsManage/accountsManage.jsp";
 }
 
 
@@ -117,28 +117,9 @@ function queryParams(params) {  //配置参数
 /* 查询方法 */
 function query(){
 	init();
-	refresh();		
+	$('#table').bootstrapTable('refresh', null);
 }
 
-
-/* 重置刷新 */
-function reSetRefresh(){
-	document.getElementById("query_contractCode").value=""; 	
-	document.getElementById("query_contractName").value="";
-	document.getElementById("checkTime1").value=""; 	
-	document.getElementById("checkTime2").value="";
-	query();
-}
-function isLogin(){
-	 islogin = $('#uploaderID').val();
-	 if(islogin === null || islogin === "" || islogin === "null"){
-		 alert("您还没登录， 请先登录");
-		 return false;
-	 }
-	 else{
-		 return true;
-	 }
-}
 /* 流水账目跳转  */
 function viewDetailed(){
 	window.location.href = window.location.href.replace('accountsManage.jsp','jouranlAccounts.jsp') + '?ID='+arguments[0];
@@ -175,6 +156,9 @@ function delAccounts(){
 /* 新增弹窗  */
 function openAddModal(){
 	fillContract("add_contractCode");
+	var loginInfo =  getLoginerInfo();
+	$('#add_employeeName').val(loginInfo[0].employeeName);
+	$('#employeeID').val(loginInfo[0].employeeID);
 	$('#addModal').modal('show');
 }
 
@@ -194,8 +178,10 @@ function addAccounts(){
 	var parame = {};
 	
 	parame.contractID = $('#add_contractCode').val();
-	parame.employeeID = $('#add_employeeName').val();
+	parame.employeeID = $('#employeeID').val();
 	parame.remarks = $('#add_remarks').val();
+	if(checkNull(parame))return;
+	
 	$.ajax({
 		  url:'accountsController/addAccounts.do',
 		  data:parame,
@@ -211,7 +197,8 @@ function addAccounts(){
 }
 /* 合同信息html  */
 function fillContract(id){
-	var html = "";
+	$('#'+id+'').empty();
+	var html = '<option ></option>';
 	for(var i = 0 ; i < ContractInfo.data.length; i++){
 		html += "<option value ='"+ ContractInfo.data[i].contractID +"'>"+ ContractInfo.data[i].contractCode +"</option>";
 	}
@@ -223,21 +210,21 @@ function fillContract(id){
 /* 修改弹窗  */
 function openEditModal(){
 	
-	fillContract("edit_contractCode");
+//	fillContract("edit_contractCode");
+	$('#edit_contractCode').val(arguments[0].contractCode)
 	$('#edit_accountsID').val(arguments[0].accountsID);
 	$('#edit_contractName').val(arguments[0].contractName);
 	$('#edit_contractAmount').val(arguments[0].contractAmount);
 	$('#edit_employeeName').val(arguments[0].employeeName);
 	$('#edit_checkinTime').val(arguments[0].checkinTime);
 	
-	var operator = $('#employeeID').val();
+	var operator = getLoginerInfo();
 	
-	if(operator === arguments[0].employeeID){
+	if(operator[0].employeeID === arguments[0].employeeID){
 		$("div#edit .form-control").attr("disabled",false);
-		
 	}
 	else{
-		alert("不可操作");
+		swal("不可编辑");
 		$("div#edit .form-control").attr("disabled","disabled");
 	}
 	
@@ -295,6 +282,23 @@ function getContract(){
 	var data;
 	$.ajax({
 		url : 'contractController/getContract.do',
+		dataType : "json",
+		async : false,
+		data : {},
+		success : function(o) {
+			data = JSON.parse(o);
+		},
+		error : function() {
+			return false;
+		}
+	});
+	return data;
+}
+/*获取当前session*/
+function getLoginerInfo(){
+	var data;
+	$.ajax({
+		url : 'employeeController/getEmployeeinfo.do',
 		dataType : "json",
 		async : false,
 		data : {},

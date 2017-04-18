@@ -203,7 +203,6 @@ public class StandardService extends SearchService implements IStandardService{
 		if(STATE !=null && STATE != "" ){
 			standard.setState(Integer.parseInt(STATE));
 		}
-		System.out.println("ABANDONAPPLYMAN : " + ABANDONAPPLYMAN + " ABANDONAPPLYREASON : " + ABANDONAPPLYREASON);
 		if(ABANDONAPPLYMAN != null && ABANDONAPPLYMAN !="" && ABANDONAPPLYREASON != null && ABANDONAPPLYREASON !="" ){
 			standard.setAbandonApplyMan(ABANDONAPPLYMAN);
 			standard.setAbandonApplyTime(new Date());
@@ -223,9 +222,33 @@ public class StandardService extends SearchService implements IStandardService{
 				List<Map<String, Object>> result = entityDao.findByCondition(
 						properties, " 1 = 1", StandardType.class);
 
-				System.out.println(Arrays.toString(result.toArray()));
 
 				return result;
+	}
+
+	@Override
+	public boolean recoverCheck(String standardID) {
+		
+		Map<String, Object> stateInfo =	entityDao.findByID(new String[]{"state"}, standardID, Standard.class);
+		String state = stateInfo.get("state").toString();
+		if (state.equals("0") || state.equals("3")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public String upFileID(String standardID, String fileID) {
+		
+		Standard standard = entityDao.getByID(standardID, Standard.class);
+		
+		if(standard == null){
+			return -1 +"";
+		}
+		standard.setFileID(fileID);
+		int Backvalue = entityDao.save(standard);
+		return Backvalue + "";
 	}
 
 }

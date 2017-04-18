@@ -23,7 +23,8 @@ public interface ITestReportService {
 
 	public boolean recoverCheck(String ID);
 
-	public boolean updateTestReport(String ID, String taskID, String versionNumber, String versionInfo, String remarks);
+	public boolean updateTestReport(String ID, String taskID,
+			String versionNumber, String versionInfo, String remarks);
 
 	public boolean submitReportCheck(String ID);
 
@@ -56,7 +57,7 @@ public interface ITestReportService {
 	public boolean thirdAuditOperateCheck(String ID);
 
 	public boolean thirdPassReport(String ID, String taskID,
-			String auditPassAgreement);
+			String auditPassAgreement, String employeeID);
 
 	public boolean thirdRejectReport(String ID, String taskID,
 			String dismissreason);

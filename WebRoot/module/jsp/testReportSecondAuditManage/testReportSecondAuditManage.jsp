@@ -19,11 +19,15 @@
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
-<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
+<link rel="stylesheet" type="text/css"
+	href="module/css/bootstrap-table.css">
+<link rel="stylesheet" type="text/css"
+	href="module/css/bootstrap-datetimepicker.css">
 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
-<link rel="stylesheet" type="text/css" href="module/css/testReportManage/testReportManage.css">
-<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
+<link rel="stylesheet" type="text/css"
+	href="module/css/testReportManage/testReportManage.css">
+<link rel="stylesheet" type="text/css"
+	href="module/css/commonSystem/commonSystem.css" />
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
@@ -40,9 +44,20 @@
 	margin-left: 26px;
 }
 
-#rejectReason,#PassReason{
+.audtiAgreement {
+	width: 100%;
+	margin: 10px auto;
+}
+
+.audtiAgreement label {
+	float: left;
+	width: 20%;
+	margin-top: 10px;
+}
+
+#PassReason,#rejectReason {
 	resize: none;
-	width: 90%;
+	width: 75%;
 	height: 200px;
 }
 </style>
@@ -102,7 +117,7 @@
 					<label>审核状态:</label> <select class="form-control" name="selectPart"
 						id="selectPart">
 						<option value="3">所有情况</option>
-						<option value="0">待审核</option>
+						<option value="0" selected="selected">待审核</option>
 						<option value="1">审核通过</option>
 						<option value="2">驳回</option>
 					</select>
@@ -124,10 +139,10 @@
 			</div>
 		</div>
 	</div>
-	
-		<div id="secondAuditPassModal" class="modal fade" role="dialog"
+
+	<div id="secondAuditPassModal" class="modal fade" role="dialog"
 		aria-labelledby="gridSystemModalLabel">
-		<div class="modal-dialog" role="document" style="width:450px; ">
+		<div class="modal-dialog" role="document" style="width:500px; ">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
@@ -138,12 +153,14 @@
 				</div>
 				<div class="modal-body">
 					<hr />
-					<div class="row" style="text-align:center;">
-						<span id="PassTestReportID" style="display:none"></span>
-						 <span id="PassTaskID" style="display:none"></span> 
-						 <span id="PassFileName" style="display:none"></span>
-						<textarea id="PassReason" class="form-control" style="overflow-y:scroll"></textarea>
+					<div class="audtiAgreement">
+						<span id="PassTestReportID" style="display:none"></span> <span
+							id="PassTaskID" style="display:none"></span> <span
+							id="PassFileName" style="display:none"></span> <label>审核意见:</label>
+						<textarea id="PassReason" class="form-control"
+							style="overflow-y:scroll"></textarea>
 					</div>
+
 					<hr />
 				</div>
 				<div class="modal-footer">
@@ -154,11 +171,11 @@
 			</div>
 		</div>
 	</div>
-	
-	
+
+
 	<div id="secondAuditRejectModal" class="modal fade" role="dialog"
 		aria-labelledby="gridSystemModalLabel">
-		<div class="modal-dialog" role="document" style="width:450px; ">
+		<div class="modal-dialog" role="document" style="width:500px; ">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
@@ -169,10 +186,10 @@
 				</div>
 				<div class="modal-body">
 					<hr />
-					<div class="row" style="text-align:center;">
+					<div class="audtiAgreement">
 						<span id="testReportID" style="display:none"></span> <span
 							id="taskID" style="display:none"></span> <span id="fileName"
-							style="display:none"></span>
+							style="display:none"></span> <label>审核意见:</label>
 						<textarea id="rejectReason" class="form-control"
 							style="overflow-y:scroll"></textarea>
 					</div>
@@ -192,7 +209,8 @@
 
 	</table>
 
-	<script src="module/js/testReportSecondAuditManage/testReportSecondAuditManage.js"></script>
+	<script
+		src="module/js/testReportSecondAuditManage/testReportSecondAuditManage.js"></script>
 	<script src="module/js/fileManage/fileManage.js"></script>
 	<script type="text/javascript">
 		$('.form_datetime').datetimepicker({

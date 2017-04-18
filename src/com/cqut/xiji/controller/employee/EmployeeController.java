@@ -257,8 +257,8 @@ public class EmployeeController {
 		 */
 		@RequestMapping("/getEmployeeinfo")
 		@ResponseBody
-		public String getEmployeeinfo(String employeeID){
-			List<Map<String, Object>> result = service.getEmployeeinfo(employeeID);
+		public String getEmployeeinfo(HttpSession session){
+			List<Map<String, Object>> result = service.getEmployeeinfo(session);
 			return JSONArray.fromObject(result).toString();
 		}
 		
@@ -300,6 +300,13 @@ public class EmployeeController {
 		}
 		
 		/**
+		 * 电子盖章 电子签名
+		 * 
+		 * @author zkl
+		 * @data 2017年4月10日 下午9:42:15
+		 * @param fileID
+		 * @param selectorName 
+		 * @return
 		 */
 		@RequestMapping("/addSignatrueAndStamp")
 		@ResponseBody

@@ -21,8 +21,6 @@ $(function() {
 		$("#accordingInfo").text(result.requires);
 
 	});
-	
-
 
 	$.post("taskController/getSampleManageInfo.do", {
 		taskID : ID
@@ -34,189 +32,209 @@ $(function() {
 		}
 	});
 	
+	// 获取样品相关信息
 	$("#sampleInfoTable").bootstrapTable({
 		striped : false,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
-     	pageSize : 5,// 页面数据条数
+		pageSize : 5,// 页面数据条数
 		pageNumber : 1,// 首页页码
 		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache : false,// 禁用 AJAX 数据缓存
-    	sortName : 'ID',// 定义排序列
-    	sortOrder : 'DESC',// 定义排序方式
+		sortName : 'ID',// 定义排序列
+		sortOrder : 'DESC',// 定义排序方式
 		url : 'taskController/getSampleInfoWithPaging.do',// 服务器数据的加载地址
 		sidePagination : 'server',// 设置在哪里进行分页
 		contentType : 'application/json',// 发送到服务器的数据编码类型
 		dataType : 'json',// 服务器返回的数据类型
-		queryParams: queryParams, //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
-	    queryParamsType: "limit", 
+		queryParams : function queryParams(params) { // 请求服务器数据时,添加一些额外的参数
+			param.limit = params.limit;// 页面大小
+			param.offset = params.offset; // 偏移量
+			param.sort = params.sort; // 排序列名
+			param.order = params.order; // 排位方式
+			param.taskID = ID;
+			return param;
+		},
+		queryParamsType : "limit",
 		selectItemName : '',// radio or checkbox 的字段名
 		columns : [ {
 			checkbox : true,
-			width :"1%",// 宽度
+			width : "1%",// 宽度
 			formatter : function(value, row, index) {
-				 checkSampleData(row);	 // 验证数据合理性
-		  }
-		},{
-			field: '',
-	        title: '序号',
-	        width:'1%',
-	        align:'center',
-	        valign:'middle',
-	        formatter: function (value, row, index) {
-	              return index+1;
-	        }
-		},{
+				checkSampleData(row); // 验证数据合理性
+			}
+		}, {
+			field : '',
+			title : '序号',
+			width : '1%',
+			align : 'center',
+			valign : 'middle',
+			formatter : function(value, row, index) {
+				return index + 1;
+			}
+		}, {
 			field : 'ID',// 返回值名称
 			title : '任务ID',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
 			width : "11%",// 宽度
 			visible : false
-		},{
+		}, {
 			field : 'factoryCode',// 返回值名称
 			title : '出厂编号',// 列名
 			align : 'center',// 水平居中显示
-		    valign : 'middle',// 垂直居中显示
+			valign : 'middle',// 垂直居中显示
 			width : "11%",// 宽度
-		},{
+		}, {
 			field : 'sampleName',// 返回值名称
 			title : '样品名称',// 列名
 			align : 'center',// 水平居中显示
-		    valign : 'middle',// 垂直居中显示
+			valign : 'middle',// 垂直居中显示
 			width : "11%",// 宽度
-		},{
+		}, {
 			field : 'specifications',// 返回值名称
 			title : '型号/规格/代号',// 列名
 			align : 'center',// 水平居中显示
-		    valign : 'middle',// 垂直居中显示
+			valign : 'middle',// 垂直居中显示
 			width : "11%",// 宽度
-		},{
+		}, {
 			field : 'testProjectName',// 返回值名称
 			title : '检测/校准项目',// 列名
 			align : 'center',// 水平居中显示
-		    valign : 'middle',// 垂直居中显示
+			valign : 'middle',// 垂直居中显示
 			width : "11%",// 宽度
-		},{
+		}, {
 			field : 'getMan',// 返回值名称
 			title : '领样人',// 列名
 			align : 'center',// 水平居中显示
-		    valign : 'middle',// 垂直居中显示
+			valign : 'middle',// 垂直居中显示
 			width : "11%",// 宽度
-		},{
+		}, {
 			field : 'getTime',// 返回值名称
 			title : '领样时间',// 列名
 			align : 'center',// 水平居中显示
-		    valign : 'middle',// 垂直居中显示
+			valign : 'middle',// 垂直居中显示
 			width : "11%",// 宽度
-		},{
+		}, {
 			field : 'returnMan',// 返回值名称
 			title : '退样人',// 列名
 			align : 'center',// 水平居中显示
-		    valign : 'middle',// 垂直居中显示
+			valign : 'middle',// 垂直居中显示
 			width : "11%",// 宽度
-		},{
+		}, {
 			field : 'returnTime',// 返回值名称
 			title : '退样时间',// 列名
 			align : 'center',// 水平居中显示
-		    valign : 'middle',// 垂直居中显示
+			valign : 'middle',// 垂直居中显示
 			width : "11%",// 宽度
-		},{
+		}, {
 			field : 'detectstate',// 返回值名称
 			title : '检测状态',// 列名
 			align : 'center',// 水平居中显示
-		    valign : 'middle',// 垂直居中显示
+			valign : 'middle',// 垂直居中显示
 			width : "11%",// 宽度
-		}]
+		} ]
 	});
-	
+
 	// 请求数据时的额外参数
-	function queryParams(){
+	function queryParams() {
 		var searchCondition = {
 			limit : 5,
 			offset : 0,
 			sort : 'ID',
 			order : 'DESC',
-			taskID :ID
+			taskID : ID
 		};
-	    return searchCondition;
+		return searchCondition;
 	}
-	
+
 	param.taskID = ID;
-	
+
 	// 得到任务对应文件的信息
-	$("#taskFile").bootstrapTable({
-		striped : false,// 隔行变色效果
-		pagination : true,// 在表格底部显示分页条
-     	pageSize : 5,// 页面数据条数
-		pageNumber : 1,// 首页页码
-		pageList : [ 5, 10 ],
-		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
-		cache : false,// 禁用 AJAX 数据缓存
-    	sortName : 'uploadTime',// 定义排序列
-    	sortOrder : 'DESC',// 定义排序方式
-		url : 'fileInformationController/getFileInTaskViewWithPaging.do',// 服务器数据的加载地址
-		sidePagination : 'server',// 设置在哪里进行分页
-		contentType : 'application/json',// 发送到服务器的数据编码类型
-		dataType : 'json',// 服务器返回的数据类型
-		queryParams : function queryParams(params) { //请求服务器数据时,添加一些额外的参数
-			param.limit = params.limit;// 页面大小
-			param.offset = params.offset; // 偏移量
-			param.sort = params.sort; // 排序列名
-			param.order = params.order; // 排位方式
-			return param;
-		},
-		queryParamsType : "limit", // 参数格式,发送标准的RESTFul类型的参数请求
-		columns : [ {
-			checkbox : true,
-			width :"1%",// 宽度
-			formatter : function(value, row, index) {
-				 checkFileData(row);	 // 验证数据合理性
-		  }
-		},{
-			field: '',
-	        title: '序号',
-	        width:'1%',
-	        align:'center',
-	        valign:'middle',
-	        formatter: function (value, row, index) {
-	              return index+1;
-	        }
-		},{
-			field : 'ID',// 返回值名称
-			title : '文件ID',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : '25%',// 宽度
-			visible : false
-		},{
-			field : 'fileName',// 返回值名称
-			title : '文件名',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : '24%'// 宽度
-		}, {
-			field : 'uploadTime',// 返回值名称
-			title : '上传时间',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : '25%'// 宽度
-		}, {
-			field : 'remarks',// 返回值名称
-			title : '备注',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : '25%'// 宽度
-		},{
-			title : '操作',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : "10%",// 宽度
-			formatter : function(value, row, index) {
-					return 	"<img src ='module/img/download_icon.png' title='下载'  onclick='fileDown(\""+row.ID+"\")' style='cursor:pointer;'>"+ 
-					"</img>"
-				}
-		}]
-	});
+	$("#taskFile")
+			.bootstrapTable(
+					{
+						striped : false,// 隔行变色效果
+						pagination : true,// 在表格底部显示分页条
+						pageSize : 5,// 页面数据条数
+						pageNumber : 1,// 首页页码
+						pageList : [ 5, 10 ],
+						clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和
+												// checkbox
+						cache : false,// 禁用 AJAX 数据缓存
+						sortName : 'uploadTime',// 定义排序列
+						sortOrder : 'DESC',// 定义排序方式
+						url : 'fileInformationController/getFileInTaskViewWithPaging.do',// 服务器数据的加载地址
+						sidePagination : 'server',// 设置在哪里进行分页
+						contentType : 'application/json',// 发送到服务器的数据编码类型
+						dataType : 'json',// 服务器返回的数据类型
+						queryParams : function queryParams(params) { // 请求服务器数据时,添加一些额外的参数
+							param.limit = params.limit;// 页面大小
+							param.offset = params.offset; // 偏移量
+							param.sort = params.sort; // 排序列名
+							param.order = params.order; // 排位方式
+							return param;
+						},
+						queryParamsType : "limit", // 参数格式,发送标准的RESTFul类型的参数请求
+						columns : [
+								{
+									checkbox : true,
+									width : "1%",// 宽度
+									formatter : function(value, row, index) {
+										checkFileData(row); // 验证数据合理性
+									}
+								},
+								{
+									field : '',
+									title : '序号',
+									width : '1%',
+									align : 'center',
+									valign : 'middle',
+									formatter : function(value, row, index) {
+										return index + 1;
+									}
+								},
+								{
+									field : 'ID',// 返回值名称
+									title : '文件ID',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '25%',// 宽度
+									visible : false
+								},
+								{
+									field : 'fileName',// 返回值名称
+									title : '文件名',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '24%'// 宽度
+								},
+								{
+									field : 'uploadTime',// 返回值名称
+									title : '上传时间',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '25%'// 宽度
+								},
+								{
+									field : 'remarks',// 返回值名称
+									title : '备注',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '25%'// 宽度
+								},
+								{
+									title : '操作',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "10%",// 宽度
+									formatter : function(value, row, index) {
+										return "<img src ='module/img/download_icon.png' title='下载'  onclick='fileDown(\""
+												+ row.ID
+												+ "\")' style='cursor:pointer;'>"
+												+ "</img>";
+									}
+								} ]
+					});
 	
 	// 获取设备的信息
 	$.post("equipmentController/getEquipmentInfo.do",
@@ -230,7 +248,7 @@ $(function() {
 			                        	+ "<label for='equipment" + i + "' >"
 				                        +  result[i].equipmentInfo 
 				                        + "</label>" 
-				                        + "</div>"
+				                        + "</div>";
 					}
 					$(".equipmentList").append(htmlElement);
 				}
@@ -264,11 +282,14 @@ function uploadFile() {
 		var fileID = JSON.parse(data.result);
 		var ID = param.taskID;
 		if (fileID != null && fileID != "null" && fileID != "") {
-			$.post("taskController/setTaskDetectState.do", {
+			$.post("taskController/setTaskDetectState.do", 
+			{
 				taskID : ID
-			}, function(result) {
+			}, 
+			function(result) {
 				if (result == true || result == "true") {
-					$.post("taskController/setTestReportInfo.do", {
+					$.post("taskController/setTestReportInfo.do", 
+					{
 						taskID : ID,
 						remarks : $.trim($("#remarksInfo").val())
 					}, function(result) {
@@ -289,7 +310,7 @@ function uploadFile() {
 			secondDirectory : param.secondDirectory,
 			thirdDirectory : param.thirdDirectory,
 			remark : param.fileSummaryInfo
-		}
+		};
 	});
 }
 
@@ -328,40 +349,23 @@ function sure() {
 
 // 下载报告模版
 function downReportTemplate() {
-/*	var ID = getUrlParam("taskID");
-	$.post("taskController/getProjectName.do", {
-		taskID : ID
-	}, function(result) {
-		result = JSON.parse(result);
-		if(result != null && result != "null" && result != ""){
-			$.post("taskController/downReportTemplate.do", {
-				taskID : ID,
-				projectName : result[0].NAME
-			}, function(fileID) {
-				fileID = JSON.parse(fileID);
-				if (fileID != null && fileID != "null" && fileID != "") {
-					refresh();
-					downOneFile(fileID);
-				} else {
-					alert("下载模版出错");
-				}
-			});
-		} else {
-			alert("没有找到相关项目,不能下载模版");
-		}
-	});*/
 	var ID = getUrlParam("taskID");
-	$.post("taskController/getFileIdOfTask.do",{
+	$.post("taskController/getFileIdOfTask.do",
+	{
 		taskID : ID
-	},function(fileID){
+	},
+	function(fileID){
 		fileID = JSON.parse(fileID);
 		if(fileID == null || fileID == "null" || fileID == ""){
-			$.post("taskController/getProjectName.do",{
+			$.post("taskController/getProjectName.do",
+			{
 				taskID : ID
-			},function(result){
+			},
+			function(result){
 				result = JSON.parse(result);
 				if(result != null && result != "null" && result != ""){
-					$.post("taskController/downReportTemplate.do", {
+					$.post("taskController/downReportTemplate.do", 
+					{
 						taskID : ID,
 						projectName : result[0].NAME
 					}, function(fileID) {
@@ -404,9 +408,11 @@ function uploadTestReport() {
 		taskID : ID
 	}, function(result) {
 		if (result == true || result == "true") {
-			$.post("taskController/getProjectName.do", {
+			$.post("taskController/getProjectName.do",
+			{
 				taskID : ID
-			},function(result) {
+			},
+			function(result) {
 				result = JSON.parse(result);
 				if(result != null && result != "null" && result != ""){
 					$("#chooseFile").removeAttr("disabled");
@@ -432,13 +438,16 @@ function uploadTestReport() {
 function onlineViewReport() {
 	displayDiv();
 	var taskID = getUrlParam("taskID");
-	$.post("taskController/getReportFileID.do", {
+	$.post("taskController/getReportFileID.do", 
+	{
 		taskID : taskID
-	}, function(result) {
+	}, 
+	function(result) {
 		result = JSON.parse(result);
 		if(result != null && result != "null" && result != ""){
 			var fileID = result[0].ID;
-			$.post("fileOperateController/onlinePreview.do", {
+			$.post("fileOperateController/onlinePreview.do", 
+			{
 				ID : fileID
 			}, function(result) {
 				result = JSON.parse(result);
@@ -461,44 +470,45 @@ function submitReport() {
 	if (confirm("确定要提交审核?")) {
     var taskID = getUrlParam("taskID");
     $.post("taskController/submitReport.do",
-		    {
-		    	taskID : taskID
-			},function(result) {
-				if (result == true || result == "true") {
-					$.post("testReportController/getReportInfo.do",
-									{
-										taskID : taskID
-									},function(result) {
-										result = JSON.parse(result);
-										if(result != null && result != "null" && result != ""){
-											$.post("messageController/addReportAudiPersontMessage.do",
-															{
-																fileName : result[0].fileName
-															},function(messageID) {
-																messageID = JSON.parse(messageID);
-																$.post("messageNoticeController/addReportAuditMessageNotice.do",
-																				{
-																					messageID : messageID,
-																					employeeID : result[0].levelTwo
-																				});
-															});
-										}
-									});
-					refresh();
-					alert("提交审核成功");
-				} else {
-						refresh();
-						alert("当前状态不能提交审核!请核对报告审核状态或者指定审核人");
-						}
-		});
-	}
+    {
+    	taskID : taskID
+    },
+    function(result) {
+    	if (result == true || result == "true") {
+    		$.post("testReportController/getReportInfo.do",
+    		{
+    			taskID : taskID
+    		},function(result) {
+    			result = JSON.parse(result);
+    			if(result != null && result != "null" && result != ""){
+    				$.post("messageController/addReportAudiPersontMessage.do",
+    				{
+    					fileName : result[0].fileName
+    			    },
+    			    function(messageID) {
+    			    	messageID = JSON.parse(messageID);
+    			    	$.post("messageNoticeController/addReportAuditMessageNotice.do",
+    					{
+    			    		messageID : messageID,
+    			    		employeeID : result[0].levelTwo
+    			    		});
+    			    	});
+    				}
+    			});
+    			refresh();
+    			alert("提交审核成功");
+    			} else {
+    				refresh();
+    				alert("当前状态不能提交审核!请核对报告审核状态或者指定审核人");
+    				}
+    		});
+    }
 }
 				
 // 下载
 function fileDown() {
 	var fileID = arguments[0];
 	downOneFile(fileID);
-
 }
 
 // 返回

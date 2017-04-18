@@ -24,7 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript" src="module/js/bootstrap-datetimepicker.fr.js"></script>
 	<script type="text/javascript" src="module/js/bootstrap-datetimepicker.js"></script>
 	<script type="text/javascript" src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
-	
+	<!-- 提示弹框 -->
 	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 	<script src="module/js/sweetalert.min.js"></script>
   </head>
@@ -81,6 +81,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   border: none;
   color: #fff;
   background-color: rgb(255, 173, 51);
+}
+
+#addModal .row .form-control{
+    display: initial;
+    width:80%;
+}
+#addModal .row .labelName{
+	margin: 2%;
+	text-align: center;
+}
+#editModal .row .form-control{
+    display: initial;
+    width:80%;
+}
+#editModal .row .labelName{
+	margin: 2%;
+	text-align: center;
 }
 </style>
   <body>
@@ -141,7 +158,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<em class="glyphicon glyphicon-circle-arrow-down"></em> 导出
 						</button>
 						<button class="btn btn-primary type=" button" id="refresh"
-							onclick="reSetRefresh()">
+							onclick="refresh()">
 							<em class="glyphicon glyphicon-refresh"></em> 刷新
 						</button>
 					</div>
@@ -150,8 +167,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</table>
 		</div>
 	</div>
-	<!-- 获取当前操作人的ID -->
-	<input type="hidden"  id="employeeID" name="employeeID" value="<%=session.getAttribute("EMPLOYEEID")%>"/>
+
 	<!-- 新增弹窗 -->
 	<div id="addModal" class="modal fade">
 		<div class="modal-dialog">
@@ -165,27 +181,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class ="col-xs-6 col-md-6">
-							<label>合同编码：</label>
+						<div class ="col-xs-12 col-md-12">
+							<label class="labelName">报账专员</label> 
+							<input type="hidden" id="employeeID" name = "employeeID"/>
+							<input type="text" id="add_employeeName" name="employeeName" disabled="disabled" class="form-control" aria-describedby="basic-addon1"/>
+						</div>
+						<div class ="col-xs-12 col-md-12">
+							<label class="labelName">合同编码</label>
 							<select id="add_contractCode" name="contractCode" oninput="contractCodeChange('add')"
 									onpropertychange="contractCodeChange('add')" class="form-control">
 							</select>
 						</div>
-						<div class ="col-xs-6 col-md-6">
-							<label>合同名称：</label> 
+						<div class ="col-xs-12 col-md-12">
+							<label class="labelName">合同名称</label> 
 							<input type="text" id="add_contractName" name="contractName" disabled="disabled"  class="form-control" aria-describedby="basic-addon1"/>
 						</div>
-						<div class ="col-xs-6 col-md-6">
-							<label>合同金额：</label> 
+						<div class ="col-xs-12 col-md-12">
+							<label class="labelName">合同金额</label> 
 							<input type="text" id="add_contractAmount" name="contractAmount" disabled="disabled"  class="form-control" aria-describedby="basic-addon1"/>
 						</div>
-						<div class ="col-xs-6 col-md-6">
-							<label>报账专员：</label> 
-							<input type="text" id="add_employeeName" name="employeeName" disabled="disabled" value="<%=session.getAttribute("EmployeeName")%>" class="form-control" aria-describedby="basic-addon1"/>
-						</div>
 						<div class ="col-xs-12 col-md-12">
-							<label>备注：　　</label> 
-							<input type="text" id="add_remarks" name="remarks"  class="form-control" aria-describedby="basic-addon1"/>
+							<label class="labelName" style="position: relative;bottom: 25px;">　备注　</label> 
+							<textarea id="add_remarks" name="remarks"  class="form-control" aria-describedby="basic-addon1"></textarea>
 						</div>
 					</div>
 				</div>
@@ -210,29 +227,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="modal-body">
 					<div class="row" id="edit">
 						<input type="hidden" id="edit_accountsID" name="accountsID"/>
-						
-						<div class ="col-xs-6 col-md-6">
-							<label>合同编码：</label>
-							<select id="edit_contractCode" name="contractCode" oninput="contractCodeChange()"
-									onpropertychange="contractCodeChange()" class="form-control">
-							</select>
-						</div>
-						<div class ="col-xs-6 col-md-6">
-							<label>录入时间：</label> 
-							<input type="text" id="edit_checkinTime" name="checkinTime"  class="form-control" aria-describedby="basic-addon1"/>
-						</div>
-						<div class ="col-xs-6 col-md-6">
-							<label>合同名称：</label> 
-							<input type="text" id="edit_contractName" name="contractName" disabled="disabled"  class="form-control" aria-describedby="basic-addon1"/>
-						</div>
-						<div class ="col-xs-6 col-md-6">
-							<label>合同金额：</label> 
-							<input type="text" id="edit_contractAmount" name="contractAmount" disabled="disabled" class="form-control" aria-describedby="basic-addon1"/>
-						</div>
-						<div class ="col-xs-6 col-md-6">
-							<label>报账专员：</label> 
+						<div class ="col-xs-12 col-md-12">
+							<label class="labelName">报账专员：</label> 
 							<input type="text" id="edit_employeeName" name="employeeName"  disabled="disabled" class="form-control" aria-describedby="basic-addon1"/>
 						</div>
+						<div class ="col-xs-12 col-md-12">
+							<label class="labelName">合同编码：</label>
+							<input type="text" id="edit_contractCode" name="contractCode" display ="display"/>
+						</div>
+						<div class ="col-xs-12 col-md-12">
+							<label class="labelName">录入时间：</label> 
+							<input type="text" id="edit_checkinTime" name="checkinTime"  class="form-control" aria-describedby="basic-addon1"/>
+						</div>
+						<div class ="col-xs-12 col-md-12">
+							<label class="labelName">合同名称：</label> 
+							<input type="text" id="edit_contractName" name="contractName" disabled="disabled"  class="form-control" aria-describedby="basic-addon1"/>
+						</div>
+						<div class ="col-xs-12 col-md-12">
+							<label class="labelName">合同金额：</label> 
+							<input type="text" id="edit_contractAmount" name="contractAmount" disabled="disabled" class="form-control" aria-describedby="basic-addon1"/>
+						</div>
+					
 					</div>
 				</div>
 				<div class="modal-footer">

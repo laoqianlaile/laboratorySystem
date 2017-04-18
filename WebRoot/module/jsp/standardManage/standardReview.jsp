@@ -62,18 +62,15 @@
 						<input type= "hidden" id = "EMPLOYEEID" value = "<%=session.getAttribute("EMPLOYEEID")  %>" />
 							<div class="col-md-3 column">
 								<label>编码 ： </label> <input
-									id="query_STANDARDCODE" class ="form-control" name="STANDARDCODE" oninput="query()"
-									onpropertychange="query()" type="text">
+									id="query_STANDARDCODE" class ="form-control" name="STANDARDCODE" type="text">
 							</div>
 							<div class="col-md-3 column">
 								<label>名称 ： </label> <input
-									id="query_STANDARDNAME" class ="form-control"  name="STANDARDNAME" oninput="query()"
-									onpropertychange="query()" type="text">
+									id="query_STANDARDNAME" class ="form-control"  name="STANDARDNAME"  type="text">
 							</div>
 							<div class="col-md-3 column">
 								<label>状态&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;： </label> <select
-									id="query_STATE"  class ="form-control"  name="STATE" oninput="query()"
-									onpropertychange="query()">
+									id="query_STATE"  class ="form-control"  name="STATE" >
 									<option value="">全部</option>
 									<option value="0" selected="selected">待审核</option>
 									<option value="1">通过</option>
@@ -85,15 +82,13 @@
 						<div class="row clearfix">
 							<div class="col-md-6 column">
 								<label>类别 ： </label> <select
-									id="query_TYPE"  class ="form-control"  name="TYPE" oninput="query()"
-									onpropertychange="query()">
+									id="query_TYPE"  class ="form-control"  name="TYPE" >
 									<option value="">全部</option>
 								</select>
 							</div>
 							<div class="col-md-6 column">
 								<label>标准类型 ： </label> <select id="query_APPLICATIONTYPE"
-									name="APPLICATIONTYPE" class ="form-control"  oninput="query()"
-									onpropertychange="query()">
+									name="APPLICATIONTYPE" class ="form-control" >
 									<option value="">全部</option>
 									<option value="0">国家标准</option>
 									<option value="1">企业标准</option>
@@ -113,7 +108,7 @@
 								</button>
 
 								<button class="btn btn-primary type=" button" id="refresh"
-									onclick="reSetRefresh()">
+									onclick="refresh()">
 									<em class="glyphicon glyphicon-refresh"></em> 刷新
 								</button>
 							</div>

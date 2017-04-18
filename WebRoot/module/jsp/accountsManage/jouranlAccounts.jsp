@@ -29,9 +29,9 @@
 	src="module/js/bootstrap-datetimepicker.js"></script>
 <script type="text/javascript"
 	src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
-
-<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
-<script src="module/js/sweetalert.min.js"></script>
+<!-- 提示弹框 -->
+	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+	<script src="module/js/sweetalert.min.js"></script>
 </head>
 <style>
 .col-md-4 {
@@ -108,6 +108,23 @@
 	color: #fff;
 	background-color: rgb(255, 173, 51);
 }
+
+#addModal .row .form-control{
+    display: initial;
+    width:80%;
+}
+#addModal .row .labelName{
+	margin: 2%;
+	text-align: center;
+}
+#editModal .row .form-control{
+    display: initial;
+    width:80%;
+}
+#editModal .row .labelName{
+	margin: 2%;
+	text-align: center;
+}
 </style>
 <body>
 	<div class="container" style="width:100%;">
@@ -120,6 +137,7 @@
 				<div class="col-md-4 ">
 					<label>发票状态：</label> <select id="query_state" name="state"
 						class="form-control">
+						<option value="" class="form-control">全部</option>
 						<option value="0" class="form-control">支出</option>
 						<option value="1" class="form-control">收入</option>
 					</select>
@@ -168,7 +186,7 @@
 
 					<button class="btn btn-primary" type="button">导出</button>
 					<button class="btn btn-primary type=" button" id="refresh"
-						onclick="reSetRefresh()">刷新</button>
+						onclick="refresh()">刷新</button>
 					<button class="btn btn-warning" type=" button" onclick="backstep()">
 						<em class="glyphicon glyphicon-arrow-left"></em> 返回
 					</button>
@@ -182,40 +200,6 @@
 	<!-- 获取当前操作人的ID -->
 	<input type="hidden" id="employeeID" name="employeeID"
 		value="<%=session.getAttribute("EMPLOYEEID")%>" />
-	<!-- 新增选择弹窗 -->
-	<!--  
-			<div id="addChooseModal" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="  close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title">新增</h4>
-				</div>
-				<div class="modal-body" >
-					<div>
-						<label>账目类型</label>
-					</div>
-					<div id="IncomeorPayment">
-						<input type="radio" name="isIncomeorPayment" value="0">收入
-						<input type="radio" name="isIncomeorPayment" value="1">支出
-					</div>
-	
-					<button type="button" class="btn btn-info" onclick="addIncome()">收入</button>
-					<button type="button" class="btn btn btn-warning" onclick="addPayMent()">支出</button>
-				
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					<button type="button" class="btn btn-primary"
-						onclick="addIncomeorPayment()">确认</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	-->
 	<!-- 新增弹窗 -->
 	<div id="addModal" class="modal fade">
 		<div class="modal-dialog">
@@ -225,39 +209,39 @@
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title">新增</h4>
+					<h4 class="modal-title">新增流水账目</h4>
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-xs-6 col-md-6">
-							<label>合同编码：</label> <input type="text" id="add_contractCode"
+						<div class ="col-xs-12 col-md-12">
+							<label class="labelName" >合同编码</label> <input type="text" id="add_contractCode"
 								name="contractCode" disabled="disabled" class="form-control"
 								aria-describedby="basic-addon1" />
 						</div>
-						<div class="col-xs-6 col-md-6">
-							<label>合同名称：</label> <input type="text" id="add_contractName"
+						<div class ="col-xs-12 col-md-12">
+							<label class="labelName" >合同名称</label> <input type="text" id="add_contractName"
 								name="contractName" disabled="disabled" class="form-control"
 								aria-describedby="basic-addon1" />
 						</div>
-						<div class="col-xs-6 col-md-6">
-							<label>发票编码：</label> <input type="text" id="add_invoice"
+						<div class ="col-xs-12 col-md-12">
+							<label class="labelName" >发票编码</label> <input type="text" id="add_invoice"
 								name="invoice" class="form-control"
 								aria-describedby="basic-addon1" />
 						</div>
-						<div class="col-xs-6 col-md-6">
-							<label>金额： </label> <input type="text" id="add_money"
+						<div class ="col-xs-12 col-md-12">
+							<label class="labelName" >　金额　 </label> 
+							<input type="text" id="add_money"
 								name="money" class="form-control"
 								aria-describedby="basic-addon1" />
 						</div>
-						<div id="displayFineItem" class="col-xs-6 col-md-6">
-							<label>合同细项：</label> <select id="add_contractFineItem"
+						<div class ="col-xs-12 col-md-12">
+							<label class="labelName" style="position: relative;bottom: 25px;">　备注　</label> 
+							<textarea id="add_remarks" name="remarks" class="form-control"></textarea>
+						</div>
+						<div id="displayFineItem" class ="col-xs-12 col-md-12">
+							<label class="labelName" >合同细项</label> <select id="add_contractFineItem"
 								name="contractFineItem" class="form-control">
 							</select>
-						</div>
-						<div class="col-xs-12 col-md-12">
-							<label>备注： </label> <input type="text" id="add_remarks"
-								name="remarks" class="form-control"
-								aria-describedby="basic-addon1" />
 						</div>
 					</div>
 				</div>
@@ -278,40 +262,34 @@
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title">新增</h4>
+					<h4 class="modal-title">编辑流水账目</h4>
 				</div>
 				<div class="modal-body">
 					<input type="hidden" id="jouranlAccountID" name="jouranlAccountID"/ >
 					<div class="row">
-						<div class="col-xs-6 col-md-6">
-							<label>合同编码：</label> <input type="text" id="edit_contractCode"
+						<div class="col-xs-12 col-md-12">
+							<label class="labelName">合同编码</label> <input type="text" id="edit_contractCode"
 								name="contractCode" disabled="disabled" class="form-control"
 								aria-describedby="basic-addon1" />
 						</div>
-						<div class="col-xs-6 col-md-6">
-							<label>合同名称：</label> <input type="text" id="edit_contractName"
+						<div class="col-xs-12 col-md-12">
+							<label class="labelName">合同名称</label> <input type="text" id="edit_contractName"
 								name="contractName" disabled="disabled" class="form-control"
 								aria-describedby="basic-addon1" />
 						</div>
-						<div class="col-xs-6 col-md-6">
-							<label>发票编码：</label> <input type="text" id="edit_invoice"
+						<div class="col-xs-12 col-md-12">
+							<label class="labelName">发票编码</label> <input type="text" id="edit_invoice"
 								name="invoice" class="form-control"
 								aria-describedby="basic-addon1" />
 						</div>
-						<div class="col-xs-6 col-md-6">
-							<label>金额： </label> <input type="text" id="edit_money"
+						<div class="col-xs-12 col-md-12">
+							<label class="labelName">　金额 　</label> <input type="text" id="edit_money"
 								name="money" class="form-control"
 								aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<label><input name="edit_isIncome" type="radio" value="0" />收入
-							</label> <label><input name="edit_isIncome" type="radio"
-								value="1" />支出 </label>
-						</div>
-						<div class="col-xs-12 col-md-12">
-							<label>备注： </label> <input type="text" id="edit_remarks"
-								name="remarks" class="form-control"
-								aria-describedby="basic-addon1" />
+							<label class="labelName" style="position: relative;bottom: 25px;">　备注　</label>
+							<textarea type="text" id="edit_remarks" name="remarks" class="form-control"></textarea>
 						</div>
 					</div>
 				</div>

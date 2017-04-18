@@ -31,5 +31,9 @@ public interface IStandardService {
 
 	public List<Map<String, Object>> getStandardType();
 
+	public boolean recoverCheck(String standardID);
+
+	public String upFileID(String standardID, String fileID);
+
 
 }

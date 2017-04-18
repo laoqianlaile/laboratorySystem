@@ -26,7 +26,8 @@ public interface ITaskService {
 			int limit, int offset, String sort, String order);
 
 	public String updReceiptlistSampleInForInReturn(String ID,
-			String factoryCode, String sampleName, String specifications, String createTime);
+			String factoryCode, String sampleName, String specifications,
+			String createTime);
 
 	public String addTaskSample(String ID, String receiptlistID);
 
@@ -39,7 +40,7 @@ public interface ITaskService {
 	public Map<String, Object> getTaskWithPaging(int limit, int offset,
 			String order, String sort, String receiptlistCode,
 			String testProjectName, String sampleName, String beginTime,
-			String endTime, String testProcess);
+			String endTime, String testProcess, String uploader);
 
 	public Map<String, Object> getTaskAuditPersonWithPaging(int limit,
 			int offset, String order, String sort);
@@ -63,19 +64,21 @@ public interface ITaskService {
 
 	public boolean setTestReportInfo(String taskID, String remarks);
 
-    public List<Map<String,Object>> getReportFileID(String taskID);
-    
+	public List<Map<String, Object>> getReportFileID(String taskID);
+
 	public boolean submitReport(String taskID);
 
 	public String getFileIdOfTask(String taskID);
-	
-	public String downReportTemplate(String taskID, String projectName, String UPLOADER); 
 
-	
+	public String downReportTemplate(String taskID, String projectName,
+			String UPLOADER);
+
 	public Map<String, Object> getTaskInfoWithPaging(int limit, int offset,
 			String order, String sort);
-	public Map<String, Object> getTaskTestReportWithPaging(int limit, int offset,
-			String order, String sort);
-	List<Map<String,Object>> getTaskInfor(String ID);
+
+	public Map<String, Object> getTaskTestReportWithPaging(int limit,
+			int offset, String order, String sort);
+
+	List<Map<String, Object>> getTaskInfor(String ID);
 
 }

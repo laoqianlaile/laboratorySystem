@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
 
@@ -377,8 +378,9 @@ public class TestReportController {
 	 */
 	@RequestMapping("/thirdPassReport")
 	@ResponseBody
-	public boolean thirdPassReport(String ID, String taskID ,String passAgreement) {
-		boolean result = service.thirdPassReport(ID, taskID,passAgreement);
+	public boolean thirdPassReport(String ID, String taskID, String passAgreement, HttpServletRequest req) {
+		String employeeID = (String) req.getSession().getAttribute("EMPLOYEEID");
+		boolean result = service.thirdPassReport(ID, taskID, passAgreement,employeeID);
 		return result;
 	}
 

@@ -432,9 +432,13 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 		}
 
 		@Override
-		public List<Map<String, Object>> getEmployeeinfo(String employeeID) {
+		public List<Map<String, Object>> getEmployeeinfo(HttpSession session) {
+			
+			String employeeID = (String) session.getAttribute("EMPLOYEEID");
+			
 			String baseEntity = "employee";
 			String[] properties = new String[] {
+					"employee.ID as employeeID",
 					"employee.employeeCode",
 					"employee.loginName",
 					"employee.`password`",
