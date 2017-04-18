@@ -41,8 +41,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
 	<div class="container" style="width:100%">
 		<div class="row">
-			<div class="col-xs-2 col-md-2 col-lg-1">
-				<h4>检测项目:</h4>
+			<div class="col-xs-1 col-md-1 col-lg-1">
+				<h5>检测项目:</h5>
 			</div>
 			<div class="col-xs-2 col-md-2 col-lg-2">
 				<select class="form-control" id="testProject">
@@ -52,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="col-xs-2 col-md-2 col-lg-2">
 				<button type="button" id="search" class="btn btn-primary">查询</button>
 			</div>
-			<div class="col-xs-5 col-md-5 col-lg-6"></div>
+			<div class="col-xs-6 col-md-6 col-lg-6"></div>
 			<div class="col-xs-1 col-md-1 col-lg-1">
 				<button type="button" id="refresh" class="btn btn-primary">刷新</button>
 			</div>

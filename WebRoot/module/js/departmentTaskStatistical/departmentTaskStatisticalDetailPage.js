@@ -128,11 +128,35 @@ $(function () {
 		parame1.startTime = $('#acceptSampleTime_start').val();
 		parame1.endTime = $('#acceptSampleTime_end').val();
 		
-		$('#table').bootstrapTable('refresh',{
+		$('#table').bootstrapTable('refresh', {
 			silent: true,
-			url: 'contractFineItemController/getDepartmentTaskStatisticalDetail.do',
+			url:'contractFineItemController/getDepartmentTaskStatisticalDetailPage.do',
 			query: parame1
 		});
+	});
+	
+	// 全部按钮点击事件
+	$('#all').click(function (){
+		
+		var parame1 = {};
+		
+		parame1.ID = ID;// 科室ID
+		parame1.testProjectID = testProjectID;// 检测项目ID
+		parame1.contractID = contractID;// 检测项目ID
+		parame1.contractCode = '';
+		parame1.receiptlistCode = '';
+		parame1.companyName = '';
+		parame1.sampleName = '';
+		parame1.startTime = '';
+		parame1.endTime = '';
+		
+		$('#table').bootstrapTable('refresh', {
+			silent: true,
+			url:'contractFineItemController/getDepartmentTaskStatisticalDetailPage.do',
+			query: parame1
+		});
+		
+		$('input').val('');
 	});
 	
 	//返回按钮

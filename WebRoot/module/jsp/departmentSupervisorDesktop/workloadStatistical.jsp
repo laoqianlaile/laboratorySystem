@@ -36,7 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
     <script src="module/js/sweetalert.min.js"></script>
    <style>
-.list-searcher {
+	.list-searcher {
 	min-width: 300px;
 	height: 40px;
 }
@@ -55,14 +55,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 .fixed-table-container .bs-checkbox {
 	text-align: center;
 	vertical-align: middle;
-}
-
-#searcherArea {
-	min-width: 1300px;
-}
-
-.bootstrap-table {
-	min-width: 1500px;
 }
 
 .list-searcher select {
@@ -110,38 +102,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 .input-group-addon {
 	background-color: #fff;
 }
-</style>
+   </style>
   </head>
   
   <body>
- 	 <div id="searcherArea">
+ 	 <div class="container" style="width:100%;">
   		<div class="row">
-			<div class="col-xs-3 col-md-3 col-lg-3">
+			<div class="col-xs-4 col-md-4 col-lg-4">
 				<label class="control-label">检测人员:</label>
 				<input class="form-control input-group" id="detector">
 			</div>
-			<div class="col-xs-3 col-md-3 col-lg-3">
+			<div class="col-xs-4 col-md-4 col-lg-4">
 				<label class="control-label">样品名称:</label>
 				<input class="form-control" id="sampleName">
 			</div>
+			<div class="col-xs-3 col-md-3 col-lg-3"></div>
 			<div class="col-xs-1 col-md-1 col-lg-1">
 				<button type="button" id="search" class="btn btn-primary">查询</button>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-xs-3 col-md-2 col-lg-3">
+			<div class="col-xs-4 col-md-4 col-lg-4">
 				<label class="control-label">样品编号:</label>
 				<input class="form-control" id="factoryCode">
 			</div>
-			<div class="col-xs-3 col-md-3 col-lg-3">
+			<div class="col-xs-4 col-md-4 col-lg-4">
 				<label class="control-label">检测项目:</label>
 				<input class="form-control" id="testProject">
 			</div>
+			<div class="col-xs-4 col-md-4 col-lg-4"></div>
 		</div>
 		<hr/>
 		<!-- 表格 -->
  		<table id="table"></table>
- 		
  		<br />
  		<hr />
  		<div class="row">
