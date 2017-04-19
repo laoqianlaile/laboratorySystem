@@ -1,11 +1,11 @@
 $(function () {
 	$('#table').bootstrapTable({
 		                          //定义表格的高度height: 500,
-		striped: true,// 隔行变色效果
+		striped: false,// 隔行变色效果
 		pagination: true,//在表格底部显示分页条
 		pageSize: 3,//页面数据条数
 		pageNumber:1,//首页页码
-		pageList: [3, 5, 9, 10, 200, 500],//设置可供选择的页面数据条数
+		pageList: [5, 10, 20],//设置可供选择的页面数据条数
 		clickToSelect:true,//设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache: false,//禁用 AJAX 数据缓存
 		sortName:'ID',//定义排序列
@@ -59,9 +59,9 @@ $(function () {
 			formatter : function(value, row, index) { //操作按钮的设置
 				  var view = "", edit = "", dele = ""; 
 				  	if(row.ID != ""){   //没有交接单---就没有任何编辑，查看，删除等功能
-				  		view = "<img src=\"module/img/view_icon.png\" alt=\"查看\" onclick='lookModal("+JSON.stringify(row)+")' >";
-				        edit = "<img src=\"module/img/edit_icon.png\" alt=\"编辑\" onclick='openModal("+JSON.stringify(row)+")'>";
-				        dele = "<img src=\"module/img/delete_icon.png\" alt=\"删除\" onclick='delRole(\""+row.ID+"\")'>";
+				  		view = "<img src=\"module/img/view_icon.png\" alt=\"查看\"  title=\"查看\" onclick='lookModal("+JSON.stringify(row)+")' >";
+				        edit = "<img src=\"module/img/edit_icon.png\" alt=\"编辑\"  title=\"编辑\" onclick='openModal("+JSON.stringify(row)+")'>";
+				        dele = "<img src=\"module/img/delete_icon.png\" alt=\"删除\" title=\"删除\" onclick='delRole(\""+row.ID+"\")'>";
 				 
 					return view + edit + dele;
 				}
@@ -108,8 +108,6 @@ function delRole(roleIDs){
 		
 		}, function(isConfirm){
 			if(isConfirm){
-				
-			}else{
 				$.ajax({
 					  url:'roleController/delRole.do',
 					  dataType:"json",
@@ -124,7 +122,7 @@ function delRole(roleIDs){
 								sweetAlert({
 									title:"删除成功",
 									type:"success",
-									timer:1000
+									timer:2000
 									});
 						  }
 						  refresh();
@@ -133,8 +131,16 @@ function delRole(roleIDs){
 						  sweetAlert("","删除失败","error");
 					  }
 					});
+			}else{
+				
 			}
 		});
+	
+}
+function showAddmodal(){
+	$('#add_roleName').val(""); 
+	$('#add_description').val(""); 
+	$('#addModal').modal("show"); 
 	
 }
 /* 新增方法 */
@@ -158,9 +164,9 @@ function add(){
 				  sweetAlert("该角色已经存在");
 			  }else{
 				  sweetAlert({
-					title:"删除成功",
+					title:"新增成功",
 					type:"success",
-					timer:1000
+					timer:2000
 					});
 			  $('#addModal').modal('hide');
 			  refresh();

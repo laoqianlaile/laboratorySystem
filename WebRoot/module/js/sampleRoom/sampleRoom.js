@@ -118,13 +118,12 @@ $(function() {
 			width:'25%',//宽度
 			formatter : function(value, row, index) { //操作按钮的设置
 				  var view = "", edit = "", dele = ""; 
-				  	if(row.ID != ""){   //没有交接单---就没有任何编辑，查看，删除等功能
-				  		view = "<img src=\"../../img/view_icon.png\"  alt=\"查看\" onclick='showModal("+JSON.stringify(row)+")'>";
-				        edit = "<img src=\"../../img/edit_icon.png\"  alt=\"编辑\" onclick='openModal("+JSON.stringify(row)+")'>";
-				        dele = "<img src=\"../../img/delete_icon.png\" alt=\"删除\" onclick='deleSample(\""+row.ID+"\")'>";
+				  		view = "<img src=\"../../img/view_icon.png\"  alt=\"查看\" title=\"查看\" onclick='showModal("+JSON.stringify(row)+")'>";
+				        edit = "<img src=\"../../img/edit_icon.png\"  alt=\"编辑\" title=\"编辑\" onclick='openModal("+JSON.stringify(row)+")'>";
+				        dele = "<img src=\"../../img/delete_icon.png\" alt=\"删除\" title=\"删除\" onclick='deleSample(\""+row.ID+"\")'>";
 				 
 					return view + edit + dele;
-				  }
+				 
 		     }
 		}]
 	// 列配置项,详情请查看 列参数 表格
@@ -160,7 +159,7 @@ function refresh() {
 	 $('#schEndTime').val("");*/
 
 	$('#table').bootstrapTable('refresh', {
-		silent:true,
+		silent:false,
 		url:"/laboratorySystem/sampleController/getSampleWithPaging.do",
 		query:{
 			startTime:"",
@@ -236,7 +235,7 @@ function deleSample(sampleIDs){
 		        				sweetAlert({
 		        					title:"删除成功",
 		        					type:"success",
-		        					timer:1000
+		        					timer:2000
 		        					});
 		        		  }
 		        			refresh();
@@ -246,7 +245,7 @@ function deleSample(sampleIDs){
 		});
 	
 }
-function deleteSample()
+
 /* 新增方法 */
 function add() {
 	var parame = {};
