@@ -353,7 +353,7 @@ function onbeforeunload_handler() {
 					       ;
 					},
 					error : function() {
-						sweetAlert(""," 保存交接单失败","error");
+						swal(""," 保存交接单失败","error");
 					}
 
 				});
@@ -362,15 +362,15 @@ function onbeforeunload_handler() {
 function initSaveAndSubmitRe_event() {
 	$("#linkPhone").blur(function() {
 		if ($(this).val() == null || $(this).val().trim() == "") {
-			sweetAlert("联系人电话不能为空");
+			swal("联系人电话不能为空");
 		} else if (!isNoramlPhone($(this).val().trim())) {
-			sweetAlert("联系人电话格式不正确");
+			swal("联系人电话格式不正确");
 		}
 	});
 
 	$("#linkMan").blur(function() {
 		if ($(this).val() == null || $(this).val().trim() == "") {
-			sweetAlert("联系人不能为空");
+			swal("联系人不能为空");
 			return;
 		}
 	});
@@ -382,7 +382,7 @@ function initSaveAndSubmitRe_event() {
 	 
 	$("#address").blur(function() {
 		if ($(this).val() == null || $(this).val().trim() == "")
-			sweetAlert("公司通讯地址不能为空");
+			swal("公司通讯地址不能为空");
 	});
 
 	$(".footer button").click(function() { // 保存和提交按钮的点击操作
@@ -442,7 +442,7 @@ function dealReSave() {
 						window.location = "./module/jsp/receiptlistManage/receiptlistManage.jsp";
 				},
 				error : function() {
-					sweetAlert(" 保存交接单失败");
+					swal(" 保存交接单失败");
 				}
 
 			});
@@ -452,38 +452,38 @@ function dealReSave() {
 function vaildInputData(param) {
 	if (param.linkMan == null || param.linkMan == undefined
 			|| param.linkMan == "") {
-		sweetAlert("联系人为空");
+		swal("联系人为空");
 		return false;
 	}
 	if (param.startTime == null || param.startTime == undefined
 			|| param.startTime == "") {
-		sweetAlert("委托时间为空");
+		swal("委托时间为空");
 		return false;
 	}
 
 	if (param.endTime == null || param.endTime == undefined
 			|| param.endTime == "") {
-		sweetAlert("结束时间为空");
+		swal("结束时间为空");
 		return false;
 	}
 	if (param.endTime <= param.startTime) {
-		sweetAlert("时间先后顺序选择错误");
+		swal("时间先后顺序选择错误");
 		return false;
 	}
 	if(param.comID == null || param.comID == undefined
 			|| param.comID == "") {
-		sweetAlert("请选择已存在的委托单位");
+		swal("请选择已存在的委托单位");
 		return false;
 	}
 	
 	/*if (param.address == null || param.address == undefined
 			|| param.address == "") {
-		sweetAlert("通讯地址为空");
+		swal("通讯地址为空");
 		return false;
 	}*/
 
 	if (!isNoramlPhone(param.linkPhone)) {
-		sweetAlert("联系人电话格式不正确");
+		swal("联系人电话格式不正确");
 		return false;
 	}
 	return true;
@@ -508,7 +508,7 @@ function searchCompany() {
 					showCompanylist(data);
 			},
 			error : function() {
-				sweetAlert(" 没有搜索到该样品");
+				swal(" 没有搜索到该样品");
 			}
 		});
 	}
@@ -550,7 +550,7 @@ function isExitSample(sampleCode) {
 			// $(".tip-factory").css("display","none"); //隐藏下面的提示搜索框
 		},
 		error : function() {
-			sweetAlert(" 没有搜索到该样品");
+			swal(" 没有搜索到该样品");
 		}
 	});
 	if (data != false) {
@@ -625,24 +625,24 @@ function initSampleCode_event() {
 		    setTimeout("hideSampleOver('"+self+"')",500);
 		 
 	     });
-	/* if($("#editSampleCode").val() == "") { // sweetAlert("样品编号不能为空");
+	/* if($("#editSampleCode").val() == "") { // swal("样品编号不能为空");
 	 //sample_global.isAddEdit = false;
 	 //$(".tip-factory").css("display","none"); //隐藏下面的提示搜索框 } else
 	 setTimeout(isExitSample($("#addSampleCode").val()),400); }); var fn1 =
 	 $(document).on("blur", "#editSampleCode", function() { //需要blur事件填充剩余的数据
 	 
-	 if($("#editSampleCode").val() == "") { // sweetAlert("样品编号不能为空");
+	 if($("#editSampleCode").val() == "") { // swal("样品编号不能为空");
 	 //sample_global.isAddEdit = false;
 	 //$(".tip-factory").css("display","none"); //隐藏下面的提示搜索框 } else
 	 isExitSample($("#editSampleCode").val()); }); var fn2 =
 	 $("#addSampleCode").blur(function(){ if($("#addSampleCode").val() == "") {
-	 //sweetAlert("样品编号不能为空"); //sample_global.isAddEdit = false;
+	 //swal("样品编号不能为空"); //sample_global.isAddEdit = false;
 	 //$(".tip-factory").css("display","none"); //隐藏下面的提示搜索框 } else
 	 setTimeout(isExitSample($("#addSampleCode").val()),400); });*/
 	 
 	/*
 	 * var fn2 = $(document).on("blur", "#addSampleCode", function() {
-	 * if($("#addSampleCode").val() == "") { //sweetAlert("样品编号不能为空");
+	 * if($("#addSampleCode").val() == "") { //swal("样品编号不能为空");
 	 * //sample_global.isAddEdit = false;
 	 * //$(".tip-factory").css("display","none"); //隐藏下面的提示搜索框 } else
 	 * isExitSample($("#addSampleCode").val()); });
@@ -999,10 +999,10 @@ function addTaskModel() {
 						if (data == true) {
 							$('#addTaskModal').modal('hide');
 							$('#sampleTable').bootstrapTable('refresh', null);
-							sweetAlert("任务新增成功");
+							swal("任务新增成功");
 
 						} else
-							sweetAlert("","任务新增失败","error");
+							swal("","任务新增失败","error");
 					},
 					error : function() {
 						return false;
@@ -1017,11 +1017,11 @@ function addTaskModel() {
 function valTaskData(data) {
 
 	if (data.sampleCode == "" || data.sampleCode == "null") {
-		sweetAlert("出厂编号不能为空");
+		swal("出厂编号不能为空");
 		return false;
 	}
 	if (data.sampleName == "" || data.sampleName == "null") {
-		sweetAlert("样品名称不能为空");
+		swal("样品名称不能为空");
 		return false;
 	}
 	return true;
@@ -1057,10 +1057,10 @@ function editTaskModel() {
 						data = JSON.parse(o);
 						if (data == true) {
 							$('#editTaskModal').modal('hide');
-							sweetAlert("编辑任务成功");
+							swal("编辑任务成功");
 							$('#sampleTable').bootstrapTable('refresh', null);
 						} else
-							sweetAlert("","编辑任务失败","error");
+							swal("","编辑任务失败","error");
 					},
 					error : function() {
 						return false;
@@ -1114,7 +1114,7 @@ function editFileModel() {
 							$('#fileTable').bootstrapTable('refresh', null);
 						}
 					} else
-						sweetAlert("","文件更新失败","error");
+						swal("","文件更新失败","error");
 				},
 				error : function() {
 					return false;
@@ -1132,7 +1132,7 @@ function editFile(fileID) {
 }
 // 删除交接单的文件
 function deleteFile(fileID) {
-	sweetAlert({
+	swal({
 		  title: "Are you sure?",
 		  text: "是否删除交接单文件!",
 		  type: "warning",
@@ -1155,17 +1155,17 @@ function deleteFile(fileID) {
 						data = JSON.parse(o); // error
 						if (data == true) {
 							
-							sweetAlert({
+							swal({
 								title:"文件删除成功",
 								type:"success",
 								timer:100
 								});
 						} else {
-							sweetAlert("","文件删除失败 ","error");
+							swal("","文件删除失败 ","error");
 						}
 					},
 					error : function() {
-						sweetAlert("","文件删除失败","error");
+						swal("","文件删除失败","error");
 						return false;
 					}
 				});
@@ -1180,14 +1180,15 @@ function deleteFile(fileID) {
 }
 // 删除任务
 function deleteTask(taskID) {
-	sweetAlert({
+	swal({
 		  title: "Are you sure?",
 		  text: "是否删除任务！",
 		  type: "warning",
 		  showCancelButton: true,
 		  confirmButtonColor: "#DD6B55",
 		  confirmButtonText: "是",
-		  cancelButtonText: "否"
+		  cancelButtonText: "否",
+		  closeOnConfirm:false
 		
 		}, function(isConfirm){
 			if(isConfirm){
@@ -1202,17 +1203,18 @@ function deleteTask(taskID) {
 					success : function(o) {
 						data = JSON.parse(o); // error
 						if (data == true) {
-							sweetAlert("任务删除成功 ");
+							swal("任务删除成功 ");
 						} else {
-							sweetAlert("","任务删除失败","error");
+							swal("","任务删除失败","error");
 						}
+						$('#sampleTable').bootstrapTable('refresh', null);
 					},
 					error : function() {
-						sweetAlert("","任务删除失败","error");
+						swal("","任务删除失败","error");
 						return false;
 					}
 				});
-				$('#sampleTable').bootstrapTable('refresh', null);
+				
 			}else{
 				
 			}

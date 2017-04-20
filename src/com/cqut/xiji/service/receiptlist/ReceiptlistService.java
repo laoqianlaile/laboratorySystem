@@ -511,6 +511,7 @@ public class ReceiptlistService extends SearchService implements
 				task.setRequires(require);
 				task.setSampleID(sampleID);
 				task.setStartTime(new Date());
+				task.setCompleteTime(new Date());
 				task.setSaveState(0);
 				SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd");
 				format.format(new Date());
@@ -588,7 +589,7 @@ public class ReceiptlistService extends SearchService implements
 			String accordingDoc, String coID ,String comID) {
 		// TODO Auto-generated method stub
 		Contract contract = null;
-		Company company = null;
+		
 		if (addState == null || addState.equals("") || addState.equals("no") ||  addState.equals("edit") ) {
 			contract = entityDao.getByID(coID, Contract.class); // 即使是编辑进来的addState也是No
 		/*	company = new Company();
@@ -612,6 +613,7 @@ public class ReceiptlistService extends SearchService implements
 			receiptlist.setIsEditSample(0);
 		} else { // 提交交接单
 			receiptlist.setIsEditSample(1);
+			receiptlist.setState(1);
 			// 推送消息--给科室主管
 			List<Role> listRole = entityDao.getByCondition(" name='科室主管' ",
 					Role.class);
