@@ -104,7 +104,8 @@ function delRole(roleIDs){
 		  showCancelButton: true,
 		  confirmButtonColor: "#DD6B55",
 		  confirmButtonText: "是",
-		  cancelButtonText: "否"
+		  cancelButtonText: "否",
+		  closeOnConfirm:false
 		
 		}, function(isConfirm){
 			if(isConfirm){
@@ -122,7 +123,7 @@ function delRole(roleIDs){
 								sweetAlert({
 									title:"删除成功",
 									type:"success",
-									timer:2000
+									timer:1500
 									});
 						  }
 						  refresh();

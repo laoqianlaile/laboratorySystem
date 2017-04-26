@@ -10,7 +10,15 @@ public class FileType extends Entity{
 	private String name;
 	private int levelType;
 	private String fileTypeID;
+	private int  isLeaf ;
 	
+	public int getIsLeaf() {
+		return isLeaf;
+	}	
+	
+	public void setIsLeaf(int isLeaf) {
+		this.isLeaf = isLeaf;
+	}
 	public String getID() {
 		return ID;
 	}	

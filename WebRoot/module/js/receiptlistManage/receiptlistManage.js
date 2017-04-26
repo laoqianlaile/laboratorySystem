@@ -193,7 +193,7 @@ $(function() {
 											download =  "<img src=\"../../img/download_icon.png\" alt=\"下载\" title=\"下载\" onclick='downloadReFile(\"" + row.ID+"\",\""+row.coID+"\",\""+row.proID+"\")'>";
 												/*'<span onclick= "downloadReFile(\'' + row.ID+'\''+',\''+row.coID+'\',\''+row.proID
 													+ '\')" data-toggle="tooltip" data-placement="top" title="下载"  class="glyphicon glyphicon-download-alt" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>'*/
-											submit = "<img src=\"../../img/submit_icon.png\" alt=\"提交\" title=\"提交\" onclick='dealReSave()'>";
+											/*submit = "<img src=\"../../img/submit_icon.png\" alt=\"提交\" title=\"提交\" onclick='dealReSave()'>";*/
 														
 									  	}
 									 
@@ -253,6 +253,7 @@ function addReNo() {
 		  confirmButtonColor: "#DD6B55",
 		  confirmButtonText: "是",
 		  cancelButtonText: "否"
+	
 		
 		}, function(isConfirm){
 		        if(isConfirm){
@@ -358,7 +359,8 @@ function deleteRe() {
 		  showCancelButton: true,
 		  confirmButtonColor: "#DD6B55",
 		  confirmButtonText: "是",
-		  cancelButtonText: "否"
+		  cancelButtonText: "否",
+		  closeOnConfirm:false
 		
 		}, function(isConfirm){
 		        if(isConfirm){
@@ -408,7 +410,7 @@ function deleteRe_ok(){
 					sweetAlert({
 						title:"删除成功",
 						type:"success",
-						timer:100
+						timer:1000
 						});
 					}
 					$('#table').bootstrapTable('refresh',null);
