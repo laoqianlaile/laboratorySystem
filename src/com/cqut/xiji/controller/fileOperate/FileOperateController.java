@@ -9,7 +9,9 @@ import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
@@ -645,8 +647,7 @@ public class FileOperateController {
 	@RequestMapping("/onlinePreview")
 	@ResponseBody
 	public String onlinePreview(String ID, HttpServletRequest request) {
-		List<Map<String, Object>> FileDecryptPath = service
-				.getFileDecryptPath(ID);
+		List<Map<String, Object>> FileDecryptPath = service.getFileDecryptPath(ID);
 		if (FileDecryptPath != null && FileDecryptPath.size() > 0) {
 			String filePath = FileDecryptPath.get(0).get("path").toString();
 			PropertiesTool pe = new PropertiesTool();
@@ -660,24 +661,26 @@ public class FileOperateController {
 			cacheFilePath += fileName;
 			path += filePath;
 			fileEncryptservice.decryptFile(path, cacheFilePath, ID);
-			if (cacheFilePath != null && !cacheFilePath.isEmpty()
-					&& !cacheFilePath.equals(" ")) {
-				DocConverter dc = new DocConverter(cacheFilePath, outputPath);
-				dc.conver();
-				String swfFilePath = dc.getswfPath();
-				if (swfFilePath != null && !swfFilePath.isEmpty()
-						&& !swfFilePath.equals(" ")) {
-					swfFilePath = swfFilePath.substring(2).replace("\\", "/");
-					HttpSession session = request.getSession();
-					session.setAttribute("swfFilePath", swfFilePath);
-					return swfFilePath + "";
-				} else {
+			if (cacheFilePath != null && !cacheFilePath.isEmpty() && !cacheFilePath.equals(" ")) {
+				try {
+					DocConverter dc = new DocConverter(cacheFilePath,outputPath);
+					dc.conver();
+					String swfFilePath = dc.getswfPath();
+					if (swfFilePath != null && !swfFilePath.isEmpty() && !swfFilePath.equals(" ")) {
+						swfFilePath = swfFilePath.substring(2).replace("\\","/");
+						HttpSession session = request.getSession();
+						session.setAttribute("swfFilePath", swfFilePath);
+						return swfFilePath + "";
+					} else {
+						return null;
+					}
+				} catch (Exception e) {
 					return null;
 				}
 			} else {
-
 				return null;
 			}
+
 		} else {
 			return null;
 		}
@@ -722,5 +725,43 @@ public class FileOperateController {
 	public List<Map<String, Object>> getFileDecryptPath(String ID) {
 		List<Map<String, Object>>  result = service.getFileDecryptPath(ID);
 		return result;
+	}
+	
+	/**
+	 * 
+	 * @discription 查看文件路径
+	 * @author zt
+	 * @created 2017-4-26 下午4:25:49
+	 * @param fileID
+	 * @return
+	 */
+	@RequestMapping("/viewFilePath")
+	@ResponseBody
+	public String viewFilePath(String fileID) {
+		Map<String, Object> fileInfo = baseEntityDao.findByID(new String[] { "fileName,path" }, fileID, "ID",
+				"fileinformation");
+		if (fileInfo != null && fileInfo.size() > 0) {
+			String filePath = "";
+			String fileName = fileInfo.get("fileName").toString();
+			String[] fileNames = fileName.split("\\.");
+			String fileSuffixName = fileNames[fileNames.length - 1].toLowerCase();
+			PropertiesTool pe = new PropertiesTool();
+			String relativePath = "";
+			if (fileSuffixName.equals("gif") || fileSuffixName.equals("jpg") || fileSuffixName.equals("png")) {
+				relativePath = fileInfo.get("path").toString();
+				filePath += pe.getSystemPram("imgPath") + "\\" + relativePath;
+				return filePath + "";
+			} else {
+				List<Map<String, Object>> fileDecryptPath = service.getFileDecryptPath(fileID);
+				if (fileDecryptPath == null || fileDecryptPath.size() == 0) {
+					return null;
+				} else {
+					filePath = pe.getSystemPram("filePath") + "\\" + fileDecryptPath.get(0).get("path").toString();
+					return filePath + "";
+				}
+			}
+		} else {
+			return null;
+		}
 	}
 }

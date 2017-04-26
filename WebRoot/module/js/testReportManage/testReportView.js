@@ -269,6 +269,7 @@ function deleteTestReport() {
 					ID : testReportID,
 					taskID : taskID
 				});
+				refresh();
 			} else {
 				alert("当前审核状态不能删除");
 			}
