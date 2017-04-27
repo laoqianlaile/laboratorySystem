@@ -231,7 +231,7 @@ $(function() {
 										return "<img src ='module/img/download_icon.png' title='下载'  onclick='fileDown(\""
 												+ row.ID
 												+ "\")' style='cursor:pointer;'>"
-												+ "</img>"
+												+ "</img>";
 									}
 								} ]
 					});
@@ -248,7 +248,7 @@ $(function() {
 			                        	+ "<label for='equipment" + i + "' >"
 				                        +  result[i].equipmentInfo 
 				                        + "</label>" 
-				                        + "</div>"
+				                        + "</div>";
 					}
 					$(".equipmentList").append(htmlElement);
 				}
@@ -307,10 +307,8 @@ function uploadFile() {
 			TypeNumber : param.type,
 			belongtoID : param.taskID,
 			firstDirectory : param.firstDirectory,
-			secondDirectory : param.secondDirectory,
-			thirdDirectory : param.thirdDirectory,
 			remark : param.fileSummaryInfo
-		}
+		};
 	});
 }
 
@@ -350,35 +348,22 @@ function sure() {
 // 下载报告模版
 function downReportTemplate() {
 	var ID = getUrlParam("taskID");
-	$.post("taskController/getFileIdOfTask.do",
+	$.post("taskController/getFileIdOfTask.do", 
 	{
 		taskID : ID
-	},
-	function(fileID){
+	}, function(fileID) {
 		fileID = JSON.parse(fileID);
-		if(fileID == null || fileID == "null" || fileID == ""){
-			$.post("taskController/getProjectName.do",
+		if (fileID == null || fileID == "null" || fileID == "") {
+			$.post("taskController/downReportTemplate.do", 
 			{
 				taskID : ID
-			},
-			function(result){
-				result = JSON.parse(result);
-				if(result != null && result != "null" && result != ""){
-					$.post("taskController/downReportTemplate.do", 
-					{
-						taskID : ID,
-						projectName : result[0].NAME
-					}, function(fileID) {
-						fileID = JSON.parse(fileID);
-						if (fileID != null && fileID != "null" && fileID != "") {
-							refresh();
-							downOneFile(fileID);
-						} else {
-							alert("下载模版出错");
-						}
-					});
+			}, function(fileID) {
+				fileID = JSON.parse(fileID);
+				if (fileID != null && fileID != "null" && fileID != "") {
+					refresh();
+					downOneFile(fileID);
 				} else {
-					alert("没有找到相关项目,不能下载模版");
+					alert("下载模版出错");
 				}
 			});
 		} else {
@@ -408,26 +393,13 @@ function uploadTestReport() {
 		taskID : ID
 	}, function(result) {
 		if (result == true || result == "true") {
-			$.post("taskController/getProjectName.do",
-			{
-				taskID : ID
-			},
-			function(result) {
-				result = JSON.parse(result);
-				if(result != null && result != "null" && result != ""){
-					$("#chooseFile").removeAttr("disabled");
-					$("#fileName").html("");
-					param.path = "";
-					param.type = 2;
-					param.firstDirectory = "项目文件";
-					param.secondDirectory = result[0].NAME;
-					param.thirdDirectory = "报告文件";
-					param.fileSummaryInfo = $.trim($("#fileSummaryInfo").val());
-					$("#uploadReport").modal("show");
-				} else {
-					alert("未找到相关项目,无法上传");
-				}
-			});
+			$("#chooseFile").removeAttr("disabled");
+			$("#fileName").html("");
+			param.path = "";
+			param.type = 2;
+			param.firstDirectory = "报告文件";
+			param.fileSummaryInfo = $.trim($("#fileSummaryInfo").val());
+			$("#uploadReport").modal("show");
 		} else {
 			alert("当前审核状态不可以上传报告");
 		}

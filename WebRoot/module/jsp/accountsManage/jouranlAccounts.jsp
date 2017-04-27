@@ -137,6 +137,7 @@
 				<div class="col-md-4 ">
 					<label>发票状态：</label> <select id="query_state" name="state"
 						class="form-control">
+						<option value="" class="form-control">全部</option>
 						<option value="0" class="form-control">支出</option>
 						<option value="1" class="form-control">收入</option>
 					</select>
@@ -185,7 +186,7 @@
 
 					<button class="btn btn-primary" type="button">导出</button>
 					<button class="btn btn-primary type=" button" id="refresh"
-						onclick="reSetRefresh()">刷新</button>
+						onclick="refresh()">刷新</button>
 					<button class="btn btn-warning" type=" button" onclick="backstep()">
 						<em class="glyphicon glyphicon-arrow-left"></em> 返回
 					</button>

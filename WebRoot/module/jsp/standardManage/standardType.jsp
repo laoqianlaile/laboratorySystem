@@ -74,13 +74,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="row clearfix">
 							<div class="col-md-4 column">
 								<label>标准类别编号：</label> 
-								<input id="query_STANDARDTYPECODE" class="form-control" name="STANDARDTYPECODE" oninput="query()"
-									onpropertychange="query()" type="text">
+								<input id="query_STANDARDTYPECODE" class="form-control" name="STANDARDTYPECODE" type="text">
 							</div>
 							<div class="col-md-4 column">
 								<label>标准类别名称：</label> 
-								<input  id="query_STANDARDTYPENAME" class="form-control" name="STANDARDTYPENAME" oninput="query()"
-									onpropertychange="query()" type="text">
+								<input  id="query_STANDARDTYPENAME" class="form-control" name="STANDARDTYPENAME" type="text">
 							</div>
 						</div>
 						<div id ="menu" class="row clearfix">
@@ -94,7 +92,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<em class="glyphicon glyphicon-plus"></em> 新增
 									</button>
 									<button class="btn btn-primary type=" button" id="refresh"
-									onclick="reSetRefresh()">
+									onclick="refresh()">
 										<em class="glyphicon glyphicon-refresh"></em> 刷新
 								</button>
 								</div>

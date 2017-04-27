@@ -89,7 +89,7 @@
 	<!-- 功能按钮 -->
 	<div class="input-group" >
 		<button type="button" class="btn btn-primary glyphicon glyphicon-plus"
-			data-toggle="modal" data-target="#addModal">&nbsp;新增</button>
+			data-toggle="modal"  onclick="showAddmodal()">&nbsp;新增</button>
 		<!-- <button type="button" onclick="lookModal()"
 			class="btn btn-primary glyphicon glyphicon-show">&nbsp;查看</button>
 		<button type="button" onclick="openModal()"

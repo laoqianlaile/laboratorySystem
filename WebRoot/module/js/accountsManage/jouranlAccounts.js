@@ -29,10 +29,10 @@ function init(){
 			    var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的  
 			    
 			      contractID:ContractInfo.contractID,
-			      contractCode: $('#query_contractCode').val(),  
-			      contractName: $('#query_contractName').val(),  
-			      checkinTime1: $('#query_checkTime1').val(),  
-			      checkinTime2: $('#query_checkTime2').val(), 
+			      invoice: $('#query_invoice').val(),  
+			      state: $('#query_state').val(),  
+			      checkinTime1: $('#checkTime1').val(),  
+			      checkinTime2: $('#checkTime2').val(), 
 			      limit: params.limit,   //页面大小  
 			      offset: params.offset,  //页码   
 			      sort: params.sort,  //排序列名  
@@ -139,13 +139,15 @@ function init(){
 
 /* 刷新方法 */
 function refresh(){
-	$('#table').bootstrapTable('refresh', null);
+	window.location.href = "module/jsp/accountsManage/jouranlAccounts.jsp?ID="+ ContractInfo.contractID;
 }
 
 /* 查询方法 */
 function query(){
-	init();
-	refresh();		
+	if(correctTime()){
+		init();
+		$('#table').bootstrapTable('refresh', null);	
+	}
 }
 
 /* 删除流水账目 */
@@ -397,4 +399,25 @@ function getContractFineItem(){
 		}
 	});
 	return data;
+}
+
+/* 检测时间段是否合理 */
+function correctTime() {
+	var time1 = $('#checkTime1').val();
+	var time2 = $('#checkTime2').val();
+	if (time1 === null || time1 === "") {
+		swal({ title: "不能为空", type: "warning",});
+		$('#checkTime1').focus();
+		return false;
+	}
+	if (time1 !== null && time1 !== "" && time2 !== null && time2 !== "") {
+		if (time1 > time2) {
+			swal({ title: "时间选择错误\n"+ time1 + " 至 " + time2, type: "warning",});
+			$('#checkTime2').focus();
+			return false;
+		} else {
+			return true;
+		}
+	}
+	return false;
 }

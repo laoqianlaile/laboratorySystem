@@ -59,14 +59,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	vertical-align: middle;
 }
 
-#searcherArea {
-	min-width: 1300px;
-}
-
-.bootstrap-table {
-	min-width: 1500px;
-}
-
 .list-searcher select {
 	display: inline-block;
 	width: 200px;
@@ -112,11 +104,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 .input-group-addon {
 	background-color: #fff;
 }
-	</style>
+
+.button-wrap {
+	height: 70px;
+	background-color: #e8f3f9;
+	position: relative;
+}
+
+#all {
+	position: absolute;
+	right: 190px;
+	top: 50%;
+	margin-top: -17px;
+}
+
+#search {
+	position: absolute;
+	right: 110px;
+	top: 50%;
+	margin-top: -17px;
+}
+
+#return {
+	position: absolute;
+	right: 30px;
+	top: 50%;
+	margin-top: -17px;
+}
+
+.btn:hover {
+	background: #ffc773;
+}
+
+</style>
   </head>
   
   <body>
-	<div id="searcherArea">
+	<div class="container" style="width: 100%">
 		<div class="row">
 			<div class="col-xs-4 col-md-4 col-lg-4">
 				<label class="control-label">合同编号:</label>
@@ -126,13 +150,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<label class="control-label">甲方单位:</label>
 	  		<input class="form-control" id="companyName">
 			</div>
-			<div class="col-xs-2 col-md-2 col-lg-2"></div>
-			<div class="col-xs-1 col-md-1 col-lg-1">
-				<button type="button" id="search" class="btn btn-primary">查询</button>
-			</div>
-			<div class="col-xs-1 col-md-1 col-lg-1">
-				<button type="button" id="return" class="btn btn-primary">返回</button>
-			</div>
+			<div class="col-xs-4 col-md-4 col-lg-4"></div>
 		</div>
 		<div class="row">
 			<div class="col-xs-4 col-md-4 col-lg-4">
@@ -153,6 +171,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 			<div class="col-xs-4 col-md-4 col-lg-4"></div>
 		</div>
+	</div>
+	<div class="button-wrap">
+		<button type="button" id="all" class="btn btn-primary">全部</button>
+		<button type="button" id="search" class="btn btn-primary">查询</button>
+		<button type="button" id="return" class="btn btn-primary">返回</button>
 	</div>
 	<br/>
 	<!-- 表格 -->

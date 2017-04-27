@@ -29,7 +29,7 @@ public class MessageNoticeController{
 	@ResponseBody
 	public String addMessageNotice(String MessageID,String recipient){
 		String result = service.addMessageNotice(MessageID,recipient);
-		return result ;
+		return result +"";
 	}
 	
 	/**

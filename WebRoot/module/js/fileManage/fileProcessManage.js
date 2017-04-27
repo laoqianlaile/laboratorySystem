@@ -96,7 +96,7 @@ $(function() {
 									valign : 'middle',// 垂直居中显示                               
 									width : "10%",// 宽度
 									formatter : function(value, row, index) {
-										return "<img src ='module/img/view_icon.png'  onclick='viewFile(\""+row.ID+"\",\""+row.fileName+"\")'   title='查看' style='cursor:pointer;padding-right:8px;'></img> "
+										return "<img src ='module/img/view_icon.png'  onclick='viewFile(\""+row.ID+"\",\""+row.fileName+"\")'   title='预览文件' style='cursor:pointer;padding-right:8px;'></img> "
 												+ "<img src ='module/img/download_icon.png'  onclick='downFile(\"" + row.ID + "\")'  title='下载报告'  style='cursor:pointer;padding-right:8px;'></img> "
 									}
 								} ]
@@ -127,7 +127,7 @@ function downFile() {
 	downOneFile(fileID);
 }
 
-// 查看文件
+// 预览文件
 function viewFile() {
 	var fileID = arguments[0], fileNames = arguments[1];
 	fileSuffixName = "";
@@ -161,7 +161,7 @@ function openModal(){
 	$("#recoverReport").modal("show");
 }
 
-//检查文件类型
+// 检查文件类型
 function checkFile(o) {
 	$("#chooseFile").attr("disabled", "disabled");
 	var filePath = $(o).val();
@@ -199,6 +199,26 @@ function uploadFile() {
 			thirdDirectory : param.thirdDirectoryName
 		}
 	});
+}
+
+// 查看文件路径
+function viewFilePath() {
+	var rows = $("#table").bootstrapTable('getSelections');
+	if (rows.length === 0) {
+		alert("必须选择一条数据");
+	}
+	if (rows.length > 1) {
+		alert("只能选择一条数据");
+	} else {
+		$.post("fileOperateController/viewFilePath.do", 
+		{
+			fileID : rows[0].ID
+		}, function(result) {
+			result = JSON.parse(result);
+			$("#fileDetailPath").text(result);
+			$("#filePathModal").modal("show");
+		});
+	}
 }
 
 // 重新加载页面

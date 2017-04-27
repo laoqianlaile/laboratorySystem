@@ -172,7 +172,7 @@ option.form-control:hover {
 							<em class="glyphicon glyphicon-refresh"></em> 新增
 						</button>
 						<button class="btn btn-primary type=" button" id="refresh"
-							onclick="reSetRefresh()">
+							onclick="refresh()">
 							<em class="glyphicon glyphicon-refresh"></em> 刷新
 						</button>
 						<button class="btn btn-warning" type=" button" onclick="backstep()">

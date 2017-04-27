@@ -31,7 +31,6 @@ $(function () {
 		dataType:'json',
 		success:function(o){
 			var data = JSON.parse(o);
-			console.log(data[0]);
 			$('#departmentID').text(data[0].ID);
 			$('#departmentPeople').text(data[0].departmentName);
 	  	}
@@ -152,8 +151,8 @@ $(function () {
 				var temp = '';
 
 				if(!(row.detector === "无" && row.custodian === "无")){
-					var btn_assignAgain = '<span class="glyphicon glyphicon-user" onclick="assignAgain(\'' + row.ID + '\',\'' + row.detector + '\',\'' + row.custodian + '\',\'' + row.factoryCode + '\')" data-toggle="tooltip" data-placement="top" title="重新分配" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
-			  		var btn_edit = '<span class="glyphicon glyphicon-edit" onclick="edit(\'' + row.ID + '\',\'' + row.factoryCode + '\')" data-toggle="tooltip" data-placement="top" title="修改" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
+					var btn_assignAgain = '<img src="module/img/view_icon.png" onclick="assignAgain(\'' + row.ID + '\',\'' + row.detector + '\',\'' + row.custodian + '\',\'' + row.factoryCode + '\')" data-toggle="tooltip" data-placement="top" title="重新分配" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></img>';
+			  		var btn_edit = '<img src="module/img/edit_icon.png" onclick="edit(\'' + row.ID + '\',\'' + row.factoryCode + '\')" data-toggle="tooltip" data-placement="top" title="修改" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></img>';
 					temp += btn_assignAgain + btn_edit;
 				}
 		  		return temp;
@@ -234,7 +233,7 @@ $(function () {
 			valign:'middle',//垂直居中显示
 			width:'20%',//宽度
 			formatter:function(value,row,index){
-				var btn_download = '<span class="glyphicon glyphicon-download" onclick="download(\''+ row.ID +'\')" data-toggle="tooltip" data-placement="top" title="下载" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
+				var btn_download = '<img src="module/img/download_icon.png" onclick="download(\''+ row.ID +'\')" data-toggle="tooltip" data-placement="top" title="下载" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></img>';
 		  			return btn_download;
             }
 		}]//列配置项,详情请查看 列参数 表格
@@ -532,14 +531,5 @@ $('#return').click(function(){
 
 //下载文件按钮
 function download(ID){
-//	swal('the file ID is : ' + ID);
-		
-	$.ajax({
-		url:'fileOperateController/filedownload.do',
-		data:ID,
-		dataType:'json',
-		success:function(data){
-			
-	  	}
-	});
+	downOneFile(ID);
 };

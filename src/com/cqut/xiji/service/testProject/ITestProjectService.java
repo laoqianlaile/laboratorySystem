@@ -45,12 +45,12 @@ public interface ITestProjectService {
 			String order, String sort, String contract,HttpSession session);
 
    /**
-    * 获取检测项目列表(取字段)
+    * 获取检测项目列表(取字段)通过名字查询
     * @author wzj
     * @date 2016年11月19日 上午9:39:06
     * @return
     */
-	List<Map<String, Object>> getTestProjectList();
+	List<Map<String, Object>> getTestProjectListByName(String matchName);
 
 
 	/**
@@ -62,4 +62,6 @@ public interface ITestProjectService {
 	public List<Map<String, Object>> getTestProject(String testProjectNamae);
 
 	public List<Map<String, Object>> getTestProjectById(String testProjectByID);
+
+
 }

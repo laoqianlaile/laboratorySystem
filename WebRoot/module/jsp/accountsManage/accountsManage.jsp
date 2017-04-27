@@ -158,7 +158,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<em class="glyphicon glyphicon-circle-arrow-down"></em> 导出
 						</button>
 						<button class="btn btn-primary type=" button" id="refresh"
-							onclick="reSetRefresh()">
+							onclick="refresh()">
 							<em class="glyphicon glyphicon-refresh"></em> 刷新
 						</button>
 					</div>
@@ -222,22 +222,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title">编辑</h4>
+					<h4 class="modal-title">编辑账目</h4>
 				</div>
 				<div class="modal-body">
 					<div class="row" id="edit">
 						<input type="hidden" id="edit_accountsID" name="accountsID"/>
 						<div class ="col-xs-12 col-md-12">
 							<label class="labelName">报账专员：</label> 
-							<input type="text" id="edit_employeeName" name="employeeName"  disabled="disabled" class="form-control" aria-describedby="basic-addon1"/>
+							<input type="text" id="edit_employeeName" name="employeeName"  disabled="disabled" class="form-control" aria-describedby="basic-addon1" readonly/>
 						</div>
 						<div class ="col-xs-12 col-md-12">
 							<label class="labelName">合同编码：</label>
-							<input type="text" id="edit_contractCode" name="contractCode" display ="display"/>
+							<input type="text" id="edit_contractCode" name="contractCode"  class="form-control"  readonly/>
 						</div>
 						<div class ="col-xs-12 col-md-12">
 							<label class="labelName">录入时间：</label> 
-							<input type="text" id="edit_checkinTime" name="checkinTime"  class="form-control" aria-describedby="basic-addon1"/>
+							<input type="text" id="edit_checkinTime" name="checkinTime"  class="form-control"  readonly aria-describedby="basic-addon1"/>
 						</div>
 						<div class ="col-xs-12 col-md-12">
 							<label class="labelName">合同名称：</label> 

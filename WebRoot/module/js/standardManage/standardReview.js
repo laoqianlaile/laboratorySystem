@@ -129,21 +129,9 @@ function queryParams(params) {  //配置参数
 		    };  
 		    return temp;  
   }  
-/* 判断是否登录  */
-function isLogin(){
-	islogin = $('#EMPLOYEEID').val();
-	if(islogin === null || islogin === "" || islogin === "null"){
-		 alert("您还没登录， 请先登录");
-		 return false;
-	}
-	else{
-		return true;
-	}
-}
-
 /* 刷新方法 */
 function refresh(){
-	$('#table').bootstrapTable('refresh', null);
+	window.location.href = "module/jsp/standardManage/standardReview.jsp";
 }
 
 /* 重置刷新 */
@@ -153,7 +141,6 @@ function reSetRefresh(){
 	document.getElementById("query_STATE").value=0;
 	document.getElementById("query_TYPE").value=""; 	
 	document.getElementById("query_APPLICATIONTYPE").value="";
-	
 	query();
 }
 
@@ -184,7 +171,6 @@ function downFile(fileID){
 			  if (isConfirm) {
 				//下载文件
 				downOneFile(fileID);
-				swal("Ok!", "", "success")
 			  } else {
 			    swal("Cancelled", "", "error");
 			  }
@@ -216,15 +202,9 @@ function getStandardType(id){
 
 /**/
 function openSuggest(){
-	if(! isLogin()){
-		return;
-	}
-	else{
-		 $('#Modal').modal('show');
-		 $('#AuditStandard').attr("value",arguments[0]);
-		 $('#StandardID').attr("value",arguments[1]);
-	}
-	 
+	 $('#Modal').modal('show');
+	 $('#AuditStandard').attr("value",arguments[0]);
+	 $('#StandardID').attr("value",arguments[1]);
 }
 function AuditStandard(){
 	
@@ -254,9 +234,8 @@ function AuditStandard(){
 
 /* 查询方法 */
 function query(){
-	
 	init();
-	refresh();
+	$('#table').bootstrapTable('refresh', null);
 }
 
 //查看word

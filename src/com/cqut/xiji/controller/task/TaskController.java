@@ -346,21 +346,6 @@ public class TaskController{
 	
 	/**
 	 * 
-	 * @discription 通过任务ID获取对应的项目名字
-	 * @author zt
-	 * @created 2016-12-23 下午5:03:27
-	 * @param taskID
-	 * @return
-	 */
-	@RequestMapping("/getProjectName")
-	@ResponseBody
-	public List<Map<String, Object>> getProjectName(String taskID) {
-		List<Map<String, Object>> result = service.getProjectName(taskID);
-		return result;
-	}
-	
-	/**
-	 * 
 	 * @discription 设置相应任务的检测状态
 	 * @author zt
 	 * @created 2016-12-23 下午9:32:11
@@ -460,13 +445,9 @@ public class TaskController{
      */
 	@RequestMapping("/downReportTemplate")
 	@ResponseBody
-	public String downReportTemplate(String taskID, String projectName,HttpServletRequest req) {
-		Object obj = req.getSession().getAttribute("EMPLOYEEID");
-		String UPLOADER = "";
-		if (obj != null) {
-			UPLOADER = (String) obj;// 员工ID,从session里面取出来
-		}
-		String result = service.downReportTemplate(taskID, projectName,UPLOADER);
+	public String downReportTemplate(String taskID,HttpServletRequest req) {
+		String UPLOADER = req.getSession().getAttribute("EMPLOYEEID").toString();// 员工ID,从session里面取出来
+		String result = service.downReportTemplate(taskID,UPLOADER);
 		return result + "";
 	}
 

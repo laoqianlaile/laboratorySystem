@@ -1,138 +1,7 @@
 $(function() {
 	init();
-	
 	getDepartment("query_departmentID");
-	
-	$(document).on("click", "#addOver", function(event) {
-		event.stopPropagation();
-		$(".over").css("display", "none");
-		$(".over").css("width", "0");
-		$(".over").css("height", "0");
-		var names = getTestTatol("add").names;
-		var date = getTestTatol("add");
-//		$("#addTestProject").val("");
-//		$("#addTestProject").val(names.substring(0, names.length - 3));
-		swal({title:names,type:"warning"});
-		console.log(date);
-
-	});
-	
-	$(document).on("click", "#editOver", function(event) {
-		event.stopPropagation();
-		$(".over").css("display", "none");
-		$(".over").css("width", "0");
-		$(".over").css("height", "0");
-		var names = getTestTatol("edit").names;
-		$("#editTestProject").val("");
-		$("#editTestProject").val(names.substring(0, names.length - 3));
-
-	});
-	
-	
-	$(document).on("click", ".chooseInput", function(event) {
-		event.stopPropagation();
-	});
-	$(document).on("click", ".fontStyle", function(event) {
-		event.stopPropagation();
-		// this == event.target
-		$(event.target).prev().click();
-	});
-	
-	
-	$(".choose  .row  .col-xs-12").click(function(event) {
-		$(this).children("input.chooseInput").click();
-		event.stopPropagation();
-	});
-	
-	
-	$("#addTestProject").focus(function(event) {
-		var testNamevalue = $("#addTestProject").val();
-		var data = getTestLisk(); // 获取检测项目列表
-		var htmlP = "";
-		if (data != false) {
-			htmlP = playTestProjectHtml(data, testNamevalue, "add");// 拼装项目列表html
-			$("#addOver .overChoose .choose .row ").empty(); // 清空子元素
-			$("#addOver .overChoose .choose .row ").html(htmlP);
-		}
-		// 显示第二层遮罩
-		$(".overChoose").css("display", "block");
-		$(".over").css("display", "block");
-		var docWidth = $("#addModal .modal-dialog").width();
-		var docHeight = $("#addModal .modal-dialog").height();
-		$(".over").css("width", docWidth);
-		$(".over").css("height", docHeight);
-
-	});
-	
-	$("#editTestProject").focus(function(event) {
-		var testNamevalue = $("#editTestProject").val();
-		var data = getTestLisk(); // 获取检测项目列表
-		var htmlP = "";
-		if (data != false) {
-			htmlP = playTestProjectHtml(data, testNamevalue, "edit");// 拼装项目列表html
-			$("#editOver .overChoose .choose .row ").empty(); // 清空子元素
-			$("#editOver .overChoose .choose .row ").html(htmlP);
-		}
-		// 显示第二层遮罩
-		$(".overChoose").css("display", "block");
-		$(".over").css("display", "block");
-		var docWidth = $("#editModal .modal-dialog").width();
-		var docHeight = $("#editModal .modal-dialog").height();
-		$(".over").css("width", docWidth);
-		$(".over").css("height", docHeight);
-
-	});
 });
-
-//获取选择的检测项目ID和名字
-function getTestTatol(isAdd) {
-	var total = {};
-	var checkboxName = "";
-	if (isAdd == "add") {
-		checkboxName = "addTask";
-	} else
-		checkboxName = "editTask";
-	var cbs = $("input[name='" + checkboxName + "']:checked");
-	var ids = "", names = "";
-	for (var i = 0; cbs && i < cbs.length; i++) {
-		ids += $(cbs[i]).val() + " , ";
-		names += $(cbs[i]).next().text() + "  ,  ";
-	}
-	total.ids = ids;
-	total.names = names;
-
-
-	return total;
-}
-
-//拼装项目列表html
-function playTestProjectHtml(data, testNamevalue, isAdd) {
-	var html = "";
-	var checkName = ""
-	if (isAdd == "add")
-		checkName = "addTask";
-	else
-		checkName = "editTask";
-	for (var i = 0; i < data.length; i++) {
-		html += '<div class="col-xs-12  col-md-12" >';
-		if (isContains(testNamevalue, data[i].equipmentName))
-			html += '<input type="checkbox"  checked="chenked" value="'
-					+ data[i].ID + '" name="' + checkName + '"'
-					+ 'class="chooseInput" ><label class="fontStyle">'
-					+ data[i].equipmentName + '</label></div>';
-		else
-			html += '<input type="checkbox"   value="' + data[i].ID
-					+ '" name="' + checkName + '"'
-					+ 'class="chooseInput" ><label class="fontStyle">'
-					+ data[i].equipmentName + '</label></div>';
-	}
-	return html;
-}
-
-//判断字符串是否包含字串
-function isContains(str, substr) {
-	return str.indexOf(substr) >= 0;
-}
 
 function init() {
 
@@ -305,17 +174,8 @@ function init() {
 
 /* 刷新方法 */
 function refresh() {
-	$('#table').bootstrapTable('refresh', null);
+	window.location.href = "module/jsp/testProject/testProject.jsp";
 }
-
-/* 重置刷新 */
-function reSetRefresh(){
-	document.getElementById("query_nameCnORnameEn").value=""; 	
-	document.getElementById("query_departmentID").value=""; 	
-	
-	query();
-}
-
 
 function queryParams(params) { // 配置参数
 
@@ -334,10 +194,8 @@ function queryParams(params) { // 配置参数
 
 /* 查询方法 */
 function query() {
-
 	init();
-	refresh();
-
+	$('#table').bootstrapTable('refresh', null);
 }
 
 function addModal() {
@@ -485,16 +343,11 @@ function delData() {
 		});
 }
 
-/* 修改方法 
+//修改方法 
 function openEditModal(){
 	
-	$("input#add_EQUIPMENT").removeAttr("checked");
-	
-	
 	getDepartment("edit_DEPARTMENTID");	//从数据库里获取部门信息
-	
 	getEquipment("edit_EQUIPMENTID");// 从数据库里获取设备信息
-	
 	getStandard("edit_STANDARDID");// 从数据库里获取标准信息
 	
 	$('#edit_testProjectID').val(arguments[0].testProjectID);
@@ -511,18 +364,33 @@ function openEditModal(){
 	$('#edit_DESCRIBE').val(arguments[0].describes);
 	$('#edit_REMARKS').val(arguments[0].remarks);
 	
-	$(".testProjectName").val(arguments[0].EQUIPMENTNAME);
-//	var arr = arguments[0].EQUIPMENTID.split(',');
-//	
-//	for(var i = 0; i < arr.length; i++){
-//		$("input:checkbox[value='"+ arr[i] +"']").attr("checked","checked");
-//	}
+	var equipmentInfo = [];
 	
+	var EquipmentID = arguments[0].EQUIPMENTID.split(','); 
+	var EquipmentName = arguments[0].EQUIPMENTNAME.split(',');
+	if(EquipmentID === undefined || EquipmentID === null || EquipmentID === "" 
+		|| EquipmentName === undefined || EquipmentName === null || EquipmentName ===""){
+		return;
+	}
+	for(var i = 0 ; i < EquipmentID.length; i++){
+		var ddd = {}
+		ddd.ID = EquipmentID[i];
+		ddd.equipmentName = EquipmentName[i];
+		equipmentInfo[i] = ddd;
+	}
+	fulldisplayChecked(equipmentInfo);
 	
 	$('#editModal').modal('show');
-}*/
+}
+function fulldisplayChecked(equipmentInfo){
+	// 清空
+	$('#displayChecked[name = "edit"]').empty();
+	for(var i = 0; i <　equipmentInfo.length; i++){
+		html='<span class = "spanTag"><span class= "singleE" id ="'+equipmentInfo[i].ID+'" >'+ equipmentInfo[i].equipmentName +'&nbsp;&nbsp;</span><a  onclick="moveSingleE(this)">x</a></span>'
+		$('#displayChecked[name = "edit"]').append(html);
+	}
+}
 
-/*
 function editTestProject(){
 	
 	var parame = {};
@@ -533,22 +401,14 @@ function editTestProject(){
 	parame.NAMECN = ($('#edit_NAMECN').val());
 	parame.NAMEEN = ($('#edit_NAMEEN').val());
 	parame.DEPARTMENTID = ($('#edit_DEPARTMENTID').val());
-	parame.ENVIRONMENTALREQUIREMENTS = ($('#edit_ENVIRONMENTALREQUIREMENTS')
-			.val());
+	parame.ENVIRONMENTALREQUIREMENTS = ($('#edit_ENVIRONMENTALREQUIREMENTS').val());
 	parame.STANDARDID = ($('#edit_STANDARDID').val());
 	parame.DESCRIPTION = ($('#edit_DESCRIPTION').val());
-	
-	parame.EQUIPMENTID = "";
-	
-	var total = getTestTatol("edit").ids;
-	
-	parame.EQUIPMENTID = total;
-	$('input[name="EQUIPMENTID"]:checked').each(function(){
-		parame.EQUIPMENTID += ($(this).val()) + ",";
-	});
-	
+	parame.EQUIPMENTID =getEquipmentsID();
 	parame.describes = ($('#edit_DESCRIBE').val());
 	parame.remarks = ($('#edit_REMARKS').val());
+	if(checkNull(parame))return;
+	
 	$.ajax({
 		url : 'testProjectController/editTestProject.do',
 		data : parame,
@@ -562,8 +422,7 @@ function editTestProject(){
 		}
 
 	});
-}*/
-
+}
 // 获取部门信息
 function getDepartment(id) {
 	$.ajax({
@@ -650,20 +509,25 @@ function getStandard(id){
 
 // 填充设备数据
 function fullEquipments(equipmentDate){
-	var html = "<div class='form-control' >";
-//	if(equipmentDate.length < 5){
-		for(var i = 0; i < equipmentDate.length ; i++){
-			html += "<option class='form-control' value ='"+equipmentDate[i].ID+"' onclick='displayChecked(this)'>" + equipmentDate[i].equipmentName+ " </option>";
+	
+	var html = "<ul>";
+	if(equipmentDate.length == 0){
+		html += "<li class='noDate'>没有查到数据</li>"
+	}
+	else{
+		for(var i = 0; i < equipmentDate.length; i++){
+			html+="<li  id ='"+equipmentDate[i].ID+"' onclick='displayChecked(this)'>" + equipmentDate[i].equipmentName+ "</li>"
 		}
-//	}
-//	else{
-//		for(var i = 0; i < 4 ; i++){
-//			html += "<option class='form-control' value ='"+equipmentDate[i].ID+"' onclick='displayChecked(this)'>" + equipmentDate[i].equipmentName+ " </option>";
-//		}
-//	}
-	html +="</div>"
-	$('#showEquipments').html(html);
-	$('#showEquipments').show();
+	}
+	html +="</ul>";
+	if($("#editModal").is(":visible")){
+		$('.showEquipments[name = "edit"]').html(html);
+		$('.showEquipments[name = "edit"]').show();
+	}
+	if($("#addModal").is(":visible")){
+		$('.showEquipments[name = "add"]').html(html);
+		$('.showEquipments[name = "add"]').show();
+	}
 }
 
 // 获得焦点展示部分设备
@@ -671,37 +535,42 @@ function showPartEquipment(date){
 	fullEquipments(getTestLisk());
 }
 //搜索展示部分设备
-function searchEquipment(){
-	fullEquipments(matchEquipment());
+function searchEquipment(type){
+	fullEquipments(matchEquipment(type));
 }
 
 //删除点中的设备
 function moveSingleE(SingleEInfo){
-	console.log(SingleEInfo.previousSbiling);
 	console.log(SingleEInfo);
-	$('span#'+SingleEInfo.name+'').parent().remove();
-//	$('span').remove('[id ="'+SingleEInfo.name+'"]');
+	$(SingleEInfo).parent().remove();
 }
 // 展示被选中的设备
 function displayChecked(equipmentInfo){
 
-	console.log(equipmentInfo);
-	
-	if(isSameID(equipmentInfo.value)){
-		newhtml='<span class = "spanTag"><span class= "singleE" id ="'+equipmentInfo.value+'" >'+ equipmentInfo.text +'&nbsp;&nbsp;</span><a name ="'+equipmentInfo.value+'" onclick="moveSingleE(this)">x</a></span>'
-		html=' <span class= "singleE" onclick="moveSingleE(this)" id ="'+equipmentInfo.value+'">'+equipmentInfo.text+'</span>';
-		$('#displayChecked').append(newhtml);
-		$('#showEquipments').hide();
+	if(isSameID(equipmentInfo.id)){
+		html='<span class = "spanTag"><span class= "singleE" id ="'+equipmentInfo.id+'" >'+ equipmentInfo.innerHTML +'&nbsp;&nbsp;</span><a  onclick="moveSingleE(this)">x</a></span>'
+		if($("#editModal").is(":visible")){
+			$('#displayChecked[name = "edit"]').append(html);
+			$('.showEquipments[name = "edit"]').hide();
+		}
+		if($("#addModal").is(":visible")){
+			$('#displayChecked[name = "add"]').append(html);
+			$('.showEquipments[name = "add"]').hide();
+		}
 	}
 	else{
 		swal("请不要重复选中同一设备");
-		$('#showEquipments').hide();
 	}
 }
 //获取所有被选中仪器的id
 function getEquipmentsID(){
 	var total = ""
-	var allEquipmentIDs =$('#displayChecked span.singleE');
+	if($("#editModal").is(":visible")){
+		var allEquipmentIDs =$('#displayChecked[name= "edit"] span.singleE');
+	}
+	if($("#addModal").is(":visible")){
+		var allEquipmentIDs =$('#displayChecked[name= "add"] span.singleE');
+	}
 	if(allEquipmentIDs.length == 0){
 		swal("请至少选中一个仪器设备");
 		return;
@@ -715,7 +584,12 @@ function getEquipmentsID(){
 }
 //检测是否有重复的ID设备
 function isSameID(checkID){
-	var allEquipmentIDs =$('#displayChecked span.singleE');
+	if($("#editModal").is(":visible")){
+		var allEquipmentIDs =$('#displayChecked[name= "edit"] span.singleE');
+	}
+	if($("#addModal").is(":visible")){
+		var allEquipmentIDs =$('#displayChecked[name= "add"] span.singleE');
+	}
 	if(allEquipmentIDs.length == 0){
 		return true;
 	}
@@ -731,9 +605,9 @@ function isSameID(checkID){
 }
 
 // 匹配设备名称 返回数据
-function matchEquipment(){
-	$('#showEquipments').css("display","block");
-	var matchName = $('#searchEquipments').val();
+function matchEquipment(type){
+//	$('.showEquipments[name = "add"]').css("display","block");
+	var matchName = $('#'+type+'searchEquipments').val();
 	console.log(matchName);
 	var date;
 	$.ajax({

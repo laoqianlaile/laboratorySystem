@@ -94,7 +94,7 @@ function init(){
 
 /* 刷新方法 */
 function refresh(){
-	$('#table').bootstrapTable('refresh', null);
+	window.location.href = "module/jsp/accountsManage/accountsManage.jsp";
 }
 
 
@@ -117,28 +117,9 @@ function queryParams(params) {  //配置参数
 /* 查询方法 */
 function query(){
 	init();
-	refresh();		
+	$('#table').bootstrapTable('refresh', null);
 }
 
-
-/* 重置刷新 */
-function reSetRefresh(){
-	document.getElementById("query_contractCode").value=""; 	
-	document.getElementById("query_contractName").value="";
-	document.getElementById("checkTime1").value=""; 	
-	document.getElementById("checkTime2").value="";
-	query();
-}
-function isLogin(){
-	 islogin = $('#uploaderID').val();
-	 if(islogin === null || islogin === "" || islogin === "null"){
-		 alert("您还没登录， 请先登录");
-		 return false;
-	 }
-	 else{
-		 return true;
-	 }
-}
 /* 流水账目跳转  */
 function viewDetailed(){
 	window.location.href = window.location.href.replace('accountsManage.jsp','jouranlAccounts.jsp') + '?ID='+arguments[0];

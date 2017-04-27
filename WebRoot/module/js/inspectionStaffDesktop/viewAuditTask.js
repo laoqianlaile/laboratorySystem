@@ -4,7 +4,7 @@ $(function() {
 });
 function init () {
 	$('#testReportTable').bootstrapTable({
-		striped : true,// 隔行变色效果
+		striped : false,// 隔行变色效果
 		pagination : true,// 在表格部显示分页条
 		pageSize : 5,// 页面数据条数
 		pageNumber : 1,// 首页页码
@@ -33,40 +33,59 @@ function init () {
 			title : '序号',
 			field : 'Number',
 			formatter : function(value, row, index) {
+				checkData(row);
 				return index + 1;
 			}
-		}, {
-			field : 'taskCode',// 返回值名称
-			title : '任务编号',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : '20%',// 宽度
 		}, {
 			field : 'receiptlistCode',// 返回值名称
 			title : '交接单编号',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '20%'// 宽度
+			width : '24%'// 宽度
 		},{
 			field : 'fileName',// 返回值名称
 			title : '报告名称',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '20%'// 宽度
+			width : '25%'// 宽度
 		},{
 			field : 'versionNumber',// 返回值名称
 			title : '报告版本',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '15%'// 宽度
+			width : '25%'// 宽度
 		},{
 			field : 'sampleName',// 返回值名称
 			title : '样品名称',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '20%'// 宽度
+			width : '25%'// 宽度
 		} ]
 	// 列配置项,详情请查看 列参数 表格
 	/* 事件 */
 	});
+}
+
+function sure() {
+	window.location.href = window.location.href.split("?")[0].replace(
+			'viewAuditTask.jsp', 'inspectionStaffDesktop.jsp');
+}
+
+function checkData(dataObj){
+	if (!dataObj.hasOwnProperty("receiptlistCode") || dataObj.receiptlistCode == null
+			|| dataObj.receiptlistCode.trim() == "NULL") {
+		dataObj.receiptlistCode = "";
+	}
+	if (!dataObj.hasOwnProperty("fileName") || dataObj.fileName == null
+			|| dataObj.fileName.trim() == "NULL") {
+		dataObj.fileName = "";
+	}
+	if (!dataObj.hasOwnProperty("versionNumber") || dataObj.versionNumber == null
+			|| dataObj.versionNumber.trim() == "NULL") {
+		dataObj.versionNumber = "";
+	}
+	if (!dataObj.hasOwnProperty("sampleName") || dataObj.sampleName == null
+			|| dataObj.sampleName.trim() == "NULL") {
+		dataObj.sampleName = "";
+	}
 }

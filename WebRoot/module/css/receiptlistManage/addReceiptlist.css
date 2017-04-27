@@ -18,7 +18,7 @@ body {
 }
 
 .col-xs-12 textarea {
-	width: 90%;
+	width: 100%;
 }
 
 .col-xs-12 label {
@@ -130,7 +130,7 @@ table {
 	display: block;
 	width: 100%;
 	display: block;
-	width: 90%;
+	width: 100%;
 	height: 34px;
 }
 
@@ -230,7 +230,7 @@ h4,.h4 {
 }
 
 .tip-factory {
-	width: 90%; /* 和上面的一样  */
+	width: 100%; /* 和上面的一样  */
 	height: auto;
 	position: absolute;
 	z-index: 9999;
@@ -240,7 +240,7 @@ h4,.h4 {
 	/* width:100%; 这里设置后，后面的margin-right:就不起作用*/
 	height: auto;
 	z-index: 9999;
-	margin-right: 27px; /* 598 * 0.9 568 *0.9  30 * 0.9 */
+	margin-right: 30px; /* 598 * 0.9 568 *0.9  30 * 0.9 */
 	border-radius: 5px;
 	background: #f5f5f5;
 	max-height: 170px;
@@ -318,4 +318,84 @@ h4,.h4 {
     margin-bottom: 5px;
     background: #ddd;
     border-radius: 4px;
+}
+.col-xs-12 .col-xs-6{
+	padding:0px;
+}
+.col-md-12 .col-md-6{
+	padding:0px;
+}
+#addTestProject{
+	width: 90%;
+    height: 80px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+	display: inline-block;
+}
+#displayChecked {
+	width: 95%;
+	height: 100px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	min-height: 80px;
+	display: inline-block;
+	overflow-y:auto;
+	padding-left: 5px;
+	padding-top: 5px;
+}
+#displayChecked .spanTag{
+	border: 1px solid #a5d24a;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    display: block;
+    float: left;
+    padding: 5px;
+    text-decoration: none;
+    background: #cde69c;
+    color: #638421;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-family: helvetica;
+    font-size: 13px;
+}
+#displayChecked .spanTag a{
+	font-weight: bold;
+    color: #82ad2b;
+    text-decoration: none;
+    font-size: 11px;
+}
+.showTestProjects{
+	width:100%;
+	position:absolute;
+	height:auto;
+	max-height:90px;
+	display:none;
+	border:1px solid #ccc;
+	border-top:none;
+	border-radius:3px;
+	background-color:#fff;
+	z-index: 10;
+	overflow-x:hidden;
+	overflow-y:hidden;
+}
+.showTestProjects ul {
+	border:none;
+	max-height:120px;
+	overflow-y:auto;
+	margin:0;
+	margin-left:-40px;
+}
+.showTestProjects ul li{
+	height:30px;
+	line-height: 30px;
+	list-style-type: none;
+	text-indent: 12px;
+	background-color:#fff;
+	border-bottom: 1px solid #ccc;
+}
+.showTestProjects ul li.noDate{
+ 	color: red;
+}
+.showTestProjects ul li:hover{
+	background-color:#dcdcdc;
 }

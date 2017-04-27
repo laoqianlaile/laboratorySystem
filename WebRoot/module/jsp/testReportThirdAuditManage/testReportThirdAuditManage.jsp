@@ -217,7 +217,6 @@
 
 	<!-- 表格 -->
 	<table id="table">
-
 	</table>
 
 	<script src="module/js/testReportThirdAuditManage/testReportThirdAuditManage.js"></script>

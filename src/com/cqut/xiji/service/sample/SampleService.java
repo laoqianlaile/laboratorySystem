@@ -109,7 +109,9 @@ public class SampleService extends SearchService implements ISampleService{
 		}else if((startTime == null ||startTime.equals("")) && (endTime != null && !endTime.equals(""))){
 			condition+=" and sample.createTime < "+endTime+"  " ;
 		}
-	    List<Map<String, Object>> list = entityDao.searchWithpaging(properties, tableName, null, null, condition, null, sort, order, pageNum, pageIndex);
+    	sort = " desc ";
+    	order = " sample.createTime ";
+	    List<Map<String, Object>> list = entityDao.searchWithpaging(properties, tableName, null, null, condition, null, order, sort, pageNum, pageIndex);
     	int count = entityDao.getByCondition(condition, Sample.class).size();
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("total", count);
@@ -199,6 +201,7 @@ public class SampleService extends SearchService implements ISampleService{
 		sample.setState(0);
 		sample.setUnit(unit);
 		sample.setCreateTime(new Date());
+		sample.setQrcode(EntityIDFactory.createId());
 		String condition = " factoryCode ='"+factoryCode+"'";
 		List<Sample> list = entityDao.getByCondition(condition, Sample.class);
 		if(list != null && list.size() > 0)
@@ -240,6 +243,7 @@ public class SampleService extends SearchService implements ISampleService{
 		sample.setUnit(unit);
 		sample.setState(0);
 		sample.setCreateTime(new Date());
+		sample.setQrcode(EntityIDFactory.createId());
 	/*	String condition = " factoryCode ='"+factoryCode+"'";
 		List<Sample> list = entityDao.getByCondition(condition, Sample.class);*/
 	

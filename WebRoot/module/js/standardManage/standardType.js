@@ -179,20 +179,18 @@ function addStandardType(){
 
 /* 刷新方法 */
 function refresh(){
-	$('#table').bootstrapTable('refresh', null);
+	window.location.href = "module/jsp/standardManage/standardType.jsp";
 }
 
 /* 重置刷新 */
 function reSetRefresh(){
 	document.getElementById("query_STANDARDTYPECODE").value=""; 	
 	document.getElementById("query_STANDARDTYPENAME").value=""; 	
-	
-	query();
+	refresh();
 }
 
 /* 查询方法 */
 function query(){
-	
 	init();
-	refresh();
+	$('#table').bootstrapTable('refresh', null);
 }

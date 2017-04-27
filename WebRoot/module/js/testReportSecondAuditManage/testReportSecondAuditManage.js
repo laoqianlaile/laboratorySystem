@@ -146,7 +146,7 @@ $(function() {
 												+ row.taskID
 												+ "\",\""
 												+ row.fileName
-												+ "\")'   title='驳回检测报告'  style='cursor:pointer;padding-right:8px;'></img> "
+												+ "\")'   title='驳回检测报告'  style='cursor:pointer;padding-right:8px;'></img> ";
 
 									}
 								} ]

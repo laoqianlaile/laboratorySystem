@@ -76,7 +76,7 @@ $(function () {
 			valign:'middle',//垂直居中显示
 			width:'10%',//宽度
 			formatter:function(value,row,index){  
-				var btn_detail = '<span class="glyphicon glyphicon-search" onclick="viewDetail(\''+ row.ID +'\')" data-toggle="tooltip" data-placement="top" title="查看详情" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
+				var btn_detail = '<img src="module/img/view_icon.png" onclick="viewDetail(\''+ row.ID +'\')" data-toggle="tooltip" data-placement="top" title="查看详情" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></img>';
 		  			return btn_detail;  
             } 
 		}]//列配置项,详情请查看 列参数 表格

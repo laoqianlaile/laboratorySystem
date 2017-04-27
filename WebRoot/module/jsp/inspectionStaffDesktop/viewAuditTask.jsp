@@ -43,7 +43,16 @@
 		<div class="table">
 		<table id="testReportTable"></table>
 		</div>
+		
+		<div class="footer">
+			<div class="col-md-12 colum">
+				<div style="float: right;">
+					<button type="button" onclick="sure()" class="btn btn-primary">&nbsp;确定</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 <script src="module/js/inspectionStaffDesktop/viewAuditTask.js"></script>
 </html>
+
