@@ -275,7 +275,7 @@ position:relative;
 .btn-primary:hover {
     background-color: #ffad33;
 }
-.btn{
+ .row .btn{
 margin: 6px;
 }
 .btn-primary {
@@ -352,12 +352,12 @@ margin: 6px;
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-xs-12 col-md-12">
-							<h4>部门编码：</h4>
+							<label>部门编码：</label>
 							<input type="text" id="add_departmentCode" name="departmentCode "
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>部门名称：</h4>
+							<label>部门名称：</label>
 							<input type="text" id="add_departmentName" name="departmentName"
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
@@ -367,7 +367,7 @@ margin: 6px;
 							<input id="ID" type="hidden"></input>
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>负责人：</h4>
+							<label>负责人：</label>
 							<input type="text" id="add_responsibleMan" name="responsibleMan"
 								oninput="addGetEMName()" onpropertychange="addGetEMName()" class="form-control" aria-describedby="basic-addon1" />
 								<div class="employeeN">
@@ -419,13 +419,13 @@ margin: 6px;
 								aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>部门编码：</h4>
+							<label>部门编码：</label>
 							<input type="text" id="edit_departmentCode"
 								name="EdepartmentCode " class="form-control"
 								aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>部门名称：</h4>
+							<label>部门名称：</label>
 							<input type="text" id="edit_departmentName"
 								name="EdepartmentName" class="form-control"
 								aria-describedby="basic-addon1" />
@@ -437,7 +437,7 @@ margin: 6px;
 						</div>
 						
 						<div class="col-xs-12 col-md-12">
-							<h4>负责人：</h4>
+							<label>负责人：</label>
 							<input type="text" id="edit_employee" name="Eemployee"
 								oninput="editGetEMName()" onpropertychange="editGetEMName()" class="form-control" aria-describedby="basic-addon1" />
 								<div class="employeeN">

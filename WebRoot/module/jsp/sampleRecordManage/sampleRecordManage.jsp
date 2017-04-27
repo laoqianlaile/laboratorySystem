@@ -194,7 +194,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	.btn-primary {
         background-color: #089beb;
 }
-.btn{
+.input-group .btn{
 margin: 15px;
 }
 	

@@ -118,7 +118,7 @@ textarea {
     background-color: #089beb;
   
 }
-.btn{
+.row .btn{
 margin: 15px;
 }
 
