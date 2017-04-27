@@ -1,5 +1,6 @@
 package com.cqut.xiji.service.template;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import com.cqut.xiji.entity.template.Template;
 import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
+import com.sun.star.util.Date;
 
 @Service
 public class TemplateService extends SearchService implements ITemplateService{
@@ -61,7 +63,7 @@ public class TemplateService extends SearchService implements ITemplateService{
 						+"when template.TEMPLATETYPE = 2 then '交接单文件'"
 						+"when template.TEMPLATETYPE = 3 then '报告文件' end as TEMPLATETYPE",
 
-				"DATE_FORMAT(fileInformation.UPLOADTIME,'%Y-%m-%d') as UPLOADTIME ",
+				"DATE_FORMAT(template.createTime,'%Y-%m-%d %h:%s') as UPLOADTIME ",
 
 				"case when template.STATE = 0 then '待审核'"
 						+ "when template.STATE = 1 then '通过'"
@@ -90,9 +92,6 @@ public class TemplateService extends SearchService implements ITemplateService{
 		List<Map<String, Object>> result = originalSearchWithpaging(properties,
 				tableName, joinEntity, null, condition, false, null,
 				sort,order, index, pageNum);
-
-
-		//int count = getForeignCount(null, condition, false);
 		int count = getForeignCountWithJoin(joinEntity, null, condition, false);
 
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -128,19 +127,22 @@ public class TemplateService extends SearchService implements ITemplateService{
 		template.setTemplateType(Integer.parseInt(TemplateType));
 		template.setRemarks(TemplateRemarks);
 		template.setState(0);//信上传的模板都是默认待审核（0）
-
-		result += entityDao.save(template);
+		
+		
+		
 
 		// 文件所属ID
-		
 		FileInformation fileInformation = entityDao.getByID(fileID, FileInformation.class);
 		if(fileInformation == null){
 			return -1 + "" ;
 		}
+		template.setCreateTime(fileInformation.getUploadTime());;
 		fileInformation.setRemarks(TemplateRemarks);
 		fileInformation.setBelongtoID(template.getID());
 		fileInformation.setUploaderID(uploaderID);
 
+		//存入DB
+		result += entityDao.save(template);
 		result += entityDao.updatePropByID(fileInformation, fileID);
 
 		//当只是报告文件模板时有值

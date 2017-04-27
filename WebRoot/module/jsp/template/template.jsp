@@ -209,10 +209,13 @@ span {
 						</div>
 						<div class="col-md-6 column">
 								<select id="fileType">
-									<option value = "13">模板文件</option>
+									<option value = "">模板文件</option>
 								</select> 
 								<select id="fileSubtype" oninput="isReport()"
 									onpropertychange="isReport()" >
+									<option>交接单模板</option>
+									<option>合同模板</option>
+									<option>报告模板</option>
 								</select>
 							</div>
 							<div class="col-md-12 column">
