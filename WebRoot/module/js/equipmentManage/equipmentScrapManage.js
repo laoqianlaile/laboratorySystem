@@ -853,7 +853,7 @@ function edit(){
 					break;
 				case '1':swal("修改成功！");
 					$('#editModal').modal('hide');
-					refrehTable();
+					setTimeout(refresh, 1000);
 					break;
 				case '0':swal("修改失败！");
 					break;

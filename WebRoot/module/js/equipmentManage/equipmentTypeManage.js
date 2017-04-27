@@ -409,7 +409,7 @@ function edit(){
 			}else if(o == 1){
 				swal("修改成功!");
 				$('#editModal').modal('hide');
-				refrehTable();
+				setTimeout(refresh, 1000);
 			}
 		},
 		error : function(o) {

@@ -38,14 +38,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
   
  	 <!-- 功能按钮 -->
-		<div class="searchArea">
+	<div id="searcherArea">
 			<div class="row">
 				<div class="col-xs-3 col-md-3 col-lg-3">
 					<label>合同编号:</label>
 					<input type="text" id="schContractCode" name="schContractCode" class="form-control" aria-describedby="basic-addon1" placeholder="请输入合同编号查找"/>
 				</div>
 				<div class="col-xs-3 col-md-3 col-lg-3">
-					<label class="wide">乙方代表:</label><input type="text" id="schEmployeeName" name="schEmployeeName" class="form-control narrow" aria-describedby="basic-addon1"  placeholder="请输入员工名查找"/>
+					<label>乙方代表:</label><input type="text" id="schEmployeeName" name="schEmployeeName" class="form-control" aria-describedby="basic-addon1"  placeholder="请输入员工名查找"/>
 				</div>
 				<div class="col-xs-3 col-md-3 col-lg-3">
 					<label>签订时间:</label>
@@ -70,7 +70,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<label>甲方:</label><input type="text" id="schCompanyName" name="schCompanyName" class="form-control" aria-describedby="basic-addon1" placeholder="请输入甲方公司名查找"/>
 				</div>
 				<div class="col-xs-3 col-md-3 col-lg-3">
-					<label class="wide">甲方代表:</label><input type="text" id="schOppositeMen" name="schOppositeMen" class="form-control narrow" aria-describedby="basic-addon1" placeholder="请输入甲方代理人查找"/>
+					<label>甲方代表:</label><input type="text" id="schOppositeMen" name="schOppositeMen" class="form-control" aria-describedby="basic-addon1" placeholder="请输入甲方代理人查找"/>
 				</div>
 				<div class="col-xs-3 col-md-3 col-lg-3">
 					<label>联系电话:</label><input type="text" id="schLinkPhone" name="schLinkPhone" class="form-control" aria-describedby="basic-addon1" placeholder="请输入联系电话查找"/> 

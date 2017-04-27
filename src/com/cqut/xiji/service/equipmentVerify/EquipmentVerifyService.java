@@ -14,6 +14,7 @@ import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.employee.Employee;
 import com.cqut.xiji.entity.equipment.Equipment;
 import com.cqut.xiji.entity.equipmentVerify.EquipmentVerify;
+import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
@@ -144,8 +145,8 @@ public class EquipmentVerifyService extends SearchService implements IEquipmentV
 			}
 		}
 		String[] properties3 = new String[] {"ID"};
-		String condition3 = " testProjectName = '" + testProjectName + "'";
-		List<Map<String, Object>> result3 = entityDao.findByCondition(properties3, condition3, Employee.class);
+		String condition3 = " nameCn = '" + testProjectName + "'";
+		List<Map<String, Object>> result3 = entityDao.findByCondition(properties3, condition3, TestProject.class);
 		if(result3.isEmpty()){
 			System.out.println("不存在该检测项目");
 			return -10;
@@ -209,8 +210,8 @@ public class EquipmentVerifyService extends SearchService implements IEquipmentV
 			}
 		}
 		String[] properties3 = new String[] {"ID"};
-		String condition3 = " testProjectName = '" + testProjectName + "'";
-		List<Map<String, Object>> result3 = entityDao.findByCondition(properties3, condition3, Employee.class);
+		String condition3 = " nameCn = '" + testProjectName + "'";
+		List<Map<String, Object>> result3 = entityDao.findByCondition(properties3, condition3, TestProject.class);
 		if(result3.isEmpty()){
 			System.out.println("不存在该检测项目");
 			return -10;
