@@ -200,3 +200,6 @@ vertical-align: middle;
 .icon{
 	margin: 0 5px;
 }
+.nav-list .treeview span.icon{
+	margin:0px;
+}

@@ -20,6 +20,7 @@ public class FileInformation extends Entity{
 	private String remarks;
 	private String filePassword;
 	private String pathPassword;
+	private String fileTypeID ;
 	
 	public String getID() {
 		return ID;
@@ -104,6 +105,13 @@ public class FileInformation extends Entity{
 	
 	public void setPathPassword(String pathPassword) {
 		this.pathPassword = pathPassword;
+	}
+	public String getFileTypeID() {
+		return fileTypeID;
+	}	
+	
+	public void setFileTypeID(String fileTypeID) {
+		this.fileTypeID = fileTypeID;
 	}
 	
 	@Override

@@ -28,6 +28,9 @@
 	href="module/css/commonSystem/commonSystem.css" />
 <link rel="stylesheet" type="text/css"
 	href="module/css/inspectionStaffDesktop/inspectionStaffDesktop.css" />
+	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+
+<script src="module/js/sweetalert.min.js"></script>
 <script src="assets/js/autoPage.js"></script>
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
@@ -38,71 +41,77 @@
 </head>
 
 <body>
-	<div id="left" class="container">
-		<div class="head">
-			<img src="module/img/inspectionStaffDesktop/title.png" /> <label>任务信息</label>
-		</div>
-		<div class="top">
-			<div class="col-xs-12">
-				<label>所属交接单编号：</label> <input type="text" id="receiptlistCode"
-					name="receiptlistCode" class="form-control" disabled />
+	<div id="container">
+		<div id="left">
+			<div class="head">
+				<img src="module/img/inspectionStaffDesktop/title.png" /> <label>任务信息</label>
 			</div>
-			<div class="col-xs-12">
-				<label
-					style="margin-top:20px;margin-right:16px;  vertical-align: top;">依据技术文件</label>
-				<textarea id="accordingDoc" name="accordingDoc" class="form-control"
-					type="text" rows="3" readonly></textarea>
-			</div>
-		</div>
-		<div class="buttons">
-			<div class="row">
-				<div class="task_button task_button1">
-					<input type="image"
-						src="module/img/inspectionStaffDesktop/equipmentregister-_icon.png"
-						onclick="register()">
-					<p>设备登记</p>
+			<div class="top">
+				<div class="col-xs-12">
+					<label>所属交接单编号：</label> <input type="text" id="receiptlistCode"
+						name="receiptlistCode" class="form-control" disabled />
 				</div>
-				<div class="task_button task_button2">
-					<input type="image"
-						src="module/img/inspectionStaffDesktop/downloadinitialreport_icon.png"
-						onclick="download()">
-					<p>下载初始报告</p>
-				</div>
-				<div class="task_button task_button3">
-					<input type="image" src="module/img/inspectionStaffDesktop/submitAudit_icon.png"
-						onclick="submit()">
-					<p>提交审核</p>
-				</div>
-				<div class="task_button task_button4">
-					<input type="image" src="module/img/inspectionStaffDesktop/viewAudit_icon.png"
-						onclick="viewTask()">
-					<p>查看正审核任务</p>
-				</div>
-				<div class="task_button task_button5">
-					<input type="image" src="module/img/inspectionStaffDesktop/checkReport_icon.png"
-						onclick="viewReport()">
-					<p>查看报告</p>
-				</div>
-				<div class="task_button task_button6">
-					<input type="image"  type="image" src="module/img/inspectionStaffDesktop/uploadreport_icon.png"
-						onclick="upload()">
-					<p>上传报告</p>
+				<div class="col-xs-12">
+					<label
+						style="margin-top:20px;margin-right:16px;  vertical-align: top;">依据技术文件</label>
+					<textarea id="accordingDoc" name="accordingDoc"
+						class="form-control" type="text" rows="3" readonly></textarea>
 				</div>
 			</div>
+			<div class="buttons">
+				<div class="row">
+					<div class="task_button task_button1">
+						<input type="image"
+							src="module/img/inspectionStaffDesktop/equipmentregister-_icon.png"
+							onclick="register()">
+						<p>设备登记</p>
+					</div>
+					<div class="task_button task_button2">
+						<input type="image"
+							src="module/img/inspectionStaffDesktop/downloadinitialreport_icon.png"
+							onclick="download()">
+						<p>下载初始报告</p>
+					</div>
+					<div class="task_button task_button3">
+						<input type="image"
+							src="module/img/inspectionStaffDesktop/submitAudit_icon.png"
+							onclick="submit()">
+						<p>提交审核</p>
+					</div>
+					<div class="task_button task_button4">
+						<input type="image"
+							src="module/img/inspectionStaffDesktop/viewAudit_icon.png"
+							onclick="viewTask()">
+						<p>查看正审核任务</p>
+					</div>
+					<div class="task_button task_button5">
+						<input type="image"
+							src="module/img/inspectionStaffDesktop/checkReport_icon.png"
+							onclick="viewReport()">
+						<p>查看报告</p>
+					</div>
+					<div class="task_button task_button6">
+						<input type="image" type="image"
+							src="module/img/inspectionStaffDesktop/uploadreport_icon.png"
+							onclick="upload()">
+						<p>上传报告</p>
+					</div>
+				</div>
+			</div>
+			<div class="table">
+				<table id="taskTable">
+				</table>
+			</div>
 		</div>
-		<div class="table">
-		<table id="taskTable">
-		</table>
-		</div>
-	</div>
 
-	<div id="right" class="container">
+		<div id="right">
 			<div class="rightHead">
 				<img src="module/img/inspectionStaffDesktop/msgHint_icon.png" /> <label>消息提醒</label>
 			</div>
 			<div class="messageTable">
-			<table id="messageTable"></table>
+				<table id="messageTable"></table>
 			</div>
+		</div>
 	</div>
 </body>
 <script src="module/js/inspectionStaffDesktop/inspectionStaffDesktop.js"></script>

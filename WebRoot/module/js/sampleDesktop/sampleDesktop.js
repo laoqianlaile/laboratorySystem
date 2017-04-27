@@ -137,6 +137,15 @@ function initContractTable() {
 			width : '35%',// 宽度
 			visible : false
 		}, {
+			field : 'allotState',// 返回值名称
+			title : '状态',// 列名
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width : '15%',// 宽度
+			visible : false
+
+		} ,
+		{
 			field : 'reState',// 返回值名称
 			title : '状态',// 列名
 			align : 'center',// 水平居中显示
@@ -384,6 +393,83 @@ function viewRe() {
 		return;
 	}
 
+}
+//查看检测进度
+function showTestProcess(){
+	
+	var datas = $('.contractTable').bootstrapTable('getSelections');
+	if(datas.length == 1){
+		var data = datas[0];
+		dealColorShow(data);
+		$("#testProcessModal").modal('show');
+	}else{
+		sweetAlert("请选中一条数据");
+	}
+	
+
+	
+}
+//
+function dealColorShow(data){
+	var reState = data.reState;
+	var allotState = data.allotState;
+	if(reState != "无交接单"){
+		switch (allotState)
+		  {
+		  case 0:
+			  $(".lineImg").removeClass("fail");
+			  $(".iconImg").removeClass("fail");
+			  for(var i = 1 ; i <= 5 ;i++){
+				  $(".lineImg").eq(i).addClass("fail");
+				  $(".iconImg").eq(i).addClass("fail");
+			  }
+			  $(".iconImg").eq(6).addClass("fail");
+		    break;
+		  case 1:
+			  $(".lineImg").removeClass("fail");
+			  $(".iconImg").removeClass("fail");
+			  for(var i = 3 ; i <= 5 ;i++){
+				  $(".lineImg").eq(i).addClass("fail");
+				  $(".iconImg").eq(i).addClass("fail");
+			  }
+			  $(".iconImg").eq(6).addClass("fail");
+		    break;
+		  case 2:
+			  switch (reState)
+			  {
+			  case "无交接单":
+				  $(".lineImg").addClass("fail");
+				  $(".iconImg").addClass("fail");
+			    break;
+			  case "未检测":
+				  $(".lineImg").removeClass("fail");
+				  $(".iconImg").removeClass("fail");
+				  for(var i = 2 ; i <= 5 ;i++){
+					  $(".lineImg").eq(i).addClass("fail");
+					  $(".iconImg").eq(i).addClass("fail");
+				  }
+				  $(".iconImg").eq(6).addClass("fail");
+			    break;
+			  case "检测中":
+				  $(".lineImg").removeClass("fail");
+				  $(".iconImg").removeClass("fail");
+				  $(".iconImg").eq(6).addClass("fail");
+			    break;
+			  case "检测完成":
+				  $(".lineImg").removeClass("fail");
+				  $(".iconImg").removeClass("fail");
+
+			    break;
+			  
+			  }
+		    break;
+		 
+		  }
+	}else{
+		 $(".lineImg").addClass("fail");
+		 $(".iconImg").addClass("fail");
+	}
+	
 }
 // 编辑交接单
 function editRe() {

@@ -178,9 +178,18 @@ vertical-align: middle;
 .tidingHead ul li.selected {
 	 background: #0a8fe7;
 }
-img.nomal{
-	width:100%;
+img.unit{
+	/* width:100%; */
 	
+}
+img.lineImg{
+	margin-top: 30px;
+    width: 30px;
+}
+.row img.lineImgBottom{
+	margin-top: 30px;
+    width: 10px;
+  
 }
 .achieve{
 	
@@ -192,3 +201,32 @@ img.nomal{
 	-o-filter:grayscale(0.9);
 	-moz-filter:grayscale(0.9);
 }
+#addModal .modal-body .row .col-xs-2 {
+	padding:0px;
+}
+#addModal .modal-body .row .col-md-2 {
+	padding:0px;
+}
+#addModal .modal-body .row .col-lg-2{
+	padding:0px;
+}
+#addModal .modal-body .row .col-lg-1{
+	height:74px;
+}
+#addModal .modal-body .row .col-md-1{
+	height:74px;
+}
+#addModal .modal-body .row .col-xs-1{
+	height:74px;
+}
+.parentRightBottom{
+	margin-left:-15px; 
+}
+.parentLeftBottom{
+	     padding: 0px;
+    margin-left: 15px;
+    margin-top: 1px;
+}
+.parentLeftBottom img{
+	float: right;
+}    

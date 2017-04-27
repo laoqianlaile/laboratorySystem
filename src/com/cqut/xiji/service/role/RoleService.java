@@ -173,7 +173,7 @@ public class RoleService extends SearchService implements IRoleService{
 				"description"
 		};
 		String contectString = "LEFT JOIN employee ON employee.ID = role.createID"; 
-		List<Map<String, Object>> result = entityDao.searchWithpaging(properties, tableName, contectString, null, " 1=1 and name !='超级管理员' ", null, order, sort, index, pageNum);
+		List<Map<String, Object>> result = entityDao.searchWithpaging(properties, tableName, contectString, null, " 1=1 and name !='超级管理员' ", null,  " role.createTime "," desc ", index, pageNum);
 		int count = entityDao.getByCondition(" 1=1 and  name !='超级管理员' ", Role.class).size();
 		
 		Map<String,Object> map = new HashMap<String, Object>();

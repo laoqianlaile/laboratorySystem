@@ -226,6 +226,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				reload();
 			}
 		});
+		$("#mask").click(function() {
+			hideDiv();
+		});
 	</script>
 </body>
 </html>

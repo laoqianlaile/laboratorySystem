@@ -171,7 +171,6 @@ function downFile(fileID){
 			  if (isConfirm) {
 				//下载文件
 				downOneFile(fileID);
-				swal("Ok!", "", "success")
 			  } else {
 			    swal("Cancelled", "", "error");
 			  }
