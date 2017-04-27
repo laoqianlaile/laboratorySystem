@@ -13,6 +13,7 @@ import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.duty.Duty;
+import com.cqut.xiji.entity.sample.Sample;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
@@ -81,6 +82,19 @@ public class DutyService extends SearchService implements IDutyService{
 		return map;
 			
 		
+	}
+	public String addText(String dutyCode,String dutyName){
+		String[] properties = new String[] { "duty.dutyCode","duty.dutyName"};
+
+		String condition = "1 = 1 " + "and duty.dutyCode= '"
+				+ dutyCode + "'"+"or duty.dutyName= '"
+				+ dutyName + "'";
+		List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, Duty.class);
+		if(list.size()==0){
+			return "true";
+		}else {
+			return "false";
+		}
 	}
 	@Override
 	public String addDuty(String dutyCode,String dutyName,String introduction){

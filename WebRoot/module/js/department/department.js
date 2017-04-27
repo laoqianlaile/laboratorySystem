@@ -385,6 +385,27 @@ function departrefresh(){
 			dataType : 'text'
 		});
 }
+function addText(){
+	var parame = {};
+	parame.departmentName = $('#add_departmentName').val();
+	parame.departmentCode = $('#add_departmentCode').val();
+	$.ajax({
+		  url:'departmentController/addText.do',
+		  data:parame,
+		  dataType:'json',
+		  success:function(boolean){
+			  
+			  if(boolean=="true"){
+				  add();
+			  }else{
+				  swal("数据有重名");
+				  $("input").val("");
+				
+			  }
+			  
+		  }
+		});
+}
 
 /* 新增方法 */
 function add(){
@@ -410,6 +431,7 @@ function add(){
 		  $('#add_responsibleMan').attr({'value' : ""});
 		  refresh();
 		  departrefresh();
+		  swal("新增成功");
 	  }
 	});
 	}else swal("请把信息填完");
