@@ -65,6 +65,7 @@ $(function () {
 		queryParamsType: "limit", //参数格式,发送标准的RESTFul类型的参数请求
 		selectItemName:'',//radio or checkbox 的字段名
 		singleSelect:true,//禁止多选
+		undefinedText: '',//当数据为 undefined 时显示的字符
 		columns:[{
 			checkbox:true,
 			width:'5%'//宽度
@@ -149,12 +150,10 @@ $(function () {
 			width:'10%',//宽度
 			formatter:function(value,row,index){
 				var temp = '';
-
-				if(!(row.detector === "无" && row.custodian === "无")){
-					var btn_assignAgain = '<img src="module/img/view_icon.png" onclick="assignAgain(\'' + row.ID + '\',\'' + row.detector + '\',\'' + row.custodian + '\',\'' + row.factoryCode + '\')" data-toggle="tooltip" data-placement="top" title="重新分配" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></img>';
-			  		var btn_edit = '<img src="module/img/edit_icon.png" onclick="edit(\'' + row.ID + '\',\'' + row.factoryCode + '\')" data-toggle="tooltip" data-placement="top" title="修改" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></img>';
-					temp += btn_assignAgain + btn_edit;
-				}
+				var btn_assignAgain = '<img src="module/img/view_icon.png" onclick="assignAgain(\'' + row.ID + '\',\'' + row.detector + '\',\'' + row.custodian + '\',\'' + row.factoryCode + '\')" data-toggle="tooltip" data-placement="top" title="重新分配" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></img>';
+		  		var btn_edit = '<img src="module/img/edit_icon.png" onclick="edit(\'' + row.ID + '\',\'' + row.factoryCode + '\')" data-toggle="tooltip" data-placement="top" title="修改" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></img>';
+				temp += btn_assignAgain + btn_edit;
+				
 		  		return temp;
             }
 		}]//列配置项,详情请查看 列参数 表格
@@ -191,6 +190,7 @@ $(function () {
 	  	queryParamsType: "limit", //参数格式,发送标准的RESTFul类型的参数请求
 		selectItemName:'',//radio or checkbox 的字段名
 		singleSelect:true,//禁止多选
+		undefinedText: '',//当数据为 undefined 时显示的字符
 		columns:[{
 			checkbox:true,
 			width:'5%'//宽度
@@ -289,6 +289,7 @@ $("#btn-assign").click(function(){
 			    	  	},
 		  	queryParamsType: "limit", //参数格式,发送标准的RESTFul类型的参数请求
 			selectItemName:'',//radio or checkbox 的字段名
+			undefinedText: '',//当数据为 undefined 时显示的字符
 			columns:[{
 				checkbox:true,
 				width:'5%'//宽度
@@ -379,6 +380,7 @@ function assignAgain(ID,detector,custodian,factoryCode){
 		    	  	},
 	  	queryParamsType: "limit", //参数格式,发送标准的RESTFul类型的参数请求
 		selectItemName:'',//radio or checkbox 的字段名
+		undefinedText: '',//当数据为 undefined 时显示的字符
 		columns:[{
 			checkbox:true,
 			width:'5%'//宽度

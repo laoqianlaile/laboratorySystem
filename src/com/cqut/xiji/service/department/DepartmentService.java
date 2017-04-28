@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.entity.base.BootstrapTreeNode;
 import com.cqut.xiji.entity.department.Department;
+import com.cqut.xiji.entity.duty.Duty;
 import com.cqut.xiji.entity.employee.Employee;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.dao.base.BaseEntityDao;
@@ -48,7 +49,6 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 		String[] properties = new String[] {"ID","departmentName"};
 		String condition = "";
 		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Department.class);
-		System.out.println("department result:" + result);
 		return result;
 	}
 
@@ -101,6 +101,19 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 		map.put("rows", result);
 		return map;
 		
+	}
+	public String addText(String departmentCode,String departmentName){
+		String[] properties = new String[] { "department.departmentCode","department.departmentName"};
+
+		String condition = "1 = 1 " + "and department.departmentCode= '"
+				+ departmentCode + "'"+"or department.departmentName= '"
+				+ departmentName + "'";
+		List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, Department.class);
+		if(list.size()==0){
+			return "true";
+		}else {
+			return "false";
+		}
 	}
 	@Override
 	public String addDepartment(String departmentName,String departmentCode,String remarks,String employeeID,String parent){

@@ -59,12 +59,22 @@
 .form-control {
 	display: inline;
 	width: 70%;
+	float:right;
+}
+.row1 .form-control {
+    width: 78%;
 }
 .row{
     margin-bottom: 10px;
     }
 .row label {
 	width: 28%;
+	margin-top:7px;
+}
+.row1 label {
+    width: 18%;
+    margin-top: 10px;
+    text-align: center;
 }
 .control-label{
 	margin-top:6px;
@@ -76,6 +86,15 @@
   width: 70%;
   margin-top: 0px;
   float:right;
+}
+.timeChooseDiv1 {
+    width: 78%;
+    margin-top: 3px;
+    margin-right: 18px;
+    float: right;
+}
+.timeChooseDiv1 .form-control {
+    width: 100%;
 }
 .input-group-addon{
   background-color: #fff;

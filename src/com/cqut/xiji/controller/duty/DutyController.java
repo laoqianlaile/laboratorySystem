@@ -36,6 +36,13 @@ public class DutyController{
 		return result;
 		
 	}
+	@RequestMapping("/addText")  
+    @ResponseBody
+	public String addText(String dutyCode,String dutyName){
+		String result = service.addText(dutyCode,dutyName);
+		return result;
+		
+	}
 	@RequestMapping("/delDuty")
 	@ResponseBody
 	public String delDuty(String IDs){

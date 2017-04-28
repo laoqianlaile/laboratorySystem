@@ -29,9 +29,13 @@ import com.cqut.xiji.entity.receiptlist.Receiptlist;
 import com.cqut.xiji.entity.role.Role;
 import com.cqut.xiji.entity.sample.Sample;
 import com.cqut.xiji.entity.task.Task;
+import com.cqut.xiji.entity.template.Template;
 import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.service.base.SearchService;
+import com.cqut.xiji.service.fileEncrypt.DES;
 import com.cqut.xiji.service.fileEncrypt.FileEncryptService;
+import com.cqut.xiji.service.fileEncrypt.IFileEncryptService;
+import com.cqut.xiji.service.fileType.IFileTypeService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 import com.cqut.xiji.tool.util.PropertiesTool;
 import com.cqut.xiji.tool.word.WordProcess;
@@ -45,6 +49,10 @@ public class ReceiptlistService extends SearchService implements
 	SearchDao searchDao;
 	@Resource(name = "baseEntityDao")
 	BaseEntityDao baseEntityDao;
+	@Resource(name="fileEncryptService")
+	IFileEncryptService fileEncryptService;
+	
+	
 
 	@Override
 	public String getBaseEntityName() {
@@ -986,7 +994,7 @@ public class ReceiptlistService extends SearchService implements
 		String cacheFilePath = "";
 		String reFileName = "";
 		PropertiesTool pt = new PropertiesTool();
-		if(reModulePath == null){
+		if(reModulePath == null || reModulePath.equals("")){
 			 return "false";
 		}
 		else{
@@ -1155,11 +1163,23 @@ public class ReceiptlistService extends SearchService implements
 		PropertiesTool pt = new PropertiesTool();
 		@SuppressWarnings("static-access")
 		String filePath = pt.getSystemPram("filePath");
-		String condition = " fileinformation.type = 1 and path LIKE '%交接单模板%' ORDER BY uploadTime ";
-		List<FileInformation> list = entityDao.getByCondition(condition, FileInformation.class);
-		if( list !=null && list.size() >0){
-			  filePath = filePath+list.get(0).getPath();
-			  return filePath ;
+		String templateConditionnString  = " templateType = 2 and  state = 2 order by  createTime desc limit 0,1";
+		List<Template> list = entityDao.getByCondition(templateConditionnString, Template.class);
+		if(list != null && list.size() > 0){
+			 Template template = list.get(0);
+			 String fileID = template.getFileID() ;
+			 if(fileID == null || fileID.equals("")){
+				 return null;
+			 }
+			 FileInformation fileInformation = entityDao.getByID(fileID, FileInformation.class);
+			 if(fileInformation == null ){
+				 return null;
+			 }
+			 String path = fileInformation.getPath();
+			 String pathpassword = fileInformation.getPathPassword();
+			 String decrypathString = fileEncryptService.decryptPath(path, pathpassword);
+			
+			return  decrypathString;
 		}
 		else return null;  //还没有模板
 	}
@@ -1180,7 +1200,7 @@ public class ReceiptlistService extends SearchService implements
 		}
 		else 
 		{
-			return initReceiptFile(reID,coID, proID);
+			return "false";
 		}
 	}
 

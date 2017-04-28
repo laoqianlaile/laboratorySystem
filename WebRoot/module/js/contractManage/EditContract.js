@@ -459,7 +459,6 @@ function chenkDataCon(dataObj) { // 后台数据字段为空就不会传上来
 	}
 	if (!dataObj.hasOwnProperty("companyName") || dataObj.companyName == null || dataObj.companyName == undefined || dataObj.companyName.trim() == "") {
 		dataObj.companyName = "没有该公司,请新增";
-		alert("sdsd:"+dataObj.companyName);
 	}
 	if (!dataObj.hasOwnProperty("oppositeMen") || dataObj.oppositeMen == null || dataObj.oppositeMen == undefined || dataObj.oppositeMen.trim() == "") {
 		dataObj.oppositeMen = "";

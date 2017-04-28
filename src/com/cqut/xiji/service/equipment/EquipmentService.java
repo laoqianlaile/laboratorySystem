@@ -200,15 +200,25 @@ public class EquipmentService extends SearchService implements
 		if(equipmentIds == null || equipmentIds.isEmpty()){
 			return 0;
 		}else{
-			String[] properties = new String[] {"equipmentrepair.ID as R","equipmentuse.ID as U","equipmentverify.ID as V","equipmentscrap.ID as S"};
+			int count = 0;
+			String[] properties1 = new String[] {"COUNT(equipmentrepair.ID) as r"};
+			String[] properties2 = new String[] {"COUNT(equipmentuse.ID) as u"};
+			String[] properties3 = new String[] {"COUNT(equipmentverify.ID) as v"};
+			String[] properties4 = new String[] {"COUNT(equipmentscrap.ID) as s"};
 			String tableName = "equipment";
-			String joinEntity = " LEFT JOIN equipmentrepair ON equipment.ID = equipmentrepair.equipmentID " +
-					" LEFT JOIN equipmentuse ON equipment.ID = equipmentuse.equipmentID " +
-					" LEFT JOIN equipmentverify ON equipment.ID = equipmentverify.equipmentID " +
-					" LEFT JOIN equipmentscrap ON equipment.ID = equipmentscrap.equipmentID ";
+			String joinEntity1 = " LEFT JOIN equipmentrepair ON equipment.ID = equipmentrepair.equipmentID ";
+			String joinEntity2 = " LEFT JOIN equipmentuse ON equipment.ID = equipmentuse.equipmentID ";
+			String joinEntity3 = " LEFT JOIN equipmentverify ON equipment.ID = equipmentverify.equipmentID ";
+			String joinEntity4 = " LEFT JOIN equipmentscrap ON equipment.ID = equipmentscrap.equipmentID ";
 			condition = "equipment.ID = '" + equipmentIds + "'";
-			int count = entityDao.searchForeign(properties, tableName, joinEntity, null, condition).size();
-			
+			List<Map<String, Object>> re1 = entityDao.searchForeign(properties1, tableName, joinEntity1, null, condition);
+			List<Map<String, Object>> re2 = entityDao.searchForeign(properties2, tableName, joinEntity2, null, condition);
+			List<Map<String, Object>> re3 = entityDao.searchForeign(properties3, tableName, joinEntity3, null, condition);
+			List<Map<String, Object>> re4 = entityDao.searchForeign(properties4, tableName, joinEntity4, null, condition);
+			count = Integer.parseInt(re1.get(0).get("r").toString()) + 
+					Integer.parseInt(re2.get(0).get("u").toString()) +
+					Integer.parseInt(re3.get(0).get("v").toString()) +
+					Integer.parseInt(re4.get(0).get("s").toString());
 			if(count == 0){
 				int result = entityDao.deleteByCondition(condition, Equipment.class);
 				return result;
@@ -216,8 +226,6 @@ public class EquipmentService extends SearchService implements
 		    	System.out.println("该设备与其他表数据有关联，请先删除关联");
 		    	return -2;
 		    }
-			
-			
 		}
 	}
 	
