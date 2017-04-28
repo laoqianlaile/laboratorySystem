@@ -18,7 +18,7 @@ function init() {
 							cache : false,// 禁用AJAX数据缓存
 							sortName : 'ID',
 							sortOrder : 'asc',
-							url : 'templateController/getTemplateWithPage.do',
+							url : 'templateController/getTemplateReviewWithPage.do',
 							sidePagination : 'server',
 							contentType : 'application/json',
 							dataType : 'json',
@@ -186,7 +186,7 @@ function find(){
 	
 	$('#table').bootstrapTable('refresh', {
 		silent:true,
-		url:"templateController/getTemplateWithPage.do",
+		url:"templateController/getTemplateReviewWithPage.do",
 		query:parame
 	});
 }

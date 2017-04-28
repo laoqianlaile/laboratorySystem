@@ -120,8 +120,8 @@ margin: 6px;
 								<label>状态&nbsp;： </label>
 								<select id="state" style="margin-top:6px;">
 								<option >所有</option>
-								<option value="0">待审核</option>
-								<option value="1">通过</option>
+								<option value="1">待审核</option>
+								<option value="2">通过</option>
 								<option value="3">驳回</option>
 							</select>
 							</div>
