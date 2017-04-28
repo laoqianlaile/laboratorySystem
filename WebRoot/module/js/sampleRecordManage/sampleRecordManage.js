@@ -578,6 +578,7 @@ function add(){
 					success : function(o) {
 						$('#addModal').modal('hide');
 						refresh();
+						swal("新增成功");
 					}
 				});
 			} else

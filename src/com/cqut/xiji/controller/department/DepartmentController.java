@@ -8,8 +8,10 @@ import javax.annotation.Resource;
 
 
 
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
 
 
 
@@ -46,6 +48,13 @@ public class DepartmentController {
 	public JSONObject getDepartmentWithPage(String departmentCode,String departmentName,String employeeName,int limit, int offset, String order, String sort){
 		Map<String, Object> result = service.getDepartmentWithPage(departmentCode,departmentName,employeeName,limit,offset,order,sort);
 		return JSONObject.fromObject(result);
+	}
+	@RequestMapping("/addText")  
+    @ResponseBody
+	public String addText(String departmentCode,String departmentName){
+		String result = service.addText(departmentCode,departmentName);
+		return result;
+		
 	}
 	
 	@RequestMapping("/addDepartment")

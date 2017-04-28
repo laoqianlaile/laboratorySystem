@@ -130,7 +130,7 @@ public class ContractService extends SearchService implements IContractService{
 			condition += " and oppositeMen like '%" + oppositeMen + "%'";
 		}if (linkPhone != null && !linkPhone.isEmpty()) {
 			condition += " and linkPhone like '%" + linkPhone + "%'";
-		}if (state > 0 && state < 8 ) {
+		}if (state >= 0 && state < 8 ) {
 				condition += " and contract.state = '" + state + "'";
 		}if (state == 9) {
 			condition += " and contract.state != '0' and contract.state != '1' ";

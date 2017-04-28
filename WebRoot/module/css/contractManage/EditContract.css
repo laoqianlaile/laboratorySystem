@@ -267,10 +267,13 @@ label.wide{
     float:left;
     width:99%;
 }
-.footer button#btn-edit{
+.footer button#btn-back{
 	margin-left:10px;
 	color:#364760;
 	background-color:#fff;
+}
+.footer button#btn-edit{
+	margin-left:10px;
 }
 .footer button{
 	float:right;

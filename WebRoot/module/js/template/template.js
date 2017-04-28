@@ -267,8 +267,9 @@ function delData() {
 }
 
 function openModal() {
-
-	var html = "";
+	
+	/*二级目录填充*/
+/*	var html = "";
 	$("#fileSubtype").find("option").remove();
 	$.post("fileOperateController/getFileTypeName.do", {
 		ID : $("#fileType").find("option:selected").val()
@@ -278,7 +279,7 @@ function openModal() {
 			html += "<option>" + result[i].name + "</option>";
 		}
 		$("#fileSubtype").append(html);
-	});
+	});*/
 	
 	$("#chooseFile").removeAttr("disabled");
 	$("#fileName").html("");

@@ -171,6 +171,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		<div class="footer">
+			<button type="button" id="btn-back" onclick="goback()">返回</button>
 			<button type="button" id="btn-edit" onclick="edit()">保存</button>
 			<button type="button" id="btn-audit" onclick="submitAudit()">提交审核</button>
 		</div>
@@ -197,8 +198,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<input type="text" id="fileRemarks" name="fileRemarks" class="form-control" style="width:85%;"/>
 					</div></div>
 					<div class="modal-footer">
-						<button class="btn-primary glyphicon" id="submitFileBtn" >提交</button>
-						<button class="btn-primary glyphicon" id="cancel" >取消</button>
+						<button class="btn btn-primary" id="submitFileBtn" >提交</button>
+						<button class="btn btn-default" id="cancel" >取消</button>
 					</div>
 				</div>
 			</div>
