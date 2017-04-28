@@ -114,5 +114,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="module/js/wait.js"></script>
 	<script src="module/js/testReportManage/testReportView.js"></script>
 	<script src="module/js/fileManage/fileManage.js"></script>
-  </body>
+	<script>
+		$("#mask").click(function() {
+			hideDiv();
+		});
+	</script>
+</body>
 </html>

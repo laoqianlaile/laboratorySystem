@@ -549,82 +549,83 @@ public class TaskService extends SearchService implements ITaskService {
 	}
 	
 	@Override
-	public Map<String,Object> getTaskWithPaging(int limit, int offset, String order,
-			String sort, String receiptlistCode, String testProjectName, String sampleName,
-			String beginTime, String endTime, String testProcess ,String uploader){
+	public Map<String, Object> getTaskWithPaging(int limit, int offset,
+			String order, String sort, String receiptlistCode,
+			String testProjectName, String sampleName, String beginTime,
+			String endTime, String testProcess, String uploader) {
 		int index = limit;
-		int pageNum = offset / limit ;
-		String tableName = " ( "+
-				" SELECT "+
-				"b.ID AS ID,"+
-				"b.startTime AS startTime,"+
-				"b.completeTime AS completeTime,"+
-				"b.detectstate AS detectstate,"+
-				"b.receiptlistCode AS receiptlistCode,"+
-				"b.levelTwo AS levelTwo,"+
-				"b.testProjectName AS testProjectName,"+
-				"b.sampleName AS sampleName,"+
-				"b.detecotorID AS detecotorID,"+
-				"b.detector AS detector,"+
-				"employee.employeeName AS custodian"+
-			" FROM "+
-				" ( "+
-					" SELECT "+
-						"a.ID AS ID,"+
-						"a.custodian AS custodian,"+
-						"a.startTime AS startTime,"+
-						"a.completeTime AS completeTime,"+
-						"a.detectstate AS detectstate,"+
-						"a.receiptlistCode AS receiptlistCode,"+
-						"a.levelTwo AS levelTwo,"+
-						"a.testProjectName AS testProjectName,"+
-						"a.sampleName AS sampleName,"+
-						"a.detector AS detecotorID,"+
-						"employee.employeeName AS detector"+
-					" FROM "+
-						" ( "+
-							" SELECT "+
-								"task.ID AS ID,"+
-								"task.custodian AS custodian,"+
-								"task.startTime AS startTime,"+
-								"task.completeTime AS completeTime,"+
-								"task.detectstate AS detectstate,"+
-								"task.levelTwo AS levelTwo,"+
-								"receiptlist.receiptlistCode AS receiptlistCode,"+
-								"IF (testproject.nameEn IS NULL,testproject.nameCn,CONCAT(testproject.nameCn,'(',testproject.nameEn,')')) AS testProjectName,"+
-								"sample.sampleName AS sampleName,"+
-								"taskman.detector AS detector"+
-							" FROM "+
-								" task "+
-							" LEFT JOIN taskman ON task.ID = taskman.taskID "+
-							" LEFT JOIN receiptlist ON task.receiptlistID = receiptlist.ID "+
-							" LEFT JOIN sample ON task.sampleID = sample.ID "+
-							" LEFT JOIN testproject ON task.testProjectID = testproject.ID "+
-						" ) AS a "+
-					" LEFT JOIN employee ON a.detector = employee.ID "+
-				" ) AS b "+
-			" LEFT JOIN employee ON b.custodian = employee.ID "+
-		" ) AS c " ;
+		int pageNum = offset / limit;
+		String tableName = " ( "
+				+ " SELECT "
+				+ "b.ID AS ID,"
+				+ "b.startTime AS startTime,"
+				+ "b.completeTime AS completeTime,"
+				+ "b.detectstate AS detectstate,"
+				+ "b.receiptlistCode AS receiptlistCode,"
+				+ "b.levelTwo AS levelTwo,"
+				+ "b.testProjectName AS testProjectName,"
+				+ "b.sampleName AS sampleName,"
+				+ "b.detecotorID AS detecotorID,"
+				+ "b.detector AS detector,"
+				+ "employee.employeeName AS custodian"
+				+ " FROM "
+				+ " ( "
+				+ " SELECT "
+				+ "a.ID AS ID,"
+				+ "a.custodian AS custodian,"
+				+ "a.startTime AS startTime,"
+				+ "a.completeTime AS completeTime,"
+				+ "a.detectstate AS detectstate,"
+				+ "a.receiptlistCode AS receiptlistCode,"
+				+ "a.levelTwo AS levelTwo,"
+				+ "a.testProjectName AS testProjectName,"
+				+ "a.sampleName AS sampleName,"
+				+ "a.detector AS detecotorID,"
+				+ "employee.employeeName AS detector"
+				+ " FROM "
+				+ " ( "
+				+ " SELECT "
+				+ "task.ID AS ID,"
+				+ "task.custodian AS custodian,"
+				+ "task.startTime AS startTime,"
+				+ "task.completeTime AS completeTime,"
+				+ "task.detectstate AS detectstate,"
+				+ "task.levelTwo AS levelTwo,"
+				+ "receiptlist.receiptlistCode AS receiptlistCode,"
+				+ "IF (testproject.nameEn IS NULL,testproject.nameCn,CONCAT(testproject.nameCn,'(',testproject.nameEn,')')) AS testProjectName,"
+				+ "sample.sampleName AS sampleName,"
+				+ "taskman.detector AS detector"
+				+ " FROM "
+				+ " task "
+				+ " LEFT JOIN taskman ON task.ID = taskman.taskID "
+				+ " LEFT JOIN receiptlist ON task.receiptlistID = receiptlist.ID "
+				+ " LEFT JOIN sample ON task.sampleID = sample.ID "
+				+ " LEFT JOIN testproject ON task.testProjectID = testproject.ID "
+				+ " ) AS a "
+				+ " LEFT JOIN employee ON a.detector = employee.ID "
+				+ " ) AS b "
+				+ " LEFT JOIN employee ON b.custodian = employee.ID "
+				+ " ) AS c ";
 		String[] properties = new String[] {
-				 "c.ID AS ID",
-				 "DATE_FORMAT(startTime,'%Y-%m-%d %H:%i:%s') AS startTime",
-				 "DATE_FORMAT(completeTime,'%Y-%m-%d %H:%i:%s') AS completeTime",
-				 "IF (c.detectstate = 0,'无报告',IF (c.detectstate = 1,'未提交',IF (c.detectstate = 2,'二审核中',IF (c.detectstate=3,'二审未通过',IF (c.detectstate = 4,'三审核中',"+
-				 "IF (c.detectstate = 5,'三审未通过',IF (c.detectstate = 6,'审核通过','其它'))))))) AS detectstate",
-				 "c.receiptlistCode AS receiptlistCode",
-				 "c.testProjectName AS testProjectName",
-				 "c.sampleName AS sampleName",
-				 "c.detector AS detecotor",
-				 "c.custodian AS custodian",
-				 "employee.employeeName AS levelTwo"};
+				"c.ID AS ID",
+				"DATE_FORMAT(startTime,'%Y-%m-%d %H:%i:%s') AS startTime",
+				"DATE_FORMAT(completeTime,'%Y-%m-%d %H:%i:%s') AS completeTime",
+				"IF (c.detectstate = 0,'无报告',IF (c.detectstate = 1,'未提交',IF (c.detectstate = 2,'二审核中',IF (c.detectstate=3,'二审未通过',IF (c.detectstate = 4,'三审核中',"
+						+ "IF (c.detectstate = 5,'三审未通过','审核通过')))))) AS detectstate",
+				"c.receiptlistCode AS receiptlistCode",
+				"c.testProjectName AS testProjectName",
+				"c.sampleName AS sampleName", "c.detector AS detecotor",
+				"c.custodian AS custodian", "employee.employeeName AS levelTwo" };
 		String joinEntity = " LEFT JOIN employee ON c.levelTwo = employee.ID ";
 		String condition = " 1 = 1 AND c.detecotorID ='" + uploader + "'";
-		
+
 		if (receiptlistCode != null && !receiptlistCode.isEmpty()) {
-			condition += " and receiptlistCode like '%" + receiptlistCode + "%'";
+			condition += " and receiptlistCode like '%" + receiptlistCode
+					+ "%'";
 		}
 		if (testProjectName != null && !testProjectName.isEmpty()) {
-			condition += " and testProjectName like '%" + testProjectName + "%'";
+			condition += " and testProjectName like '%" + testProjectName
+					+ "%'";
 		}
 		if (sampleName != null && !sampleName.isEmpty()) {
 			condition += " and sampleName like '%" + sampleName + "%'";
@@ -642,17 +643,17 @@ public class TaskService extends SearchService implements ITaskService {
 				condition += "";
 			}
 		}
-		
+
 		List<Map<String, Object>> result = entityDao.searchWithpaging(
 				properties, tableName, joinEntity, null, condition, null, sort,
 				order, index, pageNum);
-		int count = entityDao.searchForeign(properties, tableName, joinEntity, null, condition).size();
+		int count = entityDao.searchForeign(properties, tableName, joinEntity,
+				null, condition).size();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("total", count);
 		map.put("rows", result);
 		return map;
 	}
-
 
 
     @Override
@@ -818,7 +819,7 @@ public class TaskService extends SearchService implements ITaskService {
         }
 	}
 	
-	@Override
+/*	@Override
 	public List<Map<String, Object>> getProjectName(String taskID) {
 		String filteCondition = "";
 		if (taskID != null && !taskID.equals("") && !taskID.isEmpty()) {
@@ -831,7 +832,7 @@ public class TaskService extends SearchService implements ITaskService {
 		List<Map<String, Object>> result = entityDao.searchForeign(properties,
 				baseEntiy, joinEntity, null, null);
 		return result;
-	}
+	}*/
 	
 	@Override
 	public boolean setTaskDetectState(String taskID) {
@@ -993,7 +994,7 @@ public class TaskService extends SearchService implements ITaskService {
 	}
 
 	@Override
-	public String downReportTemplate(String taskID, String projectName,String UPLOADER) {
+	public String downReportTemplate(String taskID,String UPLOADER) {
 		String filteCondition = "";
 		String testReportID = "";
 		String baseEntiy = "";
@@ -1126,9 +1127,10 @@ public class TaskService extends SearchService implements ITaskService {
 						wp.replaceText("{交接单的依据文件}",
 								wordData.get(0).get("accordingDoc")
 										.toString());
-					String relativePath = "项目文件" + "\\" + projectName
+			/*		String relativePath = "项目文件" + "\\" + projectName
 							+ "\\" + "报告文件" + "\\";
-
+*/
+					String relativePath = "报告文件" + "\\";
 					path += relativePath;
 					File targetFile = new File(path);
 					if (!targetFile.exists()) {

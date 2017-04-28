@@ -428,6 +428,7 @@ function addClick(){
 			 code = "";
 			}
 		 $('#add_equipmentName').attr({'name' : "" + ID + ""});
+		 $('#add_factoryCode').val(code);
 		 $('#add_factoryCode').attr({'value' : "" + code + ""});
 		 $('#add_factoryCode').attr("disabled",true);
 		 $('#add_equipmentName').attr({'value' : "" + name + ""});
@@ -977,7 +978,7 @@ function edit(){
 					break;
 				case '1':swal("修改成功！");
 					$('#editModal').modal('hide');
-					refrehTable();
+					setTimeout(refresh, 1000);
 					break;
 				case '0':swal("修改失败！");
 					break;

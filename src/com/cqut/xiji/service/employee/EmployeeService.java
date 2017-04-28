@@ -185,7 +185,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 		@Override
 		public List<Map<String, Object>> getEmployeeName(String employeeName) {
 			String[] properties = new String[] {"ID","employeeName"};
-			String condition = "employeeName like '%" + employeeName + "%'  and ID != '20170220super' and ID != '20170220xiji'";
+			String condition = "employeeName like '%" + employeeName + "%'  and ID != '20170220super'";
 			List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Employee.class);
 			return result;
 		}

@@ -105,6 +105,14 @@ li:hover {
 
 textarea {
 	margin-top: 10px;
+	padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 #form {
@@ -275,7 +283,7 @@ position:relative;
 .btn-primary:hover {
     background-color: #ffad33;
 }
-.btn{
+ .row .btn{
 margin: 6px;
 }
 .btn-primary {
@@ -352,22 +360,22 @@ margin: 6px;
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-xs-12 col-md-12">
-							<h4>部门编码：</h4>
+							<label>部门编码：</label>
 							<input type="text" id="add_departmentCode" name="departmentCode "
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>部门名称：</h4>
+							<label>部门名称：</label>
 							<input type="text" id="add_departmentName" name="departmentName"
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
 						<div style="margin-top:20px" id="departin">
 							<label>部门简介:</label>
-							<textarea rows="7" cols="60" id="add_remarks"></textarea>
+							<textarea rows="7" cols="57" id="add_remarks"></textarea>
 							<input id="ID" type="hidden"></input>
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>负责人：</h4>
+							<label>负责人：</label>
 							<input type="text" id="add_responsibleMan" name="responsibleMan"
 								oninput="addGetEMName()" onpropertychange="addGetEMName()" class="form-control" aria-describedby="basic-addon1" />
 								<div class="employeeN">
@@ -394,7 +402,7 @@ margin: 6px;
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" onclick="add();">新增</button>
+					<button type="button" class="btn btn-primary" onclick="addText();">新增</button>
 				</div>
 			</div>
 		</div>
@@ -419,25 +427,25 @@ margin: 6px;
 								aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>部门编码：</h4>
+							<label>部门编码：</label>
 							<input type="text" id="edit_departmentCode"
 								name="EdepartmentCode " class="form-control"
 								aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>部门名称：</h4>
+							<label>部门名称：</label>
 							<input type="text" id="edit_departmentName"
 								name="EdepartmentName" class="form-control"
 								aria-describedby="basic-addon1" />
 						</div>
 						<div style="margin-top:20px"id="departin1" >
 							<label>部门简介:</label>
-							<textarea rows="7" cols="60" id="edit_remarks"></textarea>
+							<textarea rows="7" cols="57" id="edit_remarks"></textarea>
 							<input id="ID" type="hidden"></input>
 						</div>
 						
 						<div class="col-xs-12 col-md-12">
-							<h4>负责人：</h4>
+							<label>负责人：</label>
 							<input type="text" id="edit_employee" name="Eemployee"
 								oninput="editGetEMName()" onpropertychange="editGetEMName()" class="form-control" aria-describedby="basic-addon1" />
 								<div class="employeeN">

@@ -146,11 +146,35 @@
 			</div>
 		</div>
 	</div>
-
+	
+		<div id="filePathModal" class="modal fade" role="dialog"
+			aria-labelledby="gridSystemModalLabel">
+			<div class="modal-dialog" role="document" style="width:600px">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">查看文件路径</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-xs-3 col-md-3 col-lg-3">
+								<label style="width:100%">文件路径:</label>
+							</div>
+							<div class="col-xs-9 col-md-9 col-lg-9">
+								<span id="fileDetailPath" style="width:100%"></spam>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<div class="buttonGroup">
 			<div>
 				<button type="button" class="btn btn-primary " onclick="search()">查询</button>
+				<button type="button" class="btn btn-primary " onclick="viewFilePath()">查看文件路径</button>
 				<button type="button" class="btn btn-primary " onclick="openModal()">上传报告模版</button>
 			</div>
 		</div>

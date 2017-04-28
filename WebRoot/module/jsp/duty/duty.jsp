@@ -118,7 +118,7 @@ textarea {
     background-color: #089beb;
   
 }
-.btn{
+.row .btn{
 margin: 15px;
 }
 
@@ -213,7 +213,7 @@ margin: 15px;
 				</div>
 				<div class="modal-footer">
 				
-					<button type="button" class="btn btn-primary" onclick="add();">新增</button>
+					<button type="button" class="btn btn-primary" onclick="addText();">新增</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 			
 				</div>

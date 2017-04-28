@@ -59,6 +59,7 @@
 .form-control {
 	display: inline;
 	width: 70%;
+	float:right;
 }
 .row1 .form-control {
     width: 78%;
@@ -68,6 +69,7 @@
     }
 .row label {
 	width: 28%;
+	margin-top:7px;
 }
 .row1 label {
     width: 18%;

@@ -83,6 +83,14 @@ public class Template extends Entity{
 		this.remarks = remarks;
 	}
 	
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+	
 	@Override
 	public String toString() {
 		return "Template [" +  "ID=" + ID  + ", " +  "name=" + name  + ", " +  "verifyMan=" + verifyMan  + ", " +  "suggest=" + suggest  + ", " +  "fileID=" + fileID  + ", " +  "state=" + state  + ", " +  "templateType=" + templateType  + ", " +  "remarks=" + remarks  + ", "   + "]";
@@ -99,4 +107,6 @@ public class Template extends Entity{
 		// TODO Auto-generated method stub
 		return "ID";
 	}
+
+	
 }
