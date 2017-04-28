@@ -110,7 +110,7 @@ span {
 							</div>
 						</div>
 						<div id="menu" class= "row clearfix">
-								<div class="col-md-4 column">
+								<div class="col-md-12 column">
 									<button id="query" onclick="query()"
 										class="btn btn-primary" type="button">
 										<em class="glyphicon glyphicon-search"></em> 查询
