@@ -285,9 +285,9 @@
 									</div>
 									<div class="col-md-6 col-xs-6 ">
 										<div>
-											<p class="labelName">搜索查询添加仪器</p>
+											<p class="labelName">搜索查询添加检测项目</p>
 											<input type="text" id="addsearchTestProjects"
-												class="form-control" placeholder="选择所需仪器"
+												class="form-control" placeholder="选择所需检测项目"
 												oninput="searchTestProject('add')"
 												onpropertychange="searchTestProject('add')" />
 										</div>

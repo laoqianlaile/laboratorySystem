@@ -174,7 +174,7 @@
 				</div>
 				<div class="modal-body">
 					<input type= "hidden" id = "uploaderID" value = "<%=session.getAttribute("EMPLOYEEID")  %>" />
-					<div class="row">
+					<div class="row" >
 						<div class="col-xs-12 col-md-12">
 							<label class="labelName">标准编号</label>
 							<input type="text" id="add_STANDARDCODE" name="STANDARDCODE"

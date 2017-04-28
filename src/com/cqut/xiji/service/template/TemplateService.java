@@ -65,7 +65,7 @@ public class TemplateService extends SearchService implements ITemplateService{
 
 				"DATE_FORMAT(template.createTime,'%Y-%m-%d %h:%s') as UPLOADTIME ",
 
-				"case when template.STATE = 0 then '待审核'"
+				"case when template.STATE = 0 then '审核中'"
 						+ "when template.STATE = 1 then '通过'"
 						+ "when template.STATE = 2 then '已废弃'"
 						+ "when template.STATE = 3 then '驳回' end as STATE"
