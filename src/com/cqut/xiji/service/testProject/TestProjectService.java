@@ -79,7 +79,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 					+ "%' ";
 		}
 		String joinEntity = "LEFT JOIN testinstument on testproject.ID = testinstument.testProjectID "
-				+ "LEFT JOIN teststandard on testproject.ID = teststandard.testPorjectID "
+				+ "LEFT JOIN teststandard on testproject.ID = teststandard.testProjectID "
 				+ "LEFT JOIN standard on standard.ID = teststandard.standardID "
 				+ "LEFT JOIN department on department.ID = testproject.departmentID "
 				+ "LEFT JOIN template on template.ID = testproject.templateID "
@@ -132,7 +132,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 
 		testStandard.setID(EntityIDFactory.createId());
 		testStandard.setStandardID(STANDARDID);
-		testStandard.setTestPorjectID(testProject.getID());
+		testStandard.setTestProjectID(testProject.getID());
 
 		result += entityDao.save(testStandard);
 		// 检测仪器
@@ -146,7 +146,6 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 				testInstument.setTestProjectID(testProject.getID());
 				testInstument.setEquipmentID(EQUIPMENTIDs[i]);
 
-				System.out.println(EQUIPMENTIDs[i]);
 				result += entityDao.save(testInstument);
 
 			}
@@ -175,21 +174,21 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 
 		result += entityDao.updatePropByID(testProject,testProjectID);
 		// 检测标准
+		
+		entityDao.deleteByCondition(" testProjectID =" + testProjectID, TestStandard.class);
+		
 		TestStandard testStandard = new TestStandard();
-
+		
+		testStandard.setID(EntityIDFactory.createId());
 		testStandard.setStandardID(STANDARDID);
-		testStandard.setTestPorjectID(testProjectID);
-
-		result += entityDao.updatePropByID(testStandard,testStandardID);
+		testStandard.setTestProjectID(testProjectID);
+		result += entityDao.save(testStandard);
 		// 检测仪器
-
 
 		int IsDelete = 0;
 		
 		
 		IsDelete += entityDao.deleteByCondition(" testProjectID = " + testProjectID, TestInstument.class);
-		System.out.println(IsDelete);
-		System.out.println(testProjectID);
 		if(IsDelete >= 0){
 			String[] EQUIPMENTIDs = EQUIPMENTID.replaceAll(" ", "").split(",");
 			if (EQUIPMENTIDs.length > 0) {
@@ -199,10 +198,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 					testInstument.setID(EntityIDFactory.createId());
 					testInstument.setTestProjectID(testProjectID);
 					testInstument.setEquipmentID(EQUIPMENTIDs[i]);
-
-					System.out.println(EQUIPMENTIDs[i]);
 					result += entityDao.save(testInstument);
-
 				}
 			}
 		}
@@ -219,7 +215,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 		int result = entityDao.deleteEntities(ids, TestProject.class);
 		if (ids.length == 1) {
 			result += entityDao.deleteByCondition(
-					"teststandard.testPorjectID =  " + ids[0],
+					"teststandard.testProjectID =  " + ids[0],
 					TestStandard.class);
 			result += entityDao.deleteByCondition(
 					"testinstument.testProjectID =  " + ids[0],
@@ -227,7 +223,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 		} else {
 			for (int i = 0; i < ids.length; i++) {
 				result += entityDao.deleteByCondition(
-						"teststandard.testPorjectID =  " + ids[i],
+						"teststandard.testProjectID =  " + ids[i],
 						TestStandard.class);
 				result += entityDao.deleteByCondition(
 						"testinstument.testProjectID =  " + ids[i],
@@ -249,8 +245,6 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 		List<Map<String, Object>> result = entityDao.findByCondition(
 				properties, " 1 = 1", Department.class);
 
-		System.out.println(Arrays.toString(result.toArray()));
-
 		return result;
 	}
 
@@ -264,8 +258,6 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 
 		List<Map<String, Object>> result = entityDao.findByCondition(
 				properties, " 1 = 1", Equipment.class);
-
-		System.out.println(Arrays.toString(result.toArray()));
 
 		return result;
 	}
@@ -281,8 +273,6 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 
 		List<Map<String, Object>> result = entityDao.findByCondition(
 				properties, " 1 = 1 and state = 1", Standard.class);
-
-		System.out.println(Arrays.toString(result.toArray()));
 
 		return result;
 	}

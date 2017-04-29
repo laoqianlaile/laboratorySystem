@@ -13,6 +13,7 @@ import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
+import com.cqut.xiji.entity.standard.Standard;
 import com.cqut.xiji.entity.template.Template;
 import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.service.base.SearchService;
@@ -65,9 +66,9 @@ public class TemplateService extends SearchService implements ITemplateService{
 
 				"DATE_FORMAT(template.createTime,'%Y-%m-%d %h:%s') as UPLOADTIME ",
 
-				"case when template.STATE = 0 then '审核中'"
-						+ "when template.STATE = 1 then '通过'"
-						+ "when template.STATE = 2 then '已废弃'"
+				"case when template.STATE = 0 then '未提交'"
+						+ "when template.STATE = 1 then '审核中'"
+						+ "when template.STATE = 2 then '通过'"
 						+ "when template.STATE = 3 then '驳回' end as STATE"
 
 		};
@@ -104,12 +105,26 @@ public class TemplateService extends SearchService implements ITemplateService{
 	@Override
 	public String delTemplate(String templateIDs) {
 
+		int count = 0;
 		if(templateIDs == null || templateIDs.isEmpty()){
 			return 0+"";
 		}
 		String[] ids = templateIDs.split(",");
+		for(String id:ids){
+			
+			Template template = entityDao.getByID(id, Template.class);
+			FileInformation fileInformation = entityDao.getByID(template.getFileID(), FileInformation.class);
+			if(fileInformation != null){
+				fileInformation.setState(1);
+				entityDao.updatePropByID(fileInformation, fileInformation.getID());	
+			}
+			else{
+				System.out.println("没有对应的ID");
+				count++;
+			}
+		}
 		int result = entityDao.deleteEntities(ids,Template.class);
-		return result+"";
+		return (count > 0)? "-"+count:result+""; 
 	}
 
 	@Override

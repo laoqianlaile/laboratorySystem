@@ -54,12 +54,28 @@ public class StandardService extends SearchService implements IStandardService{
 
 	@Override
 	public String delStandard(String standardIDs) {
+			
+			int count = 0; // 计数操作失败的数量
+		
 			if(standardIDs == null || standardIDs.isEmpty()){
 				return 0+"";
 			}
 			String[] ids = standardIDs.split(",");
+			for(String id :ids){
+				Standard standard = entityDao.getByID(id, Standard.class);
+				FileInformation fileInformation = entityDao.getByID(standard.getFileID(), FileInformation.class);
+				if(fileInformation != null){
+					fileInformation.setState(1);
+					entityDao.updatePropByID(fileInformation, fileInformation.getID());	
+				}
+				else{
+					System.out.println("没有对应的ID");
+					count++;
+				}
+				
+			}
 			int result = entityDao.deleteEntities(ids,Standard.class);
-			return result+"";
+			return count> 0 ?"-"+count:result+"";
 	}
 
 	@Override
