@@ -7,6 +7,9 @@ public interface ITemplateService {
 	Map<String, Object> getTemplateWithPage(String nAME,String STATE,
 			String uPLOADTIME1, String uPLOADTIME2, int limit, int offset,
 			String order, String sort);
+	public Map<String, Object> getTemplateReviewWithPage(String nAME,String STATE,
+			String uPLOADTIME1, String uPLOADTIME2, int limit, int offset,
+			String order, String sort);
 
 	String delTemplate(String templateIDs);
 	
