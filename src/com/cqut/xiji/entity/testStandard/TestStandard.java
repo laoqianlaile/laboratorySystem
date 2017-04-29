@@ -34,7 +34,10 @@ public class TestStandard extends Entity{
 	
 	@Override
 	public String toString() {
-		return "TestStandard [" +  "ID=" + ID  + ", " +  "testPorjectID=" + testProjectID  + ", " +  "standardID=" + standardID  + ", "   + "]";
+
+
+		return "TestStandard [" +  "ID=" + ID  + ", " +  "testProjectID=" + testProjectID  + ", " +  "standardID=" + standardID  + ", "   + "]";
+
 	}
 	
 	@Override

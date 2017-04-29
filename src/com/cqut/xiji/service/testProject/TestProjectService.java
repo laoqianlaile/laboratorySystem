@@ -146,7 +146,6 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 				testInstument.setTestProjectID(testProject.getID());
 				testInstument.setEquipmentID(EQUIPMENTIDs[i]);
 
-				System.out.println(EQUIPMENTIDs[i]);
 				result += entityDao.save(testInstument);
 
 			}
@@ -175,21 +174,26 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 
 		result += entityDao.updatePropByID(testProject,testProjectID);
 		// 检测标准
+		
+		entityDao.deleteByCondition(" testProjectID =" + testProjectID, TestStandard.class);
+		
 		TestStandard testStandard = new TestStandard();
-
+		
+		testStandard.setID(EntityIDFactory.createId());
 		testStandard.setStandardID(STANDARDID);
 		testStandard.setTestProjectID(testProjectID);
 
-		result += entityDao.updatePropByID(testStandard,testStandardID);
-		// 检测仪器
 
+		result += entityDao.updatePropByID(testStandard,testStandardID);
+
+		result += entityDao.save(testStandard);
+
+		// 检测仪器
 
 		int IsDelete = 0;
 		
 		
 		IsDelete += entityDao.deleteByCondition(" testProjectID = " + testProjectID, TestInstument.class);
-		System.out.println(IsDelete);
-		System.out.println(testProjectID);
 		if(IsDelete >= 0){
 			String[] EQUIPMENTIDs = EQUIPMENTID.replaceAll(" ", "").split(",");
 			if (EQUIPMENTIDs.length > 0) {
@@ -199,10 +203,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 					testInstument.setID(EntityIDFactory.createId());
 					testInstument.setTestProjectID(testProjectID);
 					testInstument.setEquipmentID(EQUIPMENTIDs[i]);
-
-					System.out.println(EQUIPMENTIDs[i]);
 					result += entityDao.save(testInstument);
-
 				}
 			}
 		}
@@ -249,8 +250,6 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 		List<Map<String, Object>> result = entityDao.findByCondition(
 				properties, " 1 = 1", Department.class);
 
-		System.out.println(Arrays.toString(result.toArray()));
-
 		return result;
 	}
 
@@ -264,8 +263,6 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 
 		List<Map<String, Object>> result = entityDao.findByCondition(
 				properties, " 1 = 1", Equipment.class);
-
-		System.out.println(Arrays.toString(result.toArray()));
 
 		return result;
 	}
@@ -281,8 +278,6 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 
 		List<Map<String, Object>> result = entityDao.findByCondition(
 				properties, " 1 = 1 and state = 1", Standard.class);
-
-		System.out.println(Arrays.toString(result.toArray()));
 
 		return result;
 	}

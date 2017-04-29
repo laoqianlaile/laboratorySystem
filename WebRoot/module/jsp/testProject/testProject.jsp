@@ -253,7 +253,7 @@
 							<div id="equipmentsBox" class = "col-md-6 col-xs-6 "  >
 								<div >
 									<label class="labelName">搜索查询添加仪器</label>
-									<input type = "text" id ="AddsearchEquipments" name="add" class="form-control" placeholder="选择所需仪器" onfocus="showPartEquipment()"  oninput="searchEquipment('add')"
+									<input type = "text" id ="AddsearchEquipments" name="add" class="form-control" placeholder="选择所需仪器"  onblur="hideSearch('add')" onfocus="showPartEquipment()"  oninput="searchEquipment('add')"
 											onpropertychange="searchEquipment('add')"/>
 								</div>
 								<div   class="showEquipments" name = "add"></div>
@@ -331,7 +331,7 @@
 							<div id="equipmentsBox" class = "col-md-6 col-xs-6 "  >
 								<div >
 									<label class="labelName">搜索查询添加仪器</label>
-									<input type = "text" id ="EditsearchEquipments" name ="edit" class="form-control" placeholder="选择所需仪器" onfocus="showPartEquipment()"  oninput="searchEquipment('Edit')"
+									<input type = "text" id ="EditsearchEquipments" name ="edit" class="form-control" placeholder="选择所需仪器" onblur="hideSearch('edit')" onfocus="showPartEquipment()"  oninput="searchEquipment('Edit')"
 											onpropertychange="searchEquipment('Edit')"/>
 								</div>
 								<div   class="showEquipments" name="edit" ></div>
