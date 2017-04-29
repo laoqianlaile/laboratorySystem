@@ -13,6 +13,7 @@ import javax.enterprise.inject.New;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.junit.Test;
 import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
@@ -975,9 +976,20 @@ public class ReceiptlistService extends SearchService implements
 
 		return result;
 	}
+	@Test
+	public void decr(){
+		DES des = new DES("wVjsiJ4wHrpaiqPC3b3mPBLQtbtBlcMiuFitgibks1Ku8Yq7WIoVECgb");
+	try{	des.decryptFile("F:\\upload\\file\\模板文件\\交接单模板\\交接单模板_20170428223004495.docx", "F:\\upload\\file\\模板文件\\交接单模板\\交接单模板_20170428223004495jiemi.docx");
+	}
+	catch(Exception ec){
+		ec.printStackTrace();
+	}//des3.decryptFile("E:\\liabrary\\XIJI\\testFileSources\\交接单模板加密.docx", "E:\\liabrary\\XIJI\\testFileSources\\交接单模板解密.docx"); //解密
+	      
+	}
+	
 	/**
 	 * 
-	 * 初始化文件文件
+	 * 初始化交接单文件
 	 * @author wzj
 	 * @date 2017年3月20日 下午9:48:03
 	 *
@@ -988,26 +1000,37 @@ public class ReceiptlistService extends SearchService implements
 		// TODO Auto-generated method stub
 		
 		String fileID = "";
-		String reModulePath = getReFileModulePath();
+		String refileModule = getReFileModule();
+		String reModulePath = "";
 		String saveBasePath = "";
 		String savePath = "";
 		String cacheFilePath = "";
+		String cacheBasePathString = "";
 		String reFileName = "";
 		PropertiesTool pt = new PropertiesTool();
-		if(reModulePath == null || reModulePath.equals("")){
+		if(refileModule == null || refileModule.equals("")){
 			 return "false";
 		}
 		else{
+			cacheBasePathString =  pt.getSystemPram("cacheFilePath") ;
 			saveBasePath = pt.getSystemPram("filePath");
-			reModulePath =saveBasePath + "\\"+reModulePath;
+			reModulePath =saveBasePath+"\\"+fileEncryptService.getFileDecryPath(refileModule);
 		}
 		if (reID != null && !reID.equals("")) {
              
 			try {
+				
+				
+				//解密文件才能操作
+				String cacheID = EntityIDFactory.createId();
+				String cacheFilePath1 = cacheBasePathString+"\\"+cacheID+".docx";
+				System.out.println("huangcong"+cacheID);
+				fileEncryptService.decryptFile(reModulePath, cacheFilePath1, refileModule); //这个应该是模板文件的ID
+			   
+			
+				
 				WordProcess wordProcess = new WordProcess(false);
-				
-				
-				wordProcess.openDocument(reModulePath);
+				wordProcess.openDocument(cacheFilePath1);
 				// 获取甲方公司信息
 				String[] properties = new String[] { 
 						"companyName", 
@@ -1025,13 +1048,22 @@ public class ReceiptlistService extends SearchService implements
 				List<Map<String, Object>> companyInfo = originalSearchForeign(
 						properties, baseEntity, null, null, null, false);
 				if (companyInfo != null && companyInfo.size() > 0) {
-				    	reFileName = (String)companyInfo.get(0).get("companyName");
-                        wordProcess.replaceText("companyName-甲", reFileName);
-                        wordProcess.replaceText("linkman-甲", (String)companyInfo.get(0).get("linkman"));
-                        wordProcess.replaceText("mobilephone-甲", (String)companyInfo.get(0).get("mobilephone"));
-                        wordProcess.replaceText("address-甲", (String)companyInfo.get(0).get("address"));
-                        wordProcess.replaceText("fax-甲", (String)companyInfo.get(0).get("fax"));
-                        wordProcess.replaceText("emailbox-甲", (String)companyInfo.get(0).get("emailbox"));
+					   String companyName = (String)companyInfo.get(0).get("companyName") ;
+					    String linkman = (String)companyInfo.get(0).get("linkman") ;
+					    String mobilephone = (String)companyInfo.get(0).get("mobilephone") ;
+					    String address = (String)companyInfo.get(0).get("address") ;
+					    String fax = (String)companyInfo.get(0).get("fax") ;
+					    String emailbox = (String)companyInfo.get(0).get("emailbox") ;
+
+					    wordProcess.replaceText("{companyName-x}", companyName  == null ? " " :  companyName);
+	                    wordProcess.replaceText("{linkman-x}",  linkman  == null ? " " :  linkman);
+	                    wordProcess.replaceText("{mobilephone-x}",  mobilephone  == null ? " " :  mobilephone);
+	                    wordProcess.replaceText("{address-x}",  address  == null ? " " :  address);
+	                    wordProcess.replaceText("{fax-x}",  fax  == null ? " " :  fax);
+	                    wordProcess.replaceText("{emailbox-x}",  emailbox  == null ? " " :  emailbox);
+				}
+				else{
+					
 				}
 				
 				//获取样品信息
@@ -1041,7 +1073,7 @@ public class ReceiptlistService extends SearchService implements
 						"sample.specifications as style",
 						"contractfineitem.price "
 						};
-			String baseEntity1 = " SELECT "
+			String baseEntity1 = " ( SELECT "
 					+ " task.ID , "
 					+ " task.sampleID ,"
 					+ " task.testProjectID "
@@ -1051,25 +1083,19 @@ public class ReceiptlistService extends SearchService implements
 			        +" LEFT JOIN contractfineitem on contractfineitem.testProjectID = a.testProjectID ";
 			List<Map<String, Object>> sampleInfo = originalSearchForeign(
 					properties1, baseEntity1, null, null, null, false);
-			for (int i = 0; i < sampleInfo.size(); i++) {
-                    wordProcess.replaceText("companyName-甲", (String)companyInfo.get(0).get("companyName"));
-                    wordProcess.replaceText("linkman-甲", (String)companyInfo.get(0).get("linkman"));
-                    wordProcess.replaceText("mobilephone-甲", (String)companyInfo.get(0).get("mobilephone"));
-                    wordProcess.replaceText("address-甲", (String)companyInfo.get(0).get("address"));
-                    wordProcess.replaceText("fax-甲", (String)companyInfo.get(0).get("fax"));
-                    wordProcess.replaceText("emailbox-甲", (String)companyInfo.get(0).get("emailbox"));
-			}
+		
 			for (int i = 0; i < sampleInfo.size(); i++) {
 				wordProcess.addTableRow(1, 13);
 				Map<String, Object> map = sampleInfo.get(i);
-				wordProcess.putTxtToCell(1, 12, 1, i+1+"");
-				wordProcess.putTxtToCell(1, 12, 2, map.get("sampleName").toString());
-				wordProcess.putTxtToCell(1, 12, 3, map.get("style").toString());
-				wordProcess.putTxtToCell(1, 12, 4, map.get("sampleCode").toString());
-				wordProcess.putTxtToCell(1, 12, 5, "常规校准");
-				wordProcess.putTxtToCell(1, 12, 6, "1");
-				wordProcess.putTxtToCell(1, 12, 7, map.get("price").toString());
-				wordProcess.putTxtToCell(1, 12, 8, map.get("price").toString());
+				wordProcess.putTxtToCell(1, 13, 1, i+1+"");
+				wordProcess.putTxtToCell(1, 13, 2, map.get("sampleName").toString());
+				wordProcess.putTxtToCell(1, 13, 3, map.get("style").toString());
+				wordProcess.putTxtToCell(1, 13, 4, map.get("sampleCode").toString());
+				wordProcess.putTxtToCell(1, 13, 5, "常规校准");
+				wordProcess.putTxtToCell(1, 13, 6, "1");
+				String price = String.valueOf( map.get("price")) ;
+				wordProcess.putTxtToCell(1, 13, 7, price == null ? " 0.0 " : price);
+				wordProcess.putTxtToCell(1, 13, 8, "");
 			}
 			//填充个人公司信息
 		   /**
@@ -1082,21 +1108,21 @@ public class ReceiptlistService extends SearchService implements
 			String ourAccount = pt.getSystemPram("ourAccount") ;
 			String ourAccountProxy = pt.getSystemPram("ourAccountProxy") ;
 			String ourFinancePhone = pt.getSystemPram("ourFinancePhone") ;
-			String ourEamile = pt.getSystemPram("ourEamile") ;
+			String ourEmaile = pt.getSystemPram("ourEmaile") ;
 			String ourFax = pt.getSystemPram("ourFax") ;
 			String ourLinkMan = pt.getSystemPram("ourLinkMan") ;
 			String ourLinkPhone = pt.getSystemPram("ourLinkPhone") ;
 			
-			wordProcess.replaceText("ourCompanyName", ourCompanyName);
-			wordProcess.replaceText("ourLinkCompanyName", ourLinkCompanyName);
-			wordProcess.replaceAllText("ourCompanyAddress", ourCompanyAddress);
-			wordProcess.replaceText("ourAccount", ourAccount);
-			wordProcess.replaceText("ourAccountProxy", ourAccountProxy);
-			wordProcess.replaceText("ourFinancePhone", ourFinancePhone);
-			wordProcess.replaceText("ourEamile", ourEamile);
-			wordProcess.replaceText("ourFax", ourFax);
-			wordProcess.replaceText("ourLinkPhone", ourLinkPhone);
-			wordProcess.replaceText("ourLinkMan", ourLinkMan);
+			wordProcess.replaceText("{ourCompanyName}", ourCompanyName);
+			wordProcess.replaceText("{ourLinkCompanyName}", ourLinkCompanyName);
+			wordProcess.replaceAllText("{ourCompanyAddress}", ourCompanyAddress);
+			wordProcess.replaceText("{ourAccount}", ourAccount);
+			wordProcess.replaceText("{ourAccountProxy}", ourAccountProxy);
+			wordProcess.replaceText("{ourFinancePhone}", ourFinancePhone);
+			wordProcess.replaceText("{ourEmaile}", ourEmaile);
+			wordProcess.replaceText("{ourFax}", ourFax);
+			wordProcess.replaceText("{ourLinkPhone}", ourLinkPhone);
+			wordProcess.replaceText("{ourLinkMan}", ourLinkMan);
 			
 			
 			/*
@@ -1105,7 +1131,7 @@ public class ReceiptlistService extends SearchService implements
 			SimpleDateFormat myFmt=new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
 			Date now=new Date();
 	        String currentData = myFmt.format(now);
-	        wordProcess.replaceText("currentData", currentData);
+	        wordProcess.replaceAllText("{currentData}", currentData);
 	        
 			/*
 			 * 填出交接单编码
@@ -1113,7 +1139,7 @@ public class ReceiptlistService extends SearchService implements
 			Receiptlist receiptlist = entityDao.getByID(reID, Receiptlist.class);
 			if(receiptlist != null){
 				
-				wordProcess.replaceText("reCode", receiptlist.getReceiptlistCode());
+				wordProcess.replaceText("{reCode}", receiptlist.getReceiptlistCode());
 			}
 			if(reFileName == null || reFileName.equals("")){
 				reFileName = "交接单文件";
@@ -1121,31 +1147,34 @@ public class ReceiptlistService extends SearchService implements
 			reFileName += EntityIDFactory.createId()+".docx";
 			
 			
-			savePath = saveBasePath+"\\项目文件"+proID+"\\交接单模板"+reFileName;
-			cacheFilePath =  pt.getSystemPram("cacheFilePath")+"\\项目文件"+proID+"\\交接单模板"+reFileName;
+			savePath = saveBasePath+"\\项目文件\\"+proID+"\\交接单文件\\"+reFileName;
+			cacheFilePath =  cacheBasePathString+"\\项目文件\\"+proID+"\\交接单文件";
 			
 			 
-				wordProcess.save(cacheFilePath);  //先保存到缓冲文件区才能生成
+				wordProcess.save(cacheFilePath1);  //先保存到缓冲文件区才能生成
 				wordProcess.close();
 			
-			 //生成文件信息并加密文件和路径
-			 FileEncryptService  fileEncryptService = new FileEncryptService();
+			/* //生成文件信息并加密文件和路径
+			 FileEncryptService  fileEncryptService = new FileEncryptService();*/
 			
 			 FileInformation fileInformation = new FileInformation();
 			 fileInformation.setBelongtoID(reID);
 			 fileInformation.setID(EntityIDFactory.createId());
-			 fileInformation.setPath("项目文件"+proID+"\\交接单模板"+reFileName);
+			 fileInformation.setPath("项目文件\\"+proID+"\\交接单文件\\"+reFileName);
 			 fileInformation.setUploaderID("系统生成");
+			 fileInformation.setRemarks("系统生成");
 			 fileInformation.setFileName(reFileName);
 			 fileInformation.setUploadTime(new Date());
 			 fileInformation.setState(0);
 			 fileInformation.setType(2);
 			 entityDao.save(fileInformation);
 		
-			 fileEncryptService.encryptFile(cacheFilePath, savePath, fileInformation.getID());
-			 fileEncryptService.encryptPath(saveBasePath, fileInformation.getID());
+			 fileEncryptService.encryptFile(cacheFilePath1, savePath, fileInformation.getID());
+			 fileEncryptService.encryptPath(fileInformation.getPath(), fileInformation.getID());
+			 
 			 
 			 //更新交接单--文件ID
+			 fileID = fileInformation.getID();
 		    receiptlist.setReFile(fileInformation.getID());
 		    entityDao.updatePropByID(receiptlist, reID);
 			
@@ -1158,11 +1187,11 @@ public class ReceiptlistService extends SearchService implements
 			return null;
 	}
 
-	private String getReFileModulePath() {
+	private String getReFileModule() {
 		// TODO Auto-generated method stub
-		PropertiesTool pt = new PropertiesTool();
+		/*PropertiesTool pt = new PropertiesTool();
 		@SuppressWarnings("static-access")
-		String filePath = pt.getSystemPram("filePath");
+		String filePath = pt.getSystemPram("filePath");*/
 		String templateConditionnString  = " templateType = 2 and  state = 2 order by  createTime desc limit 0,1";
 		List<Template> list = entityDao.getByCondition(templateConditionnString, Template.class);
 		if(list != null && list.size() > 0){
@@ -1171,15 +1200,8 @@ public class ReceiptlistService extends SearchService implements
 			 if(fileID == null || fileID.equals("")){
 				 return null;
 			 }
-			 FileInformation fileInformation = entityDao.getByID(fileID, FileInformation.class);
-			 if(fileInformation == null ){
-				 return null;
-			 }
-			 String path = fileInformation.getPath();
-			 String pathpassword = fileInformation.getPathPassword();
-			 String decrypathString = fileEncryptService.decryptPath(path, pathpassword);
-			
-			return  decrypathString;
+			 else return fileID;
+		
 		}
 		else return null;  //还没有模板
 	}

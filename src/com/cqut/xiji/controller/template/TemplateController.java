@@ -50,12 +50,30 @@ public class TemplateController{
 	 * @return
 	 */
 
+	@RequestMapping ("/getTemplateReviewWithPage")
+	@ResponseBody
+	public JSONObject getTemplateReviewWithPage(String nAME ,String STATE,String uPLOADTIME1, String uPLOADTIME2,int limit, int offset, String order, String sort){
+		Map<String, Object> result = service.getTemplateReviewWithPage(nAME,STATE, uPLOADTIME1, uPLOADTIME2, limit, offset, order, sort);
+		return JSONObject.fromObject(result);
+	}
+
+	/**
+	 * 查询分页展示
+	 *
+	 * @author zkl
+	 * @param NAME   模板名称
+	 * @param UPLOADTIME1  上传时间
+	 * @param UPLOADTIME2  上传时间
+	 * @return
+	 */
+
 	@RequestMapping ("/getTemplateWithPage")
 	@ResponseBody
 	public JSONObject getTemplateWithPage(String nAME ,String STATE,String uPLOADTIME1, String uPLOADTIME2,int limit, int offset, String order, String sort){
 		Map<String, Object> result = service.getTemplateWithPage(nAME,STATE, uPLOADTIME1, uPLOADTIME2, limit, offset, order, sort);
 		return JSONObject.fromObject(result);
 	}
+
 
 
 	/**

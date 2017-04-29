@@ -80,7 +80,7 @@ function downOneFile(fileID) {
 	}, function(result) {
 		result = eval(result);
 		if (result == "OK") {
-			window.location.href = "fileOperateController/filedownload.do?ID="
+			window.location.href = "/laboratorySystem/fileOperateController/filedownload.do?ID="
 					+ fileID;
 		} else {
 			alert(result);
