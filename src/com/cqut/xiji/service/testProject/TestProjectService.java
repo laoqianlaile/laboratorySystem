@@ -79,7 +79,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 					+ "%' ";
 		}
 		String joinEntity = "LEFT JOIN testinstument on testproject.ID = testinstument.testProjectID "
-				+ "LEFT JOIN teststandard on testproject.ID = teststandard.testPorjectID "
+				+ "LEFT JOIN teststandard on testproject.ID = teststandard.testProjectID "
 				+ "LEFT JOIN standard on standard.ID = teststandard.standardID "
 				+ "LEFT JOIN department on department.ID = testproject.departmentID "
 				+ "LEFT JOIN template on template.ID = testproject.templateID "
@@ -132,7 +132,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 
 		testStandard.setID(EntityIDFactory.createId());
 		testStandard.setStandardID(STANDARDID);
-		testStandard.setTestPorjectID(testProject.getID());
+		testStandard.setTestProjectID(testProject.getID());
 
 		result += entityDao.save(testStandard);
 		// 检测仪器
@@ -178,7 +178,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 		TestStandard testStandard = new TestStandard();
 
 		testStandard.setStandardID(STANDARDID);
-		testStandard.setTestPorjectID(testProjectID);
+		testStandard.setTestProjectID(testProjectID);
 
 		result += entityDao.updatePropByID(testStandard,testStandardID);
 		// 检测仪器
@@ -219,7 +219,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 		int result = entityDao.deleteEntities(ids, TestProject.class);
 		if (ids.length == 1) {
 			result += entityDao.deleteByCondition(
-					"teststandard.testPorjectID =  " + ids[0],
+					"teststandard.testProjectID =  " + ids[0],
 					TestStandard.class);
 			result += entityDao.deleteByCondition(
 					"testinstument.testProjectID =  " + ids[0],
@@ -227,7 +227,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 		} else {
 			for (int i = 0; i < ids.length; i++) {
 				result += entityDao.deleteByCondition(
-						"teststandard.testPorjectID =  " + ids[i],
+						"teststandard.testProjectID =  " + ids[i],
 						TestStandard.class);
 				result += entityDao.deleteByCondition(
 						"testinstument.testProjectID =  " + ids[i],

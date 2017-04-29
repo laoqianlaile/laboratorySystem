@@ -1,5 +1,7 @@
 package com.cqut.xiji.service.receiptlist;
 
+import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -93,8 +95,8 @@ public class ReceiptlistService extends SearchService implements
 				"receiptlist.receiptlistCode",
 				"company.companyName",
 				"receiptlist.linkMan",
-				"date_format(receiptlist.createTime,'%Y-%m-%e') as createTime",
-				"date_format(receiptlist.completeTime,'%Y-%m-%e') as completeTime",
+				"date_format(receiptlist.createTime,'%Y-%m-%d') as createTime",
+				"date_format(receiptlist.completeTime,'%Y-%m-%d') as completeTime",
 				"employee.employeeName",
 				"case when receiptlist.state = 0 then '未检测' "
 						+ "when receiptlist.state = 1 then '检测中' "
@@ -187,8 +189,8 @@ public class ReceiptlistService extends SearchService implements
 				+ "receiptlist.linkMan,"
 				+ "receiptlist.isEditSample,"
 				+ "receiptlist.linkPhone,"
-				+ "date_format(receiptlist.createTime,'%Y-%m-%e') AS startTime,"
-				+ "date_format(receiptlist.completeTime,'%Y-%m-%e') AS endTime,"
+				+ "date_format(receiptlist.createTime,'%Y-%m-%d') AS startTime,"
+				+ "date_format(receiptlist.completeTime,'%Y-%m-%d') AS endTime,"
 				+ "employee.employeeName,"
 				+ "IF (receiptlist.state = 0,'未检测',IF (receiptlist.state = 1,'检测中',IF (receiptlist.state = 2,'检测完成',"
 				+ "IF (receiptlist.state = 3,'异常终止','无')))) AS state,"
@@ -280,8 +282,8 @@ public class ReceiptlistService extends SearchService implements
 				+ "receiptlist.linkMan,"
 				+ "receiptlist.isEditSample,"
 				+ "receiptlist.linkPhone,"
-				+ "date_format(receiptlist.createTime,'%Y-%m-%e') AS startTime,"
-				+ "date_format(receiptlist.completeTime,'%Y-%m-%e') AS endTime,"
+				+ "date_format(receiptlist.createTime,'%Y-%m-%d') AS startTime,"
+				+ "date_format(receiptlist.completeTime,'%Y-%m-%d') AS endTime,"
 				+ "employee.employeeName,"
 				+ "IF (contract.classifiedLevel = 0,'秘密',IF (contract.classifiedLevel = 1,'机密',IF (contract.classifiedLevel = 2,'绝密',"
 				+ "IF (contract.classifiedLevel = 3,'无密级','无')))) AS classifiedLevel FROM contract LEFT JOIN  receiptlist ON receiptlist.contractID = contract.ID "
@@ -354,8 +356,8 @@ public class ReceiptlistService extends SearchService implements
 				"receiptlist.receiptlistCode",
 				"company.companyName",
 				"receiptlist.linkMan",
-				"date_format(receiptlist.createTime,'%Y-%m-%e') as createTime",
-				"date_format(contract.endTime,'%Y-%m-%e') as endTime",
+				"date_format(receiptlist.createTime,'%Y-%m-%d') as createTime",
+				"date_format(contract.endTime,'%Y-%m-%d') as endTime",
 				"receiptlist.linkPhone",
 				"company.address",
 				"contract.isClassified",
@@ -733,11 +735,11 @@ public class ReceiptlistService extends SearchService implements
 		if (reID == null || reID.equals("")) // 传输错误返回
 			return null;
 		String[] properties = new String[] { // 选择字段
-		                   "date_format(receiptlist.createTime,'%Y-%m-%e') as startTime",
+		                   "date_format(receiptlist.createTime,'%Y-%m-%d') as startTime",
 				           "receiptlist.linkMan", 
 				           "receiptlist.linkPhone",
 				           "receiptlist.accordingDoc",
-			               "date_format(receiptlist.completeTime,'%Y-%m-%e') as endTime" };
+			               "date_format(receiptlist.completeTime,'%Y-%m-%d') as endTime" };
 		Map<String, Object> map = entityDao.findByID(properties, reID,
 				Receiptlist.class);
 		return map;
@@ -757,8 +759,8 @@ public class ReceiptlistService extends SearchService implements
 				"receiptlist.receiptlistCode",
 				"company.companyName",
 				"receiptlist.linkMan",
-				"date_format(receiptlist.createTime,'%Y-%m-%e') as createTime",
-				"date_format(receiptlist.completeTime,'%Y-%m-%e') as completeTime",
+				"date_format(receiptlist.createTime,'%Y-%m-%d') as createTime",
+				"date_format(receiptlist.completeTime,'%Y-%m-%d') as completeTime",
 				"receiptlist.linkPhone",
 				"company.address",
 				"case when contract.classifiedLevel = 0 then '秘密' "
@@ -852,7 +854,7 @@ public class ReceiptlistService extends SearchService implements
 		}
 		String[] idsStrings = reID.split(",");
 		for (int i = 0; i < idsStrings.length; i++) {
-			count += entityDao.deleteByID(reID, Receiptlist.class);
+			count += entityDao.deleteByID(idsStrings[i], Receiptlist.class);
 		}
 		return count  == idsStrings.length ? "true"
 				: "false";
@@ -976,14 +978,17 @@ public class ReceiptlistService extends SearchService implements
 
 		return result;
 	}
+	
 	@Test
 	public void decr(){
-		DES des = new DES("wVjsiJ4wHrpaiqPC3b3mPBLQtbtBlcMiuFitgibks1Ku8Yq7WIoVECgb");
-	try{	des.decryptFile("F:\\upload\\file\\模板文件\\交接单模板\\交接单模板_20170428223004495.docx", "F:\\upload\\file\\模板文件\\交接单模板\\交接单模板_20170428223004495jiemi.docx");
+		
+	/*	DES des = new DES("nm1qllWz8W0i711ihjjFhqYWVrBUKugqDn1rKQNxb1h1gi7gzyEAzKGO");
+	try{	des.decryptFile("F:\\upload\\file\\项目文件\\交接单文件\\交接单文件20170429155626989.docx", "F:\\upload\\file\\项目文件\\交接单文件\\交接单文件20170429155626989jiemi.docx");
 	}
 	catch(Exception ec){
 		ec.printStackTrace();
-	}//des3.decryptFile("E:\\liabrary\\XIJI\\testFileSources\\交接单模板加密.docx", "E:\\liabrary\\XIJI\\testFileSources\\交接单模板解密.docx"); //解密
+	}*/
+	//des3.decryptFile("E:\\liabrary\\XIJI\\testFileSources\\交接单模板加密.docx", "E:\\liabrary\\XIJI\\testFileSources\\交接单模板解密.docx"); //解密
 	      
 	}
 	
@@ -1004,7 +1009,6 @@ public class ReceiptlistService extends SearchService implements
 		String reModulePath = "";
 		String saveBasePath = "";
 		String savePath = "";
-		String cacheFilePath = "";
 		String cacheBasePathString = "";
 		String reFileName = "";
 		PropertiesTool pt = new PropertiesTool();
@@ -1025,12 +1029,17 @@ public class ReceiptlistService extends SearchService implements
 				String cacheID = EntityIDFactory.createId();
 				String cacheFilePath1 = cacheBasePathString+"\\"+cacheID+".docx";
 				System.out.println("huangcong"+cacheID);
+				File dectoryName = new File(cacheBasePathString);
+				if(!dectoryName.exists()){
+					dectoryName.mkdirs();
+				}
+				System.out.println("模板解密文件："+cacheFilePath1);
+				System.out.println("模板文件："+reModulePath);
 				fileEncryptService.decryptFile(reModulePath, cacheFilePath1, refileModule); //这个应该是模板文件的ID
 			   
 			
 				
-				WordProcess wordProcess = new WordProcess(false);
-				wordProcess.openDocument(cacheFilePath1);
+			
 				// 获取甲方公司信息
 				String[] properties = new String[] { 
 						"companyName", 
@@ -1047,24 +1056,7 @@ public class ReceiptlistService extends SearchService implements
 
 				List<Map<String, Object>> companyInfo = originalSearchForeign(
 						properties, baseEntity, null, null, null, false);
-				if (companyInfo != null && companyInfo.size() > 0) {
-					   String companyName = (String)companyInfo.get(0).get("companyName") ;
-					    String linkman = (String)companyInfo.get(0).get("linkman") ;
-					    String mobilephone = (String)companyInfo.get(0).get("mobilephone") ;
-					    String address = (String)companyInfo.get(0).get("address") ;
-					    String fax = (String)companyInfo.get(0).get("fax") ;
-					    String emailbox = (String)companyInfo.get(0).get("emailbox") ;
-
-					    wordProcess.replaceText("{companyName-x}", companyName  == null ? " " :  companyName);
-	                    wordProcess.replaceText("{linkman-x}",  linkman  == null ? " " :  linkman);
-	                    wordProcess.replaceText("{mobilephone-x}",  mobilephone  == null ? " " :  mobilephone);
-	                    wordProcess.replaceText("{address-x}",  address  == null ? " " :  address);
-	                    wordProcess.replaceText("{fax-x}",  fax  == null ? " " :  fax);
-	                    wordProcess.replaceText("{emailbox-x}",  emailbox  == null ? " " :  emailbox);
-				}
-				else{
-					
-				}
+			
 				
 				//获取样品信息
 				String[] properties1 = new String[] { 
@@ -1083,7 +1075,29 @@ public class ReceiptlistService extends SearchService implements
 			        +" LEFT JOIN contractfineitem on contractfineitem.testProjectID = a.testProjectID ";
 			List<Map<String, Object>> sampleInfo = originalSearchForeign(
 					properties1, baseEntity1, null, null, null, false);
-		
+			
+			WordProcess wordProcess = new WordProcess(false);
+			wordProcess.openDocument(cacheFilePath1);
+			
+			if (companyInfo != null && companyInfo.size() > 0) {
+				   String companyName = (String)companyInfo.get(0).get("companyName") ;
+				    String linkman = (String)companyInfo.get(0).get("linkman") ;
+				    String mobilephone = (String)companyInfo.get(0).get("mobilephone") ;
+				    String address = (String)companyInfo.get(0).get("address") ;
+				    String fax = (String)companyInfo.get(0).get("fax") ;
+				    String emailbox = (String)companyInfo.get(0).get("emailbox") ;
+
+				    wordProcess.replaceText("{companyName-x}", companyName  == null ? " " :  companyName);
+                 wordProcess.replaceText("{linkman-x}",  linkman  == null ? " " :  linkman);
+                 wordProcess.replaceText("{mobilephone-x}",  mobilephone  == null ? " " :  mobilephone);
+                 wordProcess.replaceText("{address-x}",  address  == null ? " " :  address);
+                 wordProcess.replaceText("{fax-x}",  fax  == null ? " " :  fax);
+                 wordProcess.replaceText("{emailbox-x}",  emailbox  == null ? " " :  emailbox);
+			}
+			else{
+				
+			}
+			
 			for (int i = 0; i < sampleInfo.size(); i++) {
 				wordProcess.addTableRow(1, 13);
 				Map<String, Object> map = sampleInfo.get(i);
@@ -1094,7 +1108,7 @@ public class ReceiptlistService extends SearchService implements
 				wordProcess.putTxtToCell(1, 13, 5, "常规校准");
 				wordProcess.putTxtToCell(1, 13, 6, "1");
 				String price = String.valueOf( map.get("price")) ;
-				wordProcess.putTxtToCell(1, 13, 7, price == null ? " 0.0 " : price);
+				wordProcess.putTxtToCell(1, 13, 7, price == null || price.equals("null") ? " 0.0 " : price);
 				wordProcess.putTxtToCell(1, 13, 8, "");
 			}
 			//填充个人公司信息
@@ -1144,15 +1158,18 @@ public class ReceiptlistService extends SearchService implements
 			if(reFileName == null || reFileName.equals("")){
 				reFileName = "交接单文件";
 			}
+			wordProcess.save(cacheFilePath1);  //先保存到缓冲文件区才能生成
+			wordProcess.close();
+			
 			reFileName += EntityIDFactory.createId()+".docx";
-			
-			
 			savePath = saveBasePath+"\\项目文件\\"+proID+"\\交接单文件\\"+reFileName;
-			cacheFilePath =  cacheBasePathString+"\\项目文件\\"+proID+"\\交接单文件";
+		
 			
-			 
-				wordProcess.save(cacheFilePath1);  //先保存到缓冲文件区才能生成
-				wordProcess.close();
+			File dectoryName1 = new File(saveBasePath);
+			if(!dectoryName1.exists()){
+				dectoryName1.mkdirs();
+			} 
+			
 			
 			/* //生成文件信息并加密文件和路径
 			 FileEncryptService  fileEncryptService = new FileEncryptService();*/
@@ -1168,9 +1185,10 @@ public class ReceiptlistService extends SearchService implements
 			 fileInformation.setState(0);
 			 fileInformation.setType(2);
 			 entityDao.save(fileInformation);
-		
-			 fileEncryptService.encryptFile(cacheFilePath1, savePath, fileInformation.getID());
+			 
 			 fileEncryptService.encryptPath(fileInformation.getPath(), fileInformation.getID());
+			 fileEncryptService.encryptFile(cacheFilePath1, savePath, fileInformation.getID());
+		
 			 
 			 
 			 //更新交接单--文件ID

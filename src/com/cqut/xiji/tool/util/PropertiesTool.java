@@ -2,6 +2,7 @@ package com.cqut.xiji.tool.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -17,10 +18,11 @@ public class PropertiesTool {
 		systemPram = new Properties();
 		InputStream inStream = PropertiesTool.class.getClassLoader()
 				.getResourceAsStream("systemParameters.properties");
+	
 
 		if (inStream != null) {
 			try {
-				systemPram.load(inStream);
+				systemPram.load(new InputStreamReader(inStream , "UTF-8"));
 
 				Set<Object> Setkeyset = systemPram.keySet();
 				for (Object object : Setkeyset) {

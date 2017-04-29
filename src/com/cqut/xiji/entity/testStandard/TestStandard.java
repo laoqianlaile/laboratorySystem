@@ -7,7 +7,7 @@ public class TestStandard extends Entity{
 	
 	@ID
 	private String ID;
-	private String testPorjectID;
+	private String testProjectID;
 	private String standardID;
 	
 	public String getID() {
@@ -17,12 +17,12 @@ public class TestStandard extends Entity{
 	public void setID(String ID) {
 		this.ID = ID;
 	}
-	public String getTestPorjectID() {
-		return testPorjectID;
+	public String getTestProjectID() {
+		return testProjectID;
 	}	
 	
-	public void setTestPorjectID(String testPorjectID) {
-		this.testPorjectID = testPorjectID;
+	public void setTestProjectID(String testProjectID) {
+		this.testProjectID = testProjectID;
 	}
 	public String getStandardID() {
 		return standardID;
@@ -34,7 +34,7 @@ public class TestStandard extends Entity{
 	
 	@Override
 	public String toString() {
-		return "TestStandard [" +  "ID=" + ID  + ", " +  "testPorjectID=" + testPorjectID  + ", " +  "standardID=" + standardID  + ", "   + "]";
+		return "TestStandard [" +  "ID=" + ID  + ", " +  "testPorjectID=" + testProjectID  + ", " +  "standardID=" + standardID  + ", "   + "]";
 	}
 	
 	@Override
