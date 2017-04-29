@@ -99,8 +99,8 @@ public class TemplateController{
 	 */
 	@RequestMapping("/addTemplate")
 	@ResponseBody
-	public String addTemplate(String TemplateName ,String TemplateRemarks,String TemplateType,String TestProjectID,String fileID,String uploaderID){
-		String result = service.addTemplate(TemplateName,TemplateRemarks,TemplateType,TestProjectID,fileID,uploaderID);
+	public String addTemplate(String TemplateName ,String TemplateRemarks,String TemplateType,String TestProjectIDs,String fileID,String uploaderID){
+		String result = service.addTemplate(TemplateName,TemplateRemarks,TemplateType,TestProjectIDs,fileID,uploaderID);
 		return result;
 	}
 	/**
@@ -133,4 +133,22 @@ public class TemplateController{
 		return result;
 
 	}
+	
+	/**
+	 * 
+	 * 新增的未提交的模板改为审核中状态
+	 * 
+	 * @author zkl
+	 * @data 2017年4月29日 下午7:41:48
+	 * @param templateIDs
+	 * @return
+	 */
+	@RequestMapping("/upSubmitTemplate")
+	@ResponseBody
+	public String upSubmitTemplate(String templateIDs){
+		String result = service.upSubmitTemplate(templateIDs);
+		return result;
+
+	}
+	
 }
