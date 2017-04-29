@@ -1,6 +1,7 @@
 package com.cqut.xiji.service.fileEncrypt;
 
 import javax.annotation.Resource;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
@@ -43,9 +44,6 @@ public class FileEncryptService implements IFileEncryptService {
 		if (path == null || path.equals("")) {
 			return "";
 		}
-
-		
-
 
 	  DES des = new DES(password);
 	  String decryResult = "";
@@ -92,6 +90,7 @@ public class FileEncryptService implements IFileEncryptService {
 		if (fileInformation == null)
 			return false;
 		filePassword = fileInformation.getFilePassword();
+		System.out.println(""+filePassword);
 		DES des3 = new DES(filePassword);
 
 		try {
@@ -108,6 +107,21 @@ public class FileEncryptService implements IFileEncryptService {
 		return true;
 
 	}
+	public String getFileDecryPath(String fileID) {
+		if(fileID == null || fileID.equals("")){
+			return null;
+		}
+		 FileInformation fileInformation = entityDao.getByID(fileID, FileInformation.class);
+		 if(fileInformation == null ){
+			 return null;
+		 }
+		 String path = fileInformation.getPath();
+		 String pathpassword = fileInformation.getPathPassword();
+		 String decrypathString = decryptPath(path, pathpassword);
+		
+		return  decrypathString;
+	}
+	
 
 	public static String getPassword() {
 		return RandomStringUtils.randomAlphanumeric(56);
