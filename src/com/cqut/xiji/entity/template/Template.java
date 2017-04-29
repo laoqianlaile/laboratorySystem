@@ -94,5 +94,13 @@ public class Template extends Entity{
 		return "ID";
 	}
 
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
 	
 }
