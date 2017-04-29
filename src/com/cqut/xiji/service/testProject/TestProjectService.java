@@ -182,7 +182,12 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 		testStandard.setID(EntityIDFactory.createId());
 		testStandard.setStandardID(STANDARDID);
 		testStandard.setTestProjectID(testProjectID);
+
+
+		result += entityDao.updatePropByID(testStandard,testStandardID);
+
 		result += entityDao.save(testStandard);
+
 		// 检测仪器
 
 		int IsDelete = 0;
