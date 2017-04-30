@@ -1,5 +1,7 @@
 package com.cqut.xiji.entity.template;
 
+import java.util.Date;
+
 import com.cqut.xiji.entity.base.Entity;
 import com.cqut.xiji.service.tableCreator.ID;
 
@@ -14,7 +16,10 @@ public class Template extends Entity{
 	private int state;
 	private int templateType;
 	private String remarks;
+	private Date createTime;
 	
+	
+
 	public String getID() {
 		return ID;
 	}	
@@ -88,4 +93,14 @@ public class Template extends Entity{
 		// TODO Auto-generated method stub
 		return "ID";
 	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	
 }

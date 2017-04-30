@@ -50,12 +50,30 @@ public class TemplateController{
 	 * @return
 	 */
 
+	@RequestMapping ("/getTemplateReviewWithPage")
+	@ResponseBody
+	public JSONObject getTemplateReviewWithPage(String nAME ,String STATE,String uPLOADTIME1, String uPLOADTIME2,int limit, int offset, String order, String sort){
+		Map<String, Object> result = service.getTemplateReviewWithPage(nAME,STATE, uPLOADTIME1, uPLOADTIME2, limit, offset, order, sort);
+		return JSONObject.fromObject(result);
+	}
+
+	/**
+	 * 查询分页展示
+	 *
+	 * @author zkl
+	 * @param NAME   模板名称
+	 * @param UPLOADTIME1  上传时间
+	 * @param UPLOADTIME2  上传时间
+	 * @return
+	 */
+
 	@RequestMapping ("/getTemplateWithPage")
 	@ResponseBody
 	public JSONObject getTemplateWithPage(String nAME ,String STATE,String uPLOADTIME1, String uPLOADTIME2,int limit, int offset, String order, String sort){
 		Map<String, Object> result = service.getTemplateWithPage(nAME,STATE, uPLOADTIME1, uPLOADTIME2, limit, offset, order, sort);
 		return JSONObject.fromObject(result);
 	}
+
 
 
 	/**
@@ -81,8 +99,8 @@ public class TemplateController{
 	 */
 	@RequestMapping("/addTemplate")
 	@ResponseBody
-	public String addTemplate(String TemplateName ,String TemplateRemarks,String TemplateType,String TestProjectID,String fileID,String uploaderID){
-		String result = service.addTemplate(TemplateName,TemplateRemarks,TemplateType,TestProjectID,fileID,uploaderID);
+	public String addTemplate(String TemplateName ,String TemplateRemarks,String TemplateType,String TestProjectIDs,String fileID,String uploaderID){
+		String result = service.addTemplate(TemplateName,TemplateRemarks,TemplateType,TestProjectIDs,fileID,uploaderID);
 		return result;
 	}
 	/**
@@ -115,4 +133,22 @@ public class TemplateController{
 		return result;
 
 	}
+	
+	/**
+	 * 
+	 * 新增的未提交的模板改为审核中状态
+	 * 
+	 * @author zkl
+	 * @data 2017年4月29日 下午7:41:48
+	 * @param templateIDs
+	 * @return
+	 */
+	@RequestMapping("/upSubmitTemplate")
+	@ResponseBody
+	public String upSubmitTemplate(String templateIDs){
+		String result = service.upSubmitTemplate(templateIDs);
+		return result;
+
+	}
+	
 }

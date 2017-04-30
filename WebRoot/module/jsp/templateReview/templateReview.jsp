@@ -26,9 +26,10 @@
  		
 	<script src="module/js/sweetalert.min.js"></script>	
 	
-<script src="assets/js/autoPage.js"></script>
+
  
 <script src="module/js/jquery-2.1.1.min.js"></script>
+<script src="assets/js/autoPage.js"></script>
 <script src="module/js/fileManage/fileManage.js"></script>
 <script src="module/js/jquery.uploadify.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
@@ -64,6 +65,7 @@ span {
 }
 label{
 	float:left;
+	margin-top: 6px;
 }
 .col-md-2 {
     width: 23%;
@@ -106,7 +108,7 @@ margin: 6px;
 							</div>
 							<div class="input-group date form_datetime col-md-2 column "
 								style="margin-top: 8px;">
-								<label style="">至:</label> <input
+								<label style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;至:</label> <input
 									class="form-control" size="20" type="text" id="uPLOADTIME2" value="" readonly
 									style="display: inline; width:65%;"> <span
 									class="input-group-addon"><i
@@ -116,10 +118,10 @@ margin: 6px;
 							</div>
 							<div class="col-md-3 column" style="margin-top:12px;">
 								<label>状态&nbsp;： </label>
-								<select id="state">
-								<option ></option>
-								<option value="0">待审核</option>
-								<option value="1">通过</option>
+								<select id="state" style="margin-top:6px;">
+								<option >所有</option>
+								<option value="1">待审核</option>
+								<option value="2">通过</option>
 								<option value="3">驳回</option>
 							</select>
 							</div>

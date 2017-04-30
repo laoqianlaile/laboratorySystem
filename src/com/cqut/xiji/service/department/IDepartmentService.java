@@ -23,4 +23,5 @@ public interface IDepartmentService {
 	public List<BootstrapTreeNode> getModuleTree();
 	
 	List<Map<String, Object>> getAllDepartmentName();
+	public String addText(String departmentCode,String departmentName);
 }

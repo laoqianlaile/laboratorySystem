@@ -105,6 +105,14 @@ li:hover {
 
 textarea {
 	margin-top: 10px;
+	padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 #form {
@@ -363,7 +371,7 @@ margin: 6px;
 						</div>
 						<div style="margin-top:20px" id="departin">
 							<label>部门简介:</label>
-							<textarea rows="7" cols="60" id="add_remarks"></textarea>
+							<textarea rows="7" cols="57" id="add_remarks"></textarea>
 							<input id="ID" type="hidden"></input>
 						</div>
 						<div class="col-xs-12 col-md-12">
@@ -394,7 +402,7 @@ margin: 6px;
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" onclick="add();">新增</button>
+					<button type="button" class="btn btn-primary" onclick="addText();">新增</button>
 				</div>
 			</div>
 		</div>
@@ -432,7 +440,7 @@ margin: 6px;
 						</div>
 						<div style="margin-top:20px"id="departin1" >
 							<label>部门简介:</label>
-							<textarea rows="7" cols="60" id="edit_remarks"></textarea>
+							<textarea rows="7" cols="57" id="edit_remarks"></textarea>
 							<input id="ID" type="hidden"></input>
 						</div>
 						
