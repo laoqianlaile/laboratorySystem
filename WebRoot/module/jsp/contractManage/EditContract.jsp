@@ -226,11 +226,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                   
                    </div>
                 </div>
-               	<div class="col-xs-12 col-md-12">
-                   	<label class="control-label">是否外包：</label>
-                   	<input type="radio" value="0" checked="checked" name="isOutsourcing1" onclick="outChange()"  style="margin:8px 0 0 80px;"/><span>内测</span>
-					<input type="radio" value="1" name="isOutsourcing1" onclick="outChange()" style="margin:8px 0 0 127px;"/><span>外包</span>
-                </div>
                 <div class="col-xs-12 col-md-12">
                    	<label class="control-label">计算方式：</label>
                    	<input type="radio" value="0" checked="checked"  name="calculateType1" onclick="calculateType()"  style="margin:8px 0 0 80px;"/><span>按单位算</span>
@@ -254,16 +249,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    	<input type="text" id="add_price2" name="price" class="form-control fl" style="width:21%;" 
                    	onkeyup="checknum(this);" onafterpaste="checknum(this);"/>
                 </div>
-               	<div class="col-xs-12 col-md-12 departmentName0">
+               	<div class="col-xs-12 col-md-12" style="display: none;">
                    	<label class="control-label">检测单位：</label>
-                   	<select id="add_departmentName1" name="departmentName" class="form-control">
+                   	<select id="add_departmentName" name="departmentName" class="form-control">
 						
-		           	</select>
-               	</div>
-               	<div class="col-xs-12 col-md-12 departmentName1" style="display: none;">
-                   	<label class="control-label">外包单位：</label>
-                   	<select id="add_departmentName2" name="departmentName" class="form-control">
-						<option value='11'>外包单位</option>
 		           	</select>
                	</div>
                	<div class="col-xs-12 col-md-12">
@@ -305,11 +294,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                   
                    </div>
                 </div>
-               	<div class="col-xs-12 col-md-12">
-                   	<label class="control-label">是否外包：</label>
-                   	<input type="radio" value="0" checked="checked" name="isOutsourcing2" onclick="outChange()"  style="margin:8px 0 0 80px;"/><span>内测</span>
-					<input type="radio" value="1" name="isOutsourcing2" onclick="outChange()" style="margin:8px 0 0 127px;"/><span>外包</span>
-                </div>
                 <div class="col-xs-12 col-md-12">
                    	<label class="control-label">计算方式：</label>
                    	<input type="radio" value="0" checked="checked"  name="calculateType2" onclick="calculateType()"  style="margin:8px 0 0 80px;"/><span>按单位算</span>
@@ -331,16 +315,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    	<input type="text" id="edit_price2" name="price" class="form-control fl" style="width:21%;" 
                    	onkeyup="checknum(this);" onafterpaste="checknum(this);"/>
                 </div>
-               	<div class="col-xs-12 col-md-12 departmentName3">
+               	<div class="col-xs-12 col-md-12" style="display: none;">
                    	<label class="control-label">检测单位：</label>
-                   	<select id="edit_departmentName1" name="departmentName" class="form-control">
+                   	<select id="edit_departmentName" name="departmentName" class="form-control">
 						
-		           	</select>
-               	</div>
-               	<div class="col-xs-12 col-md-12 departmentName4" style="display: none;">
-                   	<label class="control-label">外包单位：</label>
-                   	<select id="edit_departmentName2" name="departmentName" class="form-control">
-						<option value='11'>外包单位</option>
 		           	</select>
                	</div>
                	<div class="col-xs-12 col-md-12">

@@ -629,7 +629,7 @@ function uploadFile() {
 		var fileID = JSON.parse(data.result);
 		if(fileID != null && fileID != "null" && fileID != ""){
 			swal("上传文件成功","","success");
-			updContractState();
+			setTimeout(updContractState,500);
 			setTimeout(refresh, 1000);
 		}
 	});
@@ -791,7 +791,7 @@ function addGetTPName(){
 		    			length = myobj.length;
 		    		}
 		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].nameCn + " | " + myobj[i].nameEn + "' title='" + myobj[i].nameCn + "' name='" + myobj[i].ID + "'>" + myobj[i].nameCn + " | " + myobj[i].nameEn + "</li></ul>";
+		    			htmlElement += "<ul><li value='" + myobj[i].nameCn + " | " + myobj[i].nameEn + "' class='" + myobj[i].departmentID + "' title='" + myobj[i].nameCn + "' name='" + myobj[i].ID + "'>" + myobj[i].nameCn + " | " + myobj[i].nameEn + "</li></ul>";
 		    		}
 		    		 
 		    		testProject.show();
@@ -814,6 +814,11 @@ function addClick(){
 			 name = "";
 			}
 		 $("#add_testProjectName").val(name);
+		 var departmentID =  $(this).attr("class");
+		 if (departmentID == null || departmentID.trim() == "" || departmentID == "undefined") {
+			 departmentID = "";
+			}
+		 $("#add_departmentName").val(departmentID);
 		 var ID =  $(this).attr("name");
 		 var nameCn =  $(this).attr("title");
 		 if (ID == null || ID.trim() == "" || ID == "undefined") {
@@ -867,7 +872,7 @@ function editGetTPName(){
 		    			length = myobj.length;
 		    		}
 		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].nameCn + " | " + myobj[i].nameEn + "' title='" + myobj[i].nameCn + "' name='" + myobj[i].ID + "'>" + myobj[i].nameCn + " | " + myobj[i].nameEn + "</li></ul>";
+		    			htmlElement += "<ul><li value='" + myobj[i].nameCn + " | " + myobj[i].nameEn + "' class='" + myobj[i].departmentID + "' title='" + myobj[i].nameCn + "' name='" + myobj[i].ID + "'>" + myobj[i].nameCn + " | " + myobj[i].nameEn + "</li></ul>";
 		    		}
 		    		 
 		    		testProject.show();
@@ -893,7 +898,7 @@ function showSth(){
 	    		 var department;
 	    		 var myobj = JSON.parse(data);
 	    		 var htmlElement = "";//定义HTML    
-	    		 department=$("#add_departmentName1");
+	    		 department=$("#add_departmentName");
 	    		 for(var i=0;i<myobj.length;i++){
 	    			 htmlElement += "<option value='" + myobj[i].ID + "'>" + myobj[i].departmentName + "</option>";
 	    		 }
@@ -916,7 +921,7 @@ function editSth(){
 	    		 var department;
 	    		 var myobj = JSON.parse(data);
 	    		 var htmlElement = "";//定义HTML    
-	    		 department=$("#edit_departmentName1");
+	    		 department=$("#edit_departmentName");
 	    		 for(var i=0;i<myobj.length;i++){
 	    			 htmlElement += "<option value='" + myobj[i].ID + "'>" + myobj[i].departmentName + "</option>";
 	    		 }
@@ -1126,7 +1131,15 @@ function editClick(){
 	//给input赋值
 	$(".testProjectName ul li").click(function(){
 		 var name =  $(this).attr("value");
+		 if (name == null || name.trim() == "" || name == "undefined") {
+			 name = "";
+			}
 		 $("#edit_testProjectName").val(name);
+		 var departmentID =  $(this).attr("class");
+		 if (departmentID == null || departmentID.trim() == "" || departmentID == "undefined") {
+			 departmentID = "";
+			}
+		 $("#edit_departmentName").val(departmentID);
 		 var ID =  $(this).attr("name");
 		 var nameCn =  $(this).attr("title");
 		 if (ID == null || ID.trim() == "" || ID == "undefined") {
@@ -1397,14 +1410,12 @@ function addItem(){
 	var fineItemCode = $('#add_fineItemCode').val();
 	var testProjectID = $('#add_testProjectName').attr("name");
 	var testProjectName = $('#add_testProjectName').attr("title");
-	var isOutsourcing = $("input[name='isOutsourcing1']:checked").val();
 	var calculateType = $("input[name='calculateType1']:checked").val();
 	var number = $('#add_number').val();
 	var price1 = $('#add_price1').val();
 	var hour = $('#add_hour').val();
 	var price2 = $('#add_price2').val();
-	var departmentName1 = $('#add_departmentName1').val();
-	var departmentName2 = $('#add_departmentName2').val();
+	var departmentName = $('#add_departmentName').val();
 	var remarks = $('#add_remarks').val();
 	
 	if (!fineItemCode || typeof(fineItemCode) == "undefined" || fineItemCode.trim() == "") 
@@ -1417,25 +1428,6 @@ function addItem(){
 		swal("检测项目不能为空！"); 
 		return;
 	}
-	if(isOutsourcing == 0){
-		if (!departmentName1 || typeof(departmentName1) == "undefined" || departmentName1.trim() == "") 
-		{
-			swal("检测单位不能为空！");
-			return;
-		}
-		parame.isOutsourcing = isOutsourcing;
-		parame.departmentID = departmentName1;
-	}
-	if(isOutsourcing == 1){
-		if (!departmentName2 || typeof(departmentName2) == "undefined" || departmentName2 .trim() == "") 
-		{
-			swal("外包单位不能为空！");
-			return;
-		}
-		parame.isOutsourcing = isOutsourcing;
-		parame.departmentID = departmentName2;
-	}
-	
 	if(calculateType == 0){
 		if (!number || typeof(number) == "undefined" || number.trim() == "") 
 		{ 
@@ -1469,6 +1461,23 @@ function addItem(){
 		parame.number = 0;
 		parame.price = price2;
 		parame.money = hour * price2;
+	}
+	if(departmentName != 11){
+		if (!departmentName || typeof(departmentName) == "undefined" || departmentName.trim() == "") 
+		{
+			swal("检测单位不能为空！");
+			return;
+		}
+		parame.isOutsourcing = 0;
+		parame.departmentID = departmentName;
+	}else{
+		if (!departmentName || typeof(departmentName) == "undefined" || departmentName .trim() == "") 
+		{
+			swal("外包单位不能为空！");
+			return;
+		}
+		parame.isOutsourcing = 1;
+		parame.departmentID = departmentName;
 	}
 	if (!remarks || typeof(remarks) == "undefined" || remarks.trim() == "") 
 	{ 
@@ -1543,14 +1552,12 @@ function editItem(){
 	var fineItemCode = $('#edit_fineItemCode').val();
 	var testProjectID = $('#edit_testProjectName').attr("name");
 	var testProjectName = $('#edit_testProjectName').attr("title");
-	var isOutsourcing = $("input[name='isOutsourcing2']:checked").val();
 	var calculateType = $("input[name='calculateType2']:checked").val();
 	var number = $('#edit_number').val();
 	var price1 = $('#edit_price1').val();
 	var hour = $('#edit_hour').val();
 	var price2 = $('#edit_price2').val();
-	var departmentName1 = $('#edit_departmentName1').val();
-	var departmentName2 = $('#edit_departmentName2').val();
+	var departmentName = $('#edit_departmentName').val();
 	var remarks = $('#edit_remarks').val();
 		
 	if (!fineItemCode || typeof(fineItemCode) == "undefined" || fineItemCode.trim() == "") 
@@ -1563,25 +1570,23 @@ function editItem(){
 		swal("检测项目不能为空！"); 
 		return;
 	}
-	if(isOutsourcing == 0){
-		if (!departmentName1 || typeof(departmentName1) == "undefined" || departmentName1.trim() == "") 
+	if(departmentName != 11){
+		if (!departmentName || typeof(departmentName) == "undefined" || departmentName.trim() == "") 
 		{
 			swal("检测单位不能为空！");
 			return;
 		}
-		parame.isOutsourcing = isOutsourcing;
-		parame.departmentID = departmentName1;
-	}
-	if(isOutsourcing == 1){
-		if (!departmentName2 || typeof(departmentName2) == "undefined" || departmentName2 .trim() == "") 
+		parame.isOutsourcing = 0;
+		parame.departmentID = departmentName;
+	}else{
+		if (!departmentName || typeof(departmentName) == "undefined" || departmentName .trim() == "") 
 		{
 			swal("外包单位不能为空！");
 			return;
 		}
-		parame.isOutsourcing = isOutsourcing;
-		parame.departmentID = departmentName2;
+		parame.isOutsourcing = 1;
+		parame.departmentID = departmentName;
 	}
-	
 	if(calculateType == 0){
 		if (!number || typeof(number) == "undefined" || number.trim() == "") 
 		{ 

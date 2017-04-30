@@ -23,6 +23,7 @@ import com.cqut.xiji.entity.contract.Contract;
 import com.cqut.xiji.entity.employee.Employee;
 import com.cqut.xiji.entity.equipment.Equipment;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
+import com.cqut.xiji.entity.project.Project;
 import com.cqut.xiji.entity.receiptlist.Receiptlist;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.service.company.CompanyService;
@@ -364,7 +365,8 @@ public class ContractService extends SearchService implements IContractService{
 		}
 		Contract contract = new Contract();
 		String ID = EntityIDFactory.createId();
-		String contractCode = "20161010";
+		String contractCode = "HT"+ID.substring(0, (ID.length()-3));
+		System.out.println(contractCode);
 		int state = 0;
 		contract.setID(ID);
 		contract.setContractCode(contractCode);
@@ -399,7 +401,17 @@ public class ContractService extends SearchService implements IContractService{
 		if(result <= 0){
 			String position = "ID =" + ID;
 			entityDao.deleteByCondition(position,Contract.class);
-		}
+		}/*else{
+			Project project = new Project();
+			String projectID = EntityIDFactory.createId();
+			int projectState = 0;
+			Project.setID(projectID);
+			Project.setContractID(ID);
+			Project.setState(projectState);
+			Project.setCreateTime(new Date());
+			Project.setRemarks("新增合同是创建的项目");
+			int aresult = entityDao.save(project);
+		}*/
 		return result;
 	}
 	

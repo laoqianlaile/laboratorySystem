@@ -97,6 +97,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   				<button type="button" onclick="showContractM()" class="btn btn-primary glyphicon glyphicon-show">&nbsp;查看</button>
   				<button type="button" onclick="EditContract()" class="btn btn-primary glyphicon glyphicon-edit">&nbsp;修改</button>
   				<button id="del" onclick="delData()" type="button" class="btn btn-primary glyphicon glyphicon-remove">&nbsp;删除</button>
+  				<button onclick="wdownFile()" type="button" class="btn btn-primary glyphicon glyphicon-down">&nbsp;下载</button>
   				<button id="refresh" onclick="refresh()" type="button" class="btn btn-primary glyphicon glyphicon-refresh">&nbsp;刷新</button>
 			</div>
 		</div>
@@ -196,4 +197,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	</table>
   </body>
   <script src="module/js/contractManage/contractManage.js"></script>
+  <script src="module/js/fileManage/fileManage.js" type="text/javascript"></script>
  </html>
