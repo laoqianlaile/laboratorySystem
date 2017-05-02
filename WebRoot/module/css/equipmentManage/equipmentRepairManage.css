@@ -115,8 +115,12 @@
 	padding-right: 43px;
 }
 .equipmentName {
+	position: absolute;
+	height: auto;
+	max-height: 100px;
+    overflow-y: hidden;
+    overflow-x: hidden;
 	margin-left:17.65%;
-	position:absolute;
 	width:74%;
 	display: none;
 	border: 1px solid #ccc;
@@ -127,13 +131,18 @@
 }
 
 .equipmentName ul {
-	height: 30px;
+	display: block;
+	height:auto;
+    max-height: 100px;
+    overflow-y: scroll;
 	border: none;
 	margin: 0;
 	margin-left: -40px;
 }
 
 .equipmentName ul li {
+	display: block;
+    vertical-align: middle;
 	height: 30px;
 	line-height: 30px;
 	list-style-type: none;
@@ -147,8 +156,12 @@
 }
 
 .employeeN {
+	position: absolute;
+	height: auto;
+	max-height: 100px;
+    overflow-y: hidden;
+    overflow-x: hidden;
 	margin-left:17.65%;
-	position:absolute;
 	width:74%;
 	display: none;
 	border: 1px solid #ccc;
@@ -159,13 +172,18 @@
 }
 
 .employeeN ul {
-	height: 30px;
+	display: block;
+	height:auto;
+    max-height: 100px;
+    overflow-y: scroll;
 	border: none;
 	margin: 0;
 	margin-left: -40px;
 }
 
 .employeeN ul li {
+	display: block;
+    vertical-align: middle;
 	height: 30px;
 	line-height: 30px;
 	list-style-type: none;

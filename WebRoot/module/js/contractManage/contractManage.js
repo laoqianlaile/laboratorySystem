@@ -449,20 +449,18 @@ function addShowMsg(){
 		    	if (data) {
 		    		var company,length;
 		    		var myobj = JSON.parse(data);
-		    		var htmlElement = "";//定义HTML
+		    		var htmlElement = "<ul>";//定义HTML
 		    		company = $(".companyN");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else if(myobj.length == 0){
-		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
+		    		if(myobj.length == 0){
+		    			htmlElement += "<li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li>";
 		    		}else{
 		    			length = myobj.length;
 		    		}
 		    		
 		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li id='" + myobj[i].mobilePhone +"' value='" + myobj[i].companyName + "' name='" + myobj[i].linkMan + "' title='" + myobj[i].address + "' class='" + myobj[i].ID + "'>" + myobj[i].companyName + "</li></ul>";
+		    			htmlElement += "<li id='" + myobj[i].mobilePhone +"' value='" + myobj[i].companyName + "' name='" + myobj[i].linkMan + "' title='" + myobj[i].address + "' class='" + myobj[i].ID + "'>" + myobj[i].companyName + "</li>";
 		    		}
-		    		
+		    		htmlElement += "</ul>";
 		    		company.show();
 		    		company.empty();
 		    		company.append(htmlElement);
@@ -493,20 +491,17 @@ function addGetEName(){
 		    	if (data) { 
 		    		var employee,length;
 		    		var myobj = JSON.parse(data);
-		    		var htmlElement = "";//定义HTML    
+		    		var htmlElement = "<ul>";//定义HTML    
 		    		employee = $(".employeeName");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else if(myobj.length == 0){
-		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
+		    		if(myobj.length == 0){
+		    			htmlElement += "<li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li>";
 		    		}else{
 		    			length = myobj.length;
 		    		}
-		    		
 		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].employeeName + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + "</li></ul>";
+		    			htmlElement += "<li value='" + myobj[i].employeeName + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + "</li>";
 		    		}
-		    		
+		    		htmlElement += "</ul>"
 		    		employee.show();
 		    		employee.empty();
 		    		employee.append(htmlElement);

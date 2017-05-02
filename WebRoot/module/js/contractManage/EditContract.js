@@ -906,15 +906,15 @@ function addGetTPName(){
 		    		var myobj = JSON.parse(data);
 		    		var htmlElement = "";//定义HTML
 		    		testProject = $(".testProjectName");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else if(myobj.length == 0){
+		    		if(myobj.length == 0){
 		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
 		    		}else{
 		    			length = myobj.length;
-		    		}
-		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].nameCn + " | " + myobj[i].nameEn + "' class='" + myobj[i].departmentID + "' title='" + myobj[i].nameCn + "' name='" + myobj[i].ID + "'>" + myobj[i].nameCn + " | " + myobj[i].nameEn + "</li></ul>";
+		    			htmlElement += "<ul>";
+		    			for(var i=0; i < length; i++){
+			    			htmlElement += "<li value='" + myobj[i].nameCn + " | " + myobj[i].nameEn + "' class='" + myobj[i].departmentID + "' title='" + myobj[i].nameCn + "' name='" + myobj[i].ID + "'>" + myobj[i].nameCn + " | " + myobj[i].nameEn + "</li>";
+			    		}
+		    			htmlElement += "</ul>";
 		    		}
 		    		 
 		    		testProject.show();
@@ -987,16 +987,17 @@ function editGetTPName(){
 		    		var myobj = JSON.parse(data);
 		    		var htmlElement = "";//定义HTML
 		    		testProject = $(".testProjectName");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else if(myobj.length == 0){
+		    		if(myobj.length == 0){
 		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
 		    		}else{
 		    			length = myobj.length;
+		    			htmlElement += "<ul>";
+		    			for(var i=0; i < length; i++){
+			    			htmlElement += "<li value='" + myobj[i].nameCn + " | " + myobj[i].nameEn + "' class='" + myobj[i].departmentID + "' title='" + myobj[i].nameCn + "' name='" + myobj[i].ID + "'>" + myobj[i].nameCn + " | " + myobj[i].nameEn + "</li>";
+			    		}
+		    			htmlElement += "</ul>";
 		    		}
-		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].nameCn + " | " + myobj[i].nameEn + "' class='" + myobj[i].departmentID + "' title='" + myobj[i].nameCn + "' name='" + myobj[i].ID + "'>" + myobj[i].nameCn + " | " + myobj[i].nameEn + "</li></ul>";
-		    		}
+		    		
 		    		 
 		    		testProject.show();
 		    		testProject.empty();
@@ -1143,17 +1144,17 @@ function editShowMsg(){
 		    		var myobj = JSON.parse(data);
 		    		var htmlElement = "";//定义HTML
 		    		company = $(".companyN");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else if(myobj.length == 0){
-		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息</li></ul><ul><li class='noDate'>或新增对应数据</li></ul>";
+		    		if(myobj.length == 0){
+		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
 		    		}else{
 		    			length = myobj.length;
+		    			htmlElement += "<ul>";
 		    			for(var i=0; i < length; i++){
-			    			htmlElement += "<ul><li id='" + myobj[i].mobilePhone +"' value='" + myobj[i].companyName + "' name='" + myobj[i].linkMan + "' title='" + myobj[i].address + "' class='" + myobj[i].ID + "'>" + myobj[i].companyName + "</li></ul>";
+			    			htmlElement += "<li id='" + myobj[i].mobilePhone +"' value='" + myobj[i].companyName + "' name='" + myobj[i].linkMan + "' title='" + myobj[i].address + "' class='" + myobj[i].ID + "'>" + myobj[i].companyName + "</li>";
 			    		}
+		    			htmlElement += "</ul>";
 		    		}
-		    		
+	    			
 		    		company.show();
 		    		company.empty();
 		    		company.append(htmlElement);
@@ -1187,17 +1188,15 @@ function editGetEName(){
 		    		var myobj = JSON.parse(data);
 		    		var htmlElement = "";//定义HTML    
 		    		employee = $(".employeeN");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else if(myobj.length == 0){
-		    			htmlElement += "<ul><li class='noDate'>没有查到数据，</li></ul>" +
-		    					"<ul><li class='noDate'>请更改输入信息</li></ul>" +
-		    					"<ul><li class='noDate'>或新增对应数据</li></ul>";
+		    		if(myobj.length == 0){
+		    			htmlElement += "<ul><li class='noDate'>没有查到数据,请更改输入信息或新增对应数据</li></ul>";
 		    		}else{
 		    			length = myobj.length;
+		    			htmlElement += "<ul>";
 		    			for(var i=0; i < length; i++){
-			    			htmlElement += "<ul><li value='" + myobj[i].employeeName + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + "</li></ul>";
+			    			htmlElement += "<li value='" + myobj[i].employeeName + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + "</li>";
 			    		}
+		    			htmlElement += "</ul>";
 		    		}
 		    		
 		    		employee.show();
