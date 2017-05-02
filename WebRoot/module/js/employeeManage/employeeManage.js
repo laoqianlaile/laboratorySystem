@@ -569,7 +569,7 @@ function checkdata(data) {
 		return false;
 	}
 
-	var filter = /^[A-Za-zd]+([-_.][A-Za-zd]+)*@([A-Za-zd]+[-.])+[A-Za-zd]{2,5}$/;
+	var filter = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
 	if (!filter.test(data.email)) {
 		alert('您的邮箱格式不正确');
 		return false;

@@ -120,7 +120,12 @@ span {
 										onclick="openModal()">
 										<em class="glyphicon glyphicon-plus"></em> 上传
 									</button>
-
+			
+									<button class="btn btn-primary" type="button" id="addmodel"
+										onclick="submit()">
+										<em class="glyphicon glyphicon-check"></em> 提交审核
+									</button>
+										
 									<button class="btn btn-primary type=" button" id=""
 										onclick="ViewDoc()">
 										<em class="glyphicon glyphicon-search"></em> 查看

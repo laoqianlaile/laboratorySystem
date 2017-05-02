@@ -219,10 +219,6 @@ label.wide{
 	border:1px solid #ccc;
 }
 
-#show_contractFile{
-	width:99%;
-}
-
 .contractFileItem{
 	width:99%;
 	min-height:300px;
@@ -255,12 +251,11 @@ label.wide{
 
 .contractFileItem .bottom{
 	margin:20px 10px;
-	height:230px;
+	height:250px;
 	width:99%;
 	border:1px solid #ccc;
 }
 #show_contractFileItem{
-	width:99%;
 	min-width:1042px;
 }
 .footer{

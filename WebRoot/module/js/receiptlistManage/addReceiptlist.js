@@ -1318,7 +1318,7 @@ function chenkDataFile(dataObj) { // 后台数据字段为空就不会传上来
 
 //搜索展示检测项目列表
 function searchTestProject(type){
-	fulltestProjects(matchTestProject(type));
+	fullTestProjects(matchTestProject(type));
 }
 //匹配检测项目  返回数据
 function matchTestProject(type){

@@ -16,8 +16,8 @@ function initData(){
 		pageList : [ 5,10,15 ],// 设置可供选择的页面数据条数
 		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache : false,// 禁用 AJAX 数据缓存
-		sortName : 'contractCode',// 定义排序列
-		sortOrder : 'asc',// 定义排序方式
+		sortName : 'signTime',// 定义排序列
+		sortOrder : 'desc',// 定义排序方式
 		url:'contractController/getContractWithPaging2.do',//服务器数据的加载地址
 		sidePagination:'server',//设置在哪里进行分页
 		contentType:'application/json',//发送到服务器的数据编码类型
@@ -276,6 +276,25 @@ function delData(){
 			  }
 		});
 	});
+}
+
+/**
+ * 下载文件
+ * @param id
+ */
+function wdownFile(){
+	var data = $('#table').bootstrapTable('getSelections');
+	if(data.length==0 || data.length>1){
+		swal("请选中一条数据");
+		return;
+	}
+	var fileID = data[0].fileID;
+	if (!fileID || typeof(fileID) == "undefined" || fileID.trim() == "") 
+	{ 
+		swal("合同文件ID为空！"); 
+	}else {
+		downOneFile(fileID);
+	}
 }
 
 /* 新增方法 */

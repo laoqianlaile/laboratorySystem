@@ -13,6 +13,7 @@ import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
+import com.cqut.xiji.entity.standard.Standard;
 import com.cqut.xiji.entity.template.Template;
 import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.service.base.SearchService;
@@ -65,9 +66,9 @@ public class TemplateService extends SearchService implements ITemplateService{
 
 				"DATE_FORMAT(template.createTime,'%Y-%m-%d %h:%s') as UPLOADTIME ",
 
-				"case when template.STATE = 0 then '审核中'"
-						+ "when template.STATE = 1 then '通过'"
-						+ "when template.STATE = 2 then '已废弃'"
+				"case when template.STATE = 0 then '未提交'"
+						+ "when template.STATE = 1 then '审核中'"
+						+ "when template.STATE = 2 then '通过'"
 						+ "when template.STATE = 3 then '驳回' end as STATE"
 
 		};
@@ -164,17 +165,31 @@ public class TemplateService extends SearchService implements ITemplateService{
 	@Override
 	public String delTemplate(String templateIDs) {
 
+		int count = 0;
 		if(templateIDs == null || templateIDs.isEmpty()){
 			return 0+"";
 		}
 		String[] ids = templateIDs.split(",");
+		for(String id:ids){
+			
+			Template template = entityDao.getByID(id, Template.class);
+			FileInformation fileInformation = entityDao.getByID(template.getFileID(), FileInformation.class);
+			if(fileInformation != null){
+				fileInformation.setState(1);
+				entityDao.updatePropByID(fileInformation, fileInformation.getID());	
+			}
+			else{
+				System.out.println("没有对应的ID");
+				count++;
+			}
+		}
 		int result = entityDao.deleteEntities(ids,Template.class);
-		return result+"";
+		return (count > 0)? "-"+count:result+""; 
 	}
 
 	@Override
 	public String addTemplate(String TemplateName, String TemplateRemarks,
-			String TemplateType, String TestProjectID,String fileID,String uploaderID) {
+			String TemplateType, String TestProjectIDs,String fileID,String uploaderID) {
 
 		int result = 0;
 
@@ -206,13 +221,22 @@ public class TemplateService extends SearchService implements ITemplateService{
 		result += entityDao.updatePropByID(fileInformation, fileID);
 
 		//当只是报告文件模板时有值
-		if(TestProjectID != null && TestProjectID != ""){
-			TestProject project = entityDao.getByID(TestProjectID,TestProject.class);
-			project.setTemplateID(template.getID());
-			result += entityDao.updatePropByID(project, TestProjectID);
-		}
 		
-		return result +"";
+		int count =0;
+		
+		if(TestProjectIDs != null && TestProjectIDs != ""){
+			String[] ids = TestProjectIDs.split(",");
+			for(String id : ids){
+				TestProject project = entityDao.getByID(id,TestProject.class);
+				if(project == null){
+					count++;
+					continue;
+				}
+				project.setTemplateID(template.getID());
+				result += entityDao.updatePropByID(project, id);
+			}
+		}
+		return  result +"";
 	}
 	@Override
 	public String updNoPasstemplate(String ID,String SUGGEST,String verifyMan){
@@ -233,6 +257,28 @@ public class TemplateService extends SearchService implements ITemplateService{
 		int result = entityDao.updatePropByID(template, ID);
 		return result+"";
 
+	}
+
+	@Override
+	public String upSubmitTemplate(String templateIDs) {
+		
+		int result = 0;
+		if(templateIDs == null || templateIDs == ""){
+			return "-1";
+		}
+		String[] ids = templateIDs.split(",");
+		
+		for(String id :ids){
+			Template template = entityDao.getByID(id, Template.class);
+			if(template.getState() == 0){
+				template.setState(1);
+				result += entityDao.updatePropByID(template, id);
+			}
+			else{
+				System.out.println("当前状态不可更改");
+			}
+		}
+		return result + "";
 	}
 
 }
