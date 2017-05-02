@@ -63,6 +63,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 	z-index:99999;
 	 	background: #fff;
 	 	position:absolute;
+	 	overflow-y: scroll;
+       max-height: 80px;
+        overflow-x: hidden;
+	 	
 	}
 	.employeeN ul {
 		width:567px;
@@ -90,6 +94,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 	z-index:99999;
 	 	background: #fff;
 	 	position:absolute;
+	 	overflow-y: scroll;
+       max-height: 80px;
+        overflow-x: hidden;
 	}
 	.employeeN1 ul {
 		width:567px;
@@ -129,6 +136,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 	z-index:99999;
 	 	background: #fff;
 	 	position:absolute;
+	 	overflow-y: scroll;
+       max-height: 80px;
+        overflow-x: hidden;
 	}
 	.employeeN3 ul {
 		width:567px;
@@ -164,6 +174,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 	z-index:99999;
 	 	background: #fff;
 	 	position:absolute;
+	 	overflow-y: scroll;
+       max-height: 80px;
+        overflow-x: hidden;
 	}
 	.employeeN4 ul {
 		width:567px;
