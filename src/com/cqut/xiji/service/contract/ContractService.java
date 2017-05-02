@@ -401,17 +401,17 @@ public class ContractService extends SearchService implements IContractService{
 		if(result <= 0){
 			String position = "ID =" + ID;
 			entityDao.deleteByCondition(position,Contract.class);
-		}/*else{
+		}else{
 			Project project = new Project();
 			String projectID = EntityIDFactory.createId();
-			int projectState = 0;
-			Project.setID(projectID);
-			Project.setContractID(ID);
-			Project.setState(projectState);
-			Project.setCreateTime(new Date());
-			Project.setRemarks("新增合同是创建的项目");
+			int projectState = 1;
+			project.setID(projectID);
+			project.setContractID(ID);
+			project.setState(projectState);
+			project.setCreateTime(new Date());
+			project.setRemarks("新增合同时创建的项目");
 			int aresult = entityDao.save(project);
-		}*/
+		}
 		return result;
 	}
 	
@@ -447,26 +447,21 @@ public class ContractService extends SearchService implements IContractService{
 	 * @return
 	 * @see com.cqut.xiji.service.contract.IContractService#coverContractFile(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
-	public int coverContractFile(String ID/*,String contractCode,String contractName, String companyName,
-			String oppositeMen, String linkPhone, String employeeName,
-			String address, String signAddress, String startTime,
-			String signTime, String endTime*/){
-		int index = 1;
-		int pageNum = 0;
-		String sort = "fileInformation.uploadTime";
-		String order = "desc";
-		String tableNamef = "fileInformation";
+	public int coverContractFile(String ID, String fileID){
+		String baseEntityf = "fileInformation";
 		String[] propertiesf = new String[]{
-			" fileInformation.ID AS fileID,fileinformation.pathPassword,fileinformation.path,fileinformation.filePassword ",
+				" fileInformation.ID AS fileID",
+				"fileinformation.pathPassword", 
+				"fileinformation.path",
+				"fileinformation.filePassword"
 		};
 		String joinEntityf = " LEFT JOIN template ON template.fileID = fileInformation.ID ";
-		
-		String conditionf = " fileinformation.id = template.fileID and template.templateType = 0 and fileinformation.type = 1 ";
-		List<Map<String, Object>> result1  = entityDao.searchWithpaging(propertiesf, tableNamef, joinEntityf, null, conditionf, null, sort, order, index, pageNum);
+		String conditionf = " fileinformation.id = " + fileID;
+		List<Map<String, Object>> result1 = entityDao.searchForeign(propertiesf,baseEntityf,joinEntityf,null,conditionf);
 		
 		if(result1.isEmpty()){
 			System.out.println("不存在合同模板文件");
-			return 0;
+			return -3;
 		}
 		String fileInfoID = result1.get(0).get("fileID").toString();;
 		String filePath = result1.get(0).get("path").toString();
@@ -590,7 +585,7 @@ public class ContractService extends SearchService implements IContractService{
 		System.out.println("文件的路径1 ："+filePath);
 		System.out.println("文件的路径2 ："+cacheFilePath);
 		try {
-			String relativePath = "项目文件" + "\\"  + "合同文件" + "\\";
+			String relativePath = "项目文件" + "\\" + contractName + "\\"  + "合同文件" + "\\";
 
 			path += relativePath ;
 
@@ -627,9 +622,9 @@ public class ContractService extends SearchService implements IContractService{
 			wp.save(cacheFilePath);
 			wp.close();
 			
-			String fileID = EntityIDFactory.createId();
+			String newFileID = EntityIDFactory.createId();
 			FileInformation fi = new FileInformation();
-			fi.setID(fileID);
+			fi.setID(newFileID);
 			fi.setBelongtoID(ID);
 			fi.setUploaderID("20170220xiji");
 			fi.setFileName(contractName + ".docx");
@@ -645,8 +640,8 @@ public class ContractService extends SearchService implements IContractService{
 		    baseEntityDao.save(fi);
 		    updateContractFileID(ID);
 		    updContractState(ID,1);
-		    fileEncryptservice.encryptPath(relativePath, fileID);
-			fileEncryptservice.encryptFile(cacheFilePath,path,fileID);
+		    fileEncryptservice.encryptPath(relativePath, newFileID);
+			fileEncryptservice.encryptFile(cacheFilePath,path,newFileID);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

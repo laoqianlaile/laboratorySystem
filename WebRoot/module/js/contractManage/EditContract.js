@@ -195,10 +195,112 @@ function getContractByID(){
 	}
 }
 
+function openTemplateModal(){
+	$('#templateModal').modal('show');
+	initContractTemplateFile();
+}
+
+//初始化数据
+function initContractTemplateFile(){
+	$("#show_template").bootstrapTable({
+		//height : 200,// 定义表格的高度
+		striped : true,// 隔行变色效果
+		pagination : true,// 在表格底部显示分页条
+		pageSize : 4,// 页面数据条数
+		pageNumber : 1,// 首页页码
+		pageList : [ 4 ],// 设置可供选择的页面数据条数
+		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
+		cache : false,// 禁用 AJAX 数据缓存
+		sortName : 'createTime',// 定义排序列
+		sortOrder : 'asc',// 定义排序方式
+		url:'fileInformationController/getContractTemplateFileWithPaging.do',//服务器数据的加载地址
+		sidePagination:'server',//设置在哪里进行分页
+		contentType:'application/json',//发送到服务器的数据编码类型
+		dataType:'json',//服务器返回的数据类型
+	    //queryParams:search,//请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
+		queryParams: function queryParams(params) { //请求服务器数据时,添加一些额外的参数
+			param.limit = params.limit;// 页面大小
+			param.offset = params.offset; // 偏移量
+			param.sort = params.sort; // 排序列名
+			param.order = params.order; // 排位方式
+			return param;
+		}, //参数
+	    queryParamsType: "limit", 
+		selectItemName : '',// radio or checkbox 的字段名
+		/*onLoadSuccess : function(data) {
+			checkDate(data, "file");
+			//console.log(data);
+		},*/
+		columns : [ {
+			checkbox : true,
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width :'3%',// 宽度
+			/*formatter : function(value, row, index) {
+				 checkData(row);	 //验证数据合理性					
+		    }*/
+		},{
+			field:'ID',//返回值名称
+			title:'模版ID',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:"5%",//宽度
+			visible:false
+		},{
+			field:'fileID',//返回值名称
+			title:'文件ID',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:"5%",//宽度
+			visible:false
+		},{
+			field:'name',//返回值名称
+			title:'模版名',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:"25%",//宽度
+		},{
+			field:'fileName',//返回值名称
+			title:'文件名',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:"30%",//宽度
+		},{
+			field:'createTime',//返回值名称
+			title:'创建时间',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:"12%",//宽度
+		},{
+			field:'templateType',//返回值名称
+			title:'模版类型',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:"12%",//宽度
+		}]////列配置项,详情请查看 列参数 表格
+		/*事件*/
+	});
+}
+
+//新增成功后操作
+function refrehContractTemplateTable() {
+	$('#show_template').bootstrapTable('refresh', null);
+}
+
 /**
  * 生成合同文件
  */
 function coverContractFile(){
+	var data = $('#show_template').bootstrapTable('getSelections');
+	if(data.length==0){
+		swal("请至少选中一条数据");
+		return;
+	}
+	var fileID = data[0].fileID;
+	if (!fileID || typeof(fileID) == "undefined" || fileID.trim() == "") 
+	{ 
+		swal("合同文件ID为空！"); 
+	}
 	swal("正在生成合同，请等候！"); 
 	var ID = GetQueryString("ID");; 
 	if (!ID || typeof(ID) == "undefined" || ID.trim() == "") 
@@ -206,7 +308,8 @@ function coverContractFile(){
 		swal("合同ID为空！"); 
 	}else {
 		var parame = {};
-		parame.ID = ID;ttp://eclipsecolorthemes.org/
+		parame.ID = ID;
+		parame.fileID = fileID;
 		
 			$.ajax({
 			  url:'contractController/coverContractFile.do',
@@ -214,13 +317,13 @@ function coverContractFile(){
 			  data:parame,
 			  dataType:'json',
 			  success:function(o){
-				  if(o == 0){
+				  if(o == -3){
 					  swal("不存在合同模板文件!");
 				  }else if(o == -4){
 					  swal("合同模板文件被删除!");
 				  }else if(o == 1){
 					  swal("合同已生成！"); 
-					  setTimeout(refrehFileTable, 1000);
+					  setTimeout(refresh, 1000);
 				  }
 			  },
 			  error:function(o){
@@ -238,11 +341,31 @@ function downFile(id){
 	downOneFile(id);
 }
 
+/**
+ * 下载模版文件
+ * @param id
+ */
+function tdownFile(){
+	var data = $('#show_template').bootstrapTable('getSelections');
+	if(data.length==0){
+		swal("请至少选中一条数据");
+		return;
+	}
+	var fileID = data[0].fileID;
+	if (!fileID || typeof(fileID) == "undefined" || fileID.trim() == "") 
+	{ 
+		swal("合同文件ID为空！"); 
+	}else{
+		downOneFile(fileID);
+	}
+}
+
 function openFile(id){
 	$.post("fileOperateController/onlinePreview.do", {
 		ID : id
 	}, function(result) {
-		if (result != null || result != "null") {
+		result = eval(result);
+		if (result != null && result != "null") {
 			window.location.href = "module/jsp/documentOnlineView.jsp";
 		} else {
 			swal("无法查看");
@@ -607,7 +730,7 @@ function showFileUploadModal(){
 	$("#fileName").html("");
 	param.type = 1;
 	param.firstDirectory = "项目文件";
-	param.secondDirectory = "";
+	param.secondDirectory = $('#edit_contractName').val();
 	param.thirdDirectory = "合同文件";
 	param.belongtoID = $('#edit_contractID').val();
 	param.fileSummaryInfo = "";
@@ -1377,10 +1500,10 @@ function edit(){
 				  		break;
 				  	case -4:swal("公司名与公司ID不相符！");
 			  			break;
-					case 1:swal("修改成功！");
-						setTimeout(goback, 1000);
+					case 1:swal("保存成功！");
+						setTimeout(refresh, 1000);
 						break;
-					case 0:swal("修改失败！");
+					case 0:swal("保存失败！");
 						break;
 					default:
 						break;
@@ -1405,7 +1528,7 @@ function checknum(obj)
 
 //新增合同细项方法 
 function addItem(){
-	
+	edit();
 	var parame = {};
 	var fineItemCode = $('#add_fineItemCode').val();
 	var testProjectID = $('#add_testProjectName').attr("name");
@@ -1547,7 +1670,7 @@ function delFileItem(id,fineItemCode){
 
 //编辑合同细项方法 
 function editItem(){
-	
+	edit();
 	var parame = {};
 	var fineItemCode = $('#edit_fineItemCode').val();
 	var testProjectID = $('#edit_testProjectName').attr("name");
