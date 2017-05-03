@@ -149,7 +149,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="top">
 				<div class="contract_title"><img src="module/img/ContractFile_icon.png" alt="ContractFile_icon" />编辑合同文件</div>
 				<div class="btnAdd fr">
-					<button type="button" lass="btn btn-primary" data-toggle="modal" onclick="coverContractFile()">生成合同文件</button>
+					<button type="button" lass="btn btn-primary" data-toggle="modal" onclick="openTemplateModal()">选择模版文件</button>
 					&nbsp;<button type="button" lass="btn btn-primary" data-toggle="modal" onclick="showFileUploadModal()">上传合同文件</button>
 				</div>
 			</div>
@@ -205,7 +205,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 
-	<!-- 新增合同细项弹框 -->
+		<!-- 选择模版文件弹框 -->
+		<div id="templateModal" class="modal" role="dialog"
+			aria-labelledby="gridSystemModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<p>选择模版文件</p>
+					</div>
+					<div class="modal-body">
+						<div class="input-group-area" style="margin-bottom: 20px;">
+  							<button type="button" onclick="coverContractFile()" class="btn btn-primary glyphicon glyphicon-show">&nbsp;生成合同文件</button>
+  							<button onclick="tdownFile()" type="button" class="btn btn-primary glyphicon glyphicon-down">&nbsp;下载</button>
+  							<button id="refresh" onclick="refrehContractTemplateTable()" type="button" class="btn btn-primary glyphicon glyphicon-refresh">&nbsp;刷新</button>
+						</div>
+						<table id="show_template">
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 新增合同细项弹框 -->
   	<div id="addContractItemModal" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">

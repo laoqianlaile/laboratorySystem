@@ -1,7 +1,6 @@
 // 请求数据时的额外参数
 var param = {};
 
-
 $(function() {
 	setID();
 	getContractByID();
