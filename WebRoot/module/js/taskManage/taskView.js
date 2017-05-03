@@ -253,8 +253,31 @@ $(function() {
 					$(".equipmentList").append(htmlElement);
 				}
 			});
+	
 	uploadFile();
+
+	getTaskEquipmentID();
+	
 });
+
+// 获取任务所登记的设备ID
+function getTaskEquipmentID() {
+	var ID = param.taskID;
+	$.post("taskEquipmentController/getTaskEquipmentID.do", 
+	{
+		taskID : ID
+	}, function(result) {
+		result = JSON.parse(result);
+		for ( var i = 0, len = result.length; i < len; i++) {
+			$(".equipmentList input[type=checkbox]").each(function() {
+				if (result[i].equipmentID == $(this).val()) {
+					$(this).attr("checked", "checked");
+				}
+			});
+			continue;
+		}
+	});
+}
 
 // 获取地址栏的任务ID
 function getUrlParam(name) {
@@ -319,30 +342,55 @@ function equipmentRegister() {
 
 // 确定登记的设备
 function sure() {
-	var equipmentArray = [], 
-	    ID = getUrlParam("taskID");
+	var equipmentChooseArray = [],
+	 	equipmentArray = [], 
+	 	ID = getUrlParam("taskID");
 	$(".equipmentList input[type=checkbox]").each(function() {
 		if (this.checked) {
-			equipmentArray.push($(this).val());
+			equipmentChooseArray.push($(this).val());
 		}
 	});
-	$.ajax({
-		url : 'taskEquipmentController/saveTaskEquipment.do',
-		type : 'POST',
-		data : {
-			taskID : ID,
-			equipmentIDs : equipmentArray
-		},
-		traditional : true,
-		success : function(result) {
-			if (result == true || result == "true") {
-				alert("设备登记成功");
-			} else {
-				alert("设备登记失败");
+
+	$.post("taskEquipmentController/getTaskEquipmentID.do",
+	{
+		taskID : ID
+	},
+	function(result) {
+		result = JSON.parse(result);
+		var temporary = [];
+		for ( var index = 0, resultLen = result.length; index < resultLen; index++) {
+			temporary.push(result[index].equipmentID);
 			}
-		}
+		if (result.length > 0) {
+			for ( var i = 0, eArryLen = equipmentChooseArray.length; i < eArryLen; i++) { // 去除已登记的设备
+				if ($.inArray(equipmentChooseArray[i], temporary) == -1) {
+					equipmentArray.push(equipmentChooseArray[i]);
+					}
+				}
+			} else {
+				for ( var k = 0, len = equipmentChooseArray.length; k < len; k++) {
+					equipmentArray.push(equipmentChooseArray[k]);
+					}
+				}
+		$.ajax({
+			url : 'taskEquipmentController/saveTaskEquipment.do',
+			type : 'POST',
+			data : {
+				taskID : ID,
+				equipmentIDs : equipmentArray
+			},
+			traditional : true,
+			success : function(result) {
+				if (result == true || result == "true") {
+					getTaskEquipmentID();
+					alert("设备登记成功");
+				} else {
+					alert("设备登记失败");
+				}
+			}
+		});
+		$("#equipmentInfo").modal("hide");
 	});
-	$("#equipmentInfo").modal("hide");
 }
 
 // 下载报告模版
@@ -363,7 +411,7 @@ function downReportTemplate() {
 					refresh();
 					downOneFile(fileID);
 				} else {
-					alert("下载模版出错");
+					alert("没有找到相应模版");
 				}
 			});
 		} else {

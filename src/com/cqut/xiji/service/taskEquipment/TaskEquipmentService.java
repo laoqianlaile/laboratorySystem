@@ -43,26 +43,35 @@ public class TaskEquipmentService extends SearchService implements ITaskEquipmen
 		int saveSuccessCount = 0;
 		String ID = "";
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		for(int i = 0;i<equipmentIDs.length;i++){
-		    ID = EntityIDFactory.createId();
+		for (int i = 0; i < equipmentIDs.length; i++) {
+			ID = EntityIDFactory.createId();
 			Date time = new Date(System.currentTimeMillis());
 			TaskEquipment te = new TaskEquipment();
 			te.setID(ID);
 			te.setTaskID(taskID);
 			te.setEquipmentID(equipmentIDs[i]);
-            try {
+			try {
 				te.setUseTime(dateFormat.parse(dateFormat.format(time)));
 			} catch (ParseException e) {
 				e.printStackTrace();
-			} 
+			}
 			if (baseEntityDao.save(te) == 1) {
 				saveSuccessCount++;
 			}
 		}
-		if(saveSuccessCount == equipmentIDs.length){
+		if (saveSuccessCount == equipmentIDs.length) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
+	}
+	
+	@Override
+	public List<Map<String, Object>> getTaskEquipmentID(String taskID) {
+		String baseEntity = "taskequipment";
+		String[] properties = { "equipmentID" };
+		String condition = " 1 = 1 and  taskequipment.taskID  = '" + taskID + "'";
+		List<Map<String, Object>> result = originalSearchForeign(properties,baseEntity, null, null, condition, false);
+		return result;
 	}
 }
