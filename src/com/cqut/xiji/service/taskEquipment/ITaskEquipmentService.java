@@ -1,6 +1,10 @@
 package com.cqut.xiji.service.taskEquipment;
 
-public interface ITaskEquipmentService {
-	public boolean saveTaskEquipment(String[] equipmentIDs,String taskID);
+import java.util.List;
+import java.util.Map;
 
+public interface ITaskEquipmentService {
+	public boolean saveTaskEquipment(String[] equipmentIDs, String taskID);
+
+	public List<Map<String, Object>> getTaskEquipmentID(String taskID);
 }

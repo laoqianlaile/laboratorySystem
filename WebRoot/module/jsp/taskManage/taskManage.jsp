@@ -57,7 +57,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<input type="text" name="testItem" id="testItem"
 							class="form-control" aria-describedby="basic-addon1"
 							style="width:100%" placeholder="请输入检测项目名称查找">
-						<ul id="dropDownList">
+						<ul id="dropDownList" style="height:60px;overflow-y: scroll;">
 						</ul>
 					</div>
 				</div>

@@ -588,7 +588,8 @@ public class TaskService extends SearchService implements ITaskService {
 				+ "a.testProjectName AS testProjectName,"
 				+ "a.sampleName AS sampleName,"
 				+ "a.detector AS detecotorID,"
-				+ "employee.employeeName AS detector"
+				+ " IFNULL((SELECT group_concat(employee.employeeName) FROM taskMan, employee WHERE taskMan.taskID = a.ID "
+				+ " AND taskMan.detector = employee.ID ORDER BY taskMan.ID ), '无') AS detector "
 				+ " FROM "
 				+ " ( "
 				+ " SELECT "
@@ -1026,6 +1027,15 @@ public class TaskService extends SearchService implements ITaskService {
 			return null;
 		} else {
 			try {
+				Object fileInfo = result.get(0).get("ID");
+				String fileInfoID = "";
+				if (fileInfo == null){
+					return null;
+				} else{
+					 fileInfoID = fileInfo.toString();
+				}
+				String filePath = result.get(0).get("path").toString();
+				String pathPassword = result.get(0).get("pathPassword").toString();
 				baseEntiy = " ( "
 						+ " SELECT "
 						+ "b.sampleName AS sampleName,"
@@ -1077,9 +1087,6 @@ public class TaskService extends SearchService implements ITaskService {
 						.searchForeign(properties, baseEntiy, joinEntity,
 								null, null);
 				
-				String fileInfoID = result.get(0).get("ID").toString();
-				String filePath = result.get(0).get("path").toString();
-				String pathPassword = result.get(0).get("pathPassword").toString();
 				PropertiesTool pe = new PropertiesTool();
 				
 				filePath = fileEncryptservice.decryptPath(filePath, pathPassword);
