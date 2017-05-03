@@ -39,31 +39,37 @@ public class TaskEquipmentService extends SearchService implements ITaskEquipmen
 	}
 	
 	@Override
-	public boolean saveTaskEquipment(String[] equipmentIDs,String taskID){
-		int saveSuccessCount = 0;
-		String ID = "";
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		for (int i = 0; i < equipmentIDs.length; i++) {
-			ID = EntityIDFactory.createId();
-			Date time = new Date(System.currentTimeMillis());
-			TaskEquipment te = new TaskEquipment();
-			te.setID(ID);
-			te.setTaskID(taskID);
-			te.setEquipmentID(equipmentIDs[i]);
-			try {
-				te.setUseTime(dateFormat.parse(dateFormat.format(time)));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			if (baseEntityDao.save(te) == 1) {
-				saveSuccessCount++;
-			}
-		}
-		if (saveSuccessCount == equipmentIDs.length) {
-			return true;
+	public String saveTaskEquipment(String[] equipmentIDs,String taskID){
+		if (equipmentIDs == null) {
+			return "没有新登记的设备";
 		} else {
-			return false;
+			int saveSuccessCount = 0;
+			String ID = "";
+			SimpleDateFormat dateFormat = new SimpleDateFormat(
+					"yyyy-MM-dd HH:mm:ss");
+			for (int i = 0, len = equipmentIDs.length; i < len; i++) {
+				ID = EntityIDFactory.createId();
+				Date time = new Date(System.currentTimeMillis());
+				TaskEquipment te = new TaskEquipment();
+				te.setID(ID);
+				te.setTaskID(taskID);
+				te.setEquipmentID(equipmentIDs[i]);
+				try {
+					te.setUseTime(dateFormat.parse(dateFormat.format(time)));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				if (baseEntityDao.save(te) == 1) {
+					saveSuccessCount++;
+				}
+			}
+			if (saveSuccessCount == equipmentIDs.length) {
+				return "true";
+			} else {
+				return "登记失败";
+			}
 		}
+
 	}
 	
 	@Override

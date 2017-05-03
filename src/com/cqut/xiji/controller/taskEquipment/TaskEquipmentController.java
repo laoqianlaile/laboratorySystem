@@ -31,8 +31,8 @@ public class TaskEquipmentController {
 	 */
 	@RequestMapping("/saveTaskEquipment")
 	@ResponseBody
-	public boolean saveTaskEquipment(String[] equipmentIDs,String taskID) {
-		boolean result = service.saveTaskEquipment(equipmentIDs,taskID);
+	public String saveTaskEquipment(String[] equipmentIDs,String taskID) {
+		String result = service.saveTaskEquipment(equipmentIDs,taskID);
 		return result;
 	}
 	

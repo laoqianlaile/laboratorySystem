@@ -23,9 +23,6 @@ public class TestReportController {
 	@Resource(name = "testReportService")
 	ITestReportService service;
 	
-	
-	
-
 	/**
 	 * 
 	 * @discription 检测报告管理页面数据

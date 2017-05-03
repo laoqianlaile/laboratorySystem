@@ -4,6 +4,7 @@ var param = {
 
 $(function() {
 	var ID = getUrlParam("taskID");
+	
 	$.post("taskController/checkTaskClientInfo.do", {
 		taskID : ID
 	}, function(result) {
@@ -21,7 +22,7 @@ $(function() {
 		$("#accordingInfo").text(result.requires);
 
 	});
-
+	
 	$.post("taskController/getSampleManageInfo.do", {
 		taskID : ID
 	}, function(result) {
@@ -149,6 +150,7 @@ $(function() {
 
 	param.taskID = ID;
 
+	
 	// 得到任务对应文件的信息
 	$("#taskFile")
 			.bootstrapTable(
@@ -253,11 +255,11 @@ $(function() {
 					$(".equipmentList").append(htmlElement);
 				}
 			});
-	
-	uploadFile();
 
 	getTaskEquipmentID();
 	
+	uploadFile();
+
 });
 
 // 获取任务所登记的设备ID
@@ -350,7 +352,7 @@ function sure() {
 			equipmentChooseArray.push($(this).val());
 		}
 	});
-
+    if(equipmentChooseArray.length > 0){
 	$.post("taskEquipmentController/getTaskEquipmentID.do",
 	{
 		taskID : ID
@@ -381,16 +383,20 @@ function sure() {
 			},
 			traditional : true,
 			success : function(result) {
+				result = JSON.parse(result);
 				if (result == true || result == "true") {
 					getTaskEquipmentID();
 					alert("设备登记成功");
 				} else {
-					alert("设备登记失败");
+					alert(result);
 				}
 			}
 		});
 		$("#equipmentInfo").modal("hide");
 	});
+    }else{
+    	alert("请选择需要登记的设备");
+    }
 }
 
 // 下载报告模版
