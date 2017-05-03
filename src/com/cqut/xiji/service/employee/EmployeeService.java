@@ -185,7 +185,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 		@Override
 		public List<Map<String, Object>> getEmployeeName(String employeeName) {
 			String[] properties = new String[] {"ID","employeeName"};
-			String condition = "employeeName like '%" + employeeName + "%'  and ID != '20170220super' and ID != '20170220xiji'";
+			String condition = "employeeName like '%" + employeeName + "%'  and ID != '20170220super'";
 			List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Employee.class);
 			return result;
 		}
@@ -252,10 +252,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 					"department.departmentName"
 			};
 			String joinEntity = " LEFT JOIN department ON department.ID = employee.departmentID ";
-			String condition = " 1 = 1 ";
-			if(matchName != null && matchName != ""){
-				condition += " and employee.employeeName LIKE '%" + matchName + "%'";
-			}
+			String condition = " and employee.employeeName LIKE '%" + matchName + "%' AND employee.ID != '20170220super'  AND employee.ID !='20170220xiji'";
 			List<Map<String, Object>> result = originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false);
 			return result;
 		}

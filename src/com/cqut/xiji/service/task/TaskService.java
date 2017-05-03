@@ -208,8 +208,15 @@ public class TaskService extends SearchService implements ITaskService {
 	
 	public void addMessage(String[] IDS, String taskID) {
 		Task task = entityDao.getByID(taskID, Task.class);
+		Sample sample = entityDao.getByID(task.getSampleID(), Sample.class);
 		
-		String content = task.getID() + "任务需要检测!"; // 消息记录内容
+		String content;
+		if (sample != null) {
+			content = sample.getSampleName() + "需要检测!"; // 消息记录内容
+		} else {
+			TestProject testProject = entityDao.getByID(task.getTestProjectID(), TestProject.class);
+			content = testProject.getNameCn() + "需要检测!"; // 消息记录内容
+		}
 		
 		// 设置消息记录
 		Message message = new Message();
@@ -228,8 +235,8 @@ public class TaskService extends SearchService implements ITaskService {
 			messageNotices[i].setID(EntityIDFactory.createId());
 			messageNotices[i].setMessageID(messageID);
 			messageNotices[i].setEmployeeID(IDS[i]);
+			entityDao.save(messageNotices[i]);
 		}
-		entityDao.saveEntities(messageNotices);
 	}
 
 	/**

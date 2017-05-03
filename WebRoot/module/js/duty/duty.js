@@ -119,19 +119,40 @@ function add(){
 	  data:parame,
 	  success:function(o){
 		  if(o<=0){
-			  alert("新增失败");
+			  swal("新增失败");
 		  }
 		  $('#addModal').modal('hide');
 		  refresh();
 	  }
 	});
-	}else alert("请把信息填写完整")
+	}else swal("请把信息填写完整")
+}
+function addText(){
+	var parame = {};
+	parame.dutyCode = $('#add_dutyCode').val();
+	parame.dutyName = $('#add_dutyName').val();
+	$.ajax({
+		  url:'dutyController/addText.do',
+		  data:parame,
+		  dataType:'json',
+		  success:function(boolean){
+			  
+			  if(boolean=="true"){
+				  add();
+			  }else{
+				  swal("数据有重名");
+				  $("input").val("");
+				
+			  }
+			  
+		  }
+		});
 }
 function delData(){
 	var data = $('#table').bootstrapTable('getSelections');
 	
 	if(data.length==0){
-		alert("请至少选中一条数据");
+		swal("请至少选中一条数据");
 		return;
 	}
 	
@@ -159,7 +180,7 @@ function delData(){
 			  data:ajaxParameter,
 			  success:function(o){
 				  if(o<=0){
-					  alert("删除失败");
+					  swal("删除失败");
 				  }
 				  refresh();
 				  swal("删除成功");
@@ -175,7 +196,7 @@ function openModal(){
 	var data = $('#table').bootstrapTable('getSelections');
 	
 	if(data.length==0 || data.length>1){
-		alert("请选中一条数据");
+		swal("请选中一条数据");
 		return;
 	}
 	//$("div#only1 .form-control").attr({"disabled":false});
@@ -197,14 +218,35 @@ function edit(){
 		  data:parame,
 		  success:function(o){
 			  if(o<=0){
-				  alert("修改失败");
+				  swal("修改失败");
 			  }
 			  $('#editModal').modal('hide');
 			  refresh();
 		  }
 		});	
-	}else alert("请把信息修改完整");
+	}else swal("请把信息修改完整");
 }
+/*function editText(){
+	var parame = {};
+	parame.dutyCode = $('#edit_dutyCode').val();
+	parame.dutyName = $('#edit_dutyName').val();
+	$.ajax({
+		  url:'dutyController/addText.do',
+		  data:parame,
+		  dataType:'json',
+		  success:function(boolean){
+			  
+			  if(boolean=="true"){
+				  edit();
+			  }else{
+				  swal("数据有重名");
+				  $("input").val("");
+				
+			  }
+			  
+		  }
+		});
+}*/
 function find(){
 	var parame = {};
 	parame.dutyCode = $('#linkdutyCode').val();

@@ -114,6 +114,14 @@ public class FileInformationController{
 		return JSONObject.fromObject(result);
 	}
 	
+	@RequestMapping("/getContractTemplateFileWithPaging")
+	@ResponseBody
+	public JSONObject getContractTemplateFileWithPaging(int limit,int offset,String order,String sort){
+		
+		Map<String, Object> result = service.getContractTemplateFileWithPaging(limit,offset,order,sort);
+		return JSONObject.fromObject(result);
+	}
+	
 	/**
 	 * 
      * @discription 获取任务所对应的相关文件信息

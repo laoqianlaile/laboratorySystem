@@ -300,17 +300,17 @@ function addGetEQName(){
 		    		var myobj = JSON.parse(data);
 		    		var htmlElement = "";//定义HTML
 		    		equipment = $(".equipmentName");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else if(myobj.length == 0){
+		    		if(myobj.length == 0){
 		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
 		    		}else{
 		    			length = myobj.length;
+		    			htmlElement += "<ul>";
+		    			for(var i=0; i < length; i++){
+			    			htmlElement += "<li value='" + myobj[i].equipmentName + "' class='" + myobj[i].ID + "' title='" + myobj[i].factoryCode + "'>" + myobj[i].equipmentName + " | " + myobj[i].factoryCode + "</li>";
+			    		}
+		    			htmlElement += "</ul>";
 		    		}
-		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].equipmentName + "' class='" + myobj[i].ID + "' title='" + myobj[i].factoryCode + "'>" + myobj[i].equipmentName + " | " + myobj[i].factoryCode + "</li></ul>";
-		    		}
-		    		 
+		    		
 		    		equipment.show();
 		    		equipment.empty();
 		    		equipment.append(htmlElement);
@@ -345,15 +345,15 @@ function addGetTPName(){
 		    		var myobj = JSON.parse(data);
 		    		var htmlElement = "";//定义HTML
 		    		testProject = $(".testProjectName");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else if(myobj.length == 0){
+		    		if(myobj.length == 0){
 		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
 		    		}else{
 		    			length = myobj.length;
-		    		}
-		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].nameCn + "' class='" + myobj[i].ID + "'>" + myobj[i].nameCn + " | " + myobj[i].nameEn + "</li></ul>";
+		    			htmlElement += "<ul>";
+		    			for(var i=0; i < length; i++){
+			    			htmlElement += "<li value='" + myobj[i].nameCn + "' class='" + myobj[i].ID + "'>" + myobj[i].nameCn + " | " + myobj[i].nameEn + "</li>";
+			    		}
+		    			htmlElement += "</ul>";
 		    		}
 		    		 
 		    		testProject.show();
@@ -389,15 +389,15 @@ function addGetEMName(){
 		    		var myobj = JSON.parse(data);
 		    		var htmlElement = "";//定义HTML    
 		    		employee = $(".employeeN");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else if(myobj.length == 0){
+		    		if(myobj.length == 0){
 		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
 		    		}else{
 		    			length = myobj.length;
-		    		}
-		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].employeeName + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + "</li></ul>";
+		    			htmlElement += "<ul>";
+		    			for(var i=0; i < length; i++){
+			    			htmlElement += "<li value='" + myobj[i].employeeName + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + "</li>";
+			    		}
+		    			htmlElement += "</ul>";
 		    		}
 		    		
 		    		employee.show();
@@ -428,6 +428,7 @@ function addClick(){
 			 code = "";
 			}
 		 $('#add_equipmentName').attr({'name' : "" + ID + ""});
+		 $('#add_factoryCode').val(code);
 		 $('#add_factoryCode').attr({'value' : "" + code + ""});
 		 $('#add_factoryCode').attr("disabled",true);
 		 $('#add_equipmentName').attr({'value' : "" + name + ""});
@@ -506,17 +507,17 @@ function editGetEQName(){
 		    		var myobj = JSON.parse(data);
 		    		var htmlElement = "";//定义HTML
 		    		equipment = $(".equipmentName");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else if(myobj.length == 0){
+		    		if(myobj.length == 0){
 		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
 		    		}else{
 		    			length = myobj.length;
+		    			htmlElement += "<ul>";
+		    			for(var i=0; i < length; i++){
+			    			htmlElement += "<li value='" + myobj[i].equipmentName + "' class='" + myobj[i].ID + "' title='" + myobj[i].factoryCode + "'>" + myobj[i].equipmentName + " | " + myobj[i].factoryCode + "</li>";
+			    		}
+		    			htmlElement += "</ul>";
 		    		}
-		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].equipmentName + "' class='" + myobj[i].ID + "' title='" + myobj[i].factoryCode + "'>" + myobj[i].equipmentName + " | " + myobj[i].factoryCode + "</li></ul>";
-		    		}
-		    		 
+		    		
 		    		equipment.show();
 		    		equipment.empty();
 		    		equipment.append(htmlElement);
@@ -551,15 +552,15 @@ function editGetTPName(){
 		    		var myobj = JSON.parse(data);
 		    		var htmlElement = "";//定义HTML
 		    		testProject = $(".testProjectName");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else if(myobj.length == 0){
+		    		if(myobj.length == 0){
 		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
 		    		}else{
 		    			length = myobj.length;
-		    		}
-		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].nameCn + "' class='" + myobj[i].ID + "'>" + myobj[i].nameCn + " | " + myobj[i].nameEn + "</li></ul>";
+		    			htmlElement += "<ul>";
+		    			for(var i=0; i < length; i++){
+			    			htmlElement += "<li value='" + myobj[i].nameCn + "' class='" + myobj[i].ID + "'>" + myobj[i].nameCn + " | " + myobj[i].nameEn + "</li>";
+			    		}
+		    			htmlElement += "</ul>";
 		    		}
 		    		 
 		    		testProject.show();
@@ -595,15 +596,15 @@ function editGetEMName(){
 		    		var myobj = JSON.parse(data);
 		    		var htmlElement = "";//定义HTML    
 		    		employee = $(".employeeN");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else if(myobj.length == 0){
+		    		if(myobj.length == 0){
 		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
 		    		}else{
 		    			length = myobj.length;
-		    		}
-		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].employeeName + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + "</li></ul>";
+		    			htmlElement += "<ul>";
+		    			for(var i=0; i < length; i++){
+			    			htmlElement += "<li value='" + myobj[i].employeeName + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + "</li>";
+			    		}
+		    			htmlElement += "</ul>";
 		    		}
 		    		
 		    		employee.show();
@@ -977,7 +978,7 @@ function edit(){
 					break;
 				case '1':swal("修改成功！");
 					$('#editModal').modal('hide');
-					refrehTable();
+					setTimeout(refresh, 1000);
 					break;
 				case '0':swal("修改失败！");
 					break;

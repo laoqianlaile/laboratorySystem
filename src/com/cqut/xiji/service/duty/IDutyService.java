@@ -10,4 +10,5 @@ public interface IDutyService {
 	public String delDuty(String IDs);
 	public String updDuty(String ID,String dutyCode,String dutyName,String introduction);
 	List<Map<String, Object>> getAllDutyName();
+	public String addText(String dutyCode,String dutyName);
 }

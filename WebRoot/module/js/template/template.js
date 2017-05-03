@@ -267,8 +267,9 @@ function delData() {
 }
 
 function openModal() {
-
-	var html = "";
+	
+	/*二级目录填充*/
+/*	var html = "";
 	$("#fileSubtype").find("option").remove();
 	$.post("fileOperateController/getFileTypeName.do", {
 		ID : $("#fileType").find("option:selected").val()
@@ -278,7 +279,7 @@ function openModal() {
 			html += "<option>" + result[i].name + "</option>";
 		}
 		$("#fileSubtype").append(html);
-	});
+	});*/
 	
 	$("#chooseFile").removeAttr("disabled");
 	$("#fileName").html("");
@@ -341,7 +342,7 @@ function addTemplate(fileID) {
 	parame.TemplateName = $('#add_TemplateName').val();
 	parame.TemplateRemarks = $('#add_TemplateRemarks').val();
 	parame.uploaderID = $('#EMPLOYEEID').val();//上传人ID
-	parame.TestProjectID = $('#add_TestProjectID').val();
+	parame.TestProjectIDs = $('#add_TestProjectID').val();
 	parame.fileID = fileID;
 	var templateTypeString = $('#fileSubtype option:checked').text();
 
@@ -605,13 +606,32 @@ $(function () { $('#testProjectModal').on('hide.bs.modal', function () {
 
 function addTestproject(){
 	var  testProjectDate = $('#testProject').bootstrapTable('getSelections');
-	if(testProjectDate.length == 1){
-		$('#add_TestProjectNameCn').val(testProjectDate[0].NAMECN)
-		$('#add_TestProjectID').val(testProjectDate[0].testProjectID);
+	
+	
+	var NameCn ="";
+	var testProjectID = "";
+	if(testProjectDate.length >= 1){
+		for(var i = 0; i < testProjectDate.length; i ++ ){
+			if(i == testProjectDate.length - 1){
+				NameCn += testProjectDate[i].NAMECN;
+				testProjectID += testProjectDate[i].testProjectID;
+			}
+			else{
+				NameCn += testProjectDate[i].NAMECN +","
+				testProjectID += testProjectDate[i].testProjectID + ",";
+			}
+			
+		}
+		//先把上次选中的清空下。	
+		$('#add_TestProjectNameCn').attr("value","");
+		$('#add_TestProjectID').attr("value","");
+		
+		$('#add_TestProjectNameCn').val(NameCn)
+		$('#add_TestProjectID').val(testProjectID);
 		$('#testProjectModal').modal('hide');
 		return;
 	}
-	swal("只可选中一个");
+	swal("至少选中一个");
 }
 
 
@@ -635,4 +655,41 @@ function ViewDoc(){
 			}
 		});
 	}
+}
+
+function submit(){
+	var data = $('#table').bootstrapTable('getSelections');
+	
+	if(data == 0){
+		swal("至少选中一条");
+		return;
+	}
+	var ids  = "";
+	
+	for(var i=0; i<data.length; i++){
+		if(data[i].STATE != "未提交"){
+			swal(data[i].NAME + "当前状态不能提交");
+			return;
+		}
+		if(i == data.length - 1){
+			ids += data[i].ID
+		}
+		else{
+			ids += data[i].ID + ",";
+		}
+	}
+	
+	$.ajax({
+		url : 'templateController/upSubmitTemplate.do',
+		data : {templateIDs : ids},
+		success : function(o) {
+			if (o <= 0) {
+				swal({title:"操作失败",type:"error"});
+			} else {
+				swal({title:"操作成功",type:"success"});
+				refresh();
+			}
+
+		}
+	});
 }

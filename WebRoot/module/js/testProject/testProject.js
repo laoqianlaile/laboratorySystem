@@ -366,6 +366,11 @@ function openEditModal(){
 	
 	var equipmentInfo = [];
 	
+	if(arguments[0].EQUIPMENTID == "" || arguments[0].EQUIPMENTID == null || arguments[0].EQUIPMENTID == undefined){
+		$('#editModal').modal('show');
+		return ;
+	}
+	
 	var EquipmentID = arguments[0].EQUIPMENTID.split(','); 
 	var EquipmentName = arguments[0].EQUIPMENTNAME.split(',');
 	if(EquipmentID === undefined || EquipmentID === null || EquipmentID === "" 
@@ -538,7 +543,11 @@ function showPartEquipment(date){
 function searchEquipment(type){
 	fullEquipments(matchEquipment(type));
 }
-
+function hideSearch(type){
+	setTimeout(function(){
+		$('.showEquipments[name = "'+type+'"]').hide();
+	},500); 
+}
 //删除点中的设备
 function moveSingleE(SingleEInfo){
 	console.log(SingleEInfo);

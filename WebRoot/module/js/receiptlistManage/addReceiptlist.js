@@ -1316,12 +1316,12 @@ function chenkDataFile(dataObj) { // 后台数据字段为空就不会传上来
 	}
 }
 
-//搜索展示部分设备
+//搜索展示检测项目列表
 function searchTestProject(type){
-	fullEquipments(matchEquipment(type));
+	fullTestProjects(matchTestProject(type));
 }
-//匹配设备名称 返回数据
-function matchEquipment(type){
+//匹配检测项目  返回数据
+function matchTestProject(type){
 //	$('.showTestProjects[name = "add"]').css("display","block");
 	var matchName = $('#'+type+'searchTestProjects').val();
 	console.log(matchName);
@@ -1345,15 +1345,15 @@ function matchEquipment(type){
 	
 }
 //填充设备数据
-function fullEquipments(equipmentDate){
+function fullTestProjects(testProjectDate){
 	
 	var html = "<ul>";
-	if(equipmentDate.length == 0){
+	if(testProjectDate.length == 0){
 		html += "<li class='noDate'>没有查到数据</li>"
 	}
 	else{
-		for(var i = 0; i < equipmentDate.length; i++){
-			html+="<li  id ='"+equipmentDate[i].ID+"' onclick='displayChecked(this)'>" + equipmentDate[i].testName+ "</li>"
+		for(var i = 0; i < testProjectDate.length; i++){
+			html+="<li  id ='"+testProjectDate[i].ID+"' onclick='displayChecked(this)'>" + testProjectDate[i].testName+ "</li>"
 		}
 	}
 	html +="</ul>";
@@ -1367,10 +1367,10 @@ function fullEquipments(equipmentDate){
 	}
 }
 //展示被选中的设备
-function displayChecked(equipmentInfo){
+function displayChecked(testProjectInfo){
 
-	if(isSameID(equipmentInfo.id)){
-		html='<span class = "spanTag"><span class= "singleE" id ="'+equipmentInfo.id+'" >'+ equipmentInfo.innerHTML +'&nbsp;&nbsp;</span><a  onclick="moveSingleE(this)">x</a></span>'
+	if(isSameID(testProjectInfo.id)){
+		html='<span class = "spanTag"><span class= "singleE" id ="'+testProjectInfo.id+'" >'+ testProjectInfo.innerHTML +'&nbsp;&nbsp;</span><a  onclick="moveSingleE(this)">x</a></span>'
 		if($("#editTaskModal").is(":visible")){
 			$('#displayChecked[name = "edit"]').append(html);
 			$('.showTestProjects[name = "edit"]').hide();

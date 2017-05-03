@@ -149,7 +149,7 @@ public class CompanyService extends SearchService implements ICompanyService {
 		
 		String[] properties = new String[] {"ID","companyName","linkMan","mobilePhone","address"};
 		
-		String condition = " companyName like '%" + companyName + "%'";
+		String condition = " companyName like '%" + companyName + "%' ORDER BY createTime ";
 		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Company.class);
 		return result;
 	}

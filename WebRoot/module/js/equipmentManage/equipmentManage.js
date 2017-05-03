@@ -258,16 +258,15 @@ function delData(id,equipmentName){
 					equipmentIds:id	
 				},
 			  success:function(o){
-				  switch (o) {
-				  	case '-2':swal("该设备与其他表数据有关联，请先删除关联！");
-				  		break;
-					case '1':swal("删除成功！");
-						setTimeout(refresh, 1000);
-						break;
-					case '0':swal("删除失败！");
-						break;
-					default:swal("出现未知错误，请重试！");
-						break;
+				  if(o > 0){
+					  swal("删除成功！");
+					  setTimeout(refresh, 1000);
+				  }else if(o == 0){
+					  swal("删除失败！");
+				  }else if(o == -2){
+					  swal("该设备与其他表数据有关联，请先删除关联！");
+				  }else{
+					  swal("出现未知错误，请重试！");
 				  }
 			 }
 		});

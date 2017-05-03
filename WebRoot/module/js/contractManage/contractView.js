@@ -107,10 +107,12 @@ function showFile(){
 	{ 
 		swal("文件ID不能为空！"); 
 	}else{
+		
 		$.post("fileOperateController/onlinePreview.do", {
 			ID : ID
 		}, function(result) {
-			if (result != null || result != "null") {
+			result = eval(result);
+			if (result != null && result != "null") {
 				window.location.href = "module/jsp/documentOnlineView.jsp";
 			} else {
 				swal("无法查看");

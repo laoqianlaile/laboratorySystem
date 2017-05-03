@@ -110,7 +110,7 @@ span {
 							</div>
 						</div>
 						<div id="menu" class= "row clearfix">
-								<div class="col-md-4 column">
+								<div class="col-md-12 column">
 									<button id="query" onclick="query()"
 										class="btn btn-primary" type="button">
 										<em class="glyphicon glyphicon-search"></em> 查询
@@ -120,7 +120,12 @@ span {
 										onclick="openModal()">
 										<em class="glyphicon glyphicon-plus"></em> 上传
 									</button>
-
+			
+									<button class="btn btn-primary" type="button" id="addmodel"
+										onclick="submit()">
+										<em class="glyphicon glyphicon-check"></em> 提交审核
+									</button>
+										
 									<button class="btn btn-primary type=" button" id=""
 										onclick="ViewDoc()">
 										<em class="glyphicon glyphicon-search"></em> 查看
@@ -209,10 +214,13 @@ span {
 						</div>
 						<div class="col-md-6 column">
 								<select id="fileType">
-									<option value = "13">模板文件</option>
+									<option value = "">模板文件</option>
 								</select> 
 								<select id="fileSubtype" oninput="isReport()"
 									onpropertychange="isReport()" >
+									<option>交接单模板</option>
+									<option>合同模板</option>
+									<option>报告模板</option>
 								</select>
 							</div>
 							<div class="col-md-12 column">
