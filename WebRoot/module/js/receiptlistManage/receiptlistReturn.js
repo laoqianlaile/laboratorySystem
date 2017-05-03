@@ -7,7 +7,9 @@ var comID = getUrlParam("comID");
 var coCode = getUrlParam("coCode");
 var state = getUrlParam("state");
 var reCode = getUrlParam("reCode");
-
+var param={};
+param.reCode=reCode;
+param.coCode=coCode;
 $(function() {
 	initPageData();
 });
@@ -22,6 +24,7 @@ function init() {
 		getReceiptlistInforInReturn(reID);
 	}else if(state=="add"){
 		$("#receiptlistID").val(reID);
+		checkDatas(param);
 		$("#show_receiptlistCode").val(reCode);
 		$("#show_contractCode").val(coCode);
 		$("#show_contractCode").attr("disabled", true);
@@ -29,6 +32,21 @@ function init() {
 	}
 	initSample();
 }
+
+
+function checkDatas(dataObj){
+	if (!dataObj.hasOwnProperty("reCode") || dataObj.reCode == null
+			|| dataObj.reCode.trim() == "NULL") {
+		dataObj.reCode = "";
+	}
+
+	if (!dataObj.hasOwnProperty("coCode") || dataObj.coCode == null
+			|| dataObj.coCode.trim() == "NULL") {
+		dataObj.coCode = "";
+	}
+
+}
+
 function initSample() {
 	$('#sampleTable')
 			.bootstrapTable(
@@ -66,6 +84,7 @@ function initSample() {
 									title : '序号',
 									field : 'Number',
 									formatter : function(value, row, index) {
+										checkSamplesData(row);
 										return index + 1;
 									}
 								},
@@ -224,7 +243,15 @@ function edit() {
 			dataType : 'json',
 			success : function(o) {
 				if (o <= 0) {
-					alert("修改失败");
+					swal({
+						title : "修改失败",
+						type : 'warning'
+					});
+				} else {
+					swal({
+						title : "修改成功",
+						type : 'success'
+					});
 				}
 				$('#editModal').modal('hide');
 				refresh();
@@ -235,22 +262,22 @@ function edit() {
 
 function checkSampledata(data) {
 	if (data.factoryCode == "" || data.factoryCode == "null") {
-		alert("出厂编号不能为空");
+		swal("出厂编号不能为空");
 		return false;
 	}
 
 	if (data.sampleName == "" || data.sampleName == "null") {
-		alert("样品名称不能为空");
+		swal("样品名称不能为空");
 		return false;
 	}
 
 	if (data.specifications == "" || data.specifications == "null") {
-		alert("型号/规格/代号不能为空");
+		swal("型号/规格/代号不能为空");
 		return false;
 	}
 
 	if (data.createTime == "" || data.createTime == "null") {
-		alert("录入时间不能为空");
+		swal("录入时间不能为空");
 		return false;
 	}
 
@@ -268,20 +295,35 @@ function del(data) {
 	var parame = {};
 	// parame.ID=ID;
 	parame.taskID = data.taskID;
-	var isDelete = confirm("确认删除");
-	if (isDelete == true) {
+	swal({
+		title : "操作提示", // 弹出框的title
+		text : "确定删除吗？", // 弹出框里面的提示文本
+		type : "warning", // 弹出框类型
+		showCancelButton : true, // 是否显示取消按钮
+		confirmButtonColor : "#DD6B55",// 确定按钮颜色
+		cancelButtonText : "取消",// 取消按钮文本
+		confirmButtonText : "是的，确定删除！",// 确定按钮上面的文档
+		closeOnConfirm : false
+	}, function() {
 		$.ajax({
 			url : 'receiptlistController/deleteTaskByID.do',
 			data : parame,
 			dataType : "json",
 			success : function(o) {
 				if (o == false) {
-					alert("删除失败");
+					swal({
+						title : "删除失败",
+						type : 'warning'
+					});
 				}
+				swal({
+					title : "删除成功",
+					type : 'success'
+				});
 				refresh();
 			}
 		});
-	}
+	});
 }
 
 // 扫描录入样品
@@ -289,7 +331,7 @@ function automaticadd() {
 	var qrcode;
 	var ID;
 	if (qrcode == null) {
-		alert("录入失败，可选择手动录入");
+		swal("录入失败，可选择手动录入");
 	}
 	var parame = {};
 	parame.qrcode = qrcode;
@@ -308,6 +350,7 @@ function automaticadd() {
 
 // 手动录入样品
 function manualadd() {
+	$('input[type="text"]').val("");
 	$('#add').modal('show');
 }
 
@@ -334,7 +377,7 @@ function isExitSample(sampleCode) {
 			if (typeof ID !== 'undefined') {
 				add(ID);
 			} else {
-				alert("该样品不存在");
+				swal("该样品不存在");
 			}
 		}
 	});
@@ -351,7 +394,10 @@ function add(ID) {
 		dataType : "json",
 		success : function(o) {
 			if (o == false) {
-				alert("添加失败");
+				swal({
+					title : "添加失败",
+					type : 'warning'
+				});
 			}
 			$('#add').modal('hide');
 			refresh();
@@ -375,10 +421,12 @@ function sure() {
 			dataType : 'json',
 			success : function(o) {
 				if (o <= 0) {
-					alert("修改失败");
+					swal({
+						title : "修改失败",
+						type : 'warning'
+					});
 				}else{
-					window.location.href = window.location.href.split("?")[0].replace(
-							'receiptlistReturn.jsp', 'receiptlistManage.jsp');
+					turnBack();
 				}
 			}
 		});
@@ -387,20 +435,20 @@ function sure() {
 
 function checklistData(data) {
 	if (data.linkMan == "" || data.linkMan == "null") {
-		alert("交接人不能为空");
+		swal("交接人不能为空");
 		return false;
 	}
 	if (data.linkPhone == "" || data.linkPhone == "null") {
-		alert("联系电话不能为空");
+		swal("联系电话不能为空");
 		return false;
 	}
 	var phone = /^1([38]\d|4[57]|5[0-35-9]|7[06-8]|8[89])\d{8}$/;
 	if (!phone.test(data.linkPhone)) {
-		alert("联系人电话格式不正确");
+		swal("联系人电话格式不正确");
 		return false;
 	}
 	if (data.createTime == "" || data.createTime == "null") {
-		alert("录入时间不能为空");
+		swal("录入时间不能为空");
 		return false;
 	}
 
@@ -409,22 +457,22 @@ function checklistData(data) {
 
 function checkeditdata(data) {
 	if (data.linkMan == "" || data.linkMan == "null") {
-		alert("交接人不能为空");
+		swal("交接人不能为空");
 		return false;
 	}
 
 	var phone = /^1([38]\d|4[57]|5[0-35-9]|7[06-8]|8[89])\d{8}$/;
 	if (!phone.test(data.linkPhone)) {
-		alert("联系人电话格式不正确");
+		swal("联系人电话格式不正确");
 		return false;
 	}
 
 	if (!isNoramlPhone(data.linkPhone)) {
-		alert("联系人电话格式不正确");
+		swal("联系人电话格式不正确");
 		return false;
 	}
 	if (data.createTime == "" || data.createTime == "null") {
-		alert("录入时间不能为空");
+		swal("录入时间不能为空");
 		return false;
 	}
 
@@ -440,7 +488,10 @@ function remove() {
 		dataType : "json",
 		success : function(o) {
 			if (o == false) {
-				alert("操作失败");
+				swal({
+					title : "操作失败",
+					type : 'warning'
+				});
 			}
 			dele();
 		}
@@ -451,8 +502,7 @@ function remove() {
 function dele() {
 
 	if (state == "edit") {
-		window.location.href = window.location.href.split("?")[0].replace(
-				'receiptlistReturn.jsp', 'receiptlistManage.jsp');
+		turnBack();
 	}
 
 	if (state == "add") {
@@ -464,9 +514,7 @@ function dele() {
 			dataType : "json",
 			success : function(o) {
 				if (o == true) {
-					window.location.href = window.location.href.split("?")[0]
-							.replace('receiptlistReturn.jsp',
-									'receiptlistManage.jsp');
+					turnBack();
 				}
 			}
 		});
@@ -481,29 +529,58 @@ function getUrlParam(name) {
 	return null;
 }
 
-function checkData(data) {
-	if (!data.hasOwnProperty("receiptlistCode") || data.receiptlistCode == null
-			|| data.ID.trim() == "NULL") {
-		data.receiptlistCode = "";
+function checkData(dataObj) {
+	if (!dataObj.hasOwnProperty("receiptlistCode") || dataObj.receiptlistCode == null
+			|| dataObj.ID.trim() == "NULL") {
+		dataObj.receiptlistCode = "";
 	}
-	if (!data.hasOwnProperty("contractCode") || data.contractCode == null
-			|| data.contractCode.trim() == "NULL") {
-		data.contractCode = "";
-	}
-
-	if (!data.hasOwnProperty("linkMan") || data.linkMan == null
-			|| data.linkMan.trim() == "NULL") {
-		data.linkMan = "";
+	if (!dataObj.hasOwnProperty("contractCode") || dataObj.contractCode == null
+			|| dataObj.contractCode.trim() == "NULL") {
+		dataObj.contractCode = "";
 	}
 
-	if (!data.hasOwnProperty("companyName") || data.companyName == null
-			|| data.companyName.trim() == "NULL") {
-		data.companyName = "";
+	if (!dataObj.hasOwnProperty("linkMan") || dataObj.linkMan == null
+			|| dataObj.linkMan.trim() == "NULL") {
+		dataObj.linkMan = "";
 	}
 
-	if (!data.hasOwnProperty("linkPhone") || data.linkPhone == null
-			|| data.linkPhone.trim() == "NULL") {
-		data.linkPhone = "";
+	if (!dataObj.hasOwnProperty("companyName") || dataObj.companyName == null
+			|| dataObj.companyName.trim() == "NULL") {
+		dataObj.companyName = "";
+	}
+
+	if (!dataObj.hasOwnProperty("linkPhone") || dataObj.linkPhone == null
+			|| dataObj.linkPhone.trim() == "NULL") {
+		dataObj.linkPhone = "";
 	}
 
 }
+
+function checkSamplesData(dataObj) {
+	if (!dataObj.hasOwnProperty("factoryCode") || dataObj.factoryCode == null
+			|| dataObj.factoryCode.trim() == "NULL") {
+		dataObj.factoryCode = "";
+	}
+	if (!dataObj.hasOwnProperty("sampleName") || dataObj.sampleName == null
+			|| dataObj.sampleName.trim() == "NULL") {
+		dataObj.sampleName = "";
+	}
+
+	if (!dataObj.hasOwnProperty("specifications") || dataObj.specifications == null
+			|| dataObj.specifications.trim() == "NULL") {
+		dataObj.specifications = "";
+	}
+
+	if (!dataObj.hasOwnProperty("createTime") || dataObj.createTime == null
+			|| dataObj.createTime.trim() == "NULL") {
+		dataObj.createTime = "";
+	}
+
+}
+
+//返回
+function turnBack() {
+	window.history.back(-1);
+}
+
+

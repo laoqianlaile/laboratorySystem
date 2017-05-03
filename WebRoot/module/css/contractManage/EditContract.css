@@ -313,6 +313,11 @@ label.wide{
 	color: #fff;
 	font-size: blod 14px;
 }
+#show_template thead,.modal-header {
+	background-color: #364760;
+	color: #fff;
+	font-size: blod 14px;
+}
 #show_contractFileItem thead,.modal-header {
 	background-color: #364760;
 	color: #fff;

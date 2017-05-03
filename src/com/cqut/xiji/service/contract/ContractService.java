@@ -532,38 +532,8 @@ public class ContractService extends SearchService implements IContractService{
 		
 		String condition = "contractFineItem.contractID = " + ID;
 		
-		List<Map<String, Object>> result2 = entityDao.searchForeign(
-				properties, baseEntiy, joinEntity, null, condition);
-		if(!result2.isEmpty()){
-			String nameCn = "";
-			String nameEn = "";
-			String fineItemCode = "";
-			//String departmentName = "";
-			String calculateType = "";
-			String money = "";
-			String price = "";
-			String number = "";
-			String hour = "";
-			for(int i = 0; i < result2.size(); i++){
-				nameCn = result2.get(i).get("nameCn").toString();
-				nameEn = result2.get(i).get("nameEn").toString();
-				fineItemCode = result2.get(i).get("fineItemCode").toString();
-				//departmentName = result2.get(i).get("departmentName").toString();
-				calculateType = result2.get(i).get("calculateType").toString();
-				money = result2.get(i).get("money").toString();
-				price = result2.get(i).get("price").toString();
-				number = result2.get(i).get("number").toString();
-				hour = result2.get(i).get("hour").toString();
-				if(calculateType.equals("0")){
-					contractItem +="\n  "+ fineItemCode + ". " + nameCn + "(" + nameEn + ")， 每次" + price +
-							"元，共" + number + "次，共计" + money + "元。";
-				}else if(calculateType.equals("1")){
-					contractItem +="\n  "+ fineItemCode + ". " + nameCn + "(" + nameEn + ")， 每小时" + price +
-							"元，共" + hour + "次，共计" + money + "元。";
-				}
-			}
-		}
-		System.out.println(contractItem);
+		List<Map<String, Object>> result2 = entityDao.searchForeign(properties, baseEntiy, joinEntity, null, condition);
+		
 		PropertiesTool pe = new PropertiesTool();
 		
 		filePath = fileEncryptservice.decryptPath(filePath, pathPassword);
@@ -597,6 +567,7 @@ public class ContractService extends SearchService implements IContractService{
 			path +=  contractName + ".docx";
 			WordProcess wp = new WordProcess(false);
 			wp.openDocument(cacheFilePath);
+			
 			if (contractCode != null)
 				wp.replaceText("{合同编号}",contractCode.toString());
 			if (contractName != null)
@@ -615,8 +586,41 @@ public class ContractService extends SearchService implements IContractService{
 				wp.replaceText("{合同名称}",contractName.toString());
 			if (endTime != null)
 				wp.replaceText("{结束日期}",endTime.toString());
-			if (contractItem != null)
-				wp.replaceText("{合同细项}",contractItem.toString());
+			
+			if(!result2.isEmpty()){
+				String nameCn = "";
+				String nameEn = "";
+				String fineItemCode = "";
+				//String departmentName = "";
+				String calculateType = "";
+				String money = "";
+				String price = "";
+				String number = "";
+				String hour = "";
+				wp.putTxtToCell(1, 2, 5,"总计"+contractAmount.toString());
+				for(int i = 0; i < result2.size(); i++){
+					nameCn = result2.get(i).get("nameCn").toString();
+					nameEn = result2.get(i).get("nameEn").toString();
+					fineItemCode = result2.get(i).get("fineItemCode").toString();
+					//departmentName = result2.get(i).get("departmentName").toString();
+					calculateType = result2.get(i).get("calculateType").toString();
+					money = result2.get(i).get("money").toString();
+					price = result2.get(i).get("price").toString();
+					number = result2.get(i).get("number").toString();
+					hour = result2.get(i).get("hour").toString();
+					wp.addTableRow(1,2);
+					wp.putTxtToCell(1, 2, 1,fineItemCode);
+					wp.putTxtToCell(1, 2, 2,nameCn+"("+nameEn+")");
+					if(calculateType.equals("0")){
+						wp.putTxtToCell(1, 2, 3,price+"元/每次");
+						wp.putTxtToCell(1, 2, 4,number+"次");
+					}else if(calculateType.equals("1")){
+						wp.putTxtToCell(1, 2, 3,price+"元/每小时");
+						wp.putTxtToCell(1, 2, 4,hour+"小时");
+					}
+					wp.putTxtToCell(1, 2, 5,money);
+				}
+			}
 			if (contractAmount != null)
 				wp.replaceText("{合同金额}",contractAmount.toString());
 			wp.save(cacheFilePath);
