@@ -819,7 +819,7 @@ public class TestReportService extends SearchService implements
 		if (tr == null) {
 			return false;
 		} else {
-			Map<String, Object> employeeSignImage = baseEntityDao.findByID( new String[] { "singnature,stamp" }, employeeID, "ID",
+			Map<String, Object> employeeSignImage = baseEntityDao.findByID( new String[] { "singnature,stamp,employeeName" }, employeeID, "ID",
 					"employee");
 			if (employeeSignImage != null && employeeSignImage.size() > 0) {
 				String baseEntity = " ( "
@@ -858,10 +858,12 @@ public class TestReportService extends SearchService implements
 					fileEncryptservice.decryptFile(fileTruePath, cachePath, fileID);
 
 					String imgPath = pe.getSystemPram("imgPath") + "\\";
+					String employeeName = employeeSignImage.get("employeeName").toString();
 					String singnaturePath = imgPath + employeeSignImage.get("singnature").toString();
 					String stampPath = imgPath + employeeSignImage.get("stamp").toString();
 					WordProcess wp = new WordProcess(false);
 					wp.openDocument(cachePath);
+					wp.replaceText("{签发人}", employeeName);
 					wp.insertImage("{电子签名}", singnaturePath, 100, 100);
 					wp.replaceAllText("{电子签名}", "");
 					wp.insertImage("{电子盖章}", stampPath, 100, 100);

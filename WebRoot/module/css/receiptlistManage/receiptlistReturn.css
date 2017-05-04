@@ -18,7 +18,7 @@
 
 .form-control {
 	display: inline;
-	width: auto;
+	width: 70%;
 }
 
 .col-xs-8 input {
@@ -71,10 +71,8 @@
 }
 
 .col-xs-12 input,.col-md-12 input{
-	display: block;
-	width: 100%;
-	display: block;
-	width: 90%;
+	display: inline;
+	width: 70%;
 	height: 34px;
 }
 
@@ -96,4 +94,20 @@
 .container{
 	width:100%;
 	min-width:1200px;
+}
+
+.col-xs-12 label,.col-md-12 label{
+    font-family: "Microsoft YaHei-Regular";
+	font-size: 16px;
+	color: #333;
+	margin-right:10px;
+}
+
+.timeChoose{
+ width: 70%;
+ margin-top: 0px;
+}
+
+.col-xs-12,.col-md-12{
+	margin-top:10px;
 }

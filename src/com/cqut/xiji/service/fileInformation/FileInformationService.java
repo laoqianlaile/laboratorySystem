@@ -234,6 +234,33 @@ public class FileInformationService extends SearchService implements IFileInform
 	}
 	
 	@Override
+	public Map<String, Object> getContractTemplateFileWithPaging(int limit, int offset,
+			String order, String sort){
+		int index = limit;
+		int pageNum = offset/limit;
+		String tableName = "template";
+		String[] properties = new String[]{
+			"template.ID",
+			"template.name",
+			"fileInformation.fileName",
+			"template.fileID",
+			"date_format(template.createTime,'%Y.%m.%d') as createTime",
+			"case when template.templateType = 0 then '合同文件模版' end as templateType"
+		};
+		String joinEntity = " LEFT JOIN fileInformation ON template.fileID = fileInformation.ID ";
+		
+		String condition = " 1 = 1 and template.templateType = 0 and template.state = 2 ";
+		
+		List<Map<String, Object>> result  = entityDao.searchWithpaging(properties, tableName, joinEntity, null, condition, null, sort, order, index, pageNum);
+		int count = entityDao.searchForeign(properties, tableName, joinEntity, null, condition).size();
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("total", count);
+		map.put("rows", result);
+		
+		return map;
+	}
+	
+	@Override
 	public Map<String, Object> getFileInTaskViewWithPaging(String taskID, int limit, int offset, String sort, String order){
 		int index = limit;
 		int pageNum = offset/limit;

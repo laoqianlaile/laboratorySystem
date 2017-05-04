@@ -132,9 +132,9 @@ function initData() {
 									valign : 'middle',// 垂直居中显示
 									width : "10%",// 宽度
 									formatter : function(value, row, index) {
-										return "<img src ='module/img/view_icon.png'  onclick='taskView(\""
+										return "<img src ='module/img/edit_icon.png'  onclick='taskView(\""
 												+ row.ID
-												+ "\")'  title='查看任务' style='cursor:pointer;'></img> "
+												+ "\")'  title='编辑任务' style='cursor:pointer;'></img> "
 												+ "<img src ='module/img/point.png'  onclick='submitReport(\""
 												+ row.ID
 												+ "\")'  title='提交审核' style='cursor:pointer;width:18px;height:18px;'></img> "

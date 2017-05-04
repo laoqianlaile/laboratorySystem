@@ -1,5 +1,6 @@
 package com.cqut.xiji.controller.taskEquipment;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -30,8 +31,24 @@ public class TaskEquipmentController {
 	 */
 	@RequestMapping("/saveTaskEquipment")
 	@ResponseBody
-	public boolean saveTaskEquipment(String[] equipmentIDs,String taskID) {
-		boolean result = service.saveTaskEquipment(equipmentIDs,taskID);
+	public String saveTaskEquipment(String[] equipmentIDs,String taskID) {
+		String result = service.saveTaskEquipment(equipmentIDs,taskID);
+		return result;
+	}
+	
+	/**
+	 * 
+     * @discription 获取任务已登记的设备
+     * @author zt       
+     * @created 2017-5-2 下午8:33:32     
+     * @param taskID
+     * @return
+	 */
+	@RequestMapping("/getTaskEquipmentID")
+	@ResponseBody
+	public List<Map<String, Object>> getTaskEquipmentID(String taskID) {
+		List<Map<String, Object>> result = service.getTaskEquipmentID(taskID);
+		System.out.println("result :" + result);
 		return result;
 	}
 }

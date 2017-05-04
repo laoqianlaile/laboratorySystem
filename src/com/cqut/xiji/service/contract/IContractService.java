@@ -71,23 +71,10 @@ public interface IContractService {
 	 * @author hujiajun
 	 * @created 2017年3月16日 下午7:37:02
 	 * @param ID
-	 * @param contractCode
-	 * @param contractName
-	 * @param companyName
-	 * @param oppositeMen
-	 * @param linkPhone
-	 * @param employeeName
-	 * @param address
-	 * @param signAddress
-	 * @param startTime
-	 * @param signTime
-	 * @param endTime
+	 * @param fileID
 	 * @return
 	 */
-	public int coverContractFile(String ID/*,String contractCode,String contractName, String companyName,
-			String oppositeMen, String linkPhone, String employeeName,
-			String address, String signAddress, String startTime,
-			String signTime, String endTime*/);
+	public int coverContractFile(String ID, String fileID);
 
 	
 	/**

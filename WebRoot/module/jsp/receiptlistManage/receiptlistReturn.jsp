@@ -31,6 +31,7 @@
 	href="module/css/receiptlistManage/receiptlistReturn.css">
 <link rel="stylesheet" type="text/css"
 	href="module/css/commonSystem/commonSystem.css" />
+<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 <script src="assets/js/autoPage.js"></script>
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
@@ -40,6 +41,7 @@
 <script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="module/js/bootstrap-datetimepicker.fr.js"></script>
 <script src="module/js/receiptlistManage/receiptlistReturn.js"></script>
+<script src="module/js/sweetalert.min.js"></script>
 
 </head>
 <body>
@@ -133,24 +135,22 @@
 					<div class="modal-body">
 						<div class="row">
 							<div class="col-xs-12 col-md-12">
-								<h4>出厂编号:</h4>
-								<input type="text" id="show_factoryCode" name="factoryCode"
+								<label>出厂编号:</label> <input type="text" id="show_factoryCode"
+									name="factoryCode" class="form-control" />
+							</div>
+							<div class="col-xs-12 col-md-12">
+								<label>名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称:</label> <input
+									type="text" id="show_sampleName" name="sampleName"
 									class="form-control" />
 							</div>
 							<div class="col-xs-12 col-md-12">
-								<h4>名称:</h4>
-								<input type="text" id="show_sampleName" name="sampleName"
-									class="form-control" />
-							</div>
-							<div class="col-xs-12 col-md-12">
-								<h4>型号/规格/代号:</h4>
-								<input class="form-control" type="text" id="show_specifications"
+								<label>型&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</label> <input
+									class="form-control" type="text" id="show_specifications"
 									name="specifications">
 							</div>
 							<div class="col-xs-12 col-md-12">
-								<h4>录入时间:</h4>
-								<input type="text" id="show_createTimes" name="createTimes"
-									class="form-control" />
+								<label>录入时间:</label> <input type="text" id="show_createTimes"
+									name="createTimes" class="form-control" />
 							</div>
 						</div>
 					</div>
@@ -179,29 +179,30 @@
 								<input type="text" id="edit_ID" name="ID" class="form-control" />
 							</div>
 							<div class="col-xs-12 col-md-12">
-								<h4>出厂编号:</h4>
-								<input type="text" id="edit_factoryCode" name="factoryCode"
+								<label>出厂编号:</label> <input type="text" id="edit_factoryCode"
+									name="factoryCode" class="form-control" />
+							</div>
+							<div class="col-xs-12 col-md-12">
+								<label>名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称:</label> <input
+									type="text" id="edit_sampleName" name="sampleName"
 									class="form-control" />
 							</div>
 							<div class="col-xs-12 col-md-12">
-								<h4>名称:</h4>
-								<input type="text" id="edit_sampleName" name="sampleName"
-									class="form-control" />
-							</div>
-							<div class="col-xs-12 col-md-12">
-								<h4>录入时间:</h4>
-								<div class="input-group date form_datetime col-md-12">
-									<input class="form-control" size="16" type="text" value=""
-										id="edit_createTimes" name="createTimes" disabled> <span
+								<div class="timeLabelDiv">
+									<label class="control-label">录入时间 :</label>
+								</div>
+								<div class="input-group date form_datetime timeChoose">
+									<input class="form-control" id="show_createTime" size="16"
+										type="text" value="" readonly="true"> <span
 										class="input-group-addon"><span
 										class="glyphicon glyphicon-remove"></span></span> <span
 										class="input-group-addon"><span
-										class="glyphicon glyphicon-th"></span></span>
+										class="glyphicon glyphicon-calendar"></span></span>
 								</div>
 							</div>
 							<div class="col-xs-12 col-md-12">
-								<h4>型号/规格/代号:</h4>
-								<input class="form-control" type="text" id="edit_specifications"
+								<label>型&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</label> <input
+									class="form-control" type="text" id="edit_specifications"
 									name="specifications" />
 							</div>
 						</div>
@@ -229,9 +230,8 @@
 					<div class="modal-body">
 						<div class="row">
 							<div class="col-xs-12 col-md-12">
-								<h4>样品编号:</h4>
-								<input type="text" id="add_sampleCode" name="sampleCode"
-									class="form-control" />
+								<label>样品编号:</label> <input type="text" id="add_sampleCode"
+									name="sampleCode" class="form-control" />
 							</div>
 						</div>
 					</div>

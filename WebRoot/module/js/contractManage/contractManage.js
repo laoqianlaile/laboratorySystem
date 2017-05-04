@@ -16,8 +16,8 @@ function initData(){
 		pageList : [ 5,10,15 ],// 设置可供选择的页面数据条数
 		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache : false,// 禁用 AJAX 数据缓存
-		sortName : 'contractCode',// 定义排序列
-		sortOrder : 'asc',// 定义排序方式
+		sortName : 'signTime',// 定义排序列
+		sortOrder : 'desc',// 定义排序方式
 		url:'contractController/getContractWithPaging2.do',//服务器数据的加载地址
 		sidePagination:'server',//设置在哪里进行分页
 		contentType:'application/json',//发送到服务器的数据编码类型
@@ -278,6 +278,25 @@ function delData(){
 	});
 }
 
+/**
+ * 下载文件
+ * @param id
+ */
+function wdownFile(){
+	var data = $('#table').bootstrapTable('getSelections');
+	if(data.length==0 || data.length>1){
+		swal("请选中一条数据");
+		return;
+	}
+	var fileID = data[0].fileID;
+	if (!fileID || typeof(fileID) == "undefined" || fileID.trim() == "") 
+	{ 
+		swal("合同文件ID为空！"); 
+	}else {
+		downOneFile(fileID);
+	}
+}
+
 /* 新增方法 */
 function add(){
 		var parame = {};
@@ -430,20 +449,18 @@ function addShowMsg(){
 		    	if (data) {
 		    		var company,length;
 		    		var myobj = JSON.parse(data);
-		    		var htmlElement = "";//定义HTML
+		    		var htmlElement = "<ul>";//定义HTML
 		    		company = $(".companyN");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else if(myobj.length == 0){
-		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
+		    		if(myobj.length == 0){
+		    			htmlElement += "<li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li>";
 		    		}else{
 		    			length = myobj.length;
 		    		}
 		    		
 		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li id='" + myobj[i].mobilePhone +"' value='" + myobj[i].companyName + "' name='" + myobj[i].linkMan + "' title='" + myobj[i].address + "' class='" + myobj[i].ID + "'>" + myobj[i].companyName + "</li></ul>";
+		    			htmlElement += "<li id='" + myobj[i].mobilePhone +"' value='" + myobj[i].companyName + "' name='" + myobj[i].linkMan + "' title='" + myobj[i].address + "' class='" + myobj[i].ID + "'>" + myobj[i].companyName + "</li>";
 		    		}
-		    		
+		    		htmlElement += "</ul>";
 		    		company.show();
 		    		company.empty();
 		    		company.append(htmlElement);
@@ -474,20 +491,17 @@ function addGetEName(){
 		    	if (data) { 
 		    		var employee,length;
 		    		var myobj = JSON.parse(data);
-		    		var htmlElement = "";//定义HTML    
+		    		var htmlElement = "<ul>";//定义HTML    
 		    		employee = $(".employeeName");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else if(myobj.length == 0){
-		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
+		    		if(myobj.length == 0){
+		    			htmlElement += "<li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li>";
 		    		}else{
 		    			length = myobj.length;
 		    		}
-		    		
 		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].employeeName + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + "</li></ul>";
+		    			htmlElement += "<li value='" + myobj[i].employeeName + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + "</li>";
 		    		}
-		    		
+		    		htmlElement += "</ul>"
 		    		employee.show();
 		    		employee.empty();
 		    		employee.append(htmlElement);

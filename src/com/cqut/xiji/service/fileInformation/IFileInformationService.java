@@ -49,4 +49,7 @@ public interface IFileInformationService {
 			String sort, String order, String fileName, String projectID,
 			String uploadName, String beginTime, String endTime,
 			String selectPart);
+
+	public Map<String, Object> getContractTemplateFileWithPaging(int limit,
+			int offset, String order, String sort);
 }

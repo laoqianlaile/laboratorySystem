@@ -90,6 +90,11 @@ label.wide{
 	width:63%;
 }
 .companyN{
+	position: absolute;
+	height: auto;
+	max-height: 100px;
+    overflow-y: hidden;
+    overflow-x: hidden;
 	margin-left:23%;
 	position:relative;
 	width:70%;
@@ -101,12 +106,17 @@ label.wide{
 	z-index: 10;
 }
 .companyN ul {
-	height:30px;
+	display: block;
+	height:auto;
+    max-height: 100px;
+    overflow-y: scroll;
 	border:none;
 	margin:0;
 	margin-left:-40px;
 }
 .companyN ul li{
+	display: block;
+    vertical-align: middle;
 	height:30px;
 	line-height: 30px;
 	list-style-type: none;
@@ -115,11 +125,16 @@ label.wide{
 }
 .companyN ul li.noDate{
  	color: red;
+ 	height:60px;
 }
 .companyN ul li:hover{
 	background-color:#dcdcdc;
 }
 .employeeN{
+	height: auto;
+	max-height: 100px;
+    overflow-y: hidden;
+    overflow-x: hidden;
 	position:relative;
 	margin-left: 56%;
 	width:37.3%;
@@ -130,12 +145,17 @@ label.wide{
 	z-index: 10;
 }
 .employeeN ul {
-	height:30px;
+	display: block;
+	height:auto;
+    max-height: 100px;
+    overflow-y: scroll;
 	border:none;
 	margin:0;
 	margin-left: -40px;
 }
 .employeeN ul li{
+	display: block;
+    vertical-align: middle;
 	height:30px;
 	line-height: 30px;
 	list-style-type: none;
@@ -145,6 +165,7 @@ label.wide{
 .employeeN ul li.noDate{
  	color: red;
  	font-size:14px;
+ 	height:90px;
 }
 .employeeN ul li:hover{
 	background-color:#dcdcdc;
@@ -154,6 +175,10 @@ label.wide{
 }
 .testProjectName{
 	position: absolute;
+	height: auto;
+	max-height: 100px;
+    overflow-y: hidden;
+    overflow-x: hidden;
     margin-left: 21.5%;
     float: left;
     width: 66.5%;
@@ -165,12 +190,17 @@ label.wide{
     z-index: 10;
 }
 .testProjectName ul {
-	height:30px;
+	display: block;
+	height:auto;
+    max-height: 100px;
+    overflow-y: scroll;
 	border:none;
 	margin:0;
 	margin-left:-40px;
 }
 .testProjectName ul li{
+	display: block;
+    vertical-align: middle;
 	height:30px;
 	line-height: 30px;
 	list-style-type: none;
@@ -219,10 +249,6 @@ label.wide{
 	border:1px solid #ccc;
 }
 
-#show_contractFile{
-	width:99%;
-}
-
 .contractFileItem{
 	width:99%;
 	min-height:300px;
@@ -255,12 +281,11 @@ label.wide{
 
 .contractFileItem .bottom{
 	margin:20px 10px;
-	height:230px;
+	height:250px;
 	width:99%;
 	border:1px solid #ccc;
 }
 #show_contractFileItem{
-	width:99%;
 	min-width:1042px;
 }
 .footer{
@@ -284,6 +309,11 @@ label.wide{
 	border:2px solid #475879;
 }
 #show_contractFile thead,.modal-header {
+	background-color: #364760;
+	color: #fff;
+	font-size: blod 14px;
+}
+#show_template thead,.modal-header {
 	background-color: #364760;
 	color: #fff;
 	font-size: blod 14px;

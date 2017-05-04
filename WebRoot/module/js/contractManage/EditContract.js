@@ -1,7 +1,6 @@
 // 请求数据时的额外参数
 var param = {};
 
-
 $(function() {
 	setID();
 	getContractByID();
@@ -195,10 +194,112 @@ function getContractByID(){
 	}
 }
 
+function openTemplateModal(){
+	$('#templateModal').modal('show');
+	initContractTemplateFile();
+}
+
+//初始化数据
+function initContractTemplateFile(){
+	$("#show_template").bootstrapTable({
+		//height : 200,// 定义表格的高度
+		striped : true,// 隔行变色效果
+		pagination : true,// 在表格底部显示分页条
+		pageSize : 4,// 页面数据条数
+		pageNumber : 1,// 首页页码
+		pageList : [ 4 ],// 设置可供选择的页面数据条数
+		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
+		cache : false,// 禁用 AJAX 数据缓存
+		sortName : 'createTime',// 定义排序列
+		sortOrder : 'asc',// 定义排序方式
+		url:'fileInformationController/getContractTemplateFileWithPaging.do',//服务器数据的加载地址
+		sidePagination:'server',//设置在哪里进行分页
+		contentType:'application/json',//发送到服务器的数据编码类型
+		dataType:'json',//服务器返回的数据类型
+	    //queryParams:search,//请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
+		queryParams: function queryParams(params) { //请求服务器数据时,添加一些额外的参数
+			param.limit = params.limit;// 页面大小
+			param.offset = params.offset; // 偏移量
+			param.sort = params.sort; // 排序列名
+			param.order = params.order; // 排位方式
+			return param;
+		}, //参数
+	    queryParamsType: "limit", 
+		selectItemName : '',// radio or checkbox 的字段名
+		/*onLoadSuccess : function(data) {
+			checkDate(data, "file");
+			//console.log(data);
+		},*/
+		columns : [ {
+			checkbox : true,
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width :'3%',// 宽度
+			/*formatter : function(value, row, index) {
+				 checkData(row);	 //验证数据合理性					
+		    }*/
+		},{
+			field:'ID',//返回值名称
+			title:'模版ID',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:"5%",//宽度
+			visible:false
+		},{
+			field:'fileID',//返回值名称
+			title:'文件ID',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:"5%",//宽度
+			visible:false
+		},{
+			field:'name',//返回值名称
+			title:'模版名',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:"25%",//宽度
+		},{
+			field:'fileName',//返回值名称
+			title:'文件名',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:"30%",//宽度
+		},{
+			field:'createTime',//返回值名称
+			title:'创建时间',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:"12%",//宽度
+		},{
+			field:'templateType',//返回值名称
+			title:'模版类型',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:"12%",//宽度
+		}]////列配置项,详情请查看 列参数 表格
+		/*事件*/
+	});
+}
+
+//新增成功后操作
+function refrehContractTemplateTable() {
+	$('#show_template').bootstrapTable('refresh', null);
+}
+
 /**
  * 生成合同文件
  */
 function coverContractFile(){
+	var data = $('#show_template').bootstrapTable('getSelections');
+	if(data.length==0){
+		swal("请至少选中一条数据");
+		return;
+	}
+	var fileID = data[0].fileID;
+	if (!fileID || typeof(fileID) == "undefined" || fileID.trim() == "") 
+	{ 
+		swal("合同文件ID为空！"); 
+	}
 	swal("正在生成合同，请等候！"); 
 	var ID = GetQueryString("ID");; 
 	if (!ID || typeof(ID) == "undefined" || ID.trim() == "") 
@@ -206,7 +307,8 @@ function coverContractFile(){
 		swal("合同ID为空！"); 
 	}else {
 		var parame = {};
-		parame.ID = ID;ttp://eclipsecolorthemes.org/
+		parame.ID = ID;
+		parame.fileID = fileID;
 		
 			$.ajax({
 			  url:'contractController/coverContractFile.do',
@@ -214,13 +316,13 @@ function coverContractFile(){
 			  data:parame,
 			  dataType:'json',
 			  success:function(o){
-				  if(o == 0){
+				  if(o == -3){
 					  swal("不存在合同模板文件!");
 				  }else if(o == -4){
 					  swal("合同模板文件被删除!");
 				  }else if(o == 1){
 					  swal("合同已生成！"); 
-					  setTimeout(refrehFileTable, 1000);
+					  setTimeout(refresh, 1000);
 				  }
 			  },
 			  error:function(o){
@@ -238,11 +340,31 @@ function downFile(id){
 	downOneFile(id);
 }
 
+/**
+ * 下载模版文件
+ * @param id
+ */
+function tdownFile(){
+	var data = $('#show_template').bootstrapTable('getSelections');
+	if(data.length==0){
+		swal("请至少选中一条数据");
+		return;
+	}
+	var fileID = data[0].fileID;
+	if (!fileID || typeof(fileID) == "undefined" || fileID.trim() == "") 
+	{ 
+		swal("合同文件ID为空！"); 
+	}else{
+		downOneFile(fileID);
+	}
+}
+
 function openFile(id){
 	$.post("fileOperateController/onlinePreview.do", {
 		ID : id
 	}, function(result) {
-		if (result != null || result != "null") {
+		result = eval(result);
+		if (result != null && result != "null") {
 			window.location.href = "module/jsp/documentOnlineView.jsp";
 		} else {
 			swal("无法查看");
@@ -607,7 +729,7 @@ function showFileUploadModal(){
 	$("#fileName").html("");
 	param.type = 1;
 	param.firstDirectory = "项目文件";
-	param.secondDirectory = "";
+	param.secondDirectory = $('#edit_contractName').val();
 	param.thirdDirectory = "合同文件";
 	param.belongtoID = $('#edit_contractID').val();
 	param.fileSummaryInfo = "";
@@ -629,7 +751,7 @@ function uploadFile() {
 		var fileID = JSON.parse(data.result);
 		if(fileID != null && fileID != "null" && fileID != ""){
 			swal("上传文件成功","","success");
-			updContractState();
+			setTimeout(updContractState,500);
 			setTimeout(refresh, 1000);
 		}
 	});
@@ -783,15 +905,15 @@ function addGetTPName(){
 		    		var myobj = JSON.parse(data);
 		    		var htmlElement = "";//定义HTML
 		    		testProject = $(".testProjectName");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else if(myobj.length == 0){
+		    		if(myobj.length == 0){
 		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
 		    		}else{
 		    			length = myobj.length;
-		    		}
-		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].nameCn + " | " + myobj[i].nameEn + "' title='" + myobj[i].nameCn + "' name='" + myobj[i].ID + "'>" + myobj[i].nameCn + " | " + myobj[i].nameEn + "</li></ul>";
+		    			htmlElement += "<ul>";
+		    			for(var i=0; i < length; i++){
+			    			htmlElement += "<li value='" + myobj[i].nameCn + " | " + myobj[i].nameEn + "' class='" + myobj[i].departmentID + "' title='" + myobj[i].nameCn + "' name='" + myobj[i].ID + "'>" + myobj[i].nameCn + " | " + myobj[i].nameEn + "</li>";
+			    		}
+		    			htmlElement += "</ul>";
 		    		}
 		    		 
 		    		testProject.show();
@@ -814,6 +936,11 @@ function addClick(){
 			 name = "";
 			}
 		 $("#add_testProjectName").val(name);
+		 var departmentID =  $(this).attr("class");
+		 if (departmentID == null || departmentID.trim() == "" || departmentID == "undefined") {
+			 departmentID = "";
+			}
+		 $("#add_departmentName").val(departmentID);
 		 var ID =  $(this).attr("name");
 		 var nameCn =  $(this).attr("title");
 		 if (ID == null || ID.trim() == "" || ID == "undefined") {
@@ -859,16 +986,17 @@ function editGetTPName(){
 		    		var myobj = JSON.parse(data);
 		    		var htmlElement = "";//定义HTML
 		    		testProject = $(".testProjectName");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else if(myobj.length == 0){
+		    		if(myobj.length == 0){
 		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
 		    		}else{
 		    			length = myobj.length;
+		    			htmlElement += "<ul>";
+		    			for(var i=0; i < length; i++){
+			    			htmlElement += "<li value='" + myobj[i].nameCn + " | " + myobj[i].nameEn + "' class='" + myobj[i].departmentID + "' title='" + myobj[i].nameCn + "' name='" + myobj[i].ID + "'>" + myobj[i].nameCn + " | " + myobj[i].nameEn + "</li>";
+			    		}
+		    			htmlElement += "</ul>";
 		    		}
-		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<ul><li value='" + myobj[i].nameCn + " | " + myobj[i].nameEn + "' title='" + myobj[i].nameCn + "' name='" + myobj[i].ID + "'>" + myobj[i].nameCn + " | " + myobj[i].nameEn + "</li></ul>";
-		    		}
+		    		
 		    		 
 		    		testProject.show();
 		    		testProject.empty();
@@ -893,7 +1021,7 @@ function showSth(){
 	    		 var department;
 	    		 var myobj = JSON.parse(data);
 	    		 var htmlElement = "";//定义HTML    
-	    		 department=$("#add_departmentName1");
+	    		 department=$("#add_departmentName");
 	    		 for(var i=0;i<myobj.length;i++){
 	    			 htmlElement += "<option value='" + myobj[i].ID + "'>" + myobj[i].departmentName + "</option>";
 	    		 }
@@ -916,7 +1044,7 @@ function editSth(){
 	    		 var department;
 	    		 var myobj = JSON.parse(data);
 	    		 var htmlElement = "";//定义HTML    
-	    		 department=$("#edit_departmentName1");
+	    		 department=$("#edit_departmentName");
 	    		 for(var i=0;i<myobj.length;i++){
 	    			 htmlElement += "<option value='" + myobj[i].ID + "'>" + myobj[i].departmentName + "</option>";
 	    		 }
@@ -1015,17 +1143,17 @@ function editShowMsg(){
 		    		var myobj = JSON.parse(data);
 		    		var htmlElement = "";//定义HTML
 		    		company = $(".companyN");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else if(myobj.length == 0){
-		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息</li></ul><ul><li class='noDate'>或新增对应数据</li></ul>";
+		    		if(myobj.length == 0){
+		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
 		    		}else{
 		    			length = myobj.length;
+		    			htmlElement += "<ul>";
 		    			for(var i=0; i < length; i++){
-			    			htmlElement += "<ul><li id='" + myobj[i].mobilePhone +"' value='" + myobj[i].companyName + "' name='" + myobj[i].linkMan + "' title='" + myobj[i].address + "' class='" + myobj[i].ID + "'>" + myobj[i].companyName + "</li></ul>";
+			    			htmlElement += "<li id='" + myobj[i].mobilePhone +"' value='" + myobj[i].companyName + "' name='" + myobj[i].linkMan + "' title='" + myobj[i].address + "' class='" + myobj[i].ID + "'>" + myobj[i].companyName + "</li>";
 			    		}
+		    			htmlElement += "</ul>";
 		    		}
-		    		
+	    			
 		    		company.show();
 		    		company.empty();
 		    		company.append(htmlElement);
@@ -1059,17 +1187,15 @@ function editGetEName(){
 		    		var myobj = JSON.parse(data);
 		    		var htmlElement = "";//定义HTML    
 		    		employee = $(".employeeN");
-		    		if(myobj.length > 4){
-		    			length = 4;
-		    		}else if(myobj.length == 0){
-		    			htmlElement += "<ul><li class='noDate'>没有查到数据，</li></ul>" +
-		    					"<ul><li class='noDate'>请更改输入信息</li></ul>" +
-		    					"<ul><li class='noDate'>或新增对应数据</li></ul>";
+		    		if(myobj.length == 0){
+		    			htmlElement += "<ul><li class='noDate'>没有查到数据,请更改输入信息或新增对应数据</li></ul>";
 		    		}else{
 		    			length = myobj.length;
+		    			htmlElement += "<ul>";
 		    			for(var i=0; i < length; i++){
-			    			htmlElement += "<ul><li value='" + myobj[i].employeeName + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + "</li></ul>";
+			    			htmlElement += "<li value='" + myobj[i].employeeName + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + "</li>";
 			    		}
+		    			htmlElement += "</ul>";
 		    		}
 		    		
 		    		employee.show();
@@ -1126,7 +1252,15 @@ function editClick(){
 	//给input赋值
 	$(".testProjectName ul li").click(function(){
 		 var name =  $(this).attr("value");
+		 if (name == null || name.trim() == "" || name == "undefined") {
+			 name = "";
+			}
 		 $("#edit_testProjectName").val(name);
+		 var departmentID =  $(this).attr("class");
+		 if (departmentID == null || departmentID.trim() == "" || departmentID == "undefined") {
+			 departmentID = "";
+			}
+		 $("#edit_departmentName").val(departmentID);
 		 var ID =  $(this).attr("name");
 		 var nameCn =  $(this).attr("title");
 		 if (ID == null || ID.trim() == "" || ID == "undefined") {
@@ -1364,10 +1498,10 @@ function edit(){
 				  		break;
 				  	case -4:swal("公司名与公司ID不相符！");
 			  			break;
-					case 1:swal("修改成功！");
-						setTimeout(goback, 1000);
+					case 1:swal("保存成功！");
+						setTimeout(refresh, 1000);
 						break;
-					case 0:swal("修改失败！");
+					case 0:swal("保存失败！");
 						break;
 					default:
 						break;
@@ -1392,19 +1526,17 @@ function checknum(obj)
 
 //新增合同细项方法 
 function addItem(){
-	
+	edit();
 	var parame = {};
 	var fineItemCode = $('#add_fineItemCode').val();
 	var testProjectID = $('#add_testProjectName').attr("name");
 	var testProjectName = $('#add_testProjectName').attr("title");
-	var isOutsourcing = $("input[name='isOutsourcing1']:checked").val();
 	var calculateType = $("input[name='calculateType1']:checked").val();
 	var number = $('#add_number').val();
 	var price1 = $('#add_price1').val();
 	var hour = $('#add_hour').val();
 	var price2 = $('#add_price2').val();
-	var departmentName1 = $('#add_departmentName1').val();
-	var departmentName2 = $('#add_departmentName2').val();
+	var departmentName = $('#add_departmentName').val();
 	var remarks = $('#add_remarks').val();
 	
 	if (!fineItemCode || typeof(fineItemCode) == "undefined" || fineItemCode.trim() == "") 
@@ -1417,25 +1549,6 @@ function addItem(){
 		swal("检测项目不能为空！"); 
 		return;
 	}
-	if(isOutsourcing == 0){
-		if (!departmentName1 || typeof(departmentName1) == "undefined" || departmentName1.trim() == "") 
-		{
-			swal("检测单位不能为空！");
-			return;
-		}
-		parame.isOutsourcing = isOutsourcing;
-		parame.departmentID = departmentName1;
-	}
-	if(isOutsourcing == 1){
-		if (!departmentName2 || typeof(departmentName2) == "undefined" || departmentName2 .trim() == "") 
-		{
-			swal("外包单位不能为空！");
-			return;
-		}
-		parame.isOutsourcing = isOutsourcing;
-		parame.departmentID = departmentName2;
-	}
-	
 	if(calculateType == 0){
 		if (!number || typeof(number) == "undefined" || number.trim() == "") 
 		{ 
@@ -1469,6 +1582,23 @@ function addItem(){
 		parame.number = 0;
 		parame.price = price2;
 		parame.money = hour * price2;
+	}
+	if(departmentName != 11){
+		if (!departmentName || typeof(departmentName) == "undefined" || departmentName.trim() == "") 
+		{
+			swal("检测单位不能为空！");
+			return;
+		}
+		parame.isOutsourcing = 0;
+		parame.departmentID = departmentName;
+	}else{
+		if (!departmentName || typeof(departmentName) == "undefined" || departmentName .trim() == "") 
+		{
+			swal("外包单位不能为空！");
+			return;
+		}
+		parame.isOutsourcing = 1;
+		parame.departmentID = departmentName;
 	}
 	if (!remarks || typeof(remarks) == "undefined" || remarks.trim() == "") 
 	{ 
@@ -1538,19 +1668,17 @@ function delFileItem(id,fineItemCode){
 
 //编辑合同细项方法 
 function editItem(){
-	
+	edit();
 	var parame = {};
 	var fineItemCode = $('#edit_fineItemCode').val();
 	var testProjectID = $('#edit_testProjectName').attr("name");
 	var testProjectName = $('#edit_testProjectName').attr("title");
-	var isOutsourcing = $("input[name='isOutsourcing2']:checked").val();
 	var calculateType = $("input[name='calculateType2']:checked").val();
 	var number = $('#edit_number').val();
 	var price1 = $('#edit_price1').val();
 	var hour = $('#edit_hour').val();
 	var price2 = $('#edit_price2').val();
-	var departmentName1 = $('#edit_departmentName1').val();
-	var departmentName2 = $('#edit_departmentName2').val();
+	var departmentName = $('#edit_departmentName').val();
 	var remarks = $('#edit_remarks').val();
 		
 	if (!fineItemCode || typeof(fineItemCode) == "undefined" || fineItemCode.trim() == "") 
@@ -1563,25 +1691,23 @@ function editItem(){
 		swal("检测项目不能为空！"); 
 		return;
 	}
-	if(isOutsourcing == 0){
-		if (!departmentName1 || typeof(departmentName1) == "undefined" || departmentName1.trim() == "") 
+	if(departmentName != 11){
+		if (!departmentName || typeof(departmentName) == "undefined" || departmentName.trim() == "") 
 		{
 			swal("检测单位不能为空！");
 			return;
 		}
-		parame.isOutsourcing = isOutsourcing;
-		parame.departmentID = departmentName1;
-	}
-	if(isOutsourcing == 1){
-		if (!departmentName2 || typeof(departmentName2) == "undefined" || departmentName2 .trim() == "") 
+		parame.isOutsourcing = 0;
+		parame.departmentID = departmentName;
+	}else{
+		if (!departmentName || typeof(departmentName) == "undefined" || departmentName .trim() == "") 
 		{
 			swal("外包单位不能为空！");
 			return;
 		}
-		parame.isOutsourcing = isOutsourcing;
-		parame.departmentID = departmentName2;
+		parame.isOutsourcing = 1;
+		parame.departmentID = departmentName;
 	}
-	
 	if(calculateType == 0){
 		if (!number || typeof(number) == "undefined" || number.trim() == "") 
 		{ 

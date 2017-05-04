@@ -59,6 +59,8 @@
 .form-control {
 	display: inline;
 	width: 70%;
+}
+.row .form-control {
 	float:right;
 }
 .row1 .form-control {
@@ -110,8 +112,12 @@
 	height:470px;
 }
 .companyN{
+	position: absolute;
+	height: auto;
+	max-height: 100px;
+    overflow-y: hidden;
+    overflow-x: hidden;
 	margin-left:17.65%;
-	position:absolute;
 	width:74%;
 	display:none;
 	border:1px solid #ccc;
@@ -121,12 +127,18 @@
 	z-index: 10;
 }
 .companyN ul {
-	height:30px;
+	display: block;
+	height:auto;
+    max-height: 100px;
+    overflow-y: scroll;
 	border:none;
+	border-radius:3px;
 	margin:0;
 	margin-left:-40px;
 }
 .companyN ul li{
+	display: block;
+    vertical-align: middle;
 	height:30px;
 	line-height: 30px;
 	list-style-type: none;
@@ -141,8 +153,12 @@
 }
 
 .employeeName {
+	position: absolute;
+	height: auto;
+	max-height: 100px;
+    overflow-y: hidden;
+    overflow-x: hidden;
 	margin-left:17.65%;
-	position:absolute;
 	width:74%;
 	display: none;
 	border: 1px solid #ccc;
@@ -153,13 +169,18 @@
 }
 
 .employeeName ul {
-	height: 30px;
+	display: block;
+	height:auto;
+    max-height: 100px;
+    overflow-y: scroll;
 	border: none;
 	margin: 0;
 	margin-left: -40px;
 }
 
 .employeeName ul li {
+	display: block;
+    vertical-align: middle;
 	height: 30px;
 	line-height: 30px;
 	list-style-type: none;
