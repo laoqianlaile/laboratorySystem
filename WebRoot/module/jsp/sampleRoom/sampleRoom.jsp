@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="../../css/sampleRoom/sampleRoom.css" />
 <link rel="stylesheet" type="text/css" href="../../css/commonSystem/commonSystem.css" />
 <link rel="stylesheet" type="text/css" href="../../css/sweetalert.css">
+<link rel="stylesheet" type="text/css" href="../../css/bootstrap-datetimepicker.css">
 
 <script src="../../js/jquery-2.1.1.min.js"></script>
 <script src="../../js/bootstrap.js"></script>
@@ -18,7 +19,9 @@
 <script src="../../js/bootstrap-table-zh-CN.js"></script>
 <script src="../../../assets/js/autoPage.js"></script>
 <script src="../../js/sweetalert.min.js"></script>
-
+<script src="../../js/bootstrap-datetimepicker.js"></script>
+<script src="../../js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="../../js/bootstrap-datetimepicker.fr.js"></script>
 
 
 </head>
@@ -79,7 +82,7 @@
 			class="btn btn-primary glyphicon glyphicon-search"
 			onclick="seacher()">&nbsp;查询</button>
 		<button type="button" class="btn btn-primary glyphicon glyphicon-plus"
-			data-toggle="modal" data-target="#addModal">&nbsp;新增</button>
+			onclick="addSample()">&nbsp;新增</button>
 	<!-- 	<button type="button" onclick="showModal()"
 			class="btn btn-primary glyphicon glyphicon-show">&nbsp;查看</button>
 		<button type="button" onclick="openModal()"
@@ -108,7 +111,7 @@
 							<h4>出厂编号：</h4>
 							<input type="text" id="addFactoryCode" name="addFactoryCode"
 								class="form-control" aria-describedby="basic-addon1"
-								  onblur="isExitFactory('add')"/> <!-- onpropertychange="set_alert_wb_comment(this,'onp')" oninput="set_alert_wb_comment(this,'oni')" -->
+								  onblur="isExitFactory('add')" value=""/> <!-- onpropertychange="set_alert_wb_comment(this,'onp')" oninput="set_alert_wb_comment(this,'oni')" -->
 							<div class="tip-factory  ">
 							     <div class="tip-factory-content"></div>
 							</div>
@@ -116,12 +119,12 @@
 						<div class="col-xs-12 col-md-12">
 							<h4>样品名称：</h4>
 							<input type="text" id="addSampleName" name="addSampleName"
-								class="form-control" aria-describedby="basic-addon1" />
+								class="form-control" aria-describedby="basic-addon1" value=""/>
 						</div>
 						<div class="col-xs-12 col-md-12">
 							<h4>规格/型号：</h4>
 							<input type="text" id="addSampleType" name="addSampleType"
-								class="form-control" aria-describedby="basic-addon1" />
+								class="form-control" aria-describedby="basic-addon1" value=""/>
 						</div>
 						<!-- <div class="col-xs-12 col-md-12">
 							<h4>交接单号：</h4>
@@ -140,7 +143,7 @@
 						<div class="col-xs-12 col-md-12">
 							<h4>备注：</h4>
 							<input type="text" id="addRemarks" name="addRemarks"
-								class="form-control" aria-describedby="basic-addon1" />
+								class="form-control" aria-describedby="basic-addon1" value=""/>
 						</div>
 
 					</div>
@@ -286,4 +289,18 @@
 
 </body>
 <script src="../../js/sampleRoom/sampleRoom.js"></script>
+<script type="text/javascript">
+	$('.form_datetime').datetimepicker({
+	    language: 'zh-CN',
+	    weekStart: 1,
+	    todayBtn: 1,
+	    autoclose: 1,
+	    todayHighlight: 1,
+	    startView: 2,
+	    minView: 2,
+	    maxView: 3,
+	    forceParse: 0,
+	    format: 'yyyy-mm-dd'
+	});
+	</script>
 </html>
