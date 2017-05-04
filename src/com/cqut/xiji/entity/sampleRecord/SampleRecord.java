@@ -16,7 +16,16 @@ public class SampleRecord extends Entity{
 	private Date returnTime;
 	private String remarks;
 	private String sampleID;
+	private int type;
 	
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
 	public String getID() {
 		return ID;
 	}	

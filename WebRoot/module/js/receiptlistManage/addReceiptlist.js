@@ -439,7 +439,10 @@ function dealReSave() {
 				success : function(o) {
 					data = JSON.parse(o);
 					if (data == true)
-						window.location = "./module/jsp/receiptlistManage/receiptlistManage.jsp";
+						{
+						   window.history.back(); 
+						//  window.location = "./module/jsp/receiptlistManage/receiptlistManage.jsp";
+						}
 				},
 				error : function() {
 					swal(" 保存交接单失败");
@@ -806,7 +809,7 @@ function initSample() {
 						pagination : true,// 在表格底部显示分页条
 						pageSize : 5,// 页面数据条数
 						pageNumber : 1,// 首页页码
-						pageList : [ 5, 10, 15 ],// 设置可供选择的页面数据条数
+						pageList : [ 3, 5, 8 ],// 设置可供选择的页面数据条数
 						clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和
 						// checkbox
 						cache : false,// 禁用 AJAX 数据缓存

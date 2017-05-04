@@ -954,7 +954,7 @@ public class ReceiptlistService extends SearchService implements
 		String joinEntity = " LEFT JOIN receiptlist ON contract.ID = receiptlist.contractID "
 		+"  LEFT JOIN company ON contract.companyID = company.ID  "
 		+"  LEFT JOIN project ON project.contractID = contract.ID "; // 关联条件
-		String condition = " contract.state >= 4  "; // 查询条件
+		String condition = null; // 查询条件
 		List<Map<String, Object>> list = entityDao.searchWithpaging(properties,
 				baseEntity, joinEntity, null, condition, null,
 				" contract.signTime  ", " DESC ", pageNum, pageIndex);
