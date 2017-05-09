@@ -95,6 +95,8 @@ public class SampleRecordService extends SearchService implements
 				"sampleRecord.remarks",
 				"sample.sampleName",
 				"sample.specifications",
+				"case when sampleRecord.Type=0 then '领样'"
+						+ "when sampleRecord.Type=1 then '还样' end  as Type ",
 				"case when sample.state=0 then '未领用'"
 						+ "when sample.state=1 then '领用' end  as state ",
 				"employee2.employeeName AS getMan",
@@ -152,7 +154,7 @@ public class SampleRecordService extends SearchService implements
 	@Override
 	public String addSampleRecord(String factoryCode, String sampleName,
 			String specifications, String getMan, String getTime,
-			String returnMan, String returnTime, String remarks) {
+			String type, String remarks) {
 		SampleRecord sampleRecord = new SampleRecord();
 		sampleRecord.setID(EntityIDFactory.createId());
 		sampleRecord.setFactoryCode(factoryCode);
@@ -164,14 +166,8 @@ public class SampleRecordService extends SearchService implements
 		}
 		sampleRecord.setRemarks(remarks);
 		sampleRecord.setGetMan(getMan);
-		sampleRecord.setReturnMan(returnMan);
-		System.out.println("returnTime" + returnTime);
-
-		if (!returnTime.equals("") && returnTime != null) {
-			sampleRecord.setReturnTime(StrToDate(returnTime));
-		} else {
-			sampleRecord.setReturnTime(null);
-		}
+		sampleRecord.setType(Integer.parseInt(type));
+		
 
 		int result = entityDao.save(sampleRecord);
 		String[] properties = new String[] { "sample.ID", };
@@ -182,10 +178,9 @@ public class SampleRecordService extends SearchService implements
 				.findByCondition(properties, condition, Sample.class).get(0)
 				.get("ID");
 		Sample sample = entityDao.getByID(str, Sample.class);
-
-		if (!getMan.equals("") && returnMan.equals("")) {
+		if(type.equals("0")){
 			sample.setState(1);
-		} else {
+		}else {
 			sample.setState(0);
 		}
 		int result1 = entityDao.updatePropByID(sample, str);
@@ -197,27 +192,19 @@ public class SampleRecordService extends SearchService implements
 	@Override
 	public String updSampleRecord(String ID, String sampleID,
 			String factoryCode, String sampleName, String specifications,
-			String getManID, String getTime, String returnManID,
-			String returnTime, String remarks) {
+			String getManID, String getTime, String remarks) {
 		SampleRecord sampleRecord = entityDao.getByID(ID, SampleRecord.class);
 		sampleRecord.setFactoryCode(factoryCode);
 		sampleRecord.setGetMan(getManID);
 		sampleRecord.setGetTime(StrToDate(getTime));
-		sampleRecord.setReturnMan(returnManID);
-		sampleRecord.setReturnTime(StrToDate(returnTime));
 		sampleRecord.setRemarks(remarks);
 		int result = entityDao.updatePropByID(sampleRecord, ID);
 
 		Sample sample = entityDao.getByID(sampleID, Sample.class);
 
-		if (!getManID.equals("") && returnManID.equals("")) {
-			sample.setState(1);
-		} else {
-			sample.setState(0);
-		}
-		int result1 = entityDao.updatePropByID(sample, sampleID);
+		
 
-		return result + "" + result1 + "";
+		return result+"";
 	}
 	@Override
 	public List<Map<String, Object>> getFactoryCode(String factoryCode) {
