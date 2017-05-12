@@ -493,6 +493,10 @@ margin: 15px;
 							<h4>样品型号：</h4>
 							<input type="text" id="look_specifications" name="specifications" readonly="true"
 								class="form-control" aria-describedby="basic-addon1" />
+						</div><div class="col-xs-12 col-md-12">
+							<h4>数据类型：</h4>
+							<input type="text" id="type" name="type" readonly="true"
+								class="form-control" aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
 							<h4>领样人：</h4>

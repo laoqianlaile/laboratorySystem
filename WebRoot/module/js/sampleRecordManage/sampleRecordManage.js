@@ -648,7 +648,7 @@ function lookData(){
 	$('#look_getMan').val(data[0].getMan);
 	$('#look_getTime').val(data[0].getTime);
 	$('#look_remarks').val(data[0].remarks);
-
+	$('#type').val(data[0].Type);
 	$('#lookModal input').attr("disabled", "disabled");
 	$('#lookModal').modal('show');
 }
