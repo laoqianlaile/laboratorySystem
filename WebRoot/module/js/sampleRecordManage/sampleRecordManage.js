@@ -73,30 +73,23 @@
 			width:'5%',//宽度
 		},{
 			field:'getMan',//返回值名称
-			title:'领样人',//列名
+			title:'操作人',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'10%'//宽度
 		},{
 			field:'getTime',//返回值名称
-			title:'领样时间',//列名
+			title:'时间',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'17%'//宽度
 		}
 		,{
-			field:'returnMan',//返回值名称
-			title:'还样人',//列名
+			field:'Type',//返回值名称
+			title:'类别',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'10%'//宽度
-		}
-		,{
-			field:'returnTime',//返回值名称
-			title:'还样时间',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-			width:'17%'//宽度
 		},{
 			field:'remarks',//返回值名称
 			title:'备注',//列名
@@ -176,6 +169,7 @@ function aaa(){
 			  success:function(result){
 				$('#add_sampleName').val(result.sampleName);
 				$('#add_specifications').val(result.specifications);
+				Judge();
 			},
 			error:function(result){
 				swal("没这个样品");
@@ -253,6 +247,7 @@ function aaa1(){
 			  success:function(result){
 				$('#edit_sampleName').val(result.sampleName);
 				$('#edit_specifications').val(result.specifications);
+				EJudge();
 			},
 			error:function(result){
 				swal("没这个样品");
@@ -535,9 +530,40 @@ function Judge(){
 	    success:function(data){ 
 	    		
 	    	if (data.state=="1") {
-	    		swal("样品未还");
+	    		$("#returnSample").attr("checked","checked");
+	    		//$("input[type=radio]").attr("checked",1);
 		    }else {
-		    	add();
+		    	$("#getSample").attr("checked","checked");
+		    	//$("input[type=radio]").attr("checked",0);
+		    }
+	    	
+	    	
+		},
+	   error:function(data){ 
+		swal("没这个样品");
+		} 
+	
+	});
+	
+}
+function EJudge(){
+	var parame = {};
+	parame.factoryCode = $('#edit_factoryCode').val();
+	var fl=true;
+
+	$.ajax({  
+	    url:'sampleRecordController/addJudge.do',// 跳转到 action  
+	    type:'post',
+	    data:parame,
+	    dataType:'json',
+	    success:function(data){ 
+	    		
+	    	if (data.state=="1") {
+	    		$("#EreturnSample").attr("checked","checked");
+	    		//$("input[type=radio]").attr("checked",1);
+		    }else {
+		    	$("#EgetSample").attr("checked","checked");
+		    	//$("input[type=radio]").attr("checked",0);
 		    }
 	    	
 	    	
@@ -565,9 +591,9 @@ function add(){
 		parame.specifications = $('#add_specifications').val();
 		parame.getMan = $('#add_getMan').attr('name');
 		parame.getTime = $('#add_getTime').val();
-		parame.returnMan = $('#add_returnMan').attr('name');
-		parame.returnTime = $('#add_returnTime').val();
 		parame.remarks = $('#add_remarks').val();
+		parame.type = $("input[name='type']:checked").val();
+		swal(parame.type);
 
 		if (parame.getMan != "") {
 			$("input").val("");
@@ -584,7 +610,7 @@ function add(){
 			} else
 				swal("没这个样品");
 		} else
-			swal("没领样人")
+			swal("没操作人")
 	
 	
 		
@@ -621,10 +647,8 @@ function lookData(){
 	$('#look_specifications').val(data[0].specifications);
 	$('#look_getMan').val(data[0].getMan);
 	$('#look_getTime').val(data[0].getTime);
-	$('#look_returnMan').val(data[0].returnMan);
-	$('#look_returnTime').val(data[0].returnTime);
 	$('#look_remarks').val(data[0].remarks);
-
+	$('#type').val(data[0].Type);
 	$('#lookModal input').attr("disabled", "disabled");
 	$('#lookModal').modal('show');
 }
@@ -648,8 +672,6 @@ function openModal(){
 	$('#edit_getMan').attr({'name' : "" + data[0].getManID + ""});
 	$('#edit_getTime').val(data[0].getTime);
 	$('#edit_returnMan').val(data[0].returnMan);
-	$('#edit_returnMan').attr({'name' : "" + data[0].returnManID + ""});
-	$('#edit_returnTime').val(data[0].returnTime);
 	$('#edit_remarks').val(data[0].remarks);
 	$('#editModal').modal('show');
 }
@@ -702,8 +724,6 @@ function edit(){
 	parame.specifications = $('#edit_specifications').val();
 	parame.getManID =  $('#edit_getMan').attr('name');
 	parame.getTime = $('#edit_getTime').val();
-	parame.returnManID = $('#edit_returnMan').attr('name');
-	parame.returnTime = $('#edit_returnTime').val();
 	parame.remarks = $('#edit_remarks').val();
 	
 	

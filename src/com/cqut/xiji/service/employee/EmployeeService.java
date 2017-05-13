@@ -284,7 +284,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 					"employee.roleID",
 					"employee.departmentID",
 					"employee.dutyID",
-					"role.name",
+					"(select GROUP_CONCAT(role.`name`) from role where FIND_IN_SET(role.ID,employee.roleID))as roleName",
 					"department.departmentName",
 					"duty.dutyName",
 					"case when employee.sex = 0 then '女'"
@@ -294,8 +294,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 					+ "when employee.state = 1 then '启用' end as state",
 			};
 			
-			String joinEntity = " left join role on employee.roleID = role.ID "
-					+ " left join department on employee.departmentID = department.ID "
+			String joinEntity =  " left join department on employee.departmentID = department.ID "
 					+ " left join duty on employee.dutyID = duty.ID ";
 			int permission=1;
 			String condition = "1 = 1 and employee.permission="+permission;

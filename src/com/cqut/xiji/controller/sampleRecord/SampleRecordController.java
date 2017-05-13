@@ -36,9 +36,9 @@ public class SampleRecordController{
 	 */
 	@RequestMapping("/addSampleRecord")
 	@ResponseBody
-	public String addSampleRecord(String factoryCode,String sampleName,String specifications,String getMan,String getTime,String returnMan,String returnTime,String remarks){
+	public String addSampleRecord(String factoryCode,String sampleName,String specifications,String getMan,String getTime,String type,String remarks){
 	
-		String result = service.addSampleRecord(factoryCode,sampleName,specifications,getMan,getTime,returnMan,returnTime,remarks);
+		String result = service.addSampleRecord(factoryCode,sampleName,specifications,getMan,getTime,type,remarks);
 		return result;
 	}
 	/**
@@ -58,8 +58,8 @@ public class SampleRecordController{
 	 */
 	@RequestMapping("/updSampleRecord")
 	@ResponseBody
-	public String updSampleRecord(String ID,String sampleID,String factoryCode,String sampleName,String specifications,String getManID,String getTime,String returnManID,String returnTime,String remarks){
-		String result = service.updSampleRecord(ID,sampleID ,factoryCode, sampleName, specifications, getManID, getTime, returnManID, returnTime,remarks);
+	public String updSampleRecord(String ID,String sampleID,String factoryCode,String sampleName,String specifications,String getManID,String getTime,String remarks){
+		String result = service.updSampleRecord(ID,sampleID ,factoryCode, sampleName, specifications, getManID, getTime,remarks);
 		return result;
 	}
 	/**

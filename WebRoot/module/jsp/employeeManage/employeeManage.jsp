@@ -34,12 +34,14 @@
 <script src="module/js/bootstrap.js"></script>
 <script src="module/js/bootstrap-table.js"></script>
 <script src="module/js/bootstrap-table-zh-CN.js"></script>
+<script src="module/js/bootstrap-select.js"></script>
+<link rel="stylesheet" type="text/css" href="module/css/bootstrap-select.css">
+<link rel="stylesheet" type="text/css" href="module/css/bootstrap-select.min.css">
 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 
 <script src="module/js/sweetalert.min.js"></script>
 <script src="module/js/alert.js"></script>
 <script src="assets/js/autoPage.js"></script>
-
 
 <style type="text/css">
 </style>
@@ -53,28 +55,28 @@
 				<div class="content">
 					<div class="row" style="margin-top:10px;">
 						<div class="col-xs-3 col-md-3 col-lg-3">
-							<label>员工姓名 ： </label> <input type="text"
+							<label class="control-label">员工姓名 ： </label> <input type="text"
 								id="search_employeeName" name="employeeName"
 								class="form-control" placeholder="请输入名称查找" />
 						</div>
 						<div class="col-xs-3 col-md-3 col-lg-3">
-							<label>员工编码 ： </label> <input type="text"
+							<label class="control-label">员工编码 ： </label> <input type="text"
 								id="search_employeeCode" name="employeeCode"
 								class="form-control" placeholder="请输入员工编码查找" />
 						</div>
 						<div class="col-xs-3 col-md-3 col-lg-3">
-							<label>登&nbsp;&nbsp;录&nbsp;&nbsp;名 ： </label> <input type="text"
+							<label class="control-label">登录名 ： </label> <input type="text"
 								id="search_loginName" name="loginName" class="form-control"
 								placeholder="请输入登录名查找" />
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-xs-3 col-md-3 col-lg-3">
-							<label>电话号码 ： </label> <input type="text" id="search_phoneNumber"
+							<label class="control-label">电话号码 ： </label> <input type="text" id="search_phoneNumber"
 								name="phoneNumber" class="form-control" placeholder="请输入电话号码查找" />
 						</div>
 						<div class="col-xs-3 col-md-3 col-lg-3">
-							<label>部&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;门 ： </label> <select
+							<label class="control-label">部门 :</label> <select
 								id="search_departmentName" name="departmentName"
 								class="form-control">
 								<option value=""></option>
@@ -141,14 +143,13 @@
 							type="text" id="add_address" name="address" class="form-control" />
 					</div>
 					<div class="col-xs-12 col-md-12">
-						<label>职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;务:</label> <select
-							id="add_dutyName" name="dutyName" class="form-control">
-							<option value="-1"></option>
+						<label >角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色:</label> 
+						<select id="add_name" name="name" class="selectpicker show-tick" multiple data-live-search="false" multiple data-selected-text-format="">
 						</select>
 					</div>
 					<div class="col-xs-12 col-md-12">
-						<label>角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色:</label> <select
-							id="add_name" name="name" class="form-control">
+						<label>职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;务:</label> <select
+							id="add_dutyName" name="dutyName" class="form-control">
 							<option value="-1"></option>
 						</select>
 					</div>
@@ -281,13 +282,13 @@
 							type="text" id="edit_address" name="address" class="form-control" />
 					</div>
 					<div class="col-xs-12 col-md-12">
-						<label>职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;务:</label> <select
-							id="edit_dutyName" name="dutyName" class="form-control">
+						<label >角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色:</label> 
+						<select id="edit_name" name="name" class="selectpicker show-tick" multiple data-live-search="false">
 						</select>
 					</div>
 					<div class="col-xs-12 col-md-12">
-						<label>角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色:</label> <select
-							id="edit_name" name="name" class="form-control">
+						<label>职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;务:</label> <select
+							id="edit_dutyName" name="dutyName" class="form-control">
 						</select>
 					</div>
 					<div class="col-xs-12 col-md-12">
@@ -308,4 +309,3 @@
 </body>
 <script src="module/js/employeeManage/employeeManage.js"></script>
 </html>
-

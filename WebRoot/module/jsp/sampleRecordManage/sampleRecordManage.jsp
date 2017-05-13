@@ -298,7 +298,14 @@ margin: 15px;
 								aria-describedby="basic-addon1" readOnly="true"/>
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h5>领样人：</h5>
+							<label class="checkbox-inline"> <input type="radio"
+								id="getSample" value="0" name="type" disabled="disabled" > 领样
+							</label> <label class="checkbox-inline"> <input type="radio"
+								id="returnSample" value="1" name="type" disabled="disabled" > 还样
+							</label>
+						</div>
+						<div class="col-xs-12 col-md-12">
+							<h5>操作人：</h5>
 							<input type="text" id="add_getMan" name="" oninput="addGetEMName()" onpropertychange="addGetEMName()"  
 							class="form-control" aria-describedby="basic-addon1" />
 							<div class="employeeN">
@@ -307,7 +314,7 @@ margin: 15px;
 						</div>
 						
 						<div class="col-xs-12 col-md-12">
-							<h5>领样时间:</h5>
+							<h5>时间:</h5>
 							<div class="input-group date form_datetime col-md-12">
 								<input class="form-control" size="16" type="text" value=""
 									id="add_getTime" name="getTime" disabled> <span
@@ -317,7 +324,7 @@ margin: 15px;
 									class="glyphicon glyphicon-th"></span></span>
 							</div>
 						</div>
-						<div class="col-xs-12 col-md-12">
+						<!-- <div class="col-xs-12 col-md-12">
 							<h5>退样人：</h5>
 							<input type="text" id="add_returnMan" name="" oninput="addGetEMName1()" onpropertychange="addGetEMName1()"
 								class="form-control" aria-describedby="basic-addon1" />
@@ -336,7 +343,7 @@ margin: 15px;
 									class="input-group-addon"><span
 									class="glyphicon glyphicon-th"></span></span>
 							</div>
-						</div>
+						</div> -->
 						<div class="col-xs-12 col-md-12">
 							<h5>备注：</h5>
 							<input type="text" id="add_remarks" name="remarks"
@@ -346,7 +353,7 @@ margin: 15px;
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" onclick="Judge()">新增</button>
+					<button type="button" class="btn btn-primary" onclick="add()">新增</button>
 				</div>
 			</div>
 		</div>
@@ -377,7 +384,7 @@ margin: 15px;
 						</div>
 						<div class="col-xs-12 col-md-12">
 							<h5>出厂编号：</h5>
-							<input type="text" id="edit_factoryCode" name="factoryCode"
+							<input type="text" id="edit_factoryCode" name="factoryCode" readOnly="true"
 								class="form-control" aria-describedby="basic-addon1" oninput="editGetfactoryCode()" onpropertychange="editGetfactoryCode()" />
 								<div class="employeeN4">
 	                   
@@ -395,7 +402,7 @@ margin: 15px;
 								class="form-control" aria-describedby="basic-addon1"readOnly="true" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h5>领样人：</h5>
+							<h5>操作人：</h5>
 							<input type="text" id="edit_getMan" name="" oninput="editGetEMName()" onpropertychange="editGetEMName()"  class="form-control"
 								aria-describedby="basic-addon1" />
 								<div class="employeeN">
@@ -404,7 +411,7 @@ margin: 15px;
 						</div>
 						
 						<div class="col-xs-12 col-md-12">
-							<h5>领样时间:</h5>
+							<h5>时间:</h5>
 							<div class="input-group date form_datetime col-md-12">
 								<input class="form-control" size="16" type="text" value=""
 									id="edit_getTime" name="getTime" disabled> <span
@@ -414,7 +421,7 @@ margin: 15px;
 									class="glyphicon glyphicon-th"></span></span>
 							</div>
 						</div>
-						<div class="col-xs-12 col-md-12">
+						<!-- <div class="col-xs-12 col-md-12">
 							<h5>退样人：</h5>
 							<input type="text" id="edit_returnMan" name="" oninput="editGetEMName1()" onpropertychange="editGetEMName1()"
 								class="form-control" aria-describedby="basic-addon1" />
@@ -433,7 +440,7 @@ margin: 15px;
 									class="input-group-addon"><span
 									class="glyphicon glyphicon-th"></span></span>
 							</div>
-						</div>
+						</div> -->
 						<div class="col-xs-12 col-md-12">
 							<h5>备注：</h5>
 							<input type="text" id="edit_remarks" name="remarks1"
@@ -486,6 +493,10 @@ margin: 15px;
 							<h4>样品型号：</h4>
 							<input type="text" id="look_specifications" name="specifications" readonly="true"
 								class="form-control" aria-describedby="basic-addon1" />
+						</div><div class="col-xs-12 col-md-12">
+							<h4>数据类型：</h4>
+							<input type="text" id="type" name="type" readonly="true"
+								class="form-control" aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
 							<h4>领样人：</h4>
@@ -495,16 +506,6 @@ margin: 15px;
 						<div class="col-xs-12 col-md-12">
 							<h4>领样时间:</h4>
 							<input type="text" id="look_getTime" name="getTime" class="form-control" readonly="true"
-								aria-describedby="basic-addon1" />
-						</div>
-						<div class="col-xs-12 col-md-12">
-							<h4>退样人：</h4>
-							<input type="text" id="look_returnMan" name="returnMan" readonly="true"
-								class="form-control" aria-describedby="basic-addon1" />
-						</div>
-						<div class="col-xs-12 col-md-12">
-							<h4>退样时间:</h4>
-							<input type="text" id="look_returnTime" name="returnTime" class="form-control" readonly="true"
 								aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">

@@ -12,6 +12,8 @@ import java.util.Map;
 
 
 
+
+
 import net.sf.json.JSONArray;
 
 public interface ISampleRecordService {
@@ -64,7 +66,9 @@ public interface ISampleRecordService {
 	 * @param returnTime
 	 * @return
 	 */
-	public String addSampleRecord(String factoryCode,String sampleName,String specifications,String getMan,String getTime,String returnMan,String returnTime,String remarks);
+	public String addSampleRecord(String factoryCode, String sampleName,
+			String specifications, String getMan, String getTime,
+			String type, String remarks);
 	/**
 	 * 
 	 * @description 更新样品记录管理
@@ -80,7 +84,9 @@ public interface ISampleRecordService {
 	 * @param returnTime
 	 * @return
 	 */
-	public String updSampleRecord(String ID,String sampleID,String factoryCode,String sampleName,String specifications,String getManID,String getTime,String returnManID,String returnTime,String remarks);
+	public String updSampleRecord(String ID, String sampleID,
+			String factoryCode, String sampleName, String specifications,
+			String getManID, String getTime, String remarks);
 	
 	JSONArray getdatalist();
 	public List<Map<String, Object>> getFactoryCode(String factoryCode);
