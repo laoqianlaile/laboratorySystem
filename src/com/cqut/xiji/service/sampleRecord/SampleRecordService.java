@@ -166,8 +166,11 @@ public class SampleRecordService extends SearchService implements
 		}
 		sampleRecord.setRemarks(remarks);
 		sampleRecord.setGetMan(getMan);
-		sampleRecord.setType(Integer.parseInt(type));
-		
+		try {
+			sampleRecord.setType(Integer.parseInt(type));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		int result = entityDao.save(sampleRecord);
 		String[] properties = new String[] { "sample.ID", };

@@ -239,7 +239,7 @@ margin: 15px;
 	  		<input class="form-control" id="linksampleName">
   		</div>
   		<div class="item">
-			<label class="control-label">领样人:</label>
+			<label class="control-label">操作人:</label>
 	  		<input class="form-control" id="linkgetMan">
   		</div>
   		

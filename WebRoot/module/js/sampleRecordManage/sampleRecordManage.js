@@ -593,7 +593,7 @@ function add(){
 		parame.getTime = $('#add_getTime').val();
 		parame.remarks = $('#add_remarks').val();
 		parame.type = $("input[name='type']:checked").val();
-		swal(parame.type);
+	
 
 		if (parame.getMan != "") {
 			$("input").val("");
