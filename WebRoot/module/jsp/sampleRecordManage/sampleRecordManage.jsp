@@ -297,13 +297,14 @@ margin: 15px;
 							<input type="text" id="add_specifications" name="specifications" class="form-control"
 								aria-describedby="basic-addon1" readOnly="true"/>
 						</div>
-						<div class="col-xs-12 col-md-12">
-							<label class="checkbox-inline"> <input type="radio"
-								id="getSample" value="0" name="type" disabled="disabled" > 领样
-							</label> <label class="checkbox-inline"> <input type="radio"
-								id="returnSample" value="1" name="type" disabled="disabled" > 还样
-							</label>
-						</div>
+							<div class="col-xs-12 col-md-12">
+						 <input
+							style="color:#5dafe5;font-size:14px;width:10px;height:10px;"
+							type="radio" name="type2" value="1"  id="returnSample"   checked="true"/>还样 <input
+							type="radio"
+							style="color:#666;font-size:14px;width:10px;height:10px;"
+							name="type2" value="0" id="getSample"/>领样
+					</div>
 						<div class="col-xs-12 col-md-12">
 							<h5>操作人：</h5>
 							<input type="text" id="add_getMan" name="" oninput="addGetEMName()" onpropertychange="addGetEMName()"  
@@ -384,7 +385,7 @@ margin: 15px;
 						</div>
 						<div class="col-xs-12 col-md-12">
 							<h5>出厂编号：</h5>
-							<input type="text" id="edit_factoryCode" name="factoryCode" readOnly="true"
+							<input type="text" id="edit_factoryCode" name="factoryCode" 
 								class="form-control" aria-describedby="basic-addon1" oninput="editGetfactoryCode()" onpropertychange="editGetfactoryCode()" />
 								<div class="employeeN4">
 	                   
@@ -400,6 +401,14 @@ margin: 15px;
 							<h5>样品型号：</h5>
 							<input type="text" id="edit_specifications" name="specifications"
 								class="form-control" aria-describedby="basic-addon1"readOnly="true" />
+						</div>
+						<div class="col-xs-12 col-md-12">
+							<input
+							style="color:#5dafe5;font-size:14px;width:10px;height:10px;"
+							type="radio" name="type1" value="1"  id="EreturnSample"   checked="true"/>还样 <input
+							type="radio"
+							style="color:#666;font-size:14px;width:10px;height:10px;"
+							name="type1" value="0" id="EgetSample"/>领样
 						</div>
 						<div class="col-xs-12 col-md-12">
 							<h5>操作人：</h5>

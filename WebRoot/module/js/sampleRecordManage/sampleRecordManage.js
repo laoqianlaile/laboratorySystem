@@ -528,12 +528,18 @@ function Judge(){
 	    data:parame,
 	    dataType:'json',
 	    success:function(data){ 
-	    		
+	    
 	    	if (data.state=="1") {
-	    		$("#returnSample").attr("checked","checked");
+	    		$("#returnSample").click();
+	    		// $('#type').attr({'name' : "1"});
+	    		// $('#type').val("还样")
+	    		//$("input[name='type'][value=1][type='radio']").prop("checked", true);
 	    		//$("input[type=radio]").attr("checked",1);
 		    }else {
-		    	$("#getSample").attr("checked","checked");
+		    	$("#getSample").click();
+		    	// $('#type').attr({'name' : "0"});
+	    		// $('#type').val("领样")
+		    	//$("input[name='type'][value=0][type='radio']").prop("checked", true);
 		    	//$("input[type=radio]").attr("checked",0);
 		    }
 	    	
@@ -558,11 +564,15 @@ function EJudge(){
 	    dataType:'json',
 	    success:function(data){ 
 	    		
-	    	if (data.state=="1") {
-	    		$("#EreturnSample").attr("checked","checked");
+	    	if (data.state=="1"){
+	    		//$('#Etype').attr({'name' : "1"});
+	    		// $('#Etype').val("还样")
+
+	    		$("#EreturnSample").click();
 	    		//$("input[type=radio]").attr("checked",1);
 		    }else {
-		    	$("#EgetSample").attr("checked","checked");
+		    	$("#EgetSample").click();
+		    	//$("#EgetSample").prop("checked","checked");
 		    	//$("input[type=radio]").attr("checked",0);
 		    }
 	    	
@@ -592,11 +602,11 @@ function add(){
 		parame.getMan = $('#add_getMan').attr('name');
 		parame.getTime = $('#add_getTime').val();
 		parame.remarks = $('#add_remarks').val();
-		parame.type = $("input[name='type']:checked").val();
-	
+		parame.type = $('input[name=type2]:checked').val();
 
 		if (parame.getMan != "") {
-			$("input").val("");
+			$("input[type!=radio]").val("");
+			
 			if (parame.sampleName != "") {
 				$.ajax({
 					url : 'sampleRecordController/addSampleRecord.do',
@@ -604,7 +614,7 @@ function add(){
 					success : function(o) {
 						$('#addModal').modal('hide');
 						refresh();
-						swal("新增成功");
+						//swal("新增成功");
 					}
 				});
 			} else
@@ -662,6 +672,7 @@ function openModal(){
 		swal("请选中一条数据");
 		return;
 	}
+	
 	$("div#only1 .form-control").attr({"disabled":false});
 	$('#edit_ID').val(data[0].ID);
 	$('#edit_sampleID').val(data[0].sampleID);
@@ -673,7 +684,14 @@ function openModal(){
 	$('#edit_getTime').val(data[0].getTime);
 	$('#edit_returnMan').val(data[0].returnMan);
 	$('#edit_remarks').val(data[0].remarks);
+	$('#Etype').val(data[0].Type);
+	if(data[0].Type=="领样"){
+		$("#EgetSample").click();
+	}else{
+		$("#EreturnSample").click();
+	}
 	$('#editModal').modal('show');
+	
 }
 
 //$("#edit_factoryCode").change(function upperCase(factoryCode){
@@ -724,7 +742,9 @@ function edit(){
 	parame.specifications = $('#edit_specifications').val();
 	parame.getManID =  $('#edit_getMan').attr('name');
 	parame.getTime = $('#edit_getTime').val();
+	parame.type = $('input[name=type1]:checked').val()
 	parame.remarks = $('#edit_remarks').val();
+
 	
 	
 	$.ajax({	
