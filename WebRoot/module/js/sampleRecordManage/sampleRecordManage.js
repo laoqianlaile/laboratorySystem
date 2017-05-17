@@ -108,6 +108,7 @@ function refresh(){
 }
 function addGetfactoryCode(){
 	var name = $('#add_factoryCode').val();
+	name=trim(name);
 	if (!name && typeof(name)!="undefined" && name=='') 
 	{
 		$(".employeeN3").hide();
@@ -186,6 +187,8 @@ function aaa(){
 }
 function editGetfactoryCode(){
 	var name = $('#edit_factoryCode').val();
+	name=trim(name);
+	    
 	if (!name && typeof(name)!="undefined" && name=='') 
 	{
 		$(".employeeN4").hide();
@@ -267,6 +270,7 @@ function aaa1(){
 
 function addGetEMName(){
 	var name = $('#add_getMan').val();
+	name=trimall(name);
 	if (!name && typeof(name)!="undefined" && name=='') 
 	{
 		$(".employeeN").hide();
@@ -381,6 +385,7 @@ function addClick1(){
 
 function editGetEMName(){
 	var name = $('#edit_getMan').val();
+	name=trimall(name);
 	if (!name && typeof(name)!="undefined" && name=='') 
 	{
 		$(".employeeN").hide();
@@ -500,7 +505,7 @@ function isContains(str, substr) {
 }
 	
 
-
+//获取样品数据
 function getdataLisk() {
 	var data;
 	$.ajax({
@@ -517,6 +522,7 @@ function getdataLisk() {
 	});
 	return data;
 }
+//判断类型
 function Judge(){
 	var parame = {};
 	parame.factoryCode = $('#add_factoryCode').val();
@@ -530,16 +536,16 @@ function Judge(){
 	    success:function(data){ 
 	    
 	    	if (data.state=="1") {
-	    		$("#returnSample").click();
+	    		//$("#returnSample").click();
 	    		// $('#type').attr({'name' : "1"});
 	    		// $('#type').val("还样")
-	    		//$("input[name='type'][value=1][type='radio']").prop("checked", true);
+	    		$("input[name='type2'][value=1][type='radio']").prop("checked", true);
 	    		//$("input[type=radio]").attr("checked",1);
 		    }else {
-		    	$("#getSample").click();
+		    	//$("#getSample").click();
 		    	// $('#type').attr({'name' : "0"});
 	    		// $('#type').val("领样")
-		    	//$("input[name='type'][value=0][type='radio']").prop("checked", true);
+		    	$("input[name='type2'][value=0][type='radio']").prop("checked", true);
 		    	//$("input[type=radio]").attr("checked",0);
 		    }
 	    	
@@ -585,7 +591,18 @@ function EJudge(){
 	});
 	
 }
-	
+function trim(str){ //删除左右两端的空格
+    return str.replace(/(^\s*)|(\s*$)/g, "");
+}
+function ltrim(str){ //删除左边的空格
+    return str.replace(/(^\s*)/g,"");
+}
+function rtrim(str){ //删除右边的空格
+    return str.replace(/(\s*$)/g,"");
+}	
+function trimall(str) {
+	  return str.replace(/(^\s+)|(\s+$)/g, "");
+	}
 	
 
 

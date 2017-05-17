@@ -16,7 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
 	<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
-		
+		<script src="module/js/jquery-2.1.1.min.js"></script>
 	
 <script src="assets/js/autoPage.js"></script>
 
@@ -216,7 +216,7 @@ margin: 15px;
 		
 
 </style>
-<script src="module/js/jquery-2.1.1.min.js"></script>
+
 <script src="module/js/bootstrap.js"></script>
 <script src="module/js/bootstrap-table.js"></script>
 <script src="module/js/bootstrap-table-zh-CN.js"></script>
@@ -297,13 +297,13 @@ margin: 15px;
 							<input type="text" id="add_specifications" name="specifications" class="form-control"
 								aria-describedby="basic-addon1" readOnly="true"/>
 						</div>
-							<div class="col-xs-12 col-md-12">
+							<div class="col-xs-12 col-md-12"enable="false">
 						 <input
 							style="color:#5dafe5;font-size:14px;width:10px;height:10px;"
-							type="radio" name="type2" value="1"  id="returnSample"   checked="true"/>还样 <input
+							type="radio" name="type2" value="1"  id="returnSample"  disabled="disabled"  />还样 <input
 							type="radio"
 							style="color:#666;font-size:14px;width:10px;height:10px;"
-							name="type2" value="0" id="getSample"/>领样
+							name="type2" value="0" id="getSample" disabled="disabled" />领样
 					</div>
 						<div class="col-xs-12 col-md-12">
 							<h5>操作人：</h5>
@@ -405,10 +405,10 @@ margin: 15px;
 						<div class="col-xs-12 col-md-12">
 							<input
 							style="color:#5dafe5;font-size:14px;width:10px;height:10px;"
-							type="radio" name="type1" value="1"  id="EreturnSample"   checked="true"/>还样 <input
+							type="radio" name="type1" value="1"  id="EreturnSample"   checked="true" disabled="disabled" />还样 <input
 							type="radio"
 							style="color:#666;font-size:14px;width:10px;height:10px;"
-							name="type1" value="0" id="EgetSample"/>领样
+							name="type1" value="0" id="EgetSample" disabled="disabled" />领样
 						</div>
 						<div class="col-xs-12 col-md-12">
 							<h5>操作人：</h5>
