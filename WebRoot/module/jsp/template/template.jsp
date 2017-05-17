@@ -290,7 +290,7 @@ span {
 								<img id ="editReportImg" src ='module/img/edit_icon.png' onclick=''  title="修改报告模板" style='cursor:pointer;margin-right:8px;display: none'/>
 						</div>
 						<div class="col-md-6 column" >
-							<input id="editReprotSearch" type="text" class="form-control" placeholder="检测项目搜索"  style="margin-top: 12px;display: none" onfocus="showPartTestproject()"  oninput="showPartTestproject()"
+							<input id="editReprotSearch" type="text" class="form-control" placeholder="检测项目搜索"  style="margin-top: 12px;display: none" onblur="hideSearch()" onfocus="showPartTestproject()"  oninput="showPartTestproject()"
 											onpropertychange="showPartTestproject()"/>
 							<div   id="showTestProject" ></div>
 						</div>

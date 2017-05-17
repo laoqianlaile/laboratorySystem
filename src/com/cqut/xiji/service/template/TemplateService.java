@@ -225,7 +225,7 @@ public class TemplateService extends SearchService implements ITemplateService{
 		int count =0;
 		
 		if(TestProjectIDs != null && TestProjectIDs != ""){
-			String[] ids = TestProjectIDs.split(",");
+			String[] ids = TestProjectIDs.replaceAll(" ", "").split(",");
 			for(String id : ids){
 				TestProject project = entityDao.getByID(id,TestProject.class);
 				if(project == null){

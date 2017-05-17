@@ -650,10 +650,20 @@ function displayChecked(testProject){
 		$('#showTestProject').hide();
 	}
 	else{
-		swal("请不要重复选中同一设备");
+		swal("请不要重复选中同一检测项目");
 	}
 }
 
+/**
+ * 失去焦点隐藏搜索
+ * 
+ * @param type
+ */
+function hideSearch(){
+	setTimeout(function(){
+		$('#editReprotSearch').hide();
+	},500); 
+}
 /**
  * 删除点中的span
  * 
