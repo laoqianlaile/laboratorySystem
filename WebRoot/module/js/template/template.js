@@ -16,8 +16,8 @@ function init() {
 							clickToSelect : true,// 设置true 将点击时，自动选择rediobox
 							// 和 checkbox
 							cache : false,// 禁用AJAX数据缓存
-							sortName : 'ID',
-							Order : 'asc',
+							sortName : 'UPLOADTIME',
+							sortOrder : 'desc',
 							url : 'templateController/getTemplateWithPage.do',
 							sidePagination : 'server',
 							contentType : 'application/json',
@@ -156,6 +156,7 @@ function queryParams(params) { // 配置参数
 	// 排位命令（desc，asc）
 	// 排位命令（desc，asc）
 	};
+	console.log(temp);
 	return temp;
 }
 
@@ -342,7 +343,7 @@ function addTemplate(fileID) {
 	parame.TemplateName = $('#add_TemplateName').val();
 	parame.TemplateRemarks = $('#add_TemplateRemarks').val();
 	parame.uploaderID = $('#EMPLOYEEID').val();//上传人ID
-	parame.TestProjectIDs = $('#add_TestProjectID').val();
+	parame.TestProjectIDs = "";
 	parame.fileID = fileID;
 	var templateTypeString = $('#fileSubtype option:checked').text();
 
@@ -351,6 +352,8 @@ function addTemplate(fileID) {
 	}
 	if (templateTypeString === "报告模板") {
 		parame.TemplateType = 1;
+		parame.TestProjectIDs = getTestProjectIDs();
+		console.log(parame.TestProjectIDs);
 	}
 	if (templateTypeString === "交接单模板") {
 		parame.TemplateType = 2;
@@ -438,7 +441,7 @@ function  sendMessage(Content,recipient){
 		  }
 	});
 }
-// 报告文件模板选项
+/*// 报告文件模板选项
 function testProjectModal() {
 
 	$('#testProject')
@@ -585,20 +588,155 @@ function testProjectModal() {
 							
 								 ]
 					// 列配置项,详情请查看 列参数 表格
-					/* 事件 */
+					 事件 
 					});
 	$('#addModal').modal('hide');
 	$('#testProjectModal').modal('show');
 
-}
-//判断
+}*/
+/**
+ * 判断是否是报告模板
+ * 
+ */
 function isReport(){
 	if($('#fileSubtype option:checked').text() === "报告模板"){
-		testProjectModal();
+//		testProjectModal();
+		$('#editReportImg').show();
+		$('#editReprotSearch').show();
+	}
+	else{
+		$('#add_TestProjectNameCn').empty();
+		$('#editReportImg').hide();
+		$('#editReprotSearch').hide();
+	}
+}
+/**
+ * 填充数据
+ * 
+ */
+function fullTestProjectData(data){
+	
+	console.log(data);
+	var html = "<ul>";
+	if(data.length == 0){
+		html += "<li class='noDate'>没有查到数据</li>"
+	}
+	else{
+		for(var i = 0; i < data.length; i++){
+			html+="<li  id ='"+data[i].ID+"' onclick='displayChecked(this)'>" + data[i].testName+ "</li>"
+		}
+	}
+	html +="</ul>";
+	$('#showTestProject').html(html);
+	$('#showTestProject').show();
+}
+/**
+ * 获得焦点时,模糊匹配展示搜索检测项目
+ */
+function showPartTestproject(){
+	var data = getTestproject();
+	fullTestProjectData(data);
+}
+/**
+ * 点击检测项目时，添加到被选中的input里
+ * 
+ */
+function displayChecked(testProject){
+	
+	if(isSameID(testProject.id)){
+		html='<span class = "spanTag"><span class= "singleE" id ="'+testProject.id+'" >'+ testProject.innerHTML +'&nbsp;&nbsp;</span><a  onclick="moveSingleE(this)">x</a></span>'
+		
+		$('#add_TestProjectNameCn').append(html);
+		$('#showTestProject').hide();
+	}
+	else{
+		swal("请不要重复选中同一检测项目");
 	}
 }
 
+/**
+ * 失去焦点隐藏搜索
+ * 
+ * @param type
+ */
+function hideSearch(){
+	setTimeout(function(){
+		$('#editReprotSearch').hide();
+	},500); 
+}
+/**
+ * 删除点中的span
+ * 
+ */
+function moveSingleE(SingleEInfo){
+	console.log(SingleEInfo);
+	$(SingleEInfo).parent().remove();
+}
+/**
+ * 判断是否有重复的检测项目
+ * 
+ */
+function isSameID(checkID){
+	
+	var allTestProjects =$('#add_TestProjectNameCn span.singleE');
+	
+	if(allTestProjects.length == 0){
+		return true;
+	}
+	else{
+		for(var i=0;i<allTestProjects.length;i++){
+			if(allTestProjects[i].id === checkID){
+				return false;
+			}
+		}
+		return true;
+	}
+}
 
+/**
+ * 获取所有检测项目ID
+ * 
+ */
+
+//获取所有被选中仪器的id
+function getTestProjectIDs(){
+	var total = ""
+	var allTestProjectIDs =$('#add_TestProjectNameCn span.singleE');
+	if(allTestProjectIDs.length == 0){
+		swal("请至少选中一个仪器设备");
+		return;
+	}
+	else{
+		for(var i=0;i<allTestProjectIDs.length;i++){
+			total += allTestProjectIDs[i].id+" , ";
+		}
+		return total;
+	}
+}
+/**
+ * 向后台发出请求获取检测项目数据
+ * 
+ */
+function getTestproject(){
+	var matchName = "";
+	matchName = $('#editReprotSearch').val();
+	console.log(matchName);
+	var date;
+	$.ajax({
+		url : 'testProjectController/getTestProjectListByName.do',
+		dataType : "json",
+		async : false,
+		data : {matchName:matchName},
+		success :function(o){
+			date = JSON.parse(o);
+		},
+		error : function(){
+			return false;
+		}
+	});
+	
+	return date;
+}
 $(function () { $('#testProjectModal').on('hide.bs.modal', function () {
     $('#addModal').modal('show');
 	})

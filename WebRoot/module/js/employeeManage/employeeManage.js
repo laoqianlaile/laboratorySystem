@@ -97,7 +97,7 @@ $(function() {
 									title : '姓名',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '8%'// 宽度
+									width : '7%'// 宽度
 								},
 								{
 									field : 'employeeCode',// 返回值名称
@@ -142,11 +142,11 @@ $(function() {
 									width : '8%'// 宽度
 								},
 								{
-									field : 'name',// 返回值名称
+									field : 'roleName',// 返回值名称
 									title : '角色',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '8%'// 宽度
+									width : '9%'// 宽度
 								},
 								{
 									field : 'dutyName',// 返回值名称
@@ -296,7 +296,15 @@ function changeState(data) {
 		dataType : 'json',
 		success : function(o) {
 			if (o <= 0) {
-				alert("修改失败");
+				swal({
+					title : "修改失败",
+					type : 'warning'
+				});
+			} else {
+				swal({
+					title : "修改成功",
+					type : 'success'
+				});
 			}
 			$('#table').bootstrapTable('refresh', null);
 		}
@@ -313,7 +321,7 @@ function view(data) {
 	$('#phoneNumber').val(data.phoneNumber);
 	$('#address').val(data.address);
 	$('#dutyName').val(data.dutyName);
-	$('#name').val(data.name);
+	$('#name').val(data.roleName);
 	$('#departmentName').val(data.departmentName);
 	var sex = data.sex;
 	if (sex == "男") {
@@ -328,7 +336,6 @@ function view(data) {
 /* 打开修改框 */
 function openedit(data) {
 	var state = "edit";
-
 	$('#edit_employeeName').val(data.employeeName);
 	$('#edit_employeeCode').val(data.employeeCode);
 	$('#edit_email').val(data.email);
@@ -336,7 +343,8 @@ function openedit(data) {
 	$('#edit_address').val(data.address);
 	$('#edit_ID').val(data.ID);
 	var sex = data.sex;
-
+	var roleIDs = data.roleID;
+	var roleID = roleIDs.split(",");
 	if (sex == "男") {
 		$("input[name='sex2'][value=1]").prop("checked", true);
 	}
@@ -344,9 +352,8 @@ function openedit(data) {
 	if (sex == "女") {
 		$("input[name='sex2'][value=0]").prop("checked", true);
 	}
-
 	getDutyName(state);
-	getRoleName(state);
+	getRoleName(state, roleID);
 	getDepartmentName(state);
 	$('#editModal').modal('show');
 }
@@ -375,25 +382,37 @@ function getDutyName(state) {
 	});
 
 }
-/* 获取所有的角色 */
-function getRoleName(state) {
-	var html;
+
+function getRoleName(state, roleID) {
+
+	$('.selectpicker').selectpicker({
+		size : 4
+	});
+
 	$.ajax({
 		url : 'roleController/getAllName.do',
 		dataType : 'json',
 		success : function(o) {
 			var data = JSON.parse(o);
-			for (var i = 0; i < data.length; i++) {
-				html += '<option value = "' + data[i].ID + '">' + data[i].name
-						+ '</option>';
-			}
 			if (state == "edit") {
-				$("#edit_name ").empty(); // 清空子元素
-				$('#edit_name').append(html);
-			}
-			if (state == "add") {
-				$("#add_name ").empty(); // 清空子元素
-				$('#add_name').append(html);
+				$('#edit_name').empty();
+				for (var i = 0; i < data.length; i++) {
+					$('#edit_name').append(
+							"<option value=" + data[i].ID + ">" + data[i].name
+									+ "</option>");
+				}
+				$('#edit_name').selectpicker('val', roleID);// 默认选中
+				$('#edit_name').selectpicker('refresh');
+				$('#edit_name').selectpicker('render');
+			} else if (state == "add") {
+				// $('#add_name').empty();
+				for (var i = 0; i < data.length; i++) {
+					$('#add_name').append(
+							"<option value=" + data[i].ID + ">" + data[i].name
+									+ "</option>");
+				}
+				$('#add_name').selectpicker('refresh');
+				$('#add_name').selectpicker('render');
 			}
 		}
 	});
@@ -433,39 +452,51 @@ function edit() {
 	parame.departmentID = $('#edit_departmentName').val();
 	parame.address = encodeURI($('#edit_address').val());
 	parame.dutyID = $('#edit_dutyName').val();
-	parame.roleID = $('#edit_name').val();
 	parame.sex = $('input[name="sex2"]:checked ').val();
 	parame.ID = $('#edit_ID').val();
-	if (checkdata(parame)) {
-		$.ajax({
-			url : 'employeeController/updEmployee.do',
-			scriptCharset : "utf-8",
-			contentType : "application/x-www-form-urlencoded; charset=utf-8", // 中文乱码
-			data : parame,
-			dataType : 'json',
-			success : function(o) {
-				if (o <= 0) {
-					swal({
-						title : "修改失败",
-						type : 'warning'
+	var data = $('#edit_name').val();
+	if (data == null) {
+		swal("角色不能为空");
+	} else {
+		var ids = "";
+		for (var i = 0; i < data.length; i++) {
+			ids += data[i] + ",";
+		}
+		ids = ids.substring(0, ids.length - 1);
+		parame.roleID = ids;
+		if (checkdata(parame)) {
+			$
+					.ajax({
+						url : 'employeeController/updEmployee.do',
+						scriptCharset : "utf-8",
+						contentType : "application/x-www-form-urlencoded; charset=utf-8", // 中文乱码
+						data : parame,
+						dataType : 'json',
+						success : function(o) {
+							if (o <= 0) {
+								swal({
+									title : "修改失败",
+									type : 'warning'
+								});
+							} else {
+								swal({
+									title : "修改成功",
+									type : 'success'
+								});
+							}
+							$("input[type='radio']").removeAttr('checked');
+							$('#editModal').modal('hide');
+							$('#table').bootstrapTable('refresh', null);
+						}
 					});
-				} else {
-					swal({
-						title : "修改成功",
-						type : 'success'
-					});
-				}
-				$("input[type='radio']").removeAttr('checked');
-				$('#editModal').modal('hide');
-				$('#table').bootstrapTable('refresh', null);
-			}
-		});
+		}
 	}
 }
 
 function add() {
 	var state = "add";
 	$('#addModal').modal('show');
+	$('input[type="text"]').val("");
 	$("input[type=radio][name='sex'][value=1]").prop("checked", 'checked');
 	getDutyName(state);
 	getRoleName(state);
@@ -482,30 +513,40 @@ function save_continue() {
 	parame.phoneNumber = $('#add_phoneNumber').val();
 	parame.departmentID = $('#add_departmentName').val();
 	parame.dutyID = $('#add_dutyName').val();
-	parame.roleID = $('#add_name').val();
-	// $('input[type="text"]').val("");
-	if (checkdata(parame)) {
-		$.ajax({
-			url : 'employeeController/addEmployee.do',
-			scriptCharset : "utf-8",
-			contentType : "application/x-www-form-urlencoded; charset=utf-8", // 中文乱码
-			data : parame,
-			success : function(o) {
-				if (o <= 0) {
-					swal({
-						title : "新增失败",
-						type : 'warning'
+	var data = $('#add_name').val();
+	if (data == null) {
+		swal("角色不能为空");
+	} else {
+		var ids = "";
+		for (var i = 0; i < data.length; i++) {
+			ids += data[i] + ",";
+		}
+		ids = ids.substring(0, ids.length - 1);
+		parame.roleID = ids;
+		if (checkdata(parame)) {
+			$
+					.ajax({
+						url : 'employeeController/addEmployee.do',
+						scriptCharset : "utf-8",
+						contentType : "application/x-www-form-urlencoded; charset=utf-8", // 中文乱码
+						data : parame,
+						success : function(o) {
+							if (o <= 0) {
+								swal({
+									title : "新增失败",
+									type : 'warning'
+								});
+							}
+							swal({
+								title : "新增成功",
+								type : 'success'
+							});
+							$('input[type="text"]').val("");
+							$('#table').bootstrapTable('refresh', null);
+							add();
+						}
 					});
-				}
-				swal({
-					title : "新增成功",
-					type : 'success'
-				});
-				$('input[type="text"]').val("");
-				$('#table').bootstrapTable('refresh', null);
-				add();
-			}
-		});
+		}
 	}
 }
 function save() {
@@ -518,94 +559,89 @@ function save() {
 	parame.phoneNumber = $('#add_phoneNumber').val();
 	parame.departmentID = $('#add_departmentName').val();
 	parame.dutyID = $('#add_dutyName').val();
-	parame.roleID = $('#add_name').val();
-	// $('input[type="text"]').val("");
-	if (checkdata(parame)) {
-		$.ajax({
-			url : 'employeeController/addEmployee.do',
-			scriptCharset : "utf-8",
-			contentType : "application/x-www-form-urlencoded; charset=utf-8", // 中文乱码
-			data : parame,
-			success : function(o) {
-				if (o <= 0) {
-					swal({
-						title : "新增失败",
-						type : 'warning'
-					});
-				}
-				swal({
-					title : "新增成功",
-					type : 'success'
-				});
+	var data = $('#add_name').val();
+	if (data == null) {
+		swal("角色不能为空");
+	} else {
+		var ids = "";
+		for (var i = 0; i < data.length; i++) {
+			ids += data[i] + ",";
+		}
+		ids = ids.substring(0, ids.length - 1);
+		parame.roleID = ids;
+		if (checkdata(parame)) {
+			$
+					.ajax({
+						url : 'employeeController/addEmployee.do',
+						scriptCharset : "utf-8",
+						contentType : "application/x-www-form-urlencoded; charset=utf-8", // 中文乱码
+						data : parame,
+						success : function(o) {
+							if (o <= 0) {
+								swal({
+									title : "新增失败",
+									type : 'warning'
+								});
+							}
+							swal({
+								title : "新增成功",
+								type : 'success',
+							});
 
-				$('input[type="text"]').val("");
-				$("input[type=radio][name='sex'][value=1]").prop("checked",
-						'checked');
-				$('#addModal').modal('hide');
-				$('#table').bootstrapTable('refresh', null);
-			}
-		});
+							$('input[type="text"]').val("");
+							$("input[type=radio][name='sex'][value=1]").prop(
+									"checked", 'checked');
+							$('#addModal').modal('hide');
+							$('#table').bootstrapTable('refresh', null);
+						}
+					});
+		}
 	}
 }
 
 function checkdata(data) {
 	if (data.employeeName == "" || data.employeeName == "null") {
-		alert("姓名不能为空");
+		swal("姓名不能为空");
 		return false;
 	}
 
 	if (data.employeeCode == "" || data.employeeCode == "null") {
-		alert("员工编号不能为空");
+		swal("员工编号不能为空");
 		return false;
 	}
 
 	if (data.sex == "" || data.sex == "null") {
-		alert("性别需要选择");
+		swal("性别需要选择");
 		return false;
 	}
 
 	if (data.email == "" || data.email == "null") {
-		alert("邮箱不能为空");
+		swal("邮箱不能为空");
 		return false;
 	}
 
 	var filter = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
 	if (!filter.test(data.email)) {
-		alert('您的邮箱格式不正确');
+		swal('您的邮箱格式不正确');
 		return false;
 	}
 
 	if (data.phoneNumber == "" || data.phoneNumber == "null") {
-		alert("手机号码不能为空");
+		swal("手机号码不能为空");
 		return false;
 	}
 
 	var phone = /^1([38]\d|4[57]|5[0-35-9]|7[06-8]|8[89])\d{8}$/;
 	if (!phone.test(data.phoneNumber)) {
-		alert("手机号码格式不正确");
+		swal("手机号码格式不正确");
 		return false;
 	}
 
 	if (data.address == "" || data.address == "null") {
-		alert("地址不能为空");
+		swal("地址不能为空");
 		return false;
 	}
-
-	if (data.dutyName == "" || data.dutyName == "null") {
-		alert("职务不能为空");
-		return false;
-	}
-
-	if (data.name == "" || data.name == "null") {
-		alert("角色不能为空");
-		return false;
-	}
-
-	if (data.departmentName == "" || data.departmentName == "null") {
-		alert("部门不能为空");
-		return false;
-	}
-
+	
 	return true;
 
 }
@@ -644,7 +680,13 @@ function del(IDs) {
 	});
 }
 
-function checkData(dataObj){
+
+function exportReport(){
+	window.location.href = "employeeController/employeeExportExcel.do";
+}
+
+
+function checkData(dataObj) {
 	if (!dataObj.hasOwnProperty("employeeName") || dataObj.employeeName == null
 			|| dataObj.employeeName.trim() == "NULL") {
 		dataObj.employeeName = "";
@@ -673,15 +715,16 @@ function checkData(dataObj){
 			|| dataObj.address.trim() == "NULL") {
 		dataObj.address = "";
 	}
-	if (!dataObj.hasOwnProperty("name") || dataObj.name == null
-			|| dataObj.name.trim() == "NULL") {
-		dataObj.name = "";
+	if (!dataObj.hasOwnProperty("roleName") || dataObj.roleName == null
+			|| dataObj.roleName.trim() == "NULL") {
+		dataObj.roleName = "";
 	}
 	if (!dataObj.hasOwnProperty("dutyName") || dataObj.dutyName == null
 			|| dataObj.dutyName.trim() == "NULL") {
 		dataObj.dutyName = "";
 	}
-	if (!dataObj.hasOwnProperty("departmentName") || dataObj.departmentName == null
+	if (!dataObj.hasOwnProperty("departmentName")
+			|| dataObj.departmentName == null
 			|| dataObj.departmentName.trim() == "NULL") {
 		dataObj.departmentName = "";
 	}
@@ -690,6 +733,3 @@ function checkData(dataObj){
 		dataObj.createTime = "";
 	}
 }
-
-
-

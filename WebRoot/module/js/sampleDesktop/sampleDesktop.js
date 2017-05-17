@@ -251,7 +251,7 @@ function initTidingsTable() {
 						pagination : true,// 在表格底部显示分页条
 						pageSize : 5,// 页面数据条数
 						pageNumber : 1,// 首页页码
-						pageList : [ 5, 10, 15 ],// 设置可供选择的页面数据条数
+						pageList : [ 3, 5, 8 ],// 设置可供选择的页面数据条数
 						clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和
 						// checkbox
 						cache : false,// 禁用 AJAX 数据缓存
@@ -276,6 +276,7 @@ function initTidingsTable() {
 						}, // 请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
 						selectItemName : '',// radio or checkbox 的字段名
 						onLoadSuccess : function(data) {
+							//加上    <span class="badge pull-right">42</span>首页 在消息上面
 						},
 						columns : [
 								{
@@ -479,15 +480,15 @@ function editRe() {
 	if (data.length == 1) {
 		var reObj = data[0];
 		if (reObj.reType == "接受")
-			window.location.href = "./addRecelist.jsp?reID=" + reObj.reID
+			window.location.href = "./module/jsp/receiptlistManage/addRecelist.jsp?reID=" + reObj.reID
 					+ "&coID=" + reObj.coID + "&comID=" + reObj.comID
-					+ "&coCode=" + reObj.coCode + "&addState=no&reCode="
+					+ "&coCode=" + reObj.coCode + "&state=yes&reCode="
 					+ reObj.reCode + "&lookState=edit";
 		// 退还样品-交接单编辑的页面
 		else {
-			window.location.href = "./receiptlistReturn.jsp?reID=" + reObj.reID
+			window.location.href = "./module/jsp/receiptlistManage/receiptlistReturn.jsp?reID=" + reObj.reID
 					+ "&coID=" + reObj.coID + "&comID=" + reObj.comID
-					+ "&coCode=" + reObj.coCode + "&state=edit";
+					+ "&coCode=" + reObj.coCode + "&lookState=edit";
 		}
 	} else {
 		sweetAlert("请选中一条数据");
@@ -526,9 +527,9 @@ function addRe() {
 		}, function(isConfirm){
 		        if(isConfirm){
 		        	var result = initAddReceiptlist(data[0], "yes"); // 创建交接单跳转
-		        	window.location.href = "./addRecelist.jsp?reID=" + result.reID + "&coID="
+		        	window.location.href = "./module/jsp/receiptlistManage/addRecelist.jsp?reID=" + result.reID + "&coID="
 		        			+ data[0].coID + "&comID=" + data[0].comID + "&coCode="
-		        			+ data[0].coCode + "&addState=yes&reCode=" + result.reCode
+		        			+ data[0].coCode + "&state=yes&reCode=" + result.reCode
 		        			+ "&proID=" + data[0].proID;
 		        }
 		});
@@ -573,9 +574,9 @@ function addReNo() {
 		}, function(isConfirm){
 		        if(isConfirm){
 		        	var result = initAddReceiptlist({}, "no"); // 创建交接单跳转
-		        	window.location.href = "./addRecelist.jsp?reID=" + result.reID + "&coID="
+		        	window.location.href = "./module/jsp/receiptlistManage/addRecelist.jsp?reID=" + result.reID + "&coID="
 		        			+ result.coID + "&comID=" + "" + "&coCode=" + result.coCode
-		        			+ "&addState=no&reCode=" + result.reCode + "&proID=" + result.proID;
+		        			+ "&state=no&reCode=" + result.reCode + "&proID=" + result.proID;
 		        }
 		});
 

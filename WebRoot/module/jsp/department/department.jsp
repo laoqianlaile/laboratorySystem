@@ -248,6 +248,9 @@ span {
 	 	 position:absolute;
 	 	 z-index:99999;
 	 	 background: #fff;
+	 	 overflow-y: scroll;
+       max-height: 80px;
+        overflow-x: hidden;
 	}
 	.employeeN ul {
 		width:509px;

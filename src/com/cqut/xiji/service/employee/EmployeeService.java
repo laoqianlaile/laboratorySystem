@@ -284,7 +284,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 					"employee.roleID",
 					"employee.departmentID",
 					"employee.dutyID",
-					"role.name",
+					"(select GROUP_CONCAT(role.`name`) from role where FIND_IN_SET(role.ID,employee.roleID))as roleName",
 					"department.departmentName",
 					"duty.dutyName",
 					"case when employee.sex = 0 then '女'"
@@ -294,8 +294,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 					+ "when employee.state = 1 then '启用' end as state",
 			};
 			
-			String joinEntity = " left join role on employee.roleID = role.ID "
-					+ " left join department on employee.departmentID = department.ID "
+			String joinEntity =  " left join department on employee.departmentID = department.ID "
 					+ " left join duty on employee.dutyID = duty.ID ";
 			int permission=1;
 			String condition = "1 = 1 and employee.permission="+permission;
@@ -445,6 +444,8 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 					"employee.phoneNumber",
 					"employee.email",
 					"employee.address",
+					"employee.signature",
+					"employee.stamp",
 					"case WHEN employee.`level` = 0 then '初级'"
 					+ "when employee.`level` = 1 then '中级'"
 					+ "	when employee.`level` = 2 then '高级' end as level",
@@ -467,12 +468,21 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 				String sex, String phoneNumber, String email, String address) {
 			Employee employee = entityDao.getByID(employeeID, Employee.class);
 			
-			employee.setEmployeeName(employeeName);
-			employee.setSex(Integer.parseInt(sex));
-			employee.setPhoneNumber(phoneNumber);
-			employee.setEmail(email);
-			employee.setAddress(address);
-			
+			if(employeeName != null && !employeeName.isEmpty()){
+				employee.setEmployeeName(employeeName);
+			}
+			if(sex != null && !sex.isEmpty()){
+				employee.setSex(Integer.parseInt(sex));
+			}
+			if(phoneNumber != null && !phoneNumber.isEmpty()){
+				employee.setPhoneNumber(phoneNumber);
+			}
+			if(email != null && !email.isEmpty()){
+				employee.setEmail(email);
+			}
+			if(address != null && !address.isEmpty()){
+				employee.setAddress(address);
+			}
 			int result = entityDao.updatePropByID(employee, employeeID);
 			return result+"";
 		}
@@ -500,7 +510,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			String imagePath = fileInfo.get(0).get("path").toString();
 			Employee ee = entityDao.getByID(employeeID, Employee.class);
 			if (selectorName.equals(".singnatureImg")) {
-				ee.setSingnature(imagePath);
+				ee.setSignature(imagePath);
 				return baseEntityDao.updatePropByID(ee, employeeID) > 0 ? true
 						: false;
 			} else {
