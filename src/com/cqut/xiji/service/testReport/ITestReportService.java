@@ -56,7 +56,7 @@ public interface ITestReportService {
 
 	public boolean thirdAuditOperateCheck(String ID);
 
-	public boolean thirdPassReport(String ID, String taskID,
+	public String thirdPassReport(String ID, String taskID,
 			String auditPassAgreement, String employeeID);
 
 	public boolean thirdRejectReport(String ID, String taskID,
