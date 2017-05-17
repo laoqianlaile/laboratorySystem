@@ -1,4 +1,4 @@
-package com.cqut.xiji.controller.abilityCheck;
+﻿package com.cqut.xiji.controller.abilityCheck;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -140,7 +140,6 @@ public class AbilityCheckController{
 		System.out.println("offset ======== " + offset);
 		System.out.println("order ======== " + order);
 		System.out.println("sort ======== " + sort);
-		condition += " and dutyName = '技术主管'";
 		condition += " and employee.ID = '" + session.getAttribute("EMPLOYEEID") + "'";
 
 		return JSONObject.fromObject(service.getAbilityCheckWithPaging(limit,
