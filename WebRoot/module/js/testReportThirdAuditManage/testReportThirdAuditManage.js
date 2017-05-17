@@ -287,39 +287,41 @@ function previewImage(file, imgArea) {
 */
 
 // 确认审核通过
-function thirdAuditPassSure(){
-	var keyID = $("#PassTestReportID").text(),
-	    taskID = $("#PassTaskID").text(),
-	    fileName = $("#PassFileName").text(),
-	    auditPassAgreement = $("#PassReason").val();
+function thirdAuditPassSure() {
+	var keyID = $("#PassTestReportID").text(), 
+		taskID = $("#PassTaskID").text(), 
+		fileName = $("#PassFileName").text(), 
+		auditPassAgreement = $("#PassReason").val();
 	$.post("testReportController/thirdPassReport.do",
-	{
-		ID : keyID,
+	{ID : keyID,
 		taskID : taskID,
 		passAgreement : auditPassAgreement
-	},
-	function(result) {
-		if (result == true || result == "true") {
-			refresh();
-			$("#thirdAuditPassModal").modal("hide");
-			$.post("messageController/addReportThirdAuditPassMessage.do",
-			{
-				fileName : fileName
-			},
-			function(result) {
-				result = JSON.parse(result);
-				$.post("messageNoticeController/addReportAuditMessageNotice.do",
-				{
-					messageID : result,
-					testreportID : keyID
-					});
-				});
-			alert("审核通过成功");
-			} else {
+		},
+		function(result) {
+			result = JSON.parse(result);
+			if (result == true || result == "true") {
 				refresh();
-				alert("通过审核失败");
+				$("#thirdAuditPassModal").modal("hide");
+				$.post("messageController/addReportThirdAuditPassMessage.do",
+				{fileName : fileName
+				},
+				function(result) {
+					result = JSON.parse(result);
+					$.post("messageNoticeController/addReportAuditMessageNotice.do",
+					{
+						messageID : result,
+						testreportID : keyID
+						});
+					});
+				alert("审核通过成功");
+				} else {
+					if (result == false || result == "false") {
+						alert("审核通过失败");
+					} else {
+						alert(result);
+					}
 				}
-		});
+			});
 }
 
 // 三次审核驳回

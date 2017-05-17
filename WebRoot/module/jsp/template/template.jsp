@@ -70,6 +70,70 @@ span {
   color: #fff;
   background-color: rgb(255, 173, 51);
 }
+#showTestProject{
+	margin-left: 6.65%;
+	position:absolute;
+	width:83%;
+	height:auto;
+	max-height:120px;
+	display:none;
+	border:1px solid #ccc;
+	border-top:none;
+	border-radius:3px;
+	background-color:#fff;
+	z-index: 10;
+	overflow-x:hidden;
+	overflow-y:hidden;
+}
+#showTestProject ul {
+	border:none;
+	max-height:120px;
+	overflow-y:auto;
+	margin:0;
+	margin-left:-40px;
+}
+#showTestProject ul li{
+	height:30px;
+	line-height: 30px;
+	list-style-type: none;
+	text-indent: 12px;
+	background-color:#fff;
+}
+#showTestProject ul li.noDate{
+ 	color: red;
+}
+#showTestProject ul li:hover{
+	background-color:#dcdcdc;
+}
+#add_TestProjectNameCn {
+	width: 100%;
+	height: 100px;
+	border: 1px solid;
+	overflow-y:auto;
+}
+#add_TestProjectNameCn .spanTag{
+	
+   -webkit-border-radius: 2px;
+    display: block;
+    float: left;
+    padding: 5px;
+    text-decoration: none;
+    background: #e7e7e7;
+    color: #0044cc;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-family: helvetica;
+    font-size: 1px;
+}
+#add_TestProjectNameCn .spanTag a{
+	font-weight: bold;
+    color: rgb(255, 0, 0);
+    text-decoration: none;
+    font-size: 11px;
+}
+#add_TestProjectNameCn span{
+	font-size: 1px;
+}
 </style>
 
 <body>
@@ -194,12 +258,12 @@ span {
 						</div>
 						<div class ="col-md-6 column">
 							<input type="hidden" id="add_TestProjectID" name ="TestProject"/>
-							<label>检测项目：</label> <input type="text" id="add_TestProjectNameCn"
-								name="TestProjectNameCn" class="form-control" placeholder="当为报告模板时有值"  disabled="disabled"/>
+							<label>检测项目：</label>
+							 <div id="add_TestProjectNameCn" class="form-control" placeholder="当为报告模板时有值"  ></div>
 						</div>
 					</div>
 					<div class="row">
-						<div id="fileInfo" class="col-md-12 column">
+						<div id="fileInfo" class="col-md-12 column" style="margin-top: 12px;">
 						<!-- 	<div id="uploadfileQueue"></div>
 							<input type="file" id="file_upload" name="file_upload"
 								multiple="multiple"> -->
@@ -212,17 +276,24 @@ span {
 							<span id="fileName"></span>
 							
 						</div>
-						<div class="col-md-6 column">
-								<select id="fileType">
-									<option value = "">模板文件</option>
-								</select> 
+						<div class="col-md-6 column" style="margin-top:12px;margin-bottom: 12px;">
+								<label id="fileType" class="form-control" style="display: inline;width: 41%;padding-top: 9px;padding-bottom: 7px;">
+									<!-- <option  class="form-control" value = "">模板文件</option> -->
+									模板文件
+								</label>
 								<select id="fileSubtype" oninput="isReport()"
-									onpropertychange="isReport()" >
-									<option>交接单模板</option>
-									<option>合同模板</option>
-									<option>报告模板</option>
+									onpropertychange="isReport()" class="form-control" style="display: inline;width: 50%;" >
+									<option class="form-control" >交接单模板</option>
+									<option class="form-control" >合同模板</option>
+									<option class="form-control" >报告模板</option>
 								</select>
-							</div>
+								<img id ="editReportImg" src ='module/img/edit_icon.png' onclick=''  title="修改报告模板" style='cursor:pointer;margin-right:8px;display: none'/>
+						</div>
+						<div class="col-md-6 column" >
+							<input id="editReprotSearch" type="text" class="form-control" placeholder="检测项目搜索"  style="margin-top: 12px;display: none" onblur="hideSearch()" onfocus="showPartTestproject()"  oninput="showPartTestproject()"
+											onpropertychange="showPartTestproject()"/>
+							<div   id="showTestProject" ></div>
+						</div>
 							<div class="col-md-12 column">
 								<label>备注信息</label>
 								<textarea id="add_TemplateRemarks" name = "TemplateReamarks"class="form-control"></textarea>

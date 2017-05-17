@@ -59,9 +59,7 @@
 							</span> <i class="fa fa-caret-down"></i>
 							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 								<li onclick = "openEditpwd()"><a> <i class="icon-cog"></i> 修改密码</a></li>
-								<li onclick="openPersonModal()"><a> <i class="icon-user"></i> 个人资料</a></li>
-								<li><a><i class="upSignature()">电子签名 </i></a></li>
-								<li><a><i class="upStamp()">电子盖章</i></a></li>
+								<li ><a target="aa" href="module/jsp/setting/personalData.jsp"><i class="icon-user"></i> 个人资料</a> </li>
 							</ul>
 							<%}%>
 						</li>
@@ -681,18 +679,16 @@
 			</div>
 		</div>
 	</div>
-<!--<div class="signature">
+<!-- <div class="signature">
 		<label>电子签名:</label>
 	    <img id="Img1"  src="module/img/file/defaultPhoto.jpg"
 			data-holder-rendered="true"/>
 			
-		 <input class="singnatureImg"
-			type="file" name="files" id="files" onchange="previewImage(this,'Img1')"
+		 <input class="singnatureImg" type="file" name="files" id="files" onchange="previewImage(this,'Img1')"
 			accept="image/png, image/gif, image/jpg, image/jpeg"
-			style="width:66px;height:25px;position:absolute;left:10px;top:155px;opacity: 0;filter: alpha(opacity = 0);" />
-       
-	</div>
-	<div class="stamp">
+			style="width:66px;height:25px;position:absolute;left:10px;top:155px;opacity: 0;filter: alpha(opacity = 0);" />  
+	</div> -->
+	<!-- <div class="stamp"> 
 		<label>电子盖章:</label>
 		 <img id="Img2"  src="module/img/file/defaultPhoto.jpg"
 			data-holder-rendered="true""/>
@@ -709,5 +705,12 @@
     <script type="text/javascript" src="assets/fileupload/jquery.ui.widget.js"></script> 
     <script type="text/javascript"src="assets/fileupload/jquery.fileupload.js"></script>
 	<!-- 	<script src="module/js/bootstrap-treeview.min.js"></script> -->
+	
+	
+	<script>
+	$('#Img1').on('click', function() {
+		$('.singnatureImg').click();
+	});
+	</script>
 </body>
 </html>

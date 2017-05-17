@@ -59,11 +59,9 @@ public class TemplateService extends SearchService implements ITemplateService{
 				"employee2.EMPLOYEENAME as UPLOADER",
 				"template.SUGGEST",
 				"fileInformation.UPLOADERID",
-				"case when template.TEMPLATETYPE = 0 then '合同文件'"
-						+"when template.TEMPLATETYPE = 1 then '合同附件'"
-						+"when template.TEMPLATETYPE = 2 then '交接单文件'"
-						+"when template.TEMPLATETYPE = 3 then '报告文件' end as TEMPLATETYPE",
-
+				"case when template.TEMPLATETYPE = 0 then '合同文件模板'"
+						+"when template.TEMPLATETYPE = 1 then '报告文件模板'"
+						+"when template.TEMPLATETYPE = 2 then '交接单文件模板' end as TEMPLATETYPE",
 				"DATE_FORMAT(template.createTime,'%Y-%m-%d %h:%s') as UPLOADTIME ",
 
 				"case when template.STATE = 0 then '未提交'"
@@ -90,6 +88,8 @@ public class TemplateService extends SearchService implements ITemplateService{
 				+ "LEFT JOIN employee AS EMPLOYEE1 ON template.verifyMan = employee1.ID  "
 				+ "LEFT JOIN employee AS EMPLOYEE2 ON fileInformation.uploaderID = employee2.ID ";
 
+		System.out.println("--- "+order);
+		System.out.println("-------------"+sort );
 		List<Map<String, Object>> result = originalSearchWithpaging(properties,
 				tableName, joinEntity, null, condition, false, null,
 				sort,order, index, pageNum);
@@ -225,7 +225,7 @@ public class TemplateService extends SearchService implements ITemplateService{
 		int count =0;
 		
 		if(TestProjectIDs != null && TestProjectIDs != ""){
-			String[] ids = TestProjectIDs.split(",");
+			String[] ids = TestProjectIDs.replaceAll(" ", "").split(",");
 			for(String id : ids){
 				TestProject project = entityDao.getByID(id,TestProject.class);
 				if(project == null){
