@@ -84,7 +84,8 @@ label.control-label {
 	height:30px;
 	color:#eee;
 	background-color:#5695ff;
-	border:1px solid #333;
+	border:1px solid transparent;
+	border-radius: 4px;
 }
 
 #table thead,.modal-header {
