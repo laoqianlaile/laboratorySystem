@@ -213,7 +213,7 @@ public class FileInformationService extends SearchService implements IFileInform
 			"fileInformation.fileName",
 			"employee.employeeName",
 			"fileInformation.uploaderID",
-			"date_format(fileInformation.uploadTime,'%Y-%m-%e') as uploadTime",
+			"date_format(fileInformation.uploadTime,'%Y-%m-%e %H:%i:%s') as uploadTime",
 			"fileInformation.remarks"
 		};
 		String joinEntity = " LEFT JOIN employee ON fileInformation.uploaderID = employee.ID ";

@@ -124,7 +124,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		       </div>
 		       <div id="add_Address1" class="col-xs-12 col-md-12">
                    <label class="control-label">签订单位地址:</label>
-                   <input type="text" id="add_address" name="address" class="form-control" readonly="true"/>
+                   <input type="text" id="add_address" name="address" class="form-control"/>
                </div>
                <div id="add_Address2" class="col-xs-12 col-md-12">
                    <label class="control-label">签约地点:</label>
@@ -132,11 +132,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                </div>
                <div id="add_LinkMen" class="col-xs-12 col-md-12">
                    <label class="control-label wide">甲方代表:</label>
-                   <input type="text" id="add_oppositeMen" name="oppositeMen" class="form-control narrow1" readonly="true"/>
+                   <input type="text" id="add_oppositeMen" name="oppositeMen" class="form-control narrow1"/>
                </div>
                <div id="add_Phone"" class="col-xs-12 col-md-12">
                    <label class="control-label">联系电话:</label>
-                   <input type="text" id="add_linkPhone" name="linkPhone" class="form-control" onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}" onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}"  readonly="true"/>
+                   <input type="text" id="add_linkPhone" name="linkPhone" class="form-control" onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}" onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');this.value='';}" />
                </div>
                 <div class="col-xs-12 col-md-12">
                    <label class="control-label">乙方代表:</label>
@@ -175,7 +175,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="col-xs-12 col-md-12">
 					<label class="control-label">涉密等级:</label>
-					<select id="add_classifiedLevel" name="classifiedLevel" class="form-control classifiedLevel-select">
+					<select id="add_classifiedLevel" name="classifiedLevel" class="form-control classifiedLevel-select" onchange="classifiedLevelSth()">
 						<option id="Level3" value="3">无密级</option>
 						<option class="Level3" value="0">秘密</option>
 						<option class="Level3" value="1">机密</option>

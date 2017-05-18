@@ -66,13 +66,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="col-xs-4 col-md-4 col-lg-4">
 					<label class="wide">甲方法定代表人(代理人):</label> <input
 						type="text" id="edit_oppositeMen" name="oppositeMen"
-						class="form-control narrow" readonly="true"/>
+						class="form-control narrow"/>
 				</div>
 				<div class="col-xs-4 col-md-4 col-lg-4">
 					<label class="control-label">联系电话:</label> <input type="text"
 						id="edit_linkPhone" name="linkPhone" class="form-control"
 						onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');}"
-						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');}" readonly="true"/>
+						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');}"/>
 				</div>
 				<div class="col-xs-4 col-md-4 col-lg-4">
 					<label class="control-label">签约地点:</label> <input type="text"

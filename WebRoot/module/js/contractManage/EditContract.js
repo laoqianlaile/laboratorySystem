@@ -10,7 +10,7 @@ $(function() {
 
 //初始化数据
 function initContractFile(){
-	var order = 1;
+	var num = 1;
 	$("#show_contractFile").bootstrapTable({
 		//height : 200,// 定义表格的高度
 		striped : true,// 隔行变色效果
@@ -30,7 +30,7 @@ function initContractFile(){
 		queryParams: function queryParams(params) { //请求服务器数据时,添加一些额外的参数
 			param.limit = params.limit;// 页面大小
 			param.offset = params.offset; // 偏移量
-			order = params.offset+1;
+			num = params.offset;
 			param.sort = params.sort; // 排序列名
 			param.order = params.order; // 排位方式
 			param.ID = $.trim($('#edit_contractID').val())
@@ -50,7 +50,7 @@ function initContractFile(){
 			visible : true,
 			formatter : function(value, row, index) {
 				checkDate(row, "file");
-				return order++;
+				return num+1;
 			}
 		},{
 			field:'ID',//返回值名称
@@ -268,9 +268,9 @@ function initContractTemplateFile(){
 		//height : 200,// 定义表格的高度
 		striped : true,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
-		pageSize : 4,// 页面数据条数
+		pageSize : 3,// 页面数据条数
 		pageNumber : 1,// 首页页码
-		pageList : [ 4 ],// 设置可供选择的页面数据条数
+		pageList : [ 3 ],// 设置可供选择的页面数据条数
 		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache : false,// 禁用 AJAX 数据缓存
 		sortName : 'createTime',// 定义排序列
@@ -469,7 +469,7 @@ function delFile(id,fileName) {
 
 //初始化数据(合同细项)
 function initContractFileItem(){
-	var order = 1;
+	var num = 1;
 	$("#show_contractFileItem").bootstrapTable({
 		//height : 800,// 定义表格的高度
 		striped : true,// 隔行变色效果
@@ -489,8 +489,8 @@ function initContractFileItem(){
 		queryParams: function queryParams(params) { //请求服务器数据时,添加一些额外的参数
 			param.limit = params.limit;// 页面大小
 			param.offset = params.offset; // 偏移量
-			order =params.offset +1;
-			param.sort = params.sort; // 排序列名 
+			num = params.offset;
+			param.sort = params.sort; // 排序列名
 			param.order = params.order; // 排位方式
 			param.ID = $.trim($('#edit_contractID').val())
 			return param;
@@ -504,7 +504,7 @@ function initContractFileItem(){
 			width : '5%',// 宽度
 			formatter : function(value, row, index) {
 				checkDate(row, "item");
-				return order++;
+				return num+1;
 			}
 		},{
 			field:'ID',//返回值名称
@@ -1242,7 +1242,6 @@ function classifiedLevelSth(){
 		$('#edit_classifiedLevel .Level3').show();
 		$('#edit_classifiedLevel #Level3').hide();
 	}
-	
 }
 
 /**
@@ -1269,7 +1268,7 @@ function editShowMsg(){
 		    		var htmlElement = "";//定义HTML
 		    		company = $(".companyN");
 		    		if(myobj.length == 0){
-		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
+		    			htmlElement += "<ul><li class='noDate'>没有查到对应公司，将新增对应数据</li></ul>";
 		    		}else{
 		    			length = myobj.length;
 		    			htmlElement += "<ul>";
@@ -1318,7 +1317,7 @@ function editGetEName(){
 		    			length = myobj.length;
 		    			htmlElement += "<ul>";
 		    			for(var i=0; i < length; i++){
-			    			htmlElement += "<li value='" + myobj[i].employeeName + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + "</li>";
+			    			htmlElement += "<li value='" + myobj[i].employeeName + "' name='" + myobj[i].employeeCode + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + " | " + myobj[i].employeeCode + "</li>";
 			    		}
 		    			htmlElement += "</ul>";
 		    		}
@@ -1339,34 +1338,37 @@ function editClick(){
 	$(".companyN ul li").click(function(){
 		 var name = $(this).attr("value");
 		 if (name == null || name.trim() == "" || name == "undefined") {
-			 name = "";
-			}
-		 $("#edit_companyName").val(name);
-		 var ID =  $(this).attr("class");
-		 var mobilePhone =  $(this).attr("id");
-		 var linkMan =  $(this).attr("name");
-		 var address =  $(this).attr("title");
-		 if (ID == null || ID.trim() == "" || ID == "undefined") {
-			 ID = "";
-			}
-		 if (mobilePhone == null || mobilePhone.trim() == "" || mobilePhone == "undefined") {
-			 mobilePhone = "";
-			}
-		 if (linkMan == null || linkMan.trim() == "" || linkMan == "undefined") {
-			 linkMan = "";
-			}
-		 if (address == null || address.trim() == "" || address == "undefined") {
-			 address = "";
-			}
-		 $('#edit_companyName').attr({'name' : "" + ID + ""});
-		 $('#edit_companyName').attr({'value' : "" + name + ""});
-		 $("#edit_oppositeMen").val(linkMan);
-		 //$('#edit_oppositeMen').attr("disabled",true);
-		 $("#edit_linkPhone").val(mobilePhone);
-		 //$('#edit_linkPhone').attr("disabled",true);
-		 $("#edit_address").val(address);
-		// $('#edit_address').attr("disabled",true);
-		 $(".companyN").hide();
+			 name = "edit_companyName";
+			 $('#edit_companyName').attr({'name' : "" + name + ""});
+			 $('#edit_address').attr("readOnly",false);
+		}else{
+			$("#edit_companyName").val(name);
+			 var ID =  $(this).attr("class");
+			 var mobilePhone =  $(this).attr("id");
+			 var linkMan =  $(this).attr("name");
+			 var address =  $(this).attr("title");
+			 if (ID == null || ID.trim() == "" || ID == "undefined") {
+				 ID = "";
+				}
+			 if (mobilePhone == null || mobilePhone.trim() == "" || mobilePhone == "undefined") {
+				 mobilePhone = "";
+				}
+			 if (linkMan == null || linkMan.trim() == "" || linkMan == "undefined") {
+				 linkMan = "";
+				}
+			 if (address == null || address.trim() == "" || address == "undefined") {
+				 address = "";
+				}
+			 $('#edit_companyName').attr({'name' : "" + ID + ""});
+			 $('#edit_companyName').attr({'value' : "" + name + ""});
+			 $("#edit_oppositeMen").val(linkMan);
+			 //$('#edit_oppositeMen').attr("disabled",true);
+			 $("#edit_linkPhone").val(mobilePhone);
+			 //$('#edit_linkPhone').attr("disabled",true);
+			 $("#edit_address").val(address);
+			 $('#edit_address').attr("readOnly",true);
+		}
+		$(".companyN").hide();
 	})
 	
 	//隐藏提示框
@@ -1595,24 +1597,58 @@ function edit(){
 			swal("保密等级不能为空！");
 			return;
 		}
-		else {
-			parame.contractCode = contractCode;
-			parame.contractName = contractName;
-			parame.signAddress = signAddress;
-			parame.address = address;
-			parame.companyID = companyID;
-			parame.companyName = companyName;
-			parame.oppositeMen = oppositeMen;
-			parame.linkPhone = linkPhone;
-			parame.startTime = startTime;
-			parame.endTime = endTime;
-			parame.employeeID = employeeID;
-			parame.employeeName = employeeName;
-			parame.signTime = signTime;
-			//parame.contractAmount = contractAmount;
-			parame.isClassified = isClassified;
-			parame.classifiedLevel = classifiedLevel;
-			
+		parame.contractCode = contractCode;
+		parame.contractName = contractName;
+		parame.signAddress = signAddress;
+		parame.address = address;
+		parame.companyID = companyID;
+		parame.companyName = companyName;
+		parame.oppositeMen = oppositeMen;
+		parame.linkPhone = linkPhone;
+		parame.startTime = startTime;
+		parame.endTime = endTime;
+		parame.employeeID = employeeID;
+		parame.employeeName = employeeName;
+		parame.signTime = signTime;
+		//parame.contractAmount = contractAmount;
+		parame.isClassified = isClassified;
+		parame.classifiedLevel = classifiedLevel;
+		if(companyID == "edit_companyName"){
+			swal({
+				title: "公司不存在，是否修改合同并新增对应公司记录！",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "确定",
+				closeOnConfirm: false
+				},
+				function(){	
+					$.ajax({
+						url:'contractController/updContract.do',
+						type:'post', 
+						data:parame,
+						dataType:'json',
+						success:function(o){
+							switch (o) {
+							case -2:swal("新增公司失败！");
+								break;
+							case -4:swal("公司名与公司ID不相符！");
+						  		break;
+							case 1:swal("保存成功！");
+								setTimeout(refresh, 1000);
+								break;
+							case 0:swal("保存失败！");
+								break;
+							default:
+								break;
+							}
+						},
+						error:function(o){
+							console.log(o);
+						}
+				});
+			});
+		}else {
 			$.ajax({
 			  url:'contractController/updContract.do',
 			  type:'post', 

@@ -174,7 +174,19 @@ function onclickNvi(){
 	 var html="";
 	 var data = getEmployeeInfo();
 	 
-	 html ="<tr><td>姓名</td>"+"<td> <input id ='edit_Name' type='text' class='form-control' value='"+data[0].employeeName+"' placeholder='请输入昵称'/></td></tr>"
+
+	/* html ="<tr><td>姓名</td>"+"<td> <input id ='edit_Name' type='text' class='form-control' value='"+data[0].employeeName+"' placeholder='请输入昵称'/></td></tr>"
+*/
+	 html ="<tr>" +
+		"<td width='200px'>" +
+			"<div style='cursor: pointer;'>" +
+				"<img src ='module/img/file/defaultPhoto.jpg'>" +
+			"</div>" +
+		"</td>" +
+		"<td>" +"<a class='ahead'><input unselectable='on' type='file' class='hide'>更改头像</a>" +
+		"</td>" +
+		"</tr>"
+		+"<tr><td>姓名</td>"+"<td> <input id ='edit_Name' type='text' class='form-control' value='"+data[0].employeeName+"' placeholder='请输入昵称'/></td></tr>"
 		+"<tr><td>所属部门</td>"+"<td>"+data[0].departmentName+"</td></tr>"
 		+"<tr><td>能力等级</td>"+"<td>"+data[0].level+"</td></tr>"
 		+"<tr><td>职位名称</td>"+"<td>"+data[0].dutyName+"</td></tr>"

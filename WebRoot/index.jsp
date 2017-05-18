@@ -679,18 +679,16 @@
 			</div>
 		</div>
 	</div>
-<!--<div class="signature">
+<!-- <div class="signature">
 		<label>电子签名:</label>
 	    <img id="Img1"  src="module/img/file/defaultPhoto.jpg"
 			data-holder-rendered="true"/>
 			
-		 <input class="singnatureImg"
-			type="file" name="files" id="files" onchange="previewImage(this,'Img1')"
+		 <input class="singnatureImg" type="file" name="files" id="files" onchange="previewImage(this,'Img1')"
 			accept="image/png, image/gif, image/jpg, image/jpeg"
-			style="width:66px;height:25px;position:absolute;left:10px;top:155px;opacity: 0;filter: alpha(opacity = 0);" />
-       
-	</div>
-	<div class="stamp">
+			style="width:66px;height:25px;position:absolute;left:10px;top:155px;opacity: 0;filter: alpha(opacity = 0);" />  
+	</div> -->
+	<!-- <div class="stamp"> 
 		<label>电子盖章:</label>
 		 <img id="Img2"  src="module/img/file/defaultPhoto.jpg"
 			data-holder-rendered="true""/>

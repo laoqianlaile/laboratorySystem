@@ -198,7 +198,7 @@ public class TaskService extends SearchService implements ITaskService {
 						receiptlist.setAllotState(2);
 					}
 					entityDao.updatePropByID(receiptlist, receiptlistID); // 更新交接单分配状态
-                    
+
 					// 更新检测人员
 					for (int i = 0; i < temp.length; i++) {
 						TaskMan taskMan = new TaskMan();
@@ -802,17 +802,13 @@ public class TaskService extends SearchService implements ITaskService {
 		String filteConditon = "";
 		if (taskID != null && !taskID.equals("") && !taskID.equals(" ")
 				&& !taskID.isEmpty()) {
-			filteConditon = " WHERE task.ID = '" + taskID+"'";
+			filteConditon = " WHERE task.ID = '" + taskID + "'";
 		}
 		String tableName = " ( "
 				+ " SELECT "
 				+ "sample.factoryCode AS factoryCode,"
 				+ "sample.sampleName AS sampleName,"
 				+ "sample.specifications AS specifications,"
-				+ "samplerecord.getTime AS getTime,"
-				+ "sampleRecord.getMan AS getMan,"
-				+ "samplerecord.returnTime AS returnTime,"
-				+ "samplerecord.returnMan AS returnMan,"
 				+ "task.detectstate AS detectstate,"
 				+ "task.testProjectID AS testProjectID,"
 				+ "task.ID AS ID"
@@ -826,10 +822,6 @@ public class TaskService extends SearchService implements ITaskService {
 				"a.factoryCode AS factoryCode",
 				"a.sampleName AS sampleName",
 				"a.specifications AS specifications",
-				"DATE_FORMAT(a.returnTime,'%Y-%m-%d %H:%i:%s') AS returnTime",
-				"a.getMan AS getMan",
-				"DATE_FORMAT(a.getTime,'%Y-%m-%d %H:%i:%s') AS getTime",
-				"a.returnMan AS returnMan",
 				"IF (a.detectstate = 0,'无报告',IF (a.detectstate = 1,'未提交',IF (a.detectstate = 2,'二审中',IF (a.detectstate=3,'二审未通过',IF (a.detectstate = 4,'三审中',"
 						+ "IF (a.detectstate = 5,'三审未通过',IF (a.detectstate = 6,'审核通过','其它'))))))) AS detectstate",
 				"IF (testproject.nameCn IS NULL,testproject.nameEn,IF (testproject.nameEn IS NULL,testproject.nameCn,CONCAT(testproject.nameCn,'(',testproject.nameEn,')'))) AS testProjectName", };

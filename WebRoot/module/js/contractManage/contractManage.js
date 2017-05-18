@@ -312,6 +312,25 @@ function showAddModal(){
 	$("#addModal").modal("show");
 }
 
+
+function classifiedLevelSth(){
+	var classifiedLevel = $('#add_classifiedLevel').val();
+	var isClassified = document.getElementsByName("isClassified");
+	if(classifiedLevel == "3"){
+		 isClassified[1].checked = "checked";
+		 $('#add_classifiedLevel').val(classifiedLevel);
+		$('#add_classifiedLevel #Level3').show();
+		$('#add_classifiedLevel .Level3').hide();
+	}else{
+		
+		 isClassified[0].checked = "checked";
+		 $('#add_classifiedLevel').val(classifiedLevel);
+		$('#add_classifiedLevel .Level3').show();
+		$('#add_classifiedLevel #Level3').hide();
+	}
+}
+
+>>>>>>> 8703524cfdbad8431113c2a03514eded7e6cce14
 /* 新增方法 */
 function add(){
 		var parame = {};
@@ -401,26 +420,35 @@ function add(){
 			swal("保密等级不能为空！");
 			return;
 		}
-		else {
-			parame.contractName = contractName;
-			parame.companyID = companyID;
-			parame.companyName = companyName;
-			parame.oppositeMen = oppositeMen;
-			parame.linkPhone = linkPhone;
-			parame.employeeID = employeeID;
-			parame.employeeName = employeeName;
-			parame.address = address;
-			parame.signAddress = signAddress;
-			parame.signTime = signTime;
-			parame.startTime = startTime;
-			parame.endTime = endTime;
-			parame.isClassified = isClassified;
-			parame.classifiedLevel = classifiedLevel;
-			$.ajax({
-				  url:'contractController/addContract.do',
-				  data:parame,
-				  success:function(o){
-					  switch (o) {
+		parame.contractName = contractName;
+		parame.companyID = companyID;
+		parame.companyName = companyName;
+		parame.oppositeMen = oppositeMen;
+		parame.linkPhone = linkPhone;
+		parame.employeeID = employeeID;
+		parame.employeeName = employeeName;
+		parame.address = address;
+		parame.signAddress = signAddress;
+		parame.signTime = signTime;
+		parame.startTime = startTime;
+		parame.endTime = endTime;
+		parame.isClassified = isClassified;
+		parame.classifiedLevel = classifiedLevel;
+		if(companyID == "add_companyName"){
+			swal({
+				title: "公司不存在，是否新建合同并新增对应公司记录！",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "确定",
+				closeOnConfirm: false
+				},
+				function(){	
+					$.ajax({
+						  url:'contractController/addContract.do',
+						  data:parame,
+						  success:function(o){
+							  switch (o) {
 							  	case '-2':swal("新增公司失败！");
 							  		break;
 							  	case '-4':swal("公司名与公司ID不相符！");
@@ -438,6 +466,34 @@ function add(){
 								default:
 									break;
 							  }
+						  }
+					});
+			});
+		}else {
+			$.ajax({
+				  url:'contractController/addContract.do',
+				  data:parame,
+				  success:function(o){
+					  switch (o) {
+
+					  	case '-2':swal("新增公司失败！");
+					  		break;
+					  	case '-4':swal("公司名与公司ID不相符！");
+				  			break;
+					  	case '-6':swal("不存在该员工！");
+				  			break;
+					  	case '-8':swal("员工名与员工ID不相符！");
+			  				break;
+						case '1':$('#addModal').modal('hide');
+							swal("新增成功！");
+							setTimeout(refresh, 1000);
+							break;
+						case '0':swal("新增失败！");
+							break;
+						default:
+							break;
+					  }
+
 				  }
 			});
 		}
@@ -467,7 +523,7 @@ function addShowMsg(){
 		    		var htmlElement = "<ul>";//定义HTML
 		    		company = $(".companyN");
 		    		if(myobj.length == 0){
-		    			htmlElement += "<li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li>";
+		    			htmlElement += "<li class='noDate'>没有查到对应公司，将新增对应数据</li>";
 		    		}else{
 		    			length = myobj.length;
 		    		}
@@ -539,6 +595,7 @@ function addClick(){
 			 $('#add_address').attr("disabled",false);
 			 $("#add_oppositeMen").val("");
 			 $("#add_linkPhone").val("");
+<<<<<<< HEAD
 			}
 		 $("#add_companyName").val(name);
 		 var ID =  $(this).attr("class");
@@ -568,6 +625,36 @@ function addClick(){
 				$('#add_address').attr("disabled",true);
 			 }
 		// $('#add_address').attr("disabled",true);
+		 }else{
+			 $("#add_companyName").val(name);
+			 var ID =  $(this).attr("class");
+			 var mobilePhone =  $(this).attr("id");
+			 var linkMan =  $(this).attr("name");
+			 var address =  $(this).attr("title");
+			 if (ID == null || ID.trim() == "" || ID == "undefined") {
+				 ID = "";
+				}
+			 if (mobilePhone == null || mobilePhone.trim() == "" || mobilePhone == "undefined") {
+				 mobilePhone = "";
+				}
+			 if (linkMan == null || linkMan.trim() == "" || linkMan == "undefined") {
+				 linkMan = "";
+				}
+			 if (address == null || address.trim() == "" || address == "undefined") {
+				 address = "";
+				}
+			 $('#add_companyName').attr({'name' : "" + ID + ""});
+			 $('#add_companyName').attr({'value' : "" + name + ""});
+			 $("#add_oppositeMen").val(linkMan);
+			// $('#add_oppositeMen').attr("disabled",true);
+			 $("#add_linkPhone").val(mobilePhone);
+			 //$('#add_linkPhone').attr("disabled",true);
+			 $("#add_address").val(address);
+			 if(address != ""){
+				$('#add_address').attr("disabled",true);
+			 }
+		 }
+>>>>>>> 8703524cfdbad8431113c2a03514eded7e6cce14
 		 $(".companyN").hide();
 	})
 	

@@ -21,6 +21,8 @@ public class ContractFineItem extends Entity{
 	private double money;
 	private String remarks;
 	private String contractID;
+	private String sampleID;
+	private int type;
 	
 	public String getID() {
 		return ID;
@@ -36,6 +38,22 @@ public class ContractFineItem extends Entity{
 	public void setTestProjectID(String testProjectID) {
 		this.testProjectID = testProjectID;
 	}
+	public String getSampleID() {
+		return sampleID;
+	}
+
+	public void setSampleID(String sampleID) {
+		this.sampleID = sampleID;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
 	public String getFineItemCode() {
 		return fineItemCode;
 	}	
