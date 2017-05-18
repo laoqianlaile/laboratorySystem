@@ -102,9 +102,9 @@ public class ReceiptlistService extends SearchService implements
 						+ "when receiptlist.state = 1 then '检测中' "
 						+ "when receiptlist.state = 2 then '检测完成' "
 						+ "when receiptlist.state = 3 then '异常终止' end as state",
-				"case when receiptlist.isEditSample = 0 then '未分配'"
-						+ "when receiptlist.isEditSample = 1 then '未分配' "
-						+ "when receiptlist.isEditSample = 2 then '已分配' end as assignState " };
+				"case when receiptlist.allotState = 0 then '未分配'"
+						+ "when receiptlist.allotState = 1 then '分配中' "
+						+ "when receiptlist.allotState = 2 then '分配完成' end as assignState " };
 		String joinEntity = " left join contract on receiptlist.contractID = contract.ID "
 				+ " left join company on contract.companyID = company.ID "
 				+ " left join employee on receiptlist.employeeID = employee.ID ";

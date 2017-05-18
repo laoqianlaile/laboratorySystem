@@ -24,21 +24,6 @@ $(function () {
 	
 	initEvent();
 	
-	// 查看报告按钮点击事件
-	$('#viewReport').click(function (){
-		var data = $('#table').bootstrapTable('getSelections');
-		
-		if(data.length==0 || data.length>1){
-			swal({
-				title: "请选中一条数据",
-				type: 'warning'
-			});
-			return;
-		}
-		var receiptlistID = data[0].ID;
-		window.location.href = window.location.href.replace('departmentSupervisorDesktop/departmentSupervisorDesktop.jsp','testReportManage/testReportManage.jsp') + '?ID='+receiptlistID;
-	});
-	
 	// 工作量统计按钮点击事件
 	$('#workloadStatistical').click(function (){
 		var data = $('#table').bootstrapTable('getSelections');
@@ -75,15 +60,25 @@ $(function () {
 	$('#viewFile').click(function() {
 		var data = $('#fileTable').bootstrapTable('getSelections');
 		
-		if (data.length == 0 || data.length > 1) {
+		if(data.length == 0 || data.length > 1){
 			swal({
 				title: "请选择一个文档查看",
 				type: 'warning'
 			});
 			return;
 		} else {
-			var fileID = data[0]; // 得到预览文件ID
-			onlineView(fileID);
+			var fileID = data[0].ID; // 得到预览文件ID
+			
+			$.post("fileOperateController/onlinePreview.do", {
+				ID : fileID
+			}, function(result) {
+				result = eval(result);
+				if (result != null && result != "null") {
+					window.location.href = "module/jsp/documentOnlineView.jsp";
+				} else {
+					swal("无法查看");
+				}
+			});
 		}
 	});
 	
