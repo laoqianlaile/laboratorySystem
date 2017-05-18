@@ -158,7 +158,7 @@ function initAuditPerson() {
 		pageNumber : 1,// 首页页码
 		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache : false,// 禁用 AJAX 数据缓存
-		sortName : 'ID',// 定义排序列
+		sortName : 'employeeLevel',// 定义排序列
 		sortOrder : 'ASC',// 定义排序方式
 		url : 'taskController/getTaskAuditPersonWithPaging.do',// 服务器数据的加载地址
 		sidePagination : 'server',// 设置在哪里进行分页
