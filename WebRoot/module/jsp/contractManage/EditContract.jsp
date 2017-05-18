@@ -66,13 +66,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="col-xs-4 col-md-4 col-lg-4">
 					<label class="wide">甲方法定代表人(代理人):</label> <input
 						type="text" id="edit_oppositeMen" name="oppositeMen"
-						class="form-control narrow" readonly="true"/>
+						class="form-control narrow"/>
 				</div>
 				<div class="col-xs-4 col-md-4 col-lg-4">
 					<label class="control-label">联系电话:</label> <input type="text"
 						id="edit_linkPhone" name="linkPhone" class="form-control"
 						onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');}"
-						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');}" readonly="true"/>
+						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');}"/>
 				</div>
 				<div class="col-xs-4 col-md-4 col-lg-4">
 					<label class="control-label">签约地点:</label> <input type="text"
@@ -136,7 +136,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="col-xs-1a col-md-2 col-lg-2">
 					<label class="classifiedLevel-label">密级:</label> <select
 						id="edit_classifiedLevel" name="classifiedLevel"
-						class="form-control classifiedLevel-select">
+						class="form-control classifiedLevel-select" onchange="classifiedLevelSth()">
 						<option id="Level3" value="3">无密级</option>
 						<option class="Level3" value="0">秘密</option>
 						<option class="Level3" value="1">机密</option>
@@ -273,7 +273,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    	<input type="text" id="add_price2" name="price" class="form-control fl" style="width:21%;" 
                    	onkeyup="checknum(this);" onafterpaste="checknum(this);"/>
                 </div>
-               	<div class="col-xs-12 col-md-12" style="display: none;">
+               	<div class="col-xs-12 col-md-12">
                    	<label class="control-label">检测单位：</label>
                    	<select id="add_departmentName" name="departmentName" class="form-control">
 						
@@ -339,7 +339,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    	<input type="text" id="edit_price2" name="price" class="form-control fl" style="width:21%;" 
                    	onkeyup="checknum(this);" onafterpaste="checknum(this);"/>
                 </div>
-               	<div class="col-xs-12 col-md-12" style="display: none;">
+               	<div class="col-xs-12 col-md-12">
                    	<label class="control-label">检测单位：</label>
                    	<select id="edit_departmentName" name="departmentName" class="form-control">
 						

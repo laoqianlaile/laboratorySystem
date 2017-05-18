@@ -100,7 +100,7 @@ body {
 				  };
 			 var params = {
 
-			    }
+			    };
             params.quality = "high";
             params.bgcolor = "#ffffff";
             params.allowscriptaccess = "sameDomain";

@@ -24,19 +24,19 @@ public class Employee extends Entity{
 	private int state;
 	private String dutyID;
 	private int permission;
-	private String singnature;
+	private String signature;
 	private String stamp;
 	private Date birthday;
 	private int jobTitle;
 	private int eduLevel;
 	private String graduate;
 	
-	public String getSingnature() {
-		return singnature;
+	public String getSignature() {
+		return signature;
 	}
 
-	public void setSingnature(String singnature) {
-		this.singnature = singnature;
+	public void setSignature(String signature) {
+		this.signature = signature;
 	}
 
 	public String getStamp() {

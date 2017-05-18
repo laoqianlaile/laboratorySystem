@@ -136,8 +136,8 @@ label.wide{
     overflow-y: hidden;
     overflow-x: hidden;
 	position:relative;
-	margin-left: 56%;
-	width:37.3%;
+	margin-left: 21.3%;
+	width:72%;
 	display:none;
 	border:1px solid #ccc;
 	border-top:none;
@@ -165,7 +165,7 @@ label.wide{
 .employeeN ul li.noDate{
  	color: red;
  	font-size:14px;
- 	height:90px;
+ 	height:60px;
 }
 .employeeN ul li:hover{
 	background-color:#dcdcdc;
@@ -215,7 +215,6 @@ label.wide{
 
 .contractFile{
 	width:99%;
-	min-height:300px;
 	margin:20px 10px;
 }
 .contractFile .top{
@@ -244,7 +243,7 @@ label.wide{
 }
 .contractFile .bottom{
 	margin:20px 10px;
-	height:256px;
+	height:inherit;
 	width:99%;
 	border:1px solid #ccc;
 }

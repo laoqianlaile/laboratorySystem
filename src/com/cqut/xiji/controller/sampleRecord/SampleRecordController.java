@@ -58,8 +58,8 @@ public class SampleRecordController{
 	 */
 	@RequestMapping("/updSampleRecord")
 	@ResponseBody
-	public String updSampleRecord(String ID,String sampleID,String factoryCode,String sampleName,String specifications,String getManID,String getTime,String remarks){
-		String result = service.updSampleRecord(ID,sampleID ,factoryCode, sampleName, specifications, getManID, getTime,remarks);
+	public String updSampleRecord(String ID,String sampleID,String factoryCode,String sampleName,String specifications,String getManID,String getTime,String type,String remarks){
+		String result = service.updSampleRecord(ID,sampleID ,factoryCode, sampleName, specifications, getManID, getTime,type,remarks);
 		return result;
 	}
 	/**

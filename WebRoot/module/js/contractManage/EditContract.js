@@ -10,17 +10,18 @@ $(function() {
 
 //初始化数据
 function initContractFile(){
+	var num = 1;
 	$("#show_contractFile").bootstrapTable({
 		//height : 200,// 定义表格的高度
 		striped : true,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
-		pageSize : 4,// 页面数据条数
+		pageSize : 3,// 页面数据条数
 		pageNumber : 1,// 首页页码
-		pageList : [ 4 ],// 设置可供选择的页面数据条数
+		pageList : [ 3 ],// 设置可供选择的页面数据条数
 		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache : false,// 禁用 AJAX 数据缓存
 		sortName : 'uploadTime',// 定义排序列
-		sortOrder : 'asc',// 定义排序方式
+		sortOrder : 'desc',// 定义排序方式
 		url:'fileInformationController/getContractFileWithPaging.do',//服务器数据的加载地址
 		sidePagination:'server',//设置在哪里进行分页
 		contentType:'application/json',//发送到服务器的数据编码类型
@@ -29,6 +30,7 @@ function initContractFile(){
 		queryParams: function queryParams(params) { //请求服务器数据时,添加一些额外的参数
 			param.limit = params.limit;// 页面大小
 			param.offset = params.offset; // 偏移量
+			num = params.offset;
 			param.sort = params.sort; // 排序列名
 			param.order = params.order; // 排位方式
 			param.ID = $.trim($('#edit_contractID').val())
@@ -36,11 +38,21 @@ function initContractFile(){
 		}, //参数
 	    queryParamsType: "limit", 
 		selectItemName : '',// radio or checkbox 的字段名
-		onLoadSuccess : function(data) {
+		/*onLoadSuccess : function(data) {
 			checkDate(data, "file");
 			//console.log(data);
-		},
+		},*/
 		columns:[{
+			title : '序号',// 列名
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width : '5%',// 宽度
+			visible : true,
+			formatter : function(value, row, index) {
+				checkDate(row, "file");
+				return num+1;
+			}
+		},{
 			field:'ID',//返回值名称
 			title:'文件ID',//列名
 			align:'center',//水平居中显示
@@ -162,22 +174,68 @@ function getContractByID(){
 		    	 if (data) {
 		    		var myobj = JSON.parse(data);
 		    		checkDate(myobj, "con");
-		    		$('#edit_contractCode').html(myobj[0].contractCode);
-		    		$('#edit_contractName').val(myobj[0].contractName);
-		    		$('#edit_address').val(myobj[0].address);
-		    		$('#edit_signAddress').val(myobj[0].signAddress);
+		    		if(myobj[0].contractCode == undefined){
+		    			$('#edit_contractCode').text(myobj.contractCode);
+		    			$('#edit_contractCode').attr({'value' : "" + myobj.contractCode + ""});
+		    		}else{
+		    			$('#edit_contractCode').text(myobj[0].contractCode);
+		    			$('#edit_contractCode').attr({'value' : "" + myobj[0].contractCode + ""});
+		    		}
+		    		if(myobj[0].contractName == undefined){
+		    			$('#edit_contractName').attr({'value' : "" + myobj.contractName + ""});
+		    		}else{
+		    			$('#edit_contractName').attr({'value' : "" + myobj[0].contractName + ""});
+		    		}
+		    		if(myobj[0].address == undefined){
+		    			$('#edit_address').attr({'value' : "" + myobj.address + ""});
+		    		}else{
+		    			$('#edit_address').attr({'value' : "" + myobj[0].address + ""});
+		    		}
+		    		if(myobj[0].signAddress == undefined){
+		    			$('#edit_signAddress').attr({'value' : "" + myobj.signAddress + ""});
+		    		}else{
+		    			$('#edit_signAddress').attr({'value' : "" + myobj[0].signAddress + ""});
+		    		}
 		    		if(myobj[0].companyName == undefined){
 		    			$('#edit_companyName').attr({'value' : "" + myobj.companyName + "",'name' : "" + myobj[0].companyID + ""});
 		    		}else{
 		    			$('#edit_companyName').attr({'value' : "" + myobj[0].companyName + "",'name' : "" + myobj[0].companyID + ""});
 		    		}
-		    		$('#edit_oppositeMen').val(myobj[0].oppositeMen);
-		    		$('#edit_linkPhone').val(myobj[0].linkPhone);
-		    		$('#edit_startTime').val(myobj[0].startTime);
-		    		$('#edit_endTime').val(myobj[0].endTime);
-		    		$('#edit_employeeName').attr({'value' : "" + myobj[0].employeeName + "",'name' : "" + myobj[0].employeeID + ""});
-		    		$('#edit_signTime').val(myobj[0].signTime);
-		    		$('#edit_contractAmount').val(myobj[0].contractAmount);
+		    		if(myobj[0].oppositeMen == undefined){
+		    			$('#edit_oppositeMen').attr({'value' : "" + myobj.oppositeMen + ""});
+		    		}else{
+		    			$('#edit_oppositeMen').attr({'value' : "" + myobj[0].oppositeMen + ""});
+		    		}
+		    		if(myobj[0].linkPhone == undefined){
+		    			$('#edit_linkPhone').attr({'value' : "" + myobj.linkPhone + ""});
+		    		}else{
+		    			$('#edit_linkPhone').attr({'value' : "" + myobj[0].linkPhone + ""});
+		    		}
+		    		if(myobj[0].startTime == undefined){
+		    			$('#edit_startTime').attr({'value' : "" + myobj.startTime + ""});
+		    		}else{
+		    			$('#edit_startTime').attr({'value' : "" + myobj[0].startTime + ""});
+		    		}
+		    		if(myobj[0].endTime == undefined){
+		    			$('#edit_endTime').attr({'value' : "" + myobj.endTime + ""});
+		    		}else{
+		    			$('#edit_endTime').attr({'value' : "" + myobj[0].endTime + ""});
+		    		}
+		    		if(myobj[0].employeeName == undefined){
+		    			$('#edit_employeeName').attr({'value' : "" + myobj.employeeName + "",'name' : "" + myobj[0].employeeID + ""});
+		    		}else{
+		    			$('#edit_employeeName').attr({'value' : "" + myobj[0].employeeName + "",'name' : "" + myobj[0].employeeID + ""});
+		    		}
+		    		if(myobj[0].signTime == undefined){
+		    			$('#edit_signTime').attr({'value' : "" + myobj.signTime + ""});
+		    		}else{
+		    			$('#edit_signTime').attr({'value' : "" + myobj[0].signTime + ""});
+		    		}
+		    		if(myobj[0].contractAmount == undefined){
+		    			$('#edit_contractAmount').attr({'value' : "" + myobj.contractAmount + ""});
+		    		}else{
+		    			$('#edit_contractAmount').attr({'value' : "" + myobj[0].contractAmount + ""});
+		    		}
 		    		if(myobj[0].isClassified == "1"){
 		    			$('#r1').prop('checked','true');
 		    			$('#r2').prop('checked','');
@@ -185,7 +243,12 @@ function getContractByID(){
 		    			$('#r1').prop('checked','');
 		    			$('#r2').prop('checked','true');
 		    		}
-		    		$('#edit_classifiedLevel').val(myobj[0].classifiedLevel);
+		    		if(myobj[0].classifiedLevel == undefined){
+		    			$('#edit_classifiedLevel').attr({'value' : "" + myobj.classifiedLevel + ""});
+		    		}else{
+		    			$('#edit_classifiedLevel').attr({'value' : "" + myobj[0].classifiedLevel + ""});
+		    			$('#edit_classifiedLevel').val(myobj[0].classifiedLevel);
+		    		}
 		    		initContractFile();
 		    		initContractFileItem();
 		    		}
@@ -205,9 +268,9 @@ function initContractTemplateFile(){
 		//height : 200,// 定义表格的高度
 		striped : true,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
-		pageSize : 4,// 页面数据条数
+		pageSize : 3,// 页面数据条数
 		pageNumber : 1,// 首页页码
-		pageList : [ 4 ],// 设置可供选择的页面数据条数
+		pageList : [ 3 ],// 设置可供选择的页面数据条数
 		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache : false,// 禁用 AJAX 数据缓存
 		sortName : 'createTime',// 定义排序列
@@ -226,18 +289,14 @@ function initContractTemplateFile(){
 		}, //参数
 	    queryParamsType: "limit", 
 		selectItemName : '',// radio or checkbox 的字段名
-		/*onLoadSuccess : function(data) {
-			checkDate(data, "file");
-			//console.log(data);
-		},*/
 		columns : [ {
 			checkbox : true,
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
 			width :'3%',// 宽度
-			/*formatter : function(value, row, index) {
-				 checkData(row);	 //验证数据合理性					
-		    }*/
+			formatter : function(value, row, index) {
+				checkDate(row, "template");
+			}
 		},{
 			field:'ID',//返回值名称
 			title:'模版ID',//列名
@@ -410,6 +469,7 @@ function delFile(id,fileName) {
 
 //初始化数据(合同细项)
 function initContractFileItem(){
+	var num = 1;
 	$("#show_contractFileItem").bootstrapTable({
 		//height : 800,// 定义表格的高度
 		striped : true,// 隔行变色效果
@@ -429,6 +489,7 @@ function initContractFileItem(){
 		queryParams: function queryParams(params) { //请求服务器数据时,添加一些额外的参数
 			param.limit = params.limit;// 页面大小
 			param.offset = params.offset; // 偏移量
+			num = params.offset;
 			param.sort = params.sort; // 排序列名
 			param.order = params.order; // 排位方式
 			param.ID = $.trim($('#edit_contractID').val())
@@ -436,15 +497,16 @@ function initContractFileItem(){
 		}, //参数
 	    queryParamsType: "limit", 
 		selectItemName : '',// radio or checkbox 的字段名
-		onLoadSuccess : function(data) {
-			checkDate(data, "item");
-			//console.log(data);
-		},
-		columns:[/*{
-			checkbox:true,
-			align:'center',//水平居中显示
-			width:'5%'//宽度
-		}*/{
+		columns:[{
+			title : '序号',// 列名
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width : '5%',// 宽度
+			formatter : function(value, row, index) {
+				checkDate(row, "item");
+				return num+1;
+			}
+		},{
 			field:'ID',//返回值名称
 			title:'合同细项ID',//列名
 			align:'center',//水平居中显示
@@ -561,12 +623,13 @@ function initContractFileItem(){
 function checkDate(data, who) {
 	if (who == "con"){
 		chenkDataCon(data);
-	}
-	else if (who == "file"){
+	}else if (who == "file"){
 		chenkDataFile(data);
-	}else
+	}else if (who == "item"){
 		chenkDataItem(data);
-
+	}else if (who == "template"){
+		chenkDataTemplate(data);
+	}
 }
 //检查合同文件数据是否合理
 function chenkDataCon(dataObj) { // 后台数据字段为空就不会传上来
@@ -720,6 +783,40 @@ function chenkDataItem(dataObj) { // 后台数据字段为空就不会传上来
 			|| dataObj.remarks == undefined 
 			|| dataObj.isOutsourcing.trim() == "") {
 		dataObj.remarks = "";
+	}
+}
+
+//检查模版文件数据是否合理
+function chenkDataTemplate(dataObj) { // 后台数据字段为空就不会传上来
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
+			|| dataObj.ID == undefined 
+			|| dataObj.ID.trim() == "") {
+		dataObj.ID = "";
+	}
+	if (!dataObj.hasOwnProperty("fileName") || dataObj.fileName == null
+			|| dataObj.fileName == undefined 
+			|| dataObj.fileName.trim() == "") {
+		dataObj.fileName = "";
+	}
+	if (!dataObj.hasOwnProperty("fileID") || dataObj.fileID == null
+			|| dataObj.fileID == undefined 
+			|| dataObj.fileID.trim() == "") {
+		dataObj.fileID = "";
+	}
+	if (!dataObj.hasOwnProperty("name") || dataObj.name == null
+			|| dataObj.name == undefined 
+			|| dataObj.name.trim() == "") {
+		dataObj.name = "";
+	}
+	if (!dataObj.hasOwnProperty("createTime") || dataObj.createTime == null
+			|| dataObj.createTime == undefined 
+			|| dataObj.createTime.trim() == "") {
+		dataObj.createTime = "";
+	}
+	if (!dataObj.hasOwnProperty("templateType") || dataObj.templateType == null
+			|| dataObj.templateType == undefined 
+			|| dataObj.templateType.trim() == "") {
+		dataObj.templateType = "";
 	}
 }
 
@@ -886,7 +983,7 @@ function outChange(){
  * addGetTPName
  */
 function addGetTPName(){ 
-	var name = $('#add_testProjectName').val();
+	var name = $('#add_testProjectName').val().trim();
 	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{ 
 		$(".testProjectName").hide();
@@ -967,7 +1064,7 @@ function addClick(){
  * editGetTPName
  */
 function editGetTPName(){ 
-	var name = $('#edit_testProjectName').val();
+	var name = $('#edit_testProjectName').val().trim();
 	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{ 
 		$(".testProjectName").hide();
@@ -1055,6 +1152,16 @@ function editSth(){
 }
 
 function openAddItemModal(){
+	$('#add_fineItemCode').val("");
+	$('#add_testProjectName').attr("name","");
+	$('#add_testProjectName').attr("title","");
+	$('#add_testProjectName').val("");
+	$('#add_number').val("");
+	$('#add_hour').val("");
+	$('#add_price1').val("");
+	$('#add_price2').val("");
+	$('#add_departmentID').val("");
+	$('#add_remarks').val("");
 	$('#addContractItemModal').modal('show');
 }
 
@@ -1120,11 +1227,28 @@ function classifiedSth(){
 	}
 }
 
+function classifiedLevelSth(){
+	var classifiedLevel = $('#edit_classifiedLevel').val();
+	var isClassified = document.getElementsByName("isClassified");
+	if(classifiedLevel == "3"){
+		 isClassified[1].checked = "checked";
+		 $('#edit_classifiedLevel').val(classifiedLevel);
+		$('#edit_classifiedLevel #Level3').show();
+		$('#edit_classifiedLevel .Level3').hide();
+	}else{
+		
+		 isClassified[0].checked = "checked";
+		 $('#edit_classifiedLevel').val(classifiedLevel);
+		$('#edit_classifiedLevel .Level3').show();
+		$('#edit_classifiedLevel #Level3').hide();
+	}
+}
+
 /**
  * 改变信息触发相关提示信息的方法(edit)
  */
 function editShowMsg(){ 
-	var name = $('#edit_companyName').val();
+	var name = $('#edit_companyName').val().trim();
 	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{ 
 		$(".companyN").hide();
@@ -1144,7 +1268,7 @@ function editShowMsg(){
 		    		var htmlElement = "";//定义HTML
 		    		company = $(".companyN");
 		    		if(myobj.length == 0){
-		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
+		    			htmlElement += "<ul><li class='noDate'>没有查到对应公司，将新增对应数据</li></ul>";
 		    		}else{
 		    			length = myobj.length;
 		    			htmlElement += "<ul>";
@@ -1168,7 +1292,7 @@ function editShowMsg(){
  * 改变信息触发相关提示信息的方法(edit)
  */
 function editGetEName(){
-	var name = $('#edit_employeeName').val();
+	var name = $('#edit_employeeName').val().trim();
 	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{
 		$(".employeeN").hide();
@@ -1193,7 +1317,7 @@ function editGetEName(){
 		    			length = myobj.length;
 		    			htmlElement += "<ul>";
 		    			for(var i=0; i < length; i++){
-			    			htmlElement += "<li value='" + myobj[i].employeeName + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + "</li>";
+			    			htmlElement += "<li value='" + myobj[i].employeeName + "' name='" + myobj[i].employeeCode + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + " | " + myobj[i].employeeCode + "</li>";
 			    		}
 		    			htmlElement += "</ul>";
 		    		}
@@ -1214,34 +1338,37 @@ function editClick(){
 	$(".companyN ul li").click(function(){
 		 var name = $(this).attr("value");
 		 if (name == null || name.trim() == "" || name == "undefined") {
-			 name = "";
-			}
-		 $("#edit_companyName").val(name);
-		 var ID =  $(this).attr("class");
-		 var mobilePhone =  $(this).attr("id");
-		 var linkMan =  $(this).attr("name");
-		 var address =  $(this).attr("title");
-		 if (ID == null || ID.trim() == "" || ID == "undefined") {
-			 ID = "";
-			}
-		 if (mobilePhone == null || mobilePhone.trim() == "" || mobilePhone == "undefined") {
-			 mobilePhone = "";
-			}
-		 if (linkMan == null || linkMan.trim() == "" || linkMan == "undefined") {
-			 linkMan = "";
-			}
-		 if (address == null || address.trim() == "" || address == "undefined") {
-			 address = "";
-			}
-		 $('#edit_companyName').attr({'name' : "" + ID + ""});
-		 $('#edit_companyName').attr({'value' : "" + name + ""});
-		 $("#edit_oppositeMen").val(linkMan);
-		 //$('#edit_oppositeMen').attr("disabled",true);
-		 $("#edit_linkPhone").val(mobilePhone);
-		 //$('#edit_linkPhone').attr("disabled",true);
-		 $("#edit_address").val(address);
-		// $('#edit_address').attr("disabled",true);
-		 $(".companyN").hide();
+			 name = "edit_companyName";
+			 $('#edit_companyName').attr({'name' : "" + name + ""});
+			 $('#edit_address').attr("readOnly",false);
+		}else{
+			$("#edit_companyName").val(name);
+			 var ID =  $(this).attr("class");
+			 var mobilePhone =  $(this).attr("id");
+			 var linkMan =  $(this).attr("name");
+			 var address =  $(this).attr("title");
+			 if (ID == null || ID.trim() == "" || ID == "undefined") {
+				 ID = "";
+				}
+			 if (mobilePhone == null || mobilePhone.trim() == "" || mobilePhone == "undefined") {
+				 mobilePhone = "";
+				}
+			 if (linkMan == null || linkMan.trim() == "" || linkMan == "undefined") {
+				 linkMan = "";
+				}
+			 if (address == null || address.trim() == "" || address == "undefined") {
+				 address = "";
+				}
+			 $('#edit_companyName').attr({'name' : "" + ID + ""});
+			 $('#edit_companyName').attr({'value' : "" + name + ""});
+			 $("#edit_oppositeMen").val(linkMan);
+			 //$('#edit_oppositeMen').attr("disabled",true);
+			 $("#edit_linkPhone").val(mobilePhone);
+			 //$('#edit_linkPhone').attr("disabled",true);
+			 $("#edit_address").val(address);
+			 $('#edit_address').attr("readOnly",true);
+		}
+		$(".companyN").hide();
 	})
 	
 	//隐藏提示框
@@ -1469,24 +1596,58 @@ function edit(){
 			swal("保密等级不能为空！");
 			return;
 		}
-		else {
-			parame.contractCode = contractCode;
-			parame.contractName = contractName;
-			parame.signAddress = signAddress;
-			parame.address = address;
-			parame.companyID = companyID;
-			parame.companyName = companyName;
-			parame.oppositeMen = oppositeMen;
-			parame.linkPhone = linkPhone;
-			parame.startTime = startTime;
-			parame.endTime = endTime;
-			parame.employeeID = employeeID;
-			parame.employeeName = employeeName;
-			parame.signTime = signTime;
-			//parame.contractAmount = contractAmount;
-			parame.isClassified = isClassified;
-			parame.classifiedLevel = classifiedLevel;
-			
+		parame.contractCode = contractCode;
+		parame.contractName = contractName;
+		parame.signAddress = signAddress;
+		parame.address = address;
+		parame.companyID = companyID;
+		parame.companyName = companyName;
+		parame.oppositeMen = oppositeMen;
+		parame.linkPhone = linkPhone;
+		parame.startTime = startTime;
+		parame.endTime = endTime;
+		parame.employeeID = employeeID;
+		parame.employeeName = employeeName;
+		parame.signTime = signTime;
+		//parame.contractAmount = contractAmount;
+		parame.isClassified = isClassified;
+		parame.classifiedLevel = classifiedLevel;
+		if(companyID == "edit_companyName"){
+			swal({
+				title: "公司不存在，是否修改合同并新增对应公司记录！",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "确定",
+				closeOnConfirm: false
+				},
+				function(){	
+					$.ajax({
+						url:'contractController/updContract.do',
+						type:'post', 
+						data:parame,
+						dataType:'json',
+						success:function(o){
+							switch (o) {
+							case -2:swal("新增公司失败！");
+								break;
+							case -4:swal("公司名与公司ID不相符！");
+						  		break;
+							case 1:swal("保存成功！");
+								setTimeout(refresh, 1000);
+								break;
+							case 0:swal("保存失败！");
+								break;
+							default:
+								break;
+							}
+						},
+						error:function(o){
+							console.log(o);
+						}
+				});
+			});
+		}else {
 			$.ajax({
 			  url:'contractController/updContract.do',
 			  type:'post', 
@@ -1552,7 +1713,7 @@ function addItem(){
 	if(calculateType == 0){
 		if (!number || typeof(number) == "undefined" || number.trim() == "") 
 		{ 
-			swal("数量/台不能为空！");
+			swal("数量/次不能为空！");
 			return;
 		}
 		if (!price1 || typeof(price1) == "undefined" || price1.trim() == "") 
@@ -1586,7 +1747,7 @@ function addItem(){
 	if(departmentName != 11){
 		if (!departmentName || typeof(departmentName) == "undefined" || departmentName.trim() == "") 
 		{
-			swal("检测单位不能为空！");
+			swal("检测单位不能为空！请修改检测项目的所属单位或选择新的检测单位");
 			return;
 		}
 		parame.isOutsourcing = 0;

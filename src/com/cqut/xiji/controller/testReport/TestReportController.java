@@ -375,10 +375,10 @@ public class TestReportController {
 	 */
 	@RequestMapping("/thirdPassReport")
 	@ResponseBody
-	public boolean thirdPassReport(String ID, String taskID, String passAgreement, HttpServletRequest req) {
+	public String thirdPassReport(String ID, String taskID, String passAgreement, HttpServletRequest req) {
 		String employeeID = (String) req.getSession().getAttribute("EMPLOYEEID");
-		boolean result = service.thirdPassReport(ID, taskID, passAgreement,employeeID);
-		return result;
+		String flag = service.thirdPassReport(ID, taskID, passAgreement,employeeID);
+		return flag;
 	}
 
 	/**

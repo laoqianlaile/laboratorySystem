@@ -352,20 +352,7 @@ function uploadFile() {
 			}).bind('fileuploaddone',function(e, data) {
 						var fileID = JSON.parse(data.result);
 						if (fileID != null && fileID != "null" && fileID != "") {
-							var rows = $("#table").bootstrapTable('getSelections'), 
-							    fileVersionNumber = $("#fileVersionNumber").val(), 
-							    fileVersionInfo = $("#fileVersionNumber").val(),
-							    fileRemarks = $("#fileRemarks").val();
-							$.post("testReportController/updateTestReport.do",
-									{
-										ID : rows[0].ID,
-										taskID : rows[0].taskID,
-										versionNumber : fileVersionNumber,
-										versionInfo : fileVersionInfo,
-										remarks : fileRemarks
-									}, function(result) {
-										reload();
-									});
+							
 						} else {
 							alert("上传失败");
 						} 
@@ -404,7 +391,7 @@ function uploadImage(selectorName) {
 	});
 }
 function upSignature(){
-	console.log("上传电子签名图片");
+	
 }
 function upStamp(){
 	console.log("上传电子盖章图片");

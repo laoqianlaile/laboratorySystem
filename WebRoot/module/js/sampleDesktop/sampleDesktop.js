@@ -276,6 +276,7 @@ function initTidingsTable() {
 						}, // 请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
 						selectItemName : '',// radio or checkbox 的字段名
 						onLoadSuccess : function(data) {
+							//加上    <span class="badge pull-right">42</span>首页 在消息上面
 						},
 						columns : [
 								{
