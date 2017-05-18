@@ -166,8 +166,12 @@ public class SampleRecordService extends SearchService implements
 		}
 		sampleRecord.setRemarks(remarks);
 		sampleRecord.setGetMan(getMan);
-		sampleRecord.setType(Integer.parseInt(type));
-		
+		try {
+			sampleRecord.setType(Integer.parseInt(type));
+			System.out.println(type);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		int result = entityDao.save(sampleRecord);
 		String[] properties = new String[] { "sample.ID", };
@@ -192,16 +196,47 @@ public class SampleRecordService extends SearchService implements
 	@Override
 	public String updSampleRecord(String ID, String sampleID,
 			String factoryCode, String sampleName, String specifications,
-			String getManID, String getTime, String remarks) {
+			String getManID, String getTime,String type, String remarks) {
 		SampleRecord sampleRecord = entityDao.getByID(ID, SampleRecord.class);
+		String SGF=sampleRecord.getFactoryCode();
 		sampleRecord.setFactoryCode(factoryCode);
 		sampleRecord.setGetMan(getManID);
 		sampleRecord.setGetTime(StrToDate(getTime));
 		sampleRecord.setRemarks(remarks);
+		try {
+			sampleRecord.setType(Integer.parseInt(type));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		int result = entityDao.updatePropByID(sampleRecord, ID);
+			if(!factoryCode.equals(SGF)){
+			Sample sample = entityDao.getByID(sampleID, Sample.class);
+			int state = sample.getState();
+			if (state == 0) {
+				sample.setState(1);
+			} else {
+				sample.setState(0);
+			}
+			int Sresult = entityDao.updatePropByID(sample, sampleID);
+			String[] properties = new String[] { "sample.ID", };
+			String condition = "1 = 1 " + "and sample.factoryCode= '" + factoryCode
+					+ "'";
 
-		Sample sample = entityDao.getByID(sampleID, Sample.class);
-
+			String str = (String) entityDao
+					.findByCondition(properties, condition, Sample.class).get(0)
+					.get("ID");
+			Sample sample1 = entityDao.getByID(str, Sample.class);
+			if(type.equals("0")){
+				sample1.setState(1);
+			}else {
+				sample1.setState(0);
+			}
+			int result1 = entityDao.updatePropByID(sample1, str);
+			}else{
+				System.out.println(".............");
+			}
+			
 		
 
 		return result+"";

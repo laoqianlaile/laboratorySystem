@@ -24,15 +24,19 @@ public class Employee extends Entity{
 	private int state;
 	private String dutyID;
 	private int permission;
-	private String singnature;
+	private String signature;
 	private String stamp;
+	private Date birthday;
+	private int jobTitle;
+	private int eduLevel;
+	private String graduate;
 	
-	public String getSingnature() {
-		return singnature;
+	public String getSignature() {
+		return signature;
 	}
 
-	public void setSingnature(String singnature) {
-		this.singnature = singnature;
+	public void setSignature(String signature) {
+		this.signature = signature;
 	}
 
 	public String getStamp() {
@@ -41,6 +45,38 @@ public class Employee extends Entity{
 
 	public void setStamp(String stamp) {
 		this.stamp = stamp;
+	}
+
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	public int getJobTitle() {
+		return jobTitle;
+	}
+
+	public void setJobTitle(int jobTitle) {
+		this.jobTitle = jobTitle;
+	}
+
+	public int getEduLevel() {
+		return eduLevel;
+	}
+
+	public void setEduLevel(int eduLevel) {
+		this.eduLevel = eduLevel;
+	}
+
+	public String getGraduate() {
+		return graduate;
+	}
+
+	public void setGraduate(String graduate) {
+		this.graduate = graduate;
 	}
 
 	public String getID() {

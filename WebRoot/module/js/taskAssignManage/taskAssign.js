@@ -93,40 +93,16 @@ $(function () {
 			title:'型号/规格',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'5%'//宽度
+			width:'10%'//宽度
 		},{
 			field:'nameCn',//返回值名称
 			title:'检测/校准项目',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'5%'//宽度
-		},{
-			field:'getMan',//返回值名称
-			title:'领样人',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-			width:'5%'//宽度
-		},{
-			field:'getTime',//返回值名称
-			title:'领样时间',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-			width:'10%'//宽度
-		},{
-			field:'returnMan',//返回值名称
-			title:'退样人',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-			width:'5%'//宽度
-		},{
-			field:'returnTime',//返回值名称
-			title:'退样时间',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-			width:'10%'//宽度
+			width:'15%'//宽度
 		},{
 			field:'state',//返回值名称
-			title:'状态',//列名
+			title:'分配状态',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'5%'//宽度
@@ -135,13 +111,13 @@ $(function () {
 			title:'检测/校准人员',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10%'//宽度
+			width:'25%'//宽度
 		},{
 			field:'custodian',//返回值名称
 			title:'监督员',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'5%'//宽度
+			width:'10%'//宽度
 		},{
 			field:'operate',//返回值名称
 			title:'操作',//列名

@@ -82,10 +82,6 @@ public class TaskService extends SearchService implements ITaskService {
 				"sample.sampleName",
 				"sample.specifications",
 				"testProject.nameCn",
-				"IFnull(employee_2.employeeName, '无') AS getMan",// 领样人
-				"date_format(sampleRecord.getTime,'%Y-%m-%e') as getTime",// 领样时间
-				"IFnull(employee_3.employeeName, '无') AS returnMan",// 退样人
-				"date_format(sampleRecord.returnTime,'%Y-%m-%e') as returnTime",// 退样时间
 				"case when task.allotState = 0 then '未分配' "
 						+ "when task.allotState = 1 then '已分配' end as state",
 				"IFnull( " + " (SELECT group_concat(employee.employeeName) "
@@ -96,11 +92,8 @@ public class TaskService extends SearchService implements ITaskService {
 				"IFnull(employee_1.employeeName,'无') as custodian" };
 
 		String joinEntity = " left join sample on task.sampleID = sample.ID "
-				+ " left join sampleRecord on sampleRecord.sampleID = sample.ID "
 				+ " left join testProject on task.testProjectID = testProject.ID "
-				+ " left join employee as employee_1 on task.custodian = employee_1.ID "
-				+ " left join employee as employee_2 on sampleRecord.getMan = employee_2.ID "
-				+ " left join employee as employee_3 on sampleRecord.returnMan = employee_3.ID";
+				+ " left join employee as employee_1 on task.custodian = employee_1.ID ";
 
 		String condition = "1 = 1 and task.receiptlistID = " + ID;
 
@@ -149,6 +142,18 @@ public class TaskService extends SearchService implements ITaskService {
 				Task task = entityDao.getByID(taskID, Task.class);
 				task.setAllotstate(1);
 				entityDao.updatePropByID(task, taskID);
+				
+				String receiptlistID = task.getReceiptlistID(); // 得到交接单ID
+				System.out.println("交接单ID为：" + receiptlistID);
+				Receiptlist receiptlist = entityDao.getByID(receiptlistID, Receiptlist.class);
+				
+				// 判断该交接单下的任务是否全部分配
+				if (judgeAssignState(taskID) == 1) {
+					receiptlist.setAllotState(1);
+				} else if (judgeAssignState(taskID) == 2) {
+					receiptlist.setAllotState(2);
+				}
+				entityDao.updatePropByID(receiptlist, receiptlistID); // 更新交接单分配状态
 
 				// 更新检测人员
 				for (int i = 0; i < temp.length; i++) {
@@ -174,14 +179,26 @@ public class TaskService extends SearchService implements ITaskService {
 						result = -1;
 					}
 				}
-			} else if (type == 2) {// 修改
+			} else if (type == 2) { // 修改
 				//  如果修改是检测人员为空，则新增
 				if (taskManID == null) {
 					// 更新分配状态
 					Task task = entityDao.getByID(taskID, Task.class);
 					task.setAllotstate(1);
 					entityDao.updatePropByID(task, taskID);
-
+					
+					String receiptlistID = task.getReceiptlistID(); // 得到交接单ID
+					System.out.println("交接单ID为：" + receiptlistID);
+					Receiptlist receiptlist = entityDao.getByID(receiptlistID, Receiptlist.class);
+					
+					// 判断该交接单下的任务是否全部分配
+					if (judgeAssignState(taskID) == 1) {
+						receiptlist.setAllotState(1);
+					} else if (judgeAssignState(taskID) == 2) {
+						receiptlist.setAllotState(2);
+					}
+					entityDao.updatePropByID(receiptlist, receiptlistID); // 更新交接单分配状态
+                    
 					// 更新检测人员
 					for (int i = 0; i < temp.length; i++) {
 						TaskMan taskMan = new TaskMan();
@@ -205,6 +222,50 @@ public class TaskService extends SearchService implements ITaskService {
 		}
 		return result;
 	}
+	/**
+	 * 
+	 * features or effect
+	 * @author cyb
+	 * @date 2017年5月16日 下午9:22:41
+	 * @param ID
+	 * @return
+	 */
+	// 判断该交接单是否分配完全
+	public int judgeAssignState(String ID) {
+		Task task = entityDao.getByID(ID, Task.class);
+		String receiptlistID = task.getReceiptlistID(); // 得到交接单ID
+		
+		// 获取所有任务的分配状态
+		String[] properties = new String[] {
+				"task.ID",
+				"task.allotState"
+		};
+
+		String condition = "1 = 1 and task.receiptlistID = '" + receiptlistID + "'";
+
+		List<Map<String, Object>> result = originalSearchForeign(properties, getBaseEntityName(), null, null, condition, false);
+		int len = result.size();
+		int allotNum = 0; // 已分配的任务数
+		
+		// 判断是否全部为已分配
+		for (int i = 0; i < len; i++) {
+			Map<String, Object> map = result.get(i);
+			if ((int)map.get("allotState") == 1) {
+				allotNum++;
+			}
+		}
+		
+		System.out.println("allotNum:" + allotNum);
+		
+		if (allotNum == 0) { // 未分配
+			return 0;
+		} else if (allotNum == len) { // 分配完成
+			return 2;
+		} else {
+			return 1; // 分配中 
+		}
+	}
+	
 	
 	public void addMessage(String[] IDS, String taskID) {
 		Task task = entityDao.getByID(taskID, Task.class);
@@ -741,7 +802,7 @@ public class TaskService extends SearchService implements ITaskService {
 		String filteConditon = "";
 		if (taskID != null && !taskID.equals("") && !taskID.equals(" ")
 				&& !taskID.isEmpty()) {
-			filteConditon = " WHERE task.ID = " + taskID;
+			filteConditon = " WHERE task.ID = '" + taskID+"'";
 		}
 		String tableName = " ( "
 				+ " SELECT "
@@ -798,8 +859,8 @@ public class TaskService extends SearchService implements ITaskService {
 				"IF (employee.state = 0, '禁用', '启用') AS employeeState",
 				"IF (employee.`level` = 0,'初级',IF (employee.`level` = 1,'中级',IF(employee.`level` = 2,'高级','其它'))) AS employeeLevel",
 				"role.`name` AS roleName" };
-		String condition = " role.`name` = '报告审核人' AND employee.state = '1' ";
-		String joinEntity = " LEFT JOIN role ON LOCATE(role.ID,employee.roleID) > 0 ";
+		String condition = " role.`name` = '报告审核人' OR role.`name` = '超级管理员' AND employee.state = '1' ";
+		String joinEntity = " LEFT JOIN role ON LOCATE(role.ID, employee.roleID) > 0 ";
 
 		List<Map<String, Object>> result = entityDao.searchWithpaging(
 				properties, tableName, joinEntity, null, condition, null, sort,
@@ -929,36 +990,42 @@ public class TaskService extends SearchService implements ITaskService {
 		Map<String, Object> result = baseEntityDao.findByID(
 				new String[] { "receiptlistID,detectstate,testReportID,levelTwo" }, taskID,
 				"ID", "task");
-		if (result.get("levelTwo") == null) {
+		Object auditPersonIsExist = result.get("levelTwo");
+		if (auditPersonIsExist == null) {
 			return false;
 		} else {
-			String detectstate = result.get("detectstate").toString();
-			if (detectstate.equals("1")) {
-				tk.setDetectstate(2);
-				Date now = new Date(System.currentTimeMillis());
-				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				try {
-					tk.setCompleteTime(dateFormat.parse(dateFormat.format(now)));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				String testReportID = result.get("testReportID").toString();
-				TestReport tr = entityDao.getByID(testReportID,TestReport.class);
-				String receiptlistID = result.get("receiptlistID").toString();
-				Receiptlist rt = entityDao.getByID(receiptlistID,Receiptlist.class);
-				if (tr != null) {
-					tr.setState(1);
-				}
-				if (rt != null){
-					rt.setState(1);
-				}
-				int updateTaskSuccessCount = baseEntityDao.updatePropByID(tk,taskID);
-				int updateReportSuccessCount = baseEntityDao.updatePropByID(tr,testReportID);
-				int updateReceiptlistCount = baseEntityDao.updatePropByID(rt,receiptlistID);
-				return (updateTaskSuccessCount + updateReportSuccessCount + updateReceiptlistCount) > 2 ? true : false;
-
-			} else {
+			String auditPerson = auditPersonIsExist.toString();
+			if(auditPerson.equals("") || auditPerson.equals(" ")) {
 				return false;
+			} else {
+				String detectstate = result.get("detectstate").toString();
+				if (detectstate.equals("1")) {
+					tk.setDetectstate(2);
+					Date now = new Date(System.currentTimeMillis());
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					try {
+						tk.setCompleteTime(dateFormat.parse(dateFormat.format(now)));
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					String testReportID = result.get("testReportID").toString();
+					TestReport tr = entityDao.getByID(testReportID,TestReport.class);
+					String receiptlistID = result.get("receiptlistID").toString();
+					Receiptlist rt = entityDao.getByID(receiptlistID,Receiptlist.class);
+					if (tr != null) {
+						tr.setState(1);
+					}
+					if (rt != null){
+						rt.setState(1);
+					}
+					int updateTaskSuccessCount = baseEntityDao.updatePropByID(tk,taskID);
+					int updateReportSuccessCount = baseEntityDao.updatePropByID(tr,testReportID);
+					int updateReceiptlistCount = baseEntityDao.updatePropByID(rt,receiptlistID);
+					return (updateTaskSuccessCount + updateReportSuccessCount + updateReceiptlistCount) > 2 ? true : false;
+	
+				} else {
+					return false;
+				}
 			}
 		}
 	}
@@ -1028,13 +1095,14 @@ public class TaskService extends SearchService implements ITaskService {
 			return null;
 		} else {
 			try {
-				Object fileInfo = result.get(0).get("ID");
+				Map<String, Object> fileInfoMap = result.get(0);
 				String fileInfoID = "";
-				if (fileInfo == null) {
+				if (fileInfoMap == null) {
 					return null;
 				} else {
-					fileInfoID = fileInfo.toString();
+					fileInfoID = fileInfoMap.toString();
 				}
+
 				String filePath = result.get(0).get("path").toString();
 				String pathPassword = result.get(0).get("pathPassword")
 						.toString();
@@ -1121,10 +1189,6 @@ public class TaskService extends SearchService implements ITaskService {
 								testprojectEquiptTable,
 								testprojecEquiptjoinEntity, null, null);
 
-				if (testprojecEquiptData.get(0) == null) {
-					System.out.println("  为空  ");
-				}
-
 				// 查找任务对应的设备
 				String taskEquiptFilterCondition = " WHERE taskequipment.taskID = '"
 						+ taskID + "'";
@@ -1189,9 +1253,11 @@ public class TaskService extends SearchService implements ITaskService {
 					wp.replaceText("{任务的要求描述}", wordData.get(0).get("requires")
 							.toString());
 				if (wordData.get(0).get("testProjectName") != null) {
-					wp.replaceAllText("{检测项目名}",
-							wordData.get(0).get("testProjectName").toString());
+					String testProjectName = wordData.get(0).get("testProjectName").toString();
+					wp.putTxtToCell(5, 2, 2, testProjectName);
+					wp.putTxtToCell(5, 2, 1, "1");
 					wp.moveStart();
+					wp.replaceAllText("{检测项目名}",testProjectName);
 				}
 				if (wordData.get(0).get("accordingDoc") != null)
 					wp.replaceText("{交接单的依据文件}",

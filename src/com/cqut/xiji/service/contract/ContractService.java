@@ -334,8 +334,21 @@ public class ContractService extends SearchService implements IContractService{
 		String condition1 = " companyName = '" + companyName + "'";
 		List<Map<String, Object>> result1 = entityDao.findByCondition(properties1, condition1, Company.class);
 		if(result1.isEmpty()){
-			System.out.println("不存在该公司名的公司");
-			return -2;
+			System.out.println("不存在该公司名的公司,将新增对应公司记录");
+			Company company = new Company();
+			companyID = EntityIDFactory.createId();
+			company.setID(companyID);
+			company.setCompanyName(companyName);
+			company.setLinkMan(oppositeMen);
+			company.setMobilePhone(linkPhone);
+			company.setAddress(address);
+			company.setCreateTime(new Date());
+			int result = entityDao.save(company);
+			if(result <= 0){
+				String position = "ID =" + companyID;
+				entityDao.deleteByCondition(position,Company.class);
+				return -2;
+			}
 		}else{
 			int com = 0;
 			String companyID1 = "";
@@ -534,6 +547,18 @@ public class ContractService extends SearchService implements IContractService{
 		
 		List<Map<String, Object>> result2 = entityDao.searchForeign(properties, baseEntiy, joinEntity, null, condition);
 		
+		String baseEntiy4 = "project";
+		String[] properties4 = new String[] { 
+			"contractID",
+			"ID"
+			};
+		String joinEntity4 = "";
+		
+		String condition4 = "contractID = " + ID;
+		
+		List<Map<String, Object>> result4 = entityDao.searchForeign(properties4, baseEntiy4, joinEntity4, null, condition4);
+		String projectID = result4.get(0).get("ID").toString();
+		
 		PropertiesTool pe = new PropertiesTool();
 		
 		filePath = fileEncryptservice.decryptPath(filePath, pathPassword);
@@ -549,13 +574,15 @@ public class ContractService extends SearchService implements IContractService{
 		if(!dectoryName.exists()){
 			dectoryName.mkdirs();
 		}
-		cacheFilePath += contractName + ".docx";
+
+		String newFileID = EntityIDFactory.createId();
+		cacheFilePath += contractName + "_" + newFileID + ".docx";
 
 		fileEncryptservice.decryptFile(path+filePath, cacheFilePath, fileInfoID);
 		System.out.println("文件的路径1 ："+filePath);
 		System.out.println("文件的路径2 ："+cacheFilePath);
 		try {
-			String relativePath = "项目文件" + "\\" + contractName + "\\"  + "合同文件" + "\\";
+			String relativePath = "项目文件" + "\\" + projectID + "\\"  + "合同文件" + "\\";
 
 			path += relativePath ;
 
@@ -564,7 +591,7 @@ public class ContractService extends SearchService implements IContractService{
 			if(!targetFile.exists()){
 				targetFile.mkdirs();
 			}
-			path +=  contractName + ".docx";
+			path +=  contractName + "_" + newFileID + ".docx";
 			WordProcess wp = new WordProcess(false);
 			wp.openDocument(cacheFilePath);
 			
@@ -626,14 +653,14 @@ public class ContractService extends SearchService implements IContractService{
 			wp.save(cacheFilePath);
 			wp.close();
 			
-			String newFileID = EntityIDFactory.createId();
+			
 			FileInformation fi = new FileInformation();
 			fi.setID(newFileID);
 			fi.setBelongtoID(ID);
 			fi.setUploaderID("20170220xiji");
 			fi.setFileName(contractName + ".docx");
 			System.out.println("保存的相对路径是a: " + relativePath);
-			relativePath += contractName + ".docx";
+			relativePath += contractName + "_" + newFileID + ".docx";
 			fi.setPath(relativePath);
 			Date now = new Date(System.currentTimeMillis());
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -710,14 +737,27 @@ public class ContractService extends SearchService implements IContractService{
 		String condition1 = " companyName = '" + companyName + "'";
 		List<Map<String, Object>> result1 = entityDao.findByCondition(properties1, condition1, Company.class);
 		if(result1.isEmpty()){
-			System.out.println("不存在该公司名的公司");
-			return -2;
+			System.out.println("不存在该公司名的公司,将新增对应公司记录");
+			Company company = new Company();
+			companyID = EntityIDFactory.createId();
+			company.setID(companyID);
+			company.setCompanyName(companyName);
+			company.setLinkMan(oppositeMen);
+			company.setMobilePhone(linkPhone);
+			company.setAddress(address);
+			company.setCreateTime(new Date());
+			int result = entityDao.save(company);
+			if(result <= 0){
+				String position = "ID =" + companyID;
+				entityDao.deleteByCondition(position,Company.class);
+				return -2;
+			}
 		}else{
 			int com = 0;
 			String companyID1 = "";
 			for (int i = 0; i < result1.size(); i++) {
 				companyID1 = result1.get(i).get("ID").toString();
-				if(!companyID1.equals(companyID)){
+				if(companyID1.equals(companyID)){
 					com = 1;
 				}
 			}
@@ -768,9 +808,8 @@ public class ContractService extends SearchService implements IContractService{
 		//contract.setContractAmount(contractAmount);
 		contract.setIsClassified(isClassified);
 		contract.setClassifiedLevel(classifiedLevel);
-		
-		int result = entityDao.updatePropByID(contract,ID);
-		return result;
+		int result3 = entityDao.updatePropByID(contract,ID);
+		return result3;
 	}
 	
 	@Override

@@ -77,62 +77,38 @@ $(function() {
 			title : '任务ID',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : "11%",// 宽度
+			width : "10%",// 宽度
 			visible : false
 		}, {
 			field : 'factoryCode',// 返回值名称
 			title : '出厂编号',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : "11%",// 宽度
+			width : "18%",// 宽度
 		}, {
 			field : 'sampleName',// 返回值名称
 			title : '样品名称',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : "11%",// 宽度
+			width : "20%",// 宽度
 		}, {
 			field : 'specifications',// 返回值名称
 			title : '型号/规格/代号',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : "11%",// 宽度
+			width : "20%",// 宽度
 		}, {
 			field : 'testProjectName',// 返回值名称
 			title : '检测/校准项目',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : "11%",// 宽度
-		}, {
-			field : 'getMan',// 返回值名称
-			title : '领样人',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : "11%",// 宽度
-		}, {
-			field : 'getTime',// 返回值名称
-			title : '领样时间',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : "11%",// 宽度
-		}, {
-			field : 'returnMan',// 返回值名称
-			title : '退样人',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : "11%",// 宽度
-		}, {
-			field : 'returnTime',// 返回值名称
-			title : '退样时间',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : "11%",// 宽度
+			width : "20%",// 宽度
 		}, {
 			field : 'detectstate',// 返回值名称
 			title : '检测状态',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : "11%",// 宽度
+			width : "20%",// 宽度
 		} ]
 	});
 

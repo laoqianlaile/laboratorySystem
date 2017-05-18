@@ -456,9 +456,14 @@ public class TestReportService extends SearchService implements
 		String condition = " 1 = 1 AND task.testReportID ='" + ID + "'";
 		List<Map<String, Object>> auditPersonIsExist = entityDao.searchForeign(
 				properties, tanleName, joinEntity, null, condition);
-		if (state.equals("0") && auditPersonIsExist != null
-				&& auditPersonIsExist.size() > 0) {
-			return true;
+		Map<String, Object> levelTwo = auditPersonIsExist.get(0);
+		if (state.equals("0") && levelTwo!= null) {
+			String levelTwoPerson = levelTwo.get("levelTwo").toString();
+			if(!levelTwoPerson.equals("") && !levelTwoPerson.equals(" ")) {
+				return true;
+			} else {
+				return false;
+			}
 		} else {
 			return false;
 		}
@@ -814,12 +819,12 @@ public class TestReportService extends SearchService implements
 	}
 	
 	@Override
-	public boolean thirdPassReport(String ID, String taskID,String auditPassAgreement,String employeeID) {
+	public String thirdPassReport(String ID, String taskID, String auditPassAgreement, String employeeID) {
 		TestReport tr = entityDao.getByID(ID, TestReport.class);
 		if (tr == null) {
-			return false;
+			return "未找到报告相关信息";
 		} else {
-			Map<String, Object> employeeSignImage = baseEntityDao.findByID( new String[] { "singnature,stamp,employeeName" }, employeeID, "ID",
+			Map<String, Object> employeeSignImage = baseEntityDao.findByID( new String[] { "signatrue,stamp,employeeName" }, employeeID, "ID",
 					"employee");
 			if (employeeSignImage != null && employeeSignImage.size() > 0) {
 				String baseEntity = " ( "
@@ -847,38 +852,52 @@ public class TestReportService extends SearchService implements
 
 				String filedisplay = fileTruePath.substring(x, length);// 文件名
 
-				String cachePath = pe.getSystemPram("cacheFilePath") + "\\"
-						+ filedisplay;
+				String cachePath = pe.getSystemPram("cacheFilePath") + "\\" + filedisplay;
 
 				System.out.println("cachePath  :" + cachePath);
 
 				System.out.println("fileTruePath :" + fileTruePath);
 
-				try {
+			
 					fileEncryptservice.decryptFile(fileTruePath, cachePath, fileID);
 
 					String imgPath = pe.getSystemPram("imgPath") + "\\";
 					String employeeName = employeeSignImage.get("employeeName").toString();
-					String singnaturePath = imgPath + employeeSignImage.get("singnature").toString();
-					String stampPath = imgPath + employeeSignImage.get("stamp").toString();
-					WordProcess wp = new WordProcess(false);
-					wp.openDocument(cachePath);
-					wp.replaceText("{签发人}", employeeName);
-					wp.insertImage("{电子签名}", singnaturePath, 100, 100);
-					wp.replaceAllText("{电子签名}", "");
-					wp.insertImage("{电子盖章}", stampPath, 100, 100);
-					wp.replaceAllText("{电子盖章}", "");
-					wp.save(cachePath);
-					wp.close();
-				    fileEncryptservice.encryptFile(cachePath, fileTruePath, fileID); // 将文件重新加密
 					
-
-				} catch (Exception e) {
-					return false;
+					Object signatrue =  employeeSignImage.get("signatrue");
+					Object stamp =  employeeSignImage.get("stamp");
+					
+					if(signatrue != null && stamp != null) {
+						String singnaturePath =  signatrue.toString();
+						String stampPath = stamp.toString();
+						if(!singnaturePath.equals("") && !singnaturePath.equals(" ") && !stampPath.equals(" ") && !stampPath.equals("")) {
+							singnaturePath = imgPath + singnaturePath;
+							stampPath = imgPath + stampPath;
+							System.out.println("signatrue :" + singnaturePath);
+	                       	System.out.println("stampPath :" + stampPath);
+	                    	try {
+								WordProcess wp = new WordProcess(false);
+								wp.openDocument(cachePath);
+								wp.replaceText("{签发人}", employeeName);
+								wp.insertImage("{电子签名}", singnaturePath, 100, 100);
+								wp.replaceAllText("{电子签名}", "");
+								wp.insertImage("{电子盖章}", stampPath, 100, 100);
+								wp.replaceAllText("{电子盖章}", "");
+								wp.save(cachePath);
+								wp.close();
+							    fileEncryptservice.encryptFile(cachePath, fileTruePath, fileID); // 将文件重新加密
+	                    	}
+						    catch (Exception e) {
+								return "程序运行出错";
+							}
+						} else {
+							return "请先上传电子签名或电子盖章";
+						}
+				} else {
+					return "请先上传电子签名或电子盖章";
 				}
 
 			}
-			
 			Map<String, Object> result = baseEntityDao.findByID( new String[] { "receiptlistID" }, taskID, "ID", "task");
 			Task tk = entityDao.getByID(taskID, Task.class);
 			tr.setState(5);
@@ -897,7 +916,11 @@ public class TestReportService extends SearchService implements
 			int updateReportCount = baseEntityDao.updatePropByID(tr, ID);
 			int updateTaskCount = baseEntityDao.updatePropByID(tk, taskID);
 			int updateReceiptlistCount = baseEntityDao.updatePropByID(rt,receiptlistID);
-			return (updateReportCount + updateTaskCount + updateReceiptlistCount) > 2 ? true : false;
+			if((updateReportCount + updateTaskCount + updateReceiptlistCount) > 2 ) {
+				return "true";
+			} else {
+				return "false";
+			}
 		}
 	}
 	

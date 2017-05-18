@@ -82,8 +82,18 @@ $(function () {
 			});
 			return;
 		} else {
-			var fileID = data[0]; // 得到预览文件ID
-			onlineView(fileID);
+			var fileID = data[0].ID; // 得到预览文件ID
+			
+			$.post("fileOperateController/onlinePreview.do", {
+				ID : fileID
+			}, function(result) {
+				result = eval(result);
+				if (result != null && result != "null") {
+					window.location.href = "module/jsp/documentOnlineView.jsp";
+				} else {
+					swal("无法查看");
+				}
+			});
 		}
 	});
 	

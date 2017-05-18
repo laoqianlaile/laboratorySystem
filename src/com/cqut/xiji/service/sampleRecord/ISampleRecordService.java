@@ -4,16 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 
-
-
-
-
-
-
-
-
-
-
 import net.sf.json.JSONArray;
 
 public interface ISampleRecordService {
@@ -80,13 +70,13 @@ public interface ISampleRecordService {
 	 * @param specifications
 	 * @param getMan
 	 * @param getTime
-	 * @param returnMan
+	 * @param returnMa
 	 * @param returnTime
 	 * @return
 	 */
 	public String updSampleRecord(String ID, String sampleID,
 			String factoryCode, String sampleName, String specifications,
-			String getManID, String getTime, String remarks);
+			String getManID, String getTime,String type, String remarks);
 	
 	JSONArray getdatalist();
 	public List<Map<String, Object>> getFactoryCode(String factoryCode);

@@ -297,6 +297,21 @@ function wdownFile(){
 	}
 }
 
+/* 打开新增弹出框 */
+function showAddModal(){
+	$('#add_contractName').val("");
+	$('#add_companyName').val("");
+	$('#add_address').val("");
+	$('#add_oppositeMen').val("");
+	$('#add_linkPhone').val("");
+	$('#add_employeeName').val("");
+	$('#add_signAddress').val("");
+	$('#add_signTime').val("");
+	$('#add_startTime').val("");
+	$('#add_endTime').val("");
+	$("#addModal").modal("show");
+}
+
 /* 新增方法 */
 function add(){
 		var parame = {};
@@ -406,23 +421,23 @@ function add(){
 				  data:parame,
 				  success:function(o){
 					  switch (o) {
-					  	case '-2':swal("不存在该公司名的公司！");
-					  		break;
-					  	case '-4':swal("公司名与公司ID不相符！");
-				  			break;
-					  	case '-6':swal("不存在该员工！");
-				  			break;
-					  	case '-8':swal("员工名与员工ID不相符！");
-			  				break;
-						case '1':$('#addModal').modal('hide');
-							swal("新增成功！");
-							setTimeout(refresh, 1000);
-							break;
-						case '0':swal("新增失败！");
-							break;
-						default:
-							break;
-					  }
+							  	case '-2':swal("新增公司失败！");
+							  		break;
+							  	case '-4':swal("公司名与公司ID不相符！");
+						  			break;
+							  	case '-6':swal("不存在该员工！");
+						  			break;
+							  	case '-8':swal("员工名与员工ID不相符！");
+					  				break;
+								case '1':$('#addModal').modal('hide');
+									swal("新增成功！");
+									setTimeout(refresh, 1000);
+									break;
+								case '0':swal("新增失败！");
+									break;
+								default:
+									break;
+							  }
 				  }
 			});
 		}
@@ -432,7 +447,7 @@ function add(){
  * 新增信息触发相关提示信息的方法(add)
  */
 function addShowMsg(){ 
-	var name = $('#add_companyName').val();
+	var name = $('#add_companyName').val().trim();
 	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{ 
 		$(".companyN").hide();
@@ -474,7 +489,7 @@ function addShowMsg(){
  * 改变信息触发相关提示信息的方法(add)
  */
 function addGetEName(){
-	var name = $('#add_employeeName').val();
+	var name = $('#add_employeeName').val().trim();
 	if (!name || typeof(name) == "undefined" || name.trim() == "") 
 	{
 		$(".employeeN").hide();
@@ -499,7 +514,7 @@ function addGetEName(){
 		    			length = myobj.length;
 		    		}
 		    		for(var i=0; i < length; i++){
-		    			htmlElement += "<li value='" + myobj[i].employeeName + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + "</li>";
+		    			htmlElement += "<li value='" + myobj[i].employeeName + "' name='" + myobj[i].employeeCode + "' class='" + myobj[i].ID + "'>" + myobj[i].employeeName + " | " + myobj[i].employeeCode + "</li>";
 		    		}
 		    		htmlElement += "</ul>"
 		    		employee.show();
@@ -518,7 +533,12 @@ function addClick(){
 	$(".companyN ul li").click(function(){
 		 var name = $(this).attr("value");
 		 if (name == null || name.trim() == "" || name == "undefined") {
-			 name = "";
+			 name = "add_companyName";
+			 $('#add_companyName').attr({'name' : "" + name + ""});
+			 $("#add_address").val("");
+			 $('#add_address').attr("disabled",false);
+			 $("#add_oppositeMen").val("");
+			 $("#add_linkPhone").val("");
 			}
 		 $("#add_companyName").val(name);
 		 var ID =  $(this).attr("class");
@@ -544,6 +564,9 @@ function addClick(){
 		 $("#add_linkPhone").val(mobilePhone);
 		 //$('#add_linkPhone').attr("disabled",true);
 		 $("#add_address").val(address);
+		  if(address != ""){
+				$('#add_address').attr("disabled",true);
+			 }
 		// $('#add_address').attr("disabled",true);
 		 $(".companyN").hide();
 	})
@@ -606,48 +629,6 @@ function showContractM() {
 		swal("合同编号不能为空！"); 
 	}else {
 		window.location.href="module/jsp/contractManage/contractView.jsp?ID="+ ID + "&type=0";
-	}
-	/*var data = $('#table').bootstrapTable('getSelections');
-	if (data.length == 0 || data.length > 1) {
-		swal("请选中一条数据");
-		return;
-	} else {
-		$.post("fileOperateController/onlinePreview.do", {
-			ID : data[0].fileID
-		}, function(result) {
-			if (result != null || result != "null") {
-				window.location.href = "module/jsp/documentOnlineView.jsp";
-			} else {
-				swal("无法查看");
-			}
-		});
-
-	}*/
-
-/*	var ID = data[0].ID;
-	if (!ID || typeof(ID) == "undefined" || ID=='') 
-	{ 
-		swal("合同ID为空！"); 
-	}else {
-		window.location.href="module/jsp/contractManage/contractView.jsp?ID=" + ID + "&type=0";
-	}*/
-}
-
-/**
- * 使页面跳转到查看合同页面(审核)
- */
-function showContractA(){
-	var data = $('#table').bootstrapTable('getSelections');
-	if(data.length==0 || data.length>1){
-		swal("请选中一条数据");
-		return;
-	}
-	var ID = data[0].ID;
-	if (!ID || typeof(ID) == "undefined" || ID.trim() == "") 
-	{ 
-		swal("合同编号不能为空！"); 
-	}else {
-		window.location.href="module/jsp/contractManage/contractView.jsp?ID="+ ID + "&type=1";
 	}
 }
 

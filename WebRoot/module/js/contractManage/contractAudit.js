@@ -238,11 +238,15 @@ function showContractA(){
 		return;
 	}
 	var ID = data[0].ID;
+	var state = data[0].state;
 	if (!ID && typeof(ID)!="undefined" && ID=='') 
 	{ 
 		swal("合同ID不能为空！"); 
-	}else {
+	}else if (state == "待审核") 
+	{ 
 		window.location.href="module/jsp/contractManage/contractView.jsp?ID="+ ID + "&type=1";
+	}else {
+		window.location.href="module/jsp/contractManage/contractView.jsp?ID="+ ID + "&type=0";
 	}
 }
 

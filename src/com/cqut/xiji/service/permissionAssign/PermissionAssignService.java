@@ -270,8 +270,8 @@ public class PermissionAssignService extends SearchService implements
 					"hasChild",
 					"isEndOfModuleLevel"
 					};
-			  String condition =" ( SELECT permissionassign.permissionCode FROM permissionassign "+
-		  " WHERE "+ownerCondtion +"  ) b LEFT JOIN module ON module.ID = b.permissionCode "+
+			  String condition =" ( SELECT DISTINCT permissionassign.permissionCode FROM permissionassign "+
+		  " WHERE  "+ownerCondtion +"  ) b LEFT JOIN module ON module.ID = b.permissionCode "+
           "WHERE 1 = 1 AND isShow = 1 order by level0 , modulecode";
 				 List<Map<String, Object>> allModules =	  originalSearchForeign(properties, condition, null, null, null, false);
 			for (Map<String, Object> module : allModules) {
