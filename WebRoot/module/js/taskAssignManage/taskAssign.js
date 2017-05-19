@@ -96,10 +96,29 @@ $(function () {
 			width:'10%'//宽度
 		},{
 			field:'nameCn',//返回值名称
-			title:'检测/校准项目',//列名
+			title:'检测项目',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'15%'//宽度
+			width:'10%'//宽度
+		},{
+			field:'testProjectID',//返回值名称
+			title:'检测项目ID',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:'0',//宽度
+			visible:false
+		},{
+			field:'type',//返回值名称
+			title:'类型',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:'10%'//宽度
+		},{
+			field:'laborHour',//返回值名称
+			title:'工时',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:'5%'//宽度
 		},{
 			field:'state',//返回值名称
 			title:'分配状态',//列名
@@ -111,7 +130,7 @@ $(function () {
 			title:'检测/校准人员',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'25%'//宽度
+			width:'15%'//宽度
 		},{
 			field:'custodian',//返回值名称
 			title:'监督员',//列名
@@ -123,7 +142,7 @@ $(function () {
 			title:'操作',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10%',//宽度
+			width:'15%',//宽度
 			formatter:function(value,row,index){
 				var temp = '';
 				var btn_assignAgain = '<img src="module/img/view_icon.png" onclick="assignAgain(\'' + row.ID + '\',\'' + row.detector + '\',\'' + row.custodian + '\',\'' + row.factoryCode + '\')" data-toggle="tooltip" data-placement="top" title="重新分配" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></img>';
@@ -229,6 +248,11 @@ $("#btn-assign").click(function(){
 	} else if (data[0].detector != "无" && data[0].custodian != "无") {
 		swal({
 			title: "该任务已分配完成!",
+			type: 'warning'
+		});
+	} else if (data[0].laborHour === '?') {
+		swal({
+			title: "请先分配工时!",
 			type: 'warning'
 		});
 	} else {
@@ -425,6 +449,59 @@ $('#assign').click(function(){
 		assignCustodian();
 	}
 });
+
+//修改工时按钮点击事件
+$('#btn-laborHour').click(function(){
+	var data = $('#taskTable').bootstrapTable('getSelections');
+
+	if(data.length==0 || data.length>1){
+		swal({
+			title: "请选中一条数据",
+			type: 'warning'
+		});
+		return;
+	} else if (data[0].laborHour !== '?') {
+		swal({
+			title: "不需要修改工时",
+			type: 'warning'
+		});
+	} else {
+		$('#editHourModal').modal('show');
+	}
+});
+
+//修改工时方法
+$('#edit-hour').click(function(){
+	var laborHour = $('#laborhour').val().trim();
+	var myreg = /^\+?[1-9][0-9]*$/;
+	var data = $('#taskTable').bootstrapTable('getSelections');
+	var ID = data[0].testProjectID;
+	if (myreg.test(laborHour)) {
+		$.ajax({
+			url:'testProjectController/editLaborHourInTaskAssign.do',
+			dataType:'json',
+			data: {
+				ID: ID,
+				laborHour: laborHour
+			},
+			success:function(data){
+				alert(typeof data);
+				if (data === '1') {
+					$('#editHourModal').modal('hide');
+					$('#taskTable').bootstrapTable('refresh', {
+						silent: true
+					});
+				}
+		  	}
+		});
+	} else {
+		swal({
+			title: "请输入非零正整数!",
+			type: 'warning'
+		});
+	}
+});
+
 
 //分配监督员
 function assignCustodian(){
