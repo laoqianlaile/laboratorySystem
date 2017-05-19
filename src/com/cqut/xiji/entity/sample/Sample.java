@@ -18,6 +18,7 @@ public class Sample extends Entity{
 	private int state;
 	private String unit;
 	private String qrcode;
+	private double laborHour;
 	
 	public String getID() {
 		return ID;
@@ -40,6 +41,14 @@ public class Sample extends Entity{
 	public void setSampleName(String sampleName) {
 		this.sampleName = sampleName;
 	}
+	public double getLaborHour() {
+		return laborHour;
+	}
+
+	public void setLaborHour(double laborHour) {
+		this.laborHour = laborHour;
+	}
+
 	public String getReceiptlistID() {
 		return receiptlistID;
 	}	

@@ -66,8 +66,12 @@ public class RoleController {
 	public String addRole(HttpServletRequest request ,String roleName, String description){
 		//String CREATOR = (String) request.getSession().getAttribute("EMPLOYEEID");
 		//
-		String CREATOR = "1";
-		String result = service.addRole(roleName,description,CREATOR);
+		String creator = (String)request.getSession().getAttribute("EMPLOYEEID");
+		if(creator == null || creator.equals("")){
+			creator = "2070220xiji";
+		}
+		
+		String result = service.addRole(roleName,description,creator);
 		return result;
 	}
 	/**

@@ -312,6 +312,7 @@ function showAddModal(){
 	$("#addModal").modal("show");
 }
 
+
 function classifiedLevelSth(){
 	var classifiedLevel = $('#add_classifiedLevel').val();
 	var isClassified = document.getElementsByName("isClassified");
@@ -329,6 +330,7 @@ function classifiedLevelSth(){
 	}
 }
 
+>>>>>>> 8703524cfdbad8431113c2a03514eded7e6cce14
 /* 新增方法 */
 function add(){
 		var parame = {};
@@ -475,6 +477,7 @@ function add(){
 				  data:parame,
 				  success:function(o){
 					  switch (o) {
+
 					  	case '-2':swal("新增公司失败！");
 					  		break;
 					  	case '-4':swal("公司名与公司ID不相符！");
@@ -492,6 +495,7 @@ function add(){
 						default:
 							break;
 					  }
+
 				  }
 			});
 		}
@@ -593,6 +597,36 @@ function addClick(){
 			 $('#add_address').attr("disabled",false);
 			 $("#add_oppositeMen").val("");
 			 $("#add_linkPhone").val("");
+<<<<<<< HEAD
+			}
+		 $("#add_companyName").val(name);
+		 var ID =  $(this).attr("class");
+		 var mobilePhone =  $(this).attr("id");
+		 var linkMan =  $(this).attr("name");
+		 var address =  $(this).attr("title");
+		 if (ID == null || ID.trim() == "" || ID == "undefined") {
+			 ID = "";
+			}
+		 if (mobilePhone == null || mobilePhone.trim() == "" || mobilePhone == "undefined") {
+			 mobilePhone = "";
+			}
+		 if (linkMan == null || linkMan.trim() == "" || linkMan == "undefined") {
+			 linkMan = "";
+			}
+		 if (address == null || address.trim() == "" || address == "undefined") {
+			 address = "";
+			}
+		 $('#add_companyName').attr({'name' : "" + ID + ""});
+		 $('#add_companyName').attr({'value' : "" + name + ""});
+		 $("#add_oppositeMen").val(linkMan);
+		// $('#add_oppositeMen').attr("disabled",true);
+		 $("#add_linkPhone").val(mobilePhone);
+		 //$('#add_linkPhone').attr("disabled",true);
+		 $("#add_address").val(address);
+		  if(address != ""){
+				$('#add_address').attr("disabled",true);
+			 }
+		// $('#add_address').attr("disabled",true);
 		 }else{
 			 $("#add_companyName").val(name);
 			 var ID =  $(this).attr("class");
@@ -622,6 +656,7 @@ function addClick(){
 				$('#add_address').attr("disabled",true);
 			 }
 		 }
+>>>>>>> 8703524cfdbad8431113c2a03514eded7e6cce14
 		 $(".companyN").hide();
 	})
 	

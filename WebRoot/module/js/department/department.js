@@ -35,7 +35,7 @@ function init() {
 										{
 											field : '',
 											title : '序号',
-											width : '3%',
+											width : '1%',
 											align : 'center',
 											valign : 'middle',
 											formatter : function(value, row, index) {
@@ -55,7 +55,7 @@ function init() {
 											title : '部门编号',// 列名
 											align : 'center',// 水平居中显示
 											valign : 'middle',// 垂直居中显示
-											width : '10%',// 宽度
+											width : '8%',// 宽度
 										},
 										{
 											field : 'departmentName',// 返回值名称
@@ -69,7 +69,7 @@ function init() {
 											title : '负责人',// 列名
 											align : 'center',// 水平居中显示
 											valign : 'middle',// 垂直居中显示
-											width : '10%'// 宽度
+											width : '8%'// 宽度
 										},
 										{
 											field : 'remarks',// 返回值名称
@@ -77,8 +77,13 @@ function init() {
 											align : 'center',// 水平居中显示
 											valign : 'middle',// 垂直居中显示
 											width : '18%'// 宽度
-										},
-										{
+										},{
+											field : 'property',// 返回值名称
+											title : '科室类型',// 列名
+											align : 'center',// 水平居中显示
+											valign : 'middle',// 垂直居中显示
+											width : '8%'// 宽度
+										},{
 											field : 'createTime',// 返回值名称
 											title : '创建时间',// 列名
 											align : 'center',// 水平居中显示

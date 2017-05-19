@@ -82,6 +82,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					  			<td>
 					  				<div>
 					  					 <img id="Img1"  src="module/img/file/defaultPhoto.jpg"data-holder-rendered="true"/>
+
 										 <input class="singnatureImg" type="file" name="files" id="files" onchange="previewImage(this,'Img1')"
 											accept="image/png, image/gif, image/jpg, image/jpeg"
 											style="width:66px;height:25px;position:absolute;left:10px;top:155px;opacity: 0;filter: alpha(opacity = 0);" />  
@@ -98,7 +99,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					  			<td>电子盖章</td>
 					  			<td>
 					  				<div>
+
 					  					  <img id="Img2"  src="module/img/file/defaultPhoto.jpg" data-holder-rendered="true""/>
+
 										<input class="stampImg" type="file" name="files" id="files" onchange="previewImage(this,'Img2')"
 											accept="image/png, image/gif, image/jpg, image/jpeg" 
 											style="width:66px;height:25px;position:absolute;left:10px;top:155px;opacity: 0;filter: alpha(opacity = 0);" />

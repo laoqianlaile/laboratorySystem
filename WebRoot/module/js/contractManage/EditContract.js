@@ -495,7 +495,7 @@ function initContractFileItem1(){
 			param.ID = $.trim($('#edit_contractID').val())
 			return param;
 		}, //参数
-	    queryParamsType: "limit", 
+	    queryParamsType: "limit", 	
 		selectItemName : '',// radio or checkbox 的字段名
 		columns:[{
 			title : '序号',// 列名
@@ -1687,6 +1687,7 @@ function edit(){
 		var signAddress = $('#edit_signAddress').val();
 		var address = $('#edit_address').val();
 		var companyID = $('#edit_companyName').attr("name");
+		
 		var companyName = $('#edit_companyName').val();
 		var oppositeMen = $('#edit_oppositeMen').val();
 		var linkPhone = $('#edit_linkPhone').val();
