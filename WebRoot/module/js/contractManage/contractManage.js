@@ -330,7 +330,7 @@ function classifiedLevelSth(){
 	}
 }
 
->>>>>>> 8703524cfdbad8431113c2a03514eded7e6cce14
+
 /* 新增方法 */
 function add(){
 		var parame = {};

@@ -399,3 +399,19 @@ h4,.h4 {
 .showTestProjects ul li:hover{
 	background-color:#dcdcdc;
 }
+#addTaskModal input[type=radio]{
+	width:17px;
+	display:inline-block;
+}
+#editTaskModal input[type=radio]{
+	width:17px;
+	display:inline-block;
+	margin-left: 125px;
+}
+.radioLabel{
+	
+	margin-top: 6px;
+    width: 10%;
+    display: inline-block;
+	
+}

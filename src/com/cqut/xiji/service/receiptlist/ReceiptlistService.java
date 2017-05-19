@@ -415,14 +415,15 @@ public class ReceiptlistService extends SearchService implements
 					+ "task.ID,"
 					+ "task.receiptlistID as reID,"
 					+ "task.sampleID,"
-					+ "task.testProjectID,"
 					+ " date_format(task.startTime,'%Y-%m-%d %H:%i:%s') as startTime , "
 					+ " task.requires as askFor "
 					+ " from task where  task.receiptlistID ='"
 					+ reID
 					+ "' ) as a "
 					+ " left join sample on a.sampleID = sample.ID "
-					+ " LEFT JOIN testproject on testproject.ID = a.testProjectID ";
+					+ "  LEFT JOIN tasktestproject ON tasktestproject.taskID = a.ID "
+					+"  LEFT JOIN testproject ON testproject.ID = tasktestproject.testProjectID";
+			
 			List<Map<String, Object>> list = entityDao.searchWithpaging(
 					properties, null, joinEntity, null, null, null,
 					" factoryCode ", "  desc ,  a.startTime desc ", pageNum,
@@ -481,8 +482,13 @@ public class ReceiptlistService extends SearchService implements
 	@Override
 	public String addTaskAndSampleWithEdit(String taskID, String sampleID,
 			String sampleCode, String sampleName, String sampleStyle,
-			String testProjects, String unit, String require, String reID,
+			String testProjects,  String type,String departmentID,String unit, String require, String reID,
 			String state) {
+		if(type == null || type.equals("")){
+			type = "0";
+		}else{
+			type = "1";
+		}
 		if (sampleID == null || sampleID.equals("")) {
 			// 样品还不存在
 			Sample sample = new Sample();
@@ -523,6 +529,8 @@ public class ReceiptlistService extends SearchService implements
 				task.setSampleID(sampleID);
 				task.setStartTime(new Date());
 				task.setCompleteTime(new Date());
+				task.setType(Integer.parseInt(type));
+				task.setDepartmentID(departmentID);
 				task.setSaveState(0);
 				SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd");
 				format.format(new Date());
