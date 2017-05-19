@@ -78,6 +78,15 @@
     margin-top: 10px;
     text-align: center;
 }
+#add_signTime{
+	height:28px;
+}
+#add_startTime{
+	height:28px;
+}
+#add_endTime{
+	height:28px;
+}
 .control-label{
 	margin-top:6px;
 }
@@ -109,7 +118,7 @@
 	
 }
 .modal-body{
-	height:470px;
+	height:492px;
 }
 .companyN{
 	position: absolute;
