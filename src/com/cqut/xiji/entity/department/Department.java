@@ -16,6 +16,7 @@ public class Department extends Entity{
 	private Date createTime;
 	private String parentID;
 	private String level0;
+	private int property;
 
 	public String getID() {
 		return ID;
@@ -59,6 +60,14 @@ public class Department extends Entity{
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+	public int getProperty() {
+		return property;
+	}
+
+	public void setProperty(int property) {
+		this.property = property;
+	}
+
 	public String getParentID() {
 		return parentID;
 	}	

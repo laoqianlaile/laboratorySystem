@@ -246,8 +246,7 @@ function initAddReceiptlist(data,state) {
 function addReNo() {
 	// 在这里创建新的合同
 	sweetAlert({
-		  title: "Are you sure?",
-		  text: "确认无合同新增!",
+		  title: "确认无合同新增！",
 		  type: "warning",
 		  showCancelButton: true,
 		  confirmButtonColor: "#DD6B55",
@@ -353,8 +352,7 @@ function refresh() {
 function deleteRe() {
 
 	sweetAlert({
-		  title: "Are you sure?",
-		  text: "确认删除!",
+		  title: "确认删除!",
 		  type: "warning",
 		  showCancelButton: true,
 		  confirmButtonColor: "#DD6B55",

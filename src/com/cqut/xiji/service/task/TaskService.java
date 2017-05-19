@@ -82,10 +82,6 @@ public class TaskService extends SearchService implements ITaskService {
 				"sample.sampleName",
 				"sample.specifications",
 				"testProject.nameCn",
-				"IFnull(employee_2.employeeName, '无') AS getMan",// 领样人
-				"date_format(sampleRecord.getTime,'%Y-%m-%e') as getTime",// 领样时间
-				"IFnull(employee_3.employeeName, '无') AS returnMan",// 退样人
-				"date_format(sampleRecord.returnTime,'%Y-%m-%e') as returnTime",// 退样时间
 				"case when task.allotState = 0 then '未分配' "
 						+ "when task.allotState = 1 then '已分配' end as state",
 				"IFnull( " + " (SELECT group_concat(employee.employeeName) "
@@ -96,11 +92,8 @@ public class TaskService extends SearchService implements ITaskService {
 				"IFnull(employee_1.employeeName,'无') as custodian" };
 
 		String joinEntity = " left join sample on task.sampleID = sample.ID "
-				+ " left join sampleRecord on sampleRecord.sampleID = sample.ID "
 				+ " left join testProject on task.testProjectID = testProject.ID "
-				+ " left join employee as employee_1 on task.custodian = employee_1.ID "
-				+ " left join employee as employee_2 on sampleRecord.getMan = employee_2.ID "
-				+ " left join employee as employee_3 on sampleRecord.returnMan = employee_3.ID";
+				+ " left join employee as employee_1 on task.custodian = employee_1.ID ";
 
 		String condition = "1 = 1 and task.receiptlistID = " + ID;
 
@@ -149,6 +142,18 @@ public class TaskService extends SearchService implements ITaskService {
 				Task task = entityDao.getByID(taskID, Task.class);
 				task.setAllotstate(1);
 				entityDao.updatePropByID(task, taskID);
+				
+				String receiptlistID = task.getReceiptlistID(); // 得到交接单ID
+				System.out.println("交接单ID为：" + receiptlistID);
+				Receiptlist receiptlist = entityDao.getByID(receiptlistID, Receiptlist.class);
+				
+				// 判断该交接单下的任务是否全部分配
+				if (judgeAssignState(taskID) == 1) {
+					receiptlist.setAllotState(1);
+				} else if (judgeAssignState(taskID) == 2) {
+					receiptlist.setAllotState(2);
+				}
+				entityDao.updatePropByID(receiptlist, receiptlistID); // 更新交接单分配状态
 
 				// 更新检测人员
 				for (int i = 0; i < temp.length; i++) {
@@ -174,13 +179,25 @@ public class TaskService extends SearchService implements ITaskService {
 						result = -1;
 					}
 				}
-			} else if (type == 2) {// 修改
+			} else if (type == 2) { // 修改
 				//  如果修改是检测人员为空，则新增
 				if (taskManID == null) {
 					// 更新分配状态
 					Task task = entityDao.getByID(taskID, Task.class);
 					task.setAllotstate(1);
 					entityDao.updatePropByID(task, taskID);
+					
+					String receiptlistID = task.getReceiptlistID(); // 得到交接单ID
+					System.out.println("交接单ID为：" + receiptlistID);
+					Receiptlist receiptlist = entityDao.getByID(receiptlistID, Receiptlist.class);
+					
+					// 判断该交接单下的任务是否全部分配
+					if (judgeAssignState(taskID) == 1) {
+						receiptlist.setAllotState(1);
+					} else if (judgeAssignState(taskID) == 2) {
+						receiptlist.setAllotState(2);
+					}
+					entityDao.updatePropByID(receiptlist, receiptlistID); // 更新交接单分配状态
 
 					// 更新检测人员
 					for (int i = 0; i < temp.length; i++) {
@@ -205,6 +222,50 @@ public class TaskService extends SearchService implements ITaskService {
 		}
 		return result;
 	}
+	/**
+	 * 
+	 * features or effect
+	 * @author cyb
+	 * @date 2017年5月16日 下午9:22:41
+	 * @param ID
+	 * @return
+	 */
+	// 判断该交接单是否分配完全
+	public int judgeAssignState(String ID) {
+		Task task = entityDao.getByID(ID, Task.class);
+		String receiptlistID = task.getReceiptlistID(); // 得到交接单ID
+		
+		// 获取所有任务的分配状态
+		String[] properties = new String[] {
+				"task.ID",
+				"task.allotState"
+		};
+
+		String condition = "1 = 1 and task.receiptlistID = '" + receiptlistID + "'";
+
+		List<Map<String, Object>> result = originalSearchForeign(properties, getBaseEntityName(), null, null, condition, false);
+		int len = result.size();
+		int allotNum = 0; // 已分配的任务数
+		
+		// 判断是否全部为已分配
+		for (int i = 0; i < len; i++) {
+			Map<String, Object> map = result.get(i);
+			if ((int)map.get("allotState") == 1) {
+				allotNum++;
+			}
+		}
+		
+		System.out.println("allotNum:" + allotNum);
+		
+		if (allotNum == 0) { // 未分配
+			return 0;
+		} else if (allotNum == len) { // 分配完成
+			return 2;
+		} else {
+			return 1; // 分配中 
+		}
+	}
+	
 	
 	public void addMessage(String[] IDS, String taskID) {
 		Task task = entityDao.getByID(taskID, Task.class);

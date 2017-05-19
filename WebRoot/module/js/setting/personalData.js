@@ -174,6 +174,9 @@ function onclickNvi(){
 	 var html="";
 	 var data = getEmployeeInfo();
 	 
+
+	/* html ="<tr><td>姓名</td>"+"<td> <input id ='edit_Name' type='text' class='form-control' value='"+data[0].employeeName+"' placeholder='请输入昵称'/></td></tr>"
+*/
 	 html ="<tr>" +
 		"<td width='200px'>" +
 			"<div style='cursor: pointer;'>" +

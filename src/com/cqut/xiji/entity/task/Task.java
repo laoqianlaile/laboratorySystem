@@ -28,6 +28,7 @@ public class Task extends Entity{
 	private String levelThree;
 	private String taskCode;
 	private int saveState;
+	private int type;
 	
 	
 	public int getSaveState() {
@@ -59,6 +60,14 @@ public class Task extends Entity{
 
 	public void setSampleID(String sampleID) {
 		this.sampleID = sampleID;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 
 	public String getTestProjectID() {
