@@ -113,6 +113,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      <div class="modal-body">
 	      	<div id="adDcontent" class="row1">
 	      		<div class="col-xs-12 col-md-12">
+                   	<label class="control-label">合同类型:</label>
+                   	<input type="radio" value="0" checked="checked"  name="contactType" style="margin: -5 0 0 80px;vertical-align: text-top;"/><span>技术服务合同</span>
+					<input type="radio" value="1" name="contactType" style="margin: -5 0 0 80px;vertical-align: text-top;"/><span>简约版合同</span>
+                </div>
+	      		<div class="col-xs-12 col-md-12">
                    <label class="control-label">合同名称:</label>
                    <input type="text" id="add_contractName" name="contractName" class="form-control" required="required"/>
                </div>

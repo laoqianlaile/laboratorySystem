@@ -28,9 +28,8 @@ public interface ISampleService {
 	String addSample(String factoryCode, String sampleName, String sampleType,String remarks, String unit); //新增样品
 	String isExitFactory(String factoryCode); //查看样品编号是否存在
 	List<Map<String, Object>> getSampleListByCodeLimit(String sampleCode); //根据样品编号搜索样品-限制5条以内
-	/**
-	 * wzj
-	 */
+	
+	public List<Map<String, Object>> getSampleMsg(String codeOrName);
 
 	
 	

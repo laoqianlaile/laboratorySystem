@@ -25,20 +25,35 @@ public interface IContractFineItemService {
 	 * @param sort
 	 * @return
 	 */
-	public Map<String, Object> getContractFileItemWithPaging(String ID, int limit,
+	public Map<String, Object> getContractFileItemWithPaging1(String ID, int limit,
 			int offset, String order, String sort);
 	
-	public int addContractFineItem(String fineItemCode, String testProjectID,
-			String testProjectName,int isOutsourcing, int calculateType, int number,
-			double price, int hour, double money, String departmentID,
+	/**
+	 * @param ID
+	 * @param limit
+	 * @param offset
+	 * @param order
+	 * @param sort
+	 * @return
+	 */
+	public Map<String, Object> getContractFileItemWithPaging2(String ID, int limit,
+			int offset, String order, String sort);
+	
+	public int addContractFineItem1(int isOutsourcing,String departmentID, String fineItemCode,
+			String testProjectID, String testProjectName,int number, double price, double money,
 			String remarks, String contractID);
+	
+	public int addContractFineItem2(String sampleID,String factoryCode,String sampleName,String specifications,
+			double money,String remarks, String contractID);
 	
 	public int delContractFineItem(String itemID,String contractID);
 	
-	public int updContractFineItem(String ID, String fineItemCode,
-			String testProjectID,String testProjectName, int isOutsourcing, int calculateType,
-			int number, double price, int hour, double money,
-			String departmentID, String remarks, String contractID);
+	public int updContractFineItem1(String ID,int isOutsourcing,String departmentID, String fineItemCode,
+			String testProjectID, String testProjectName,int number, double price, double money,
+			String remarks, String contractID);
+	
+	public int updContractFineItem2(String ID,String sampleID,String factoryCode,String sampleName,String specifications,
+			double money,String remarks, String contractID);
 	/*通过合同ID 获取合同所以有关的合同细项*/
 	List<Map<String, Object>> getContractFineItemByContractIDs(String ContractID);
 	

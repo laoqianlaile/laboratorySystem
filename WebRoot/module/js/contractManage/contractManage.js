@@ -334,6 +334,7 @@ function classifiedLevelSth(){
 /* 新增方法 */
 function add(){
 		var parame = {};
+		var contractType = $("input[name='contractType']:checked").val();
 		var contractName = $('#add_contractName').val();
 		var companyName = $('#add_companyName').val();
 		var companyID = $('#add_companyName').attr("name");
@@ -434,6 +435,7 @@ function add(){
 		parame.endTime = endTime;
 		parame.isClassified = isClassified;
 		parame.classifiedLevel = classifiedLevel;
+		parame.contractType = contractType;
 		if(companyID == "add_companyName"){
 			swal({
 				title: "公司不存在，是否新建合同并新增对应公司记录！",
