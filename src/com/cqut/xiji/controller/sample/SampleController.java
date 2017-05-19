@@ -196,4 +196,17 @@ public class SampleController{
 		return JSONArray.fromObject(result).toString();
 	}
 	
+	/**
+	 * @description 得到样品信息
+	 * @author 胡嘉俊
+	 * @created 2016-10-17 下午9:43:37
+	 * @param codeOrName
+	 * @return
+	 */
+	@RequestMapping("/getSampleMsg")  
+    @ResponseBody
+	public String getSampleMsg(String codeOrName){
+		List<Map<String, Object>> result = service.getSampleMsg(codeOrName);
+		return JSONArray.fromObject(result).toString();
+	}
 }

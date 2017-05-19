@@ -64,7 +64,11 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 				"department.departmentCode",
 				"department.departmentName",
 				"employee.employeeName",
-				"department.remarks",	
+				"department.remarks",
+				"case when department.property = 0 then '检测'"
+						+ "when department.property = 1 then '校准'"
+						+ "when department.property = 2 then '其他' end as property",
+				
 				"DATE_FORMAT(department.createTime,'%Y-%m-%d ') as createTime ",
 				"department2.departmentName as Pdepartment"
 						
@@ -116,9 +120,15 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 		}
 	}
 	@Override
-	public String addDepartment(String departmentName,String departmentCode,String remarks,String employeeID,String parent){
+	public String addDepartment(String departmentName,String departmentCode,String remarks,String property,String employeeID,String parent){
 		Department department = new Department();
 		department.setID(EntityIDFactory.createId());
+		try {
+			department.setProperty(Integer.parseInt(property));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		department.setDepartmentName(departmentName);
 		department.setDepartmentCode(departmentCode);
 		department.setRemarks(remarks);
@@ -177,10 +187,16 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 	}
 	
 	@Override
-	public String updDepartment(String ID,String departmentName,String departmentCode,String remarks,String employeeID,String parent){
+	public String updDepartment(String ID,String departmentName,String departmentCode,String remarks,String property,String employeeID,String parent){
 		Department department=entityDao.getByID(ID, Department.class);
 		department.setDepartmentName(departmentName);
 		department.setDepartmentCode(departmentCode);
+		try {
+			department.setProperty(Integer.parseInt(property));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		department.setRemarks(remarks);
 		department.setEmployeeID(employeeID);
 		String[] properties = new String[] { "department.ID","department.level0"};

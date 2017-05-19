@@ -63,5 +63,6 @@ public interface ITestProjectService {
 
 	public List<Map<String, Object>> getTestProjectById(String testProjectByID);
 
+	public String editLaborHourInTaskAssign(String ID, double laborHour);
 
 }

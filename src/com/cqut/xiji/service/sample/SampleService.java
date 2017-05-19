@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
+import com.cqut.xiji.entity.company.Company;
 import com.cqut.xiji.entity.linkReSample.LinkReSample;
 import com.cqut.xiji.entity.sample.Sample;
 import com.cqut.xiji.service.base.SearchService;
@@ -419,5 +421,14 @@ public class SampleService extends SearchService implements ISampleService{
 		return list;
 	}
 
+	@Override
+	public List<Map<String, Object>> getSampleMsg(String codeOrName){
+		String[] properties = new String[] {"ID as sampleID","factoryCode","sampleName","specifications"};
+		
+		String condition = " factoryCode like '%" + codeOrName + "%' or sampleName like '%" + codeOrName + "%'";
+		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Sample.class);
+		return result;
+	}
+	
 
 }
