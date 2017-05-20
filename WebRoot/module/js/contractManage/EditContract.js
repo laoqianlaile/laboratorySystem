@@ -13,7 +13,7 @@ function initContractFile(){
 	var num = 1;
 	$("#show_contractFile").bootstrapTable({
 		//height : 200,// 定义表格的高度
-		striped : true,// 隔行变色效果
+		striped : false,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
 		pageSize : 3,// 页面数据条数
 		pageNumber : 1,// 首页页码
@@ -106,30 +106,6 @@ function initContractFile(){
 		/*事件*/
 	});
 }
-
-/*//请求数据时的额外参数
-function fileQueryParams(){
-	var searchCondition = {
-		limit : 10,
-		offset : 0,
-		sort : 'uploadTime', 
-		order : 'asc',
-		ID : $.trim($('#edit_contractID').val())
-	};
-    return searchCondition;
-}*/
-
-/*//请求数据时的额外参数
-function itemQueryParams(){
-	var searchCondition = {
-		limit : 10,
-		offset : 0,
-		sort : 'ID', 
-		order : 'asc',
-		ID : $.trim($('#edit_contractID').val())
-	};
-    return searchCondition;
-}*/
 
 //得到地址栏参数的值
 function GetQueryString(name)
@@ -249,8 +225,16 @@ function getContractByID(){
 		    			$('#edit_classifiedLevel').attr({'value' : "" + myobj[0].classifiedLevel + ""});
 		    			$('#edit_classifiedLevel').val(myobj[0].classifiedLevel);
 		    		}
+		    		if(myobj[0].contractType == undefined || myobj[0].contractType == "0"){
+		    			$('#edit_contractID').attr({'title' : "" + myobj.contractType + ""});
+		    			$('#ItemModal2').hide();
+			    		initContractFileItem1();
+		    		}else{
+		    			$('#edit_contractID').attr({'title' : "" + myobj[0].contractType + ""});
+		    			$('#ItemModal1').hide();
+			    		initContractFileItem2();
+		    		}
 		    		initContractFile();
-		    		initContractFileItem();
 		    		}
 		    	 }
 		});
@@ -266,7 +250,7 @@ function openTemplateModal(){
 function initContractTemplateFile(){
 	$("#show_template").bootstrapTable({
 		//height : 200,// 定义表格的高度
-		striped : true,// 隔行变色效果
+		striped : false,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
 		pageSize : 3,// 页面数据条数
 		pageNumber : 1,// 首页页码
@@ -274,7 +258,7 @@ function initContractTemplateFile(){
 		clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache : false,// 禁用 AJAX 数据缓存
 		sortName : 'createTime',// 定义排序列
-		sortOrder : 'asc',// 定义排序方式
+		sortOrder : 'desc',// 定义排序方式
 		url:'fileInformationController/getContractTemplateFileWithPaging.do',//服务器数据的加载地址
 		sidePagination:'server',//设置在哪里进行分页
 		contentType:'application/json',//发送到服务器的数据编码类型
@@ -285,6 +269,7 @@ function initContractTemplateFile(){
 			param.offset = params.offset; // 偏移量
 			param.sort = params.sort; // 排序列名
 			param.order = params.order; // 排位方式
+			param.contractType = $('#edit_contractID').attr("title");
 			return param;
 		}, //参数
 	    queryParamsType: "limit", 
@@ -293,7 +278,7 @@ function initContractTemplateFile(){
 			checkbox : true,
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width :'3%',// 宽度
+			width :'5%',// 宽度
 			formatter : function(value, row, index) {
 				checkDate(row, "template");
 			}
@@ -328,13 +313,13 @@ function initContractTemplateFile(){
 			title:'创建时间',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"12%",//宽度
+			width:"25%",//宽度
 		},{
 			field:'templateType',//返回值名称
 			title:'模版类型',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:"12%",//宽度
+			width:"15%",//宽度
 		}]////列配置项,详情请查看 列参数 表格
 		/*事件*/
 	});
@@ -359,8 +344,8 @@ function coverContractFile(){
 	{ 
 		swal("合同文件ID为空！"); 
 	}
-	swal("正在生成合同，请等候！"); 
-	var ID = GetQueryString("ID");; 
+	swal("正在生成检测合同文件，请等候！"); 
+	var ID = GetQueryString("ID");
 	if (!ID || typeof(ID) == "undefined" || ID.trim() == "") 
 	{ 
 		swal("合同ID为空！"); 
@@ -368,26 +353,49 @@ function coverContractFile(){
 		var parame = {};
 		parame.ID = ID;
 		parame.fileID = fileID;
+		var contractType = $('#edit_contractID').attr("title");
 		
+		if(contractType == "0"){
 			$.ajax({
-			  url:'contractController/coverContractFile.do',
-			  type:'post', 
-			  data:parame,
-			  dataType:'json',
-			  success:function(o){
-				  if(o == -3){
-					  swal("不存在合同模板文件!");
-				  }else if(o == -4){
-					  swal("合同模板文件被删除!");
-				  }else if(o == 1){
-					  swal("合同已生成！"); 
-					  setTimeout(refresh, 1000);
+				  url:'contractController/coverContractFile1.do',
+				  type:'post', 
+				  data:parame,
+				  dataType:'json',
+				  success:function(o){
+					  if(o == -3){
+						  swal("不存在检测合同模板文件!");
+					  }else if(o == -4){
+						  swal("检测合同模板文件被删除!");
+					  }else if(o == 1){
+						  swal("检测合同已生成！"); 
+						  setTimeout(refresh, 1000);
+					  }
+				  },
+				  error:function(o){
+					  console.log(o);
 				  }
-			  },
-			  error:function(o){
-				  console.log(o);
-			  }
+				});
+		}else{
+			$.ajax({
+				  url:'contractController/coverContractFile2.do',
+				  type:'post', 
+				  data:parame,
+				  dataType:'json',
+				  success:function(o){
+					  if(o == -3){
+						  swal("不存在合同模板文件!");
+					  }else if(o == -4){
+						  swal("合同模板文件被删除!");
+					  }else if(o == 1){
+						  swal("合同已生成！"); 
+						  setTimeout(refresh, 1000);
+					  }
+				  },
+				  error:function(o){
+					  console.log(o);
+				  }
 			});
+		}
 	}
 }
 
@@ -472,7 +480,7 @@ function initContractFileItem1(){
 	var num = 1;
 	$("#show_contractFileItem").bootstrapTable({
 		//height : 800,// 定义表格的高度
-		striped : true,// 隔行变色效果
+		striped : false,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
 		pageSize : 4,// 页面数据条数
 		pageNumber : 1,// 首页页码
@@ -610,7 +618,7 @@ function initContractFileItem2(){
 	var num = 1;
 	$("#show_contractFileItem").bootstrapTable({
 		//height : 800,// 定义表格的高度
-		striped : true,// 隔行变色效果
+		striped : false,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
 		pageSize : 4,// 页面数据条数
 		pageNumber : 1,// 首页页码
@@ -695,11 +703,11 @@ function initContractFileItem2(){
 			valign:'middle',
 			width:'20%',
 			 formatter:function(value,row,index){    
-                 var b = '<img src ="module/img/update_icon.png" onclick="openEditItemModal(\'' + row.ID + 
+                 var b = '<img src ="module/img/update_icon.png" onclick="openEditItemModal2(\'' + row.ID + 
                  '\',\'' + row.sampleID + '\',\'' + row.factoryCode + '\',\'' + row.sampleName + '\',\'' + 
                  row.specifications + '\',\'' + row.money + '\',\'' + row.remarks + '\')"'+
                  ' title="修改" style="cursor:pointer;padding-right:8px;"></img>';
-                 var c = "<img src ='module/img/delete_icon.png' onclick='delFileItem(\""+ row.ID +"\",\"" + row.factoryCode +"\")'"+" title='删除' style='cursor:pointer;padding-right:8px;'></img>";
+                 var c = "<img src ='module/img/delete_icon.png' onclick='delFileItem(\""+ row.ID + "\",\"" + row.factoryCode +"\")'"+" title='删除' style='cursor:pointer;padding-right:8px;'></img>";
                  return b+c;    
              }   
 		}]////列配置项,详情请查看 列参数 表格
@@ -769,6 +777,9 @@ function chenkDataCon(dataObj) { // 后台数据字段为空就不会传上来
 	}
 	if (!dataObj.hasOwnProperty("classifiedLevel") || dataObj.classifiedLevel == null || dataObj.classifiedLevel == undefined || dataObj.classifiedLevel.trim() == "") {
 		dataObj.classifiedLevel = "3";
+	}
+	if (!dataObj.hasOwnProperty("contractType") || dataObj.contractType == null || dataObj.contractType == undefined) {
+		dataObj.contractType = "0";
 	}
 }
 
@@ -899,7 +910,7 @@ function chenkDataItem2(dataObj) { // 后台数据字段为空就不会传上来
 	}
 	if (!dataObj.hasOwnProperty("remarks") || dataObj.remarks == null
 			|| dataObj.remarks == undefined 
-			|| dataObj.isOutsourcing.trim() == "") {
+			|| dataObj.remarks.trim() == "") {
 		dataObj.remarks = "";
 	}
 }
@@ -1143,26 +1154,32 @@ function addClick(){
 	
 	//给input赋值
 	$(".sample ul li").click(function(){
-		 var sampleName =  $(this).attr("value");
-		 if (sampleName == null || sampleName.trim() == "" || sampleName == "undefined") {
-			 sampleName = "";
-			}
-		 $("#add_sampleName").val(sampleName);
-		 var factoryCode =  $(this).attr("class");
-		 if (factoryCode == null || factoryCode.trim() == "" || factoryCode == "undefined") {
-			 factoryCode = "";
-			}
-		 $("#add_factoryCode").val(factoryCode);
 		 var sampleID =  $(this).attr("name");
-		 var specifications =  $(this).attr("title");
 		 if (sampleID == null || sampleID.trim() == "" || sampleID == "undefined") {
-			 sampleID = "";
-			}
-		 if (specifications == null || specifications.trim() == "" || specifications == "undefined") {
-			 specifications = "";
-			}
-		 $('#add_factoryCode').attr({'name' : "" + sampleID + ""});
-		 $('#add_specifications').val(specifications);
+			 sampleID = "add_factoryCode";
+			 $('#add_factoryCode').attr({'name' : "" + sampleID + ""});
+			 $('#add_sampleName').attr("readOnly",false);
+			 $('#add_specifications').attr("readOnly",false);
+		 }else{
+			 $('#add_factoryCode').attr({'name' : "" + sampleID + ""});
+			 var sampleName =  $(this).attr("value");
+			 if (sampleName == null || sampleName.trim() == "" || sampleName == "undefined") {
+				 sampleName = "";
+				}
+			 $("#add_sampleName").val(sampleName);
+			 var factoryCode =  $(this).attr("class");
+			 var specifications =  $(this).attr("title");
+			 if (factoryCode == null || factoryCode.trim() == "" || factoryCode == "undefined") {
+				 factoryCode = "";
+			 }
+			 if (specifications == null || specifications.trim() == "" || specifications == "undefined") {
+				 specifications = "";
+				}
+			 $("#add_factoryCode").val(factoryCode);
+			 $('#add_specifications').val(specifications);
+			 $('#add_sampleName').attr("readOnly",true);
+			 $('#add_specifications').attr("readOnly",true);
+		 }
 		 $(".sample").hide();
 	})
 
@@ -1239,7 +1256,7 @@ function openAddItemModal2(){
 	$('#add_specifications').val("");
 	$('#add_money').val("");
 	$('#add_remarks2').val("");
-	$('#addContractItemModal1').modal('show');
+	$('#addContractItemModal2').modal('show');
 }
 
 function openEditItemModal1(ID,fineItemCode,testProjectID,nameCn,nameEn,number,price,money,departmentID,departmentName,calculateType,isOutsourcing,remarks,hour){
@@ -1578,26 +1595,32 @@ function editClick(){
 	
 	//给input赋值
 	$(".sample ul li").click(function(){
-		 var sampleName =  $(this).attr("value");
-		 if (sampleName == null || sampleName.trim() == "" || sampleName == "undefined") {
-			 sampleName = "";
-			}
-		 $("#edit_sampleName").val(sampleName);
-		 var factoryCode =  $(this).attr("class");
-		 if (factoryCode == null || factoryCode.trim() == "" || factoryCode == "undefined") {
-			 factoryCode = "";
-			}
-		 $("#edit_factoryCode").val(factoryCode);
 		 var sampleID =  $(this).attr("name");
-		 var specifications =  $(this).attr("title");
 		 if (sampleID == null || sampleID.trim() == "" || sampleID == "undefined") {
-			 sampleID = "";
-			}
-		 if (specifications == null || specifications.trim() == "" || specifications == "undefined") {
-			 specifications = "";
-			}
-		 $('#edit_factoryCode').attr({'name' : "" + sampleID + ""});
-		 $('#edit_specifications').val(specifications);
+			 sampleID = "edit_factoryCode";
+			 $('#edit_factoryCode').attr({'name' : "" + sampleID + ""});
+			 $('#edit_sampleName').attr("readOnly",false);
+			 $('#edit_specifications').attr("readOnly",false);
+		 }else{
+			 $('#edit_factoryCode').attr({'name' : "" + sampleID + ""});
+			 var sampleName =  $(this).attr("value");
+			 if (sampleName == null || sampleName.trim() == "" || sampleName == "undefined") {
+				 sampleName = "";
+				}
+			 $("#edit_sampleName").val(sampleName);
+			 var factoryCode =  $(this).attr("class");
+			 var specifications =  $(this).attr("title");
+			 if (factoryCode == null || factoryCode.trim() == "" || factoryCode == "undefined") {
+				 factoryCode = "";
+			 }
+			 if (specifications == null || specifications.trim() == "" || specifications == "undefined") {
+				 specifications = "";
+				}
+			 $("#edit_factoryCode").val(factoryCode);
+			 $('#edit_specifications').val(specifications);
+			 $('#edit_sampleName').attr("readOnly",true);
+			 $('#edit_specifications').attr("readOnly",true);
+		 }
 		 $(".sample").hide();
 	})
 
@@ -1812,8 +1835,8 @@ function edit(){
 								break;
 							case -4:swal("公司名与公司ID不相符！");
 						  		break;
-							case 1:swal("保存成功！");
-								setTimeout(refresh, 1000);
+							case 1://swal("保存成功！");
+								//setTimeout(refresh, 1000);
 								break;
 							case 0:swal("保存失败！");
 								break;
@@ -1838,8 +1861,8 @@ function edit(){
 				  		break;
 				  	case -4:swal("公司名与公司ID不相符！");
 			  			break;
-					case 1:swal("保存成功！");
-						setTimeout(refresh, 1000);
+					case 1://swal("保存成功！");
+						//setTimeout(refresh, 1000);
 						break;
 					case 0:swal("保存失败！");
 						break;
@@ -1997,6 +2020,7 @@ function addItem2(){
 				closeOnConfirm: false
 				},
 				function(){	
+					
 					$.ajax({
 						  url:'contractFineItemController/addContractFineItem2.do',
 						  type:'post', 
@@ -2055,7 +2079,7 @@ function addItem2(){
 }
 
 //删除合同细项
-function delFileItem1(id,fineItemCode){
+function delFileItem(id,fineItemCode){
 	var parame = {};
 	parame.itemID = id;
 	parame.contractID = $('#edit_contractID').val();
@@ -2088,7 +2112,7 @@ function delFileItem1(id,fineItemCode){
 function editItem1(){
 	edit();
 	var parame = {};
-	parame.ID = $('#edit_fineItemID').val();
+	parame.ID = $('#edit_fineItemID1').val();
 	var fineItemCode = $('#edit_fineItemCode').val();
 	var testProjectID = $('#edit_testProjectName').attr("name");
 	var testProjectName = $('#edit_testProjectName').attr("title");
@@ -2164,7 +2188,7 @@ function editItem1(){
 function editItem2(){
 	edit();
 	var parame = {};
-	parame.ID = $('#edit_fineItemID').val();
+	parame.ID = $('#edit_fineItemID2').val();
 	var factoryCode = $('#edit_factoryCode').val();
 	var sampleID = $('#edit_factoryCode').attr("name");
 	var sampleName = $('#edit_sampleName').val();
@@ -2216,7 +2240,7 @@ function editItem2(){
 				},
 				function(){	
 					$.ajax({
-						  url:'contractFineItemController/editContractFineItem2.do',
+						  url:'contractFineItemController/updContractFineItem2.do',
 						  type:'post', 
 						  data:parame,
 						  dataType:'json',
@@ -2244,7 +2268,7 @@ function editItem2(){
 			});
 		}else{
 			$.ajax({
-				  url:'contractFineItemController/editContractFineItem2.do',
+				  url:'contractFineItemController/updContractFineItem2.do',
 				  type:'post', 
 				  data:parame,
 				  dataType:'json',

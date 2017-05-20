@@ -690,6 +690,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 		contractFineItem.setNumber(number);
 		contractFineItem.setPrice(price);
 		contractFineItem.setMoney(money);
+		contractFineItem.setType(0);
 		contractFineItem.setRemarks(remarks);
 		//contractFineItem.setType(0);
 		contractFineItem.setContractID(contractID);
@@ -711,7 +712,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 			double money,String remarks, String contractID){
 		String[] properties1 = new String[] {"ID"};
 		String condition1 = " factoryCode = '" + factoryCode + "'";
-		List<Map<String, Object>> result1 = entityDao.findByCondition(properties1, condition1, TestProject.class);
+		List<Map<String, Object>> result1 = entityDao.findByCondition(properties1, condition1, Sample.class);
 		if(result1.isEmpty()){
 			System.out.println("不存在该样品名的样品,将新增对应样品记录");
 			Sample sample = new Sample();
@@ -738,10 +739,10 @@ public class ContractFineItemService extends SearchService implements IContractF
 		ContractFineItem contractFineItem = new ContractFineItem();
 		String id = EntityIDFactory.createId();
 		contractFineItem.setID(id);
-		//contractFineItem.setSampleID(sampleID);
+		contractFineItem.setSampleID(sampleID);
 		contractFineItem.setMoney(money);
 		contractFineItem.setRemarks(remarks);
-		//contractFineItem.setType(1);
+		contractFineItem.setType(1);
 		contractFineItem.setContractID(contractID);
 		
 		int results = entityDao.save(contractFineItem);
@@ -808,6 +809,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 		contractFineItem.setNumber(number);
 		contractFineItem.setPrice(price);
 		contractFineItem.setMoney(money);
+		contractFineItem.setType(0);
 		contractFineItem.setRemarks(remarks);
 				
 		int results = entityDao.updatePropByID(contractFineItem,ID);
@@ -821,7 +823,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 		// TODO Auto-generated method stub
 		String[] properties1 = new String[] {"ID"};
 		String condition1 = " factoryCode = '" + factoryCode + "'";
-		List<Map<String, Object>> result1 = entityDao.findByCondition(properties1, condition1, TestProject.class);
+		List<Map<String, Object>> result1 = entityDao.findByCondition(properties1, condition1, Sample.class);
 		if(result1.isEmpty()){
 			System.out.println("不存在该样品名的样品,将新增对应样品记录");
 			Sample sample = new Sample();
@@ -845,10 +847,10 @@ public class ContractFineItemService extends SearchService implements IContractF
 			}
 		}
 		ContractFineItem contractFineItem = entityDao.getByID(ID, ContractFineItem.class);
-		//contractFineItem.setSampleID(sampleID);
+		contractFineItem.setSampleID(sampleID);
 		contractFineItem.setMoney(money);
 		contractFineItem.setRemarks(remarks);
-		//contractFineItem.setType(1);
+		contractFineItem.setType(1);
 		contractFineItem.setContractID(contractID);
 				
 		int results = entityDao.updatePropByID(contractFineItem,ID);

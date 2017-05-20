@@ -25,6 +25,7 @@ public class Contract extends Entity{
 	private int classifiedLevel;
 	private int state;
 	private String viewpoint;
+	private int type;
 	
 	public String getID() {
 		return ID;
@@ -144,6 +145,13 @@ public class Contract extends Entity{
 	
 	public void setViewpoint(String viewpoint) {
 		this.viewpoint = viewpoint;
+	}
+	public int getType() {
+		return type;
+	}	
+	
+	public void setType(int type) {
+		this.type = type;
 	}
 	
 	@Override

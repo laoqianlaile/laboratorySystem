@@ -114,8 +114,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      	<div id="adDcontent" class="row1">
 	      		<div class="col-xs-12 col-md-12">
                    	<label class="control-label">合同类型:</label>
-                   	<input type="radio" value="0" checked="checked"  name="contactType" style="margin: -5 0 0 80px;vertical-align: text-top;"/><span>技术服务合同</span>
-					<input type="radio" value="1" name="contactType" style="margin: -5 0 0 80px;vertical-align: text-top;"/><span>简约版合同</span>
+                   	<input type="radio" value="0" checked="checked"  name="contractType" style="margin: -5 0 0 80px;vertical-align: text-top;"/><span>技术服务合同</span>
+					<input type="radio" value="1" name="contractType" style="margin: -5 0 0 80px;vertical-align: text-top;"/><span>简约版合同</span>
                 </div>
 	      		<div class="col-xs-12 col-md-12">
                    <label class="control-label">合同名称:</label>
@@ -129,7 +129,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		       </div>
 		       <div id="add_Address1" class="col-xs-12 col-md-12">
                    <label class="control-label">签订单位地址:</label>
-                   <input type="text" id="add_address" name="address" class="form-control"/>
+                   <input type="text" id="add_address" name="address" class="form-control" readonly="true"/>
                </div>
                <div id="add_Address2" class="col-xs-12 col-md-12">
                    <label class="control-label">签约地点:</label>

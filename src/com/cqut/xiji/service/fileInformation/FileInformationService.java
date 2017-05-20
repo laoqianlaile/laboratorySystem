@@ -235,7 +235,7 @@ public class FileInformationService extends SearchService implements IFileInform
 	
 	@Override
 	public Map<String, Object> getContractTemplateFileWithPaging(int limit, int offset,
-			String order, String sort){
+			String order, String sort,String contractType){
 		int index = limit;
 		int pageNum = offset/limit;
 		String tableName = "template";
@@ -244,12 +244,18 @@ public class FileInformationService extends SearchService implements IFileInform
 			"template.name",
 			"fileInformation.fileName",
 			"template.fileID",
-			"date_format(template.createTime,'%Y.%m.%d') as createTime",
-			"case when template.templateType = 0 then '合同文件模版' end as templateType"
+			"date_format(template.createTime,'%Y-%m-%e %H:%i:%s') as createTime",
+			"case when template.templateType = 0 then '检测合同文件模版'" + 
+			"when template.templateType = 3 then '校准合同文件模版'" + 
+			" end as templateType"
 		};
 		String joinEntity = " LEFT JOIN fileInformation ON template.fileID = fileInformation.ID ";
-		
-		String condition = " 1 = 1 and template.templateType = 0 and template.state = 2 ";
+		String condition = " 1 = 1 ";
+		if(contractType.equals("0")){
+			condition += "and template.templateType = 0 and template.state = 2 ";
+		}else{
+			condition += "and template.templateType = 3 and template.state = 2 ";
+		}
 		
 		List<Map<String, Object>> result  = entityDao.searchWithpaging(properties, tableName, joinEntity, null, condition, null, sort, order, index, pageNum);
 		int count = entityDao.searchForeign(properties, tableName, joinEntity, null, condition).size();

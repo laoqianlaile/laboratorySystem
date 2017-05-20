@@ -9,7 +9,7 @@ $(function() {
 function initData(){
 	$("#table").bootstrapTable({
 		//height : 800,// 定义表格的高度
-		striped : true,// 隔行变色效果
+		striped : false,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
 		pageSize : 5,// 页面数据条数
 		pageNumber : 1,// 首页页码
@@ -330,11 +330,12 @@ function classifiedLevelSth(){
 	}
 }
 
->>>>>>> 8703524cfdbad8431113c2a03514eded7e6cce14
 /* 新增方法 */
 function add(){
 		var parame = {};
 		var contractType = $("input[name='contractType']:checked").val();
+		alert(contractType);
+		return;
 		var contractName = $('#add_contractName').val();
 		var companyName = $('#add_companyName').val();
 		var companyID = $('#add_companyName').attr("name");
@@ -594,39 +595,9 @@ function addClick(){
 			 name = "add_companyName";
 			 $('#add_companyName').attr({'name' : "" + name + ""});
 			 $("#add_address").val("");
-			 $('#add_address').attr("disabled",false);
+			 $('#add_address').attr("readOnly",false);
 			 $("#add_oppositeMen").val("");
 			 $("#add_linkPhone").val("");
-<<<<<<< HEAD
-			}
-		 $("#add_companyName").val(name);
-		 var ID =  $(this).attr("class");
-		 var mobilePhone =  $(this).attr("id");
-		 var linkMan =  $(this).attr("name");
-		 var address =  $(this).attr("title");
-		 if (ID == null || ID.trim() == "" || ID == "undefined") {
-			 ID = "";
-			}
-		 if (mobilePhone == null || mobilePhone.trim() == "" || mobilePhone == "undefined") {
-			 mobilePhone = "";
-			}
-		 if (linkMan == null || linkMan.trim() == "" || linkMan == "undefined") {
-			 linkMan = "";
-			}
-		 if (address == null || address.trim() == "" || address == "undefined") {
-			 address = "";
-			}
-		 $('#add_companyName').attr({'name' : "" + ID + ""});
-		 $('#add_companyName').attr({'value' : "" + name + ""});
-		 $("#add_oppositeMen").val(linkMan);
-		// $('#add_oppositeMen').attr("disabled",true);
-		 $("#add_linkPhone").val(mobilePhone);
-		 //$('#add_linkPhone').attr("disabled",true);
-		 $("#add_address").val(address);
-		  if(address != ""){
-				$('#add_address').attr("disabled",true);
-			 }
-		// $('#add_address').attr("disabled",true);
 		 }else{
 			 $("#add_companyName").val(name);
 			 var ID =  $(this).attr("class");
@@ -652,11 +623,8 @@ function addClick(){
 			 $("#add_linkPhone").val(mobilePhone);
 			 //$('#add_linkPhone').attr("disabled",true);
 			 $("#add_address").val(address);
-			 if(address != ""){
-				$('#add_address').attr("disabled",true);
-			 }
+			 $('#add_address').attr("readOnly",true);
 		 }
->>>>>>> 8703524cfdbad8431113c2a03514eded7e6cce14
 		 $(".companyN").hide();
 	})
 	
