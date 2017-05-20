@@ -203,20 +203,35 @@ public class ContractFineItemController{
 		return JSONObject.fromObject(result);
 	}
 	
-	//
-	@RequestMapping("/getContractFileItemWithPaging")
+	
+	@RequestMapping("/getContractFileItemWithPaging1")
 	@ResponseBody
-	public JSONObject getContractFileItemWithPaging(String ID,int limit, int offset,String order, String sort){
-		Map<String, Object> result = service.getContractFileItemWithPaging(ID,limit, offset, order, sort);
+	public JSONObject getContractFileItemWithPaging1(String ID,int limit, int offset,String order, String sort){
+		Map<String, Object> result = service.getContractFileItemWithPaging1(ID,limit, offset, order, sort);
 		return JSONObject.fromObject(result);
 	}
 	
-	@RequestMapping("/addContractFineItem")  
+	@RequestMapping("/getContractFileItemWithPaging2")
+	@ResponseBody
+	public JSONObject getContractFileItemWithPaging2(String ID,int limit, int offset,String order, String sort){
+		Map<String, Object> result = service.getContractFileItemWithPaging2(ID,limit, offset, order, sort);
+		return JSONObject.fromObject(result);
+	}
+	
+	@RequestMapping("/addContractFineItem1")  
     @ResponseBody
-	public int addContractFineItem(String fineItemCode, String testProjectID, String testProjectName,
-			int isOutsourcing, int calculateType, int number, double price, int hour, double money,
-			String departmentID,String remarks, String contractID){
-		int results = service.addContractFineItem(fineItemCode, testProjectID,testProjectName, isOutsourcing, calculateType, number, price, hour, money,departmentID, remarks, contractID);
+	public int addContractFineItem1(int isOutsourcing,String departmentID, String fineItemCode,
+			String testProjectID, String testProjectName,int number, double price, double money,
+			String remarks, String contractID){
+		int results = service.addContractFineItem1(isOutsourcing, departmentID,fineItemCode, testProjectID,testProjectName, number, price, money, remarks, contractID);
+		return results;
+	}
+	
+	@RequestMapping("/addContractFineItem2")  
+    @ResponseBody
+	public int addContractFineItem2(String sampleID,String factoryCode,String sampleName,String specifications,
+			double money,String remarks, String contractID){
+		int results = service.addContractFineItem2(sampleID,factoryCode,sampleName,specifications,money,remarks,contractID);
 		return results;
 	}
 	
@@ -227,10 +242,20 @@ public class ContractFineItemController{
 		return result;
 	}
 	
-	@RequestMapping("/updContractFineItem")  
+	@RequestMapping("/updContractFineItem1")  
     @ResponseBody
-	public int updContractFineItem(String ID, String fineItemCode, String testProjectID,String testProjectName, int isOutsourcing,int calculateType, int number, double price, int hour, double money,  String departmentID, String remarks, String contractID){
-		int results = service.updContractFineItem(ID, fineItemCode, testProjectID, testProjectName, isOutsourcing, calculateType, number, price, hour, money,departmentID, remarks, contractID);
+	public int updContractFineItem1(String ID,int isOutsourcing,String departmentID, String fineItemCode,
+			String testProjectID, String testProjectName,int number, double price, double money,
+			String remarks, String contractID){
+		int results = service.updContractFineItem1(ID, isOutsourcing,departmentID, fineItemCode, testProjectID, testProjectName, number, price, money, remarks, contractID);
+		return results;
+	}
+	
+	@RequestMapping("/updContractFineItem2")  
+    @ResponseBody
+	public int updContractFineItem2(String ID,String sampleID,String factoryCode,String sampleName,String specifications,
+			double money,String remarks, String contractID){
+		int results = service.updContractFineItem2(ID,sampleID,factoryCode,sampleName,specifications,money,remarks,contractID);
 		return results;
 	}
 	

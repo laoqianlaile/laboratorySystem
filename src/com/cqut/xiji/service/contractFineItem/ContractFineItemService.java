@@ -1,5 +1,6 @@
 package com.cqut.xiji.service.contractFineItem;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,8 +12,10 @@ import org.springframework.stereotype.Service;
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
+import com.cqut.xiji.entity.company.Company;
 import com.cqut.xiji.entity.contract.Contract;
 import com.cqut.xiji.entity.contractFineItem.ContractFineItem;
+import com.cqut.xiji.entity.sample.Sample;
 import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
@@ -572,7 +575,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 	}
 	
 	@Override
-	public Map<String, Object> getContractFileItemWithPaging(String ID,int limit, int offset,String order, String sort){
+	public Map<String, Object> getContractFileItemWithPaging1(String ID,int limit, int offset,String order, String sort){
 		int index = limit;
 		int pageNum = offset/limit ;
 		String tableName = "contractFineItem";
@@ -612,6 +615,37 @@ public class ContractFineItemService extends SearchService implements IContractF
 	}
 	
 	@Override
+	public Map<String, Object> getContractFileItemWithPaging2(String ID,int limit, int offset,String order, String sort){
+		int index = limit;
+		int pageNum = offset/limit ;
+		String tableName = "contractFineItem";
+		String[] properties = new String[]{
+			"contractFineItem.ID",
+			"contractFineItem.sampleID",
+			"sample.factoryCode",
+			"sample.sampleName",
+			"sample.specifications",
+			"contractFineItem.money",
+			"contractFineItem.remarks"
+		};
+		String joinEntity = " LEFT JOIN sample ON contractFineItem.sampleID = sample.ID ";
+		
+		String condition = "1 = 1 ";
+		
+		if(ID != null && !ID.isEmpty()){
+			condition = " and contractFineItem.contractID = " + ID;
+		}
+		
+		List<Map<String, Object>> result  = entityDao.searchWithpaging(properties, tableName, joinEntity, null, condition, null, sort, order, index, pageNum);
+		int count = entityDao.getForeignCount(getBasePrimaryKey(), tableName, null, null, condition);
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("total", count);
+		map.put("rows", result);
+		updateContractAmount(ID);
+		return map;
+	}
+	
+	@Override
 	public int delContractFineItem(String itemID,String contractID) {
 		// TODO Auto-generated method stub
 		if(itemID == null || itemID.isEmpty()){
@@ -629,9 +663,8 @@ public class ContractFineItemService extends SearchService implements IContractF
 	}
 	
 	@Override
-	public int addContractFineItem(String fineItemCode, String testProjectID,
-			String testProjectName,int isOutsourcing, int calculateType, int number,
-			double price, int hour, double money, String departmentID,
+	public int addContractFineItem1(int isOutsourcing,String departmentID, String fineItemCode,
+			String testProjectID, String testProjectName,int number, double price, double money,
 			String remarks, String contractID){
 		String[] properties1 = new String[] {"ID"};
 		String condition1 = " nameCn = '" + testProjectName + "'";
@@ -654,12 +687,61 @@ public class ContractFineItemService extends SearchService implements IContractF
 		contractFineItem.setTestProjectID(testProjectID);
 		contractFineItem.setDepartmentID(departmentID);
 		contractFineItem.setIsOutsourcing(isOutsourcing);
-		contractFineItem.setCalculateType(calculateType);
 		contractFineItem.setNumber(number);
 		contractFineItem.setPrice(price);
-		contractFineItem.setHour(hour);
 		contractFineItem.setMoney(money);
 		contractFineItem.setRemarks(remarks);
+		//contractFineItem.setType(0);
+		contractFineItem.setContractID(contractID);
+		
+		int results = entityDao.save(contractFineItem);
+		
+		if(results <= 0){
+			String position = "ID =" + id;
+			results = entityDao.deleteByCondition(position, ContractFineItem.class);
+			return results;
+		}
+		
+		updateContractAmount(contractID);
+		return results;
+	}
+	
+	@Override
+	public int addContractFineItem2(String sampleID,String factoryCode,String sampleName,String specifications,
+			double money,String remarks, String contractID){
+		String[] properties1 = new String[] {"ID"};
+		String condition1 = " factoryCode = '" + factoryCode + "'";
+		List<Map<String, Object>> result1 = entityDao.findByCondition(properties1, condition1, TestProject.class);
+		if(result1.isEmpty()){
+			System.out.println("不存在该样品名的样品,将新增对应样品记录");
+			Sample sample = new Sample();
+			sampleID = EntityIDFactory.createId();
+			sample.setID(sampleID);
+			sample.setFactoryCode(factoryCode);
+			sample.setSampleName(sampleName);
+			sample.setSpecifications(specifications);
+			sample.setCreateTime(new Date());
+			int result = entityDao.save(sample);
+			if(result <= 0){
+				String position = "ID =" + sample;
+				entityDao.deleteByCondition(position,Sample.class);
+				return -2;
+			}
+		}else{
+			String sampleID1 = result1.get(0).get("ID").toString();
+			if(!sampleID1.equals(sampleID)){
+				System.out.println("样品名与样品ID不相符");
+				return -4;
+			}
+		}
+		
+		ContractFineItem contractFineItem = new ContractFineItem();
+		String id = EntityIDFactory.createId();
+		contractFineItem.setID(id);
+		//contractFineItem.setSampleID(sampleID);
+		contractFineItem.setMoney(money);
+		contractFineItem.setRemarks(remarks);
+		//contractFineItem.setType(1);
 		contractFineItem.setContractID(contractID);
 		
 		int results = entityDao.save(contractFineItem);
@@ -700,10 +782,9 @@ public class ContractFineItemService extends SearchService implements IContractF
 	}
 	
 	@Override
-	public int updContractFineItem(String ID, String fineItemCode,
-			String testProjectID,String testProjectName, int isOutsourcing, int calculateType,
-			int number, double price, int hour, double money,
-			String departmentID, String remarks, String contractID){
+	public int updContractFineItem1(String ID,int isOutsourcing,String departmentID, String fineItemCode,
+			String testProjectID, String testProjectName,int number, double price, double money,
+			String remarks, String contractID){
 		// TODO Auto-generated method stub
 		String[] properties1 = new String[] {"ID"};
 		String condition1 = " nameCn = '" + testProjectName + "'";
@@ -724,10 +805,8 @@ public class ContractFineItemService extends SearchService implements IContractF
 		contractFineItem.setTestProjectID(testProjectID);
 		contractFineItem.setDepartmentID(departmentID);
 		contractFineItem.setIsOutsourcing(isOutsourcing);
-		contractFineItem.setCalculateType(calculateType);
 		contractFineItem.setNumber(number);
 		contractFineItem.setPrice(price);
-		contractFineItem.setHour(hour);
 		contractFineItem.setMoney(money);
 		contractFineItem.setRemarks(remarks);
 				
@@ -736,6 +815,47 @@ public class ContractFineItemService extends SearchService implements IContractF
 		return results;
 	}
 
+	@Override
+	public int updContractFineItem2(String ID,String sampleID,String factoryCode,String sampleName,String specifications,
+			double money,String remarks, String contractID){
+		// TODO Auto-generated method stub
+		String[] properties1 = new String[] {"ID"};
+		String condition1 = " factoryCode = '" + factoryCode + "'";
+		List<Map<String, Object>> result1 = entityDao.findByCondition(properties1, condition1, TestProject.class);
+		if(result1.isEmpty()){
+			System.out.println("不存在该样品名的样品,将新增对应样品记录");
+			Sample sample = new Sample();
+			sampleID = EntityIDFactory.createId();
+			sample.setID(sampleID);
+			sample.setFactoryCode(factoryCode);
+			sample.setSampleName(sampleName);
+			sample.setSpecifications(specifications);
+			sample.setCreateTime(new Date());
+			int result = entityDao.save(sample);
+			if(result <= 0){
+				String position = "ID =" + sample;
+				entityDao.deleteByCondition(position,Sample.class);
+				return -2;
+			}
+		}else{
+			String sampleID1 = result1.get(0).get("ID").toString();
+			if(!sampleID1.equals(sampleID)){
+				System.out.println("样品编码与样品ID不相符");
+				return -4;
+			}
+		}
+		ContractFineItem contractFineItem = entityDao.getByID(ID, ContractFineItem.class);
+		//contractFineItem.setSampleID(sampleID);
+		contractFineItem.setMoney(money);
+		contractFineItem.setRemarks(remarks);
+		//contractFineItem.setType(1);
+		contractFineItem.setContractID(contractID);
+				
+		int results = entityDao.updatePropByID(contractFineItem,ID);
+		updateContractAmount(contractID);
+		return results;
+	}
+	
 	@Override
 	public List<Map<String, Object>> getContractFineItemByContractIDs(
 			String ContractID) {

@@ -160,16 +160,22 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 				"case when employee.sex =  0 then '女' "
 				+ "when employee.sex =  1 then '男' end as sex",
 				"duty.dutyName",
-				"role.name as roleName",
+				"a.roleName",
 				"case when employee.level =  0 then '初级' "
 				+ "when employee.level =  1 then '中级' "
 				+ "when employee.level =  2 then '高级' end as level"
 			};
 
 			String joinEntity = " left join duty on employee.dutyID = duty.ID "
-					+ " left join role on employee.roleID = role.ID ";
+					+ " left join role on employee.roleID = role.ID " 
+					+ " left join ( " // 将employee里的roleID分割开，然后分别查询对应的角色名，再以员工名为组，把查询出来的角色名合并成一个字符串，构成新的一张表
+					+ " 	select employee.employeeName, GROUP_CONCAT(role. NAME) AS roleName "
+					+ " 	from employee "
+					+ " 	LEFT JOIN role ON FIND_IN_SET(role.ID, employee.roleID) "
+					+ " 	group by employee.employeeName "
+					+ " ) as a on a.employeeName = employee.employeeName "; // 将新表里符合员工名的那个拼接好的角色名拿出来
 
-			String condition = " 1 = 1 and employee.departmentID = '" + ID + "' and employee.state = 1";
+			String condition = " 1 = 1 and employee.departmentID = '" + ID + "' and employee.state = 1 and employee.ID != '20170220super' "; // 去除内部使用的超级管理员
 
 			List<Map<String, Object>> result = originalSearchWithpaging(properties, getBaseEntityName(), joinEntity, null, condition, false, null, sort, order, index, pageNum);
 			int count = getForeignCountWithJoin(joinEntity, null, condition, false);
@@ -184,7 +190,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 
 		@Override
 		public List<Map<String, Object>> getEmployeeName(String employeeName) {
-			String[] properties = new String[] {"ID","employeeName"};
+			String[] properties = new String[] {"ID","employeeName","employeeCode"};
 			String condition = "employeeName like '%" + employeeName + "%'  and ID != '20170220super'";
 			List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Employee.class);
 			return result;

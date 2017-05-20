@@ -10,6 +10,7 @@ var obj = {
 	state : "",
 	comID : "",
 	isSelectedCom:false,
+	departmentData :[],
 	isCreate : false
 }
 /**
@@ -27,9 +28,27 @@ function initData() {
 	initPageData(); //展示页面页头数据
 	initSample();  //展示任务表的数据
 	initFile();//展示交接单附件的数据
+	obj.departmentData=getDataDepartment();
 	
 }
-
+function  getDataDepartment(){ //获取部门列表
+	var data;
+	$.ajax({
+		url : '/laboratorySystem/departmentController/getDepartmentName.do',
+		dataType : "json",
+		async : false,
+		data : {
+			
+		},
+		success : function(o) {
+			data = JSON.parse(o);
+		},
+		error : function() {
+			return false;
+		}
+	});
+	return data;
+}
 
 //初始页面数据
 function initPageData() {
@@ -671,9 +690,19 @@ function initAddTask_event() {
 		$("#addSampleID").val("");
 		$("#addAskFor").val("");
 		$('#displayChecked[name = "add"]').empty();
+		addDepartmentList("add");
 		$("#addTaskModal").modal('show');
 	});
 }
+function addDepartmentList(par){
+	var html = "";
+	var data = obj.departmentData ;
+	for(var i = 0; i < data.length ; i++){
+		html+="<option value='"+data[i].ID+"'>"+data[i].departmentName+"</option>";
+	}
+	$("#"+par+"Department").append(html);
+}
+
 // 时间验证
 function vaildSelected(startTime, endTime) {
 	if (endTime > startTime)
@@ -984,9 +1013,12 @@ function addTaskModel() {
 	param.testProjects = getTestProjectID();
 	console.log(param.testProject);
 	param.unit = $("#addUnit").val();
+	param.type = $("input[name='addTaskType']").val();
+	param.departmentID = $("#addDepartment").val();
 	param.require = $("#addAskFor").val();
 	param.reID = obj.reID;
 	param.state = "add";
+	console.log(param);
 	// 验证数据
 	if (valTaskData(param)) {
 		// 传输数据
@@ -1042,10 +1074,13 @@ function editTaskModel() {
 	param.taskID = $("#editTaskID").val();
 	param.testProjects = getTestProjectID();
 	console.log(param.testProject);
+	param.type = $("input[name='editTaskType']").val();
+	param.departmentID = $("#editDepartment").val();
 	param.unit = $("#editUnit").val();
 	param.require = $("#editAskFor").val();
 	param.reID = obj.reID;
 	param.state = "edit";
+	console.log(param);
 	// 验证数据是否合理
 	if (valTaskData(param)) {
 		$

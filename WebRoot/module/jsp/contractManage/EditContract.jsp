@@ -66,13 +66,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="col-xs-4 col-md-4 col-lg-4">
 					<label class="wide">甲方法定代表人(代理人):</label> <input
 						type="text" id="edit_oppositeMen" name="oppositeMen"
-						class="form-control narrow" readonly="true"/>
+						class="form-control narrow"/>
 				</div>
 				<div class="col-xs-4 col-md-4 col-lg-4">
 					<label class="control-label">联系电话:</label> <input type="text"
 						id="edit_linkPhone" name="linkPhone" class="form-control"
 						onkeyup="if(/\D/.test(this.value)){alert('只能输入数字');}"
-						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');}" readonly="true"/>
+						onafterpaste="if(/\D/.test(this.value)){alert('只能输入数字');}"/>
 				</div>
 				<div class="col-xs-4 col-md-4 col-lg-4">
 					<label class="control-label">签约地点:</label> <input type="text"
@@ -136,7 +136,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="col-xs-1a col-md-2 col-lg-2">
 					<label class="classifiedLevel-label">密级:</label> <select
 						id="edit_classifiedLevel" name="classifiedLevel"
-						class="form-control classifiedLevel-select">
+						class="form-control classifiedLevel-select" onchange="classifiedLevelSth()">
 						<option id="Level3" value="3">无密级</option>
 						<option class="Level3" value="0">秘密</option>
 						<option class="Level3" value="1">机密</option>
@@ -162,7 +162,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="top">
 				<div class="contractFileItem_title"><img src="module/img/contractDetail_icon.png" alt="contractDetail_icon" />编辑合同细项</div>
 				<div class="btnAdd fr">
-					<button type="button" onclick="openAddItemModal()" class="btn btn-primary">添加细项</button>
+					<button type="button" onclick="openAddItemModal1()" class="btn btn-primary">添加检测细项</button>
+					<button type="button" onclick="openAddItemModal2()" class="btn btn-primary">添加校准细项</button>
 				</div>
 			</div>
 			<div class="bottom">
@@ -229,13 +230,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 
-		<!-- 新增合同细项弹框 -->
-  	<div id="addContractItemModal" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
+		<!-- 新增检测合同细项弹框 -->
+  	<div id="addContractItemModal1" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title">新增合同细项</h4>
+	        <h4 class="modal-title">新增检验合同细项</h4>
 	      </div>
 	      <div class="modal-body">
 	      	<div id="addContent" class="row">
@@ -250,30 +251,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                   
                    </div>
                 </div>
-                <div class="col-xs-12 col-md-12">
-                   	<label class="control-label">计算方式：</label>
-                   	<input type="radio" value="0" checked="checked"  name="calculateType1" onclick="calculateType()"  style="margin:8px 0 0 80px;"/><span>按单位算</span>
-					<input type="radio" value="1" name="calculateType1" onclick="calculateType()" style="margin:8px 0 0 100px;"/><span>按时间算</span>
-                </div>
-                <div class="col-xs-12 col-md-12 add_number" >
-                   	<label class="control-label fl" style="width:22.5%;">数量/次：</label>
+                <div class="col-xs-12 col-md-12" >
+                   	<label class="control-label fl" style="width:22.5%;">数量：</label>
                    	<input type="text" id="add_number" name="number" class="form-control fl" style="width:21%;"
                    	onkeyup="checknum(this)"
 						onafterpaste="checknum(this)"/>
-                   	<label class="control-label fl" style="width:22.5%;margin-left: 5.5%;">单价/元：</label>
-                   	<input type="text" id="add_price1" name="price" class="form-control fl" style="width:21%;" 
+                   	<label class="control-label fl" style="width:22.5%;margin-left: 5.5%;">单价：</label>
+                   	<input type="text" id="add_price" name="price" class="form-control fl" style="width:21%;" 
                    	onkeyup="checknum(this);"
 						onafterpaste="checknum(this);"/>
                	</div>
-               	<div class="col-xs-12 col-md-12 add_hour" style="display: none;">
-                   	<label class="control-label fl" style="width:22.5%;">时间/时：</label>
-                   	<input type="text" id="add_hour" name="hour" class="form-control fl" style="width:21%;" 
-                   	onkeyup="checknum(this);" onafterpaste="checknum(this);"/>
-                   	<label class="control-label fl" style="width:22.5%;margin-left: 5.5%;">单价/元：</label>
-                   	<input type="text" id="add_price2" name="price" class="form-control fl" style="width:21%;" 
-                   	onkeyup="checknum(this);" onafterpaste="checknum(this);"/>
-                </div>
-               	<div class="col-xs-12 col-md-12" style="display: none;">
+               	<div class="col-xs-12 col-md-12">
                    	<label class="control-label">检测单位：</label>
                    	<select id="add_departmentName" name="departmentName" class="form-control">
 						
@@ -281,31 +269,74 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label">备注:</label>
-                   	<textarea id="add_remarks" name="remarks" style="margin: -34px 0 0 22.5%;" class="form-control"></textarea>
+                   	<textarea id="add_remarks1" name="remarks" style="margin: -34px 0 0 22.5%;" class="form-control"></textarea>
                	</div>
              </div>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-primary" onclick="addItem()">新增</button>
+	        <button type="button" class="btn btn-primary" onclick="addItem1()">新增</button>
 	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 	      </div>
 	    </div>
 	  </div>
 	</div>
 	
-  	<!-- 修改合同细项弹框 -->
-  	<div id="editContractItemModal" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
+	<div id="addContractItemModal2" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title">编辑合同细项</h4>
+	        <h4 class="modal-title">新增校准合同细项</h4>
+	      </div>
+	      <div class="modal-body">
+	      	<div id="addContent" class="row">
+	      		<div class="col-xs-12 col-md-12">
+                   	<label class="control-label">样品编码：</label>
+                   	<input type="text" id="add_factoryCode" name="factoryCode"  oninput="addGetSName()" onpropertychange="addGetSName()" class="form-control" />
+                   	<div class="sample">
+	                   
+                   </div>
+               	</div>
+                <div class="col-xs-12 col-md-12 nameCn">
+                   	<label class="control-label">样品名称：</label>
+                   	<input type="text" id="add_sampleName" name="sampleName" class="form-control" />
+                </div>
+                <div class="col-xs-12 col-md-12">
+                   	<label class="control-label">样品型号:</label>
+                   	<input type="text" id="add_specifications" name="specifications" class="form-control" />
+               	</div>
+               	<div class="col-xs-12 col-md-12">
+                   	<label class="control-label">金额:</label>
+                   	<input type="text" id="add_money" name="money" onkeyup="checknum(this);"
+						onafterpaste="checknum(this);" class="form-control" />
+               	</div>
+               	<div class="col-xs-12 col-md-12">
+                   	<label class="control-label">备注:</label>
+                   	<textarea id="add_remarks2" name="remarks" style="margin: -34px 0 0 22.5%;" class="form-control"></textarea>
+               	</div>
+             </div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary" onclick="addItem2()">新增</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	<!-- 修改检测合同细项弹框 -->
+  	<div id="editContractItemModal1" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title">新增检验合同细项</h4>
 	      </div>
 	      <div class="modal-body">
 	      	<div id="editContent" class="row">
 	      		<div class="col-xs-12 col-md-12" style="display:none;">
                    	<label class="control-label">合同细项ID：</label>
-                   	<input type="text" id="edit_fineItemID" name="fineItemID" class="form-control" />
+                   	<input type="text" id="edit_fineItemID1" name="fineItemID1" class="form-control" />
                	</div>
 	      		<div class="col-xs-12 col-md-12">
                    	<label class="control-label">合同细项编号：</label>
@@ -318,28 +349,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                   
                    </div>
                 </div>
-                <div class="col-xs-12 col-md-12">
-                   	<label class="control-label">计算方式：</label>
-                   	<input type="radio" value="0" checked="checked"  name="calculateType2" onclick="calculateType()"  style="margin:8px 0 0 80px;"/><span>按单位算</span>
-					<input type="radio" value="1" name="calculateType2" onclick="calculateType()" style="margin:8px 0 0 100px;"/><span>按时间算</span>
-                </div>
-                <div class="col-xs-12 col-md-12 edit_number" >
-                   	<label class="control-label fl" style="width:22.5%;">数量/次：</label>
-                   	<input type="text" id="edit_number" name="number" class="form-control fl" style="width:21%;" 
-                   	onkeyup="checknum(this);" onafterpaste="checknum(this);"/>
-                   	<label class="control-label fl" style="width:22.5%;margin-left:5.5%;">单价/元：</label>
-                   	<input type="text" id="edit_price1" name="price" class="form-control fl" style="width:21%;" 
-                   	onkeyup="checknum(this);" onafterpaste="checknum(this);"/>
+                <div class="col-xs-12 col-md-12" >
+                   	<label class="control-label fl" style="width:22.5%;">数量：</label>
+                   	<input type="text" id="edit_number" name="number" class="form-control fl" style="width:21%;"
+                   	onkeyup="checknum(this)"
+						onafterpaste="checknum(this)"/>
+                   	<label class="control-label fl" style="width:22.5%;margin-left: 5.5%;">单价：</label>
+                   	<input type="text" id="edit_price" name="price" class="form-control fl" style="width:21%;" 
+                   	onkeyup="checknum(this);"
+						onafterpaste="checknum(this);"/>
                	</div>
-               	<div class="col-xs-12 col-md-12 edit_hour" style="display: none;">
-                   	<label class="control-label fl" style="width:22.5%;">时间/时：</label>
-                   	<input type="text" id="edit_hour" name="hour" class="form-control fl" style="width:21%;" 
-                   	onkeyup="checknum(this);" onafterpaste="checknum(this);"/>
-                   	<label class="control-label fl" style="width:22.5%;margin-left:5.5%;">单价/元：</label>
-                   	<input type="text" id="edit_price2" name="price" class="form-control fl" style="width:21%;" 
-                   	onkeyup="checknum(this);" onafterpaste="checknum(this);"/>
-                </div>
-               	<div class="col-xs-12 col-md-12" style="display: none;">
+               	<div class="col-xs-12 col-md-12">
                    	<label class="control-label">检测单位：</label>
                    	<select id="edit_departmentName" name="departmentName" class="form-control">
 						
@@ -347,21 +367,67 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label">备注:</label>
-                   	<textarea id="edit_remarks" name="remarks" style="margin:-34px 0 0 22.5%;" class="form-control"></textarea>
+                   	<textarea id="edit_remarks1" name="remarks" style="margin: -34px 0 0 22.5%;" class="form-control"></textarea>
                	</div>
              </div>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-primary" onclick="editItem()">修改</button>
+	        <button type="button" class="btn btn-primary" onclick="editItem1()">新增</button>
 	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 	      </div>
 	    </div>
 	  </div>
 	</div>
 	
+	<div id="editContractItemModal2" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title">修改校准合同细项</h4>
+	      </div>
+	      <div class="modal-body">
+	      	<div id="editContent" class="row">
+	      		<div class="col-xs-12 col-md-12" style="display:none;">
+                   	<label class="control-label">合同细项ID：</label>
+                   	<input type="text" id="edit_fineItemID2" name="fineItemID2" class="form-control" />
+               	</div>
+	      		<div class="col-xs-12 col-md-12">
+                   	<label class="control-label">样品编码：</label>
+                   	<input type="text" id="edit_factoryCode" name="factoryCode"  oninput="editGetSName()" onpropertychange="editGetSName()" class="form-control" />
+                   	<div class="sample">
+	                   
+                   </div>
+               	</div>
+                <div class="col-xs-12 col-md-12 nameCn">
+                   	<label class="control-label">样品名称：</label>
+                   	<input type="text" id="edit_sampleName" name="sampleName" class="form-control" />
+                </div>
+                <div class="col-xs-12 col-md-12">
+                   	<label class="control-label">样品型号:</label>
+                   	<input type="text" id="edit_specifications" name="specifications" class="form-control" />
+               	</div>
+               	<div class="col-xs-12 col-md-12">
+                   	<label class="control-label">金额:</label>
+                   	<input type="text" id="edit_money" name="money" onkeyup="checknum(this);"
+						onafterpaste="checknum(this);" class="form-control" />
+               	</div>
+               	<div class="col-xs-12 col-md-12">
+                   	<label class="control-label">备注:</label>
+                   	<textarea id="edit_remarks2" name="remarks" style="margin: -34px 0 0 22.5%;" class="form-control"></textarea>
+               	</div>
+             </div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary" onclick="editItem2()">新增</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 	
   </div>
-  </body>
+</body>
   <script src="module/js/contractManage/EditContract.js"  type="text/javascript"></script>
   <script src="module/js/fileManage/fileManage.js" type="text/javascript"></script>
   <script type="text/javascript" src="assets/fileupload/jquery.iframe-transport.js"></script>

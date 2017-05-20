@@ -122,7 +122,7 @@ $(function () {
 			width:'10%',//宽度
 			formatter:function(value,row,index){  
 				var temp = '';
-				if(row.assignState === "未分配"){
+				if(row.assignState === "未分配" || row.assignState === "分配中"){
 					var btn_assign = '<img src="module/img/edit_icon.png" onclick="taskAssign(\'' + row.ID + '\')" data-toggle="tooltip" data-placement="top" title="分配" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></img>';
 					var btn_viewProgress = '<img src="module/img/view_icon.png" onclick="checkTaskProgress(\'' + row.ID + '\',\'' + row.receiptlistCode + '\')" data-toggle="tooltip" ddata-placement="top"  title="查看任务进度"  style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></img>';
 					temp += btn_assign + btn_viewProgress;

@@ -18,6 +18,8 @@ public class TestProject extends Entity{
 	private String templateID;
 	private String remarks;
 	private String describes;
+	private double laborHour;
+	private String testTypeID;
 	
 	public String getID() {
 		return ID;
@@ -33,6 +35,22 @@ public class TestProject extends Entity{
 	public void setNameEn(String nameEn) {
 		this.nameEn = nameEn;
 	}
+	public double getLaborHour() {
+		return laborHour;
+	}
+
+	public void setLaborHour(double laborHour) {
+		this.laborHour = laborHour;
+	}
+
+	public String getTestTypeID() {
+		return testTypeID;
+	}
+
+	public void setTestTypeID(String testTypeID) {
+		this.testTypeID = testTypeID;
+	}
+
 	public String getNameCn() {
 		return nameCn;
 	}	

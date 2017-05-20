@@ -3,18 +3,6 @@ package com.cqut.xiji.service.sampleRecord;
 import java.util.List;
 import java.util.Map;
 
-
-
-
-
-
-
-
-
-
-
-
-
 import net.sf.json.JSONArray;
 
 public interface ISampleRecordService {

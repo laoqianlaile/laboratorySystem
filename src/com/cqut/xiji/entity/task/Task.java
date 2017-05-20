@@ -11,7 +11,6 @@ public class Task extends Entity{
 	private String ID;
 	private String receiptlistID;
 	private String sampleID;
-	private String testProjectID;
 	private Date startTime;
 	private Date endTime;
 	private Date completeTime;
@@ -28,8 +27,18 @@ public class Task extends Entity{
 	private String levelThree;
 	private String taskCode;
 	private int saveState;
+	private int type;
+	private String departmentID;
 	
 	
+	public String getDepartmentID() {
+		return departmentID;
+	}
+
+	public void setDepartmentID(String departmentID) {
+		this.departmentID = departmentID;
+	}
+
 	public int getSaveState() {
 		return saveState;
 	}
@@ -61,12 +70,12 @@ public class Task extends Entity{
 		this.sampleID = sampleID;
 	}
 
-	public String getTestProjectID() {
-		return testProjectID;
-	}	
-	
-	public void setTestProjectID(String testProjectID) {
-		this.testProjectID = testProjectID;
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 	public Date getStartTime() {
 		return startTime;
@@ -180,7 +189,7 @@ public class Task extends Entity{
 
 	@Override
 	public String toString() {
-		return "Task [" +  "ID=" + ID  + ", " +  "receiptlistID=" + receiptlistID  + ", " +  "sampleID=" + sampleID  + ", " +  "testProjectID=" + testProjectID  + ", " +  "startTime=" + startTime  + ", " +  "endTime=" + endTime  + ", " +  "completeTime=" + completeTime  + ", " +  "custodian=" + custodian  + ", " +  "result=" + result  + ", " +  "allotstate=" + allotstate  + ", " +  "originaldataID=" + originaldataID  + ", " +  "testReportID=" + testReportID  + ", " +  "detectstate=" + detectstate  + ", " +  "sendReportTime=" + sendReportTime  + ", " +  "acceptman=" + acceptman  + ", "  + "requires=" + requires + "levelTwo=" + levelTwo + "levelThree=" + levelThree + "]";
+		return "Task [" +  "ID=" + ID  + ", " +  "receiptlistID=" + receiptlistID  + ", " +  "sampleID=" + sampleID  + " , " +  "startTime=" + startTime  + ", " +  "endTime=" + endTime  + ", " +  "completeTime=" + completeTime  + ", " +  "custodian=" + custodian  + ", " +  "result=" + result  + ", " +  "allotstate=" + allotstate  + ", " +  "originaldataID=" + originaldataID  + ", " +  "testReportID=" + testReportID  + ", " +  "detectstate=" + detectstate  + ", " +  "sendReportTime=" + sendReportTime  + ", " +  "acceptman=" + acceptman  + ", "  + "requires=" + requires + "levelTwo=" + levelTwo + "levelThree=" + levelThree + "]";
 	}
 	
 	@Override

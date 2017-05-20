@@ -10,6 +10,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
@@ -412,6 +414,14 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 		return result;
 	}
 
+
+	/**
+	 * 获取检测类别
+	 * 
+	 * @author zkl
+	 * @data 2017年5月20日 下午5:41:28
+	 * @return
+	 */
 	@Override
 	public List<Map<String, Object>> getTestType() {
 		String[] properties = new String[] {
@@ -419,9 +429,23 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 		"standard.ID", "standard.STANDARDNAME" , "standard.state"
 
 		};
-		
-		
 		return null;
+	}
+		
+	
+	@Override
+	/**
+	 * @description 任务分配下修改工时
+	 * @author chenyubo
+	 * @date 2017-05-19 21:11:11
+	 * @param ID 检测项目ID
+	 * @param laborHour 检测项目工时
+	 * @return
+	 */
+	public String editLaborHourInTaskAssign(String ID, double laborHour){
+		TestProject testProject = entityDao.getByID(ID, TestProject.class);
+		testProject.setLaborHour(laborHour);
+		return entityDao.updatePropByID(testProject, ID) + "";
 	}
 }
 

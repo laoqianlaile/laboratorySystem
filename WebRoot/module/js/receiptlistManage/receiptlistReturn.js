@@ -7,9 +7,9 @@ var comID = getUrlParam("comID");
 var coCode = getUrlParam("coCode");
 var state = getUrlParam("state");
 var reCode = getUrlParam("reCode");
-var param={};
-param.reCode=reCode;
-param.coCode=coCode;
+var param = {};
+param.reCode = reCode;
+param.coCode = coCode;
 $(function() {
 	initPageData();
 });
@@ -19,22 +19,23 @@ function initPageData() {
 }
 
 function init() {
-	if(state=="edit"){
+	getReceiptlistInforInReturn(reID);
+	if (state == "edit") {
 		$("#receiptlistID").val(reID);
 		getReceiptlistInforInReturn(reID);
-	}else if(state=="add"){
+	} else if (state == "add") {
 		$("#receiptlistID").val(reID);
-		checkDatas(param);
-		$("#show_receiptlistCode").val(reCode);
-		$("#show_contractCode").val(coCode);
-		$("#show_contractCode").attr("disabled", true);
-		getCompanyName();
+		getReceiptlistInforInReturn(reID);
+		// checkDatas(param);
+		// $("#show_receiptlistCode").val(reCode);
+		// $("#show_contractCode").val(coCode);
+		// $("#show_contractCode").attr("disabled", true);
+		// getCompanyName();
 	}
 	initSample();
 }
 
-
-function checkDatas(dataObj){
+function checkDatas(dataObj) {
 	if (!dataObj.hasOwnProperty("reCode") || dataObj.reCode == null
 			|| dataObj.reCode.trim() == "NULL") {
 		dataObj.reCode = "";
@@ -350,7 +351,7 @@ function automaticadd() {
 
 // 手动录入样品
 function manualadd() {
-	$('input[type="text"]').val("");
+	// $('input[type="text"]').val("");
 	$('#add').modal('show');
 }
 
@@ -425,7 +426,7 @@ function sure() {
 						title : "修改失败",
 						type : 'warning'
 					});
-				}else{
+				} else {
 					turnBack();
 				}
 			}
@@ -487,13 +488,14 @@ function remove() {
 		data : parame,
 		dataType : "json",
 		success : function(o) {
-			if (o == false) {
+			if (o <= 0) {
 				swal({
 					title : "操作失败",
 					type : 'warning'
 				});
+			} else {
+				dele();
 			}
-			dele();
 		}
 	});
 
@@ -506,14 +508,16 @@ function dele() {
 	}
 
 	if (state == "add") {
-		var parame = {};
-		parame.reID = $('#receiptlistID').val();
 		$.ajax({
-			url : 'receiptlistController/delReceiptlist.do',
-			data : parame,
+			url : '/laboratorySystem/receiptlistController/delReceiptlist.do',
 			dataType : "json",
+			data : {
+				reIDs : reID
+			},
 			success : function(o) {
-				if (o == true) {
+				if (o == false) {
+					sweetAlert("", "删除失败", "error");
+				} else {
 					turnBack();
 				}
 			}
@@ -530,8 +534,8 @@ function getUrlParam(name) {
 }
 
 function checkData(dataObj) {
-	if (!dataObj.hasOwnProperty("receiptlistCode") || dataObj.receiptlistCode == null
-			|| dataObj.ID.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("receiptlistCode")
+			|| dataObj.receiptlistCode == null || dataObj.ID.trim() == "NULL") {
 		dataObj.receiptlistCode = "";
 	}
 	if (!dataObj.hasOwnProperty("contractCode") || dataObj.contractCode == null
@@ -566,7 +570,8 @@ function checkSamplesData(dataObj) {
 		dataObj.sampleName = "";
 	}
 
-	if (!dataObj.hasOwnProperty("specifications") || dataObj.specifications == null
+	if (!dataObj.hasOwnProperty("specifications")
+			|| dataObj.specifications == null
 			|| dataObj.specifications.trim() == "NULL") {
 		dataObj.specifications = "";
 	}
@@ -578,9 +583,7 @@ function checkSamplesData(dataObj) {
 
 }
 
-//返回
+// 返回
 function turnBack() {
 	window.history.back(-1);
 }
-
-

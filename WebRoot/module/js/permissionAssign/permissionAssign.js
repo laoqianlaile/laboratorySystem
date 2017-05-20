@@ -13,14 +13,19 @@ $(document).ready(function() {
     initRoleTree();
     initModuleTree();
     initTreeEvent();
+	
 });
 function initTreeEvent(){
-	$('#treeRole').on('nodeSelected', function(event, data) {
+	
+	$(document).on('click', '.list-group-item', collapseOtherNode);
+	/*$('#treeRole').on('nodeSelected', function(event, data) {
 		  // 事件代码...
 		});  
 	$('#treeRole').on('onNodeChecked', function(event, data) {
 		  // 事件代码...
-		}); 
+		collapseOtherNode();
+		}); */
+
 	
 }
  
@@ -152,6 +157,7 @@ function initModuleTree(){
 				var total = "";
 				if(permission_global.roleID == "" ||  permission_global.roleID == null){
 					sweetAlert("请先选择角色");
+					return ;
 				} 
 				else if(node.id == undefined || node.id == ""){ //是头节点
 					 $('#treeModule').treeview('checkAll', { silent: false });
@@ -242,7 +248,22 @@ function initModuleTree(){
 		      } //事件
 			
 		});   
+		/*$("#treeModule .list-group-item").click(function(event) {
+			var  nodeId = $(this).prop('data-nodeid'); // 获取点击选项节点的id
+			var currentNode  = $('#treeModule').treeview('getNode', nodeId); // 获取点击选项节点
+			collapseOtherNode(currentNode);
+		});*/
 	
+}
+//收缩其他节点
+function collapseOtherNode() {
+	var  nodeId = $(this).attr('data-nodeid'); // 获取点击选项节点的id
+	var currentNode  = $('#treeModule').treeview('getNode', nodeId); // 获取点击选项节点
+	
+	var siblingsNodes = $('#treeModule').treeview('getSiblings', currentNode);
+	siblingsNodes.forEach((node) => {
+		$('#treeModule').treeview('collapseNode', [ node, { silent: true, ignoreChildren: false } ]);
+	});
 }
 //展开和选中节点
 function selectedModuleChilred(start,end){

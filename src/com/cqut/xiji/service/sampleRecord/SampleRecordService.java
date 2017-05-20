@@ -168,7 +168,7 @@ public class SampleRecordService extends SearchService implements
 		sampleRecord.setGetMan(getMan);
 		try {
 			sampleRecord.setType(Integer.parseInt(type));
-			System.out.println(type);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

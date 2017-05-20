@@ -9,8 +9,10 @@ import javax.annotation.Resource;
 
 
 
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
 
 
 
@@ -59,8 +61,8 @@ public class DepartmentController {
 	
 	@RequestMapping("/addDepartment")
 	@ResponseBody
-	public String addDepartment(String departmentName,String departmentCode,String remarks,String employeeID,String parent){
-		String result = service.addDepartment(departmentName ,departmentCode, remarks, employeeID, parent);
+	public String addDepartment(String departmentName,String departmentCode,String remarks,String property,String employeeID,String parent){
+		String result = service.addDepartment(departmentName ,departmentCode, remarks,property,employeeID,parent);
 		return result;
 	}
 	@RequestMapping("/delDepartment")
@@ -71,8 +73,8 @@ public class DepartmentController {
 	}
 	@RequestMapping("/updDepartment")
 	@ResponseBody
-	public String updDepartment(String ID,String departmentName,String departmentCode,String remarks,String employeeID,String parent){
-		String result=service.updDepartment(ID, departmentName, departmentCode, remarks, employeeID, parent);
+	public String updDepartment(String ID,String departmentName,String departmentCode,String remarks,String property,String employeeID,String parent){
+		String result=service.updDepartment(ID, departmentName, departmentCode, remarks,property, employeeID, parent);
 		return result;
 		
 	}

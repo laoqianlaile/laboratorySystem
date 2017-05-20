@@ -303,7 +303,17 @@
 										</div>
 									</div>
 								</div>
-
+                                <div class="col-xs-12 col-md-12">
+								<p>检测类型：</p>
+									<input type="radio" name="addTaskType" id="addTaskType1" value="0" checked="checked"> <label class="radioLabel" for="addTaskType1">检测</label>									
+									<input type="radio" name="addTaskType" id="addTaskType2" value="1"> <label class="radioLabel" for="addTaskType2">校准</label>					
+								</div>
+								<div class="col-xs-12 col-md-12">
+									<p>检测部门：</p>
+									<select id="addDepartment">
+									      
+									</select>
+								</div>
 								<div class="col-xs-12 col-md-12">
 									<p>样品单位：</p>
 									<select id="addUnit">
@@ -413,7 +423,17 @@
 										</div>
 									</div>
 								</div>
-
+    							<div class="col-xs-12 col-md-12">
+								<p>检测类型：</p>
+									<input type="radio" name="editTaskType" id="editTaskType1" value="0"> <label class="radioLabel" for="editTaskType1">检测</label>										<option value="个">个</option>
+									<input type="radio" name="editTaskType" id="editTaskType2" value="1"> <label class="radioLabel" for="editTaskType2">校准</label>										<option value="个">个</option>
+								</div>
+								<div class="col-xs-12 col-md-12">
+									<p>检测部门：</p>
+									<select id="editDepartment">
+									      
+									</select>
+								</div>
 								<div class="col-xs-12 col-md-12">
 									<p>样品单位：</p>
 									<select id="editUnit">

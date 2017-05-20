@@ -143,9 +143,9 @@ public class ReceiptlistController{
 	 */
 	@RequestMapping("/addTaskAndSampleWithEdit")
 	@ResponseBody
-	public String addTaskAndSampleWithEdit(String taskID ,String sampleID, String sampleCode,String  sampleName, String sampleStyle, String testProjects,  String unit,String require,String reID,String
+	public String addTaskAndSampleWithEdit(String taskID ,String sampleID, String sampleCode,String  sampleName, String sampleStyle, String testProjects, String type,String departmentID,  String unit,String require,String reID,String
 			 state) {
-		String result = service.addTaskAndSampleWithEdit( taskID,sampleID,  sampleCode,  sampleName,  sampleStyle,  testProjects,   unit, require, reID, state);
+		String result = service.addTaskAndSampleWithEdit( taskID,sampleID,  sampleCode,  sampleName,  sampleStyle,  testProjects,   type, departmentID ,unit, require, reID, state);
 		return result;
 	}
 	/**
