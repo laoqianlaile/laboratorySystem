@@ -208,4 +208,17 @@ public class TestProjectController{
 		return JSONObject.fromObject(result);
 	}
 	
+	/**
+	 * @description 任务分配下修改工时
+	 * @author chenyubo
+	 * @date 2017-05-19 21:11:11
+	 * @param ID 检测项目ID
+	 * @return
+	 */
+	@RequestMapping("/editLaborHourInTaskAssign")  
+	@ResponseBody
+	public String editLaborHourInTaskAssign(String ID, double laborHour){
+		return service.editLaborHourInTaskAssign(ID, laborHour);
+	}
+	
 }

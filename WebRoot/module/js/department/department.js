@@ -342,6 +342,7 @@ function edit(){
 	parame.departmentName = $('#edit_departmentName').val();
 	parame.departmentCode = $('#edit_departmentCode').val();
 	parame.remarks = $('#edit_remarks').val();
+	parame.property =$('#edit_property').val();
 	parame.employeeID = $('#edit_employee').attr('name');
 	parame.parent = $('#textspan2').text();
 	if($('#edit_departmentName').val()!=$('#textspan2').text()){
@@ -418,6 +419,7 @@ function add(){
 	parame.departmentName = $('#add_departmentName').val();
 	parame.departmentCode = $('#add_departmentCode').val();
 	parame.remarks = $('#add_remarks').val();
+	parame.property =$('#add_property').val();
 	parame.employeeID =  $('#add_responsibleMan').attr('name');
 	parame.parent = $('#textspan1').text();
 	if($('#add_departmentName').val()!=""&&$('#add_departmentCode').val()!=""){
