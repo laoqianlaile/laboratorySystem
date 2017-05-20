@@ -18,6 +18,7 @@ import com.cqut.xiji.entity.contract.Contract;
 import com.cqut.xiji.entity.department.Department;
 import com.cqut.xiji.entity.equipment.Equipment;
 import com.cqut.xiji.entity.standard.Standard;
+import com.cqut.xiji.entity.testDepartment.TestDepartment;
 import com.cqut.xiji.entity.testInstument.TestInstument;
 import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.entity.testStandard.TestStandard;
@@ -54,20 +55,23 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 		int pageNum = offset / limit;
 
 		String tableName = "testProject";
-		String[] properties = new String[] { "testProject.ID as testProjectID",
-				"testProject.NAMEEN", "testProject.NAMECN",
-				"testProject.ENVIRONMENTALREQUIREMENTS",
+		String[] properties = new String[] { 
+				"testProject.ID as testProjectID",
+				"testProject.NAMEEN", 
+				"testProject.NAMECN",
+				/*"testProject.ENVIRONMENTALREQUIREMENTS",*/
 				"testproject.describes",
 				"testproject.remarks",
-				"GROUP_CONCAT(distinct testInstument.ID ) AS testInstumentID",
-				"GROUP_CONCAT(distinct	testStandard.ID) AS testStandardID",
-				"GROUP_CONCAT(distinct  standard.STANDARDCODE) as STANDARDCODE",
-				"GROUP_CONCAT(equipment.equipmentName) as EQUIPMENTNAME",
-				"GROUP_CONCAT(equipment.ID) AS EQUIPMENTID",
-				"department.DEPARTMENTNAME", 
+				"GROUP_CONCAT(DISTINCT testStandard.ID) AS testStandardID",
+				"GROUP_CONCAT(DISTINCT standard.standardName) AS standardName",
+				"GROUP_CONCAT(DISTINCT testdepartment.departmentID) AS departmentID",
+				"GROUP_CONCAT(DISTINCT department.departmentName) AS departmentName",
+				/*"GROUP_CONCAT(equipment.equipmentName) as EQUIPMENTNAME",
+				"GROUP_CONCAT(equipment.ID) AS EQUIPMENTID",*/
 				"DATE_FORMAT(testProject.CREATETIME,'%Y-%m-%d %H:%i') as createTime",
-				"department.ID as DEPARTMENTID",
-				"template.`name`" };
+				/*"department.ID as DEPARTMENTID",*/
+				"template.`name` as templeName",
+				"testtype.`name` as typeName"};
 
 		String condition = "1 = 1 ";
 		if (departmentID != null && departmentID != "") {
@@ -78,12 +82,13 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 					+ "%' or testproject.nameEn like '%" + nameCnORnameEn
 					+ "%' ";
 		}
-		String joinEntity = "LEFT JOIN testinstument on testproject.ID = testinstument.testProjectID "
-				+ "LEFT JOIN teststandard on testproject.ID = teststandard.testProjectID "
-				+ "LEFT JOIN standard on standard.ID = teststandard.standardID "
-				+ "LEFT JOIN department on department.ID = testproject.departmentID "
-				+ "LEFT JOIN template on template.ID = testproject.templateID "
-				+ "LEFT JOIN equipment on equipment.ID = testinstument.equipmentID";
+		String joinEntity = " LEFT JOIN teststandard ON testproject.ID = teststandard.testProjectID"
+				+ " LEFT JOIN testdepartment on testdepartment.testProjectID = testproject.ID "
+				+ " LEFT JOIN department on department.ID = testdepartment.departmentID "
+				+ " LEFT JOIN standard ON standard.ID = teststandard.standardID "
+				+ " LEFT JOIN template on template.ID = testproject.templateID "
+				+ " LEFT JOIN testtype ON testtype.ID = testproject.testTypeID"
+			/*	+ "LEFT JOIN equipment on equipment.ID = testinstument.equipmentID"*/;
 
 		String groupField = "testproject.ID ";
 		List<Map<String, Object>> result = originalSearchWithpaging(properties,
@@ -109,8 +114,8 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 	 */
 	@Override
 	public String addTestProject(String NAMECN, String NAMEEN,
-			String DEPARTMENTID, String ENVIRONMENTALREQUIREMENTS,
-			String STANDARDID, String EQUIPMENTID,String describes,String remarks) {
+			String departmentID, String ENVIRONMENTALREQUIREMENTS,
+			String standardID, String EQUIPMENTID,String describes,String remarks) {
 
 		int result = 0; //
 		// 检测项目
@@ -119,23 +124,43 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 		testProject.setID(EntityIDFactory.createId());
 		testProject.setNameEn(NAMEEN);
 		testProject.setNameCn(NAMECN);
-		testProject.setDepartmentID(DEPARTMENTID);
 		testProject.setEnvironmentalRequirements(ENVIRONMENTALREQUIREMENTS);
-		testProject.setStandardID(STANDARDID);
 		testProject.setDescribes(describes);
 		testProject.setRemarks(remarks);
 		testProject.setCreateTime(new Date());
 
 		result += entityDao.save(testProject);
+		
+		// 检测部门
+		String[] departmentIDs = departmentID.replaceAll(" ", "").split(",");
+		
+		if (departmentIDs.length > 0) {
+
+			for (int i = 0; i < departmentIDs.length; i++) {
+				TestDepartment testdepartment = new TestDepartment();
+				testdepartment.setID(EntityIDFactory.createId());
+				testdepartment.setDepartmentID(departmentIDs[i]);
+				testdepartment.setTestProjectID(testProject.getID());
+				result += entityDao.save(testdepartment);
+			}
+		}
+		
 		// 检测标准
-		TestStandard testStandard = new TestStandard();
+		
+		String[] standardIDs = standardID.replaceAll(" ", "").split(",");
+		
+		if (standardIDs.length > 0) {
 
-		testStandard.setID(EntityIDFactory.createId());
-		testStandard.setStandardID(STANDARDID);
-		testStandard.setTestProjectID(testProject.getID());
+			for (int i = 0; i < standardIDs.length; i++) {
+				TestStandard testStandard = new TestStandard();
+				testStandard.setID(EntityIDFactory.createId());
+				testStandard.setStandardID(standardIDs[i]);
+				testStandard.setTestProjectID(testProject.getID());
 
-		result += entityDao.save(testStandard);
-		// 检测仪器
+				result += entityDao.save(testStandard);
+			}
+		}
+	/*	// 检测仪器
 
 		String[] EQUIPMENTIDs = EQUIPMENTID.replaceAll(" ", "").split(",");
 		if (EQUIPMENTIDs.length > 0) {
@@ -149,7 +174,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 				result += entityDao.save(testInstument);
 
 			}
-		}
+		}*/
 		return result + "";
 
 	}
@@ -272,7 +297,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 
 		String[] properties = new String[] {
 
-		"standard.ID", "standard.STANDARDCODE" , "standard.state"
+		"standard.ID", "standard.STANDARDNAME" , "standard.state"
 
 		};
 
@@ -385,6 +410,18 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 		List<Map<String, Object>> result = entityDao.findByCondition(
 				properties, condition, TestProject.class);
 		return result;
+	}
+
+	@Override
+	public List<Map<String, Object>> getTestType() {
+		String[] properties = new String[] {
+
+		"standard.ID", "standard.STANDARDNAME" , "standard.state"
+
+		};
+		
+		
+		return null;
 	}
 }
 

@@ -19,8 +19,8 @@ public interface ITestProjectService {
 			int limit, int offset, String order, String sort);
 
 	
-	String addTestProject(String NAMECN, String NAMEEN, String DEPARTMENTID,
-			String ENVIRONMENTALREQUIREMENTS, String STANDARDID,
+	String addTestProject(String NAMECN, String NAMEEN, String departmentID,
+			String ENVIRONMENTALREQUIREMENTS, String standardID,
 			String EQUIPMENTID, String describes, String remarks);
 
 	
@@ -62,6 +62,9 @@ public interface ITestProjectService {
 	public List<Map<String, Object>> getTestProject(String testProjectNamae);
 
 	public List<Map<String, Object>> getTestProjectById(String testProjectByID);
+
+
+	List<Map<String, Object>> getTestType();
 
 
 }

@@ -59,23 +59,23 @@ function init() {
 										width : '0',// 宽度
 										visible : false
 									},
-									{
+								/*	{
 										field : 'testInstumentID',// 返回值名称
 										title : '检测仪器id',// 列名
 										align : 'center',// 水平居中显示
 										valign : 'middle',// 垂直居中显示
 										width : '0',// 宽度
 										visible : false
-									},
+									},*/
 									{
-										field : 'DEPARTMENTID',// 返回值名称
+										field : 'departmentID',// 返回值名称
 										title : '部门ID',// 列名
 										align : 'center',// 水平居中显示
 										valign : 'middle',// 垂直居中显示
 										width : '0',// 宽度
 										visible : false
 									},
-									{
+									/*{
 										field : 'STANDARDID',// 返回值名称
 										title : '标准ID',// 列名
 										align : 'center',// 水平居中显示
@@ -89,7 +89,7 @@ function init() {
 										valign : 'middle',// 垂直居中显示
 										width : '0',// 宽度
 										visible : false
-									},
+									},*/
 									{
 										field : 'NAMECN',// 返回值名称
 										title : '中文名称',// 列名
@@ -104,41 +104,50 @@ function init() {
 										valign : 'middle',// 垂直居中显示
 										width : '8%'// 宽度
 									},
-									{
+									/*{
 										field : 'ENVIRONMENTALREQUIREMENTS',// 返回值名称
 										title : '环境要求',// 列名
 										align : 'center',// 水平居中显示
 										valign : 'middle',// 垂直居中显示
-										width : '8%'// 宽度
-									},
+										width : '8%',// 宽度
+										visible : false
+									},*/
 									{
-										field : 'STANDARDCODE',// 返回值名称
-										title : '所属标准',// 列名
+										field : 'standardName',// 返回值名称
+										title : '依据标准',// 列名
 										align : 'center',// 水平居中显示
 										valign : 'middle',// 垂直居中显示
 										width : '8%'// 宽度
 									},
 									{
-										field : 'DEPARTMENTNAME',// 返回值名称
-										title : '所属科室',// 列名
+										field : 'departmentName',// 返回值名称
+										title : '检测部门',// 列名
 										align : 'center',// 水平居中显示
 										valign : 'middle',// 垂直居中显示
 										width : '10%'// 宽度
 									},
 									{
 										field : 'describes',// 返回值名称
-										title : '标准描述',// 列名
+										title : '技术条件',// 列名
 										align : 'center',// 水平居中显示
 										valign : 'middle',// 垂直居中显示
 										width : '10%'// 宽度
 									},
 									{
+										field : 'typeName',// 返回值名称
+										title : '检测类别',// 列名
+										align : 'center',// 水平居中显示
+										valign : 'middle',// 垂直居中显示
+										width : '10%',// 宽度
+									},
+									/*{
 										field : 'EQUIPMENTNAME',// 返回值名称
 										title : '所属仪器',// 列名
 										align : 'center',// 水平居中显示
 										valign : 'middle',// 垂直居中显示
-										width : '10%'// 宽度
-									},
+										width : '10%',// 宽度
+										visible : false
+									},*/
 									{
 										field : 'createTime',// 返回值名称
 										title : '创建时间',// 列名
@@ -202,6 +211,7 @@ function addModal() {
 	
 	getDepartment("add_DEPARTMENTID"); //从数据库里获取部门信息填充
 	getStandard("add_STANDARDID");	// 从数据库里获取标准信息填充
+	getType("add_type");
 	
 	$('#addModal').modal('show');
 	
@@ -217,7 +227,7 @@ function checkNull(){
 		swal({title:"英文名称不能为空",  type:"warning",});
 		return true;
 	}
-	if(arguments[0].DEPARTMENTID == "" || arguments[0].DEPARTMENTID == null){
+	/*if(arguments[0].DEPARTMENTID == "" || arguments[0].DEPARTMENTID == null){
 		swal({title:"所属科室不能为空",  type:"warning",});
 		return true;
 	}
@@ -229,12 +239,12 @@ function checkNull(){
 		swal({title:"所属标准不能为空",  type:"warning",});
 		return true;
 	}
-	if(arguments[0].describes == ""){
-		swal({title:"标准描述不能为空",  type:"warning",});
-		return true;
-	}
 	if(arguments[0].EQUIPMENTID == ""){
 		swal({title:"所需仪器不能为空",  type:"warning",});
+		return true;
+	}*/
+	if(arguments[0].describes == ""){
+		swal({title:"标准描述不能为空",  type:"warning",});
 		return true;
 	}
 	return false;
@@ -246,13 +256,27 @@ function addTestProject() {
 		
 	parame.NAMECN = ($('#add_NAMECN').val());
 	parame.NAMEEN = ($('#add_NAMEEN').val());
-	parame.DEPARTMENTID = ($('#add_DEPARTMENTID').val());
-	parame.ENVIRONMENTALREQUIREMENTS = ($('#add_ENVIRONMENTALREQUIREMENTS')
-			.val());
-	parame.STANDARDID = ($('#add_STANDARDID').val());
+	var data = $('#add_DEPARTMENTID').val();
+	if (data == null) {
+		swal("检测部门不能为空");
+	} else {
+		var ids = "";
+		for (var i = 0; i < data.length; i++) {
+			ids += data[i] + ",";
+		}
+		parame.departmentID = ids;
+	}
 	
-	parame.EQUIPMENTID =getEquipmentsID();
-	
+	var data = $('#add_STANDARDID').val();
+	if (data == null) {
+		swal("依据标准不能为空");
+	} else {
+		var ids = "";
+		for (var i = 0; i < data.length; i++) {
+			ids += data[i] + ",";
+		}
+		parame.standardID = ids;
+	}
 	parame.describes = ($('#add_DESCRIBE').val());
 	parame.remarks = ($('#add_REMARKS').val());
 	
@@ -430,25 +454,36 @@ function editTestProject(){
 }
 // 获取部门信息
 function getDepartment(id) {
+	$('.selectpicker').selectpicker({
+		size : 4
+	});
 	$.ajax({
 		url : 'testProjectController/getDepartment.do',
 		success : function(o) {
+			var data = JSON.parse(o);
+			for (var i = 0; i < data.length; i++) {
+				$('#' + id + '').append(
+						"<option value=" + data[i].ID + ">" + data[i].departmentName
+								+ "</option>");
+			}
 			
-			if($('#' + id + '').children().length == 0 || $('#' + id + '').children().length == 1 ){
+			$('#' + id + '').selectpicker('refresh');
+			$('#' + id + '').selectpicker('render');
+			/*if($('#' + id + '').children().length == 0 || $('#' + id + '').children().length == 1 ){
 				var data = JSON.parse(o);
 				
 				for (var i=0; i<data.length;i++)
 				{	
 					$('#' + id + '').append("<option value='" + data[i].ID + "' >" +data[i].departmentName + " </option>");
 				}
-			}
+			}*/
 			
 		}
 
 	});
 }
 
-//获取设备信息
+/*//获取设备信息
 function getTestLisk() {
 	var data;
 	$.ajax({
@@ -464,9 +499,9 @@ function getTestLisk() {
 		}
 	});
 	return data;
-}
+}*/
 
-// 获取设备信息
+/*// 获取设备信息
 function getEquipment(id){
 	$.ajax({
 		url : 'testProjectController/getEquipment.do',
@@ -485,15 +520,28 @@ function getEquipment(id){
 		}
 
 	}); 
-}
+}*/
 
 // 获取标准信息
 function getStandard(id){
+	$('.selectpicker').selectpicker({
+		size : 4
+	});
 	$.ajax({
 		url : 'testProjectController/getStandard.do',
 		success : function(o) {
 			
-			if($('#' + id + '').children().length == 0)
+			var data = JSON.parse(o);
+			for (var i = 0; i < data.length; i++) {
+				$('#' + id + '').append(
+						"<option value=" + data[i].ID + ">" + data[i].STANDARDNAME
+								+ "</option>");
+			}
+			
+			$('#' + id + '').selectpicker('refresh');
+			$('#' + id + '').selectpicker('render');
+			
+			/*if($('#' + id + '').children().length == 0)
 			{
 				var data = JSON.parse(o);
 				
@@ -503,16 +551,36 @@ function getStandard(id){
 				
 				for (var i=0; i<data.length;i++)
 				{
-					$('#' + id + '').append("<option value='" + data[i].ID + "' >" +data[i].STANDARDCODE + " </option>");
+					$('#' + id + '').append("<option value='" + data[i].ID + "' >" +data[i].STANDARDNAME + " </option>");
 				}
-			}
+			}*/
 		}
 
 	});
 }
 
+/**
+ * 获取填充检测类别
+ * 
+ */
+function getType(){
+	$.ajax({
+		url : 'testProjectController/getEquipment.do',
+		success : function(o) {
+			if($('#' + id + '').children().length == 1)
+			{
+				var data = JSON.parse(o);
+				
+				for (var i=0; i<data.length;i++)
+				{
+					$('#' + id + '').append("<input  type='checkbox'  value="+ data[i].ID +" id = 'add_EQUIPMENT' name='EQUIPMENTID' >"+ data[i].equipmentName+"");
+				}
+			}
+		}
+	}); 
+}
 
-// 填充设备数据
+/*// 填充设备数据
 function fullEquipments(equipmentDate){
 	
 	var html = "<ul>";
@@ -636,4 +704,4 @@ function matchEquipment(type){
 	}
 	return date;
 	
-}
+}*/

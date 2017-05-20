@@ -55,8 +55,8 @@ public class TestProjectController{
 	 */ 
 	@RequestMapping("/addTestProject")
 	@ResponseBody
-	public String addTestProject(String NAMECN, String NAMEEN, String DEPARTMENTID, String ENVIRONMENTALREQUIREMENTS, String STANDARDID, String EQUIPMENTID,String describes,String remarks){
-		String result = service.addTestProject(NAMECN, NAMEEN, DEPARTMENTID, ENVIRONMENTALREQUIREMENTS, STANDARDID, EQUIPMENTID,describes,remarks);
+	public String addTestProject(String NAMECN, String NAMEEN, String departmentID, String ENVIRONMENTALREQUIREMENTS, String standardID, String EQUIPMENTID,String describes,String remarks){
+		String result = service.addTestProject(NAMECN, NAMEEN, departmentID, ENVIRONMENTALREQUIREMENTS, standardID, EQUIPMENTID,describes,remarks);
 		return result;
 	}
 	
@@ -208,4 +208,19 @@ public class TestProjectController{
 		return JSONObject.fromObject(result);
 	}
 	
+	
+
+	/**
+	 * 获取检测类别
+	 * 
+	 * @author zkl
+	 * @data 2017年5月20日 下午5:41:28
+	 * @return
+	 */
+	@RequestMapping("/getTestType")
+	@ResponseBody
+	public List<Map<String, Object>> getTestType(){
+		List<Map<String, Object>> result = service.getTestType();
+		return result;
+	}
 }

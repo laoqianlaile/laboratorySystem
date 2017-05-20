@@ -35,5 +35,12 @@ public interface IStandardService {
 
 	public String upFileID(String standardID, String fileID);
 
+	public String upSubmitStandard(String standardIDs);
+
+	public Map<String, Object> getStandardReviewWithPaging(String sTANDARDCODE,
+			String sTANDARDNAME, String tYPE, String sTATE,
+			String aPPLICATIONTYPE, int limit, int offset, String order,
+			String sort);
+
 
 }
