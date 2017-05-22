@@ -24,6 +24,7 @@ import com.cqut.xiji.entity.testDepartment.TestDepartment;
 import com.cqut.xiji.entity.testInstument.TestInstument;
 import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.entity.testStandard.TestStandard;
+import com.cqut.xiji.entity.testType.TestType;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
@@ -64,6 +65,8 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 				/*"testProject.ENVIRONMENTALREQUIREMENTS",*/
 				"testproject.describes",
 				"testproject.remarks",
+				"GROUP_CONCAT(DISTINCT standard.ID) AS standardID",
+				"GROUP_CONCAT(DISTINCT testdepartment.ID) AS testDepartmentID",
 				"GROUP_CONCAT(DISTINCT testStandard.ID) AS testStandardID",
 				"GROUP_CONCAT(DISTINCT standard.standardName) AS standardName",
 				"GROUP_CONCAT(DISTINCT testdepartment.departmentID) AS departmentID",
@@ -73,7 +76,8 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 				"DATE_FORMAT(testProject.CREATETIME,'%Y-%m-%d %H:%i') as createTime",
 				/*"department.ID as DEPARTMENTID",*/
 				"template.`name` as templeName",
-				"testtype.`name` as typeName"};
+				"testtype.`name` as typeName",
+				"testtype.ID as testtypeID"};
 
 		String condition = "1 = 1 ";
 		if (departmentID != null && departmentID != "") {
@@ -117,7 +121,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 	@Override
 	public String addTestProject(String NAMECN, String NAMEEN,
 			String departmentID, String ENVIRONMENTALREQUIREMENTS,
-			String standardID, String EQUIPMENTID,String describes,String remarks) {
+			String standardID, String EQUIPMENTID,String describes,String remarks,String testTypeID) {
 
 		int result = 0; //
 		// 检测项目
@@ -129,6 +133,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 		testProject.setEnvironmentalRequirements(ENVIRONMENTALREQUIREMENTS);
 		testProject.setDescribes(describes);
 		testProject.setRemarks(remarks);
+		testProject.setTestTypeID(testTypeID);
 		testProject.setCreateTime(new Date());
 
 		result += entityDao.save(testProject);
@@ -182,44 +187,59 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 	}
 
 	@Override
-	public String upTestProject(String testProjectID,String testStandardID,String testInstumentID,String NAMECN,
-			String NAMEEN, String DEPARTMENTID,
-			String ENVIRONMENTALREQUIREMENTS, String STANDARDID,
-			String EQUIPMENTID,String describes,String remarks) {
+	public String upTestProject(String testProjectID,String testStandardID,String testInstumentID,String testDepartmentID,String NAMECN,
+			String NAMEEN, String departmentID,
+			String ENVIRONMENTALREQUIREMENTS, String standardID,
+			String EQUIPMENTID,String describes,String remarks,String testTypeID) {
 		int result = 0; //
 
 		// 检测项目
-		TestProject testProject = new TestProject();
-
+		TestProject testProject = entityDao.getByID(testProjectID, TestProject.class);
+		if(testProject == null)return -99+"";// 数据库没有对应实体
 		testProject.setNameEn(NAMEEN);
 		testProject.setNameCn(NAMECN);
-		testProject.setDepartmentID(DEPARTMENTID);
-		testProject.setEnvironmentalRequirements(ENVIRONMENTALREQUIREMENTS);
-		testProject.setStandardID(STANDARDID);
 		testProject.setDescribes(describes);
 		testProject.setRemarks(remarks);
-
+		testProject.setTestTypeID(testTypeID);
 		result += entityDao.updatePropByID(testProject,testProjectID);
+		
+		// 检测部门
+		int departmentIsDelete = 0;
+		departmentIsDelete += entityDao.deleteByCondition(" testProjectID = " + testProjectID, TestDepartment.class);
+		if(departmentIsDelete >= 0){
+			String[] departmentIDs = departmentID.replaceAll(" ", "").split(",");
+			if (departmentIDs.length > 0) {
+				for (int i = 0; i < departmentIDs.length; i++) {
+					TestDepartment testdepartment = new TestDepartment();
+					testdepartment.setID(EntityIDFactory.createId());
+					testdepartment.setDepartmentID(departmentIDs[i]);
+					testdepartment.setTestProjectID(testProject.getID());
+					result += entityDao.save(testdepartment);
+				}
+			}
+		}
+
 		// 检测标准
 		
-		entityDao.deleteByCondition(" testProjectID =" + testProjectID, TestStandard.class);
+		int standardIsDelete = 0;
+		standardIsDelete += entityDao.deleteByCondition(" testProjectID = " + testProjectID, TestStandard.class);
+		if(standardIsDelete >= 0){
+			String[] standardIDs = standardID.replaceAll(" ", "").split(",");
+			if (standardIDs.length > 0) {
+
+				for (int i = 0; i < standardIDs.length; i++) {
+					TestStandard testStandard = new TestStandard();
+					testStandard.setID(EntityIDFactory.createId());
+					testStandard.setTestProjectID(testProjectID);
+					testStandard.setStandardID(standardIDs[i]);
+					result += entityDao.save(testStandard);
+				}
+			}
+		}
 		
-		TestStandard testStandard = new TestStandard();
-		
-		testStandard.setID(EntityIDFactory.createId());
-		testStandard.setStandardID(STANDARDID);
-		testStandard.setTestProjectID(testProjectID);
-
-
-		result += entityDao.updatePropByID(testStandard,testStandardID);
-
-		result += entityDao.save(testStandard);
-
-		// 检测仪器
+		/*// 检测仪器
 
 		int IsDelete = 0;
-		
-		
 		IsDelete += entityDao.deleteByCondition(" testProjectID = " + testProjectID, TestInstument.class);
 		if(IsDelete >= 0){
 			String[] EQUIPMENTIDs = EQUIPMENTID.replaceAll(" ", "").split(",");
@@ -233,7 +253,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 					result += entityDao.save(testInstument);
 				}
 			}
-		}
+		}*/
 		return result + "";
 	}
 
@@ -426,10 +446,12 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 	public List<Map<String, Object>> getTestType() {
 		String[] properties = new String[] {
 
-		"standard.ID", "standard.STANDARDNAME" , "standard.state"
-
+		"testtype.ID", "testtype.name" , "testtype.checkInTime"
 		};
-		return null;
+		List<Map<String, Object>> result = entityDao.findByCondition(
+				properties, " 1 = 1 ", TestType.class);
+
+		return result;
 	}
 		
 	

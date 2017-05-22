@@ -21,7 +21,7 @@ public interface ITestProjectService {
 	
 	String addTestProject(String NAMECN, String NAMEEN, String departmentID,
 			String ENVIRONMENTALREQUIREMENTS, String standardID,
-			String EQUIPMENTID, String describes, String remarks);
+			String EQUIPMENTID, String describes, String remarks,String testTypeID);
 
 	
 	String delTestProject(String TestProjectIDs);
@@ -36,9 +36,9 @@ public interface ITestProjectService {
 	List<Map<String, Object>> getStandard();
 
 
-	String upTestProject(String testProjectID,String testStandardID,String testInstumentID, String NAMECN, String NAMEEN,
-			String DEPARTMENTID, String ENVIRONMENTALREQUIREMENTS,
-			String STANDARDID, String EQUIPMENTID, String describes, String remarks);
+	String upTestProject(String testProjectID,String testStandardID,String testInstumentID,String testDepartmentID, String NAMECN, String NAMEEN,
+			String departmentID, String ENVIRONMENTALREQUIREMENTS,
+			String standardID, String EQUIPMENTID, String describes, String remarks,String testTypeID);
 
 
 	Map<String, Object> getTestproWithPaging(int limit, int offset,

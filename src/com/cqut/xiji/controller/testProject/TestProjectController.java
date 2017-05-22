@@ -55,8 +55,8 @@ public class TestProjectController{
 	 */ 
 	@RequestMapping("/addTestProject")
 	@ResponseBody
-	public String addTestProject(String NAMECN, String NAMEEN, String departmentID, String ENVIRONMENTALREQUIREMENTS, String standardID, String EQUIPMENTID,String describes,String remarks){
-		String result = service.addTestProject(NAMECN, NAMEEN, departmentID, ENVIRONMENTALREQUIREMENTS, standardID, EQUIPMENTID,describes,remarks);
+	public String addTestProject(String NAMECN, String NAMEEN, String departmentID, String ENVIRONMENTALREQUIREMENTS, String standardID, String EQUIPMENTID,String describes,String remarks,String testTypeID){
+		String result = service.addTestProject(NAMECN, NAMEEN, departmentID, ENVIRONMENTALREQUIREMENTS, standardID, EQUIPMENTID,describes,remarks,testTypeID);
 		return result;
 	}
 	
@@ -76,8 +76,8 @@ public class TestProjectController{
 	 */
 	@RequestMapping("/editTestProject")
 	@ResponseBody
-	public String editTestProject(String testProjectID,String testStandardID,String testInstumentID,String NAMECN, String NAMEEN, String DEPARTMENTID, String ENVIRONMENTALREQUIREMENTS, String STANDARDID, String EQUIPMENTID,String describes,String remarks ){
-		String result = service.upTestProject(testProjectID,testStandardID,testInstumentID, NAMECN, NAMEEN, DEPARTMENTID, ENVIRONMENTALREQUIREMENTS, STANDARDID, EQUIPMENTID,describes,remarks);
+	public String editTestProject(String testProjectID,String testStandardID,String testInstumentID,String testDepartmentID,String NAMECN, String NAMEEN, String departmentID, String ENVIRONMENTALREQUIREMENTS, String standardID, String EQUIPMENTID,String describes,String remarks,String testTypeID){
+		String result = service.upTestProject(testProjectID,testStandardID,testInstumentID,testDepartmentID, NAMECN, NAMEEN, departmentID, ENVIRONMENTALREQUIREMENTS, standardID, EQUIPMENTID,describes,remarks,testTypeID);
 		return result;
 	}
 	
