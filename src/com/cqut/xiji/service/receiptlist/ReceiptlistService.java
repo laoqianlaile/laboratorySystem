@@ -567,7 +567,7 @@ public class ReceiptlistService extends SearchService implements
 					Message message = new Message();
 					message.setID(EntityIDFactory.createId());
 					message.setCreateTime(new Date());
-					message.setContent(sampleName+"需要用："+testProject.getNameCn()+"__"+testProject.getNameEn()+"---检测");
+					message.setContent(sampleName+"需要用："+testProject.getNameCn()+"("+testProject.getNameEn()+")---检测");
 				    MessageNotice messageNotice = new MessageNotice();
 				    messageNotice.setState(0);
 				    messageNotice.setID(EntityIDFactory.createId());

@@ -271,7 +271,13 @@ public class TaskService extends SearchService implements ITaskService {
 		}
 	}
 	
-	
+	/**
+	 * features or effect
+	 * @author cyb
+	 * @date 2017年5月16日 下午9:22:41
+	 * @param ID
+	 * @return
+	 */
 	public void addMessage(String[] IDS, String taskID) {
 		Task task = entityDao.getByID(taskID, Task.class);
 		Sample sample = entityDao.getByID(task.getSampleID(), Sample.class);
