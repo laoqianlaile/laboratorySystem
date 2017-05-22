@@ -427,4 +427,21 @@ public class ContractController{
 		List<Map<String, Object>> result = service.getContract();
 		return JSONArray.fromObject(result).toString();
 	}
+	/**
+	 * 获取合同的标准号和标准名称
+	 * features or effect
+	 * @author wzj
+	 * @date 2017年5月20日 下午4:53:57
+	 * @param coID
+	 * @return
+	 */
+	@RequestMapping("/getStandardByContractID")
+	@ResponseBody
+	public String getStandardByContractID(String coID){
+		if(coID ==null || coID.equals("")){
+			return " ";
+		}
+		return service.getStandardByContractID(coID);	
+	}
+	
 }

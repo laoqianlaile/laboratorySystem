@@ -108,5 +108,14 @@ public interface IContractService {
 			String contractCode, String employeeName, String companyName,
 			String startTime, String endTime, String oppositeMen,
 			String linkPhone, int state);
+/**
+ * 
+ * //获取合同的标准号和标准名称
+ * @author wzj
+ * @date 2017年5月20日 下午4:53:32
+ * @param coID
+ * @return
+ */
+	public String getStandardByContractID(String coID); 
 
 }

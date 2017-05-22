@@ -32,6 +32,7 @@ import com.cqut.xiji.entity.receiptlist.Receiptlist;
 import com.cqut.xiji.entity.role.Role;
 import com.cqut.xiji.entity.sample.Sample;
 import com.cqut.xiji.entity.task.Task;
+import com.cqut.xiji.entity.taskTestProject.TaskTestProject;
 import com.cqut.xiji.entity.template.Template;
 import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.service.base.SearchService;
@@ -405,6 +406,7 @@ public class ReceiptlistService extends SearchService implements
 					"sample.specifications as sampleStyle",
 					"sample.qrcode",
 					"sample.unit",
+					"department.departmentName",
 					"testproject.ID AS testProjectID",
 					"IF(testproject.nameCn IS  NULL , testproject.nameEn , "
 							+ " if ( testproject.nameEn is null ,testproject.nameCn,"
@@ -415,6 +417,7 @@ public class ReceiptlistService extends SearchService implements
 					+ "task.ID,"
 					+ "task.receiptlistID as reID,"
 					+ "task.sampleID,"
+					+ "task.departmentID,"
 					+ " date_format(task.startTime,'%Y-%m-%d %H:%i:%s') as startTime , "
 					+ " task.requires as askFor "
 					+ " from task where  task.receiptlistID ='"
@@ -422,7 +425,8 @@ public class ReceiptlistService extends SearchService implements
 					+ "' ) as a "
 					+ " left join sample on a.sampleID = sample.ID "
 					+ "  LEFT JOIN tasktestproject ON tasktestproject.taskID = a.ID "
-					+"  LEFT JOIN testproject ON testproject.ID = tasktestproject.testProjectID";
+					+"  LEFT JOIN testproject ON testproject.ID = tasktestproject.testProjectID"
+			        +" LEFT JOIN department ON department.ID = a.departmentID";
 			
 			List<Map<String, Object>> list = entityDao.searchWithpaging(
 					properties, null, joinEntity, null, null, null,
@@ -484,6 +488,7 @@ public class ReceiptlistService extends SearchService implements
 			String sampleCode, String sampleName, String sampleStyle,
 			String testProjects,  String type,String departmentID,String unit, String require, String reID,
 			String state) {
+		System.out.println(departmentID);
 		if(type == null || type.equals("")){
 			type = "0";
 		}else{
@@ -540,7 +545,12 @@ public class ReceiptlistService extends SearchService implements
 				task.setAllotstate(0);
 				task.setDetectstate(0);
 				System.out.println("任务检测项目：" + i + "  " + testProjectIDs[i]);
-				task.setTestProjectID(testProjectIDs[i]);
+				TaskTestProject taskTestProject = 	new TaskTestProject();
+				taskTestProject.setID(EntityIDFactory.createId());
+				taskTestProject.setTaskID(task.getID());
+				taskTestProject.setTestProjectID(testProjectIDs[i]);
+				taskTestProject.setCheckInTime(new Date());
+				entityDao.save(taskTestProject);
 				counter += entityDao.save(task);
 			}
 			
@@ -575,6 +585,8 @@ public class ReceiptlistService extends SearchService implements
 			task.setStartTime(new Date());
 			task.setRequires(require);
 			task.setAllotstate(0);
+			task.setType(Integer.parseInt(type));
+			task.setDepartmentID(departmentID);
 			task.setSaveState(0);
 			task.setDetectstate(0);
 			return entityDao.save(task) == 1 ? "true" : "false";
@@ -634,7 +646,7 @@ public class ReceiptlistService extends SearchService implements
 		receiptlist.setAccordingDoc(accordingDoc);
 		receiptlist.setState(0);
 		receiptlist.setReceiptlistType(0);
-		if (saveState == null || saveState.equals("") || saveState == "save") { // 保存交接单
+		if (saveState == null || saveState.equals("") || saveState.equals("save") ){ // 保存交接单
 			receiptlist.setIsEditSample(1);
 		} else { // 提交交接单
 			receiptlist.setIsEditSample(0);

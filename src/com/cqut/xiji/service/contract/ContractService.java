@@ -973,4 +973,47 @@ public class ContractService extends SearchService implements IContractService{
 
 			return result;
 	}
+    /**
+     * 获取合同的标准号和标准名称
+     * features or effect
+     * @author wzj
+     * @date 2017年5月20日 下午4:54:26
+     *
+     */
+	@Override
+	public String getStandardByContractID(String coID) {
+		// TODO Auto-generated method stub
+		String[] properties = new String[]{
+			"standard.standardCode",
+			"standard.standardName",
+			"standard.ID",
+		};
+		String baseEntity = ""
+		+" ( SELECT 	DISTINCT testProjectID "
+		+" FROM contractfineitem  WHERE "
+		+" contractfineitem.contractID = '"+coID+"'"
+		+" 	) a "
+		+" right JOIN teststandard ON teststandard.testProjectID = a.testProjectID "
+		+" LEFT JOIN standard ON teststandard.standardID = standard.ID GROUP BY standard.ID";
+		List<Map<String, Object>> list = searchDao.searchForeign(properties, baseEntity, null, null, null, null);
+		String reString = "";
+		Object temp = null;
+		
+		for (int i = 0; i < list.size(); i++) {
+			 temp = list.get(i).get("standardCode") ;
+			 System.out.println();
+			reString+=  temp = temp != null ? temp.toString()+"(" : "";
+			 System.out.println(reString);
+			 temp = list.get(i).get("standardName");
+			reString+=  temp  != null ? temp.toString()+")," : "";
+			 System.out.println(reString);
+			
+		}
+		if (reString == null || reString.equals("") ){
+			return "";
+		}
+		else {
+			return reString.substring(0, reString.length()-1);
+		}
+	}
 }
