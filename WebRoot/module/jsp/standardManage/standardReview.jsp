@@ -19,12 +19,14 @@
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 <link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" /> 
 <link rel="stylesheet"  type="text/css" href="module/css/wait.css">
+<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
 <script src="module/js/bootstrap-table.js"></script>
 <script src="module/js/bootstrap-table-zh-CN.js"></script>
-<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+<script src="module/js/fileManage/fileManage.js"></script>
+
 <script src="module/js/sweetalert.min.js"></script>
 </head>
 
@@ -72,10 +74,11 @@
 								<label>状态&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;： </label> <select
 									id="query_STATE"  class ="form-control"  name="STATE" >
 									<option value="">全部</option>
-									<option value="0" selected="selected">待审核</option>
-									<option value="1">通过</option>
-									<option value="2">已废弃</option>
+									<option value="1">待审核</option>
+									<option value="4">废弃待审核</option>
+									<option value="2">通过</option>
 									<option value="3">驳回</option>
+									<option value="5">已废弃</option>
 								</select>
 							</div>
 						</div>

@@ -13,7 +13,7 @@ public interface IContractService {
 	public int addContract(String contractName, String companyID,String companyName,
 			String oppositeMen, String linkPhone,String employeeID, String employeeName,
 			String address, String signAddress, String startTime,
-			String signTime, String endTime, int isClassified, int classifiedLevel);
+			String signTime, String endTime, int isClassified, int classifiedLevel,int contractType);
 	
 	public List<Map<String, Object>> getIdByCode(String contractCode);
 	
@@ -74,7 +74,9 @@ public interface IContractService {
 	 * @param fileID
 	 * @return
 	 */
-	public int coverContractFile(String ID, String fileID);
+	public int coverContractFile1(String ID, String fileID);
+	
+	public int coverContractFile2(String ID, String fileID);
 
 	
 	/**

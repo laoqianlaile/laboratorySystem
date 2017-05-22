@@ -21,6 +21,7 @@ import com.cqut.xiji.entity.message.Message;
 import com.cqut.xiji.entity.messageNotice.MessageNotice;
 import com.cqut.xiji.entity.standard.Standard;
 import com.cqut.xiji.entity.standardType.StandardType;
+import com.cqut.xiji.entity.template.Template;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
@@ -81,7 +82,7 @@ public class StandardService extends SearchService implements IStandardService{
 	@Override
 	public String addStandard(String uploaderID,String STANDARDCODE, String STANDARDNAME,
 			String TYPE, String SCOPE, int APPLICATIONTYPE,
-			int EDITSTATE, String DESCRIPTION,String fileID) {
+			int EDITSTATE, String DESCRIPTION,String fileID ) {
 		try {
 			URLDecoder.decode(STANDARDNAME, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
@@ -96,6 +97,7 @@ public class StandardService extends SearchService implements IStandardService{
 		standard.setApplicationType(APPLICATIONTYPE);
 		standard.setEditState(EDITSTATE);
 		standard.setDescription(DESCRIPTION);
+		standard.setAbandonApplyMan(uploaderID); // 提交人
 		standard.setFileID(fileID);
 		
 		int result = entityDao.save(standard);
@@ -141,6 +143,8 @@ public class StandardService extends SearchService implements IStandardService{
 				"standard.SUGGEST",
 				"standard.fileID",
 				"standardType.standardTypeName",
+				"employee.employeeName",
+				"standard.abandonApplyReason",
 				"case when standard.APPLICATIONTYPE = 0 then '国家标准'"
 				+ "when standard.APPLICATIONTYPE = 1 then '企业标准'"
 				+ "when standard.APPLICATIONTYPE = 2 then '作业指导书' end as APPLICATIONTYPE",
@@ -148,10 +152,12 @@ public class StandardService extends SearchService implements IStandardService{
 				"case when standard.EDITSTATE = 0 then '不可编辑'"
 				+ "when standard.EDITSTATE = 1 then '可编辑' end as EDITSTATE",
 				
-				"case when standard.STATE = 0 then '待审核'"
-				+ "when standard.STATE = 1 then '通过'"
-				+ "when standard.STATE = 2 then '已废弃'"
-				+ "when standard.STATE = 3 then '驳回' end as STATE",
+				"case when standard.STATE = 0 then '未提交'"
+				+ "when standard.STATE = 1 then '待审核'"
+				+ "when standard.STATE = 2 then '通过'"
+				+ "when standard.STATE = 3 then '驳回'"
+				+ "when standard.STATE = 4 then '废弃待审核'"
+				+ "when standard.STATE = 5 then '已废弃' end as STATE",
 		};
 		
 		String condition=" 1 = 1";
@@ -171,7 +177,8 @@ public class StandardService extends SearchService implements IStandardService{
 			condition += " and standard.APPLICATIONTYPE = " + APPLICATIONTYPE;
 		}
 		
-		String joinEntity =" LEFT JOIN standardtype ON standardtype.ID = standard.type ";
+		String joinEntity =" LEFT JOIN standardtype ON standardtype.ID = standard.type "
+				+ " LEFT JOIN employee on employee.ID = standard.abandonApplyMan ";
 		
 		List<Map<String, Object>> result = originalSearchWithpaging(properties, tableName, joinEntity, null, condition, false, null, sort, order, index, pageNum);
 		int count = getForeignCountWithJoin(joinEntity, null, condition, false);
@@ -265,6 +272,96 @@ public class StandardService extends SearchService implements IStandardService{
 		standard.setFileID(fileID);
 		int Backvalue = entityDao.save(standard);
 		return Backvalue + "";
+	}
+
+	@Override
+	public String upSubmitStandard(String standardIDs) {
+		int result = 0;
+		if(standardIDs == null || standardIDs == ""){
+			return "-1";
+		}
+		String[] ids = standardIDs.split(",");
+		
+		for(String id :ids){
+			Standard standard = entityDao.getByID(id, Standard.class);
+			if(standard.getState() == 0){
+				standard.setState(1);
+				result += entityDao.updatePropByID(standard, id);
+			}
+			else{
+				System.out.println("当前状态不可更改");
+			}
+		}
+		return result + "";
+	}
+
+	@Override
+	public Map<String, Object> getStandardReviewWithPaging(String STANDARDCODE,
+			String STANDARDNAME, String TYPE, String STATE,
+			String APPLICATIONTYPE, int limit, int offset, String order,
+			String sort) {
+		int index = limit;
+		int pageNum = offset/limit;
+		
+		String tableName = "Standard";
+		String[] properties = new String[]{
+				"standard.ID",
+				"standard.STANDARDCODE",
+				"standard.STANDARDNAME",
+				"standard.TYPE",
+				"standard.DESCRIPTION",
+				"standard.SCOPE",
+				"standard.SUGGEST",
+				"standard.fileID",
+				"standardType.standardTypeName",
+				"employee.employeeName",
+				"standard.abandonApplyReason",
+				"case when standard.APPLICATIONTYPE = 0 then '国家标准'"
+				+ "when standard.APPLICATIONTYPE = 1 then '企业标准'"
+				+ "when standard.APPLICATIONTYPE = 2 then '作业指导书' end as APPLICATIONTYPE",
+				
+				"case when standard.EDITSTATE = 0 then '不可编辑'"
+				+ "when standard.EDITSTATE = 1 then '可编辑' end as EDITSTATE",
+				
+				"case when standard.STATE = 0 then '未提交'"
+				+ "when standard.STATE = 1 then '待审核'"
+				+ "when standard.STATE = 2 then '通过'"
+				+ "when standard.STATE = 3 then '驳回'"
+				+ "when standard.STATE = 4 then '废弃待审核'"
+				+ "when standard.STATE = 5 then '已废弃' end as STATE",
+		};
+		
+		String condition=" 1 = 1";
+		if(STANDARDCODE != null && STANDARDCODE != ""){
+			condition += " and standard.STANDARDCODE LIKE  '%"+ STANDARDCODE + "%' ";
+		}
+		if(STANDARDNAME != null && STANDARDNAME != ""){
+			condition += " and standard.STANDARDNAME LIKE   '%" + STANDARDNAME + "%' ";
+		}
+		if(TYPE != null && TYPE != ""){
+			condition += " and standard.TYPE = '" + TYPE + "' ";
+		}
+		if(STATE != null && STATE != ""){
+			condition += " and standard.STATE = " + STATE ;
+		}
+		else{
+			condition += " and standard.STATE = '1' or  standard.STATE = '4'";
+		}
+		if(APPLICATIONTYPE != null && APPLICATIONTYPE  != ""){
+			condition += " and standard.APPLICATIONTYPE = " + APPLICATIONTYPE;
+		}
+		
+		String joinEntity =" LEFT JOIN standardtype ON standardtype.ID = standard.type "
+				+ " LEFT JOIN employee on employee.ID = standard.abandonApplyMan ";
+		
+		List<Map<String, Object>> result = originalSearchWithpaging(properties, tableName, joinEntity, null, condition, false, null, sort, order, index, pageNum);
+		int count = getForeignCountWithJoin(joinEntity, null, condition, false);
+		
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("total", count);
+		map.put("rows", result);
+		return map;
 	}
 
 }

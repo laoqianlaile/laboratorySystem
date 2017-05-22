@@ -10,7 +10,7 @@ $(function() {
 function initData(){
 	$("#table").bootstrapTable({
 		//height : 800,// 定义表格的高度
-		striped : true,// 隔行变色效果
+		striped : false,// 隔行变色效果
 		pagination : true,// 在表格底部显示分页条
 		pageSize : 3,// 页面数据条数
 		pageNumber : 1,// 首页页码
