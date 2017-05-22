@@ -51,5 +51,5 @@ public interface IFileInformationService {
 			String selectPart);
 
 	public Map<String, Object> getContractTemplateFileWithPaging(int limit,
-			int offset, String order, String sort);
+			int offset, String order, String sort, String contractType);
 }

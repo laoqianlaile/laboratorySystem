@@ -149,8 +149,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="top">
 				<div class="contract_title"><img src="module/img/ContractFile_icon.png" alt="ContractFile_icon" />编辑合同文件</div>
 				<div class="btnAdd fr">
-					<button type="button" lass="btn btn-primary" data-toggle="modal" onclick="openTemplateModal()">选择模版文件</button>
-					&nbsp;<button type="button" lass="btn btn-primary" data-toggle="modal" onclick="showFileUploadModal()">上传合同文件</button>
+					<button type="button" class="btn btn-primary" onclick="openTemplateModal()">选择模版文件</button>
+					&nbsp;<button type="button" class="btn btn-primary" onclick="showFileUploadModal()">上传合同文件</button>
 				</div>
 			</div>
 			<div class="bottom">
@@ -162,8 +162,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="top">
 				<div class="contractFileItem_title"><img src="module/img/contractDetail_icon.png" alt="contractDetail_icon" />编辑合同细项</div>
 				<div class="btnAdd fr">
-					<button type="button" onclick="openAddItemModal1()" class="btn btn-primary">添加检测细项</button>
-					<button type="button" onclick="openAddItemModal2()" class="btn btn-primary">添加校准细项</button>
+					<button id="ItemModal1" type="button" onclick="openAddItemModal1()" class="btn btn-primary">添加检测细项</button>
+					<button id="ItemModal2" type="button" onclick="openAddItemModal2()" class="btn btn-primary">添加校准细项</button>
 				</div>
 			</div>
 			<div class="bottom">
@@ -292,18 +292,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      	<div id="addContent" class="row">
 	      		<div class="col-xs-12 col-md-12">
                    	<label class="control-label">样品编码：</label>
-                   	<input type="text" id="add_factoryCode" name="factoryCode"  oninput="addGetSName()" onpropertychange="addGetSName()" class="form-control" />
+                   	<input type="text" id="add_factoryCode" name="factoryCode"  oninput="addGetSName()" onpropertychange="addGetSName()" class="form-control" placeholder="请输入样品编码或样品名称进行搜索样品"/>
                    	<div class="sample">
 	                   
                    </div>
                	</div>
                 <div class="col-xs-12 col-md-12 nameCn">
                    	<label class="control-label">样品名称：</label>
-                   	<input type="text" id="add_sampleName" name="sampleName" class="form-control" />
+                   	<input type="text" id="add_sampleName" name="sampleName" class="form-control" readonly="true"/>
                 </div>
                 <div class="col-xs-12 col-md-12">
                    	<label class="control-label">样品型号:</label>
-                   	<input type="text" id="add_specifications" name="specifications" class="form-control" />
+                   	<input type="text" id="add_specifications" name="specifications" class="form-control" readonly="true"/>
                	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label">金额:</label>
@@ -330,7 +330,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title">新增检验合同细项</h4>
+	        <h4 class="modal-title">修改检验合同细项</h4>
 	      </div>
 	      <div class="modal-body">
 	      	<div id="editContent" class="row">
@@ -372,7 +372,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
              </div>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-primary" onclick="editItem1()">新增</button>
+	        <button type="button" class="btn btn-primary" onclick="editItem1()">修改</button>
 	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 	      </div>
 	    </div>
@@ -401,11 +401,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                	</div>
                 <div class="col-xs-12 col-md-12 nameCn">
                    	<label class="control-label">样品名称：</label>
-                   	<input type="text" id="edit_sampleName" name="sampleName" class="form-control" />
+                   	<input type="text" id="edit_sampleName" name="sampleName" class="form-control" readonly="true"/>
                 </div>
                 <div class="col-xs-12 col-md-12">
                    	<label class="control-label">样品型号:</label>
-                   	<input type="text" id="edit_specifications" name="specifications" class="form-control" />
+                   	<input type="text" id="edit_specifications" name="specifications" class="form-control" readonly="true"/>
                	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label">金额:</label>
@@ -419,7 +419,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
              </div>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-primary" onclick="editItem2()">新增</button>
+	        <button type="button" class="btn btn-primary" onclick="editItem2()">修改</button>
 	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 	      </div>
 	    </div>
