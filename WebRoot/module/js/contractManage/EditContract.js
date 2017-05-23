@@ -2060,11 +2060,11 @@ function addItem2(){
 				  			break;
 				  		case -4:swal("样品名与样品编码不相符！");
 				  			break;
-						case 1:swal("修改成功！");
+						case 1:swal("新增成功！");
 							$('#addContractItemModal2').modal('hide');
 							setTimeout(refresh, 1000);
 							break;
-						case 0:swal("修改失败！");
+						case 0:swal("新增失败！");
 							break;
 						default:
 							break;

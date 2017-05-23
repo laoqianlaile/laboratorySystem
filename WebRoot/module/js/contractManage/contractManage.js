@@ -330,16 +330,10 @@ function classifiedLevelSth(){
 	}
 }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> a2ecdbeea0355a75a42f6823e4198b8fa5646d93
 /* 新增方法 */
 function add(){
 		var parame = {};
 		var contractType = $("input[name='contractType']:checked").val();
-		alert(contractType);
-		return;
 		var contractName = $('#add_contractName').val();
 		var companyName = $('#add_companyName').val();
 		var companyID = $('#add_companyName').attr("name");
