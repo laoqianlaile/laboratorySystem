@@ -27,8 +27,7 @@
 	href="module/css/bootstrap-table.css">
 <link rel="stylesheet" type="text/css"
 	href="module/css/commonSystem/commonSystem.css" />
-<link rel="stylesheet" type="text/css"
-	href="module/css/employeeManage/employeeManage.css" />
+<link rel="stylesheet" type="text/css" href="module/css/employeeManage/employeeManage.css" />
 	
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>

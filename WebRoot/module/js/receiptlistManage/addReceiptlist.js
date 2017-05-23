@@ -10,6 +10,7 @@ var obj = {
 	state : "",
 	comID : "",
 	isSelectedCom:false,
+	departmentData :[],
 	isCreate : false
 }
 /**
@@ -27,9 +28,27 @@ function initData() {
 	initPageData(); //展示页面页头数据
 	initSample();  //展示任务表的数据
 	initFile();//展示交接单附件的数据
+	obj.departmentData=getDataDepartment();
 	
 }
-
+function  getDataDepartment(){ //获取部门列表
+	var data;
+	$.ajax({
+		url : '/laboratorySystem/departmentController/getDepartmentName.do',
+		dataType : "json",
+		async : false,
+		data : {
+			
+		},
+		success : function(o) {
+			data = JSON.parse(o);
+		},
+		error : function() {
+			return false;
+		}
+	});
+	return data;
+}
 
 //初始页面数据
 function initPageData() {
@@ -50,6 +69,7 @@ function initPageData() {
 	$("#address").attr("disabled", true); //公司地址都是不能编辑
 	if (dara.state == "yes") {// 有合同
 		dealHaveCom(dara); // 处理公司
+		dealTestStandard(dara.coID);
 	} else if (dara.state == "no") { // 无合同新增，不做操作
 		;
 	} else { // 编辑状态
@@ -63,6 +83,25 @@ function initPageData() {
 		obj.isCreate = true; //不删除
 	}
 	
+	
+}
+function dealTestStandard(coID){ //获取合同的技术标准号和标准名称
+	var data;
+	$.ajax({
+		url : '/laboratorySystem/contractController/getStandardByContractID.do',
+		dataType : "json",
+		async : false,
+		data : {
+			coID : coID
+		},
+		success : function(o) {
+			console.log(o);
+			$("#accordingDoc").val(o);
+		},
+		error : function() {
+			return false;
+		}
+	});
 	
 }
 //上传文件预处理
@@ -386,7 +425,7 @@ function initSaveAndSubmitRe_event() {
 	});
 
 	$(".footer button").click(function() { // 保存和提交按钮的点击操作
-		dealReSave();
+		dealReSave(this);
 
 	});
 }
@@ -403,11 +442,11 @@ function hideCpmpanyOver(){
 	$("#address").val("");
 }
 // 处理交接单的保存和提交事件
-function dealReSave() {
+function dealReSave(self) {
 	var btnName = "";
 	var param = {};
 	var data;
-	btnName = $(this).text();
+	btnName = $(self).text();
 
 	param.addState = obj.state;
 	param.companyName = $("#companyName").val().trim();
@@ -671,9 +710,30 @@ function initAddTask_event() {
 		$("#addSampleID").val("");
 		$("#addAskFor").val("");
 		$('#displayChecked[name = "add"]').empty();
+		addDepartmentList("add");
 		$("#addTaskModal").modal('show');
+		showAddTaskModal();
 	});
 }
+function showAddTaskModal(){
+	// 清空以前填写的数据
+	$("#addSampleCode").val("");
+	$("#addSampleName").val("");
+	$("#addSampleID").val("");
+	$("#addAskFor").val("");
+	$('#displayChecked[name = "add"]').empty();
+	addDepartmentList("add");
+	$("#addTaskModal").modal('show');
+}
+function addDepartmentList(par){
+	var html = "";
+	var data = obj.departmentData ;
+	for(var i = 0; i < data.length ; i++){
+		html+="<option value='"+data[i].ID+"'>"+data[i].departmentName+"</option>";
+	}
+	$("#"+par+"Department").append(html);
+}
+
 // 时间验证
 function vaildSelected(startTime, endTime) {
 	if (endTime > startTime)
@@ -886,27 +946,27 @@ function initSample() {
 									title : '出厂编号',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '13%'// 宽度
+									width : '12%'// 宽度
 								},
 								{
 									field : 'sampleName',// 返回值名称
 									title : '样品名称',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '12%'// 宽度
+									width : '11%'// 宽度
 								},
 								{
 									field : 'sampleStyle',// 返回值名称
 									title : '型号/规格/代号',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '10%'// 宽度
+									width : '7%'// 宽度
 								},{
 									field : 'unit',// 返回值名称
 									title : '单位',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '5',// 宽度
+									width : '4%',// 宽度
 								
 								},
 								{
@@ -914,14 +974,22 @@ function initSample() {
 									title : '校准/检测项目',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '15%'// 宽度
+									width : '13%'// 宽度
 								},
 								{
-									field : 'askFor',// 返回值名称
-									title : '要求描述',// 列名
+									field : 'departmentName',// 返回值名称
+									title : '校准/检测科室',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '15%'// 宽度
+									width : '13%'// 宽度
+								},
+								
+								{
+									field : 'askFor',// 返回值名称
+									title : '备注',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '10%'// 宽度
 								},
 								{
 									field : 'startTime',// 返回值名称
@@ -984,9 +1052,13 @@ function addTaskModel() {
 	param.testProjects = getTestProjectID();
 	console.log(param.testProject);
 	param.unit = $("#addUnit").val();
+	param.type = $("input[name='addTaskType']").val();
+	param.departmentID = $("#addDepartment").val();
+	console.log("departmentID:"+param.departmentID);
 	param.require = $("#addAskFor").val();
 	param.reID = obj.reID;
 	param.state = "add";
+	console.log(param);
 	// 验证数据
 	if (valTaskData(param)) {
 		// 传输数据
@@ -1000,7 +1072,6 @@ function addTaskModel() {
 					success : function(o) {
 						data = JSON.parse(o);
 						if (data == true) {
-							$('#addTaskModal').modal('hide');
 							$('#sampleTable').bootstrapTable('refresh', null);
 							swal("任务新增成功");
 
@@ -1027,6 +1098,10 @@ function valTaskData(data) {
 		swal("样品名称不能为空");
 		return false;
 	}
+	if (data.departmentID == "" || data.departmentID == "null") {
+		swal("科室不能为空");
+		return false;
+	}
 	return true;
 }
 // 编辑任务弹框确认
@@ -1042,10 +1117,13 @@ function editTaskModel() {
 	param.taskID = $("#editTaskID").val();
 	param.testProjects = getTestProjectID();
 	console.log(param.testProject);
+	param.type = $("input[name='editTaskType']").val();
+	param.departmentID = $("#editDepartment").val();
 	param.unit = $("#editUnit").val();
 	param.require = $("#editAskFor").val();
 	param.reID = obj.reID;
 	param.state = "edit";
+	console.log(param);
 	// 验证数据是否合理
 	if (valTaskData(param)) {
 		$

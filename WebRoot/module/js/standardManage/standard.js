@@ -82,7 +82,7 @@ function init(){
 				width:'8%'// 宽度
 			},{
 				field:'DESCRIPTION',// 返回值名称
-				title:'描述',// 列名
+				title:'技术条件',// 列名
 				align:'center',// 水平居中显示
 				valign:'middle',// 垂直居中显示
 				width:'15%'// 宽度
@@ -124,7 +124,7 @@ function init(){
 				width:'13%',
 				 formatter:function(value,row,index){   
 					 var e = "<img src='module/img/download_icon.png' onclick ='downFile(\""+row.fileID+ "\")'  title='下载' style='cursor:pointer;margin-right:8px;' />"
-					 var a = "<img src ='module/img/edit_icon.png' onclick='openEditModal("+JSON.stringify(row)+")'   title='废弃' style='cursor:pointer;margin-right:8px;'/>"
+					 var a = "<img src ='module/img/edit_icon.png' onclick='openEditModal("+JSON.stringify(row)+")'   title='修改' style='cursor:pointer;margin-right:8px;'/>"
 	                 return e+a;    
 	             }   
 			}]// 列配置项,详情请查看 列参数 表格
@@ -410,7 +410,7 @@ function checkNull(){
 function addstandard(fileIDs){
 	
 	var parame = {};
-	parame.uploaderID = ($('#uploaderID').val());
+	parame.uploaderID = ($('#uploaderID').val()); //提交人
 	parame.STANDARDCODE = ($('#add_STANDARDCODE').val());
 	parame.STANDARDNAME = ($('#add_STANDARDNAME').val());//
 	parame.TYPE = $('#add_TYPE').val();
@@ -454,6 +454,13 @@ function applyMondal(){
 			});
 		return;
 	}
+	if (data[0].STATE != '通过'){
+		swal({
+			  title: "当前状态不能废弃",
+			  type: "warning",
+			});
+		return
+	}
 	
 	$('#apply_STANDARDID').val(data[0].ID);
 	
@@ -494,13 +501,14 @@ function apply(){
 	parame.ID = $('#apply_STANDARDID').val();
 	parame.ABANDONAPPLYMAN = $('#uploaderID').val();
 	parame.ABANDONAPPLYREASON = $('#apply_ABANDONAPPLYREASON').val();
+	parame.STATE = 4;
 	if(checkNull(parame))return;
 	$.ajax({
 	  url:'standardController/upStandard.do',
 	  data:parame,
 	  success:function(o){
 		  if(o<=0){
-			  sweetAlert("出错了...", "正在努力修正中...", "error");
+			  sweetAlert("错误", "返回为负", "error");
 		  }
 		  $('#applyModal').modal('hide');
 		  refresh();
@@ -574,7 +582,7 @@ function openEditModal(){
 		
 		$('#edit_SUGGEST').val(arguments[0].SUGGEST);
 		
-		/* 状态处理*/
+	/*	 状态处理
 		
 		if(arguments[0].STATE == "待审核"){
 			$('#edit_STATE').val("0");
@@ -587,7 +595,7 @@ function openEditModal(){
 		}
 		if(arguments[0].STATE == "驳回"){
 			$('#edit_STATE').val("3");
-		}
+		}*/
 		$('#edit_DESCRIPTION').val(arguments[0].DESCRIPTION);
 		
 		$('#editModal').modal('show');
@@ -616,6 +624,46 @@ function edit(){
 		  $('#editModal').modal('hide');
 		  refresh();
 	  }
+	});
+}
+
+/**
+ * 
+ * 提交审核
+ */
+function submitStandard(){
+	var data = $('#table').bootstrapTable('getSelections');
+	
+	if(data == 0){
+		swal("至少选中一条");
+		return;
+	}
+	var ids  = "";
+	
+	for(var i=0; i<data.length; i++){
+		if(data[i].STATE != "未提交"){
+			swal(data[i].STANDARDNAME + "已经提交过");
+			return;
+		}
+		if(i == data.length - 1){
+			ids += data[i].ID
+		}
+		else{
+			ids += data[i].ID + ",";
+		}
+	}
+	$.ajax({
+		url : 'standardController/upSubmitStandard.do',
+		data : {standardIDs : ids},
+		success : function(o) {
+			if (o <= 0) {
+				swal({title:"操作失败",type:"error"});
+			} else {
+				swal({title:"操作成功",type:"success"});
+				refresh();
+			}
+
+		}
 	});
 }
 

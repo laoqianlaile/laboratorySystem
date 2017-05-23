@@ -303,7 +303,17 @@
 										</div>
 									</div>
 								</div>
-
+                                <div class="col-xs-12 col-md-12">
+								<p>检测类型：</p>
+									<input type="radio" name="addTaskType" id="addTaskType1" value="0" checked="checked"> <label class="radioLabel" for="addTaskType1">检测</label>									
+									<input type="radio" name="addTaskType" id="addTaskType2" value="1"> <label class="radioLabel" for="addTaskType2">校准</label>					
+								</div>
+								<div class="col-xs-12 col-md-12">
+									<p>检测部门：</p>
+									<select id="addDepartment" >
+									      
+									</select>
+								</div>
 								<div class="col-xs-12 col-md-12">
 									<p>样品单位：</p>
 									<select id="addUnit">
@@ -313,16 +323,17 @@
 									</select>
 								</div>
 								<div class="col-xs-12 col-md-12">
-									<p>要求描述：</p>
+									<p>备注：</p>
 									<textarea id="addAskFor" name="REMARKS" cols="30" rows="3" /></textarea>
 								</div>
 							</div>
 						</div>
 						<div class="modal-footer">
+						    
 							<button type="button" class="btn btn-default"
 								onclick="addTaskModel()">确定</button>
 							<button type="button" class="btn btn-default"
-								data-dismiss="modal">取消</button>
+								data-dismiss="modal">关闭</button>
 						</div>
 					</div>
 				</div>
@@ -413,7 +424,17 @@
 										</div>
 									</div>
 								</div>
-
+    							<div class="col-xs-12 col-md-12">
+								<p>检测类型：</p>
+									<input type="radio" name="editTaskType" id="editTaskType1" value="0"> <label class="radioLabel" for="editTaskType1">检测</label>										<option value="个">个</option>
+									<input type="radio" name="editTaskType" id="editTaskType2" value="1"> <label class="radioLabel" for="editTaskType2">校准</label>										<option value="个">个</option>
+								</div>
+								<div class="col-xs-12 col-md-12">
+									<p>检测部门：</p>
+									<select id="editDepartment" >
+									      
+									</select>
+								</div>
 								<div class="col-xs-12 col-md-12">
 									<p>样品单位：</p>
 									<select id="editUnit">
@@ -423,7 +444,7 @@
 									</select>
 								</div>
 								<div class="col-xs-12 col-md-12">
-									<p>要求描述：</p>
+									<p>备注：</p>
 									<textarea id="editAskFor" name="REMARKS" cols="30" rows="3" /></textarea>
 								</div>
 							</div>
@@ -432,7 +453,7 @@
 							<button type="button" class="btn btn-default"
 								onclick="editTaskModel()">确定</button>
 							<button type="button" class="btn btn-default"
-								data-dismiss="modal">取消</button>
+								data-dismiss="modal">关闭</button>
 						</div>
 					</div>
 				</div>
