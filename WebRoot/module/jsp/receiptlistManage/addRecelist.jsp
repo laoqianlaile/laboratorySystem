@@ -310,7 +310,7 @@
 								</div>
 								<div class="col-xs-12 col-md-12">
 									<p>检测部门：</p>
-									<select id="addDepartment">
+									<select id="addDepartment" >
 									      
 									</select>
 								</div>
@@ -323,16 +323,17 @@
 									</select>
 								</div>
 								<div class="col-xs-12 col-md-12">
-									<p>要求描述：</p>
+									<p>备注：</p>
 									<textarea id="addAskFor" name="REMARKS" cols="30" rows="3" /></textarea>
 								</div>
 							</div>
 						</div>
 						<div class="modal-footer">
+						    
 							<button type="button" class="btn btn-default"
 								onclick="addTaskModel()">确定</button>
 							<button type="button" class="btn btn-default"
-								data-dismiss="modal">取消</button>
+								data-dismiss="modal">关闭</button>
 						</div>
 					</div>
 				</div>
@@ -430,7 +431,7 @@
 								</div>
 								<div class="col-xs-12 col-md-12">
 									<p>检测部门：</p>
-									<select id="editDepartment">
+									<select id="editDepartment" >
 									      
 									</select>
 								</div>
@@ -443,7 +444,7 @@
 									</select>
 								</div>
 								<div class="col-xs-12 col-md-12">
-									<p>要求描述：</p>
+									<p>备注：</p>
 									<textarea id="editAskFor" name="REMARKS" cols="30" rows="3" /></textarea>
 								</div>
 							</div>
@@ -452,7 +453,7 @@
 							<button type="button" class="btn btn-default"
 								onclick="editTaskModel()">确定</button>
 							<button type="button" class="btn btn-default"
-								data-dismiss="modal">取消</button>
+								data-dismiss="modal">关闭</button>
 						</div>
 					</div>
 				</div>

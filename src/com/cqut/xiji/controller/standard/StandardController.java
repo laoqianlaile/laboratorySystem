@@ -68,6 +68,9 @@ public class StandardController{
 		Map<String, Object> result = service.getStandardWithPaging(STANDARDCODE, STANDARDNAME, TYPE, STATE, APPLICATIONTYPE, limit, offset, order, sort);
 		return JSONObject.fromObject(result);
 	}
+	
+	
+	
 	/**
 	 * 更新数据
 	 * @author zkl
@@ -131,5 +134,28 @@ public class StandardController{
 	public String upFileID(String standardID,String fileID){
 		String result = service.upFileID(standardID,fileID);
 		return result;
+	}
+	
+	
+	/**
+	 * 
+	 * 提交审核
+	 * 
+	 */
+	@RequestMapping("/upSubmitStandard")
+	@ResponseBody
+	public String upSubmitStandard(String standardIDs){
+		String result = service.upSubmitStandard(standardIDs);
+		
+		return standardIDs;
+		
+		
+	}
+	
+	@RequestMapping("/getStandardReviewWithPaging")  
+    @ResponseBody
+	public JSONObject getStandardReviewWithPaging(String STANDARDCODE,String STANDARDNAME, String TYPE, String STATE, String APPLICATIONTYPE,int limit, int offset, String order, String sort){
+		Map<String, Object> result = service.getStandardReviewWithPaging(STANDARDCODE, STANDARDNAME, TYPE, STATE, APPLICATIONTYPE, limit, offset, order, sort);
+		return JSONObject.fromObject(result);
 	}
 }

@@ -100,10 +100,12 @@
 								<label>状态&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ： </label> <select
 									id="query_STATE" name="STATE" class="form-control">
 									<option value="">全部</option>
-									<option value="0">待审核</option>
-									<option value="1">通过</option>
-									<option value="2">已废弃</option>
+									<option value="0">未提交</option>
+									<option value="1">待审核</option>
+									<option value="2">通过</option>
 									<option value="3">驳回</option>
+									<option value="4">废弃待审核</option>
+									<option value="5">已废弃</option>
 								</select>
 							</div>
 						</div>
@@ -140,6 +142,11 @@
 									onclick="openAddmodal('add')">
 									<em class="glyphicon glyphicon-plus"></em> 新增标准
 								</button>
+								
+								<button class="btn btn-primary" type="button" onclick="submitStandard()">
+									<em class="glyphicon glyphicon-check"></em> 提交审核
+								</button>
+										
 
 								<button class="btn btn-primary type=" button" id="del"
 									onclick="applyMondal()">
@@ -305,7 +312,7 @@
 							<input type="text" id="edit_SUGGEST" name="SUGGEST" readonly
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
-						<div class="col-xs-12 col-md-12">
+						<!-- <div class="col-xs-12 col-md-12">
 							<label class="labelName" >　状态　</label>
 							<select id="edit_STATE" name="STATE" class="form-control"
 								aria-describedby="basic-addon1">
@@ -314,7 +321,7 @@
 								<option class="form-control" value="2">已废弃</option>
 								<option class="form-control" value="3">驳回</option>
 							</select>
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<div class="modal-footer">

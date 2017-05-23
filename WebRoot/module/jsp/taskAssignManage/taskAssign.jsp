@@ -29,7 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="module/js/bootstrap.js"></script>
 	<script src="module/js/bootstrap-table.js"></script>
 	<script src="module/js/bootstrap-table-zh-CN.js"></script>
-    <script src="assets/js/autoPage.js"></script>
+    <!-- <script src="assets/js/autoPage.js"></script> -->
     <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
     <script src="module/js/sweetalert.min.js"></script>
     
@@ -40,95 +40,96 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      #return:hover {
     	background: #ffc773;
     }
+    .row {
+    	margin: 0;
+    }
     </style>
   </head>
   
   <body>
   	<span id="receiptlistID" style="display:none"></span>
-  	<div class="container" style="width:100%">
-  		<div class="row">
-			<div class="col-xs-8 col-md-8 col-lg-8">
-				<h4 >任务分配</h4>
-			</div>
-			<div class="col-xs-4 col-md-4 col-lg-4">
-				<h5 id="receiptlistCode">交接单号:&nbsp;<span></span></h5>
-			</div>
+ 	<div class="row">
+		<div class="col-xs-8 col-md-8 col-lg-8">
+			<h4 >任务分配</h4>
 		</div>
-		<hr />
-		<div class="row">
-			<div class="col-xs-4 col-md-4 col-lg-4">
-				<span id="companyName">委托单位:&nbsp;<span></span></span>
-			</div>
-			<div class="col-xs-2 col-md-2 col-lg-2">
-				<span id="linkMan">委托人:&nbsp;<span></span></span>
-			</div>
-			<div class="col-xs-2 col-md-2 col-lg-2">
-				<span id="acceptSampleTime">委托时间:&nbsp;<span></span></span>
-			</div>
-			<div class="col-xs-2 col-md-2 col-lg-2">
-				<span id="endTime">完成时间:&nbsp;<span></span></span>
-			</div>
-			<div class="col-xs-2 col-md-2 col-lg-2">
-				<span id="linkPhone">联系电话:&nbsp;<span></span></span>
-			</div>
+		<div class="col-xs-4 col-md-4 col-lg-4">
+			<h5 id="receiptlistCode">交接单号:&nbsp;<span></span></h5>
 		</div>
-		<br />
-		<div class="row">
-			<div class="col-xs-8 col-md-8 col-lg-8">
-				<span id="address">通讯地址:&nbsp;<span></span></span>
-			</div>
-			<div class="col-xs-2 col-md-2 col-lg-2">
-				<span id="isClassified">是否涉密:&nbsp;<span></span></span>
-			</div>
-			<div class="col-xs-2 col-md-2 col-lg-2">
-				<span id="classifiedLevel">密级:&nbsp;<span></span></span>
-			</div>
+	</div>
+	<hr />
+	<div class="row">
+		<div class="col-xs-4 col-md-4 col-lg-4">
+			<span id="companyName">委托单位:&nbsp;<span></span></span>
 		</div>
-		<br />
-		<div class="row">
-			<div class="col-xs-2 col-md-2 col-lg-2">
-				<span>依据的技术文件（代号、名称）及客户要求:</span>
-			</div>
-			<div class="col-xs-10 col-md-10 col-lg-10">
-				<span id="accordingDoc"></span>
-			</div>
+		<div class="col-xs-2 col-md-2 col-lg-2">
+			<span id="linkMan">委托人:&nbsp;<span></span></span>
 		</div>
-		<hr />
-		<div class="row">
-			<div class="col-xs-2 col-md-2 col-lg-2">
-				<span id="employeeName">样品管理员:&nbsp;<span></span></span>
-			</div>
-			<div class="col-xs-8 col-md-8 col-lg-8"></div>
-			<div class="col-xs-1 col-md-1 col-lg-1">
-				<button id="btn-laborHour" type="button" class="btn btn-primary" >修改工时</button>
-			</div>
-			<div class="col-xs-1 col-md-1 col-lg-1">
-				<button id="btn-assign" type="button" class="btn btn-primary" >分配人员</button>
-			</div>
+		<div class="col-xs-2 col-md-2 col-lg-2">
+			<span id="acceptSampleTime">委托时间:&nbsp;<span></span></span>
 		</div>
-		<br />
-		<!-- 任务表格 -->
-  		<table id="taskTable">
-  		</table>
-  		<hr />
-  		<div class="row">
-  			<div class="col-xs-12 col-md-12 col-lg-2">
-				<h5>其他文件</h5>
-			</div>
+		<div class="col-xs-2 col-md-2 col-lg-2">
+			<span id="endTime">完成时间:&nbsp;<span></span></span>
 		</div>
-		<hr />
-		<!-- 文件表格 -->
-  		<table id="fileTable">
-  		</table>
-  		<hr />
-		<div class="row">
-			<div class="col-xs-11 col-md-11 col-lg-11">
-			</div>
-  			<div class="col-xs-1 col-md-1 col-lg-1">
-				<button type="button" class="btn btn-primary" id="return">返回</button>
-			</div>
+		<div class="col-xs-2 col-md-2 col-lg-2">
+			<span id="linkPhone">联系电话:&nbsp;<span></span></span>
 		</div>
-  	</div>
+	</div>
+	<br />
+	<div class="row">
+		<div class="col-xs-8 col-md-8 col-lg-8">
+			<span id="address">通讯地址:&nbsp;<span></span></span>
+		</div>
+		<div class="col-xs-2 col-md-2 col-lg-2">
+			<span id="isClassified">是否涉密:&nbsp;<span></span></span>
+		</div>
+		<div class="col-xs-2 col-md-2 col-lg-2">
+			<span id="classifiedLevel">密级:&nbsp;<span></span></span>
+		</div>
+	</div>
+	<br />
+	<div class="row">
+		<div class="col-xs-2 col-md-2 col-lg-2">
+			<span>依据的技术文件（代号、名称）及客户要求:</span>
+		</div>
+		<div class="col-xs-10 col-md-10 col-lg-10">
+			<span id="accordingDoc"></span>
+		</div>
+	</div>
+	<hr />
+	<div class="row">
+		<div class="col-xs-2 col-md-2 col-lg-2">
+			<span id="employeeName">样品管理员:&nbsp;<span></span></span>
+		</div>
+		<div class="col-xs-8 col-md-8 col-lg-8"></div>
+		<div class="col-xs-1 col-md-1 col-lg-1">
+			<button id="btn-laborHour" type="button" class="btn btn-primary" >修改工时</button>
+		</div>
+		<div class="col-xs-1 col-md-1 col-lg-1">
+			<button id="btn-assign" type="button" class="btn btn-primary" >分配人员</button>
+		</div>
+	</div>
+	<br />
+	<!-- 任务表格 -->
+ 		<table id="taskTable">
+ 		</table>
+ 		<hr />
+ 		<div class="row">
+ 			<div class="col-xs-12 col-md-12 col-lg-2">
+			<h5>其他文件</h5>
+		</div>
+	</div>
+	<hr />
+	<!-- 文件表格 -->
+ 		<table id="fileTable">
+ 		</table>
+ 		<hr />
+	<div class="row">
+		<div class="col-xs-11 col-md-11 col-lg-11">
+		</div>
+ 			<div class="col-xs-1 col-md-1 col-lg-1">
+			<button type="button" class="btn btn-primary" id="return">返回</button>
+		</div>
+	</div>
   	
 	<!-- 分配弹框 -->
 	<div id="assignPeopleModal" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
