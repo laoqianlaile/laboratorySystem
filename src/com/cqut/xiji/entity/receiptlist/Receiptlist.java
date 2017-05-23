@@ -24,7 +24,16 @@ public class Receiptlist extends Entity{
 	private int allotState;
 	private int isCreate ;
 	private String reFile ;
+	private int type;
 	
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
 	public String getReFile() {
 		return reFile;
 	}
