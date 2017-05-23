@@ -280,8 +280,19 @@ public class TaskService extends SearchService implements ITaskService {
 		if (sample != null) {
 			content = sample.getSampleName() + "需要检测!"; // 消息记录内容
 		} else {
-			TestProject testProject = entityDao.getByID(task.getTestProjectID(), TestProject.class);
-			content = testProject.getNameCn() + "需要检测!"; // 消息记录内容
+			String[] properties = {
+					"task.ID",
+					"group_contact(testProject.nameCn) as name"
+			};
+			
+			String condition = "left join taskTestProject on task.ID = taskTestProject.taskID "
+					+ " left join testProject on testProject.ID = taskTestProject.testProjectID "
+					+ " and task.ID = '" + taskID + "' "
+					+ " group by task.ID ";
+			
+			List<Map<String, Object>> list = originalSearchForeign(properties, getBaseEntityName(), null, null, condition, false);
+
+			content = list.get(0).get("name") + "需要检测!"; // 消息记录内容
 		}
 		
 		// 设置消息记录
