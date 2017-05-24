@@ -8,7 +8,9 @@
 	height: auto;
 	 margin-bottom: -10px;
 }
-
+.bootstrap-table .no-records-found{
+	background-color:#fff;
+}
 .fixed-table-pagination {
 	 margin-top: 9px;
 	

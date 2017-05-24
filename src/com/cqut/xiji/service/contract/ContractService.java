@@ -550,7 +550,7 @@ public class ContractService extends SearchService implements IContractService{
 		String joinEntity = " LEFT JOIN testProject ON contractFineItem.testProjectID = testProject.ID " +
 				" LEFT JOIN department ON contractFineItem.departmentID = department.ID ";
 		
-		String condition = "contractFineItem.contractID = " + ID;
+		String condition = "contractFineItem.contractID = '" + ID + "' ORDER BY contractFineItem.ID desc";
 		
 		List<Map<String, Object>> result2 = entityDao.searchForeign(properties, baseEntiy, joinEntity, null, condition);
 		
@@ -565,6 +565,22 @@ public class ContractService extends SearchService implements IContractService{
 		
 		List<Map<String, Object>> result4 = entityDao.searchForeign(properties4, baseEntiy4, joinEntity4, null, condition4);
 		String projectID = result4.get(0).get("ID").toString();
+		
+		String baseEntiy5 = "teststandard";
+		String[] properties5 = new String[] { 
+			"DISTINCT standard.standardCode,"
+			+ "standard.standardName,"
+			+ "testtype.`name` as testTypeName,"
+			+ "testproject.testTypeID"
+			};
+		String joinEntity5 = " LEFT JOIN standard ON teststandard.standardID = standard.ID"
+				+ " LEFT JOIN testproject ON teststandard.testProjectID = testproject.ID"
+				+ " LEFT JOIN testtype ON testproject.testTypeID = testtype.ID"
+				+ " LEFT JOIN contractfineitem ON contractfineitem.testProjectID = testProject.ID";
+		
+		String condition5 = " contractfineitem.contractID = '" + ID + "' ORDER BY testproject.testTypeID desc";
+		
+		List<Map<String, Object>> result5 = entityDao.searchForeign(properties5, baseEntiy5, joinEntity5, null, condition5);
 		
 		PropertiesTool pe = new PropertiesTool();
 		
@@ -618,6 +634,29 @@ public class ContractService extends SearchService implements IContractService{
 				wp.replaceText("{endTime-x}",endTime.toString());
 			if (contractName != null)
 				wp.replaceText("{contractName}",contractName.toString());
+			
+			if(!result5.isEmpty()){
+				String standardCode = "";
+				String standardName = "";
+				String testTypeName = "";
+				String testTypeID = "";
+				String standardNote = "";
+				for(int i = 0; i < result5.size(); i++){
+					standardCode = result5.get(i).get("standardCode").toString();
+					standardName = result5.get(i).get("standardName").toString();
+					testTypeName = result5.get(i).get("testTypeName").toString();
+					/*testTypeID = result5.get(i).get("testTypeID").toString();
+					standardNote += testTypeName + ":" + standardCode + "," + standardName + ";\n ";*/
+					
+					wp.addTableRow(1,2);
+					wp.putTxtToCell(1, 2, 1,testTypeName);
+					wp.putTxtToCell(1, 2, 2,standardCode);
+					wp.putTxtToCell(1, 2, 3,standardName);
+				}
+				/*wp.replaceText("{testTypeName}",standardNote.toString());*/
+			}
+				
+				
 			if (endTime != null)
 				wp.replaceText("{endTime-x}",endTime.toString());
 			
@@ -631,7 +670,7 @@ public class ContractService extends SearchService implements IContractService{
 				String price = "";
 				String number = "";
 				String hour = "";
-				wp.putTxtToCell(1, 2, 5,"总计"+contractAmount.toString());
+				wp.putTxtToCell(2, 2, 5,"总计"+contractAmount.toString());
 				for(int i = 0; i < result2.size(); i++){
 					nameCn = result2.get(i).get("nameCn").toString();
 					nameEn = result2.get(i).get("nameEn").toString();
@@ -642,17 +681,17 @@ public class ContractService extends SearchService implements IContractService{
 					price = result2.get(i).get("price").toString();
 					number = result2.get(i).get("number").toString();
 					hour = result2.get(i).get("hour").toString();
-					wp.addTableRow(1,2);
-					wp.putTxtToCell(1, 2, 1,fineItemCode);
-					wp.putTxtToCell(1, 2, 2,nameCn+"("+nameEn+")");
+					wp.addTableRow(2,2);
+					wp.putTxtToCell(2, 2, 1,fineItemCode);
+					wp.putTxtToCell(2, 2, 2,nameCn+"("+nameEn+")");
 					if(calculateType.equals("0")){
-						wp.putTxtToCell(1, 2, 3,price+"元/每次");
-						wp.putTxtToCell(1, 2, 4,number+"次");
+						wp.putTxtToCell(2, 2, 3,price+"元/每次");
+						wp.putTxtToCell(2, 2, 4,number+"次");
 					}else if(calculateType.equals("1")){
-						wp.putTxtToCell(1, 2, 3,price+"元/每小时");
-						wp.putTxtToCell(1, 2, 4,hour+"小时");
+						wp.putTxtToCell(2, 2, 3,price+"元/每小时");
+						wp.putTxtToCell(2, 2, 4,hour+"小时");
 					}
-					wp.putTxtToCell(1, 2, 5,money);
+					wp.putTxtToCell(2, 2, 5,money);
 				}
 			}
 			if (companyName != null)
