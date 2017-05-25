@@ -286,7 +286,10 @@ function recoatCheck() {
 		alert("至少选择两个报告才能进行合并");
 		return;
 	} else {
-		var taskIDs = [], fileIDs = [], IDs = [], projectIDs = [], stateEns = [];
+		
+		
+		
+/*		var taskIDs = [], fileIDs = [], IDs = [], projectIDs = [], stateEns = [];
 		$.each(rows, function() {
 			taskIDs.push(this.taskID);
 		});
@@ -320,7 +323,7 @@ function recoatCheck() {
 					alert("当前选择报告不能合并");
 				}
 			}
-		});
+		});*/
 	}
 
 }

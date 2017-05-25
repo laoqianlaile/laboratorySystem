@@ -63,5 +63,5 @@ public interface ITestProjectService {
 
 	public List<Map<String, Object>> getTestProjectById(String testProjectByID);
 
-
+	public List<Map<String, Object>> getAllTestProject();
 }

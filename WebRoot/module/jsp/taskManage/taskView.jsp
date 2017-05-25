@@ -85,7 +85,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 		<div class="sampleInfo">
 			<div class="row">
-				<div class="col-xs-5 col-md-5 col-lg-5">
+				<div class="col-xs-4 col-md-4 col-lg-4">
 					<div class="col-xs-5 col-md-5 col-lg-5 sampleInfo" >
 						<label>样品管理员:</label> <span name="sampleManage" id="sampleManage"></span>
 					</div>
@@ -94,7 +94,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							id="sampleCreateTime"></span>
 					</div>
 				</div>
-				<div class="col-xs-7 col-md-7 col-lg-7 buttonGroup">
+				<div class="col-xs-8 col-md-8 col-lg-8 buttonGroup">
+					<button type="button" class="btn btn-primary"
+						onclick="testProjectRegister()">
+						<span class="glyphicon glyphicon-edit"></span> 检测项目登记
+					</button>
 					<button type="button" class="btn btn-primary"
 						onclick="equipmentRegister()">
 						<span class="glyphicon glyphicon-edit"></span> 设备登记
@@ -145,8 +149,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	</div>
 	
-
-
 	<div id="equipmentInfo" class="modal fade" role="dialog"
 		aria-labelledby="gridSystemModalLabel">
 		<div class="modal-dialog" role="document" style="width:800px">
@@ -165,7 +167,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 	</div>
-
+	
+	<div id="testprojectInfo" class="modal fade" role="dialog"
+		aria-labelledby="gridSystemModalLabel">
+		<div class="modal-dialog" role="document" style="width:800px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">检测项目登记</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row testprojectList"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="registTestprojectSure" name="registTestprojectSure" onclick="registTestprojectSure()">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<div id="uploadReport" class="modal fade" role="dialog"
 		aria-labelledby="gridSystemModalLabel">
 		<div class="modal-dialog" role="document" style="width:500px">

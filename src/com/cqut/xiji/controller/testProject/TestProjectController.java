@@ -208,4 +208,17 @@ public class TestProjectController{
 		return JSONObject.fromObject(result);
 	}
 	
+	/**
+	 * 
+     * @discription 获取所有的检测项目
+     * @author zt       
+     * @created 2017-5-23 下午8:40:54     
+     * @return
+	 */
+	@RequestMapping("/getAllTestProject")
+	@ResponseBody
+	public List<Map<String, Object>> getAllTestProject(){
+      	List<Map<String, Object>> result = service.getAllTestProject();
+		return result;
+	}
 }

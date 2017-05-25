@@ -3,7 +3,47 @@ var param = {
 };
 
 $(function() {
-	var ID = getUrlParam("taskID");
+	var ID = getUrlParam("taskID"); 		
+	
+	// 获取所有的检测项目信息
+	$.post("testProjectController/getAllTestProject.do",
+			function(result) {
+				result = JSON.parse(result);
+				if (result != null && result != "null" && result != "") {
+					var htmlElement = "";
+					for ( var i = 0,len = result.length;i <len ; i++) {
+						htmlElement += "<div class='col-xs-4 col-md-4 col-lg-4'>"
+			                        	+ "<input type='checkbox' name='testproject" + i + "' id='testproject" + i + "' value=" + result[i].ID + ">" 
+			                        	+ "<label for='testproject" + i + "' >"
+				                        +  result[i].testprojectName 
+				                        + "</label>" 
+				                        + "</div>";
+					}
+					$(".testprojectList").append(htmlElement);
+				}
+			});
+	
+	getTaskTestprojectID(ID);
+	
+	// 获取设备的信息
+	$.post("equipmentController/getEquipmentInfo.do",
+			function(result) {
+				result = JSON.parse(result);
+				if (result != null && result != "null" && result != "") {
+					var htmlElement = "";
+					for ( var i = 0,len = result.length;i <len ; i++) {
+						htmlElement += "<div class='col-xs-4 col-md-4 col-lg-4'>"
+			                        	+ "<input type='checkbox' name='equipment" + i + "' id='equipment" + i + "' value=" + result[i].ID + ">" 
+			                        	+ "<label for='equipment" + i + "' >"
+				                        +  result[i].equipmentInfo 
+				                        + "</label>" 
+				                        + "</div>";
+					}
+					$(".equipmentList").append(htmlElement);
+				}
+			});
+
+	getTaskEquipmentID(ID);
 	
 	$.post("taskController/checkTaskClientInfo.do", {
 		taskID : ID
@@ -213,34 +253,31 @@ $(function() {
 									}
 								} ]
 					});
-	
-	// 获取设备的信息
-	$.post("equipmentController/getEquipmentInfo.do",
-			function(result) {
-				result = JSON.parse(result);
-				if (result != null && result != "null") {
-					var htmlElement = "";
-					for ( var i = 0,len = result.length;i <len ; i++) {
-						htmlElement += "<div class='col-xs-4 col-md-4 col-lg-4'>"
-			                        	+ "<input type='checkbox' name='equipment" + i + "' id='equipment" + i + "' value=" + result[i].ID + ">" 
-			                        	+ "<label for='equipment" + i + "' >"
-				                        +  result[i].equipmentInfo 
-				                        + "</label>" 
-				                        + "</div>";
-					}
-					$(".equipmentList").append(htmlElement);
+	uploadFile();
+});
+
+// 获取任务所选择的检测项目
+function getTaskTestprojectID() {
+	var ID = arguments[0];
+	$.post("taskController/getTestprojectOfTask.do", 
+	{
+		taskID : ID
+	}, function(result) {
+		result = JSON.parse(result);
+		for ( var i = 0, len = result.length; i < len; i++) {
+			$(".testprojectList input[type=checkbox]").each(function() {
+				if (result[i].ID == $(this).val()) {
+					$(this).attr("checked", "checked");
 				}
 			});
-
-	getTaskEquipmentID();
-	
-	uploadFile();
-
-});
+			continue;
+		}
+	});
+}
 
 // 获取任务所登记的设备ID
 function getTaskEquipmentID() {
-	var ID = param.taskID;
+	var ID = arguments[0];
 	$.post("taskEquipmentController/getTaskEquipmentID.do", 
 	{
 		taskID : ID
@@ -313,66 +350,187 @@ function uploadFile() {
 	});
 }
 
+// 检测项目登记
+function testProjectRegister() {
+	$("#testprojectInfo").modal("show");
+}
+
 // 设备登记
 function equipmentRegister() {
 	$("#equipmentInfo").modal("show");
+}
+
+// 确认登记的检测项目 
+function registTestprojectSure() {
+	var testprojectChooseArray = [],
+	testprojectArray = [], 
+	temporary = [];
+	ID = param.taskID;
+	$(".testprojectList input[type=checkbox]").each(function() { // 遍历已选中的选项
+		if (this.checked) {
+			testprojectChooseArray.push($(this).val());
+		}
+	});
+	$.post("taskController/getTestprojectOfTask.do",
+	{
+		taskID : ID
+	},
+	function(result) {
+		result = JSON.parse(result);
+		var testprojectChooseLen = testprojectChooseArray.length;
+		var resultLen = result.length
+		if(testprojectChooseLen == resultLen && testprojectChooseLen == 0) {
+			refresh();
+			alert("没有登记的检测项目");
+		} else {
+			for (var index = 0; index < resultLen; index++) {  // 原来登记的检测项目保存到一个数组中
+				temporary.push(result[index].ID);
+				}
+			if(result.length === 0) {
+				for (var k = 0, len = testprojectChooseLen; k < len; k++) {
+					testprojectArray.push(testprojectChooseArray[k]); // 如果没有登记检测项目，直接添加到testprojectArray
+					}
+				alterTestproject(testprojectArray);
+			} else {
+				if(testprojectChooseLen > resultLen) { // 保存新添加的设备
+					for (var i = 0, tArryLen = testprojectChooseLen; i < tArryLen; i++) { // 去除已登记的检测项目
+						if ($.inArray(testprojectChooseArray[i], temporary) == -1) {
+							testprojectArray.push(testprojectChooseArray[i]);
+						}
+					}
+					alterTestproject(testprojectArray);
+				} else {
+					$.ajax({
+						url : 'taskController/deleteTaskTestproject.do',
+						type : 'POST',
+						data : {
+							testprojectIDs : temporary,
+						},
+						traditional : true,
+						success : function(result) {
+							result = JSON.parse(result);
+							if(result == false || result == "false") {
+								alert("修改登记检测项目出错");
+							} else {
+								alterTestproject(testprojectChooseArray); // 登记修改过后新检测项目
+							}
+						}
+					});
+				}
+			}
+		}		
+	});
+}
+
+// 修改登记的检测项目
+function alterTestproject(testprojectArray) {
+	$.ajax({
+		url : 'taskController/saveTaskTestproject.do',
+		type : 'POST',
+		data : {
+			taskID : ID,
+			testprojectIDs : testprojectArray
+		},
+		traditional : true,
+		success : function(result) {
+			result = JSON.parse(result);
+			if (result == true || result == "true") {
+				getTaskTestprojectID();
+				$("#testprojectInfo").modal("hide");
+				refresh();
+				alert("检测项目登记或修改成功");
+			} else {
+				refresh();
+				alert(result);
+			}
+		}
+	});
 }
 
 // 确定登记的设备
 function sure() {
 	var equipmentChooseArray = [],
 	 	equipmentArray = [], 
-	 	ID = getUrlParam("taskID");
-	$(".equipmentList input[type=checkbox]").each(function() {
+		temporary = [];
+		ID = param.taskID;
+	$(".equipmentList input[type=checkbox]").each(function() { // 遍历已选中的选项
 		if (this.checked) {
 			equipmentChooseArray.push($(this).val());
 		}
 	});
-    if(equipmentChooseArray.length > 0){
 	$.post("taskEquipmentController/getTaskEquipmentID.do",
 	{
 		taskID : ID
 	},
 	function(result) {
 		result = JSON.parse(result);
-		var temporary = [];
-		for ( var index = 0, resultLen = result.length; index < resultLen; index++) {
-			temporary.push(result[index].equipmentID);
-			}
-		if (result.length > 0) {
-			for ( var i = 0, eArryLen = equipmentChooseArray.length; i < eArryLen; i++) { // 去除已登记的设备
-				if ($.inArray(equipmentChooseArray[i], temporary) == -1) {
-					equipmentArray.push(equipmentChooseArray[i]);
-					}
+		var equipmentChooseLen = equipmentChooseArray.length;
+		var resultLen = result.length
+		if(equipmentChooseLen == resultLen) {
+			alert("没有新登记的设备");
+		} else {
+			for (var index = 0; index < resultLen; index++) {  // 原来登记的设备保存到一个数组中
+				temporary.push(result[index].equipmentID);
 				}
+			if(result.length === 0) {
+				for (var k = 0, len = equipmentChooseArray.length; k < len; k++) {
+					equipmentArray.push(equipmentChooseArray[k]); // 如果没有登记设备，直接添加到equipmentArray
+					}
+				alterEquipment(equipmentArray);
 			} else {
-				for ( var k = 0, len = equipmentChooseArray.length; k < len; k++) {
-					equipmentArray.push(equipmentChooseArray[k]);
+				if(equipmentChooseLen > resultLen) { // 保存新添加的设备
+					for (var i = 0, eArryLen = equipmentChooseArray.length; i < eArryLen; i++) { // 去除已登记的设备
+						if ($.inArray(equipmentChooseArray[i], temporary) == -1) {
+							equipmentArray.push(equipmentChooseArray[i]);
+						}
 					}
-				}
-		$.ajax({
-			url : 'taskEquipmentController/saveTaskEquipment.do',
-			type : 'POST',
-			data : {
-				taskID : ID,
-				equipmentIDs : equipmentArray
-			},
-			traditional : true,
-			success : function(result) {
-				result = JSON.parse(result);
-				if (result == true || result == "true") {
-					getTaskEquipmentID();
-					alert("设备登记成功");
+					alterEquipment(equipmentArray);
 				} else {
-					alert(result);
+					$.ajax({
+						url : 'taskEquipmentController/deleteTaskEquipmentID.do',
+						type : 'POST',
+						data : {
+							taskIDs : temporary,
+						},
+						traditional : true,
+						success : function(result) {
+							result = JSON.parse(result);
+							if(result == false || result == "false") {
+								alert("修改登记设备失败");
+							} else {
+								alterEquipment(equipmentChooseArray); // 登记修改过后新设备
+							}
+						}
+					});
 				}
 			}
-		});
-		$("#equipmentInfo").modal("hide");
+		}		
 	});
-    }else{
-    	alert("请选择需要登记的设备");
-    }
+	
+}
+
+// 修改登记设备
+function alterEquipment(equipmentArray) {
+	$.ajax({
+		url : 'taskEquipmentController/saveTaskEquipment.do',
+		type : 'POST',
+		data : {
+			taskID : ID,
+			equipmentIDs : equipmentArray
+		},
+		traditional : true,
+		success : function(result) {
+			result = JSON.parse(result);
+			if (result == true || result == "true") {
+				getTaskEquipmentID();
+				$("#equipmentInfo").modal("hide");
+				alert("设备登记或修改成功");
+				
+			} else {
+				alert(result);
+			}
+		}
+	});
 }
 
 // 下载报告模版
@@ -381,19 +539,32 @@ function downReportTemplate() {
 	$.post("taskController/getFileIdOfTask.do", 
 	{
 		taskID : ID
-	}, function(fileID) {
+	}, 
+	function(fileID) {
 		fileID = JSON.parse(fileID);
 		if (fileID == null || fileID == "null" || fileID == "") {
-			$.post("taskController/downReportTemplate.do", 
+			$.post("taskController/getTestprojectOfTask.do", 
 			{
 				taskID : ID
-			}, function(fileID) {
-				fileID = JSON.parse(fileID);
-				if (fileID != null && fileID != "null" && fileID != "") {
-					refresh();
-					downOneFile(fileID);
+			},
+			function(result) {
+				result = JSON.parse(result);
+				if (result == null || result == "null" || result == "") {
+					alert("生成报告前请先登记检测项目");
 				} else {
-					alert("没有找到相应模版");
+					$.post("taskController/downReportTemplate.do", 
+					{
+						taskID : ID
+					},
+					function(fileID) {
+						fileID = JSON.parse(fileID);
+						if (fileID != null && fileID != "null" && fileID != "") {
+							refresh();
+							downOneFile(fileID);
+						} else {
+							alert("下载出错,请确定模版是否上传或系统是否正常允许");
+						}
+					});
 				}
 			});
 		} else {

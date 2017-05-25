@@ -386,8 +386,17 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 				properties, condition, TestProject.class);
 		return result;
 	}
-}
 
+	@Override
+	public List<Map<String, Object>> getAllTestProject() {
+		String tableName = "testproject";
+		String[] properties = new String[] { "ID",
+				"IF (nameCn IS NULL,nameEn,CONCAT(nameCn,'(',nameEn,')')) AS testprojectName" };
+		List<Map<String, Object>> result = entityDao.searchForeign(properties,
+				tableName, null, null, null);
+		return result;
+	}
+}
 
 
 

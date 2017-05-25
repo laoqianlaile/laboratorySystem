@@ -589,45 +589,37 @@ public class TestReportService extends SearchService implements
 			String order, String sort, String testReportID) {
 		int index = limit;
 		int pageNum = offset / limit;
-		String filterCondition = "";
-		if (testReportID != null && !testReportID.equals("")
-				&& !testReportID.equals(" ") && !testReportID.isEmpty()) {
-			filterCondition = " WHERE testreport.ID = " + testReportID;
-		}
-		String baseEntity = " ( " 
-		        + " SELECT "
-				+ "b.testProjectID AS testProjectID," 
-		        + "sample.ID AS ID,"
+		String filterCondition = " WHERE testreport.ID = '" + testReportID + "'";
+
+		String baseEntity = " ( " + " SELECT " + "sample.ID AS ID,"
 				+ "sample.specifications AS specifications,"
 				+ "sample.sampleName AS sampleName,"
-				+ "sample.factoryCode AS factoryCode,"
-				+ "taskman.detector AS detector" 
-				+ " FROM " 
-				+ " ( "
-				+ " SELECT "
-				+ "task.testProjectID AS testProjectID,"
-				+ "task.sampleID AS sampleID," 
-				+ "task.ID AS ID" + " FROM "
-				+ " ( " 
-				+ " SELECT " 
-				+ "testreport.taskID AS taskID" 
-				+ " FROM "
-				+ "testreport" 
-				+ filterCondition 
-				+ " ) AS a "
-				+ " LEFT JOIN task ON a.taskID = task.ID " 
-				+ " ) AS b "
+				+ "sample.factoryCode AS factoryCode," + "b.taskID AS taskID,"
+				+ "taskman.detector AS detector" + " FROM " + " ( "
+				+ " SELECT " + "task.sampleID AS sampleID,"
+				+ "a.taskID AS taskID" + " FROM " + " ( " + " SELECT "
+				+ "testreport.taskID AS taskID" + " FROM " + "testreport"
+				+ filterCondition + " ) AS a "
+				+ " LEFT JOIN task ON a.taskID = task.ID " + " ) AS b "
 				+ " LEFT JOIN sample ON b.sampleID = sample.ID "
-				+ " LEFT JOIN taskMan ON b.ID = taskman.taskID " 
-				+ " ) AS c ";
+				+ " LEFT JOIN taskMan ON b.taskID = taskman.taskID "
+				+ " ) AS c";
 		String[] properties = new String[] {
-				"IF (testproject.nameCn IS NULL,testproject.nameEn,IF (testproject.nameEn IS NULL,testproject.nameCn,CONCAT(testproject.nameCn,'(',testproject.nameEn,')'))) AS testProjectName",
+				"IFNULL( ( SELECT group_concat( IF ( testproject.nameEn IS NULL, testproject.nameCn,CONCAT( testproject.nameCn, '(', testproject.nameEn, ')' )"
+						+ " ) "
+						+ " ) "
+						+ " FROM "
+						+ "tasktestproject,"
+						+ "testproject"
+						+ " WHERE "
+						+ "tasktestproject.taskID = c.taskID"
+						+ " AND tasktestproject.testProjectID = testproject.ID"
+						+ " ),'无'" + " ) AS testProjectName",
 				"c.factoryCode AS factoryCode", "c.ID AS ID",
 				"c.sampleName AS sampleName",
 				"c.specifications AS specifications",
 				"employee.employeeName AS employeeName" };
-		String joinEntity = " LEFT JOIN testproject ON c.testProjectID = testproject.ID "
-				+ " LEFT JOIN employee ON c.detector = employee.ID ";
+		String joinEntity = " LEFT JOIN employee ON c.detector = employee.ID ";
 		String condition = " 1 = 1";
 		List<Map<String, Object>> result = entityDao.searchWithpaging(
 				properties, baseEntity, joinEntity, null, null, condition,
@@ -824,7 +816,7 @@ public class TestReportService extends SearchService implements
 		if (tr == null) {
 			return "未找到报告相关信息";
 		} else {
-			Map<String, Object> employeeSignImage = baseEntityDao.findByID( new String[] { "signatrue,stamp,employeeName" }, employeeID, "ID",
+			Map<String, Object> employeeSignImage = baseEntityDao.findByID( new String[] { "signature,stamp,employeeName" }, employeeID, "ID",
 					"employee");
 			if (employeeSignImage != null && employeeSignImage.size() > 0) {
 				String baseEntity = " ( "
@@ -864,7 +856,7 @@ public class TestReportService extends SearchService implements
 					String imgPath = pe.getSystemPram("imgPath") + "\\";
 					String employeeName = employeeSignImage.get("employeeName").toString();
 					
-					Object signatrue =  employeeSignImage.get("signatrue");
+					Object signatrue =  employeeSignImage.get("signature");
 					Object stamp =  employeeSignImage.get("stamp");
 					
 					if(signatrue != null && stamp != null) {
