@@ -74,13 +74,14 @@ public class ContractFineItemController{
 		return JSONObject.fromObject(result);
 	}
 	
+	//*******************科室任务统计*****************
+	
 	/**
 	 * 
-	 * @description 科室任务统计下初始化表格
+	 * @description 科室任务统计初始化表格
 	 * @author chenyubo
 	 * @created 2016年11月14日 上午9:56:49
 	 * @param ID
-	 * @param testProjectID
 	 * @param limit
 	 * @param offset
 	 * @param order
@@ -89,24 +90,28 @@ public class ContractFineItemController{
 	 */
 	@RequestMapping("/getTestProjectInDepartmentTaskStatistical")
 	@ResponseBody
-	public JSONObject getTestProjectInDepartmentTaskStatistical(String ID,String testProjectID,int limit, int offset,String order, String sort){
-		Map<String, Object> result = service.getTestProjectInDepartmentTaskStatistical(ID,testProjectID,limit, offset, order, sort);
+	public JSONObject getTestProjectInDepartmentTaskStatistical(String ID,int limit, int offset,String order, String sort){
+		Map<String, Object> result = service.getTestProjectInDepartmentTaskStatistical(ID,limit, offset, order, sort);
 		return JSONObject.fromObject(result);
 	}
 	
 	/**
 	 * 
-	 * @description 科室任务统计下获取该科室下的所有检测项目
+	 * @description 科室任务统计获取总金额
 	 * @author chenyubo
-	 * @created 2016年11月14日 上午10:48:50
+	 * @created 2017年05月24日 16:51:14
 	 * @param ID
+	 * @param limit
+	 * @param offset
+	 * @param order
+	 * @param sort
 	 * @return
 	 */
-	@RequestMapping("/getAllTestProjectInDepartmentTaskStatistical")
+	@RequestMapping("/getTotalMoneyInDepartmentTaskStatistical")
 	@ResponseBody
-	public String getAllTestProjectInDepartmentTaskStatistical(String ID){
-		List<Map<String, Object>> result = service.getAllTestProjectInDepartmentTaskStatistical(ID);
-		return JSONArray.fromObject(result).toString();
+	public String getTotalMoneyInDepartmentTaskStatistical(String ID){
+		String result = service.getTotalMoneyInDepartmentTaskStatistical(ID);
+		return result;
 	}
 	
 	/**
@@ -127,12 +132,12 @@ public class ContractFineItemController{
 	 * @param sort
 	 * @return
 	 */
-	@RequestMapping("/getDepartmentTaskStatisticalDetail")
-	@ResponseBody
-	public JSONObject getDepartmentTaskStatisticalDetail(String ID,String testProjectID,String contractCode,String companyName,String startTime,String endTime,int limit, int offset,String order, String sort){
-		Map<String, Object> result = service.getDepartmentTaskStatisticalDetail(ID,testProjectID,contractCode,companyName,startTime,endTime,limit, offset, order, sort);
-		return JSONObject.fromObject(result);
-	}
+//	@RequestMapping("/getDepartmentTaskStatisticalDetail")
+//	@ResponseBody
+//	public JSONObject getDepartmentTaskStatisticalDetail(String ID,String testProjectID,String contractCode,String companyName,String startTime,String endTime,int limit, int offset,String order, String sort){
+//		Map<String, Object> result = service.getDepartmentTaskStatisticalDetail(ID,testProjectID,contractCode,companyName,startTime,endTime,limit, offset, order, sort);
+//		return JSONObject.fromObject(result);
+//	}
 	
 	/**
 	 * 
@@ -152,54 +157,52 @@ public class ContractFineItemController{
 	 * @param sort
 	 * @return
 	 */
-	@RequestMapping("/getDepartmentTaskStatisticalDetailPage")
-	@ResponseBody
-	public JSONObject getDepartmentTaskStatisticalDetailPage(String ID,String testProjectID,String contractID,String contractCode,String receiptlistCode,String companyName,String sampleName,String startTime,String endTime,int limit, int offset,String order, String sort){
-		Map<String, Object> result = service.getDepartmentTaskStatisticalDetailPage(ID,testProjectID,contractID,contractCode,receiptlistCode,companyName,sampleName,startTime,endTime,limit, offset, order, sort);
-		return JSONObject.fromObject(result);
-	}
+//	@RequestMapping("/getDepartmentTaskStatisticalDetailPage")
+//	@ResponseBody
+//	public JSONObject getDepartmentTaskStatisticalDetailPage(String ID,String testProjectID,String contractID,String contractCode,String receiptlistCode,String companyName,String sampleName,String startTime,String endTime,int limit, int offset,String order, String sort){
+//		Map<String, Object> result = service.getDepartmentTaskStatisticalDetailPage(ID,testProjectID,contractID,contractCode,receiptlistCode,companyName,sampleName,startTime,endTime,limit, offset, order, sort);
+//		return JSONObject.fromObject(result);
+//	}
 	
 
+	//*******************大类任务统计*******************
+	
 	/**
 	 * 
-	 * @description 科室统计管理初始化表格
+	 * @description 大类任务统计初始化表格
 	 * @author chenyubo
 	 * @created 2016年11月16日 下午3:42:54
-	 * @param ID
+	 * @param ID 科室ID
 	 * @param limit
 	 * @param offset
 	 * @param order
 	 * @param sort
 	 * @return 
 	 */
-	@RequestMapping("/getContentInDepartmentStatisticalManage")
+	@RequestMapping("/getLargeclassTaskStatistical")
 	@ResponseBody
-	public JSONObject getContentInDepartmentStatisticalManage(int limit, int offset,String order, String sort){
-		Map<String, Object> result = service.getContentInDepartmentStatisticalManage(limit, offset, order, sort);
+	public JSONObject getLargeclassTaskStatistical(String ID, int limit, int offset,String order, String sort){
+		Map<String, Object> result = service.getLargeclassTaskStatistical(ID, limit, offset, order, sort);
 		return JSONObject.fromObject(result);
 	}
 	
 	/**
 	 * 
-	 * @description 科室统计管理查询检测项目详细情况
+	 * @description 大类任务统计查看具体大类检测项目
 	 * @author chenyubo
 	 * @created 2016年11月16日 下午7:26:51
 	 * @param ID
-	 * @param testProjectID
-	 * @param contractCode
-	 * @param contractName
-	 * @param startTime
-	 * @param endTime
+	 * @param departmentID
 	 * @param limit
 	 * @param offset
 	 * @param order
 	 * @param sort
 	 * @return
 	 */
-	@RequestMapping("/getDepartmentStatisticalDetailPage")
+	@RequestMapping("/getLargeclassTaskStatisticalDetail")
 	@ResponseBody
-	public JSONObject getDepartmentStatisticalDetailPage(String ID,String testProjectID,String contractCode,String contractName,String startTime,String endTime,int limit, int offset,String order, String sort){
-		Map<String, Object> result = service.getDepartmentStatisticalDetailPage(ID,testProjectID,contractCode,contractName,startTime,endTime,limit, offset, order, sort);
+	public JSONObject getLargeclassTaskStatisticalDetail(String ID,String departmentID, int limit, int offset,String order, String sort){
+		Map<String, Object> result = service.getLargeclassTaskStatisticalDetail(ID, departmentID, limit, offset, order, sort);
 		return JSONObject.fromObject(result);
 	}
 	

@@ -4,18 +4,26 @@ import java.util.List;
 import java.util.Map;
 
 public interface IContractFineItemService {
+	
+	// 科室任务统计
+	Map<String, Object> getTestProjectInDepartmentTaskStatistical(String ID,int limit,int offset, String order, String sort);
+	String getTotalMoneyInDepartmentTaskStatistical(String ID);
+	
+	// 大类任务统计
+	Map<String, Object> getLargeclassTaskStatistical(String ID, int limit,int offset, String order, String sort);
+	Map<String, Object> getLargeclassTaskStatisticalDetail(String ID, String departmentID, int limit, int offset,String order, String sort);
 
 	Map<String, Object> getTestProjectInTaskStatistical(String ID, String testProjectID,int limit,int offset, String order, String sort);
 	List<Map<String, Object>> getAllTestProjectInTaskStatistical(String ID);
 	Map<String, Object> getTaskStatisticalDetail(String ID,String contractCode,String receiptlistCode,String companyName,String startTime,String endTime,String sampleName,int limit,int offset, String order, String sort);
 	
-	Map<String, Object> getTestProjectInDepartmentTaskStatistical(String ID, String testProjectID,int limit,int offset, String order, String sort);
-	List<Map<String, Object>> getAllTestProjectInDepartmentTaskStatistical(String ID);
-	Map<String, Object> getDepartmentTaskStatisticalDetail(String ID,String testProjectID,String contractCode,String companyName,String startTime,String endTime,int limit,int offset, String order, String sort);
-	Map<String, Object> getDepartmentTaskStatisticalDetailPage(String ID,String testProjectID,String contractID,String contractCode,String receiptlistCode,String companyName,String sampleName,String startTime,String endTime,int limit, int offset,String order, String sort);
 	
-	Map<String, Object> getContentInDepartmentStatisticalManage(int limit,int offset, String order, String sort);
-	Map<String, Object> getDepartmentStatisticalDetailPage(String ID,String testProjectID,String contractCode,String contractName,String startTime,String endTime,int limit, int offset,String order, String sort);
+//	List<Map<String, Object>> getAllTestProjectInDepartmentTaskStatistical(String ID);
+//	Map<String, Object> getDepartmentTaskStatisticalDetail(String ID,String testProjectID,String contractCode,String companyName,String startTime,String endTime,int limit,int offset, String order, String sort);
+//	Map<String, Object> getDepartmentTaskStatisticalDetailPage(String ID,String testProjectID,String contractID,String contractCode,String receiptlistCode,String companyName,String sampleName,String startTime,String endTime,int limit, int offset,String order, String sort);
+	
+	
+	
 	
 	/**
 	 * @param ID
