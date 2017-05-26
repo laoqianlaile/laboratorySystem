@@ -63,13 +63,12 @@ public interface ITestProjectService {
 
 	public List<Map<String, Object>> getTestProjectById(String testProjectByID);
 
-<<<<<<< HEAD
+
 	public List<Map<String, Object>> getAllTestProject();
-=======
+
 	public String editLaborHourInTaskAssign(String ID, double laborHour);
 
 	List<Map<String, Object>> getTestType();
 
 
->>>>>>> 8e59a25fba17acde3a44e535246be726ff63a2e9
 }

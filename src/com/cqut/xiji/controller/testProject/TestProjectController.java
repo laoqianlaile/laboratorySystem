@@ -209,7 +209,6 @@ public class TestProjectController{
 	}
 	
 	/**
-<<<<<<< HEAD
 	 * 
      * @discription 获取所有的检测项目
      * @author zt       
@@ -222,7 +221,8 @@ public class TestProjectController{
       	List<Map<String, Object>> result = service.getAllTestProject();
 		return result;
 	}
-=======
+
+	/**
 	 * 获取检测类别
 	 * 
 	 * @author zkl
@@ -248,6 +248,4 @@ public class TestProjectController{
 	public String editLaborHourInTaskAssign(String ID, double laborHour){
 		return service.editLaborHourInTaskAssign(ID, laborHour);
 	}
-
->>>>>>> 8e59a25fba17acde3a44e535246be726ff63a2e9
 }
