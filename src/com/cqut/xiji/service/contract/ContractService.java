@@ -25,6 +25,7 @@ import com.cqut.xiji.entity.equipment.Equipment;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.entity.project.Project;
 import com.cqut.xiji.entity.receiptlist.Receiptlist;
+import com.cqut.xiji.entity.template.Template;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.service.company.CompanyService;
 import com.cqut.xiji.service.fileEncrypt.IFileEncryptService;
@@ -293,6 +294,7 @@ public class ContractService extends SearchService implements IContractService{
 				"contract.contractAmount",
 				"contract.isClassified",
 				"contract.classifiedLevel",
+				"contract.type as contractType",
 				"case when contract.state = 0 then '未上传合同文件' "
 				+ "when contract.state = 1 then '未提交' "
 				+ "when contract.state = 2 then '审核中' "
@@ -328,7 +330,7 @@ public class ContractService extends SearchService implements IContractService{
 	 * @see com.cqut.xiji.service.contract.IContractService#addContract(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public int addContract(String contractName, String companyID, String companyName, String oppositeMen,String linkPhone,String employeeID, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel) {
+	public int addContract(String contractName, String companyID, String companyName, String oppositeMen,String linkPhone,String employeeID, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel,int contractType) {
 		// TODO Auto-generated method stub
 		String[] properties1 = new String[] {"ID"};
 		String condition1 = " companyName = '" + companyName + "'";
@@ -391,6 +393,7 @@ public class ContractService extends SearchService implements IContractService{
 		contract.setSignAddress(signAddress);
 		contract.setIsClassified(isClassified);
 		contract.setClassifiedLevel(classifiedLevel);
+		contract.setType(contractType);
 		contract.setState(state);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
 		Date startTime1 = null;
@@ -460,7 +463,7 @@ public class ContractService extends SearchService implements IContractService{
 	 * @return
 	 * @see com.cqut.xiji.service.contract.IContractService#coverContractFile(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
-	public int coverContractFile(String ID, String fileID){
+	public int coverContractFile1(String ID, String fileID){
 		String baseEntityf = "fileInformation";
 		String[] propertiesf = new String[]{
 				" fileInformation.ID AS fileID",
@@ -489,6 +492,8 @@ public class ContractService extends SearchService implements IContractService{
 				"contract.fileID",
 				"company.companyName",
 				"company.address",
+				"company.linkMan",
+				"company.fax",
 				"contract.oppositeMen",
 				"contract.linkPhone",
 				"contract.employeeID",
@@ -516,10 +521,12 @@ public class ContractService extends SearchService implements IContractService{
 		String contractCode = contractA.get(0).get("contractCode").toString();
 		String contractName = contractA.get(0).get("contractName").toString();
 		String companyName = contractA.get(0).get("companyName").toString();
-		//String oppositeMen = contractA.get(0).get("oppositeMen").toString();
-		//String linkPhone = contractA.get(0).get("linkPhone").toString();
+		String fax = contractA.get(0).get("fax").toString();
+		String linkMan = contractA.get(0).get("linkMan").toString();
+		String oppositeMen = contractA.get(0).get("oppositeMen").toString();
+		String linkPhone = contractA.get(0).get("linkPhone").toString();
 		//String employeeName = contractA.get(0).get("employeeName").toString();
-		//String address = contractA.get(0).get("address").toString();
+		String address = contractA.get(0).get("address").toString();
 		String contractAmount = contractA.get(0).get("contractAmount").toString();
 		String signAddress = contractA.get(0).get("signAddress").toString();
 		String startTime = contractA.get(0).get("startTime").toString();
@@ -543,7 +550,7 @@ public class ContractService extends SearchService implements IContractService{
 		String joinEntity = " LEFT JOIN testProject ON contractFineItem.testProjectID = testProject.ID " +
 				" LEFT JOIN department ON contractFineItem.departmentID = department.ID ";
 		
-		String condition = "contractFineItem.contractID = " + ID;
+		String condition = "contractFineItem.contractID = '" + ID + "' ORDER BY contractFineItem.ID desc";
 		
 		List<Map<String, Object>> result2 = entityDao.searchForeign(properties, baseEntiy, joinEntity, null, condition);
 		
@@ -558,6 +565,22 @@ public class ContractService extends SearchService implements IContractService{
 		
 		List<Map<String, Object>> result4 = entityDao.searchForeign(properties4, baseEntiy4, joinEntity4, null, condition4);
 		String projectID = result4.get(0).get("ID").toString();
+		
+		String baseEntiy5 = "teststandard";
+		String[] properties5 = new String[] { 
+			"DISTINCT standard.standardCode,"
+			+ "standard.standardName,"
+			+ "testtype.`name` as testTypeName,"
+			+ "testproject.testTypeID"
+			};
+		String joinEntity5 = " LEFT JOIN standard ON teststandard.standardID = standard.ID"
+				+ " LEFT JOIN testproject ON teststandard.testProjectID = testproject.ID"
+				+ " LEFT JOIN testtype ON testproject.testTypeID = testtype.ID"
+				+ " LEFT JOIN contractfineitem ON contractfineitem.testProjectID = testProject.ID";
+		
+		String condition5 = " contractfineitem.contractID = '" + ID + "' ORDER BY testproject.testTypeID desc";
+		
+		List<Map<String, Object>> result5 = entityDao.searchForeign(properties5, baseEntiy5, joinEntity5, null, condition5);
 		
 		PropertiesTool pe = new PropertiesTool();
 		
@@ -596,23 +619,46 @@ public class ContractService extends SearchService implements IContractService{
 			wp.openDocument(cacheFilePath);
 			
 			if (contractCode != null)
-				wp.replaceText("{合同编号}",contractCode.toString());
+				wp.replaceText("{contractCode}",contractCode.toString());
 			if (contractName != null)
-				wp.replaceText("{合同名称}",contractName.toString());
+				wp.replaceText("{contractName}",contractName.toString());
 			if (companyName != null)
-				wp.replaceText("{甲方}",companyName.toString());
+				wp.replaceText("{companyName-x}",companyName.toString());
 			if (signAddress != null)
-				wp.replaceText("{签订地点}",signAddress.toString());
+				wp.replaceText("{signAddress-x}",signAddress.toString());
 			if (signTime != null)
-				wp.replaceText("{签订日期}",signTime.toString());
+				wp.replaceText("{signTime-x}",signTime.toString());
 			if (startTime != null)
-				wp.replaceText("{履行开始日期}",startTime.toString());
+				wp.replaceText("{startTime-x}",startTime.toString());
 			if (endTime != null)
-				wp.replaceText("{履行结束日期}",endTime.toString());
+				wp.replaceText("{endTime-x}",endTime.toString());
 			if (contractName != null)
-				wp.replaceText("{合同名称}",contractName.toString());
+				wp.replaceText("{contractName}",contractName.toString());
+			
+			if(!result5.isEmpty()){
+				String standardCode = "";
+				String standardName = "";
+				String testTypeName = "";
+				String testTypeID = "";
+				String standardNote = "";
+				for(int i = 0; i < result5.size(); i++){
+					standardCode = result5.get(i).get("standardCode").toString();
+					standardName = result5.get(i).get("standardName").toString();
+					testTypeName = result5.get(i).get("testTypeName").toString();
+					/*testTypeID = result5.get(i).get("testTypeID").toString();
+					standardNote += testTypeName + ":" + standardCode + "," + standardName + ";\n ";*/
+					
+					wp.addTableRow(1,2);
+					wp.putTxtToCell(1, 2, 1,testTypeName);
+					wp.putTxtToCell(1, 2, 2,standardCode);
+					wp.putTxtToCell(1, 2, 3,standardName);
+				}
+				/*wp.replaceText("{testTypeName}",standardNote.toString());*/
+			}
+				
+				
 			if (endTime != null)
-				wp.replaceText("{结束日期}",endTime.toString());
+				wp.replaceText("{endTime-x}",endTime.toString());
 			
 			if(!result2.isEmpty()){
 				String nameCn = "";
@@ -624,7 +670,7 @@ public class ContractService extends SearchService implements IContractService{
 				String price = "";
 				String number = "";
 				String hour = "";
-				wp.putTxtToCell(1, 2, 5,"总计"+contractAmount.toString());
+				wp.putTxtToCell(2, 2, 5,"总计"+contractAmount.toString());
 				for(int i = 0; i < result2.size(); i++){
 					nameCn = result2.get(i).get("nameCn").toString();
 					nameEn = result2.get(i).get("nameEn").toString();
@@ -635,21 +681,35 @@ public class ContractService extends SearchService implements IContractService{
 					price = result2.get(i).get("price").toString();
 					number = result2.get(i).get("number").toString();
 					hour = result2.get(i).get("hour").toString();
-					wp.addTableRow(1,2);
-					wp.putTxtToCell(1, 2, 1,fineItemCode);
-					wp.putTxtToCell(1, 2, 2,nameCn+"("+nameEn+")");
+					wp.addTableRow(2,2);
+					wp.putTxtToCell(2, 2, 1,fineItemCode);
+					wp.putTxtToCell(2, 2, 2,nameCn+"("+nameEn+")");
 					if(calculateType.equals("0")){
-						wp.putTxtToCell(1, 2, 3,price+"元/每次");
-						wp.putTxtToCell(1, 2, 4,number+"次");
+						wp.putTxtToCell(2, 2, 3,price+"元/每次");
+						wp.putTxtToCell(2, 2, 4,number+"次");
 					}else if(calculateType.equals("1")){
-						wp.putTxtToCell(1, 2, 3,price+"元/每小时");
-						wp.putTxtToCell(1, 2, 4,hour+"小时");
+						wp.putTxtToCell(2, 2, 3,price+"元/每小时");
+						wp.putTxtToCell(2, 2, 4,hour+"小时");
 					}
-					wp.putTxtToCell(1, 2, 5,money);
+					wp.putTxtToCell(2, 2, 5,money);
 				}
 			}
-			if (contractAmount != null)
-				wp.replaceText("{合同金额}",contractAmount.toString());
+			if (companyName != null)
+				wp.replaceText("{companyName-x}",companyName.toString());
+			if (linkMan != null)
+				wp.replaceText("{linkMan-x}",linkMan.toString());
+			if (oppositeMen != null)
+				wp.replaceText("{oppositeMan-x}",oppositeMen.toString());
+			if (address != null)
+				wp.replaceText("{address-x}",companyName.toString());
+			if (linkPhone != null)
+				wp.replaceText("{linkPhone-x}",linkPhone.toString());
+			if (fax != null)
+				wp.replaceText("{fax-x}",fax.toString());
+			if (signTime != null)
+				wp.replaceText("{signTime-x}",signTime.toString());
+			if (signTime != null)
+				wp.replaceText("{signTime-x}",signTime.toString());
 			wp.save(cacheFilePath);
 			wp.close();
 			
@@ -657,14 +717,11 @@ public class ContractService extends SearchService implements IContractService{
 			FileInformation fi = new FileInformation();
 			fi.setID(newFileID);
 			fi.setBelongtoID(ID);
-			fi.setUploaderID("20170220xiji");
 			fi.setFileName(contractName + ".docx");
 			System.out.println("保存的相对路径是a: " + relativePath);
 			relativePath += contractName + "_" + newFileID + ".docx";
 			fi.setPath(relativePath);
-			Date now = new Date(System.currentTimeMillis());
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			fi.setUploadTime(dateFormat.parse(dateFormat.format(now)));
+			fi.setUploadTime(new Date());
 			fi.setState(0);
 			fi.setType(1);
 			fi.setRemarks("系统生成");
@@ -678,6 +735,241 @@ public class ContractService extends SearchService implements IContractService{
 			e.printStackTrace();
 		}
 		return 1;
+	}
+	
+	private String getCoFileModule() {
+		// TODO Auto-generated method stub
+		/*PropertiesTool pt = new PropertiesTool();
+		@SuppressWarnings("static-access")
+		String filePath = pt.getSystemPram("filePath");*/
+		String templateConditionnString  = " templateType = 3 and  state = 2 order by  createTime desc limit 0,1";
+		List<Template> list = entityDao.getByCondition(templateConditionnString, Template.class);
+		if(list != null && list.size() > 0){
+			 Template template = list.get(0);
+			 String fileID = template.getFileID() ;
+			 if(fileID == null || fileID.equals("")){
+				 return null;
+			 }
+			 else return fileID;
+		
+		}
+		else return null;  //还没有模板
+	}
+	
+	public int coverContractFile2(String ID, String fileID){
+		String baseEntiy4 = "project";
+		String[] properties4 = new String[] { 
+			"contractID",
+			"ID"
+			};
+		String joinEntity4 = "";
+		
+		String condition4 = "contractID = " + ID;
+		
+		List<Map<String, Object>> result4 = entityDao.searchForeign(properties4, baseEntiy4, joinEntity4, null, condition4);
+		String proID = result4.get(0).get("ID").toString();
+		
+		String cofileModule = getCoFileModule();
+		String coModulePath = "";
+		String saveBasePath = "";
+		String savePath = "";
+		String cacheBasePathString = "";
+		String coFileName = "";
+		PropertiesTool pt = new PropertiesTool();
+		if(cofileModule == null || cofileModule.equals("")){
+			 return -3;
+		}
+		else{
+			cacheBasePathString =  pt.getSystemPram("cacheFilePath") ;
+			saveBasePath = pt.getSystemPram("filePath");
+			coModulePath =saveBasePath+"\\"+fileEncryptservice.getFileDecryPath(cofileModule);
+		}
+		if (ID != null && !ID.equals("")) {
+             
+			try {
+				
+				
+				//解密文件才能操作
+				String cacheID = EntityIDFactory.createId();
+				String cacheFilePath1 = cacheBasePathString+"\\"+cacheID+".docx";
+				System.out.println("huangcong"+cacheID);
+				File dectoryName = new File(cacheBasePathString);
+				if(!dectoryName.exists()){
+					System.out.println("合同模板文件被删除");
+					return -4;
+				}
+				if(!dectoryName.exists()){
+					dectoryName.mkdirs();
+				}
+				dectoryName = null;
+				System.out.println("模板解密文件："+cacheFilePath1);
+				System.out.println("模板文件："+coModulePath);
+				fileEncryptservice.decryptFile(coModulePath, cacheFilePath1, cofileModule); //这个应该是模板文件的ID
+			
+				// 获取甲方公司信息
+				String[] properties = new String[] { 
+						"companyName", 
+						"linkman",
+						"mobilephone",
+						"address", 
+						"fax", 
+						"emailbox" 
+						};
+				String baseEntity = " (  SELECT * FROM contract WHERE contract.ID = '"
+						+ ID
+						+ "'  "
+						+ " ) AS a LEFT JOIN company on company.ID = a.companyID ";
+
+				List<Map<String, Object>> companyInfo = originalSearchForeign(
+						properties, baseEntity, null, null, null, false);
+			
+				
+				//获取样品信息
+				String[] properties1 = new String[] { 
+						"sample.factoryCode as sampleCode",
+						"sample.sampleName",
+						"sample.specifications as style",
+						"contractfineitem.money",
+						"contractfineitem.remarks"
+						};
+			String baseEntity1 = "contractfineitem,sample";
+			String condition = " sample.ID = contractfineitem.sampleID "
+					+ " AND contractfineitem.contractID = '" + ID + "'";
+			List<Map<String, Object>> sampleInfo = originalSearchForeign(
+					properties1, baseEntity1, null, null, condition, false);
+			
+			WordProcess wordProcess = new WordProcess(false);
+			wordProcess.openDocument(cacheFilePath1);
+			
+			if (companyInfo != null && companyInfo.size() > 0) {
+				   String companyName = (String)companyInfo.get(0).get("companyName") ;
+				    String linkman = (String)companyInfo.get(0).get("linkman") ;
+				    String mobilephone = (String)companyInfo.get(0).get("mobilephone") ;
+				    String address = (String)companyInfo.get(0).get("address") ;
+				    String fax = (String)companyInfo.get(0).get("fax") ;
+				    String emailbox = (String)companyInfo.get(0).get("emailbox") ;
+
+				    wordProcess.replaceText("{companyName-x}", companyName  == null ? " " :  companyName);
+                 wordProcess.replaceText("{linkman-x}",  linkman  == null ? " " :  linkman);
+                 wordProcess.replaceText("{emailbox-x}",  emailbox  == null ? " " :  emailbox);
+                 wordProcess.replaceText("{mobilephone-x}",  mobilephone  == null ? " " :  mobilephone);
+                 wordProcess.replaceText("{fax-x}",  fax  == null ? " " :  fax);
+                 wordProcess.replaceText("{address-x}",  address  == null ? " " :  address);
+                
+			}
+			else{
+				
+			}
+			
+			for (int i = 0; i < sampleInfo.size(); i++) {
+				wordProcess.addTableRow(1, 13);
+				Map<String, Object> map = sampleInfo.get(i);
+				wordProcess.putTxtToCell(1, 13, 1, i+1+"");
+				wordProcess.putTxtToCell(1, 13, 2, map.get("sampleName").toString());
+				wordProcess.putTxtToCell(1, 13, 3, map.get("style").toString());
+				wordProcess.putTxtToCell(1, 13, 4, map.get("sampleCode").toString());
+				wordProcess.putTxtToCell(1, 13, 5, "常规校准");
+				wordProcess.putTxtToCell(1, 13, 6, "1");
+				String money = String.valueOf(map.get("money")) ;
+				wordProcess.putTxtToCell(1, 13, 7, money == null || money.equals("null") ? " 0.0 " : money);
+				wordProcess.putTxtToCell(1, 13, 8, map.get("remarks").toString());
+			}
+			//填充个人公司信息
+		   /**
+		    * 从配置取出数据
+		    */
+		
+			String ourCompanyName = pt.getSystemPram("ourCompanyName") ;
+			String ourLinkCompanyName = pt.getSystemPram("ourLinkCompanyName") ;
+			String ourCompanyAddress = pt.getSystemPram("ourCompanyAddress") ;
+			String ourAccount = pt.getSystemPram("ourAccount") ;
+			String ourAccountProxy = pt.getSystemPram("ourAccountProxy") ;
+			String ourInvoiceType = pt.getSystemPram("ourInvoiceType");
+			String ourFinancePhone = pt.getSystemPram("ourFinancePhone") ;
+			String ourEmaile = pt.getSystemPram("ourEmaile") ;
+			String ourFax = pt.getSystemPram("ourFax") ;
+			String ourLinkMan = pt.getSystemPram("ourLinkMan") ;
+			String ourLinkPhone = pt.getSystemPram("ourLinkPhone") ;
+			
+			wordProcess.replaceText("{ourCompanyName}", ourCompanyName);
+			wordProcess.replaceText("{ourAccount}", ourAccount);
+			wordProcess.replaceText("{ourAccountProxy}", ourAccountProxy);
+			wordProcess.replaceText("{ourInvoiceType}", ourInvoiceType);
+			wordProcess.replaceText("{ourFinancePhone}", ourFinancePhone);
+			wordProcess.replaceText("{ourLinkCompanyName}", ourLinkCompanyName);
+			wordProcess.replaceText("{ourEmaile}", ourEmaile);
+			wordProcess.replaceText("{ourLinkPhone}", ourLinkPhone);
+			wordProcess.replaceText("{ourFax}", ourFax);
+			wordProcess.replaceText("{ourLinkMan}", ourLinkMan);
+			wordProcess.moveStart();
+			wordProcess.replaceAllText("{ourCompanyAddress}", ourCompanyAddress);
+			
+			
+			/*
+			 * 2016年4月28日  插入时间
+			 */
+			SimpleDateFormat myFmt=new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+			Date now=new Date();
+	        String currentData = myFmt.format(now);
+	    	wordProcess.moveStart();
+	        wordProcess.replaceAllText("{currentData}", currentData);
+	        
+			/*
+			 * 填出合同编码
+			 */
+	        Contract contract = entityDao.getByID(ID, Contract.class);
+			if(contract != null){
+				wordProcess.moveStart();
+				wordProcess.replaceText("{coCode}", contract.getContractCode());
+			}
+			if(coFileName == null || coFileName.equals("")){
+				coFileName = "校准合同文件";
+			}
+			wordProcess.save(cacheFilePath1);  //先保存到缓冲文件区才能生成
+			wordProcess.close();
+			
+			coFileName += EntityIDFactory.createId()+".docx";
+			savePath = saveBasePath+"\\项目文件\\"+proID+"\\合同文件\\"+coFileName;
+		
+			
+			File dectoryName1 = new File(saveBasePath+"\\项目文件\\"+proID+"\\合同文件\\");
+			if(!dectoryName1.exists()){
+				dectoryName1.mkdirs();
+			} 
+			dectoryName1 = null ;
+			
+			/* //生成文件信息并加密文件和路径
+			 FileEncryptService  fileEncryptService = new FileEncryptService();*/
+			
+			 FileInformation fileInformation = new FileInformation();
+			 fileInformation.setBelongtoID(ID);
+			 fileInformation.setID(EntityIDFactory.createId());
+			 fileInformation.setPath("项目文件\\"+proID+"\\合同文件\\"+coFileName);
+			 fileInformation.setUploaderID("系统生成");
+			 fileInformation.setRemarks("系统生成");
+			 fileInformation.setFileName(coFileName);
+			 fileInformation.setUploadTime(new Date());
+			 fileInformation.setState(0);
+			 fileInformation.setType(2);
+			 entityDao.save(fileInformation);
+			 
+			 fileEncryptservice.encryptPath(fileInformation.getPath(), fileInformation.getID());
+			 fileEncryptservice.encryptFile(cacheFilePath1, savePath, fileInformation.getID());
+		
+			 
+			 
+			 //更新合同--文件ID
+			 fileID = fileInformation.getID();
+		    contract.setFileID(fileInformation.getID());
+		    contract.setState(1);
+		    entityDao.updatePropByID(contract, ID);
+			 
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return 1;
+		} else
+			return -3;
 	}
 	/**
 	 * 
@@ -972,5 +1264,48 @@ public class ContractService extends SearchService implements IContractService{
 				System.out.println(Arrays.toString(result.toArray()));
 
 			return result;
+	}
+    /**
+     * 获取合同的标准号和标准名称
+     * features or effect
+     * @author wzj
+     * @date 2017年5月20日 下午4:54:26
+     *
+     */
+	@Override
+	public String getStandardByContractID(String coID) {
+		// TODO Auto-generated method stub
+		String[] properties = new String[]{
+			"standard.standardCode",
+			"standard.standardName",
+			"standard.ID",
+		};
+		String baseEntity = ""
+		+" ( SELECT 	DISTINCT testProjectID "
+		+" FROM contractfineitem  WHERE "
+		+" contractfineitem.contractID = '"+coID+"'"
+		+" 	) a "
+		+" right JOIN teststandard ON teststandard.testProjectID = a.testProjectID "
+		+" LEFT JOIN standard ON teststandard.standardID = standard.ID GROUP BY standard.ID";
+		List<Map<String, Object>> list = searchDao.searchForeign(properties, baseEntity, null, null, null, null);
+		String reString = "";
+		Object temp = null;
+		
+		for (int i = 0; i < list.size(); i++) {
+			 temp = list.get(i).get("standardCode") ;
+			 System.out.println();
+			reString+=  temp = temp != null ? temp.toString()+"(" : "";
+			 System.out.println(reString);
+			 temp = list.get(i).get("standardName");
+			reString+=  temp  != null ? temp.toString()+")," : "";
+			 System.out.println(reString);
+			
+		}
+		if (reString == null || reString.equals("") ){
+			return "";
+		}
+		else {
+			return reString.substring(0, reString.length()-1);
+		}
 	}
 }

@@ -55,8 +55,8 @@ public class TestProjectController{
 	 */ 
 	@RequestMapping("/addTestProject")
 	@ResponseBody
-	public String addTestProject(String NAMECN, String NAMEEN, String DEPARTMENTID, String ENVIRONMENTALREQUIREMENTS, String STANDARDID, String EQUIPMENTID,String describes,String remarks){
-		String result = service.addTestProject(NAMECN, NAMEEN, DEPARTMENTID, ENVIRONMENTALREQUIREMENTS, STANDARDID, EQUIPMENTID,describes,remarks);
+	public String addTestProject(String NAMECN, String NAMEEN, String departmentID, String ENVIRONMENTALREQUIREMENTS, String standardID, String EQUIPMENTID,String describes,String remarks,String testTypeID){
+		String result = service.addTestProject(NAMECN, NAMEEN, departmentID, ENVIRONMENTALREQUIREMENTS, standardID, EQUIPMENTID,describes,remarks,testTypeID);
 		return result;
 	}
 	
@@ -76,8 +76,8 @@ public class TestProjectController{
 	 */
 	@RequestMapping("/editTestProject")
 	@ResponseBody
-	public String editTestProject(String testProjectID,String testStandardID,String testInstumentID,String NAMECN, String NAMEEN, String DEPARTMENTID, String ENVIRONMENTALREQUIREMENTS, String STANDARDID, String EQUIPMENTID,String describes,String remarks ){
-		String result = service.upTestProject(testProjectID,testStandardID,testInstumentID, NAMECN, NAMEEN, DEPARTMENTID, ENVIRONMENTALREQUIREMENTS, STANDARDID, EQUIPMENTID,describes,remarks);
+	public String editTestProject(String testProjectID,String testStandardID,String testInstumentID,String testDepartmentID,String NAMECN, String NAMEEN, String departmentID, String ENVIRONMENTALREQUIREMENTS, String standardID, String EQUIPMENTID,String describes,String remarks,String testTypeID){
+		String result = service.upTestProject(testProjectID,testStandardID,testInstumentID,testDepartmentID, NAMECN, NAMEEN, departmentID, ENVIRONMENTALREQUIREMENTS, standardID, EQUIPMENTID,describes,remarks,testTypeID);
 		return result;
 	}
 	
@@ -209,6 +209,7 @@ public class TestProjectController{
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * 
      * @discription 获取所有的检测项目
      * @author zt       
@@ -221,4 +222,32 @@ public class TestProjectController{
       	List<Map<String, Object>> result = service.getAllTestProject();
 		return result;
 	}
+=======
+	 * 获取检测类别
+	 * 
+	 * @author zkl
+	 * @data 2017年5月20日 下午5:41:28
+	 * @return
+	 */
+	@RequestMapping("/getTestType")
+	@ResponseBody
+	public List<Map<String, Object>> getTestType(){
+		List<Map<String, Object>> result = service.getTestType();
+		return result;
+	}
+
+	/**
+	 * @description 任务分配下修改工时
+	 * @author chenyubo
+	 * @date 2017-05-19 21:11:11
+	 * @param ID 检测项目ID
+	 * @return
+	 */
+	@RequestMapping("/editLaborHourInTaskAssign")  
+	@ResponseBody
+	public String editLaborHourInTaskAssign(String ID, double laborHour){
+		return service.editLaborHourInTaskAssign(ID, laborHour);
+	}
+
+>>>>>>> 8e59a25fba17acde3a44e535246be726ff63a2e9
 }

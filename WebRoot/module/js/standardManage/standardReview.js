@@ -17,7 +17,7 @@ function init(){
 			cache:false,// 禁用AJAX数据缓存
 			sortName:'ID',
 			sortOrder:'asc',
-			url:'standardController/getStandardWithPaging.do',
+			url:'standardController/getStandardReviewWithPaging.do',
 			sidePagination:'server',
 			contentType : 'application/json',
 			dataType : 'json',
@@ -65,7 +65,7 @@ function init(){
 				title:'标准名称',// 列名
 				align:'center',// 水平居中显示
 				valign:'middle',// 垂直居中显示
-				width:'20%'// 宽度
+				width:'17%'// 宽度
 			},{
 				field:'standardTypeName',// 返回值名称
 				title:'类别',// 列名
@@ -79,11 +79,23 @@ function init(){
 				valign:'middle',// 垂直居中显示
 				width:'10%'// 宽度
 			},{
-				field:'SUGGEST',// 返回值名称
-				title:'审核意见',// 列名
+				field:'employeeName',// 返回值名称
+				title:'提交人/废弃申请人',// 列名
 				align:'center',// 水平居中显示
 				valign:'middle',// 垂直居中显示
-				width:'17%'// 宽度
+				width:'10%'// 宽度
+			},{
+				field:'',// 返回值名称
+				title:'审核意见/申请废弃理由',// 列名
+				align:'center',// 水平居中显示
+				valign:'middle',// 垂直居中显示
+				width:'17%',// 宽度
+				formatter: function (value, row, index) {
+	                  if(row.STATE == "废弃待审核"){
+	                	  return row.abandonApplyReason
+	                  }
+	                  return row.SUGGEST
+	            }
 			},{
 				field:'STATE',// 返回值名称
 				title:'状态',// 列名
@@ -99,9 +111,14 @@ function init(){
 				 formatter:function(value,row,index){ 
 					 var e = "<img src = 'module/img/download_icon.png' onclick='downFile(\""+row.fileID+"\")' title='下载' style='cursor:pointer;margin-right:8px;' />"
 					 if(row.STATE == "待审核"){
-						 var a = "<img src = 'module/img/submit_icon.png'  onclick='openSuggest(1,\""+ row.ID+ "\")' title='通过'   style='cursor:pointer;margin-right:8px;'/>";
+						 var a = "<img src = 'module/img/submit_icon.png'  onclick='openSuggest(2,\""+ row.ID+ "\")' title='通过'   style='cursor:pointer;margin-right:8px;'/>";
 						 var b = "<img src = 'module/img/reject_icon.png' onclick='openSuggest(3,\""+ row.ID+ "\")' title='驳回'  style='cursor:pointer;margin-right:8px;'/>";
 		                 return e + a + b ;    
+					 }
+					 if(row.STATE == "废弃待审核"){
+						 var a = "<img src = 'module/img/submit_icon.png'  onclick='openSuggest(5,\""+ row.ID+ "\")' title='废弃通过'   style='cursor:pointer;margin-right:8px;'/>";
+						 var b = "<img src = 'module/img/reject_icon.png' onclick='openSuggest(2,\""+ row.ID+ "\")' title='废弃驳回'  style='cursor:pointer;margin-right:8px;'/>";
+		                 return e + a + b ; 
 					 }
 					 else{
 						 return e

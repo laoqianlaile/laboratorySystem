@@ -378,6 +378,15 @@ margin: 6px;
 							<input id="ID" type="hidden"></input>
 						</div>
 						<div class="col-xs-12 col-md-12">
+							<label>科室类型：</label>
+							 <select name="property" id="add_property" class="form-control" >
+									<option value="0">检测</option>
+									<option value="1">校准</option>
+									<option value="2">其他</option>
+								</select>
+							</div>
+						
+						<div class="col-xs-12 col-md-12">
 							<label>负责人：</label>
 							<input type="text" id="add_responsibleMan" name="responsibleMan"
 								oninput="addGetEMName()" onpropertychange="addGetEMName()" class="form-control" aria-describedby="basic-addon1" />
@@ -446,7 +455,14 @@ margin: 6px;
 							<textarea rows="7" cols="57" id="edit_remarks"></textarea>
 							<input id="ID" type="hidden"></input>
 						</div>
-						
+						<div class="col-xs-12 col-md-12">
+							<label>科室类型：</label>
+							 <select name="property" id="edit_property" class="form-control" >
+									<option value="0">检测</option>
+									<option value="1">校准</option>
+									<option value="2">其他</option>
+								</select>
+							</div>
 						<div class="col-xs-12 col-md-12">
 							<label>负责人：</label>
 							<input type="text" id="edit_employee" name="Eemployee"

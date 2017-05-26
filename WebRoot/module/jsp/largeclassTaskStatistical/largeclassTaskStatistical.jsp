@@ -40,7 +40,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
 	<div class="container" style="width:100%">
 		<div class="row">
-			<div class="col-xs-11 col-md-11 col-lg-11"></div>
+			<div class="col-xs-1 col-md-1 col-lg-1">
+				<h5>科室:</h5>
+			</div>
+			<div class="col-xs-2 col-md-2 col-lg-2">
+				<select class="form-control" id="department">
+					<option value="-1"></option>
+				</select>
+			</div>
+			<div class="col-xs-2 col-md-2 col-lg-2">
+				<button type="button" id="search" class="btn btn-primary">查询</button>
+			</div>
+			<div class="col-xs-6 col-md-6 col-lg-6"></div>
 			<div class="col-xs-1 col-md-1 col-lg-1">
 				<button type="button" id="refresh" class="btn btn-primary">刷新</button>
 			</div>
@@ -52,6 +63,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
   </body>
   
-  <script src="module/js/departmentStatisticalManage/departmentStatisticalManage.js"></script>
+  <script src="module/js/largeclassTaskStatistical/largeclassTaskStatistical.js"></script>
 
 </html>

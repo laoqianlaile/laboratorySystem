@@ -65,8 +65,7 @@ public class TaskService extends SearchService implements ITaskService {
 	 * @description 任务分配获取指定交接单下的分页任务
 	 * @author chenyubo
 	 * @created 2016年10月13日 下午11:37:03
-	 * @param ID
-	 *            交接单ID
+	 * @param ID 交接单ID        
 	 * @param limit
 	 * @param offset
 	 * @param sort
@@ -83,6 +82,7 @@ public class TaskService extends SearchService implements ITaskService {
 				"sample.factoryCode",
 				"sample.sampleName",
 				"sample.specifications",
+				"testProject.ID as testProjectID",
 				"testProject.nameCn",
 				"case when task.allotState = 0 then '未分配' "
 						+ "when task.allotState = 1 then '已分配' end as state",
@@ -91,13 +91,18 @@ public class TaskService extends SearchService implements ITaskService {
 						+ "	taskMan.taskID = task.ID "
 						+ "	AND taskMan.detector = employee.ID " + " ORDER BY "
 						+ "	taskMan.ID),'无'" + " ) AS detector",
-				"IFnull(employee_1.employeeName,'无') as custodian" };
+				"IFnull(employee_1.employeeName,'无') as custodian",
+				"CASE WHEN task.type = 0 THEN '检测' WHEN task.type = 1 THEN '校准' END AS type",
+				"IFnull(testProject.laborHour, '?') as laborHour"
+		};
 
-		String joinEntity = " left join sample on task.sampleID = sample.ID "
-				+ " left join testProject on task.testProjectID = testProject.ID "
+		String joinEntity = " left join receiptlist on receiptlist.ID = task.receiptlistID "
+				+ " left join sample on task.sampleID = sample.ID "
+				+ " left join tasktestproject on task.ID = tasktestproject.taskID "
+				+ " LEFT JOIN testProject ON taskTestProject.testProjectID = testProject.ID "
 				+ " left join employee as employee_1 on task.custodian = employee_1.ID ";
 
-		String condition = "1 = 1 and task.receiptlistID = " + ID;
+		String condition = "1 = 1 and task.receiptlistID = '" + ID + "' and receiptlist.receiptlistType = 0";
 
 		List<Map<String, Object>> result = originalSearchWithpaging(properties,
 				getBaseEntityName(), joinEntity, null, condition, false, null,
@@ -268,7 +273,13 @@ public class TaskService extends SearchService implements ITaskService {
 		}
 	}
 	
-	
+	/**
+	 * features or effect
+	 * @author cyb
+	 * @date 2017年5月16日 下午9:22:41
+	 * @param ID
+	 * @return
+	 */
 	public void addMessage(String[] IDS, String taskID) {
 		Task task = entityDao.getByID(taskID, Task.class);
 		Sample sample = entityDao.getByID(task.getSampleID(), Sample.class);
@@ -277,8 +288,19 @@ public class TaskService extends SearchService implements ITaskService {
 		if (sample != null) {
 			content = sample.getSampleName() + "需要检测!"; // 消息记录内容
 		} else {
-			TestProject testProject = entityDao.getByID(task.getTestProjectID(), TestProject.class);
-			content = testProject.getNameCn() + "需要检测!"; // 消息记录内容
+			String[] properties = {
+					"task.ID",
+					"group_contact(testProject.nameCn) as name"
+			};
+			
+			String condition = "left join taskTestProject on task.ID = taskTestProject.taskID "
+					+ " left join testProject on testProject.ID = taskTestProject.testProjectID "
+					+ " and task.ID = '" + taskID + "' "
+					+ " group by task.ID ";
+			
+			List<Map<String, Object>> list = originalSearchForeign(properties, getBaseEntityName(), null, null, condition, false);
+
+			content = list.get(0).get("name") + "需要检测!"; // 消息记录内容
 		}
 		
 		// 设置消息记录

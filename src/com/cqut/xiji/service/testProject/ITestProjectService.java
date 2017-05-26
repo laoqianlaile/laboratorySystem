@@ -19,9 +19,9 @@ public interface ITestProjectService {
 			int limit, int offset, String order, String sort);
 
 	
-	String addTestProject(String NAMECN, String NAMEEN, String DEPARTMENTID,
-			String ENVIRONMENTALREQUIREMENTS, String STANDARDID,
-			String EQUIPMENTID, String describes, String remarks);
+	String addTestProject(String NAMECN, String NAMEEN, String departmentID,
+			String ENVIRONMENTALREQUIREMENTS, String standardID,
+			String EQUIPMENTID, String describes, String remarks,String testTypeID);
 
 	
 	String delTestProject(String TestProjectIDs);
@@ -36,9 +36,9 @@ public interface ITestProjectService {
 	List<Map<String, Object>> getStandard();
 
 
-	String upTestProject(String testProjectID,String testStandardID,String testInstumentID, String NAMECN, String NAMEEN,
-			String DEPARTMENTID, String ENVIRONMENTALREQUIREMENTS,
-			String STANDARDID, String EQUIPMENTID, String describes, String remarks);
+	String upTestProject(String testProjectID,String testStandardID,String testInstumentID,String testDepartmentID, String NAMECN, String NAMEEN,
+			String departmentID, String ENVIRONMENTALREQUIREMENTS,
+			String standardID, String EQUIPMENTID, String describes, String remarks,String testTypeID);
 
 
 	Map<String, Object> getTestproWithPaging(int limit, int offset,
@@ -63,5 +63,13 @@ public interface ITestProjectService {
 
 	public List<Map<String, Object>> getTestProjectById(String testProjectByID);
 
+<<<<<<< HEAD
 	public List<Map<String, Object>> getAllTestProject();
+=======
+	public String editLaborHourInTaskAssign(String ID, double laborHour);
+
+	List<Map<String, Object>> getTestType();
+
+
+>>>>>>> 8e59a25fba17acde3a44e535246be726ff63a2e9
 }

@@ -32,6 +32,7 @@ import com.cqut.xiji.entity.receiptlist.Receiptlist;
 import com.cqut.xiji.entity.role.Role;
 import com.cqut.xiji.entity.sample.Sample;
 import com.cqut.xiji.entity.task.Task;
+import com.cqut.xiji.entity.taskTestProject.TaskTestProject;
 import com.cqut.xiji.entity.template.Template;
 import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.service.base.SearchService;
@@ -405,6 +406,7 @@ public class ReceiptlistService extends SearchService implements
 					"sample.specifications as sampleStyle",
 					"sample.qrcode",
 					"sample.unit",
+					"department.departmentName",
 					"testproject.ID AS testProjectID",
 					"IF(testproject.nameCn IS  NULL , testproject.nameEn , "
 							+ " if ( testproject.nameEn is null ,testproject.nameCn,"
@@ -415,14 +417,17 @@ public class ReceiptlistService extends SearchService implements
 					+ "task.ID,"
 					+ "task.receiptlistID as reID,"
 					+ "task.sampleID,"
-					+ "task.testProjectID,"
+					+ "task.departmentID,"
 					+ " date_format(task.startTime,'%Y-%m-%d %H:%i:%s') as startTime , "
 					+ " task.requires as askFor "
 					+ " from task where  task.receiptlistID ='"
 					+ reID
 					+ "' ) as a "
 					+ " left join sample on a.sampleID = sample.ID "
-					+ " LEFT JOIN testproject on testproject.ID = a.testProjectID ";
+					+ "  LEFT JOIN tasktestproject ON tasktestproject.taskID = a.ID "
+					+"  LEFT JOIN testproject ON testproject.ID = tasktestproject.testProjectID"
+			        +" LEFT JOIN department ON department.ID = a.departmentID";
+			
 			List<Map<String, Object>> list = entityDao.searchWithpaging(
 					properties, null, joinEntity, null, null, null,
 					" factoryCode ", "  desc ,  a.startTime desc ", pageNum,
@@ -481,8 +486,14 @@ public class ReceiptlistService extends SearchService implements
 	@Override
 	public String addTaskAndSampleWithEdit(String taskID, String sampleID,
 			String sampleCode, String sampleName, String sampleStyle,
-			String testProjects, String unit, String require, String reID,
+			String testProjects,  String type,String departmentID,String unit, String require, String reID,
 			String state) {
+		System.out.println(departmentID);
+		if(type == null || type.equals("")){
+			type = "0";
+		}else{
+			type = "1";
+		}
 		if (sampleID == null || sampleID.equals("")) {
 			// 样品还不存在
 			Sample sample = new Sample();
@@ -523,6 +534,8 @@ public class ReceiptlistService extends SearchService implements
 				task.setSampleID(sampleID);
 				task.setStartTime(new Date());
 				task.setCompleteTime(new Date());
+				task.setType(Integer.parseInt(type));
+				task.setDepartmentID(departmentID);
 				task.setSaveState(0);
 				SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd");
 				format.format(new Date());
@@ -532,7 +545,12 @@ public class ReceiptlistService extends SearchService implements
 				task.setAllotstate(0);
 				task.setDetectstate(0);
 				System.out.println("任务检测项目：" + i + "  " + testProjectIDs[i]);
-				task.setTestProjectID(testProjectIDs[i]);
+				TaskTestProject taskTestProject = 	new TaskTestProject();
+				taskTestProject.setID(EntityIDFactory.createId());
+				taskTestProject.setTaskID(task.getID());
+				taskTestProject.setTestProjectID(testProjectIDs[i]);
+				taskTestProject.setCheckInTime(new Date());
+				entityDao.save(taskTestProject);
 				counter += entityDao.save(task);
 			}
 			
@@ -549,7 +567,7 @@ public class ReceiptlistService extends SearchService implements
 					Message message = new Message();
 					message.setID(EntityIDFactory.createId());
 					message.setCreateTime(new Date());
-					message.setContent(sampleName+"需要用："+testProject.getNameCn()+"__"+testProject.getNameEn()+"---检测");
+					message.setContent(sampleName+"需要用："+testProject.getNameCn()+"("+testProject.getNameEn()+")---检测");
 				    MessageNotice messageNotice = new MessageNotice();
 				    messageNotice.setState(0);
 				    messageNotice.setID(EntityIDFactory.createId());
@@ -567,6 +585,8 @@ public class ReceiptlistService extends SearchService implements
 			task.setStartTime(new Date());
 			task.setRequires(require);
 			task.setAllotstate(0);
+			task.setType(Integer.parseInt(type));
+			task.setDepartmentID(departmentID);
 			task.setSaveState(0);
 			task.setDetectstate(0);
 			return entityDao.save(task) == 1 ? "true" : "false";
@@ -626,7 +646,7 @@ public class ReceiptlistService extends SearchService implements
 		receiptlist.setAccordingDoc(accordingDoc);
 		receiptlist.setState(0);
 		receiptlist.setReceiptlistType(0);
-		if (saveState == null || saveState.equals("") || saveState == "save") { // 保存交接单
+		if (saveState == null || saveState.equals("") || saveState.equals("save") ){ // 保存交接单
 			receiptlist.setIsEditSample(1);
 		} else { // 提交交接单
 			receiptlist.setIsEditSample(0);
@@ -1052,6 +1072,8 @@ public class ReceiptlistService extends SearchService implements
 						"companyName", 
 						"linkman",
 						"mobilephone",
+						"contract.isClassified",
+						"contract.classifiedLevel",
 						"address", 
 						"fax", 
 						"emailbox" 
@@ -1070,16 +1092,19 @@ public class ReceiptlistService extends SearchService implements
 						"sample.sampleName ", 
 						"sample.factoryCode as sampleCode",
 						"sample.specifications as style",
-						"contractfineitem.price "
+						"GROUP_CONCAT( testProject.nameCn) as testProjectName "
 						};
 			String baseEntity1 = " ( SELECT "
 					+ " task.ID , "
 					+ " task.sampleID ,"
-					+ " task.testProjectID "
+				
 			        + " FROM task WHERE "
 			        + " task.receiptlistID = '"+reID+"' ) a "
 			        +" LEFT JOIN sample ON sample.ID = a.sampleID "
-			        +" LEFT JOIN contractfineitem on contractfineitem.testProjectID = a.testProjectID ";
+			        +" LEFT JOIN tasktestproject on  tasktestproject.taskID = a.ID "
+			        +" LEFT JOIN testproject on testProject.ID = tasktestproject.testProjectID "
+			        +" GROUP BY a.ID ";
+			     
 			List<Map<String, Object>> sampleInfo = originalSearchForeign(
 					properties1, baseEntity1, null, null, null, false);
 			
@@ -1091,15 +1116,34 @@ public class ReceiptlistService extends SearchService implements
 				    String linkman = (String)companyInfo.get(0).get("linkman") ;
 				    String mobilephone = (String)companyInfo.get(0).get("mobilephone") ;
 				    String address = (String)companyInfo.get(0).get("address") ;
-				    String fax = (String)companyInfo.get(0).get("fax") ;
-				    String emailbox = (String)companyInfo.get(0).get("emailbox") ;
-
-				    wordProcess.replaceText("{companyName-x}", companyName  == null ? " " :  companyName);
+				    int classifiedLevel = (int)companyInfo.get(0).get("classifiedLevel") ;
+				    String mijiString = "";
+				  
+                    	switch (classifiedLevel) {
+						case 0:
+							 mijiString = "秘密";
+							break;
+						case 1:
+							 mijiString = "机密";
+							break;
+						case 2:
+							 mijiString = "绝密";
+							break;
+                       case 3:
+                    	   mijiString = " ";
+                    	   break;
+						default:
+							  mijiString = " ";
+							break;
+						}
+                    	
+ 
+				 wordProcess.replaceText("{companyName-x}", companyName  == null ? " " :  companyName);
                  wordProcess.replaceText("{linkman-x}",  linkman  == null ? " " :  linkman);
-                 wordProcess.replaceText("{emailbox-x}",  emailbox  == null ? " " :  emailbox);
-                 wordProcess.replaceText("{mobilephone-x}",  mobilephone  == null ? " " :  mobilephone);
-                 wordProcess.replaceText("{fax-x}",  fax  == null ? " " :  fax);
                  wordProcess.replaceText("{address-x}",  address  == null ? " " :  address);
+                 wordProcess.replaceText("{mobilephone-x}",  mobilephone  == null ? " " :  mobilephone);
+                 wordProcess.replaceText("{classifiedLevel-x}",  mijiString  == null ? " " :  mijiString);
+              
                 
 			}
 			else{
@@ -1107,24 +1151,23 @@ public class ReceiptlistService extends SearchService implements
 			}
 			
 			for (int i = 0; i < sampleInfo.size(); i++) {
-				wordProcess.addTableRow(1, 13);
+				wordProcess.addTableRow(1, 5);
 				Map<String, Object> map = sampleInfo.get(i);
-				wordProcess.putTxtToCell(1, 13, 1, i+1+"");
-				wordProcess.putTxtToCell(1, 13, 2, map.get("sampleName").toString());
-				wordProcess.putTxtToCell(1, 13, 3, map.get("style").toString());
-				wordProcess.putTxtToCell(1, 13, 4, map.get("sampleCode").toString());
-				wordProcess.putTxtToCell(1, 13, 5, "常规校准");
-				wordProcess.putTxtToCell(1, 13, 6, "1");
-				String price = String.valueOf( map.get("price")) ;
-				wordProcess.putTxtToCell(1, 13, 7, price == null || price.equals("null") ? " 0.0 " : price);
-				wordProcess.putTxtToCell(1, 13, 8, "");
+				wordProcess.putTxtToCell(1, 5, 1, i+1+"");
+				wordProcess.putTxtToCell(1, 5, 2, map.get("sampleName").toString());
+				wordProcess.putTxtToCell(1, 5, 3, map.get("style").toString());
+				wordProcess.putTxtToCell(1, 5, 4, map.get("sampleCode").toString());
+				String testProjectName = map.get("sampleCode").toString();
+				wordProcess.putTxtToCell(1, 5, 5, testProjectName == null ? " ": testProjectName);  //检测项目
+				wordProcess.putTxtToCell(1, 5, 7, "1");
+				
 			}
 			//填充个人公司信息
 		   /**
 		    * 从配置取出数据
 		    */
 		
-			String ourCompanyName = pt.getSystemPram("ourCompanyName") ;
+		/*	String ourCompanyName = pt.getSystemPram("ourCompanyName") ;
 			String ourLinkCompanyName = pt.getSystemPram("ourLinkCompanyName") ;
 			String ourCompanyAddress = pt.getSystemPram("ourCompanyAddress") ;
 			String ourAccount = pt.getSystemPram("ourAccount") ;
@@ -1134,9 +1177,9 @@ public class ReceiptlistService extends SearchService implements
 			String ourEmaile = pt.getSystemPram("ourEmaile") ;
 			String ourFax = pt.getSystemPram("ourFax") ;
 			String ourLinkMan = pt.getSystemPram("ourLinkMan") ;
-			String ourLinkPhone = pt.getSystemPram("ourLinkPhone") ;
+			String ourLinkPhone = pt.getSystemPram("ourLinkPhone") ;*/
 			
-			wordProcess.replaceText("{ourCompanyName}", ourCompanyName);
+		/*	wordProcess.replaceText("{ourCompanyName}", ourCompanyName);
 			wordProcess.replaceText("{ourAccount}", ourAccount);
 			wordProcess.replaceText("{ourAccountProxy}", ourAccountProxy);
 			wordProcess.replaceText("{ourInvoiceType}", ourInvoiceType);
@@ -1147,25 +1190,26 @@ public class ReceiptlistService extends SearchService implements
 			wordProcess.replaceText("{ourFax}", ourFax);
 			wordProcess.replaceText("{ourLinkMan}", ourLinkMan);
 			wordProcess.moveStart();
-			wordProcess.replaceAllText("{ourCompanyAddress}", ourCompanyAddress);
+			wordProcess.replaceAllText("{ourCompanyAddress}", ourCompanyAddress);*/
 			
 			
 			/*
 			 * 2016年4月28日  插入时间
 			 */
-			SimpleDateFormat myFmt=new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
-			Date now=new Date();
-	        String currentData = myFmt.format(now);
-	    	wordProcess.moveStart();
-	        wordProcess.replaceAllText("{currentData}", currentData);
+			SimpleDateFormat myFmt=new SimpleDateFormat("yyyy年MM月dd日 HH时mm分");
 	        
 			/*
 			 * 填出交接单编码
 			 */
 			Receiptlist receiptlist = entityDao.getByID(reID, Receiptlist.class);
 			if(receiptlist != null){
+				
 				wordProcess.moveStart();
-				wordProcess.replaceText("{reCode}", receiptlist.getReceiptlistCode());
+				wordProcess.replaceAllText("{startTime}", myFmt.format(receiptlist.getCreateTime()));
+				wordProcess.moveStart();
+				wordProcess.replaceAllText("{reCode}", myFmt.format(receiptlist.getReceiptlistCode()));
+				wordProcess.replaceText("{endTime}", myFmt.format(receiptlist.getCompleteTime()));
+				wordProcess.replaceAllText("{requires-x}", myFmt.format(receiptlist.getAccordingDoc()));			    
 			}
 			if(reFileName == null || reFileName.equals("")){
 				reFileName = "交接单文件";
