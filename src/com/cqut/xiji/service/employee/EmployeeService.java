@@ -20,6 +20,7 @@ import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.contract.Contract;
+import com.cqut.xiji.entity.department.Department;
 import com.cqut.xiji.entity.employee.Employee;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.service.base.SearchService;
@@ -186,6 +187,21 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 
 			return map;
 
+		}
+		
+		/**
+		 * @description 根据部门ID获取所有员工ID和名字
+		 * @author chenyubo
+		 * @created 2017年05月26日21:27:02
+		 * @param ID 部门ID
+		 * @return
+		 */
+		@Override
+		public List<Map<String, Object>> getEmployeeNameInPersonalTask(String ID) {
+			String[] properties = new String[] {"ID","employeeName"};
+			String condition = " 1 = 1 and employee.departmentID = '" + ID + "' ";
+			List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Employee.class);
+			return result;
 		}
 
 		@Override

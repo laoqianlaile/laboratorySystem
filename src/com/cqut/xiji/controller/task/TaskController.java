@@ -503,5 +503,51 @@ public class TaskController{
 		List<Map<String, Object>> result = service.getTaskInfor(ID);
 		return JSONArray.fromObject(result).toString();
 	}
+	
+	/**
+	 * 
+     * @discription 获取任务对应的检测项目
+     * @author zt       
+     * @created 2017-5-23 下午8:04:19     
+     * @param taskID
+     * @return
+	 */
+	@RequestMapping("/getTestprojectOfTask")
+	@ResponseBody
+	public List<Map<String, Object>> getTestprojectOfTask(String taskID) {
+		List<Map<String, Object>> result = service.getTestprojectOfTask(taskID);
+		return result;
+	}
+
+	/**
+	 * 
+     * @discription 任务所使用的检测项目登记
+     * @author zt       
+     * @created 2017-5-23 下午9:42:46     
+     * @param equipmentIDs
+     * @param taskID
+     * @return
+	 */
+	@RequestMapping("/saveTaskTestproject")
+	@ResponseBody
+	public String saveTaskTestproject(String[] testprojectIDs,String taskID) {
+		String result = service.saveTaskTestproject(testprojectIDs,taskID);
+		return result;
+	}
+	
+	/**
+	 * 
+     * @discription 删除任务所对应的检测项目
+     * @author zt       
+     * @created 2017-5-23 下午9:37:54     
+     * @param testprojectIDs
+     * @return
+	 */
+	@RequestMapping("/deleteTaskTestproject")
+	@ResponseBody
+	public boolean deleteTaskTestproject(String[] testprojectIDs) {
+		boolean flag = service.deleteTaskTestproject(testprojectIDs);
+		return flag;
+	}
 }
 

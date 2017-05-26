@@ -78,4 +78,9 @@ public interface ITaskService {
 
 	List<Map<String, Object>> getTaskInfor(String ID);
 
+	public List<Map<String, Object>> getTestprojectOfTask(String taskID);
+
+	public String saveTaskTestproject(String[] testprojectIDs, String taskID);
+
+	public boolean deleteTaskTestproject(String[] testprojectIDs);
 }

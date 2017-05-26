@@ -51,4 +51,19 @@ public class TaskEquipmentController {
 		System.out.println("result :" + result);
 		return result;
 	}
+	
+	/**
+	 * 
+     * @discription 删除任务对应的设备
+     * @author zt       
+     * @created 2017-5-22 下午9:51:58     
+     * @param taskIDs
+     * @return
+	 */
+	@RequestMapping("/deleteTaskEquipmentID")
+	@ResponseBody
+	public boolean deleteTaskEquipmentID(String[] taskIDs) {
+		boolean flag = service.deleteTaskEquipmentID(taskIDs);
+		return flag;
+	}
 }

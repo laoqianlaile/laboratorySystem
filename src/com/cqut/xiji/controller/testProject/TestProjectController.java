@@ -209,6 +209,20 @@ public class TestProjectController{
 	}
 	
 	/**
+	 * 
+     * @discription 获取所有的检测项目
+     * @author zt       
+     * @created 2017-5-23 下午8:40:54     
+     * @return
+	 */
+	@RequestMapping("/getAllTestProject")
+	@ResponseBody
+	public List<Map<String, Object>> getAllTestProject(){
+      	List<Map<String, Object>> result = service.getAllTestProject();
+		return result;
+	}
+
+	/**
 	 * 获取检测类别
 	 * 
 	 * @author zkl
@@ -234,5 +248,4 @@ public class TestProjectController{
 	public String editLaborHourInTaskAssign(String ID, double laborHour){
 		return service.editLaborHourInTaskAssign(ID, laborHour);
 	}
-
 }

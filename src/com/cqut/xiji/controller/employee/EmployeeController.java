@@ -67,6 +67,23 @@ public class EmployeeController {
 			return JSONObject.fromObject(result);
 
 		}
+		
+		/**
+		 *
+		 * @description 根据部门ID获取所有员工ID和名字
+		 * @author chenyubo
+		 * @created 2017年05月26日21:27:02
+		 * @param ID 部门ID
+		 * @return
+		 */
+		@RequestMapping("/getEmployeeNameInPersonalTask")  
+	    @ResponseBody
+		public String getEmployeeNameInPersonalTask(String ID){
+			List<Map<String, Object>> result = service.getEmployeeNameInPersonalTask(ID);
+			return JSONArray.fromObject(result).toString();
+		}
+		
+		
 
 		/**
 		 * @description 得到公司名称及ID

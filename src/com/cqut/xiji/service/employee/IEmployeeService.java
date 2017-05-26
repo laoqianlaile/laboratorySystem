@@ -51,6 +51,8 @@ public interface IEmployeeService {
 	String editEmployeePwd(String employeeID, String newpwd);
 	
 	public boolean addSignatrueAndStamp(String fileID,String selectorName);
+	
+	public List<Map<String, Object>> getEmployeeNameInPersonalTask(String ID);
 }
 
 

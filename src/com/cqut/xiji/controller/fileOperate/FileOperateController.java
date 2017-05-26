@@ -224,7 +224,6 @@ public class FileOperateController {
 		if (fileSuffixName.equals("jpg") || fileSuffixName.equals("png") || fileSuffixName.equals("gif")) {
 			fr.setBelongtoID(uploader);
 		} else {
-
 			fr.setBelongtoID(belongtoID);
 		}
 		System.out.println("UPLOADER :" + uploader);

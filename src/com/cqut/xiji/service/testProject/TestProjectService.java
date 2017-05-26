@@ -454,7 +454,6 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 		return result;
 	}
 		
-	
 	@Override
 	/**
 	 * @description 任务分配下修改工时
@@ -469,8 +468,17 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 		testProject.setLaborHour(laborHour);
 		return entityDao.updatePropByID(testProject, ID) + "";
 	}
-}
 
+	@Override
+	public List<Map<String, Object>> getAllTestProject() {
+		String tableName = "testproject";
+		String[] properties = new String[] { "ID",
+				"IF (nameCn IS NULL,nameEn,CONCAT(nameCn,'(',nameEn,')')) AS testprojectName" };
+		List<Map<String, Object>> result = entityDao.searchForeign(properties,
+				tableName, null, null, null);
+		return result;
+	}
+}
 
 
 

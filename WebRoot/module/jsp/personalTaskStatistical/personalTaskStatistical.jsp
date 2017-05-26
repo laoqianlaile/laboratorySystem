@@ -42,23 +42,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="container" style="width:100%">
 		<div class="row">
 			<div class="col-xs-1 col-md-1 col-lg-1">
-				<h5>检测项目:</h5>
+				<h5>科室:</h5>
 			</div>
 			<div class="col-xs-2 col-md-2 col-lg-2">
-				<select class="form-control" id="testProject">
+				<select class="form-control" id="department">
 					<option value="-1"></option>
 				</select>
 			</div>
+			<div class="col-xs-1 col-md-1 col-lg-1">
+				<h5>人员:</h5>
+			</div>
 			<div class="col-xs-2 col-md-2 col-lg-2">
+				<select class="form-control" id="employee">
+					<option value="-1"></option>
+				</select>
+			</div>
+			<div class="col-xs-1 col-md-1 col-lg-1">
+				<h5>任务类型:</h5>
+			</div>
+			<div class="col-xs-2 col-md-2 col-lg-2">
+				<select class="form-control" id="type">
+					<option value="-1"></option>
+					<option value="0">检测</option>
+					<option value="1">校准</option>
+				</select>
+			</div>
+			<div class="col-xs-1 col-md-1 col-lg-1">
 				<button type="button" id="search" class="btn btn-primary">查询</button>
 			</div>
-			<div class="col-xs-6 col-md-6"></div>
 			<div class="col-xs-1 col-md-1 col-lg-1">
 				<button type="button" id="refresh" class="btn btn-primary">刷新</button>
 			</div>
 		</div>
 		<br />
-		<span style="display:none" id="employeeID"></span>
 		<hr />
 		<!-- 表格 -->
 		<table id="table">
@@ -67,5 +83,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<hr>
   </body>
   
-  <script src="module/js/taskStatistical/taskStatistical.js"></script>
+  <script src="module/js/personalTaskStatistical/personalTaskStatistical.js"></script>
 </html>

@@ -22,57 +22,58 @@ public class ContractFineItemController{
 	IContractFineItemService service;
 	
 	/**
-	 * @description 任务统计初始化表格
+	 * @description 个人任务统计初始化表格
 	 * @author chenyubo
 	 * @created 2016年10月18日 下午7:50:46
-	 * @param ID
+	 * @param ID 员工ID
+	 * @param type 任务类型
 	 * @param limit
 	 * @param offset
 	 * @param order
 	 * @param sort
 	 * @return
 	 */
-	@RequestMapping("/getTestProjectInTaskStatistical")
+	@RequestMapping("/getPersonalTaskStatistical")
 	@ResponseBody
-	public JSONObject getTestProjectInTaskStatistical(String ID,String testProjectID,int limit, int offset,String order, String sort){
-		Map<String, Object> result = service.getTestProjectInTaskStatistical(ID,testProjectID,limit, offset, order, sort);
+	public JSONObject getPersonalTaskStatistical(String ID, int type, String testProjectID,int limit, int offset,String order, String sort){
+		Map<String, Object> result = service.getPersonalTaskStatistical(ID, type, testProjectID,limit, offset, order, sort);
 		return JSONObject.fromObject(result);
 	}
 	
-	/**
-	 * 
-	 * @description 任务统计下查询所有该检测人员检测的检测项目
-	 * @author chenyubo
-	 * @created 2016年10月22日 上午10:38:38
-	 * @param ID
-	 * @return
-	 */
-	@RequestMapping("/getAllTestProjectInTaskStatistical")
-	@ResponseBody
-	public String getAllTestProjectInTaskStatistical(String ID){
-		List<Map<String, Object>> result = service.getAllTestProjectInTaskStatistical(ID);
-		return JSONArray.fromObject(result).toString();
-	}
-	
-	/**
-	 * 
-	 * @description 任务统计下查看检测项目详情
-	 * @author chenyubo
-	 * @created 2016年10月22日 下午2:46:33
-	 * @param ID
-	 * @param testProjectID
-	 * @param limit
-	 * @param offset
-	 * @param order
-	 * @param sort
-	 * @return
-	 */
-	@RequestMapping("/getTaskStatisticalDetail")
-	@ResponseBody
-	public JSONObject getTaskStatisticalDetail(String ID,String contractCode,String receiptlistCode,String companyName,String startTime,String endTime,String sampleName,int limit, int offset,String order, String sort){
-		Map<String, Object> result = service.getTaskStatisticalDetail(ID,contractCode,receiptlistCode,companyName,startTime,endTime,sampleName,limit, offset, order, sort);
-		return JSONObject.fromObject(result);
-	}
+//	/**
+//	 * 
+//	 * @description 任务统计下查询所有该检测人员检测的检测项目
+//	 * @author chenyubo
+//	 * @created 2016年10月22日 上午10:38:38
+//	 * @param ID
+//	 * @return
+//	 */
+//	@RequestMapping("/getAllTestProjectInTaskStatistical")
+//	@ResponseBody
+//	public String getAllTestProjectInTaskStatistical(String ID){
+//		List<Map<String, Object>> result = service.getAllTestProjectInTaskStatistical(ID);
+//		return JSONArray.fromObject(result).toString();
+//	}
+//	
+//	/**
+//	 * 
+//	 * @description 任务统计下查看检测项目详情
+//	 * @author chenyubo
+//	 * @created 2016年10月22日 下午2:46:33
+//	 * @param ID
+//	 * @param testProjectID
+//	 * @param limit
+//	 * @param offset
+//	 * @param order
+//	 * @param sort
+//	 * @return
+//	 */
+//	@RequestMapping("/getTaskStatisticalDetail")
+//	@ResponseBody
+//	public JSONObject getTaskStatisticalDetail(String ID,String contractCode,String receiptlistCode,String companyName,String startTime,String endTime,String sampleName,int limit, int offset,String order, String sort){
+//		Map<String, Object> result = service.getTaskStatisticalDetail(ID,contractCode,receiptlistCode,companyName,startTime,endTime,sampleName,limit, offset, order, sort);
+//		return JSONObject.fromObject(result);
+//	}
 	
 	//*******************科室任务统计*****************
 	

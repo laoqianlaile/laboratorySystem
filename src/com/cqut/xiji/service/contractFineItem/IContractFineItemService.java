@@ -12,11 +12,13 @@ public interface IContractFineItemService {
 	// 大类任务统计
 	Map<String, Object> getLargeclassTaskStatistical(String ID, int limit,int offset, String order, String sort);
 	Map<String, Object> getLargeclassTaskStatisticalDetail(String ID, String departmentID, int limit, int offset,String order, String sort);
-
-	Map<String, Object> getTestProjectInTaskStatistical(String ID, String testProjectID,int limit,int offset, String order, String sort);
-	List<Map<String, Object>> getAllTestProjectInTaskStatistical(String ID);
-	Map<String, Object> getTaskStatisticalDetail(String ID,String contractCode,String receiptlistCode,String companyName,String startTime,String endTime,String sampleName,int limit,int offset, String order, String sort);
 	
+	// 个人任务统计
+	Map<String, Object> getPersonalTaskStatistical(String ID, int type, String testProjectID,int limit,int offset, String order, String sort);
+	
+//	List<Map<String, Object>> getAllTestProjectInTaskStatistical(String ID);
+//	Map<String, Object> getTaskStatisticalDetail(String ID,String contractCode,String receiptlistCode,String companyName,String startTime,String endTime,String sampleName,int limit,int offset, String order, String sort);
+//	
 	
 //	List<Map<String, Object>> getAllTestProjectInDepartmentTaskStatistical(String ID);
 //	Map<String, Object> getDepartmentTaskStatisticalDetail(String ID,String testProjectID,String contractCode,String companyName,String startTime,String endTime,int limit,int offset, String order, String sort);
