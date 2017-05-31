@@ -11,9 +11,6 @@ public class TestProject extends Entity{
 	private String ID;
 	private String nameEn;
 	private String nameCn;
-	private String departmentID;
-	private String environmentalRequirements;
-	private String standardID;
 	private Date createTime;
 	private String templateID;
 	private String remarks;
@@ -58,18 +55,18 @@ public class TestProject extends Entity{
 	public void setNameCn(String nameCn) {
 		this.nameCn = nameCn;
 	}
-	public String getDepartmentID() {
+/*	public String getDepartmentID() {
 		return departmentID;
 	}	
 	
 	public void setDepartmentID(String departmentID) {
 		this.departmentID = departmentID;
-	}
-	public String getEnvironmentalRequirements() {
+	}*/
+	/*public String getEnvironmentalRequirements() {
 		return environmentalRequirements;
-	}	
+	}	*/
 	
-	public void setEnvironmentalRequirements(String environmentalRequirements) {
+	/*public void setEnvironmentalRequirements(String environmentalRequirements) {
 		this.environmentalRequirements = environmentalRequirements;
 	}
 	public String getStandardID() {
@@ -78,7 +75,7 @@ public class TestProject extends Entity{
 	
 	public void setStandardID(String standardID) {
 		this.standardID = standardID;
-	}
+	}*/
 	public Date getCreateTime() {
 		return createTime;
 	}	
@@ -111,7 +108,7 @@ public class TestProject extends Entity{
 
 	@Override
 	public String toString() {
-		return "TestProject [" +  "ID=" + ID  + ", " +  "nameEn=" + nameEn  + ", " +  "nameCn=" + nameCn  + ", " +  "departmentID=" + departmentID  + ", " +  "environmentalRequirements=" + environmentalRequirements  + ", " +  "standardID=" + standardID  + ", " +  "createTime=" + createTime  + ", " +  "templateID=" + templateID  + ", " +  "remarks=" + remarks + ", " +  "describes=" + describes + "]";
+		return "TestProject [" +  "ID=" + ID  + ", " +  "nameEn=" + nameEn  + ", " +  "nameCn=" + nameCn      + ", " +  "createTime=" + createTime  + ", " +  "templateID=" + templateID  + ", " +  "remarks=" + remarks + ", " +  "describes=" + describes + "]";
 	}
 	
 	@Override

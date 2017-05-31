@@ -12,10 +12,8 @@ public class ContractFineItem extends Entity{
 	private String fineItemNameEn;
 	private String fineItemNameCn;
 	private int isOutsourcing;
-	private String departmentID;
 	private int number;
 	private double price;
-	private int calculateType;
 	private int hour;
 	private String outSourcingDepartmentID;
 	private double money;
@@ -82,13 +80,6 @@ public class ContractFineItem extends Entity{
 	public void setIsOutsourcing(int isOutsourcing) {
 		this.isOutsourcing = isOutsourcing;
 	}
-	public String getDepartmentID() {
-		return departmentID;
-	}	
-	
-	public void setDepartmentID(String departmentID) {
-		this.departmentID = departmentID;
-	}
 	public int getNumber() {
 		return number;
 	}	
@@ -102,13 +93,6 @@ public class ContractFineItem extends Entity{
 	
 	public void setPrice(double price) {
 		this.price = price;
-	}
-	public int getCalculateType() {
-		return calculateType;
-	}	
-	
-	public void setCalculateType(int calculateType) {
-		this.calculateType = calculateType;
 	}
 	public int getHour() {
 		return hour;
@@ -148,7 +132,7 @@ public class ContractFineItem extends Entity{
 	
 	@Override
 	public String toString() {
-		return "ContractFineItem [" +  "ID=" + ID  + ", " +  "testProjectID=" + testProjectID  + ", " +  "fineItemCode=" + fineItemCode  + ", " +  "fineItemNameEn=" + fineItemNameEn  + ", " +  "fineItemNameCn=" + fineItemNameCn  + ", " +  "isOutsourcing=" + isOutsourcing  + ", " +  "departmentID=" + departmentID  + ", " +  "number=" + number  + ", " +  "price=" + price  + ", " +  "calculateType=" + calculateType  + ", " +  "hour=" + hour  + ", " +  "outSourcingDepartmentID=" + outSourcingDepartmentID  + ", " +  "money=" + money  + ", " +  "remarks=" + remarks  + ", " +  "contractID=" + contractID  + ", "   + "]";
+		return "ContractFineItem [" +  "ID=" + ID  + ", " +  "testProjectID=" + testProjectID  + ", " +  "fineItemCode=" + fineItemCode  + ", " +  "fineItemNameEn=" + fineItemNameEn  + ", " +  "fineItemNameCn=" + fineItemNameCn  + ", " +  "isOutsourcing=" + isOutsourcing    + ", " +  "number=" + number  + ", " +  "price=" + price    + ", " +  "hour=" + hour  + ", " +  "outSourcingDepartmentID=" + outSourcingDepartmentID  + ", " +  "money=" + money  + ", " +  "remarks=" + remarks  + ", " +  "contractID=" + contractID  + ", "   + "]";
 	}
 	
 	@Override

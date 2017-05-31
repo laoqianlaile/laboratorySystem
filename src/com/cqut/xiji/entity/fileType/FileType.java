@@ -8,17 +8,11 @@ public class FileType extends Entity{
 	@ID
 	private String ID;
 	private String name;
-	private int levelType;
+/*	private int levelType;
 	private String fileTypeID;
 	private int  isLeaf ;
+	*/
 	
-	public int getIsLeaf() {
-		return isLeaf;
-	}	
-	
-	public void setIsLeaf(int isLeaf) {
-		this.isLeaf = isLeaf;
-	}
 	public String getID() {
 		return ID;
 	}	
@@ -33,24 +27,10 @@ public class FileType extends Entity{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getLevelType() {
-		return levelType;
-	}	
-	
-	public void setLevelType(int levelType) {
-		this.levelType = levelType;
-	}
-	public String getFileTypeID() {
-		return fileTypeID;
-	}	
-	
-	public void setFileTypeID(String fileTypeID) {
-		this.fileTypeID = fileTypeID;
-	}
-	
+
 	@Override
 	public String toString() {
-		return "FileType [" +  "ID=" + ID  + ", " +  "name=" + name  + ", " +  "levelType=" + levelType  + ", " +  "fileTypeID=" + fileTypeID  + ", "   + "]";
+		return "FileType [" +  "ID=" + ID  + ", " +  "name=" + name   + ", "   + "]";
 	}
 	
 	@Override
