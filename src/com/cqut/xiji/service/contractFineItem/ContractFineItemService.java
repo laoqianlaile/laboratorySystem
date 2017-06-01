@@ -250,9 +250,10 @@ public class ContractFineItemService extends SearchService implements IContractF
 		
 		String baseEntity = "contractFineItem";
 		
-		String joinEntity = " left join testProject on contractFineItem.testProjectID = testProject.ID ";
+		String joinEntity = " left join testProject on contractFineItem.testProjectID = testProject.ID "
+				+ " left join testdepartment on testproject.ID = testdepartment.testProjectID ";
 		
-		String condition = "contractFineItem.departmentID = '" + ID + "' ";
+		String condition = " testdepartment.departmentID = '" + ID + "' ";
 		
 		String groupField = "testProject.ID";
 		
@@ -288,10 +289,14 @@ public class ContractFineItemService extends SearchService implements IContractF
 		
 		String baseEntity = "contractFineItem";
 		
-		String condition = "contractFineItem.departmentID = '" + ID + "' group by contractFineItem.departmentID";
+		String joinEntity = " left join testProject on contractFineItem.testProjectID = testProject.ID "
+				+ " left join testdepartment on testproject.ID = testdepartment.testProjectID ";
 		
-		List<Map<String, Object>> result = originalSearchForeign(properties, baseEntity, null, null, condition, false);
-		String totalMoney = result.get(0).get("totalMoney") + "";
+		String condition = " testdepartment.departmentID = '" + ID + "' group by testdepartment.departmentID ";
+		
+		List<Map<String, Object>> result = originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false);
+		
+		String totalMoney = result.size() == 0 ? "0" : result.get(0).get("totalMoney") + "";
 		return totalMoney;
 	}
 	
@@ -518,12 +523,13 @@ public class ContractFineItemService extends SearchService implements IContractF
 		};
 		
 		String joinEntity = " left join testProject on contractFineitem.testProjectID = testProject.ID "
-				+ " left join testtype on testProject.testTypeID = testType.ID ";
+				+ " left join testtype on testProject.testTypeID = testType.ID "
+				+ " left join testdepartment on testproject.ID = testdepartment.testProjectID ";
 		
 		String condition = " 1 = 1 ";
 		
 		if(ID!=null && !ID.equals("") && !ID.equals("-1")){
-			condition += " and contractfineitem.departmentID = '" + ID + "' ";
+			condition += " and testdepartment.departmentID = '" + ID + "' ";
 		}
 		
 		String groupField = "testType.ID";
@@ -566,12 +572,13 @@ public class ContractFineItemService extends SearchService implements IContractF
 		
 		String baseEntity = "contractFineItem";
 		
-		String joinEntity = " left join testProject on contractFineItem.testProjectID = testProject.ID ";
+		String joinEntity = " left join testProject on contractFineItem.testProjectID = testProject.ID "
+				+ " left join testdepartment on testproject.ID = testdepartment.testProjectID ";
 		
 		String condition = " testProject.testTypeID = '" + ID + "' ";
 		
 		if(departmentID != null && !departmentID.equals("") && !departmentID.equals("-1")){
-			condition += " and contractFineItem.departmentID = '" + departmentID + "' ";
+			condition += " and testdepartment.departmentID = '" + departmentID + "' ";
 		}
 		
 		
