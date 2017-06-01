@@ -30,7 +30,15 @@ public class Employee extends Entity{
 	private int jobTitle;
 	private int eduLevel;
 	private String graduate;
-	
+	private String IDCard;
+	public String getIDCard() {
+		return IDCard;
+	}
+
+	public void setIDCard(String iDCard) {
+		IDCard = iDCard;
+	}
+
 	public String getSignature() {
 		return signature;
 	}
