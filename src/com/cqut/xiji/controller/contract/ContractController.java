@@ -99,8 +99,8 @@ public class ContractController{
 	 */
 	@RequestMapping("/addContract")  
     @ResponseBody
-	public int addContract(String contractName, String companyID,String companyName, String oppositeMen,String linkPhone, String employeeID, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel){
-		int result = service.addContract(contractName, companyID, companyName, oppositeMen, linkPhone,employeeID, employeeName, address, signAddress, startTime, signTime, endTime,isClassified,classifiedLevel);
+	public int addContract(String contractName, String companyID,String companyName, String oppositeMen,String linkPhone, String employeeID, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel,int contractType){
+		int result = service.addContract(contractName, companyID, companyName, oppositeMen, linkPhone,employeeID, employeeName, address, signAddress, startTime, signTime, endTime,isClassified,classifiedLevel,contractType);
 		return result;
 	}
 	
@@ -112,7 +112,7 @@ public class ContractController{
 	}
 	/**
 	 * 
-	 * @description 覆盖合同信息，生成新合同
+	 * @description 覆盖合同信息，生成新的检测合同
 	 * @author hujiajun
 	 * @created 2017年3月16日 下午7:37:24
 	 * @param ID
@@ -129,10 +129,35 @@ public class ContractController{
 	 * @param endTime
 	 * @return
 	 */
-	@RequestMapping("/coverContractFile")  
+	@RequestMapping("/coverContractFile1")  
     @ResponseBody
-	public int coverContractFile(String ID, String fileID){
-		int result = service.coverContractFile(ID, fileID);
+	public int coverContractFile1(String ID, String fileID){
+		int result = service.coverContractFile1(ID, fileID);
+		return result;
+	}
+	/**
+	 * 
+	 * @description 覆盖合同信息，生成新的校准合同
+	 * @author hujiajun
+	 * @created 2017年5月20日 下午7:37:24
+	 * @param ID
+	 * @param contractCode
+	 * @param contractName
+	 * @param companyName
+	 * @param oppositeMen
+	 * @param linkPhone
+	 * @param employeeName
+	 * @param address
+	 * @param signAddress
+	 * @param startTime
+	 * @param signTime
+	 * @param endTime
+	 * @return
+	 */
+	@RequestMapping("/coverContractFile2")  
+    @ResponseBody
+	public int coverContractFile2(String ID, String fileID){
+		int result = service.coverContractFile2(ID, fileID);
 		return result;
 	}
 	/**
@@ -427,4 +452,21 @@ public class ContractController{
 		List<Map<String, Object>> result = service.getContract();
 		return JSONArray.fromObject(result).toString();
 	}
+	/**
+	 * 获取合同的标准号和标准名称
+	 * features or effect
+	 * @author wzj
+	 * @date 2017年5月20日 下午4:53:57
+	 * @param coID
+	 * @return
+	 */
+	@RequestMapping("/getStandardByContractID")
+	@ResponseBody
+	public String getStandardByContractID(String coID){
+		if(coID ==null || coID.equals("")){
+			return " ";
+		}
+		return service.getStandardByContractID(coID);	
+	}
+	
 }

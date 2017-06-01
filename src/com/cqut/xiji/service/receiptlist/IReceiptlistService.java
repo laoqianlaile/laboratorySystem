@@ -22,7 +22,7 @@ public interface IReceiptlistService {
 			int offset, String order, String sort); //获取交接单信息
 	Map<String, Object> getTasklistByReID(String reID,int limit, 	int offset, String order, String sort);//获取交接单中样品信息
 	Map<String, Object> getRelateFiletByReID(String reID, int limit, int offset, 	String order, String sort);//获取交接单中相关的附件文件信息
-	String addTaskAndSampleWithEdit(String taskID ,String sampleID, String sampleCode,  String sampleName, String sampleStyle, String testProject,
+	String addTaskAndSampleWithEdit(String taskID ,String sampleID, String sampleCode,  String sampleName, String sampleStyle, String testProject, String type,String departmentID,
 			String unit, String require, String reID, String state);//新增或者编辑任务
 	String deleteTaskByID(String taskID); //删除任务
 	String saveSubmitReceipt(String reID, String saveState, String addState,  String companyName, String address, String linkMan,

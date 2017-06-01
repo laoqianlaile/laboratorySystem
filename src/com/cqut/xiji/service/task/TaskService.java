@@ -23,7 +23,7 @@ import com.cqut.xiji.entity.receiptlist.Receiptlist;
 import com.cqut.xiji.entity.sample.Sample;
 import com.cqut.xiji.entity.task.Task;
 import com.cqut.xiji.entity.taskMan.TaskMan;
-import com.cqut.xiji.entity.testProject.TestProject;
+import com.cqut.xiji.entity.taskTestProject.TaskTestProject;
 import com.cqut.xiji.entity.testReport.TestReport;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.service.fileEncrypt.IFileEncryptService;
@@ -63,8 +63,7 @@ public class TaskService extends SearchService implements ITaskService {
 	 * @description 任务分配获取指定交接单下的分页任务
 	 * @author chenyubo
 	 * @created 2016年10月13日 下午11:37:03
-	 * @param ID
-	 *            交接单ID
+	 * @param ID 交接单ID        
 	 * @param limit
 	 * @param offset
 	 * @param sort
@@ -81,6 +80,7 @@ public class TaskService extends SearchService implements ITaskService {
 				"sample.factoryCode",
 				"sample.sampleName",
 				"sample.specifications",
+				"testProject.ID as testProjectID",
 				"testProject.nameCn",
 				"case when task.allotState = 0 then '未分配' "
 						+ "when task.allotState = 1 then '已分配' end as state",
@@ -89,13 +89,18 @@ public class TaskService extends SearchService implements ITaskService {
 						+ "	taskMan.taskID = task.ID "
 						+ "	AND taskMan.detector = employee.ID " + " ORDER BY "
 						+ "	taskMan.ID),'无'" + " ) AS detector",
-				"IFnull(employee_1.employeeName,'无') as custodian" };
+				"IFnull(employee_1.employeeName,'无') as custodian",
+				"CASE WHEN task.type = 0 THEN '检测' WHEN task.type = 1 THEN '校准' END AS type",
+				"IFnull(testProject.laborHour, '?') as laborHour"
+		};
 
-		String joinEntity = " left join sample on task.sampleID = sample.ID "
-				+ " left join testProject on task.testProjectID = testProject.ID "
+		String joinEntity = " left join receiptlist on receiptlist.ID = task.receiptlistID "
+				+ " left join sample on task.sampleID = sample.ID "
+				+ " left join tasktestproject on task.ID = tasktestproject.taskID "
+				+ " LEFT JOIN testProject ON taskTestProject.testProjectID = testProject.ID "
 				+ " left join employee as employee_1 on task.custodian = employee_1.ID ";
 
-		String condition = "1 = 1 and task.receiptlistID = " + ID;
+		String condition = "1 = 1 and task.receiptlistID = '" + ID + "' and receiptlist.receiptlistType = 0";
 
 		List<Map<String, Object>> result = originalSearchWithpaging(properties,
 				getBaseEntityName(), joinEntity, null, condition, false, null,
@@ -266,7 +271,13 @@ public class TaskService extends SearchService implements ITaskService {
 		}
 	}
 	
-	
+	/**
+	 * features or effect
+	 * @author cyb
+	 * @date 2017年5月16日 下午9:22:41
+	 * @param ID
+	 * @return
+	 */
 	public void addMessage(String[] IDS, String taskID) {
 		Task task = entityDao.getByID(taskID, Task.class);
 		Sample sample = entityDao.getByID(task.getSampleID(), Sample.class);
@@ -275,8 +286,19 @@ public class TaskService extends SearchService implements ITaskService {
 		if (sample != null) {
 			content = sample.getSampleName() + "需要检测!"; // 消息记录内容
 		} else {
-			TestProject testProject = entityDao.getByID(task.getTestProjectID(), TestProject.class);
-			content = testProject.getNameCn() + "需要检测!"; // 消息记录内容
+			String[] properties = {
+					"task.ID",
+					"group_contact(testProject.nameCn) as name"
+			};
+			
+			String condition = "left join taskTestProject on task.ID = taskTestProject.taskID "
+					+ " left join testProject on testProject.ID = taskTestProject.testProjectID "
+					+ " and task.ID = '" + taskID + "' "
+					+ " group by task.ID ";
+			
+			List<Map<String, Object>> list = originalSearchForeign(properties, getBaseEntityName(), null, null, condition, false);
+
+			content = list.get(0).get("name") + "需要检测!"; // 消息记录内容
 		}
 		
 		// 设置消息记录
@@ -631,10 +653,10 @@ public class TaskService extends SearchService implements ITaskService {
 				+ "b.detectstate AS detectstate,"
 				+ "b.receiptlistCode AS receiptlistCode,"
 				+ "b.levelTwo AS levelTwo,"
-				+ "b.testProjectName AS testProjectName,"
 				+ "b.sampleName AS sampleName,"
 				+ "b.detecotorID AS detecotorID,"
 				+ "b.detector AS detector,"
+				+ "b.testProjectName AS testProjectName,"
 				+ "employee.employeeName AS custodian"
 				+ " FROM "
 				+ " ( "
@@ -646,11 +668,39 @@ public class TaskService extends SearchService implements ITaskService {
 				+ "a.detectstate AS detectstate,"
 				+ "a.receiptlistCode AS receiptlistCode,"
 				+ "a.levelTwo AS levelTwo,"
-				+ "a.testProjectName AS testProjectName,"
 				+ "a.sampleName AS sampleName,"
 				+ "a.detector AS detecotorID,"
-				+ " IFNULL((SELECT group_concat(employee.employeeName) FROM taskMan, employee WHERE taskMan.taskID = a.ID "
-				+ " AND taskMan.detector = employee.ID ORDER BY taskMan.ID ), '无') AS detector "
+				+ " IFNULL( "
+				+ " ( "
+				+ " SELECT "
+				+ "group_concat(employee.employeeName)"
+				+ " FROM "
+				+ "taskMan,"
+				+ "employee"
+				+ " WHERE "
+				+ "taskMan.taskID = a.ID"
+				+ " AND taskMan.detector = employee.ID "
+				+ " ORDER BY "
+				+ " taskMan.ID "
+				+ "),'无' "
+				+ " ) AS detector, "
+				+ " IFNULL( "
+				+ " ( "
+				+ " SELECT "
+				+ "group_concat("
+				+ " IF (testproject.nameEn IS NULL,testproject.nameCn,"
+				+ " CONCAT(testproject.nameCn,'(',testproject.nameEn,')' "
+				+ " ) "
+				+ " ) "
+				+ " ) "
+				+ " FROM "
+				+ "tasktestproject,"
+				+ "testproject"
+				+ " WHERE"
+				+ " tasktestproject.taskID = a.ID "
+				+ " AND tasktestproject.testProjectID = testproject.ID "
+				+ " ), '无' "
+				+ " ) AS testProjectName "
 				+ " FROM "
 				+ " ( "
 				+ " SELECT "
@@ -661,7 +711,6 @@ public class TaskService extends SearchService implements ITaskService {
 				+ "task.detectstate AS detectstate,"
 				+ "task.levelTwo AS levelTwo,"
 				+ "receiptlist.receiptlistCode AS receiptlistCode,"
-				+ "IF (testproject.nameEn IS NULL,testproject.nameCn,CONCAT(testproject.nameCn,'(',testproject.nameEn,')')) AS testProjectName,"
 				+ "sample.sampleName AS sampleName,"
 				+ "taskman.detector AS detector"
 				+ " FROM "
@@ -669,7 +718,6 @@ public class TaskService extends SearchService implements ITaskService {
 				+ " LEFT JOIN taskman ON task.ID = taskman.taskID "
 				+ " LEFT JOIN receiptlist ON task.receiptlistID = receiptlist.ID "
 				+ " LEFT JOIN sample ON task.sampleID = sample.ID "
-				+ " LEFT JOIN testproject ON task.testProjectID = testproject.ID "
 				+ " ) AS a "
 				+ " LEFT JOIN employee ON a.detector = employee.ID "
 				+ " ) AS b "
@@ -679,12 +727,12 @@ public class TaskService extends SearchService implements ITaskService {
 				"c.ID AS ID",
 				"DATE_FORMAT(startTime,'%Y-%m-%d %H:%i:%s') AS startTime",
 				"DATE_FORMAT(completeTime,'%Y-%m-%d %H:%i:%s') AS completeTime",
-				"IF (c.detectstate = 0,'无报告',IF (c.detectstate = 1,'未提交',IF (c.detectstate = 2,'二审核中',IF (c.detectstate=3,'二审未通过',IF (c.detectstate = 4,'三审核中',"
-						+ "IF (c.detectstate = 5,'三审未通过','审核通过')))))) AS detectstate",
+				"IF (c.detectstate = 0,'无报告',IF (c.detectstate = 1,'未提交',IF (c.detectstate = 2,'二审核中',IF (c.detectstate = 3,'二审未通过',IF (c.detectstate = 4,'三审核中',IF (c.detectstate = 5,'三审未通过','审核通过')))))) AS detectstate",
 				"c.receiptlistCode AS receiptlistCode",
-				"c.testProjectName AS testProjectName",
 				"c.sampleName AS sampleName", "c.detector AS detecotor",
-				"c.custodian AS custodian", "employee.employeeName AS levelTwo" };
+				"c.custodian AS custodian",
+				"c.testProjectName AS testProjectName",
+				"employee.employeeName AS levelTwo" };
 		String joinEntity = " LEFT JOIN employee ON c.levelTwo = employee.ID ";
 		String condition = " 1 = 1 AND c.detecotorID ='" + uploader + "'";
 
@@ -810,12 +858,32 @@ public class TaskService extends SearchService implements ITaskService {
 				+ "sample.sampleName AS sampleName,"
 				+ "sample.specifications AS specifications,"
 				+ "task.detectstate AS detectstate,"
-				+ "task.testProjectID AS testProjectID,"
-				+ "task.ID AS ID"
+				+ " IFNULL( "
+				+ " ( "
+				+ " SELECT "
+				+ " group_concat( "
+				+ " IF ( "
+				+ "testproject.nameEn IS NULL,"
+				+ "testproject.nameCn,"
+				+ "CONCAT(testproject.nameCn,'(',testproject.nameEn,')'"
+				+ " ) "
+				+ " ) "
+				+ " )  "
 				+ " FROM "
-				+ " task "
-				+ " LEFT JOIN sample ON task.sampleID = sample.ID "
-				+ " LEFT JOIN samplerecord ON sample.ID = samplerecord.sampleID "
+				+ "tasktestproject,"
+				+ "testproject"
+				+ " WHERE "
+				+ "tasktestproject.taskID = '"
+				+ taskID
+				+ "'"
+				+ " AND tasktestproject.testProjectID = testproject.ID "
+				+ " ),'无' "
+				+ " ) AS testProjectName, "
+				+ "task.ID AS ID "
+				+ " FROM  "
+				+ " task  "
+				+ " LEFT JOIN sample ON task.sampleID = sample.ID  "
+				+ " LEFT JOIN samplerecord ON sample.ID = samplerecord.sampleID  "
 				+ filteConditon + " ) AS a ";
 		String[] properties = new String[] {
 				"a.ID AS ID",
@@ -824,20 +892,18 @@ public class TaskService extends SearchService implements ITaskService {
 				"a.specifications AS specifications",
 				"IF (a.detectstate = 0,'无报告',IF (a.detectstate = 1,'未提交',IF (a.detectstate = 2,'二审中',IF (a.detectstate=3,'二审未通过',IF (a.detectstate = 4,'三审中',"
 						+ "IF (a.detectstate = 5,'三审未通过',IF (a.detectstate = 6,'审核通过','其它'))))))) AS detectstate",
-				"IF (testproject.nameCn IS NULL,testproject.nameEn,IF (testproject.nameEn IS NULL,testproject.nameCn,CONCAT(testproject.nameCn,'(',testproject.nameEn,')'))) AS testProjectName", };
-		String joinEntity = " LEFT JOIN testproject ON a.testProjectID = testproject.ID ";
-
+				"a.testProjectName", };
 		List<Map<String, Object>> result = entityDao.searchWithpaging(
-				properties, tableName, joinEntity, null, null, null, sort,
-				order, index, pageNum);
-		int count = entityDao.searchForeign(properties, tableName, joinEntity,
-				null, null).size();
+				properties, tableName, null, null, null, null, sort, order,
+				index, pageNum);
+		int count = entityDao.searchForeign(properties, tableName, null, null,
+				null).size();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("total", count);
 		map.put("rows", result);
 		return map;
 	}
-	
+
 	@Override
 	public Map<String, Object> getTaskAuditPersonWithPaging(int limit, int offset,String order, String sort ) {
 		int index = limit;
@@ -1067,12 +1133,12 @@ public class TaskService extends SearchService implements ITaskService {
 		String baseEntiy = "";
 		String[] properties = null;
 		String joinEntity = "";
-		filteCondition = " where task.ID = '" + taskID + "'";
-		baseEntiy = " ( " + " SELECT " + " template.fileID AS fileID "
+		filteCondition = " where tasktestproject.taskID = '" + taskID + "'";  
+		baseEntiy = " ( " + " SELECT " + " DISTINCT (template.fileID) AS fileID "  // 找到对应的模版
 				+ " FROM " + " ( " + " SELECT "
 				+ " testproject.templateID AS templateID " + " FROM " + " ( "
-				+ " SELECT " + " task.testProjectID AS testProjectID "
-				+ " FROM " + " task " + filteCondition + " ) AS a "
+				+ " SELECT " + " tasktestproject.testProjectID AS testProjectID "
+				+ " FROM " + " tasktestproject " + filteCondition + " ) AS a "
 				+ " LEFT JOIN testproject ON a.testProjectID = testproject.ID "
 				+ " ) AS b "
 				+ " LEFT JOIN template ON b.templateID = template.ID "
@@ -1088,17 +1154,15 @@ public class TaskService extends SearchService implements ITaskService {
 		} else {
 			try {
 				Map<String, Object> fileInfoMap = result.get(0);
-				String fileInfoID = "";
 				if (fileInfoMap == null) {
 					return null;
 				} else {
-					fileInfoID = fileInfoMap.toString();
-				}
-
-				String filePath = result.get(0).get("path").toString();
-				String pathPassword = result.get(0).get("pathPassword")
+				String fileInfoID = fileInfoMap.get("ID").toString();
+				String filePath = fileInfoMap.get("path").toString();
+				String pathPassword = fileInfoMap.get("pathPassword")
 						.toString();
-
+				filteCondition = " where task.ID = '" + taskID + "'"; 
+				
 				// 填充部分报告信息
 				baseEntiy = " ( "
 						+ " SELECT "
@@ -1119,7 +1183,23 @@ public class TaskService extends SearchService implements ITaskService {
 						+ "a.sampleID AS sampleID,"
 						+ "a.sampleFactoryCode AS sampleFactoryCode,"
 						+ "a.requires AS requires,"
-						+ "testproject.nameCn  AS testProjectName,"
+						+ "IFNULL( "
+						+ " ( "
+						+ " SELECT "
+						+ " group_concat(IF (testproject.nameEn IS NULL,testproject.nameCn, "
+						+ " CONCAT(testproject.nameCn,'(',testproject.nameEn,')' "
+						+ " ) "
+						+ " ) "
+						+ "SEPARATOR '_'"
+						+ " ) "
+						+ " FROM "
+						+ " tasktestproject, "
+						+ " testproject "
+						+ " WHERE "
+						+ " tasktestproject.taskID = a.ID "
+						+ " AND tasktestproject.testProjectID = testproject.ID "
+						+ " ),'无' "
+						+ " ) AS testProjectName,"
 						+ "receiptlist.contractID AS contractID,"
 						+ "receiptlist.accordingDoc AS accordingDoc,"
 						+ "DATE_FORMAT(receiptlist.createTime,'%Y-%m-%d %H:%i:%s') AS createTime"
@@ -1131,7 +1211,6 @@ public class TaskService extends SearchService implements ITaskService {
 						+ "sample.ID AS sampleID,"
 						+ "sample.factoryCode AS sampleFactoryCode,"
 						+ "task.receiptlistID AS receiptlistID,"
-						+ "task.testProjectID AS testProjectID,"
 						+ "task.requires AS requires,"
 						+ "task.ID AS ID"
 						+ " FROM "
@@ -1139,7 +1218,6 @@ public class TaskService extends SearchService implements ITaskService {
 						+ " LEFT JOIN sample ON task.sampleID = sample.ID "
 						+ filteCondition
 						+ " ) AS a "
-						+ " LEFT JOIN testproject ON a.testProjectID = testproject.ID "
 						+ " LEFT JOIN receiptlist ON a.receiptlistID = receiptlist.ID "
 						+ " ) AS b "
 						+ " LEFT JOIN contract ON b.contractID = contract.ID "
@@ -1158,32 +1236,22 @@ public class TaskService extends SearchService implements ITaskService {
 				List<Map<String, Object>> wordData = entityDao.searchForeign(
 						properties, baseEntiy, joinEntity, null, null);
 
-				// 查找任务对应的检测项目的设备
-				String testProjectEquiptFilterCondition = " WHERE task.ID = '"
+				// 查找任务对应的检测项目
+				String taskTestprojectFilterConditionString = " WHERE tasktestproject.taskID = '"
 						+ taskID + "'";
-				String testprojectEquiptTable = " ( "
-						+ " SELECT "
-						+ " testinstument.equipmentID AS testinstumentEquipmentID "
-						+ " FROM "
-						+ " ( "
-						+ " SELECT "
-						+ "task.testProjectID "
-						+ " FROM "
-						+ " task "
-						+ testProjectEquiptFilterCondition
-						+ " ) AS a "
-						+ " LEFT JOIN testinstument ON a.testProjectID = testinstument.testProjectID "
-						+ " ) AS b";
-				String[] testprojecEquiptProperties = new String[] { "group_concat(equipment.equipmentName) AS testprojectEquitName" };
-				String testprojecEquiptjoinEntity = " LEFT JOIN equipment ON b.testinstumentEquipmentID = equipment.ID ";
-				List<Map<String, Object>> testprojecEquiptData = entityDao
-						.searchForeign(testprojecEquiptProperties,
-								testprojectEquiptTable,
-								testprojecEquiptjoinEntity, null, null);
+				String taskTestprojectTable = "	( " + " SELECT "
+						+ " tasktestproject.testProjectID " + " FROM "
+						+ " tasktestproject"
+						+ taskTestprojectFilterConditionString + " ) AS a";
+				String[] taskTestprojectProperties = new String[] { "IF ( testproject.nameEn IS NULL, testproject.nameCn, CONCAT( testproject.nameCn, '(', testproject.nameEn, ')' ) ) AS testprojectName" };
+				String taskTestprojectjoinEntity = " LEFT JOIN testproject ON a.testProjectID = testproject.ID ";
+				List<Map<String, Object>> taskTestprojectData = entityDao
+						.searchForeign(taskTestprojectProperties,
+								taskTestprojectTable,
+								taskTestprojectjoinEntity, null, null);
 
 				// 查找任务对应的设备
-				String taskEquiptFilterCondition = " WHERE taskequipment.taskID = '"
-						+ taskID + "'";
+				String taskEquiptFilterCondition = " WHERE taskequipment.taskID = '" + taskID + "'";
 				String taskEquiptTable = " ( " + " SELECT "
 						+ " taskequipment.equipmentID " + " FROM "
 						+ " taskequipment " + taskEquiptFilterCondition
@@ -1197,8 +1265,7 @@ public class TaskService extends SearchService implements ITaskService {
 
 				PropertiesTool pe = new PropertiesTool();
 
-				filePath = fileEncryptservice.decryptPath(filePath,
-						pathPassword);
+				filePath = fileEncryptservice.decryptPath(filePath, pathPassword);
 				String path = pe.getSystemPram("filePath") + "\\";
 
 				String fileName = "";
@@ -1209,11 +1276,9 @@ public class TaskService extends SearchService implements ITaskService {
 				}
 				if (wordData.get(0).get("testProjectName") != null) {
 					fileName += "的"
-							+ wordData.get(0).get("testProjectName").toString()
-							+ "的检测报告";
+							+ "检测报告";
 					memoryName += "的"
-							+ wordData.get(0).get("testProjectName").toString()
-							+ "的检测报告";
+							+ "检测报告";
 				}
 
 				String cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\"
@@ -1246,8 +1311,6 @@ public class TaskService extends SearchService implements ITaskService {
 							.toString());
 				if (wordData.get(0).get("testProjectName") != null) {
 					String testProjectName = wordData.get(0).get("testProjectName").toString();
-					wp.putTxtToCell(5, 2, 2, testProjectName);
-					wp.putTxtToCell(5, 2, 1, "1");
 					wp.moveStart();
 					wp.replaceAllText("{检测项目名}",testProjectName);
 				}
@@ -1264,17 +1327,21 @@ public class TaskService extends SearchService implements ITaskService {
 							.toString());
 					wp.moveStart();
 				}
-				if (testprojecEquiptData.get(0) != null) {
-					wp.replaceText("{检测项目登记的设备}", testprojecEquiptData.get(0)
-							.get("testprojectEquitName").toString());
-				}
 				if (taskEquiptData.get(0) != null) {
 					wp.replaceText("{任务登记的设备}",
 							taskEquiptData.get(0).get("taskEquitName")
 									.toString());
 
 				}
-
+				
+				for(int index = 0, len = taskTestprojectData.size(); index < len; index++) {
+						if(taskTestprojectData.get(index) != null) {
+							wp.putTxtToCell(5, index+2, 2, taskTestprojectData.get(index).get("testprojectName").toString());
+							wp.putTxtToCell(5, index+2, 1, index+1 +"");
+						
+					}
+				}
+	
 				String relativePath = "报告文件" + "\\";
 				path += relativePath;
 				File targetFile = new File(path);
@@ -1328,10 +1395,10 @@ public class TaskService extends SearchService implements ITaskService {
 				tr.setSendState(0);
 				baseEntityDao.save(tr);
 				return fileID;
+				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				return null;
 			}
-			return null;
 		}
 	}
 
@@ -1446,5 +1513,52 @@ public class TaskService extends SearchService implements ITaskService {
 		return result;
 
 	}
-
+	
+	@Override
+	public List<Map<String, Object>> getTestprojectOfTask(String taskID) {
+		String tableName = "tasktestproject";
+		String[] properties = new String[] { "tasktestproject.testProjectID AS ID" };
+		String condition = " tasktestproject.taskID = '" + taskID + "'";
+		List<Map<String, Object>> result = entityDao.searchForeign(properties,
+				tableName, null, null, condition);
+		return result;
+	}
+	
+	@Override
+	public String saveTaskTestproject(String[] testprojectIDs,String taskID) {
+		if (testprojectIDs == null || testprojectIDs.length == 0) {
+			return "没有新登记的检测项目";
+		} else {
+			int saveSuccessCount = 0;
+			String ID = "";
+			SimpleDateFormat dateFormat = new SimpleDateFormat(
+					"yyyy-MM-dd HH:mm:ss");
+			for (int i = 0, len = testprojectIDs.length; i < len; i++) {
+				ID = EntityIDFactory.createId();
+				Date time = new Date(System.currentTimeMillis());
+				TaskTestProject te = new TaskTestProject();
+				te.setID(ID);
+				te.setTaskID(taskID);
+				te.setTestProjectID(testprojectIDs[i]);
+				try {
+					te.setCheckInTime(dateFormat.parse(dateFormat.format(time)));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				if (baseEntityDao.save(te) == 1) {
+					saveSuccessCount++;
+				}
+			}
+			if (saveSuccessCount == testprojectIDs.length) {
+				return "true";
+			} else {
+				return "登记失败";
+			}
+		}
+	}
+	
+	@Override
+	public boolean deleteTaskTestproject(String[] testprojectIDs) {
+		return baseEntityDao.deleteEntities(testprojectIDs, "tasktestproject", "testProjectID") > 0 ? true : false;
+	}
 }

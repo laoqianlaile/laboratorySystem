@@ -55,8 +55,8 @@ public class TestProjectController{
 	 */ 
 	@RequestMapping("/addTestProject")
 	@ResponseBody
-	public String addTestProject(String NAMECN, String NAMEEN, String DEPARTMENTID, String ENVIRONMENTALREQUIREMENTS, String STANDARDID, String EQUIPMENTID,String describes,String remarks){
-		String result = service.addTestProject(NAMECN, NAMEEN, DEPARTMENTID, ENVIRONMENTALREQUIREMENTS, STANDARDID, EQUIPMENTID,describes,remarks);
+	public String addTestProject(String NAMECN, String NAMEEN, String departmentID, String ENVIRONMENTALREQUIREMENTS, String standardID, String EQUIPMENTID,String describes,String remarks,String testTypeID){
+		String result = service.addTestProject(NAMECN, NAMEEN, departmentID, ENVIRONMENTALREQUIREMENTS, standardID, EQUIPMENTID,describes,remarks,testTypeID);
 		return result;
 	}
 	
@@ -76,8 +76,8 @@ public class TestProjectController{
 	 */
 	@RequestMapping("/editTestProject")
 	@ResponseBody
-	public String editTestProject(String testProjectID,String testStandardID,String testInstumentID,String NAMECN, String NAMEEN, String DEPARTMENTID, String ENVIRONMENTALREQUIREMENTS, String STANDARDID, String EQUIPMENTID,String describes,String remarks ){
-		String result = service.upTestProject(testProjectID,testStandardID,testInstumentID, NAMECN, NAMEEN, DEPARTMENTID, ENVIRONMENTALREQUIREMENTS, STANDARDID, EQUIPMENTID,describes,remarks);
+	public String editTestProject(String testProjectID,String testStandardID,String testInstumentID,String testDepartmentID,String NAMECN, String NAMEEN, String departmentID, String ENVIRONMENTALREQUIREMENTS, String standardID, String EQUIPMENTID,String describes,String remarks,String testTypeID){
+		String result = service.upTestProject(testProjectID,testStandardID,testInstumentID,testDepartmentID, NAMECN, NAMEEN, departmentID, ENVIRONMENTALREQUIREMENTS, standardID, EQUIPMENTID,describes,remarks,testTypeID);
 		return result;
 	}
 	
@@ -206,6 +206,114 @@ public class TestProjectController{
 			String order, String sort, String contract,HttpSession session) {
 		Map<String, Object> result = service.getTestproWithPaging(limit, offset, order, sort, contract,session);
 		return JSONObject.fromObject(result);
+	}
+	
+	/**
+	 * 
+     * @discription 获取所有的检测项目
+     * @author zt       
+     * @created 2017-5-23 下午8:40:54     
+     * @return
+	 */
+	@RequestMapping("/getAllTestProject")
+	@ResponseBody
+	public List<Map<String, Object>> getAllTestProject(){
+      	List<Map<String, Object>> result = service.getAllTestProject();
+		return result;
+	}
+
+	/**
+	 * 获取检测类别
+	 * 
+	 * @author zkl
+	 * @data 2017年5月20日 下午5:41:28
+	 * @return
+	 */
+	@RequestMapping("/getTestType")
+	@ResponseBody
+	public List<Map<String, Object>> getTestType(){
+		List<Map<String, Object>> result = service.getTestType();
+		return result;
+	}
+
+	/**
+	 * @description 任务分配下修改工时
+	 * @author chenyubo
+	 * @date 2017-05-19 21:11:11
+	 * @param ID 检测项目ID
+	 * @return
+	 */
+	@RequestMapping("/editLaborHourInTaskAssign")  
+	@ResponseBody
+	public String editLaborHourInTaskAssign(String ID, double laborHour){
+		return service.editLaborHourInTaskAssign(ID, laborHour);
+	}
+	
+	/**
+	 * @description 获取检测项目工时
+	 * @param name
+	 * @param testName
+	 * @param limit
+	 * @param offset
+	 * @param order
+	 * @param sort
+	 * @return
+	 */
+	@RequestMapping("/getTestProjectManHour")
+    @ResponseBody
+	public JSONObject getTestProjectManHour(String name,
+			String testName,  int limit, int offset, String order,String sort){
+		Map<String, Object> result =service.getTestProjectManHour(name, testName, limit, offset, order, sort);
+		return JSONObject.fromObject(result);
+	}
+	
+	/**
+	 * @description 获取所有的检测类别
+	 * @return
+	 */
+	@RequestMapping("/getAllTestType")
+	@ResponseBody
+	public String getAllTestType(){
+		List<Map<String, Object>> result = service.getAllTestType();
+		return JSONArray.fromObject(result).toString();
+	}
+	
+	/**
+	 * @descripton 删除检测工时中的检测项目
+	 * @param IDs
+	 * @return
+	 */
+	@RequestMapping("/delTestProjectInManHour")
+    @ResponseBody
+	public String delTestProjectInManHour(String IDs){
+		String result = service.delTestProjectInManHour(IDs);
+		return result;
+	}
+	
+	/**
+	 * @description 获取检测项目工时
+	 * @param testName
+	 * @return
+	 */
+	@RequestMapping("/getTestProjectByTestName")  
+    @ResponseBody
+	public String getTestProjectByTestName(String testName){
+		List<Map<String, Object>> result = service.getTestProjectByTestName(testName);
+		return JSONArray.fromObject(result).toString();
+	}
+	
+	/**
+	 * @description 新增工时
+	 * @param ID
+	 * @param testTypeID
+	 * @param laborHour
+	 * @return
+	 */
+	@RequestMapping("/updateManHour")  
+    @ResponseBody
+	public String updateManHour(String ID,String testTypeID, double laborHour){
+		String result = service.updateManHour(ID, testTypeID, laborHour);
+		return result;
 	}
 	
 }

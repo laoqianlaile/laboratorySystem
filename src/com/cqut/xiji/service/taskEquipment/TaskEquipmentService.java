@@ -80,4 +80,10 @@ public class TaskEquipmentService extends SearchService implements ITaskEquipmen
 		List<Map<String, Object>> result = originalSearchForeign(properties,baseEntity, null, null, condition, false);
 		return result;
 	}
+	
+	@Override
+	public boolean deleteTaskEquipmentID(String[] taskIDs) {
+		return baseEntityDao.deleteEntities(taskIDs, "taskequipment", "equipmentID") > 0 ? true : false;
+	}
+
 }

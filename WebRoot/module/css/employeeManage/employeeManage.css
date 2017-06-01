@@ -66,8 +66,8 @@
 }
 
 .modal-content {
-	width: 470px;
-	height: 580px;
+	width: 810px;
+	height: 500px;
 	margin: auto;
 }
 
@@ -140,6 +140,36 @@
 	padding: 0;
 }
 
+
+.col-xs-6,col-md-6 {
+	margin-top: 20px;
+}
+
 .col-xs-12,col-md-12 {
 	margin-top: 20px;
 }
+
+.modal-dialog{
+	width:810px !important;
+}
+
+.timeLabelDiv{
+  float:left;
+  height: 34px;
+  min-width: 70px;
+}
+
+.timeLabelDiv label{
+  margin-top: 7px;
+}
+
+.timeChooseDiv{
+ width: 50%;
+ margin-top: 0px;
+}
+
+.timeChoose{
+ width: 72%;
+ margin-top: 0px;
+}
+

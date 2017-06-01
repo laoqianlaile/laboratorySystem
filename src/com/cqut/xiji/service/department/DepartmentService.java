@@ -47,7 +47,7 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 	@Override
 	public List<Map<String, Object>> getDepartmentName() {
 		String[] properties = new String[] {"ID","departmentName"};
-		String condition = "";
+		String condition = " 1 = 1 ";
 		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Department.class);
 		return result;
 	}

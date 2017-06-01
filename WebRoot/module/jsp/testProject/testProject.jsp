@@ -18,6 +18,9 @@
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 <link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" /> 
+<link rel="stylesheet" type="text/css" href="module/css/bootstrap-select.css">
+<link rel="stylesheet" type="text/css" href="module/css/bootstrap-select.min.css">
+
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
@@ -25,6 +28,7 @@
 <script src="module/js/bootstrap-table-zh-CN.js"></script>
 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 <script src="module/js/sweetalert.min.js"></script>
+<script src="module/js/bootstrap-select.js"></script>
 </head><style>
 
 .choose {
@@ -227,29 +231,29 @@
 								<label class="labelName">中文名称</label>
 								<input type=" text" id="add_NAMECN" name="NAMECN"
 									class="form-control" aria-describedby="basic-addon1" />
-								<label class="labelName">所属科室</label>
-								<select class="form-control" id="add_DEPARTMENTID"
-									name="DEPARTMENTID"></select>
-								<label class="labelName">所属标准</label>
-								<select class="form-control" id="add_STANDARDID"
-									name="STANDARDID"></select>
 							</div>
 							<div class="col-md-6 col-xs-6">
 								<label class="labelName">英文名称</label>
 								<input type=" text" id="add_NAMEEN" name="NAMEEN"
 									class="form-control" aria-describedby="basic-addon1" />
-								<label class="labelName">环境要求</label>
+							<!-- 	<label class="labelName">环境要求</label>
 								<input type=" text" id="add_ENVIRONMENTALREQUIREMENTS"
 									name="ENVIRONMENTALREQUIREMENTS" class="form-control"
-									aria-describedby="basic-addon1" />
+									aria-describedby="basic-addon1" /> -->
 							</div>
 						</div>
-						<div class="col-md-12 col-xs-12" style="padding-bottom:10px;">
+						<div class="col-md-12 col-xs-12">
+							<label class="labelName">检测部门</label>
+							<select id="add_DEPARTMENTID" name="DEPARTMENTID" class="selectpicker show-tick" multiple data-live-search="false" multiple data-selected-text-format="">
+							</select>
+						</div>
+						
+						<!-- <div class="col-md-12 col-xs-12" style="padding-bottom:10px;">
 							<div class="col-md-6 col-xs-6 " >
 								<label class="labelName">所需仪器</label>
 								<div id="displayChecked" name="add" ></div>
 							</div>
-							<!-- 新模式 -->
+							新模式
 							<div id="equipmentsBox" class = "col-md-6 col-xs-6 "  >
 								<div >
 									<label class="labelName">搜索查询添加仪器</label>
@@ -258,7 +262,18 @@
 								</div>
 								<div   class="showEquipments" name = "add"></div>
 							</div>
+						</div> -->
+						<div class="col-md-12 col-xs-12">
+							<label class="labelName">依据标准</label>
+							<select id="add_STANDARDID" name="STANDARDID" class="selectpicker show-tick" multiple data-live-search="false" multiple data-selected-text-format="">
+							</select>
 						</div>
+						<div class="col-md-6 col-xs-6">
+								<label class="labelName">检测类别</label>
+								<select  id="add_type" name="type"class="form-control">
+								</select>
+						</div>
+						
 						<div class="col-md-12 col-xs-12 ">
 							<label class="labelName">标准描述</label>
 							<textarea  id="add_DESCRIBE" name="DESCRIBE"
@@ -290,7 +305,6 @@
 					</button>
 					<h4 class="modal-title">检测项目修改</h4>
 				</div>
-				<div>
 					<div class="row">
 						<div class="col-md-12 col-xs-12 ">
 						 		<!-- 检测项目id -->
@@ -299,31 +313,29 @@
 								<!-- 检测标准id --> 
 							<input type=" hidden" id="edit_testStandardID" name="testStandardID"
 								class="form-control" aria-describedby="basic-addon1" style="display: none;" />
-								<!-- 检测仪器id  -->
-							<input type=" hidden" id="edit_testInstumentID" name="testInstumentID"
+							<input type=" hidden" id="edit_testDepartmentID" name="testDepartmentID"
 								class="form-control" aria-describedby="basic-addon1" style="display: none;" />
+								<!-- 检测仪器id  -->
+							<!-- <input type=" hidden" id="edit_testInstumentID" name="testInstumentID"
+								class="form-control" aria-describedby="basic-addon1" style="display: none;" /> -->
 							<div  class="col-md-6 col-xs-6">
 								<label class="labelName">中文名称</label>
 								<input type=" text" id="edit_NAMECN" name="NAMECN"
 									class="form-control" aria-describedby="basic-addon1" />
-								<label class="labelName">所属科室</label>
-								<select class="form-control" id="edit_DEPARTMENTID"
-									name="DEPARTMENTID"></select>
-								<label class="labelName">所属标准</label>
-								<select class="form-control" id="edit_STANDARDID"
-									name="STANDARDID"></select>
 							</div>
 							<div class="col-md-6 col-xs-6">
 								<label class="labelName">英文名称</label>
 								<input type=" text" id="edit_NAMEEN" name="NAMEEN"
 									class="form-control" aria-describedby="basic-addon1" />
-								<label class="labelName">环境要求</label>
-								<input type=" text" id="edit_ENVIRONMENTALREQUIREMENTS"
-									name="ENVIRONMENTALREQUIREMENTS" class="form-control"
-									aria-describedby="basic-addon1" />
 							</div>
+							
+						</div>	
+						<div class="col-md-12 col-xs-12">
+							<label class="labelName">检测部门</label>
+							<select id="edit_DEPARTMENTID" name="DEPARTMENTID" class="selectpicker show-tick" multiple data-live-search="false" multiple data-selected-text-format="">
+							</select>
 						</div>
-						<div class="col-md-12 col-xs-12" style="padding-bottom:10px;">
+						<!-- <div class="col-md-12 col-xs-12" style="padding-bottom:10px;">
 							<div class="col-md-6 col-xs-6 " >
 								<label class="labelName">所需仪器</label>
 								<div id="displayChecked" name="edit"></div>
@@ -336,11 +348,19 @@
 								</div>
 								<div   class="showEquipments" name="edit" ></div>
 							</div>
+						</div> -->
+					
+					<div class="col-md-12 col-xs-12">
+							<label class="labelName">依据标准</label>
+							<select id="edit_STANDARDID" name="STANDARDID" class="selectpicker show-tick" multiple data-live-search="false" multiple data-selected-text-format="">
+							</select>
 						</div>
-						
+					<div class="col-md-6 col-xs-6">
+							<label class="labelName">检测类别</label>
+							<select  id="edit_type" name="type"class="form-control">
+							</select>
 					</div>
 					<div class="col-md-12 column">
-						
 						<label class="labelName">标准描述</label>
 						<textarea type=" text" id="edit_DESCRIBE" name="DESCRIBE"
 							class="form-control" aria-describedby="basic-addon1" ></textarea>

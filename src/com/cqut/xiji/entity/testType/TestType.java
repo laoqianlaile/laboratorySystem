@@ -11,6 +11,14 @@ public class TestType extends Entity{
 	@ID
 	private String ID;
 	private String name;
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	private Date checkInTime;
 	
 	public String getID() {

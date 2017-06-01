@@ -7,4 +7,6 @@ public interface ITaskEquipmentService {
 	public String saveTaskEquipment(String[] equipmentIDs, String taskID);
 
 	public List<Map<String, Object>> getTaskEquipmentID(String taskID);
+	
+	public boolean deleteTaskEquipmentID(String[] taskIDs);
 }

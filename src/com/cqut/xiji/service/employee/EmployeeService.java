@@ -1,5 +1,7 @@
 package com.cqut.xiji.service.employee;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,6 +22,7 @@ import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.contract.Contract;
+import com.cqut.xiji.entity.department.Department;
 import com.cqut.xiji.entity.employee.Employee;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.service.base.SearchService;
@@ -187,6 +190,21 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			return map;
 
 		}
+		
+		/**
+		 * @description 根据部门ID获取所有员工ID和名字
+		 * @author chenyubo
+		 * @created 2017年05月26日21:27:02
+		 * @param ID 部门ID
+		 * @return
+		 */
+		@Override
+		public List<Map<String, Object>> getEmployeeNameInPersonalTask(String ID) {
+			String[] properties = new String[] {"ID","employeeName"};
+			String condition = " 1 = 1 and employee.departmentID = '" + ID + "' ";
+			List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Employee.class);
+			return result;
+		}
 
 		@Override
 		public List<Map<String, Object>> getEmployeeName(String employeeName) {
@@ -276,9 +294,9 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 				String sort) {
 			// TODO Auto-generated method stub
 			int index = limit;
-			int pageNum = offset/limit;
+			int pageNum = offset / limit;
 			String tableName = "employee";
-			String[] properties = new String[]{
+			String[] properties = new String[] {
 					"employee.ID",
 					"employee.employeeName",
 					"employee.employeeCode",
@@ -290,45 +308,57 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 					"employee.roleID",
 					"employee.departmentID",
 					"employee.dutyID",
+					"date_format(employee.birthday,'%Y-%m-%d') as birthday",
+					"case when employee.jobTitle = 0 then '无'"
+							+ "when employee.jobTitle =1 then '初级工程师' "
+							+ "when employee.jobTitle =2 then '中级工程师'"
+							+ "when employee.jobTitle = 3 then '高级工程师' end as jobTitle",
+					"case when employee.eduLevel = 0 then '初中'"
+							+"when employee.eduLevel =1 then '高中'"
+							+"when employee.eduLevel =2 then '大专'"
+							+"when employee.eduLevel =3 then '本科'"
+							+"when employee.eduLevel =4 then '硕士'"
+							+"when employee.eduLevel =5 then '博士' end as eduLevel",
+					"employee.graduate",
+					"employee.IDCard",
 					"(select GROUP_CONCAT(role.`name`) from role where FIND_IN_SET(role.ID,employee.roleID))as roleName",
 					"department.departmentName",
 					"duty.dutyName",
 					"case when employee.sex = 0 then '女'"
-					+ "when employee.sex = 1 then '男' end as sex",
-					
+							+ "when employee.sex = 1 then '男' end as sex",
+
 					"case when employee.state = 0 then '禁用'"
-					+ "when employee.state = 1 then '启用' end as state",
-			};
-			
-			String joinEntity =  " left join department on employee.departmentID = department.ID "
+							+ "when employee.state = 1 then '启用' end as state", };
+
+			String joinEntity = " left join department on employee.departmentID = department.ID "
 					+ " left join duty on employee.dutyID = duty.ID ";
-			int permission=1;
-			String condition = "1 = 1 and employee.permission="+permission;
-			
+			int permission = 1;
+			String condition = "1 = 1 and employee.permission=" + permission;
+
 			if (employeeName != null && !employeeName.equals("")) {
-				condition += " and employee.employeeName like '%"
-						+ employeeName + "%'";
+				condition += " and employee.employeeName like '%" + employeeName
+						+ "%'";
 			}
 			if (employeeCode != null && !employeeCode.equals("")) {
 				condition += " and employee.employeeCode like '%" + employeeCode
 						+ "%'";
 			}
 			if (loginName != null && !loginName.equals("")) {
-				condition += " and employee.loginName like '%" + loginName
-						+ "%'";
+				condition += " and employee.loginName like '%" + loginName + "%'";
 			}
 			if (phoneNumber != null && !phoneNumber.equals("")) {
-				condition += " and employee.phoneNumber like '%" + phoneNumber + "%'";
+				condition += " and employee.phoneNumber like '%" + phoneNumber
+						+ "%'";
 			}
 			if (departmentName != null && !departmentName.equals("")) {
-				condition += " and department.departmentName like '%" + departmentName + "%'";
+				condition += " and department.departmentName like '%"
+						+ departmentName + "%'";
 			}
-			
-			
+
 			List<Map<String, Object>> result = originalSearchWithpaging(properties,
 					tableName, joinEntity, null, condition, false, null, sort,
 					order, index, pageNum);
-			
+
 			int count = getForeignCountWithJoin(joinEntity, null, condition, false);
 
 			Map<String, Object> map = new HashMap<String, Object>();
@@ -341,12 +371,13 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 		/**
 		 * @description 新增员工
 		 * @author Hzz
-		 * @date  2016年12月8日 早上10:46:09
+		 * @date 2016年12月8日 早上10:46:09
 		 */
 		@Override
 		public String addEmployee(String employeeName, String employeeCode,
 				int sex, String email, String phoneNumber, String address,
-				String dutyID, String roleID, String departmentID) {
+				String dutyID, String roleID, String departmentID, String birthday,
+				int jobTitle, int eduLevel, String graduate, String IDCard,String password) {
 			// TODO Auto-generated method stub
 			Employee employee = new Employee();
 			employee.setID(EntityIDFactory.createId());
@@ -361,13 +392,29 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			employee.setDepartmentID(departmentID);
 			employee.setRoleID(roleID);
 			employee.setLoginName(employeeCode);
-			employee.setPassword("123456");
+			employee.setPassword(password);
 			employee.setState(0);
 			employee.setLevel(0);
 			employee.setPermission(1);
+			employee.setGraduate(graduate);
+			employee.setIDCard(IDCard);
+			employee.setEduLevel(eduLevel);
+			employee.setJobTitle(jobTitle);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date birthday1 = null;
+			try {
+				birthday1 = sdf.parse(birthday);
+				System.out.println(birthday);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			if (birthday1 != null) {
+				employee.setBirthday(birthday1);
+			}
 			int result = entityDao.save(employee);
 			return result + "";
 		}
+
 		
 		/**
 		 * @description 删除员工
@@ -391,16 +438,18 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 		 * @date 2016年12月8日 早上11:03:14
 		 */
 		@Override
-		public String updEmployee(String ID,String employeeName, String employeeCode,
-				int sex, String email, String phoneNumber, String address,
-				String dutyID, String roleID, String departmentID) {
+		public String updEmployee(String ID, String employeeName,
+				String employeeCode, int sex, String email, String phoneNumber,
+				String address, String dutyID, String roleID, String departmentID,
+				String birthday, int jobTitle, int eduLevel, String graduate,
+				String IDCard) {
 			// TODO Auto-generated method stub
 
-			if(ID == null  || ID.equals("")){
+			if (ID == null || ID.equals("")) {
 				return "false";
 			}
 			Employee employee = entityDao.getByID(ID, Employee.class);
-			if(employee == null )
+			if (employee == null)
 				return "false";
 			employee.setEmployeeName(employeeName);
 			employee.setEmployeeCode(employeeCode);
@@ -411,9 +460,24 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			employee.setDutyID(dutyID);
 			employee.setDepartmentID(departmentID);
 			employee.setRoleID(roleID);
-
-			return entityDao.updatePropByID(employee,ID)==1?"true":"false";
+			employee.setGraduate(graduate);
+			employee.setIDCard(IDCard);
+			employee.setEduLevel(eduLevel);
+			employee.setJobTitle(jobTitle);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date birthday1 = null;
+			try {
+				birthday1 = sdf.parse(birthday);
+				System.out.println(birthday);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			if (birthday1 != null) {
+				employee.setBirthday(birthday1);
+			}
+			return entityDao.updatePropByID(employee, ID) == 1 ? "true" : "false";
 		}
+
 
 		/**
 		 * @description 更改员工状态
@@ -529,4 +593,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 		}
 
 	}
+		
+		
+		
 }

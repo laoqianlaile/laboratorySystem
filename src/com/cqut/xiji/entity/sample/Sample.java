@@ -11,7 +11,6 @@ public class Sample extends Entity{
 	private String ID;
 	private String factoryCode;
 	private String sampleName;
-	private String receiptlistID;
 	private Date createTime;
 	private String remarks;
 	private String specifications;
@@ -49,13 +48,7 @@ public class Sample extends Entity{
 		this.laborHour = laborHour;
 	}
 
-	public String getReceiptlistID() {
-		return receiptlistID;
-	}	
-	
-	public void setReceiptlistID(String receiptlistID) {
-		this.receiptlistID = receiptlistID;
-	}
+
 	public Date getCreateTime() {
 		return createTime;
 	}	
@@ -103,7 +96,7 @@ public class Sample extends Entity{
 
 	@Override
 	public String toString() {
-		return "Sample [" +  "ID=" + ID  + ", " +  "factoryCode=" + factoryCode  + ", " +  "sampleName=" + sampleName  + ", " +  "receiptlistID=" + receiptlistID  + ", " +  "createTime=" + createTime  + ", " +  "remarks=" + remarks  + ", " +  "specifications=" + specifications  + ", " +  "state=" + state +  "unit=" + unit  + ", " +  "qrcode=" + qrcode  +  "]";
+		return "Sample [" +  "ID=" + ID  + ", " +  "factoryCode=" + factoryCode  + ", " +  "sampleName=" + sampleName    + ", " +  "createTime=" + createTime  + ", " +  "remarks=" + remarks  + ", " +  "specifications=" + specifications  + ", " +  "state=" + state +  "unit=" + unit  + ", " +  "qrcode=" + qrcode  +  "]";
 	}
 	
 	@Override

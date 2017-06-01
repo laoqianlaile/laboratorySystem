@@ -1,26 +1,38 @@
 $(function () {
 	
+//	$.ajax({
+//		url:'employeeController/getDepartmentInfo.do',
+//		dataType:'json',
+//		async:false,
+//		success:function(o){
+//			var data = JSON.parse(o);
+//			console.log(data[0]);
+//			$('#departmentID').text(data[0].ID);
+//	  	}
+//	});
+//	
+//	var ID = $('#departmentID').text();//检测部门ID
+	
+	// 得到所有科室填充下拉框
 	$.ajax({
-		url:'employeeController/getDepartmentInfo.do',
+		url:'departmentController/getDepartmentName.do',
 		dataType:'json',
-		async:false,
 		success:function(o){
 			var data = JSON.parse(o);
-			console.log(data[0]);
-			$('#departmentID').text(data[0].ID);
+			var html;
+			for(var i = 0;i<data.length;i++){
+				html += '<option value = "' + data[i].ID + '">' + data[i].departmentName + '</option>'; 
+			}
+			$('#department').append(html);
 	  	}
 	});
 	
-	var ID = $('#departmentID').text();//检测部门ID
-	
-	// 初始化检测项目表格
 	$('#table').bootstrapTable({
 		//定义表格的高度height: 500,
 		striped: false,// 隔行变色效果
 		pagination: true,//在表格底部显示分页条
-		pageSize: 5,//页面数据条数
+		pageSize: 10,//页面数据条数
 		pageNumber:1,//首页页码
-		pageList: [1, 3, 5],//设置可供选择的页面数据条数
 		clickToSelect:true,//设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache: false,//禁用 AJAX 数据缓存
 		sortName:'testProject.ID',//定义排序列
@@ -36,7 +48,7 @@ $(function () {
 			    			search: "",//初始化搜索文字
 			    			sort: params.sort, //排序列名  
 			    			order: params.order, //排位命令（desc，asc）
-			    			ID: ID,//科室ID
+			    			ID: "-1",//科室ID
 		    			};  
 		    			return temp;  
 		    	  	},
@@ -58,61 +70,43 @@ $(function () {
 			title:'检测项目中文名',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'25%'//宽度
+			width:'30%'//宽度
 		},{
 			field:'nameEn',//返回值名称
 			title:'检测项目英文名',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'25%'//宽度
+			width:'30%'//宽度
 		},{
 			field:'money',//返回值名称
-			title:'价格',//列名
+			title:'金额',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'15%'//宽度
-		},{
-			field:'amount',//返回值名称
-			title:'数目',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-			width:'15%'//宽度
-		},{
-			field:'operate',//返回值名称
-			title:'操作',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-			width:'15%',//宽度
-			formatter:function(value,row,index){  
-				var btn_detail = '<img src="module/img/view_icon.png" onclick="viewDetail(\''+ ID + '\',\'' + row.ID +'\')" data-toggle="tooltip" data-placement="top" title="查看详细" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></img>';
-		  			return btn_detail;  
-            } 
-		}]//列配置项,详情请查看 列参数 表格
-		/*事件*/
-	});
-	
-	// 得到所有检测项目填充下拉框
-	$.ajax({
-		url:'contractFineItemController/getAllTestProjectInDepartmentTaskStatistical.do',
-		data:{ID:ID},
-		dataType:'json',
-		success:function(o){
-			var data = JSON.parse(o);
-			var html;
-			for(var i = 0;i<data.length;i++){
-				html += '<option value = "' + data[i].ID + '">' + data[i].nameCn + '</option>'; 
-			}
-			$('#testProject').append(html);
-	  	}
+		}]
 	});
 	
 	// 查询按钮点击事件
 	$('#search').click(function(){
-		var testProjectID = $('#testProject').val();
+		var departmentID = $('#department').val();
 		$('#table').bootstrapTable('refresh',{
 			silent: true,
 			url: 'contractFineItemController/getTestProjectInDepartmentTaskStatistical.do',
-			query: {testProjectID:testProjectID}
+			query: {
+				ID: departmentID
+			}
+		});
+		
+		// 更新总金额
+		$.ajax({
+			url:'contractFineItemController/getTotalMoneyInDepartmentTaskStatistical.do',
+			dataType:'json',
+			data: {
+				ID: departmentID
+			},
+			success:function(data){
+				$('#totalMoney').text(data);
+		  	}
 		});
 	});
 	
@@ -124,6 +118,21 @@ $(function () {
 			query: {}
 		});
 	});
+	
+	// 得到所有检测项目填充下拉框
+//	$.ajax({
+//		url:'contractFineItemController/getAllTestProjectInDepartmentTaskStatistical.do',
+//		data:{ID:ID},
+//		dataType:'json',
+//		success:function(o){
+//			var data = JSON.parse(o);
+//			var html;
+//			for(var i = 0;i<data.length;i++){
+//				html += '<option value = "' + data[i].ID + '">' + data[i].nameCn + '</option>'; 
+//			}
+//			$('#testProject').append(html);
+//	  	}
+//	});
 });
 
 //查看详情

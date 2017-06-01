@@ -116,9 +116,9 @@ public class FileInformationController{
 	
 	@RequestMapping("/getContractTemplateFileWithPaging")
 	@ResponseBody
-	public JSONObject getContractTemplateFileWithPaging(int limit,int offset,String order,String sort){
+	public JSONObject getContractTemplateFileWithPaging(int limit,int offset,String order,String sort,String contractType){
 		
-		Map<String, Object> result = service.getContractTemplateFileWithPaging(limit,offset,order,sort);
+		Map<String, Object> result = service.getContractTemplateFileWithPaging(limit,offset,order,sort,contractType);
 		return JSONObject.fromObject(result);
 	}
 	

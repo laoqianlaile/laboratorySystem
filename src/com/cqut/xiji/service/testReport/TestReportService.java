@@ -16,7 +16,6 @@ import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
-import com.cqut.xiji.entity.messageNotice.MessageNotice;
 import com.cqut.xiji.entity.receiptlist.Receiptlist;
 import com.cqut.xiji.entity.task.Task;
 import com.cqut.xiji.entity.testReport.TestReport;
@@ -26,10 +25,6 @@ import com.cqut.xiji.service.fileOperate.IFileOperateService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 import com.cqut.xiji.tool.util.PropertiesTool;
 import com.cqut.xiji.tool.word.WordProcess;
-import com.jacob.activeX.ActiveXComponent;
-import com.jacob.com.Dispatch;
-import com.jacob.com.Variant;
-import com.sun.star.beans.StringPair;
 
 @Service
 public class TestReportService extends SearchService implements
@@ -73,6 +68,19 @@ public class TestReportService extends SearchService implements
 				+ "b.receiptlistCode AS receiptlistCode,"
 				+ "b.projectID AS projectID,"
 				+ "b.taskID AS taskID,"
+				+ " IFNULL( "
+				+ " ( "
+				+ " SELECT "
+				+ " group_concat( "
+				+ "tasktestproject.testProjectID"
+				+ " ) "
+				+ " FROM "
+				+ " tasktestproject "
+				+ " WHERE "
+				+ " tasktestproject.taskID = b.taskID "
+				+ " ), "
+				+ " '无' "
+				+ " ) AS testProjectID,"
 				+ "b.fileID AS fileID,"
 				+ "b.versionNumber AS versionNumber,"
 				+ "b.state AS state,"
@@ -124,6 +132,7 @@ public class TestReportService extends SearchService implements
 				"c.receiptlistCode AS receiptlistCode",
 				"c.projectID AS projectID",
 				"c.taskID AS taskID",
+				"c.testProjectID AS testProjectID",
 				"c.fileID AS fileID",
 				"c.versionNumber AS versionNumber",
 				"c.state AS stateEn",
@@ -589,45 +598,37 @@ public class TestReportService extends SearchService implements
 			String order, String sort, String testReportID) {
 		int index = limit;
 		int pageNum = offset / limit;
-		String filterCondition = "";
-		if (testReportID != null && !testReportID.equals("")
-				&& !testReportID.equals(" ") && !testReportID.isEmpty()) {
-			filterCondition = " WHERE testreport.ID = " + testReportID;
-		}
-		String baseEntity = " ( " 
-		        + " SELECT "
-				+ "b.testProjectID AS testProjectID," 
-		        + "sample.ID AS ID,"
+		String filterCondition = " WHERE testreport.ID = '" + testReportID + "'";
+
+		String baseEntity = " ( " + " SELECT " + "sample.ID AS ID,"
 				+ "sample.specifications AS specifications,"
 				+ "sample.sampleName AS sampleName,"
-				+ "sample.factoryCode AS factoryCode,"
-				+ "taskman.detector AS detector" 
-				+ " FROM " 
-				+ " ( "
-				+ " SELECT "
-				+ "task.testProjectID AS testProjectID,"
-				+ "task.sampleID AS sampleID," 
-				+ "task.ID AS ID" + " FROM "
-				+ " ( " 
-				+ " SELECT " 
-				+ "testreport.taskID AS taskID" 
-				+ " FROM "
-				+ "testreport" 
-				+ filterCondition 
-				+ " ) AS a "
-				+ " LEFT JOIN task ON a.taskID = task.ID " 
-				+ " ) AS b "
+				+ "sample.factoryCode AS factoryCode," + "b.taskID AS taskID,"
+				+ "taskman.detector AS detector" + " FROM " + " ( "
+				+ " SELECT " + "task.sampleID AS sampleID,"
+				+ "a.taskID AS taskID" + " FROM " + " ( " + " SELECT "
+				+ "testreport.taskID AS taskID" + " FROM " + "testreport"
+				+ filterCondition + " ) AS a "
+				+ " LEFT JOIN task ON a.taskID = task.ID " + " ) AS b "
 				+ " LEFT JOIN sample ON b.sampleID = sample.ID "
-				+ " LEFT JOIN taskMan ON b.ID = taskman.taskID " 
-				+ " ) AS c ";
+				+ " LEFT JOIN taskMan ON b.taskID = taskman.taskID "
+				+ " ) AS c";
 		String[] properties = new String[] {
-				"IF (testproject.nameCn IS NULL,testproject.nameEn,IF (testproject.nameEn IS NULL,testproject.nameCn,CONCAT(testproject.nameCn,'(',testproject.nameEn,')'))) AS testProjectName",
+				"IFNULL( ( SELECT group_concat( IF ( testproject.nameEn IS NULL, testproject.nameCn,CONCAT( testproject.nameCn, '(', testproject.nameEn, ')' )"
+						+ " ) "
+						+ " ) "
+						+ " FROM "
+						+ "tasktestproject,"
+						+ "testproject"
+						+ " WHERE "
+						+ "tasktestproject.taskID = c.taskID"
+						+ " AND tasktestproject.testProjectID = testproject.ID"
+						+ " ),'无'" + " ) AS testProjectName",
 				"c.factoryCode AS factoryCode", "c.ID AS ID",
 				"c.sampleName AS sampleName",
 				"c.specifications AS specifications",
 				"employee.employeeName AS employeeName" };
-		String joinEntity = " LEFT JOIN testproject ON c.testProjectID = testproject.ID "
-				+ " LEFT JOIN employee ON c.detector = employee.ID ";
+		String joinEntity = " LEFT JOIN employee ON c.detector = employee.ID ";
 		String condition = " 1 = 1";
 		List<Map<String, Object>> result = entityDao.searchWithpaging(
 				properties, baseEntity, joinEntity, null, null, condition,
@@ -824,7 +825,7 @@ public class TestReportService extends SearchService implements
 		if (tr == null) {
 			return "未找到报告相关信息";
 		} else {
-			Map<String, Object> employeeSignImage = baseEntityDao.findByID( new String[] { "signatrue,stamp,employeeName" }, employeeID, "ID",
+			Map<String, Object> employeeSignImage = baseEntityDao.findByID( new String[] { "signature,stamp,employeeName" }, employeeID, "ID",
 					"employee");
 			if (employeeSignImage != null && employeeSignImage.size() > 0) {
 				String baseEntity = " ( "
@@ -864,7 +865,7 @@ public class TestReportService extends SearchService implements
 					String imgPath = pe.getSystemPram("imgPath") + "\\";
 					String employeeName = employeeSignImage.get("employeeName").toString();
 					
-					Object signatrue =  employeeSignImage.get("signatrue");
+					Object signatrue =  employeeSignImage.get("signature");
 					Object stamp =  employeeSignImage.get("stamp");
 					
 					if(signatrue != null && stamp != null) {
@@ -1099,7 +1100,6 @@ public class TestReportService extends SearchService implements
 	
 	@Override
 	public List<Map<String, Object>> getReportInfo(String taskID) {
-
 		String filteCondition = "";
 		if (!taskID.isEmpty() || !taskID.equals("") || taskID != null) {
 			filteCondition = " WHERE task.ID  = '" + taskID + "'";
@@ -1121,7 +1121,7 @@ public class TestReportService extends SearchService implements
 	}
 	
 	@Override
-	public boolean recoatCheck(String[] taskIDs, String fileIDs[], String[] projectIDs, String[] states) {
+	public String recoatCheck(String[] taskIDs, String fileIDs[], String[] projectIDs, String[] states, String[] testProjectID) {
 		boolean flag = true;
 		for (int i = 0, len = projectIDs.length; i < len - 1; i++) { // 遍历查看所合并报告是否在同一项目下
 			for (int j = 0; j < len - i; j++) {
@@ -1135,7 +1135,7 @@ public class TestReportService extends SearchService implements
 				}
 			}
 			if (flag == false) {
-				break;
+				return "选择的报告不属于同一项目";
 			}
 		}
 		for (int i = 0, len = fileIDs.length; i < len - 1; i++) { // 遍历查看所合并报告是否是同一文件
@@ -1150,67 +1150,67 @@ public class TestReportService extends SearchService implements
 				}
 			}
 			if (flag == false) {
-				break;
+				return "选择的报告有的对应同一文件";
 			}
 		}
 		for (int i = 0, len = states.length; i < len - i; i++) { // 检查当前审核状态的报告是否能合并
 			if (!states[i].equals("0")) {
-				flag = false;
-				break;
-
+				return "请检查选择合并的报告的审核状态是否符合条件";
 			}
 		}
-		if (flag) {
-			String IDs = "";
-			if (taskIDs.length > 0) {
-				IDs = taskIDs[0];
+		String IDs = "";
+		if (taskIDs.length > 0) {
+			IDs = "'" + taskIDs[0] + "'";
+		}
+		if (taskIDs.length >= 2) {
+			for (int i = 1, len = taskIDs.length; i < len; i++) {
+				IDs += ", '" + taskIDs[i] + "'";
 			}
-			if (taskIDs.length >= 2) {
-				for (int i = 1, len = taskIDs.length; i < len; i++) {
-					IDs += "," + taskIDs[i];
-				}
+		}
+		String condition = " ID IN " + " ( " + IDs + " )";
+		List<Map<String, Object>> result = baseEntityDao.findByCondition(
+				new String[] { "type", "sampleID" }, condition, "task");
+		System.out.println("晴天 :" + result);
+		int len = result.size();
+		if (len == 0) {
+			return "没有找到报告所对应的任务";
+		} else {
+			String[] types = new String[len];
+			for (int i = 0; i < len; i++) {
+				types[i] = result.get(i).get("type").toString();
 			}
-			String condition = " ID IN " + " ( " + IDs + " )";
-			List<Map<String, Object>> result = baseEntityDao.findByCondition(
-					new String[] { "testProjectID", "sampleID" }, condition,
-					"task");
-			System.out.println("晴天 :" + result);
-			int len = result.size();
-			if (len == 0) {
-				return false;
-			} else {
-				String[] pojectID = new String[len];
-				String[] sampleID = new String[len];
-				for (int i = 0; i < len; i++) {
-					pojectID[i] = result.get(i).get("testProjectID").toString();
-					sampleID[i] = result.get(i).get("sampleID").toString();
-				}
-				int sampleLen = sampleID.length;
-				for (int i = 0; i < sampleLen - 1; i++) { // 遍历查看所合并报告是否对于同一样品
-					for (int j = 0; j < sampleLen - i; j++) {
-						if (i == j) {
-							continue;
-						} else {
-							if (!sampleID[i].equals(sampleID[j])) {
-								flag = false;
-								break;
-							}
+			int typeLen = types.length;
+			for (int i = 0; i < typeLen - 1; i++) { // 遍历查看所合并报告所对应的任务类型是否一样
+				for (int j = 0; j < typeLen - i; j++) {
+					if (i == j) {
+						continue;
+					} else {
+						if (!types[i].equals(types[j])) {
+							flag = false;
+							break;
 						}
 					}
-					if (flag == false) {
-						break;
-					}
 				}
-				if (flag) {
-					return flag;
+				if (flag == false) {
+					break;
+				}
+			}
+			if (flag) {
+				String type = types[0];
+				if (type.equals("1")) {
+					return "true";
 				} else {
-					int pojectLen = pojectID.length;
-					for (int i = 0; i < pojectLen - 1; i++) { // 遍历查看所合并报告是否对于同一检测方法
-						for (int j = 0; j < pojectLen - i; j++) {
+					String[] sampleID = new String[len];
+					for (int i = 0; i < len; i++) {
+						sampleID[i] = result.get(i).get("sampleID").toString();
+					}
+					int sampleLen = sampleID.length;
+					for (int i = 0; i < sampleLen - 1; i++) { // 遍历查看所合并报告是否对于同一样品
+						for (int j = 0; j < sampleLen - i; j++) {
 							if (i == j) {
 								continue;
 							} else {
-								if (!pojectID[i].equals(pojectID[j])) {
+								if (!sampleID[i].equals(sampleID[j])) {
 									flag = false;
 									break;
 								}
@@ -1220,11 +1220,31 @@ public class TestReportService extends SearchService implements
 							break;
 						}
 					}
-					return flag;
+					if (flag) {
+						return "true";
+					} else {
+						int testProjectLen = testProjectID.length;
+						for (int i = 0; i < testProjectLen - 1; i++) { // 遍历查看所合并报告所对应的检测项目是否一样
+							for (int j = 0; j < testProjectLen - i; j++) {
+								if (i == j) {
+									continue;
+								} else {
+									if (!testProjectID[i].equals(testProjectID[j])) {
+										flag = false;
+										break;
+									}
+								}
+							}
+							if (flag == false) {
+								return "选择合并的报告所对应的检测项目不一样";
+							}
+						}
+						return "true";
+					}
 				}
+			} else {
+				return "选择合并的报告所对应的任务的类型不一样";
 			}
-		} else {
-			return false;
 		}
 	}
 	
@@ -1263,7 +1283,7 @@ public class TestReportService extends SearchService implements
 			cacheFilePath = pt.getSystemPram("cacheFilePath") + "\\" + relativePath;
 			wp.comblineDocument(list, cacheFilePath);
 			wp.close();
-			relativePath = "项目文件" + "\\" + projectID + "\\" + "报告文件" + "\\" + relativePath;
+			relativePath = "报告文件" + "\\" + relativePath;
 			FileInformation fi = new FileInformation();
 			fi.setID(ID);
 			String belongID = "";

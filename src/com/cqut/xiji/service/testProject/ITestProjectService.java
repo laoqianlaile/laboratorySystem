@@ -19,9 +19,9 @@ public interface ITestProjectService {
 			int limit, int offset, String order, String sort);
 
 	
-	String addTestProject(String NAMECN, String NAMEEN, String DEPARTMENTID,
-			String ENVIRONMENTALREQUIREMENTS, String STANDARDID,
-			String EQUIPMENTID, String describes, String remarks);
+	String addTestProject(String NAMECN, String NAMEEN, String departmentID,
+			String ENVIRONMENTALREQUIREMENTS, String standardID,
+			String EQUIPMENTID, String describes, String remarks,String testTypeID);
 
 	
 	String delTestProject(String TestProjectIDs);
@@ -36,9 +36,9 @@ public interface ITestProjectService {
 	List<Map<String, Object>> getStandard();
 
 
-	String upTestProject(String testProjectID,String testStandardID,String testInstumentID, String NAMECN, String NAMEEN,
-			String DEPARTMENTID, String ENVIRONMENTALREQUIREMENTS,
-			String STANDARDID, String EQUIPMENTID, String describes, String remarks);
+	String upTestProject(String testProjectID,String testStandardID,String testInstumentID,String testDepartmentID, String NAMECN, String NAMEEN,
+			String departmentID, String ENVIRONMENTALREQUIREMENTS,
+			String standardID, String EQUIPMENTID, String describes, String remarks,String testTypeID);
 
 
 	Map<String, Object> getTestproWithPaging(int limit, int offset,
@@ -62,6 +62,28 @@ public interface ITestProjectService {
 	public List<Map<String, Object>> getTestProject(String testProjectNamae);
 
 	public List<Map<String, Object>> getTestProjectById(String testProjectByID);
+
+
+	public List<Map<String, Object>> getAllTestProject();
+
+	public String editLaborHourInTaskAssign(String ID, double laborHour);
+
+	List<Map<String, Object>> getTestType();
+	
+	Map<String, Object> getTestProjectManHour(String testTypeID, String nameCn,
+			int limit, int offset, String order, String sort);
+
+
+	List<Map<String, Object>> getAllTestType();
+
+
+	String delTestProjectInManHour(String IDs);
+
+
+	List<Map<String, Object>> getTestProjectByTestName(String testName);
+
+
+	String updateManHour(String ID, String testTypeID, double laborHour);
 
 
 }

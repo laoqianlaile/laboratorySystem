@@ -36,16 +36,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script src="assets/js/autoPage.js"></script>
     <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
     <script src="module/js/sweetalert.min.js"></script>
+    
+    <style>
+   		.money-wrap {
+   			float: right;
+   			margin-right: 100px;
+   			font-size: 20px;
+   		}
+    </style>
   </head>
   
   <body>
 	<div class="container" style="width:100%">
 		<div class="row">
 			<div class="col-xs-1 col-md-1 col-lg-1">
-				<h5>检测项目:</h5>
+				<h5>科室:</h5>
 			</div>
 			<div class="col-xs-2 col-md-2 col-lg-2">
-				<select class="form-control" id="testProject">
+				<select class="form-control" id="department">
 					<option value="-1"></option>
 				</select>
 			</div>
@@ -58,13 +66,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		<br />
-		<span style="display:none" id="departmentID"></span>
 		<hr />
 		<!-- 表格 -->
 		<table id="table">
 		</table>
 	</div>
 	<hr>
+	<div class="money-wrap">
+		<span>总金额为：</span><span id="totalMoney">0</span>
+	</div>
+	
   </body>
   
   <script src="module/js/departmentTaskStatistical/departmentTaskStatistical.js"></script>

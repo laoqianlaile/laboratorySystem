@@ -53,6 +53,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
   </body>
   
-  <script src="module/js/departmentStatisticalManage/departmentStatisticalManageDetail.js"></script>
+  <script src="module/js/largeclassTaskStatistical/largeclassTaskStatisticalDetail.js"></script>
   
 </html>

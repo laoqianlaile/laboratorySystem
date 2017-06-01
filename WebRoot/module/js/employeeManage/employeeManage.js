@@ -170,6 +170,46 @@ $(function() {
 									width : '6%'// 宽度
 								},
 								{
+									field : 'birthday',// 返回值名称
+									title : '出生日期',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '6%',// 宽度
+									visible : false
+								},
+								{
+									field : 'IDCard',// 返回值名称
+									title : '创建日期',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '6%',// 宽度
+									visible : false
+								},
+								{
+									field : 'jobTitle',// 返回值名称
+									title : '创建日期',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '6%',// 宽度
+									visible : false
+								},
+								{
+									field : 'eduLevel',// 返回值名称
+									title : '创建日期',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '6%',// 宽度
+									visible : false
+								},
+								{
+									field : 'graduate',// 返回值名称
+									title : '创建日期',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '6%',// 宽度
+									visible : false
+								},
+								{
 									field : 'state',// 返回值名称
 									title : '状态',// 列名
 									align : 'center',// 水平居中显示
@@ -323,6 +363,11 @@ function view(data) {
 	$('#dutyName').val(data.dutyName);
 	$('#name').val(data.roleName);
 	$('#departmentName').val(data.departmentName);
+	$('#birthday').val(data.birthday);
+	$('#jobTitle').val(data.jobTitle);
+	$('#eduLevel').val(data.eduLevel);
+	$('#graduate').val(data.graduate);
+	$('#IDCard').val(data.IDCard);
 	var sex = data.sex;
 	if (sex == "男") {
 		$("input[name='sex1'][value=1]").prop("checked", true);
@@ -513,40 +558,48 @@ function save_continue() {
 	parame.phoneNumber = $('#add_phoneNumber').val();
 	parame.departmentID = $('#add_departmentName').val();
 	parame.dutyID = $('#add_dutyName').val();
+	parame.birthday = $('#add_birthday').val();
+	parame.jobTitle = $('#add_jobTitle').val();
+	parame.eduLevel = $('#add_eduLevel').val();
+	parame.graduate = encodeURI($('#add_graduate').val());
+	parame.IDCard = $('#add_IDCard').val();
 	var data = $('#add_name').val();
+	var password = $('#add_IDCard').val();
+	var ids = "";
 	if (data == null) {
-		swal("角色不能为空");
+		parame.roleID = "";
 	} else {
-		var ids = "";
 		for (var i = 0; i < data.length; i++) {
 			ids += data[i] + ",";
 		}
 		ids = ids.substring(0, ids.length - 1);
 		parame.roleID = ids;
-		if (checkdata(parame)) {
-			$
-					.ajax({
-						url : 'employeeController/addEmployee.do',
-						scriptCharset : "utf-8",
-						contentType : "application/x-www-form-urlencoded; charset=utf-8", // 中文乱码
-						data : parame,
-						success : function(o) {
-							if (o <= 0) {
-								swal({
-									title : "新增失败",
-									type : 'warning'
-								});
-							}
-							swal({
-								title : "新增成功",
-								type : 'success'
-							});
-							$('input[type="text"]').val("");
-							$('#table').bootstrapTable('refresh', null);
-							add();
-						}
+	}
+	if (checkdata(parame)) {
+		password = password.substring(password.length - 6, password.length);
+		parame.password = password;
+		$.ajax({
+			url : 'employeeController/addEmployee.do',
+			scriptCharset : "utf-8",
+			contentType : "application/x-www-form-urlencoded; charset=utf-8", // 中文乱码
+			data : parame,
+			success : function(o) {
+				if (o <= 0) {
+					swal({
+						title : "新增失败",
+						type : 'warning'
 					});
-		}
+				}
+				swal({
+					title : "新增成功",
+					type : 'success'
+				});
+				$('input[type="text"]').val("");
+				$('#table').bootstrapTable('refresh', null);
+				add();
+			}
+		});
+
 	}
 }
 function save() {
@@ -559,44 +612,52 @@ function save() {
 	parame.phoneNumber = $('#add_phoneNumber').val();
 	parame.departmentID = $('#add_departmentName').val();
 	parame.dutyID = $('#add_dutyName').val();
+	parame.birthday = $('#add_birthday').val();
+	parame.jobTitle = $('#add_jobTitle').val();
+	parame.eduLevel = $('#add_eduLevel').val();
+	parame.graduate = encodeURI($('#add_graduate').val());
+	parame.IDCard = $('#add_IDCard').val();
 	var data = $('#add_name').val();
+	var password = $('#add_IDCard').val();
+	var ids = "";
 	if (data == null) {
-		swal("角色不能为空");
+		parame.roleID = "";
 	} else {
-		var ids = "";
 		for (var i = 0; i < data.length; i++) {
 			ids += data[i] + ",";
 		}
 		ids = ids.substring(0, ids.length - 1);
 		parame.roleID = ids;
-		if (checkdata(parame)) {
-			$
-					.ajax({
-						url : 'employeeController/addEmployee.do',
-						scriptCharset : "utf-8",
-						contentType : "application/x-www-form-urlencoded; charset=utf-8", // 中文乱码
-						data : parame,
-						success : function(o) {
-							if (o <= 0) {
-								swal({
-									title : "新增失败",
-									type : 'warning'
-								});
-							}
-							swal({
-								title : "新增成功",
-								type : 'success',
-							});
-
-							$('input[type="text"]').val("");
-							$("input[type=radio][name='sex'][value=1]").prop(
-									"checked", 'checked');
-							$('#addModal').modal('hide');
-							$('#table').bootstrapTable('refresh', null);
-						}
-					});
-		}
 	}
+	if (checkdata(parame)) {
+		password = password.substring(password.length - 6, password.length);
+		parame.password = password;
+		$.ajax({
+			url : 'employeeController/addEmployee.do',
+			scriptCharset : "utf-8",
+			contentType : "application/x-www-form-urlencoded; charset=utf-8", // 中文乱码
+			data : parame,
+			success : function(o) {
+				if (o <= 0) {
+					swal({
+						title : "新增失败",
+						type : 'warning'
+					});
+				}
+				swal({
+					title : "新增成功",
+					type : 'success',
+				});
+
+				$('input[type="text"]').val("");
+				$("input[type=radio][name='sex'][value=1]").prop("checked",
+						'checked');
+				$('#addModal').modal('hide');
+				$('#table').bootstrapTable('refresh', null);
+			}
+		});
+	}
+
 }
 
 function checkdata(data) {
@@ -641,7 +702,36 @@ function checkdata(data) {
 		swal("地址不能为空");
 		return false;
 	}
-	
+
+	if (data.birthday == "" || data.birthday == "null") {
+		swal("出生日期不能为空");
+		return false;
+	}
+
+	if (data.jobTitle == "" || data.jobTitle == "null") {
+		swal("职称不能为空");
+		return false;
+	}
+
+	if (data.eduLevel == "" || data.eduLevel == "null") {
+		swal("文化程度不能为空");
+		return false;
+	}
+
+	if (data.graduate == "" || data.graduate == "null") {
+		swal("毕业学校不能为空");
+		return false;
+	}
+
+	if (data.IDCard == "" || data.IDCard == "null") {
+		swal("身份证号不能为空");
+		return false;
+	}
+
+	if (!checkIDCard(data.IDCard)) {
+		return false;
+	}
+
 	return true;
 
 }
@@ -680,11 +770,126 @@ function del(IDs) {
 	});
 }
 
-
-function exportReport(){
+function exportReport() {
 	window.location.href = "employeeController/employeeExportExcel.do";
 }
 
+function checkIDCard(IDCard) {
+	var city = {
+		11 : "北京",
+		12 : "天津",
+		13 : "河北",
+		14 : "山西",
+		15 : "内蒙古",
+		21 : "辽宁",
+		22 : "吉林",
+		23 : "黑龙江 ",
+		31 : "上海",
+		32 : "江苏",
+		33 : "浙江",
+		34 : "安徽",
+		35 : "福建",
+		36 : "江西",
+		37 : "山东",
+		41 : "河南",
+		42 : "湖北 ",
+		43 : "湖南",
+		44 : "广东",
+		45 : "广西",
+		46 : "海南",
+		50 : "重庆",
+		51 : "四川",
+		52 : "贵州",
+		53 : "云南",
+		54 : "西藏 ",
+		61 : "陕西",
+		62 : "甘肃",
+		63 : "青海",
+		64 : "宁夏",
+		65 : "新疆",
+		71 : "台湾",
+		81 : "香港",
+		82 : "澳门",
+		91 : "国外 "
+	};
+	var tip = "";
+	var pass = true;
+
+	if (!IDCard
+			|| !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i
+					.test(IDCard)) {
+		tip = "身份证号格式错误";
+		pass = false;
+	}
+
+	else if (!city[IDCard.substr(0, 2)]) {
+		tip = "身份证号错误";
+		pass = false;
+	} else {
+		// 18位身份证需要验证最后一位校验位
+		if (IDCard.length == 18) {
+			IDCard = IDCard.split('');
+			// ∑(ai×Wi)(mod 11)
+			// 加权因子
+			var factor = [ 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 ];
+			// 校验位
+			var parity = [ 1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2 ];
+			var sum = 0;
+			var ai = 0;
+			var wi = 0;
+			for (var i = 0; i < 17; i++) {
+				ai = IDCard[i];
+				wi = factor[i];
+				sum += ai * wi;
+			}
+			var last = parity[sum % 11];
+			if (parity[sum % 11] != IDCard[17]) {
+				tip = "身份证号错误";
+				pass = false;
+			}
+		}
+	}
+	if (!pass)
+		swal(tip);
+	return pass;
+}
+
+
+function reset(){
+	var data = $('#table').bootstrapTable('getSelections');
+
+	if (data.length==0 || data.length>1) {
+		sweetAlert("请选中一条数据");
+		return;
+	}
+	
+	var parame={};
+	var password=data[0].IDCard;
+	parame.ID=data[0].ID;
+	password = password.substring(password.length - 6, password.length);
+	parame.password = password;
+	$.ajax({
+		url : 'employeeController/updEmployeePassword.do',
+		scriptCharset : "utf-8",
+		contentType : "application/x-www-form-urlencoded; charset=utf-8", // 中文乱码
+		data : parame,
+		dataType : 'json',
+		success : function(o) {
+			if (o <= 0) {
+				swal({
+					title : "重置失败",
+					type : 'warning'
+				});
+			} else {
+				swal({
+					title : "重置成功",
+					type : 'success'
+				});
+			}
+			$('#table').bootstrapTable('refresh', null);
+		}
+	});
+}
 
 function checkData(dataObj) {
 	if (!dataObj.hasOwnProperty("employeeName") || dataObj.employeeName == null
