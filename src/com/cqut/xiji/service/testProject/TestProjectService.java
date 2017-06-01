@@ -478,6 +478,87 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 				tableName, null, null, null);
 		return result;
 	}
+	
+	@Override
+	public Map<String, Object> getTestProjectManHour(String testTypeID,
+			String testName,  int limit, int offset, String order,String sort) {
+		// TODO Auto-generated method stub
+		int index = limit;
+		int pageNum = offset/limit;
+		String tableName = "testProject";
+		String[] properties = new String[]{
+				"testProject.ID",
+				"testProject.nameCn",
+				"testProject.nameEn",
+				"testProject.laborHour",
+				"testType.name"
+		};
+		
+		String joinEntity =  " left join testType on testProject.testTypeID = testType.ID ";
+		String condition = "1 = 1 and testProject.laborHour is not null";
+		
+		if (testTypeID != null && !testTypeID.equals("")) {
+			condition += " and testProject.testTypeID like '%"
+					+ testTypeID + "%'";
+		}
+		if (testName != null && !testName.equals("")) {
+			condition += " and testproject.nameCn like '%" + testName
+					+ "%' or testproject.nameEn like '%" + testName
+					+ "%' ";
+		}
+		List<Map<String, Object>> result = originalSearchWithpaging(properties,
+				tableName, joinEntity, null, condition, false, null, sort,
+				order, index, pageNum);
+		
+		int count = getForeignCountWithJoin(joinEntity, null, condition, false);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("total", count);
+		map.put("rows", result);
+
+		return map;
+	}
+	
+	@Override
+	public List<Map<String, Object>> getAllTestType() {
+		// TODO Auto-generated method stub
+		String[] properties = new String[] {"ID","name"};
+		String condition = "";
+		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, TestType.class);
+		return result;
+	}	
+	
+	@Override
+	public String delTestProjectInManHour(String IDs) {
+		// TODO Auto-generated method stub
+		if(IDs == null || IDs.isEmpty()){
+			return 0+"";
+		}
+		String[] ids = IDs.split(",");
+		int result = entityDao.deleteEntities(ids, TestProject.class);
+		return result+"";
+	}
+	
+	@Override
+	public List<Map<String, Object>> getTestProjectByTestName(String testName){
+		String[] properties = new String[] {"ID","nameCn","nameEn","laborHour"};
+		String condition = " nameCn like '%" + testName + "%' or nameEn like '%" + testName + "%'";
+		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, TestProject.class);
+		return result;
+	}
+	
+	@Override
+	public String updateManHour(String ID,String testTypeID,double laborHour){
+		if(ID == null  || ID.equals("")){
+			return "false";
+		}
+		TestProject	testProject = entityDao.getByID(ID, TestProject.class);
+		if(testProject == null )
+			return "false";
+		testProject.setLaborHour(laborHour);
+		testProject.setTestTypeID(testTypeID);
+		return entityDao.updatePropByID(testProject, ID)  == 1 ? "true": "false";
+	}
 }
 
 

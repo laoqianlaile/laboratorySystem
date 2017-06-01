@@ -431,4 +431,119 @@ public class SampleService extends SearchService implements ISampleService{
 	}
 	
 
+	public Map<String, Object> getSampleWithPagingINmanhour(String factoryCode,String sampleName,String specifications,int limit, int offset,
+			String order, String sort){
+		
+		int index = limit;
+		int pageNum = offset/limit;
+		String[] properties = new String[]{
+			"sample.ID",
+			"sample.factoryCode",
+			"sample.sampleName",
+			"sample.specifications",
+			"sample.laborHour"
+		};
+
+		String condition = " 1 = 1 and sample.laborHour is not null";
+		if (factoryCode != null && !factoryCode.equals("")) {
+			condition += " and sample.factoryCode like '%"
+					+ factoryCode + "%'";
+		}
+		if (sampleName != null && !sampleName.equals("")) {
+			condition += " and sample.sampleName like '%" + sampleName
+					+ "%'";
+		}
+		if (specifications != null && !specifications.equals("")) {
+			condition += " and sample.specifications like '%" + specifications
+					+ "%'";
+		}
+
+		List<Map<String, Object>> result = originalSearchWithpaging(properties, getBaseEntityName(), null, null, condition, false, null, sort, order, index, pageNum);
+		int count = getForeignCountWithJoin(null, null, condition, false);
+
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("total", count);
+		map.put("rows", result);
+
+		return map;
+
+	}
+	
+	public List<Map<String, Object>> getSampleImforByFactoryCode(String factoryCode) {
+		String[] properties = new String[] {
+				"ID",
+				"factoryCode",
+				"sampleName",
+				"specifications",
+				"laborHour"
+				};
+		
+		String condition = " factoryCode like '%" + factoryCode + "%' ORDER BY createTime ";
+		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Sample.class);
+		return result;
+	}
+	
+	public List<Map<String, Object>> getSampleImforBySampleName(String sampleName) {
+		String[] properties = new String[] {
+				"ID",
+				"factoryCode",
+				"sampleName",
+				"specifications",
+				"laborHour"
+				};
+		
+		String condition = " sampleName like '%" + sampleName + "%' ORDER BY createTime ";
+		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Sample.class);
+		return result;
+	}
+	
+	public List<Map<String, Object>> getSampleImforBySpecifications(String specifications) {
+		String[] properties = new String[] {
+				"ID",
+				"sampleName",
+				"factoryCode",
+				"specifications",
+				"laborHour"
+				};
+		
+		String condition = " specifications like '%" + specifications + "%' ORDER BY createTime ";
+		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Sample.class);
+		return result;
+	}
+	
+	@Override
+	public String updateManHour(String ID,double laborHour){
+		if(ID == null  || ID.equals("")){
+			return "false";
+		}
+		Sample	sample = entityDao.getByID(ID, Sample.class);
+		if(sample == null )
+			return "false";
+		sample.setLaborHour(laborHour);
+		return entityDao.updatePropByID(sample, ID)  == 1 ? "true": "false";
+	}
+	
+	public String addSampleInManHour(String factoryCode,String sampleName, String specifications, double laborHour){
+		Sample sample = new Sample();
+		String sampleID = EntityIDFactory.createId();
+		sample.setID(sampleID);
+		
+		if(factoryCode != null && !factoryCode.equals("")){
+			sample.setFactoryCode(factoryCode);
+		}
+		if(sampleName != null && !sampleName.equals("")){
+			sample.setSampleName(sampleName);
+		}
+		if(specifications != null && !specifications.equals("")){
+			sample.setSpecifications(specifications);
+		}
+		
+		sample.setUnit("个");
+		sample.setState(0);
+		sample.setCreateTime(new Date());
+		sample.setQrcode(EntityIDFactory.createId());
+		sample.setLaborHour(laborHour);
+	
+		 return  entityDao.save(sample) == 1 ?"true":"false";
+	}
 }

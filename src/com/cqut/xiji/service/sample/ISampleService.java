@@ -31,7 +31,13 @@ public interface ISampleService {
 	
 	public List<Map<String, Object>> getSampleMsg(String codeOrName);
 
-	
+	public Map<String, Object> getSampleWithPagingINmanhour(String factoryCode,String sampleName,String specifications,int limit, int offset,
+			String order, String sort);
+	public List<Map<String, Object>> getSampleImforByFactoryCode(String factoryCode);
+	public List<Map<String, Object>> getSampleImforBySampleName(String sampleName);
+	public List<Map<String, Object>> getSampleImforBySpecifications(String specifications);
+	String updateManHour(String ID, double laborHour);
+	public String addSampleInManHour(String factoryCode,String sampleName, String specifications, double laborHour);
 	
 	
 }

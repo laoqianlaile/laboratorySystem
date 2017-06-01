@@ -69,6 +69,21 @@ public interface ITestProjectService {
 	public String editLaborHourInTaskAssign(String ID, double laborHour);
 
 	List<Map<String, Object>> getTestType();
+	
+	Map<String, Object> getTestProjectManHour(String testTypeID, String nameCn,
+			int limit, int offset, String order, String sort);
+
+
+	List<Map<String, Object>> getAllTestType();
+
+
+	String delTestProjectInManHour(String IDs);
+
+
+	List<Map<String, Object>> getTestProjectByTestName(String testName);
+
+
+	String updateManHour(String ID, String testTypeID, double laborHour);
 
 
 }
