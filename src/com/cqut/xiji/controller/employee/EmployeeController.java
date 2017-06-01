@@ -67,6 +67,23 @@ public class EmployeeController {
 			return JSONObject.fromObject(result);
 
 		}
+		
+		/**
+		 *
+		 * @description 根据部门ID获取所有员工ID和名字
+		 * @author chenyubo
+		 * @created 2017年05月26日21:27:02
+		 * @param ID 部门ID
+		 * @return
+		 */
+		@RequestMapping("/getEmployeeNameInPersonalTask")  
+	    @ResponseBody
+		public String getEmployeeNameInPersonalTask(String ID){
+			List<Map<String, Object>> result = service.getEmployeeNameInPersonalTask(ID);
+			return JSONArray.fromObject(result).toString();
+		}
+		
+		
 
 		/**
 		 * @description 得到公司名称及ID
@@ -165,8 +182,6 @@ public class EmployeeController {
 
 		/**
 		 * @description 新增员工
-		 * @author Hzz
-		 * @date 2016年12月8日 早上10:49:17
 		 * @param employeeName
 		 * @param employeeCode
 		 * @param sex
@@ -176,6 +191,12 @@ public class EmployeeController {
 		 * @param dutyID
 		 * @param roleID
 		 * @param departmentID
+		 * @param birthday
+		 * @param jobTitle
+		 * @param eduLevel
+		 * @param graduate
+		 * @param IDCard
+		 * @param password
 		 * @return
 		 * @throws UnsupportedEncodingException
 		 */
@@ -183,10 +204,11 @@ public class EmployeeController {
 	    @ResponseBody
 		public String addEmployee(String employeeName, String employeeCode,
 				int sex, String email, String phoneNumber, String address,
-				String dutyID, String roleID, String departmentID) throws UnsupportedEncodingException{
+				String dutyID, String roleID, String departmentID,String birthday,int jobTitle,int eduLevel,String  graduate,String IDCard,String password) throws UnsupportedEncodingException{
 			employeeName=URLDecoder.decode(employeeName,"utf-8");
 			address=URLDecoder.decode(address,"utf-8");
-			String result = service.addEmployee(employeeName, employeeCode, sex, email, phoneNumber, address, dutyID, roleID, departmentID);
+			graduate=URLDecoder.decode(graduate,"utf-8");
+			String result = service.addEmployee(employeeName, employeeCode, sex, email, phoneNumber, address, dutyID, roleID, departmentID, birthday, jobTitle, eduLevel, graduate, IDCard,password);
 			return result;
 		}
 
@@ -205,9 +227,7 @@ public class EmployeeController {
 		}
 
 		/**
-		 * @description 更新员工信息
-		 * @author Hzz
-		 * @date 2016年12月8日 早上11:05:11
+		 * @descripion 修改员工信息
 		 * @param ID
 		 * @param employeeName
 		 * @param employeeCode
@@ -218,6 +238,11 @@ public class EmployeeController {
 		 * @param dutyID
 		 * @param roleID
 		 * @param departmentID
+		 * @param birthday
+		 * @param jobTitle
+		 * @param eduLevel
+		 * @param graduate
+		 * @param IDCard
 		 * @return
 		 * @throws UnsupportedEncodingException
 		 */
@@ -225,10 +250,11 @@ public class EmployeeController {
 	    @ResponseBody
 		public String updEmployee(String ID,String employeeName, String employeeCode,
 				int sex, String email, String phoneNumber, String address,
-				String dutyID, String roleID, String departmentID) throws UnsupportedEncodingException{
+				String dutyID, String roleID, String departmentID,String birthday,int jobTitle,int eduLevel,String  graduate,String IDCard) throws UnsupportedEncodingException{
 			employeeName=URLDecoder.decode(employeeName,"utf-8");
 			address=URLDecoder.decode(address,"utf-8");
-			String result = service.updEmployee(ID, employeeName, employeeCode, sex, email, phoneNumber, address, dutyID, roleID, departmentID);
+			graduate=URLDecoder.decode(graduate,"utf-8");
+			String result = service.updEmployee(ID, employeeName, employeeCode, sex, email, phoneNumber, address, dutyID, roleID, departmentID, birthday, jobTitle, eduLevel, graduate, IDCard);
 			return result;
 		}
 
@@ -312,6 +338,19 @@ public class EmployeeController {
 		@ResponseBody
 		public boolean addSignatrueAndStamp(String fileID,String selectorName){
 			boolean result = service.addSignatrueAndStamp(fileID,selectorName);
+			return result;
+		}
+		
+		/**
+		 * @description 重置密码
+		 * @param ID
+		 * @param password
+		 * @return
+		 */
+		@RequestMapping("/updEmployeePassword")
+	    @ResponseBody
+		public String updEmployeePassword(String ID,String password){
+			String result = service.updEmployeePassword(ID, password);
 			return result;
 		}
 		

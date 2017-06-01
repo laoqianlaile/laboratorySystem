@@ -1,29 +1,65 @@
 $(function () {
-
+	// 初始化科室和人员下拉选择框
+	$.ajax({
+		url:'departmentController/getDepartmentName.do',
+		dataType:'json',
+		success:function(o){
+			var data = JSON.parse(o);
+			var html;
+			for(var i = 0;i<data.length;i++){
+				html += '<option value = "' + data[i].ID + '">' + data[i].departmentName + '</option>'; 
+			}
+			$('#department').append(html);
+	  	}
+	});
+	
+	$('#department').change(function() {
+		var employeeID = $(this).val().trim();
+		$('#employee').empty();
+		$('#employee').append('<option value="-1"></option>');
+		$.ajax({
+			url:'employeeController/getEmployeeNameInPersonalTask.do',
+			dataType:'json',
+			data: {
+				ID: employeeID
+			},
+			success:function(o){
+				var data = JSON.parse(o);
+				var html;
+				for(var i = 0;i<data.length;i++){
+					html += '<option value = "' + data[i].ID + '">' + data[i].employeeName + '</option>'; 
+				}
+				$('#employee').append(html);
+		  	}
+		});
+	});
+	
+	// 获取当前登录人员信息
+	var employeeID = '';
 	$.ajax({
 		url:'employeeController/getEmployeeID.do',
 		dataType:'json',
 		async:false,
 		success:function(data){
-			$('#employeeID').text(data);
+			employeeID = data;
 	  	}
 	});
 	
-	var ID = $('#employeeID').text();//检测人员ID
+	var type = $('#type').val().trim();
 	
 	// 初始化检测项目表格
 	$('#table').bootstrapTable({
 		//定义表格的高度height: 500,
 		striped: false,// 隔行变色效果
 		pagination: true,//在表格底部显示分页条
-		pageSize: 5,//页面数据条数
+		pageSize: 10,//页面数据条数
 		pageNumber:1,//首页页码
-		pageList: [1, 3, 5],//设置可供选择的页面数据条数
+		pageList: [10],//设置可供选择的页面数据条数
 		clickToSelect:true,//设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache: false,//禁用 AJAX 数据缓存
-		sortName:'testProject.ID',//定义排序列
+		sortName:'task.ID',//定义排序列
 		sortOrder:'asc',//定义排序方式
-		url:'contractFineItemController/getTestProjectInTaskStatistical.do',//服务器数据的加载地址
+		url:'contractFineItemController/getPersonalTaskStatistical.do',//服务器数据的加载地址
 		sidePagination:'server',//设置在哪里进行分页
 		contentType:'application/json',//发送到服务器的数据编码类型
 		dataType:'json',//服务器返回的数据类型
@@ -34,7 +70,8 @@ $(function () {
 			    			search: "",//初始化搜索文字
 			    			sort: params.sort, //排序列名  
 			    			order: params.order, //排位命令（desc，asc）
-			    			ID: ID,//检测人员ID
+			    			ID: employeeID,//检测人员ID
+			    			type: type
 		    			};  
 		    			return temp;  
 		    	  	},
@@ -46,65 +83,68 @@ $(function () {
 			width:'5%'//宽度
 		},{
 			field:'ID',//返回值名称
-			title:'检测项目ID',//列名
+			title:'任务ID',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'0',//宽度
 			visible:false
 		},{
+			field:'sampleName',//返回值名称
+			title:'样品名称',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:'25%'//宽度
+		},{
 			field:'nameCn',//返回值名称
 			title:'检测项目中文名',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'30%'//宽度
+			width:'25%'//宽度
 		},{
 			field:'nameEn',//返回值名称
 			title:'检测项目英文名',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'30%'//宽度
+			width:'25%'//宽度
 		},{
-			field:'amount',//返回值名称
-			title:'数目',//列名
+			field:'laborHour',//返回值名称
+			title:'工时',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'15%'//宽度
+			width:'10%'//宽度
 		},{
-			field:'operate',//返回值名称
-			title:'操作',//列名
+			field:'type',//返回值名称
+			title:'任务类型',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10%',//宽度
-			formatter:function(value,row,index){  
-				var btn_detail = '<img src="module/img/view_icon.png" onclick="viewDetail(\''+ row.ID +'\')" data-toggle="tooltip" data-placement="top" title="查看详情" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></img>';
-		  			return btn_detail;  
-            } 
+			width:'10%'//宽度
 		}]//列配置项,详情请查看 列参数 表格
 		/*事件*/
 	});
 	
-	// 得到所有检测项目填充下拉框
-	$.ajax({
-		url:'contractFineItemController/getAllTestProjectInTaskStatistical.do',
-		data:{ID:ID},
-		dataType:'json',
-		success:function(o){
-			var data = JSON.parse(o);
-			var html;
-			for(var i = 0;i<data.length;i++){
-				html += '<option value = "' + data[i].ID + '">' + data[i].nameCn + '</option>'; 
-			}
-			$('#testProject').append(html);
-	  	}
-	});
-	
 	// 查询按钮点击事件
 	$('#search').click(function(){
-		var testProjectID = $('#testProject').val();
+		// 获取当前登录人员信息
+		var employeeID = '';
+		$.ajax({
+			url:'employeeController/getEmployeeID.do',
+			dataType:'json',
+			async:false,
+			success:function(data){
+				employeeID = data;
+		  	}
+		});
+		
+		var type = $('#type').val().trim();
+		employeeID = ($('#employee').val() === '-1' ? employeeID : $('#employee').val());
+		
 		$('#table').bootstrapTable('refresh',{
 			silent: true,
-			url: 'contractFineItemController/getTestProjectInTaskStatistical.do',
-			query: {testProjectID:testProjectID}
+			url: 'contractFineItemController/getPersonalTaskStatistical.do',
+			query: {
+				ID: employeeID,
+				type: type
+			}
 		});
 	});
 	
@@ -112,14 +152,9 @@ $(function () {
 	$('#refresh').click(function(){
 		$('#table').bootstrapTable('refresh',{
 			silent: true,
-			url: 'contractFineItemController/getTestProjectInTaskStatistical.do',
+			url: 'contractFineItemController/getPersonalTaskStatistical.do',
 			query: {}
 		});
 	});
 	
 });
-
-//查看详情
-function viewDetail(testProjectID){
-	window.location.href = window.location.href.replace('taskStatistical.jsp','taskStatisticalDetail.jsp') + '?ID='+testProjectID;
-}

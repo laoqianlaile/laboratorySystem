@@ -26,27 +26,10 @@ function init() {
 	} else if (state == "add") {
 		$("#receiptlistID").val(reID);
 		getReceiptlistInforInReturn(reID);
-		// checkDatas(param);
-		// $("#show_receiptlistCode").val(reCode);
-		// $("#show_contractCode").val(coCode);
-		// $("#show_contractCode").attr("disabled", true);
-		// getCompanyName();
 	}
 	initSample();
 }
 
-function checkDatas(dataObj) {
-	if (!dataObj.hasOwnProperty("reCode") || dataObj.reCode == null
-			|| dataObj.reCode.trim() == "NULL") {
-		dataObj.reCode = "";
-	}
-
-	if (!dataObj.hasOwnProperty("coCode") || dataObj.coCode == null
-			|| dataObj.coCode.trim() == "NULL") {
-		dataObj.coCode = "";
-	}
-
-}
 
 function initSample() {
 	$('#sampleTable')

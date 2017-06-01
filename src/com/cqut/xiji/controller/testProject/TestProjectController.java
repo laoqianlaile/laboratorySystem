@@ -248,4 +248,72 @@ public class TestProjectController{
 	public String editLaborHourInTaskAssign(String ID, double laborHour){
 		return service.editLaborHourInTaskAssign(ID, laborHour);
 	}
+	
+	/**
+	 * @description 获取检测项目工时
+	 * @param name
+	 * @param testName
+	 * @param limit
+	 * @param offset
+	 * @param order
+	 * @param sort
+	 * @return
+	 */
+	@RequestMapping("/getTestProjectManHour")
+    @ResponseBody
+	public JSONObject getTestProjectManHour(String name,
+			String testName,  int limit, int offset, String order,String sort){
+		Map<String, Object> result =service.getTestProjectManHour(name, testName, limit, offset, order, sort);
+		return JSONObject.fromObject(result);
+	}
+	
+	/**
+	 * @description 获取所有的检测类别
+	 * @return
+	 */
+	@RequestMapping("/getAllTestType")
+	@ResponseBody
+	public String getAllTestType(){
+		List<Map<String, Object>> result = service.getAllTestType();
+		return JSONArray.fromObject(result).toString();
+	}
+	
+	/**
+	 * @descripton 删除检测工时中的检测项目
+	 * @param IDs
+	 * @return
+	 */
+	@RequestMapping("/delTestProjectInManHour")
+    @ResponseBody
+	public String delTestProjectInManHour(String IDs){
+		String result = service.delTestProjectInManHour(IDs);
+		return result;
+	}
+	
+	/**
+	 * @description 获取检测项目工时
+	 * @param testName
+	 * @return
+	 */
+	@RequestMapping("/getTestProjectByTestName")  
+    @ResponseBody
+	public String getTestProjectByTestName(String testName){
+		List<Map<String, Object>> result = service.getTestProjectByTestName(testName);
+		return JSONArray.fromObject(result).toString();
+	}
+	
+	/**
+	 * @description 新增工时
+	 * @param ID
+	 * @param testTypeID
+	 * @param laborHour
+	 * @return
+	 */
+	@RequestMapping("/updateManHour")  
+    @ResponseBody
+	public String updateManHour(String ID,String testTypeID, double laborHour){
+		String result = service.updateManHour(ID, testTypeID, laborHour);
+		return result;
+	}
+	
 }

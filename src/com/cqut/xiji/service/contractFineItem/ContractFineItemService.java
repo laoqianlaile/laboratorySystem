@@ -43,13 +43,14 @@ public class ContractFineItemService extends SearchService implements IContractF
 	}
 
 	//*******************************************************************************************************
-	// 任务统计
+	// 个人任务统计
 	
 	/**
-	 * @description 任务统计下查询初始化表格
+	 * @description 个人任务统计下查询初始化表格
 	 * @author chenyubo
 	 * @created 2016年10月21日 下午9:01:12
 	 * @param ID
+	 * @param type
 	 * @param limit
 	 * @param offset
 	 * @param order
@@ -57,156 +58,36 @@ public class ContractFineItemService extends SearchService implements IContractF
 	 * @return
 	 */
 	@Override
-	public Map<String, Object> getTestProjectInTaskStatistical(String ID,String testProjectID,int limit, int offset, String order, String sort) {
+	public Map<String, Object> getPersonalTaskStatistical(String ID, int type, String testProjectID,int limit,int offset, String order, String sort) {
 		int index = limit;
 		int pageNum = offset/limit;
 		
 		String[] properties = new String[]{
-			"testProject.ID",
+			"task.ID",
+			"sample.sampleName",
 			"testProject.nameCn",
 			"testProject.nameEn",
-			"sum(contractFineItem.number) as amount"
+			"case when task.type = 0 then testproject.laborHour when task.type = 1 then sample.laborHour end as laborHour",
+			"case when task.type = 0 then '检测' when task.type = 1 then '校准' end as type"
 		};
 		
-		String baseEntity = "taskMan";
+		String baseEntity = "task";
 		
-		String joinEntity = "left join task on taskMan.taskID = task.ID "
-				+ " left join testProject on task.testProjectID = testProject.ID "
-				+ " left join contractFineItem on contractFineItem.testProjectID = testProject.ID ";
+		String joinEntity = " left join sample on task.sampleID = sample.ID "
+				+ " left join tasktestproject on task.ID = tasktestproject.taskID "
+				+ " left join testproject on tasktestproject.testProjectID = testproject.ID "
+				+ " left join taskman on task.ID = taskman.taskID "
+				+ " left join employee on taskman.detector = employee.ID ";
 		
-		String condition = "taskMan.detector = '" + ID + "'";
+		String condition = " task.detectstate = 6 "
+				+ " and employee.ID = '" + ID + "' ";
 		
-		if(testProjectID != null && !testProjectID.equals("-1")){
-			condition += " and testProject.ID = '" + testProjectID + "'";
-		}
-		
-		String groupField = "testProject.ID";
-		
-		List<Map<String, Object>> result = originalSearchWithpaging(properties, baseEntity, joinEntity, null, condition, false, groupField, sort, order, index, pageNum);
-		int count = originalGetForeignCount("testProject.ID", baseEntity, joinEntity, null, condition, false);
-		
-		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("total", count);
-		map.put("rows", result);
-		
-		return map;
-	}
-	
-	/**
-	 * 
-	 * @description 任务统计下查询所有该检测人员检测的检测项目
-	 * @author chenyubo
-	 * @created 2016年10月22日 上午10:38:38
-	 * @param ID
-	 * @return
-	 */
-	@Override
-	public List<Map<String, Object>> getAllTestProjectInTaskStatistical(String ID) {
-		
-		String[] properties = new String[]{
-			"testProject.ID",
-			"testProject.nameCn",
-		};
-		
-		String baseEntity = "taskMan";
-		
-		String joinEntity = "left join task on taskMan.taskID = task.ID "
-				+ " left join testProject on task.testProjectID = testProject.ID "
-				+ " left join contractFineItem on contractFineItem.testProjectID = testProject.ID";
-		
-		String condition = "taskMan.detector = '" + ID + "' group by testProject.ID";
-		
-		List<Map<String, Object>> result = originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false);
-		
-		return result;
-	}
-	
-	/**
-	 * 
-	 * @description 任务统计下查看检测项目详情
-	 * @author chenyubo
-	 * @created 2016年10月22日 下午7:35:11
-	 * @param ID
-	 * @param contractCode
-	 * @param receiptlistCode
-	 * @param companyName
-	 * @param startTime
-	 * @param endTime
-	 * @param sampleName
-	 * @param limit
-	 * @param offset
-	 * @param order
-	 * @param sort
-	 * @return
-	 */
-	@Override
-	public Map<String, Object> getTaskStatisticalDetail(String ID,String contractCode,String receiptlistCode,String companyName,String startTime,String endTime,String sampleName,int limit, int offset, String order, String sort) {
-		int index = limit;
-		int pageNum = offset/limit;
-		
-		String[] properties = new String[]{
-				"distinct(contract.contractCode)",
-				"receiptlist.receiptlistCode",
-				"company.companyName",
-				"receiptlist.linkMan",
-				"date_format(receiptlist.createTime,'%Y-%m-%e') as createTime",
-				"sample.factoryCode",
-				"sample.sampleName",
-				"sample.specifications",
-				" IFnull( "+
-				" ( "+
-					" SELECT "+
-						" group_concat(employee.employeeName) "+
-					" FROM "+
-						" taskMan, "+
-						" employee "+
-					" WHERE "+
-						" taskMan.taskID = task.ID "+
-					" AND taskMan.detector = employee.ID "+
-					" ORDER BY "+
-						" taskMan.ID "+
-				" ), "+
-				" '无' "+
-				" ) AS detector",
-				"date_format(task.startTime,'%Y-%m-%e') as startTime",
-				"date_format(task.completeTime,'%Y-%m-%e') as completeTime",
-		};
-		
-		String baseEntity = "taskMan";
-		String joinEntity =" LEFT JOIN task ON taskMan.taskID = task.ID "+
-				" LEFT JOIN testProject ON task.testProjectID = testProject.ID "+
-				" LEFT JOIN contractFineItem ON contractFineItem.testProjectID = testProject.ID "+
-				" LEFT JOIN contract on contract.ID = contractFineItem.contractID "+
-				" left join receiptlist on receiptlist.ID = task.receiptlistID "+
-				" left join company on company.ID = contract.companyID "+
-				" left join sample on sample.ID = task.sampleID "+
-				" left join employee on employee.ID = taskMan.detector ";
-		
-		String condition = "task.testProjectID = " + ID;
-		
-		if(contractCode!=null && !contractCode.equals("")){
-			condition += " and contract.contractCode like '%" + contractCode +"%'";
-		}
-		if(receiptlistCode!=null && !receiptlistCode.equals("")){
-			condition += " and receiptlist.receiptlistCode like '%" + receiptlistCode +"%'";
-		}
-		if(companyName!=null && !companyName.equals("")){
-			condition += " and company.companyName like '%" + companyName +"%'";
-		}
-		if(startTime!=null && !startTime.equals("") && endTime!=null && !endTime.equals("")){
-			condition += " and task.startTime between '" + startTime
-					+ "' and '" + endTime +"'";
-		}else if(startTime!=null && !startTime.equals("") && (endTime==null || endTime.equals(""))){
-			condition += " and task.startTime >= '" + startTime + "'";
-		}else if((startTime==null || startTime.equals("")) && endTime!=null && !endTime.equals("")){
-			condition += " and task.startTime <= '" + endTime + "'";
-		}
-		if(sampleName!=null && !sampleName.equals("")){
-			condition += " and sample.sampleName like '%" + sampleName +"%'";
+		if(type != -1){
+			condition += " and task.type = " + type + " ";
 		}
 		
 		List<Map<String, Object>> result = originalSearchWithpaging(properties, baseEntity, joinEntity, null, condition, false, null, sort, order, index, pageNum);
-		int count = originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false).size();
+		int count = result.size();
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("total", count);
@@ -214,6 +95,129 @@ public class ContractFineItemService extends SearchService implements IContractF
 		
 		return map;
 	}
+	
+//	/**
+//	 * 
+//	 * @description 任务统计下查询所有该检测人员检测的检测项目
+//	 * @author chenyubo
+//	 * @created 2016年10月22日 上午10:38:38
+//	 * @param ID
+//	 * @return
+//	 */
+//	@Override
+//	public List<Map<String, Object>> getAllTestProjectInTaskStatistical(String ID) {
+//		
+//		String[] properties = new String[]{
+//			"testProject.ID",
+//			"testProject.nameCn",
+//		};
+//		
+//		String baseEntity = "taskMan";
+//		
+//		String joinEntity = "left join task on taskMan.taskID = task.ID "
+//				+ " left join testProject on task.testProjectID = testProject.ID "
+//				+ " left join contractFineItem on contractFineItem.testProjectID = testProject.ID";
+//		
+//		String condition = "taskMan.detector = '" + ID + "' group by testProject.ID";
+//		
+//		List<Map<String, Object>> result = originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false);
+//		
+//		return result;
+//	}
+//	
+//	/**
+//	 * 
+//	 * @description 任务统计下查看检测项目详情
+//	 * @author chenyubo
+//	 * @created 2016年10月22日 下午7:35:11
+//	 * @param ID
+//	 * @param contractCode
+//	 * @param receiptlistCode
+//	 * @param companyName
+//	 * @param startTime
+//	 * @param endTime
+//	 * @param sampleName
+//	 * @param limit
+//	 * @param offset
+//	 * @param order
+//	 * @param sort
+//	 * @return
+//	 */
+//	@Override
+//	public Map<String, Object> getTaskStatisticalDetail(String ID,String contractCode,String receiptlistCode,String companyName,String startTime,String endTime,String sampleName,int limit, int offset, String order, String sort) {
+//		int index = limit;
+//		int pageNum = offset/limit;
+//		
+//		String[] properties = new String[]{
+//				"distinct(contract.contractCode)",
+//				"receiptlist.receiptlistCode",
+//				"company.companyName",
+//				"receiptlist.linkMan",
+//				"date_format(receiptlist.createTime,'%Y-%m-%e') as createTime",
+//				"sample.factoryCode",
+//				"sample.sampleName",
+//				"sample.specifications",
+//				" IFnull( "+
+//				" ( "+
+//					" SELECT "+
+//						" group_concat(employee.employeeName) "+
+//					" FROM "+
+//						" taskMan, "+
+//						" employee "+
+//					" WHERE "+
+//						" taskMan.taskID = task.ID "+
+//					" AND taskMan.detector = employee.ID "+
+//					" ORDER BY "+
+//						" taskMan.ID "+
+//				" ), "+
+//				" '无' "+
+//				" ) AS detector",
+//				"date_format(task.startTime,'%Y-%m-%e') as startTime",
+//				"date_format(task.completeTime,'%Y-%m-%e') as completeTime",
+//		};
+//		
+//		String baseEntity = "taskMan";
+//		String joinEntity =" LEFT JOIN task ON taskMan.taskID = task.ID "+
+//				" LEFT JOIN testProject ON task.testProjectID = testProject.ID "+
+//				" LEFT JOIN contractFineItem ON contractFineItem.testProjectID = testProject.ID "+
+//				" LEFT JOIN contract on contract.ID = contractFineItem.contractID "+
+//				" left join receiptlist on receiptlist.ID = task.receiptlistID "+
+//				" left join company on company.ID = contract.companyID "+
+//				" left join sample on sample.ID = task.sampleID "+
+//				" left join employee on employee.ID = taskMan.detector ";
+//		
+//		String condition = "task.testProjectID = " + ID;
+//		
+//		if(contractCode!=null && !contractCode.equals("")){
+//			condition += " and contract.contractCode like '%" + contractCode +"%'";
+//		}
+//		if(receiptlistCode!=null && !receiptlistCode.equals("")){
+//			condition += " and receiptlist.receiptlistCode like '%" + receiptlistCode +"%'";
+//		}
+//		if(companyName!=null && !companyName.equals("")){
+//			condition += " and company.companyName like '%" + companyName +"%'";
+//		}
+//		if(startTime!=null && !startTime.equals("") && endTime!=null && !endTime.equals("")){
+//			condition += " and task.startTime between '" + startTime
+//					+ "' and '" + endTime +"'";
+//		}else if(startTime!=null && !startTime.equals("") && (endTime==null || endTime.equals(""))){
+//			condition += " and task.startTime >= '" + startTime + "'";
+//		}else if((startTime==null || startTime.equals("")) && endTime!=null && !endTime.equals("")){
+//			condition += " and task.startTime <= '" + endTime + "'";
+//		}
+//		if(sampleName!=null && !sampleName.equals("")){
+//			condition += " and sample.sampleName like '%" + sampleName +"%'";
+//		}
+//		
+//		List<Map<String, Object>> result = originalSearchWithpaging(properties, baseEntity, joinEntity, null, condition, false, null, sort, order, index, pageNum);
+//		int count = originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false).size();
+//		
+//		Map<String,Object> map = new HashMap<String, Object>();
+//		map.put("total", count);
+//		map.put("rows", result);
+//		
+//		return map;
+//	}
 	
 	//*******************************************************************************************************
 	// 科室任务统计

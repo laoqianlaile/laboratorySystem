@@ -35,11 +35,15 @@ public interface IEmployeeService {
 	Map<String, Object> getEmployeeWithPaging(String employeeName, String employeeCode,String loginName, String phoneNumber, String departmentName, int limit,
 			int offset, String order, String sort);
 
-	public String addEmployee(String employeeName, String employeeCode, int sex,String email,String phoneNumber,String address,String dutyID,String roleID,String departmentID);
+	public String addEmployee(String employeeName, String employeeCode,
+			int sex, String email, String phoneNumber, String address,
+			String dutyID, String roleID, String departmentID,String birthday,int jobTitle,int eduLevel,String graduate,String IDCard,String password);
 
 	public String delEmployee(String IDs);
 
-	public String updEmployee(String ID,String employeeName, String employeeCode, int sex,String email,String phoneNumber,String address,String dutyID,String roleID,String departmentID);
+	public String updEmployee(String ID,String employeeName, String employeeCode,
+			int sex, String email, String phoneNumber, String address,
+			String dutyID, String roleID, String departmentID,String birthday,int jobTitle,int eduLevel,String graduate,String IDCard);
 
 	public String updEmployeeState(String ID,int state);
 
@@ -51,6 +55,10 @@ public interface IEmployeeService {
 	String editEmployeePwd(String employeeID, String newpwd);
 	
 	public boolean addSignatrueAndStamp(String fileID,String selectorName);
+	
+	public List<Map<String, Object>> getEmployeeNameInPersonalTask(String ID);
+	
+	String updEmployeePassword(String ID, String password);
 }
 
 

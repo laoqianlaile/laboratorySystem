@@ -1,5 +1,7 @@
 package com.cqut.xiji.controller.sample;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 
@@ -208,5 +210,92 @@ public class SampleController{
 	public String getSampleMsg(String codeOrName){
 		List<Map<String, Object>> result = service.getSampleMsg(codeOrName);
 		return JSONArray.fromObject(result).toString();
+	}
+	
+	/**
+	 * @description 获取工时信息
+	 * @param factoryCode
+	 * @param sampleName
+	 * @param specifications
+	 * @param limit
+	 * @param offset
+	 * @param order
+	 * @param sort
+	 * @return
+	 * @throws UnsupportedEncodingException 
+	 */
+	@RequestMapping("/getSampleWithPagingINmanhour")  
+    @ResponseBody
+	public JSONObject getSampleWithPagingINmanhour(String factoryCode,String sampleName,String specifications,int limit, int offset,
+			String order, String sort) throws UnsupportedEncodingException{
+		sampleName=URLDecoder.decode(sampleName,"utf-8");
+		Map<String, Object> list = service.getSampleWithPagingINmanhour(factoryCode, sampleName, specifications, limit, offset, order, sort);
+	    return JSONObject.fromObject(list);
+	}
+	
+	/**
+	 * @description 通过样品编号获取工时信息
+	 * @param factoryCode
+	 * @return
+	 */
+	@RequestMapping("/getSampleImforByFactoryCode")  
+    @ResponseBody
+	public String getSampleImforByFactoryCode(String factoryCode){
+		List<Map<String, Object>> result = service.getSampleImforByFactoryCode(factoryCode);
+		return JSONArray.fromObject(result).toString();
+	}
+	
+	/**
+	 * @description 通过样品名称获取工时信息
+	 * @param sampleName
+	 * @return
+	 */
+	@RequestMapping("/getSampleImforBySampleName")  
+    @ResponseBody
+	public String getSampleImforBySampleName(String sampleName){
+		List<Map<String, Object>> result = service.getSampleImforBySampleName(sampleName);
+		return JSONArray.fromObject(result).toString();
+	}
+	
+	/**
+	 * @description 通过型号获取工时信息
+	 * @param specifications
+	 * @return
+	 */
+	@RequestMapping("/getSampleImforBySpecifications")  
+    @ResponseBody
+	public String getSampleImforBySpecifications(String specifications){
+		List<Map<String, Object>> result = service.getSampleImforBySpecifications(specifications);
+		return JSONArray.fromObject(result).toString();
+	}
+	
+	/**
+	 * @description 增加样品工时
+	 * @param ID
+	 * @param laborHour
+	 * @return
+	 */
+	@RequestMapping("/updateManHour")  
+    @ResponseBody
+	public String updateManHour(String ID,double laborHour){
+		String result = service.updateManHour(ID, laborHour);
+		return result;
+	}
+	
+	/**
+	 * @description 新增样品工时
+	 * @param factoryCode
+	 * @param sampleName
+	 * @param specifications
+	 * @param laborHour
+	 * @return
+	 * @throws UnsupportedEncodingException 
+	 */
+	@RequestMapping("/addSampleInManHour")  
+    @ResponseBody
+	public String addSampleInManHour(String factoryCode,String sampleName, String specifications, double laborHour) throws UnsupportedEncodingException{
+		sampleName=URLDecoder.decode(sampleName,"utf-8");
+		String result = service.addSampleInManHour(factoryCode, sampleName, specifications, laborHour);
+		return result;
 	}
 }
