@@ -244,6 +244,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    	<label class="control-label">合同细项编号：</label>
                    	<input type="text" id="add_fineItemCode" name="fineItemCode" class="form-control" />
                	</div>
+               	<div class="col-xs-12 col-md-12">
+                   	<label class="control-label">是否外包:</label>
+                   	<input type="radio" value="0" checked="checked"  name="isOutsourcing1" style="margin:0 0 0 80px;vertical-align: text-top;"/><span>内测</span>
+					<input type="radio" value="1" name="isOutsourcing1" style="margin:0 0 0 80px;vertical-align: text-top;"/><span>外包</span>
+                </div>
                 <div class="col-xs-12 col-md-12 nameCn">
                    	<label class="control-label">检测项目：</label>
                    	<input type="text" id="add_testProjectName" name="testProjectName"  oninput="addGetTPName()" onpropertychange="addGetTPName()" class="form-control" />
@@ -261,12 +266,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    	onkeyup="checknum(this);"
 						onafterpaste="checknum(this);"/>
                	</div>
-               	<div class="col-xs-12 col-md-12">
+               <!-- 	<div class="col-xs-12 col-md-12">
                    	<label class="control-label">检测单位：</label>
                    	<select id="add_departmentName" name="departmentName" class="form-control">
 						
 		           	</select>
-               	</div>
+               	</div> -->
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label">备注:</label>
                    	<textarea id="add_remarks1" name="remarks" style="margin: -34px 0 0 22.5%;" class="form-control"></textarea>
@@ -342,6 +347,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    	<label class="control-label">合同细项编号：</label>
                    	<input type="text" id="edit_fineItemCode" name="fineItemCode" class="form-control" />
                	</div>
+               	<div class="col-xs-12 col-md-12">
+                   	<label class="control-label">是否外包:</label>
+                   	<input type="radio" value="0" checked="checked"  name="isOutsourcing2" style="margin:0 0 0 80px;vertical-align: text-top;"/><span>内测</span>
+					<input type="radio" value="1" name="isOutsourcing2" style="margin:0 0 0 80px;vertical-align: text-top;"/><span>外包</span>
+                </div>
                 <div class="col-xs-12 col-md-12 nameCn">
                    	<label class="control-label">检测项目：</label>
                    	<input type="text" id="edit_testProjectName" name="testProjectName"  oninput="editGetTPName()" onpropertychange="editGetTPName()" class="form-control" />
@@ -359,12 +369,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    	onkeyup="checknum(this);"
 						onafterpaste="checknum(this);"/>
                	</div>
-               	<div class="col-xs-12 col-md-12">
+               	<!-- <div class="col-xs-12 col-md-12">
                    	<label class="control-label">检测单位：</label>
                    	<select id="edit_departmentName" name="departmentName" class="form-control">
 						
 		           	</select>
-               	</div>
+               	</div> -->
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label">备注:</label>
                    	<textarea id="edit_remarks1" name="remarks" style="margin: -34px 0 0 22.5%;" class="form-control"></textarea>

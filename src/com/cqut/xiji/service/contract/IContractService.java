@@ -3,6 +3,8 @@ package com.cqut.xiji.service.contract;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public interface IContractService {
@@ -74,9 +76,9 @@ public interface IContractService {
 	 * @param fileID
 	 * @return
 	 */
-	public int coverContractFile1(String ID, String fileID);
+	public int coverContractFile1(String ID, String fileID,HttpServletRequest request,HttpServletResponse response);
 	
-	public int coverContractFile2(String ID, String fileID);
+	public int coverContractFile2(String ID, String fileID,HttpServletRequest request,HttpServletResponse response);
 
 	
 	/**

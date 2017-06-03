@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Condition;
@@ -463,7 +465,20 @@ public class ContractService extends SearchService implements IContractService{
 	 * @return
 	 * @see com.cqut.xiji.service.contract.IContractService#coverContractFile(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
-	public int coverContractFile1(String ID, String fileID){
+	public int coverContractFile1(String ID, String fileID,HttpServletRequest request,HttpServletResponse response){
+		HttpSession session = request.getSession();
+	    Object LOGINNAME = session.getAttribute("LOGINNAME");
+	    //操作对应的操作员
+	    String condition = "LOGINNAME = '"+LOGINNAME+"'";
+	    List<Employee> employee = entityDao.getByCondition(condition, Employee.class);
+
+	     //没找到对应用户
+	    if(employee.size()==0){
+	    	 return -1;
+	    }
+	    Employee employee2 = employee.get(0);
+		String employeeID = employee2.getID();
+		
 		String baseEntityf = "fileInformation";
 		String[] propertiesf = new String[]{
 				" fileInformation.ID AS fileID",
@@ -540,19 +555,15 @@ public class ContractService extends SearchService implements IContractService{
 			"contractFineItem.fineItemCode",
 			"testProject.nameCn",
 			"testProject.nameEn",
-			"department.departmentName",
 			"contractFineItem.number",
-			"contractFineItem.hour",
 			"contractFineItem.price",
-			"contractFineItem.money",
-			"contractFineItem.calculateType"
+			"contractFineItem.money"
 			};
-		String joinEntity = " LEFT JOIN testProject ON contractFineItem.testProjectID = testProject.ID " +
-				" LEFT JOIN department ON contractFineItem.departmentID = department.ID ";
+		String joinEntity = " LEFT JOIN testProject ON contractFineItem.testProjectID = testProject.ID ";
 		
-		String condition = "contractFineItem.contractID = '" + ID + "' ORDER BY contractFineItem.ID desc";
+		String condition2 = "contractFineItem.contractID = '" + ID + "' ORDER BY contractFineItem.ID desc";
 		
-		List<Map<String, Object>> result2 = entityDao.searchForeign(properties, baseEntiy, joinEntity, null, condition);
+		List<Map<String, Object>> result2 = entityDao.searchForeign(properties, baseEntiy, joinEntity, null, condition2);
 		
 		String baseEntiy4 = "project";
 		String[] properties4 = new String[] { 
@@ -665,32 +676,22 @@ public class ContractService extends SearchService implements IContractService{
 				String nameEn = "";
 				String fineItemCode = "";
 				//String departmentName = "";
-				String calculateType = "";
 				String money = "";
 				String price = "";
 				String number = "";
-				String hour = "";
 				wp.putTxtToCell(2, 2, 5,"总计"+contractAmount.toString());
 				for(int i = 0; i < result2.size(); i++){
 					nameCn = result2.get(i).get("nameCn").toString();
 					nameEn = result2.get(i).get("nameEn").toString();
 					fineItemCode = result2.get(i).get("fineItemCode").toString();
-					//departmentName = result2.get(i).get("departmentName").toString();
-					calculateType = result2.get(i).get("calculateType").toString();
 					money = result2.get(i).get("money").toString();
 					price = result2.get(i).get("price").toString();
 					number = result2.get(i).get("number").toString();
-					hour = result2.get(i).get("hour").toString();
 					wp.addTableRow(2,2);
 					wp.putTxtToCell(2, 2, 1,fineItemCode);
 					wp.putTxtToCell(2, 2, 2,nameCn+"("+nameEn+")");
-					if(calculateType.equals("0")){
-						wp.putTxtToCell(2, 2, 3,price+"元/每次");
-						wp.putTxtToCell(2, 2, 4,number+"次");
-					}else if(calculateType.equals("1")){
-						wp.putTxtToCell(2, 2, 3,price+"元/每小时");
-						wp.putTxtToCell(2, 2, 4,hour+"小时");
-					}
+					wp.putTxtToCell(2, 2, 3,price+"元/每次");
+					wp.putTxtToCell(2, 2, 4,number+"次");
 					wp.putTxtToCell(2, 2, 5,money);
 				}
 			}
@@ -724,6 +725,7 @@ public class ContractService extends SearchService implements IContractService{
 			fi.setUploadTime(new Date());
 			fi.setState(0);
 			fi.setType(1);
+			fi.setUploaderID(employeeID);
 			fi.setRemarks("系统生成");
 		    baseEntityDao.save(fi);
 		    updateContractFileID(ID);
@@ -756,15 +758,27 @@ public class ContractService extends SearchService implements IContractService{
 		else return null;  //还没有模板
 	}
 	
-	public int coverContractFile2(String ID, String fileID){
-		String baseEntiy4 = "project";
+	public int coverContractFile2(String ID, String fileID,HttpServletRequest request,HttpServletResponse response){
+		HttpSession session = request.getSession();
+	    Object LOGINNAME = session.getAttribute("LOGINNAME");
+	    //操作对应的操作员
+	    String condition = "LOGINNAME = '"+LOGINNAME+"'";
+	    List<Employee> employee = entityDao.getByCondition(condition, Employee.class);
+
+	     //没找到对应用户
+	    if(employee.size()==0){
+	    	 return -1;
+	    }
+	    Employee employee2 = employee.get(0);
+		String employeeID = employee2.getID();
+		String baseEntiy4 = "project,contract";
 		String[] properties4 = new String[] { 
-			"contractID",
-			"ID"
+			"contract.contractName",
+			"project.ID"
 			};
 		String joinEntity4 = "";
 		
-		String condition4 = "contractID = " + ID;
+		String condition4 = " project.contractID = contract.ID and contractID = " + ID;
 		
 		List<Map<String, Object>> result4 = entityDao.searchForeign(properties4, baseEntiy4, joinEntity4, null, condition4);
 		String proID = result4.get(0).get("ID").toString();
@@ -774,7 +788,7 @@ public class ContractService extends SearchService implements IContractService{
 		String saveBasePath = "";
 		String savePath = "";
 		String cacheBasePathString = "";
-		String coFileName = "";
+		String coFileName = result4.get(0).get("contractName").toString();
 		PropertiesTool pt = new PropertiesTool();
 		if(cofileModule == null || cofileModule.equals("")){
 			 return -3;
@@ -833,10 +847,10 @@ public class ContractService extends SearchService implements IContractService{
 						"contractfineitem.remarks"
 						};
 			String baseEntity1 = "contractfineitem,sample";
-			String condition = " sample.ID = contractfineitem.sampleID "
+			String condition1 = " sample.ID = contractfineitem.sampleID "
 					+ " AND contractfineitem.contractID = '" + ID + "'";
 			List<Map<String, Object>> sampleInfo = originalSearchForeign(
-					properties1, baseEntity1, null, null, condition, false);
+					properties1, baseEntity1, null, null, condition1, false);
 			
 			WordProcess wordProcess = new WordProcess(false);
 			wordProcess.openDocument(cacheFilePath1);
@@ -908,7 +922,7 @@ public class ContractService extends SearchService implements IContractService{
 			/*
 			 * 2016年4月28日  插入时间
 			 */
-			SimpleDateFormat myFmt=new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+			SimpleDateFormat myFmt=new SimpleDateFormat("yyyy年MM月dd日");
 			Date now=new Date();
 	        String currentData = myFmt.format(now);
 	    	wordProcess.moveStart();
@@ -945,7 +959,7 @@ public class ContractService extends SearchService implements IContractService{
 			 fileInformation.setBelongtoID(ID);
 			 fileInformation.setID(EntityIDFactory.createId());
 			 fileInformation.setPath("项目文件\\"+proID+"\\合同文件\\"+coFileName);
-			 fileInformation.setUploaderID("系统生成");
+			 fileInformation.setUploaderID(employeeID);
 			 fileInformation.setRemarks("系统生成");
 			 fileInformation.setFileName(coFileName);
 			 fileInformation.setUploadTime(new Date());
