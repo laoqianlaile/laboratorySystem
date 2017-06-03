@@ -208,6 +208,20 @@ $(function() {
 									valign : 'middle',// 垂直居中显示
 									width : '6%',// 宽度
 									visible : false
+								},{
+									field : 'edu',// 返回值名称
+									title : '文化程度',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '6%',// 宽度
+									visible : false
+								},{
+									field : 'job',// 返回值名称
+									title : '职称',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '6%',// 宽度
+									visible : false
 								},
 								{
 									field : 'state',// 返回值名称
@@ -387,6 +401,11 @@ function openedit(data) {
 	$('#edit_phoneNumber').val(data.phoneNumber);
 	$('#edit_address').val(data.address);
 	$('#edit_ID').val(data.ID);
+	$('#edit_birthday').val(data.birthday); 
+	$('#edit_graduate').val(data.graduate);
+	$('#edit_IDCard').val(data.IDCard);
+	$("#edit_jobTitle option[value='"+data.job+"']").prop("selected", "selected"); 
+	$("#edit_eduLevel option[value='"+data.edu+"']").prop("selected", "selected");
 	var sex = data.sex;
 	var roleIDs = data.roleID;
 	var roleID = roleIDs.split(",");
@@ -397,14 +416,16 @@ function openedit(data) {
 	if (sex == "女") {
 		$("input[name='sex2'][value=0]").prop("checked", true);
 	}
-	getDutyName(state);
+	
+	
+	getDutyName(state,data.dutyID);
 	getRoleName(state, roleID);
-	getDepartmentName(state);
+	getDepartmentName(state,data.departmentID);
 	$('#editModal').modal('show');
 }
 
 /* 获取所有的职务 */
-function getDutyName(state) {
+function getDutyName(state,dutyID) {
 	var html;
 	$.ajax({
 		url : 'dutyController/getAllDutyName.do',
@@ -418,6 +439,7 @@ function getDutyName(state) {
 			if (state == "edit") {
 				$("#edit_dutyName ").empty(); // 清空子元素
 				$('#edit_dutyName').append(html);
+			    $("#edit_dutyName option[value='"+dutyID+"']").attr("selected", "selected");  
 			}
 			if (state == "add") {
 				$("#add_dutyName ").empty(); // 清空子元素
@@ -464,7 +486,7 @@ function getRoleName(state, roleID) {
 }
 
 /* 获取所有的部门 */
-function getDepartmentName(state) {
+function getDepartmentName(state,departmentID) {
 	var html;
 	$.ajax({
 		url : 'departmentController/getAllDepartmentName.do',
@@ -478,6 +500,7 @@ function getDepartmentName(state) {
 			if (state == "edit") {
 				$("#edit_departmentName ").empty(); // 清空子元素
 				$('#edit_departmentName').append(html);
+				$("#edit_departmentName option[value='"+departmentID+"']").attr("selected", "selected"); 
 			}
 			if (state == "add") {
 				$("#add_departmentName ").empty(); // 清空子元素
@@ -498,43 +521,47 @@ function edit() {
 	parame.address = encodeURI($('#edit_address').val());
 	parame.dutyID = $('#edit_dutyName').val();
 	parame.sex = $('input[name="sex2"]:checked ').val();
+	parame.birthday = $('#edit_birthday').val();
+	parame.jobTitle = $('#edit_jobTitle').val();
+	parame.eduLevel =$('#edit_eduLevel').val();
+	parame.graduate = encodeURI($('#edit_graduate').val());
+	parame.IDCard = $('#edit_IDCard').val();
 	parame.ID = $('#edit_ID').val();
 	var data = $('#edit_name').val();
+	var ids = "";
 	if (data == null) {
-		swal("角色不能为空");
+		parame.roleID = "";
 	} else {
-		var ids = "";
 		for (var i = 0; i < data.length; i++) {
 			ids += data[i] + ",";
 		}
 		ids = ids.substring(0, ids.length - 1);
 		parame.roleID = ids;
-		if (checkdata(parame)) {
-			$
-					.ajax({
-						url : 'employeeController/updEmployee.do',
-						scriptCharset : "utf-8",
-						contentType : "application/x-www-form-urlencoded; charset=utf-8", // 中文乱码
-						data : parame,
-						dataType : 'json',
-						success : function(o) {
-							if (o <= 0) {
-								swal({
-									title : "修改失败",
-									type : 'warning'
-								});
-							} else {
-								swal({
-									title : "修改成功",
-									type : 'success'
-								});
-							}
-							$("input[type='radio']").removeAttr('checked');
-							$('#editModal').modal('hide');
-							$('#table').bootstrapTable('refresh', null);
-						}
+	}
+	if (checkdata(parame)) {
+		$.ajax({
+			url : 'employeeController/updEmployee.do',
+			scriptCharset : "utf-8",
+			contentType : "application/x-www-form-urlencoded; charset=utf-8", // 中文乱码
+			data : parame,
+			dataType : 'json',
+			success : function(o) {
+				if (o <= 0) {
+					swal({
+						title : "修改失败",
+						type : 'warning'
 					});
-		}
+				} else {
+					swal({
+						title : "修改成功",
+						type : 'success'
+					});
+				}
+				$("input[type='radio']").removeAttr('checked');
+				$('#editModal').modal('hide');
+				$('#table').bootstrapTable('refresh', null);
+			}
+		});
 	}
 }
 
@@ -775,43 +802,10 @@ function exportReport() {
 }
 
 function checkIDCard(IDCard) {
-	var city = {
-		11 : "北京",
-		12 : "天津",
-		13 : "河北",
-		14 : "山西",
-		15 : "内蒙古",
-		21 : "辽宁",
-		22 : "吉林",
-		23 : "黑龙江 ",
-		31 : "上海",
-		32 : "江苏",
-		33 : "浙江",
-		34 : "安徽",
-		35 : "福建",
-		36 : "江西",
-		37 : "山东",
-		41 : "河南",
-		42 : "湖北 ",
-		43 : "湖南",
-		44 : "广东",
-		45 : "广西",
-		46 : "海南",
-		50 : "重庆",
-		51 : "四川",
-		52 : "贵州",
-		53 : "云南",
-		54 : "西藏 ",
-		61 : "陕西",
-		62 : "甘肃",
-		63 : "青海",
-		64 : "宁夏",
-		65 : "新疆",
-		71 : "台湾",
-		81 : "香港",
-		82 : "澳门",
-		91 : "国外 "
-	};
+	var city = {11 : "北京",12 : "天津",13 : "河北",14 : "山西",15 : "内蒙古",21 : "辽宁",22 : "吉林",23 : "黑龙江 ",31 : "上海",
+		32 : "江苏",33 : "浙江",34 : "安徽",35 : "福建",36 : "江西",37 : "山东",41 : "河南",42 : "湖北 ",43 : "湖南",44 : "广东",
+		45 : "广西",46 : "海南",50 : "重庆",51 : "四川",52 : "贵州",53 : "云南",54 : "西藏 ",61 : "陕西",62 : "甘肃",63 : "青海",
+		64 : "宁夏",65 : "新疆",71 : "台湾",81 : "香港",82 : "澳门",91 : "国外 "};
 	var tip = "";
 	var pass = true;
 
@@ -854,18 +848,17 @@ function checkIDCard(IDCard) {
 	return pass;
 }
 
-
-function reset(){
+function reset() {
 	var data = $('#table').bootstrapTable('getSelections');
 
-	if (data.length==0 || data.length>1) {
+	if (data.length == 0 || data.length > 1) {
 		sweetAlert("请选中一条数据");
 		return;
 	}
-	
-	var parame={};
-	var password=data[0].IDCard;
-	parame.ID=data[0].ID;
+
+	var parame = {};
+	var password = data[0].IDCard;
+	parame.ID = data[0].ID;
 	password = password.substring(password.length - 6, password.length);
 	parame.password = password;
 	$.ajax({
@@ -938,3 +931,24 @@ function checkData(dataObj) {
 		dataObj.createTime = "";
 	}
 }
+
+function focusNextInput(thisInput) {
+	var inputs = document.getElementsByTagName("input");
+	for (var i = 0; i < inputs.length; i++) {
+		// 如果是最后一个，则焦点回到第一个
+		if (i == (inputs.length - 1)) {
+			inputs[0].focus();
+			break;
+		} else if (thisInput == inputs[i]) {
+			inputs[i + 1].focus();
+			break;
+		}
+	}
+}
+
+$(function() {
+	$(":radio").click(function() {
+		$("#add_email").focus();
+		$("#edit_email").focus();
+	});
+});
