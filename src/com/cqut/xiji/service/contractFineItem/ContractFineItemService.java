@@ -605,8 +605,6 @@ public class ContractFineItemService extends SearchService implements IContractF
 			"contractFineItem.testProjectID",
 			"testProject.nameCn",
 			"testProject.nameEn",
-			"contractFineItem.departmentID",
-			"department.departmentName",
 			"contractFineItem.number",
 			"contractFineItem.hour",
 			"contractFineItem.price",
@@ -614,8 +612,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 			"contractFineItem.calculateType",
 			"contractFineItem.remarks"
 		};
-		String joinEntity = " LEFT JOIN testProject ON contractFineItem.testProjectID = testProject.ID " +
-				" LEFT JOIN department ON contractFineItem.departmentID = department.ID ";
+		String joinEntity = " LEFT JOIN testProject ON contractFineItem.testProjectID = testProject.ID ";
 		
 		String condition = "1 = 1 ";
 		
@@ -681,7 +678,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 	}
 	
 	@Override
-	public int addContractFineItem1(int isOutsourcing,String departmentID, String fineItemCode,
+	public int addContractFineItem1(int isOutsourcing, String fineItemCode,
 			String testProjectID, String testProjectName,int number, double price, double money,
 			String remarks, String contractID){
 		String[] properties1 = new String[] {"ID"};
@@ -703,7 +700,6 @@ public class ContractFineItemService extends SearchService implements IContractF
 		contractFineItem.setID(id);
 		contractFineItem.setFineItemCode(fineItemCode);
 		contractFineItem.setTestProjectID(testProjectID);
-		contractFineItem.setDepartmentID(departmentID);
 		contractFineItem.setIsOutsourcing(isOutsourcing);
 		contractFineItem.setNumber(number);
 		contractFineItem.setPrice(price);
@@ -801,7 +797,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 	}
 	
 	@Override
-	public int updContractFineItem1(String ID,int isOutsourcing,String departmentID, String fineItemCode,
+	public int updContractFineItem1(String ID,int isOutsourcing, String fineItemCode,
 			String testProjectID, String testProjectName,int number, double price, double money,
 			String remarks, String contractID){
 		// TODO Auto-generated method stub
@@ -822,7 +818,6 @@ public class ContractFineItemService extends SearchService implements IContractF
 		contractFineItem.setID(ID);
 		contractFineItem.setFineItemCode(fineItemCode);
 		contractFineItem.setTestProjectID(testProjectID);
-		contractFineItem.setDepartmentID(departmentID);
 		contractFineItem.setIsOutsourcing(isOutsourcing);
 		contractFineItem.setNumber(number);
 		contractFineItem.setPrice(price);

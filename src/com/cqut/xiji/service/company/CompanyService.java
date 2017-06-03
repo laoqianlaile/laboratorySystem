@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 
 
+
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
@@ -190,4 +191,56 @@ public class CompanyService extends SearchService implements ICompanyService {
 		List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, Company.class);
 		return list;
 	}
+
+public Map<String, Object> getCompanyWithPage(String companyName,String address,String linkMan,
+		 int limit, int offset,String order, String sort) {
+	int index = limit;
+	int pageNum = offset / limit;
+	String tableName = "company";
+	String[] properties = new String[] { 
+			"company.ID",
+			"company.companyName",
+			"company.linkMan",
+			"company.mobilePhone",
+			"company.address",
+			"company.scope",
+			"company.fax",
+			"company.emailbox",
+			"DATE_FORMAT(company.createTime,'%Y-%m-%d ') as createTime ",
+			
+					
+			
+	};
+
+	String condition = " 1 = 1  ";
+	if(companyName != null && !companyName.equals("")){
+		 condition+=" and company.companyName like '%"+companyName+"%'  ";
+	}
+	if(address != null && !address.equals("")){
+		 condition+=" and company.address like '%"+address+"%'  ";
+	}
+	if(linkMan != null && !linkMan.equals("")){
+		 condition+=" and company.linkMan like '%"+linkMan+"%'  ";
+	}
+
+	
+	
+/*	String joinEntity = " left join employee on department.employeeID = employee.ID "
+			+" left join department as department2 on department.parentID = department2.ID";*/
+	
+	List<Map<String, Object>> result = originalSearchWithpaging(properties,
+			tableName, null, null, condition, false, null,
+			sort, order, index, pageNum);
+
+	
+	//int count = getForeignCount(null, condition, false);
+	//int count = entityDao.getByCondition(condition, Department.class).size();
+	int count = getForeignCountWithJoin(null, null, condition, false);
+
+	Map<String, Object> map = new HashMap<String, Object>();
+	map.put("total", count);
+	map.put("rows", result);
+	return map;
+	
+}
 }

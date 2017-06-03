@@ -319,6 +319,8 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 							+"when employee.eduLevel =3 then '本科'"
 							+"when employee.eduLevel =4 then '硕士'"
 							+"when employee.eduLevel =5 then '博士' end as eduLevel",
+					"employee.eduLevel as edu",
+					"employee.jobTitle as job",
 					"employee.graduate",
 					"employee.IDCard",
 					"(select GROUP_CONCAT(role.`name`) from role where FIND_IN_SET(role.ID,employee.roleID))as roleName",
@@ -596,6 +598,18 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 
 	
 		
-		
+		@Override
+		public String updEmployeePassword(String ID,String password) {
+			// TODO Auto-generated method stub
+			if (ID == null || ID.equals("")) {
+				return "false";
+			}
+			Employee employee = entityDao.getByID(ID, Employee.class);
+			if (employee == null)
+				return "false";
+			employee.setPassword(password);
+
+			return entityDao.updatePropByID(employee, ID) == 1 ? "true" : "false";
+		}
 		
 }

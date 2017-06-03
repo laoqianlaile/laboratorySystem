@@ -224,10 +224,10 @@ public class ContractFineItemController{
 	
 	@RequestMapping("/addContractFineItem1")  
     @ResponseBody
-	public int addContractFineItem1(int isOutsourcing,String departmentID, String fineItemCode,
+	public int addContractFineItem1(int isOutsourcing, String fineItemCode,
 			String testProjectID, String testProjectName,int number, double price, double money,
 			String remarks, String contractID){
-		int results = service.addContractFineItem1(isOutsourcing, departmentID,fineItemCode, testProjectID,testProjectName, number, price, money, remarks, contractID);
+		int results = service.addContractFineItem1(isOutsourcing,fineItemCode, testProjectID,testProjectName, number, price, money, remarks, contractID);
 		return results;
 	}
 	
@@ -248,10 +248,10 @@ public class ContractFineItemController{
 	
 	@RequestMapping("/updContractFineItem1")  
     @ResponseBody
-	public int updContractFineItem1(String ID,int isOutsourcing,String departmentID, String fineItemCode,
+	public int updContractFineItem1(String ID,int isOutsourcing, String fineItemCode,
 			String testProjectID, String testProjectName,int number, double price, double money,
 			String remarks, String contractID){
-		int results = service.updContractFineItem1(ID, isOutsourcing,departmentID, fineItemCode, testProjectID, testProjectName, number, price, money, remarks, contractID);
+		int results = service.updContractFineItem1(ID, isOutsourcing, fineItemCode, testProjectID, testProjectName, number, price, money, remarks, contractID);
 		return results;
 	}
 	
