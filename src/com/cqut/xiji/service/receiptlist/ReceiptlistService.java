@@ -560,7 +560,7 @@ public class ReceiptlistService extends SearchService implements
             entityDao.updatePropByID(receiptlist, reID);	
             
 			//推送消息
-			for (int j = 0; j < testProjectIDs.length; j++) {
+	/*		for (int j = 0; j < testProjectIDs.length; j++) {
 				TestProject testProject  = entityDao.getByID(testProjectIDs[j], TestProject.class);
 				String manage_MAN = testProject.getDepartmentID();
 				if(manage_MAN != null && ! manage_MAN.equals("")){
@@ -573,7 +573,7 @@ public class ReceiptlistService extends SearchService implements
 				    messageNotice.setID(EntityIDFactory.createId());
 				    messageNotice.setEmployeeID(manage_MAN);
 				}
-			}
+			}*/
 			
 			
 			return counter == testProjectIDs.length ? "true" : "false";
