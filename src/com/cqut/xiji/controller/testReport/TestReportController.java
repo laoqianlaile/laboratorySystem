@@ -503,9 +503,9 @@ public class TestReportController {
 	 */
 	@RequestMapping("/recoatCheck")
 	@ResponseBody
-	public boolean recoatCheck(String[] taskIDs, String[] fileIDs, String[] projectIDs, String[] states) {
-		boolean flag = service.recoatCheck(taskIDs, fileIDs, projectIDs, states);
-		return flag;
+	public String recoatCheck(String[] taskIDs, String[] fileIDs, String[] projectIDs, String[] states, String[] testProjectID) {
+		String result = service.recoatCheck(taskIDs, fileIDs, projectIDs, states, testProjectID);
+		return result;
 
 	}
 	

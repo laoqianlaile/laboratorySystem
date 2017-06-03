@@ -84,6 +84,14 @@ $(function() {
 									visible : false
 								},
 								{
+									field : 'testProjectID',// 返回值名称
+									title : '检测项目ID',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : "10%",// 宽度
+									visible : false
+								},
+								{
 									field : 'fileID',// 返回值名称
 									title : '文件ID',// 列名
 									align : 'center',// 水平居中显示
@@ -286,10 +294,7 @@ function recoatCheck() {
 		alert("至少选择两个报告才能进行合并");
 		return;
 	} else {
-		
-		
-		
-/*		var taskIDs = [], fileIDs = [], IDs = [], projectIDs = [], stateEns = [];
+		var taskIDs = [], fileIDs = [], IDs = [], projectIDs = [], stateEns = [], testProjectID = [];
 		$.each(rows, function() {
 			taskIDs.push(this.taskID);
 		});
@@ -302,6 +307,9 @@ function recoatCheck() {
 		$.each(rows, function() {
 			stateEns.push(this.stateEn);
 		});
+		$.each(rows, function() {
+			testProjectID.push(this.testProjectID);
+		});
 		$.ajax({
 			url : 'testReportController/recoatCheck.do',
 			type : 'POST',
@@ -309,21 +317,23 @@ function recoatCheck() {
 				taskIDs : taskIDs,
 				fileIDs : fileIDs,
 				projectIDs : projectIDs,
-				states : stateEns
+				states : stateEns,
+				testProjectID : testProjectID
 			},
 			traditional : true,
 			success : function(result) {
 				result = JSON.parse(result);
-				if (result) {
+				if (result == "true" || result == true) {
 					$.each(rows, function() {
 						IDs.push(this.ID);
 					});
 					recoatReport(fileIDs, IDs, taskIDs, projectIDs);
+					alert("可以合并");
 				} else {
-					alert("当前选择报告不能合并");
+					alert(result)
 				}
 			}
-		});*/
+		});
 	}
 
 }

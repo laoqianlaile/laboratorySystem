@@ -1,0 +1,253 @@
+@CHARSET "UTF-8";
+
+.container {
+	width: 100%;
+	min-width: 1200px;
+	padding: 0;
+}
+
+.content input,.content select {
+	display: inline;
+	width: 60%;
+}
+
+.content label{
+	font-family: "Microsoft YaHei-Regular";
+	font-size: 14px;
+	color: #333;
+	width: 30%;
+}
+
+.content input {
+	font-size: 13px;
+	color: #666;
+}
+
+.col-xs-4{
+	margin-bottom: 10px;
+}
+
+.btn3:hover {
+	background: #ffad33;
+}
+
+.top {
+	height: 50px;
+	background:#9abdd0;
+	opacity: 0.69;
+}
+
+.top button {
+	background: #198ac8;
+	font-size: 14px;
+	color: #fff;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	margin-left: 26px;
+	width: 76px;
+}
+
+#table {
+	font-family: "Microsoft YaHei";
+	font-weight: bold;
+	color: #fff;
+	font-size: 14px;
+	margin-top: 30px;
+	min-width: 1170px;
+}
+
+#table  thead tr {
+	background: #364760;
+}
+
+#table td {
+	font-size: 14px;
+	color: #333;
+}
+
+.table-hover>tbody>tr:hover>td,.table-hover>tbody>tr:hover>th {
+	background-color: rgba(54, 71, 96, 0.2);
+}
+
+.modal-header {
+	background: #364760;
+	height: 40px;
+	font-family: "Microsoft YaHei-Regular";
+	font-size: 16px;
+	color: #fff;
+}
+
+.modal-header label {
+	font-family: "Microsoft YaHei-Regular";
+	font-size: 16px;
+	color: #fff;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.modal-header button {
+	color: #fff;
+}
+
+.modal-body {
+	padding: 0;
+}
+
+.modal-body label {
+	font-family: "Microsoft YaHei-Regular";
+	font-size: 16px;
+	color: #333;
+	margin-left: 20px;
+	width:70px;
+	display: inline;
+}
+
+.modal-body input,.modal-body select {
+	display: inline;
+	width: 78%;
+	height: 34px;
+	margin-left: 10px;
+	font-size: 13px;
+	color: #666;
+}
+
+.modal-footer button {
+	background: #364760;
+	font-size: 14px;
+	color: #fff;
+	margin-right: 20px;
+	width: 86px;
+	margin-top: 30px;
+}
+
+.col-xs-12,col-md-12 {
+	margin-top: 20px;
+}
+
+.factoryCode{
+	position: absolute;
+	height: auto;
+	max-height: 100px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+	margin-left:17.2%;
+	width:74%;
+	display:none;
+	border:1px solid #ccc;
+	border-top:none;
+	border-radius:3px;
+	background-color:#fff;
+	z-index: 10;
+}
+.factoryCode ul {
+	display: block;
+	height:auto;
+    max-height: 100px;
+    overflow-y: scroll;
+	border:none;
+	border-radius:3px;
+	margin:0;
+	margin-left:-40px;
+}
+.factoryCode ul li{
+	display: block;
+    vertical-align: middle;
+	height:30px;
+	line-height: 30px;
+	list-style-type: none;
+	text-indent: 12px;
+	background-color:#fff;
+}
+.factoryCode ul li.noDate{
+ 	color: red;
+}
+.factoryCode ul li:hover{
+	background-color:#dcdcdc;
+}
+
+.sampleName{
+	position: absolute;
+	height: auto;
+	max-height: 100px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+	margin-left:17.2%;
+	width:74%;
+	display:none;
+	border:1px solid #ccc;
+	border-top:none;
+	border-radius:3px;
+	background-color:#fff;
+	z-index: 10;
+}
+.sampleName ul {
+	display: block;
+	height:auto;
+    max-height: 100px;
+    overflow-y: scroll;
+	border:none;
+	border-radius:3px;
+	margin:0;
+	margin-left:-40px;
+}
+.sampleName ul li{
+	display: block;
+    vertical-align: middle;
+	height:30px;
+	line-height: 30px;
+	list-style-type: none;
+	text-indent: 12px;
+	background-color:#fff;
+}
+.sampleName ul li.noDate{
+ 	color: red;
+}
+.sampleName ul li:hover{
+	background-color:#dcdcdc;
+}
+
+
+.specifications{
+	position: absolute;
+	height: auto;
+	max-height: 100px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+	margin-left:17.2%;
+	width:74%;
+	display:none;
+	border:1px solid #ccc;
+	border-top:none;
+	border-radius:3px;
+	background-color:#fff;
+	z-index: 10;
+}
+.specifications ul {
+	display: block;
+	height:auto;
+    max-height: 100px;
+    overflow-y: scroll;
+	border:none;
+	border-radius:3px;
+	margin:0;
+	margin-left:-40px;
+}
+.specifications ul li{
+	display: block;
+    vertical-align: middle;
+	height:30px;
+	line-height: 30px;
+	list-style-type: none;
+	text-indent: 12px;
+	background-color:#fff;
+}
+.specifications ul li.noDate{
+ 	color: red;
+}
+.specifications ul li:hover{
+	background-color:#dcdcdc;
+}
+
+

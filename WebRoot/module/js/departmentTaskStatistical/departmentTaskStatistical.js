@@ -83,6 +83,7 @@ $(function () {
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'15%'//宽度
+		}]
 	});
 	
 	// 查询按钮点击事件
