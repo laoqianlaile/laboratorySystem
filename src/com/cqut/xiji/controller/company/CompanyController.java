@@ -220,4 +220,11 @@ public class CompanyController {
 		List<Map<String, Object>> result = service.getComListByName(companyName);
 		return JSONArray.fromObject(result).toString();
 	}
+	@RequestMapping("/getCompanyWithPage")  
+    @ResponseBody
+	public JSONObject getCompanyWithPage(String companyName,String address,String linkMan,int limit, int offset, String order, String sort){
+		Map<String, Object> result = service.getCompanyWithPage(companyName,address,linkMan,limit,offset,order,sort);
+		return JSONObject.fromObject(result);
+	}
+	
 }

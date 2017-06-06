@@ -572,7 +572,7 @@ function initContractFileItem1(){
 			valign:'middle',//垂直居中显示
 			width:'10',//宽度
 			visible:false
-		},{
+		}/*,{
 			field:'departmentID',//返回值名称
 			title:'检测部门ID',//列名
 			align:'center',//水平居中显示
@@ -585,7 +585,7 @@ function initContractFileItem1(){
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'12%',//宽度
-		},{
+		}*/,{
 			field:'remarks',//返回值名称
 			title:'备注',//列名
 			align:'center',//水平居中显示
@@ -601,7 +601,7 @@ function initContractFileItem1(){
                  var b = '<img src ="module/img/update_icon.png" onclick="openEditItemModal1(\'' + row.ID + 
                  '\',\'' + row.fineItemCode + '\',\'' + row.testProjectID + '\',\'' + row.nameCn + '\',\'' + 
                  row.nameEn + '\',\'' + row.number + '\',\'' + row.price + '\',\'' + row.money + '\',\'' + 
-                 row.departmentID + '\',\'' + row.departmentName + '\',\'' + 
+                 /*row.departmentID + '\',\'' + row.departmentName + '\',\'' + */
                  row.isOutsourcing + '\',\'' + row.remarks + '\')"'+
                  ' title="修改" style="cursor:pointer;padding-right:8px;"></img>';
                  var c = "<img src ='module/img/delete_icon.png' onclick='delFileItem(\""+ row.ID +"\",\"" + row.fineItemCode +"\")'"+" title='删除' style='cursor:pointer;padding-right:8px;'></img>";
@@ -609,8 +609,8 @@ function initContractFileItem1(){
              }   
 		}]////列配置项,详情请查看 列参数 表格
 	});
-	showSth();
-	editSth();
+//	showSth();
+//	editSth();
 }
 
 //初始化数据(校准合同细项)
@@ -1244,7 +1244,6 @@ function openAddItemModal1(){
 	$('#add_testProjectName').val("");
 	$('#add_number').val("");
 	$('#add_price').val("");
-	$('#add_departmentID').val("");
 	$('#add_remarks1').val("");
 	$('#addContractItemModal1').modal('show');
 }
@@ -1259,7 +1258,7 @@ function openAddItemModal2(){
 	$('#addContractItemModal2').modal('show');
 }
 
-function openEditItemModal1(ID,fineItemCode,testProjectID,nameCn,nameEn,number,price,money,departmentID,departmentName,calculateType,isOutsourcing,remarks,hour){
+function openEditItemModal1(ID,fineItemCode,testProjectID,nameCn,nameEn,number,price,money,calculateType,isOutsourcing,remarks,hour){
 	$('#edit_fineItemID1').val(ID);
 	$('#edit_fineItemCode').val(fineItemCode);
 	$('#edit_testProjectName').attr({'name' : "" + testProjectID + ""});
@@ -1267,7 +1266,6 @@ function openEditItemModal1(ID,fineItemCode,testProjectID,nameCn,nameEn,number,p
 	$('#edit_testProjectName').attr({'value' : "" + nameCn + " | " + nameEn + ""});
 	$('#edit_number').val(number);
 	$('#edit_price').val(price);
-	$('#edit_departmentID').val(departmentID);
 	$('#edit_remarks1').val(remarks);
 	
 	$('#editContractItemModal1').modal('show');
@@ -1892,11 +1890,12 @@ function addItem1(){
 	edit();
 	var parame = {};
 	var fineItemCode = $('#add_fineItemCode').val();
+	var isOutsourcing = $("input[name='isOutsourcing1']:checked").val();
 	var testProjectID = $('#add_testProjectName').attr("name");
 	var testProjectName = $('#add_testProjectName').attr("title");
 	var number = $('#add_number').val();
 	var price = $('#add_price').val();
-	var departmentName = $('#add_departmentName').val();
+	//var departmentName = $('#add_departmentName').val();
 	var remarks = $('#add_remarks1').val();
 	
 	if (!fineItemCode || typeof(fineItemCode) == "undefined" || fineItemCode.trim() == "") 
@@ -1909,7 +1908,7 @@ function addItem1(){
 		swal("检测项目不能为空！"); 
 		return;
 	}
-	if(departmentName != 11){
+	/*if(departmentName != 11){
 		if (!departmentName || typeof(departmentName) == "undefined" || departmentName.trim() == "") 
 		{
 			swal("检测单位不能为空！请修改检测项目的所属单位或选择新的检测单位");
@@ -1925,11 +1924,12 @@ function addItem1(){
 		}
 		parame.isOutsourcing = 1;
 		parame.departmentID = departmentName;
-	}
+	}*/
 	if (!remarks || typeof(remarks) == "undefined" || remarks.trim() == "") 
 	{ 
 		parame.remarks = "";
 	}
+		parame.isOutsourcing = isOutsourcing;
 		parame.fineItemCode = fineItemCode;
 		parame.testProjectID = testProjectID;
 		parame.testProjectName = testProjectName;
@@ -2114,11 +2114,12 @@ function editItem1(){
 	var parame = {};
 	parame.ID = $('#edit_fineItemID1').val();
 	var fineItemCode = $('#edit_fineItemCode').val();
+	var isOutsourcing = $("input[name='isOutsourcing2']:checked").val();
 	var testProjectID = $('#edit_testProjectName').attr("name");
 	var testProjectName = $('#edit_testProjectName').attr("title");
 	var number = $('#edit_number').val();
 	var price = $('#edit_price').val();
-	var departmentName = $('#edit_departmentName').val();
+	//var departmentName = $('#edit_departmentName').val();
 	var remarks = $('#edit_remarks').val();
 		
 	if (!fineItemCode || typeof(fineItemCode) == "undefined" || fineItemCode.trim() == "") 
@@ -2131,7 +2132,11 @@ function editItem1(){
 		swal("检测项目不能为空！"); 
 		return;
 	}
-	if(departmentName != 11){
+	if (!remarks || typeof(remarks) == "undefined" || remarks.trim() == "") 
+	{ 
+		parame.remarks = "";
+	}
+	/*if(departmentName != 11){
 		if (!departmentName || typeof(departmentName) == "undefined" || departmentName.trim() == "") 
 		{
 			swal("检测单位不能为空！");
@@ -2147,7 +2152,8 @@ function editItem1(){
 		}
 		parame.isOutsourcing = 1;
 		parame.departmentID = departmentName;
-	}
+	}*/
+	    parame.isOutsourcing = isOutsourcing;
 		parame.fineItemCode = fineItemCode;
 		parame.testProjectID = testProjectID;
 		parame.testProjectName = testProjectName;

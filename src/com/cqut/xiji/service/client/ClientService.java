@@ -90,13 +90,13 @@ public class ClientService extends SearchService implements IClientService{
 			statusCondition = null;
 		
 		
-		
+		//wangzhijun  join turn left join
 		if(isTouchReviewStatus.equals("null")){//判断是否只触发reviewStatus筛选事件
 		   if(reCompyName.equals("null")&&reUserName.equals("null")){
 			 String s = "1=1";
 		     result = entityDao.searchWithpaging(allProperties, clientTableName, "left join company on client.companyId=company.ID"
-		    		    +" join fileinformation as f1 on company.fileID1 = f1.ID"
-						+" join fileinformation as f2 on company.fileID2 = f2.ID", null, s, null, order, sort, index, pageNum);
+		    		    +" left join fileinformation as f1 on company.fileID1 = f1.ID"
+						+" left join fileinformation as f2 on company.fileID2 = f2.ID", null, s, null, order, sort, index, pageNum);
 		}
 		else {
 			 /* condition+=" reReviewStatus='"+reReviewStatus+"' and";*/

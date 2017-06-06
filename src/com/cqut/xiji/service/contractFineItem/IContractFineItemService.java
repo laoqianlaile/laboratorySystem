@@ -49,7 +49,7 @@ public interface IContractFineItemService {
 	public Map<String, Object> getContractFileItemWithPaging2(String ID, int limit,
 			int offset, String order, String sort);
 	
-	public int addContractFineItem1(int isOutsourcing,String departmentID, String fineItemCode,
+	public int addContractFineItem1(int isOutsourcing, String fineItemCode,
 			String testProjectID, String testProjectName,int number, double price, double money,
 			String remarks, String contractID);
 	
@@ -58,7 +58,7 @@ public interface IContractFineItemService {
 	
 	public int delContractFineItem(String itemID,String contractID);
 	
-	public int updContractFineItem1(String ID,int isOutsourcing,String departmentID, String fineItemCode,
+	public int updContractFineItem1(String ID,int isOutsourcing, String fineItemCode,
 			String testProjectID, String testProjectName,int number, double price, double money,
 			String remarks, String contractID);
 	

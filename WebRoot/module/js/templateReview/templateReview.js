@@ -195,6 +195,9 @@ function find(){
 
 
 function NoPassModal(ID,SUGGEST,STATE){
+	if(SUGGEST === undefined || SUGGEST === "undefined") {
+		SUGGEST = "";
+	}
 	 if(STATE=="待审核"){
 	$("#fileSubtype").find("option").remove();
 	$("#NoPassModal").modal("show");
@@ -206,6 +209,9 @@ function NoPassModal(ID,SUGGEST,STATE){
 	
 }
 function PassModal(ID,SUGGEST,STATE){
+	if(SUGGEST === undefined) {
+		SUGGEST = "";
+	}
    if(STATE=="待审核"){
 	$("#fileSubtype").find("option").remove();
 	$("#PassModal").modal("show");
