@@ -21,6 +21,8 @@ public class Company extends Entity{
 	private String scope;
 	private int type;
 	private String remarks;
+
+	
 	
 	@Override
 	public String toString() {

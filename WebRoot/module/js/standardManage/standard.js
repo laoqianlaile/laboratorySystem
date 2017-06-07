@@ -4,6 +4,10 @@ $(function(){
 	init();
 });
 
+//重新加载页面
+function reload() {
+	window.location.reload();
+}
 
 function init(){
 	
@@ -131,8 +135,6 @@ function init(){
 			/* 事件 */
 		});
 	});
-	uploadFile();
-	recoverFile();
 }
 
 /* 刷新方法 */
@@ -211,12 +213,13 @@ function openAddmodal(){
 	fileParam.remarks = $('#add_TemplateRemarks').val(); // 备注
 	
 	if(arguments[0] === "add"){
-//		fileUploadInit("#file_upload");
+		uploadFile();
 		$('#addModal').modal('show');
 	}
 	else{
 		$("#recoverButton").removeAttr("disabled");
 		$("#recoverFileName").html("");
+		 recoverFile();
 		recover();
 	}
 	
@@ -225,7 +228,7 @@ function openAddmodal(){
 
 //上传文件
 function uploadFile() {
-	$("#files").fileupload({
+	$(".files").fileupload({
 				autoUpload : true,
 				url : 'fileOperateController/upload.do',
 				dataType : 'json',
@@ -257,7 +260,7 @@ function uploadFile() {
 					});
 
 	// 文件上传前触发事件,如果需要额外添加参数可以在这里添加
-	$('#files').bind('fileuploadsubmit', function(e, data) {
+	$('.files').bind('fileuploadsubmit', function(e, data) {
 		data.formData = {
 			firstDirectory : fileParam.firstDirectoryName,
 			secondDirectory : fileParam.secondDirectoryName,
@@ -267,9 +270,9 @@ function uploadFile() {
 	});
 }
 
-//上传文件
+//覆盖上传文件
 function recoverFile() {
-	$("#recoverFiles").fileupload({
+	$(".recoverFiles").fileupload({
 				autoUpload : true,
 				url : 'fileOperateController/upload.do',
 				dataType : 'json',
@@ -287,6 +290,7 @@ function recoverFile() {
 								fileID : fileID
 							},
 							function(result) {
+								result = JSON.parse(result);
 								if(result > 0 || result > "0"){
 									$("#recoverStandard").modal("hide");
 									swal({title:"覆盖上传成功",  type:"success",});
@@ -301,10 +305,11 @@ function recoverFile() {
 					});
 
 	// 文件上传前触发事件,如果需要额外添加参数可以在这里添加
-	$('#recoverFiles').bind('fileuploadsubmit', function(e, data) {
+	$('.recoverFiles').bind('fileuploadsubmit', function(e, data) {
 		data.formData = {
 			path : recoverParam.path,
 			TypeNumber : recoverParam.type,
+			belongtoID : recoverParam.ID
 		}
 	});
 } 

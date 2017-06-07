@@ -194,6 +194,10 @@ function onclickNvi(){
 		+"<tr><td>邮箱</td>"+"<td><input id ='edit_email' type='text' class='form-control' value ='"+data[0].email+"' /></td></tr>"
 		+"<tr><td>手机号码</td>"+"<td><input id ='edit_phone' type='text' class='form-control' value='"+data[0].phoneNumber+"' /></td></tr>"
 		+"<tr><td>地址</td>"+"<td><textarea id ='edit_address' class='form-control' placeholder='填写的你的地址'>"+data[0].address+"</textarea></td></tr>"
+		+"<tr><td>职称</td>"+"<td>"+data[0].jobTitle+"</td></tr>"
+		+"<tr><td>文化水平</td>"+"<td>"+data[0].eduLevel+"</td></tr>"
+		+"<tr><td>毕业学校</td>"+"<td>"+data[0].graduate+"</td></tr>"
+		+"<tr><td>身份证号</td>"+"<td>"+data[0].IDCard+"</td></tr>"
 		+"<tr><td><button  type='button' class='btn btn-success' id='submit' onclick='editInfo()'>保存</button></td><td></td></tr>"
 	 $('#tablebody').append(html);
 	 if(data[0].sex == 1){

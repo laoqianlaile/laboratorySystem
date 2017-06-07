@@ -270,7 +270,7 @@ public class StandardService extends SearchService implements IStandardService{
 			return -1 +"";
 		}
 		standard.setFileID(fileID);
-		int Backvalue = entityDao.save(standard);
+		int Backvalue = entityDao.updatePropByID(standard, standardID);
 		return Backvalue + "";
 	}
 
