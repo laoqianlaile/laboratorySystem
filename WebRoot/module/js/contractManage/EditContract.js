@@ -1938,7 +1938,6 @@ function addItem1(){
 		parame.money = number * price;
 		parame.remarks = remarks;
 		parame.contractID = $('#edit_contractID').val();
-		
 		$.ajax({
 			  url:'contractFineItemController/addContractFineItem1.do',
 			  type:'post', 
@@ -1977,7 +1976,6 @@ function addItem2(){
 	var specifications = $('#add_specifications').val();
 	var money = $('#add_money').val();
 	var remarks = $('#add_remarks2').val();
-	
 	if (!factoryCode || typeof(factoryCode) == "undefined" || factoryCode.trim() == "") 
 	{ 
 		swal("样品编码不能为空！"); 
