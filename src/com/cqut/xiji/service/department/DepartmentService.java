@@ -43,11 +43,17 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 	public String getBasePrimaryKey() {
 		return "department.ID";
 	}
-
+   /**
+    * 只需要检测和校准科室
+    * features or effect
+    * @author wzj
+    * @date 2017年6月7日 下午10:03:18
+    *
+    */
 	@Override
 	public List<Map<String, Object>> getDepartmentName() {
 		String[] properties = new String[] {"ID","departmentName"};
-		String condition = " 1 = 1 ";
+		String condition = " department.property =  0 or department.property = 1 ";
 		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Department.class);
 		return result;
 	}

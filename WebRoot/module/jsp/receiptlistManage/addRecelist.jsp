@@ -331,7 +331,7 @@
 						<div class="modal-footer">
 						    
 							<button type="button" class="btn btn-default"
-								onclick="addTaskModel()">确定</button>
+								onclick="addTaskModel()">确定并继续</button>
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">关闭</button>
 						</div>
