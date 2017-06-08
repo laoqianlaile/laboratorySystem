@@ -1,3 +1,38 @@
+$(window).load(function() {
+	var options =
+	{
+		thumbBox: '.thumbBox',
+		spinner: '.spinner',
+		imgSrc: 'module/img/avatar.png'
+	}
+	var cropper = $('.imageBox').cropbox(options);
+	$('#upload-file').on('change', function(){
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			options.imgSrc = e.target.result;
+			cropper = $('.imageBox').cropbox(options);
+		}
+		reader.readAsDataURL(this.files[0]);
+		this.files = [];
+	})
+	$('#btnCrop').on('click', function(){
+		var img = cropper.getDataURL();
+		$('.cropped').html('');
+		$('.cropped').append('<img src="'+img+'" align="absmiddle" style="width:64px;margin-top:4px;border-radius:64px;box-shadow:0px 0px 12px #7E7E7E;" ><p>64px*64px</p>');
+		$('.cropped').append('<img src="'+img+'" align="absmiddle" style="width:128px;margin-top:4px;border-radius:128px;box-shadow:0px 0px 12px #7E7E7E;"><p>128px*128px</p>');
+		$('.cropped').append('<img src="'+img+'" align="absmiddle" style="width:180px;margin-top:4px;border-radius:180px;box-shadow:0px 0px 12px #7E7E7E;"><p>180px*180px</p>');
+	})
+	$('#btnZoomIn').on('click', function(){
+		cropper.zoomIn();
+	})
+	$('#btnZoomOut').on('click', function(){
+		cropper.zoomOut();
+	})
+	$('#btnheadCrop').on('click',function(){
+		upImgheadCorp(cropper.getBlob());
+	})
+});
+
 var EmployeeInfo = getEmployeeInfo();
 
 $(function () {
@@ -183,7 +218,7 @@ function onclickNvi(){
 				"<img src ='module/img/file/defaultPhoto.jpg'>" +
 			"</div>" +
 		"</td>" +
-		"<td>" +"<a class='ahead'><input unselectable='on' type='file' class='hide'>更改头像</a>" +
+		"<td>" +"<a class='ahead'  onclick='openCropModal()' ><input unselectable='on' type='file' class='hide'>更改头像</a>" +
 		"</td>" +
 		"</tr>"
 		+"<tr><td>姓名</td>"+"<td> <input id ='edit_Name' type='text' class='form-control' value='"+data[0].employeeName+"' placeholder='请输入昵称'/></td></tr>"
@@ -209,6 +244,9 @@ function onclickNvi(){
 	 $('#table').show();
  }
  
+ function openCropModal(){
+	 $('#CropModal').modal('show');
+ }
  /**
   * 
   * 
@@ -364,3 +402,12 @@ function onclickNvi(){
  	}
  }
  
+ function upImgheadCorp(){
+	 console.log(arguments[0]);
+	 var oReq = new XMLHttpRequest();
+	 oReq.open("POST", 'employeeController/upheadCropImg.do', true);
+	 oReq.onload = function (oEvent) {
+	 // Uploaded.
+	 };
+	 oReq.send(arguments[0]);
+ }
