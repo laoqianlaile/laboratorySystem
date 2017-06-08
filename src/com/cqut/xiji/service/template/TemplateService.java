@@ -118,10 +118,9 @@ public class TemplateService extends SearchService implements ITemplateService{
 				"employee2.EMPLOYEENAME as UPLOADER",
 				"template.SUGGEST",
 				"fileInformation.UPLOADERID",
-				"case when template.TEMPLATETYPE = 0 then '合同文件'"
-						+"when template.TEMPLATETYPE = 1 then '合同附件'"
-						+"when template.TEMPLATETYPE = 2 then '交接单文件'"
-						+"when template.TEMPLATETYPE = 3 then '报告文件' end as TEMPLATETYPE",
+				"case when template.TEMPLATETYPE = 0 then '合同文件模板'"
+						+"when template.TEMPLATETYPE = 1 then '报告文件模板'"
+						+"when template.TEMPLATETYPE = 2 then '交接单文件模板' end as TEMPLATETYPE",
 
 				"DATE_FORMAT(template.createTime,'%Y-%m-%d %h:%s') as UPLOADTIME ",
 

@@ -15,10 +15,15 @@ import org.springframework.stereotype.Service;
 
 
 
+
+
+
+
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.company.Company;
+import com.cqut.xiji.entity.department.Department;
 import com.cqut.xiji.entity.role.Role;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
@@ -242,5 +247,54 @@ public Map<String, Object> getCompanyWithPage(String companyName,String address,
 	map.put("rows", result);
 	return map;
 	
+}
+//@Override
+//public String delCompany(String IDs) {
+//	// TODO Auto-generated method stub
+//	if(IDs == null || IDs.isEmpty()){
+//		return 0+"";
+//	}
+//	String[] ids = IDs.split(",");
+//	int result = entityDao.deleteEntities(ids,Company.class);
+//	return result+"";
+//}
+
+@Override
+public String addCompanywj(String companyName, String linkMan,
+		String mobilePhone, String scope, String address, String fax,
+		String emailbox) {
+	Company company=new Company();
+	company.setID(EntityIDFactory.createId());
+	company.setCompanyName(companyName);
+	company.setLinkMan(linkMan);
+	company.setMobilePhone(mobilePhone);
+	company.setScope(scope);
+	company.setAddress(address);
+	company.setFax(fax);
+	company.setEmailbox(emailbox);
+	company.setCreateTime(new Date());
+	
+	
+	int result = entityDao.save(company);
+	return result+"";
+	
+	
+	
+}
+
+@Override
+public String updCompanywj(String ID, String companyName, String linkMan,
+		String mobilePhone, String scope, String address, String fax,
+		String emailbox) {
+	Company company=entityDao.getByID(ID, Company.class);
+	company.setCompanyName(companyName);
+	company.setLinkMan(linkMan);
+	company.setMobilePhone(mobilePhone);
+	company.setScope(scope);
+	company.setAddress(address);
+	company.setFax(fax);
+	company.setEmailbox(emailbox);
+	int result = entityDao.updatePropByID(company, ID);
+	return result+"";
 }
 }

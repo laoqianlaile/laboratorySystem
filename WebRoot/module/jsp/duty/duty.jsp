@@ -108,18 +108,17 @@ textarea {
 .btn-primary:hover {
     background-color: #ffad33;
 }
-#bt{
- 
-	 width: 100%;
-	 background: #9abdd0;
+#bl{
+padding-top:12px;
+padding-bottom:12px;
 }
 
-.btn-primary {
-    background-color: #089beb;
-  
+#bl button{
+margin-left:16px;
 }
-.row .btn{
-margin: 15px;
+.row {
+     margin-right: 0px; 
+     margin-left: 0px; 
 }
 
 	
@@ -150,9 +149,8 @@ margin: 15px;
 	</div>
 	<!--功能按钮 -->
 	<div class="row clearfix">
-
 		<div class="col-md-3.5 column">
-			<div style="float: left;margin: 16px;" id="bt">
+			<div style="float: left;width:100%;background: #9abdd0;" id="bl">
 				<button id="query" onclick="find()" class="btn btn-primary"
 					type="button">
 					<em class="glyphicon glyphicon-search"></em> 查询

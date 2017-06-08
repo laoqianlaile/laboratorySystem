@@ -38,5 +38,9 @@ public interface ICompanyService {
 List<Map<String, Object>> getComListByName(String companyName); //通过名字模糊搜索公司
 public Map<String, Object> getCompanyWithPage(String companyName,String address,String linkMan,
 		 int limit, int offset,String order, String sort);
+public String addCompanywj(String companyName,String linkMan,String mobilePhone,
+		String scope,String address,String fax,String emailbox);
+public String updCompanywj(String ID,String companyName,String linkMan,String mobilePhone,
+		String scope,String address,String fax,String emailbox);
 
 }
