@@ -688,29 +688,29 @@ public class ContractService extends SearchService implements IContractService{
 					price = result2.get(i).get("price").toString();
 					number = result2.get(i).get("number").toString();
 					wp.addTableRow(2,2);
-					wp.putTxtToCell(2, 2, 1,fineItemCode);
-					wp.putTxtToCell(2, 2, 2,nameCn+"("+nameEn+")");
-					wp.putTxtToCell(2, 2, 3,price+"元/每次");
-					wp.putTxtToCell(2, 2, 4,number+"次");
-					wp.putTxtToCell(2, 2, 5,money);
+					wp.putTxtToCell(2, 2, 1,fineItemCode  == null ? " " :  fineItemCode);
+					wp.putTxtToCell(2, 2, 2,nameCn  == null ? " " :  nameCn+"("+nameEn  == null ? " " :  nameEn+")");
+					wp.putTxtToCell(2, 2, 3,price  == null ? " " :  price+"元/每次");
+					wp.putTxtToCell(2, 2, 4,number  == null ? " " :  number+"次");
+					wp.putTxtToCell(2, 2, 5,money  == null ? " " :  money);
 				}
 			}
 			if (companyName != null)
-				wp.replaceText("{companyName-x}",companyName.toString());
+				wp.replaceText("{companyName-x}",companyName.toString() == null ? " " :  companyName.toString());
 			if (linkMan != null)
-				wp.replaceText("{linkMan-x}",linkMan.toString());
+				wp.replaceText("{linkMan-x}",linkMan.toString() == null ? " " :  linkMan.toString());
 			if (oppositeMen != null)
-				wp.replaceText("{oppositeMan-x}",oppositeMen.toString());
+				wp.replaceText("{oppositeMan-x}",oppositeMen.toString() == null ? " " :  oppositeMen.toString());
 			if (address != null)
-				wp.replaceText("{address-x}",companyName.toString());
+				wp.replaceText("{address-x}",companyName.toString() == null ? " " :  companyName.toString());
 			if (linkPhone != null)
-				wp.replaceText("{linkPhone-x}",linkPhone.toString());
+				wp.replaceText("{linkPhone-x}",linkPhone.toString() == null ? " " :  linkPhone.toString());
 			if (fax != null)
-				wp.replaceText("{fax-x}",fax.toString());
+				wp.replaceText("{fax-x}",fax.toString() == null ? " " :  fax.toString());
 			if (signTime != null)
-				wp.replaceText("{signTime-x}",signTime.toString());
+				wp.replaceText("{signTime-x}",signTime.toString() == null ? " " :  signTime.toString());
 			if (signTime != null)
-				wp.replaceText("{signTime-x}",signTime.toString());
+				wp.replaceText("{signTime-x}",signTime.toString() == null ? " " :  signTime.toString());
 			wp.save(cacheFilePath);
 			wp.close();
 			
@@ -788,7 +788,11 @@ public class ContractService extends SearchService implements IContractService{
 		String saveBasePath = "";
 		String savePath = "";
 		String cacheBasePathString = "";
-		String coFileName = result4.get(0).get("contractName").toString();
+		String coFileName = "";
+		coFileName = result4.get(0).get("contractName").toString();
+		if(coFileName == null || coFileName.equals("")){
+			coFileName = "";
+		}
 		PropertiesTool pt = new PropertiesTool();
 		if(cofileModule == null || cofileModule.equals("")){
 			 return -3;
@@ -878,15 +882,19 @@ public class ContractService extends SearchService implements IContractService{
 			for (int i = 0; i < sampleInfo.size(); i++) {
 				wordProcess.addTableRow(1, 13);
 				Map<String, Object> map = sampleInfo.get(i);
+				String sampleName = map.get("sampleName").toString();
+				String style = map.get("style").toString();
+				String sampleCode = map.get("sampleCode").toString();
+				String remarks = map.get("remarks").toString();
 				wordProcess.putTxtToCell(1, 13, 1, i+1+"");
-				wordProcess.putTxtToCell(1, 13, 2, map.get("sampleName").toString());
-				wordProcess.putTxtToCell(1, 13, 3, map.get("style").toString());
-				wordProcess.putTxtToCell(1, 13, 4, map.get("sampleCode").toString());
+				wordProcess.putTxtToCell(1, 13, 2, sampleName  == null ? " " :  sampleName);
+				wordProcess.putTxtToCell(1, 13, 3, style  == null ? " " :  style);
+				wordProcess.putTxtToCell(1, 13, 4, sampleCode  == null ? " " :  sampleCode);
 				wordProcess.putTxtToCell(1, 13, 5, "常规校准");
 				wordProcess.putTxtToCell(1, 13, 6, "1");
-				String money = String.valueOf(map.get("money")) ;
+				String money = String.valueOf(map.get("money"));
 				wordProcess.putTxtToCell(1, 13, 7, money == null || money.equals("null") ? " 0.0 " : money);
-				wordProcess.putTxtToCell(1, 13, 8, map.get("remarks").toString());
+				wordProcess.putTxtToCell(1, 13, 8, remarks  == null ? " " :  remarks);
 			}
 			//填充个人公司信息
 		   /**

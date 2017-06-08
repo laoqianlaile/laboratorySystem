@@ -693,8 +693,8 @@ public class ContractFineItemService extends SearchService implements IContractF
 				System.out.println("检测项目名与检测项目ID不相符");
 				return -4;
 			}
-		}
-		
+		}System.out.println("price:"+price);
+		System.out.println("money:"+money);
 		ContractFineItem contractFineItem = new ContractFineItem();
 		String id = EntityIDFactory.createId();
 		contractFineItem.setID(id);
@@ -749,7 +749,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 				return -4;
 			}
 		}
-		
+		System.out.println("money:"+money);
 		ContractFineItem contractFineItem = new ContractFineItem();
 		String id = EntityIDFactory.createId();
 		contractFineItem.setID(id);
