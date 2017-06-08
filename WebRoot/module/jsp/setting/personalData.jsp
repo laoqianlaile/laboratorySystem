@@ -16,8 +16,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="module/css/fileManage/fileManage.css">
 	<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" /> 
 	<link rel="stylesheet"  type="text/css" href="module/css/wait.css">
+	<link rel="stylesheet"  type="text/css" href="module/css/setting/style.css"/>
 	
 	<script src="module/js/jquery-2.1.1.min.js"></script>
+	<script src="module/js/setting/cropbox.js"></script>
+
 	<script src="module/js/fileManage/fileManage.js"></script>
 	<script src="module/js/jquery.uploadify.min.js"></script>
 	<script src="module/js/bootstrap.js"></script>
@@ -111,6 +114,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					  </tbody>
 					</table>
 				</div> 
+	</div>
+	<!-- 图片编辑弹窗 -->
+	<div id="CropModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content" style="width:650px;">
+				<div class="modal-header">
+					<button type="button" class="  close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">头像裁切</h4>
+				</div>
+				<div class="modal-body">
+					<div class="imageBox">
+					  <div class="thumbBox"></div>
+					  <div class="spinner" style="display: none">Loading...</div>
+					</div>
+					<div class="action"> 
+					  <!-- <input type="file" id="file" style=" width: 200px">-->
+					    <div class="new-contentarea tc"> 
+					    	<a href="javascript:void(0)" class="upload-img">
+					   	    	<label for="upload-file">上传图像</label>
+					    	</a>
+					      	<input type="file" class="" name="upload-file" id="upload-file" />
+					    </div>
+						    <input type="button" id="btnCrop"  class="Btnsty_peyton" value="裁切">
+						    <input type="button" id="btnZoomIn" class="Btnsty_peyton" value="+"  >
+						    <input type="button" id="btnZoomOut" class="Btnsty_peyton" value="-" >
+					 	 </div>
+					  <div class="cropped"></div>
+					</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="btnheadCrop">确认</button>
+				</div>
+			</div>
+		</div>
 	</div>
   </body>
   

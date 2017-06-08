@@ -518,6 +518,20 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 					"employee.address",
 					"employee.signature",
 					"employee.stamp",
+					"employee.birthday",
+					"employee.IDCard",
+					"employee.graduate",
+					"case WHEN employee.jobTitle = 0 then '无'"
+					+ "when employee.jobTitle = 1 then '初级工程师'"
+					+ "when employee.jobTitle = 1 then '中级工程师'"
+					+ "when employee.jobTitle = 1 then '高级工程师' end as jobTitle",
+					"case WHEN employee.eduLevel = 0 then '初中'"
+					+ "when employee.eduLevel = 1 then '高中'"
+					+ "when employee.eduLevel = 2 then '大专'"
+					+ "when employee.eduLevel = 3 then '本科'"
+					+ "when employee.eduLevel = 4 then '硕士'"
+					+ "when employee.eduLevel = 5 then '博士'"
+					+ "when employee.eduLevel = 6 then '博士后' end as eduLevel",
 					"case WHEN employee.`level` = 0 then '初级'"
 					+ "when employee.`level` = 1 then '中级'"
 					+ "	when employee.`level` = 2 then '高级' end as level",
@@ -595,7 +609,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 		}
 
 	}
-		
+
 		@Override
 		public String updEmployeePassword(String ID,String password) {
 			// TODO Auto-generated method stub

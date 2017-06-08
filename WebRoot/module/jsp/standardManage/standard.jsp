@@ -228,7 +228,7 @@
 						<div class="col-xs-12 col-md-12">
 							<div id="fileInfo">
 								<div id="fileQueue">
-									<input type="file" name="files" id="files" style="display:none" onchange="checkFile(this)">
+									<input class="files" type="file" name="files" id="files" style="display:none" onchange="checkFile(this)">
 								</div>
 								<button type="button" id="chooseFile" name="chooseFile" class="btn btn-default">
 									<span class="glyphicon glyphicon-folder-open "></span> 选择文件
@@ -406,7 +406,7 @@
 					<div class="row">
 						<div id="fileInfo" style="text-align:left">
 							<div id="recoverfileQueue">
-								<input type="file" name="recoverFiles" id="recoverFiles" style="display:none" onchange="checkRecoverFile(this)">
+								<input class="recoverFiles" type="file" name="files" id="files"  style="display:none" onchange="checkRecoverFile(this)">
 							</div>
 							<button type="button" id="recoverButton" name="recoverButton" class="btn btn-default">
 								<span class="glyphicon glyphicon-folder-open "></span> 选择文件
@@ -418,7 +418,7 @@
 				<div class="modal-footer">
 
 					
-					<button type="button" class="btn btn-default" id="revocerCancel" name="revocerCancel">取消</button>
+					<button type="button" class="btn " id="cancel" name="cancel">取消</button>
 					<button type="button" class="btn btn-primary" id="recoverEnsure" name="recoverEnsure">确定</button>
 				</div>
 			</div>
@@ -436,7 +436,7 @@
 		$('#files').click();
 	});
 	$('#recoverButton').click(function() {
-		$('#recoverFiles').click();
+		$('.recoverFiles').click();
 	});
 	$('#cancel').click(function() {
 		if (confirm("是否取消上传?")) {

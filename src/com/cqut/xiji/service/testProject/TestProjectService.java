@@ -130,7 +130,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 		testProject.setID(EntityIDFactory.createId());
 		testProject.setNameEn(NAMEEN);
 		testProject.setNameCn(NAMECN);
-	
+
 		testProject.setDescribes(describes);
 		testProject.setRemarks(remarks);
 		testProject.setTestTypeID(testTypeID);

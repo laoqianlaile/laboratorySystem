@@ -1,11 +1,15 @@
 package com.cqut.xiji.controller.employee;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -355,4 +359,43 @@ public class EmployeeController {
 		}
 		
 		
+		
+		@RequestMapping("/upheadCropImg")
+	    @ResponseBody
+		public String upheadCropImg(HttpServletRequest request){
+			try {	
+				String path = "E:/xiji/user/img/headCrop";
+				
+				File pathfile = new File(path);
+				if(!pathfile.exists()){
+					pathfile.mkdirs();
+				}
+				File file = new File(path+"/d.png" );
+				if(!file.exists()){
+					file.createNewFile();
+				}
+		
+				FileOutputStream  fos = new FileOutputStream(file);
+				
+				ServletInputStream input =  request.getInputStream();
+				byte[] sendBytes = new byte[1024];
+				while(true){
+					int read = 0;
+					read = input.read(sendBytes);
+					if (read == -1 || read <= 0){
+						break;
+					}
+					fos.write(sendBytes, 0, read);
+					fos.flush();
+				}
+			   
+				System.out.println(sendBytes.length);
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+			return null;
+		}
 }
