@@ -108,19 +108,25 @@ textarea {
 .btn-primary:hover {
     background-color: #ffad33;
 }
-#bt{
- 
-	 width: 100%;
-	 background: #9abdd0;
-}
+
 
 .btn-primary {
     background-color: #089beb;
   
 }
-.row .btn{
-margin: 15px;
+#bl{
+padding-top:12px;
+padding-bottom:12px;
 }
+
+#bl button{
+margin-left:16px;
+}
+.row {
+     margin-right: 0px; 
+     margin-left: 0px; 
+}
+
 
 	
 </style>
@@ -146,7 +152,7 @@ margin: 15px;
 	<div class="row clearfix">
 
 		<div class="col-md-3.5 column">
-			<div style="float: left;margin: 16px;" id="bt">
+			<div style="float: left;width:100%;background: #9abdd0;" id="bl">
 				<button id="query" onclick="find()" class="btn btn-primary"
 					type="button">
 					<em class="glyphicon glyphicon-search"></em> 查询
@@ -184,30 +190,51 @@ margin: 15px;
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title">添加职务</h4>
+					<h4 class="modal-title">添加公司</h4>
 				</div>
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-xs-12 col-md-12">
-							<h4>职务编码：</h4>
-							<input type="text" id="add_dutyCode" name="dutyCode "
+							<h4>公司名称：</h4>
+							<input type="text" id="add_companyName" name="companyName "
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>职务名称：</h4>
-							<input type="text" id="add_dutyName" name="dutyName"
+							<h4>代理人：</h4>
+							<input type="text" id="add_linkMan" name="linkMan"
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
-						<div style="margin-top:20px" id="departin">
-							<label>&nbsp;职务简介:</label>
-							<textarea rows="6" cols="66" id="add_introduction"></textarea>
-							<input id="ID" type="hidden"></input>
+						<div class="col-xs-12 col-md-12">
+							<h4>联系电话：</h4>
+							<input type="text" id="add_mobilePhone" name="mobilePhone"
+								class="form-control" aria-describedby="basic-addon1" />
 						</div>
+						<div class="col-xs-12 col-md-12">
+							<h4>经营范围：</h4>
+							<input type="text" id="add_scope" name="scope"
+								class="form-control" aria-describedby="basic-addon1" />
+						</div>
+						<div class="col-xs-12 col-md-12">
+							<h4>详细地址：</h4>
+							<input type="text" id="add_address" name="address"
+								class="form-control" aria-describedby="basic-addon1" />
+						</div>
+						<div class="col-xs-12 col-md-12">
+							<h4>传真：</h4>
+							<input type="text" id="add_fax" name="fax"
+								class="form-control" aria-describedby="basic-addon1" />
+						</div>
+						<div class="col-xs-12 col-md-12">
+							<h4>邮箱：</h4>
+							<input type="text" id="add_emailbox" name="emailbox"
+								class="form-control" aria-describedby="basic-addon1" />
+						</div>
+						
 					</div>
 				</div>
 				<div class="modal-footer">
 				
-					<button type="button" class="btn btn-primary" onclick="addText();">新增</button>
+					<button type="button" class="btn btn-primary" onclick="add();">新增</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 			
 				</div>
@@ -223,7 +250,7 @@ margin: 15px;
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title">修改职务</h4>
+					<h4 class="modal-title">修改公司</h4>
 				</div>
 				<div class="modal-body">
 					<div class="row">
@@ -233,21 +260,39 @@ margin: 15px;
 								aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>职务编码：</h4>
-							<input type="text" id="edit_dutyCode"
-								name="dutyCode " class="form-control"
-								aria-describedby="basic-addon1" />
+							<h4>公司名称：</h4>
+							<input type="text" id="edit_companyName" name="companyName "
+								class="form-control" aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<h4>职务名称：</h4>
-							<input type="text" id="edit_dutyName"
-								name="dutyName" class="form-control"
-								aria-describedby="basic-addon1" />
+							<h4>代理人：</h4>
+							<input type="text" id="edit_linkMan" name="linkMan"
+								class="form-control" aria-describedby="basic-addon1" />
 						</div>
-						<div style="margin-top:20px"id="Jobprofile" >
-							<label>职务简介:</label>
-							<textarea rows="7" cols="66" id="edit_introduction"></textarea>
-							<input id="ID" type="hidden"></input>
+						<div class="col-xs-12 col-md-12">
+							<h4>联系电话：</h4>
+							<input type="text" id="edit_mobilePhone" name="mobilePhone"
+								class="form-control" aria-describedby="basic-addon1" />
+						</div>
+						<div class="col-xs-12 col-md-12">
+							<h4>经营范围：</h4>
+							<input type="text" id="edit_scope" name="scope"
+								class="form-control" aria-describedby="basic-addon1" />
+						</div>
+						<div class="col-xs-12 col-md-12">
+							<h4>详细地址：</h4>
+							<input type="text" id="edit_address" name="address"
+								class="form-control" aria-describedby="basic-addon1" />
+						</div>
+						<div class="col-xs-12 col-md-12">
+							<h4>传真：</h4>
+							<input type="text" id="edit_fax" name="fax"
+								class="form-control" aria-describedby="basic-addon1" />
+						</div>
+						<div class="col-xs-12 col-md-12">
+							<h4>邮箱：</h4>
+							<input type="text" id="edit_emailbox" name="emailbox"
+								class="form-control" aria-describedby="basic-addon1" />
 						</div>
 					</div>
 				</div>

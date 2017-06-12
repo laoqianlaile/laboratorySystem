@@ -226,5 +226,18 @@ public class CompanyController {
 		Map<String, Object> result = service.getCompanyWithPage(companyName,address,linkMan,limit,offset,order,sort);
 		return JSONObject.fromObject(result);
 	}
+
+	@RequestMapping("/addCompanywj")
+	@ResponseBody
+	public String addCompanywj(String companyName,String linkMan,String mobilePhone,String scope,String address,String fax,String emailbox){
+		String result = service.addCompanywj(companyName ,linkMan, mobilePhone,scope,address,fax,emailbox);
+		return result;
+	}
+	@RequestMapping("/updCompanywj")
+	@ResponseBody
+	public String updCompanywj(String ID,String companyName,String linkMan,String mobilePhone,String scope,String address,String fax,String emailbox){
+		String result = service.updCompanywj(ID,companyName ,linkMan, mobilePhone,scope,address,fax,emailbox);
+		return result;
+	}
 	
 }

@@ -122,7 +122,6 @@ public class TemplateService extends SearchService implements ITemplateService{
 						+"when template.TEMPLATETYPE = 1 then '报告模板'"
 						+"when template.TEMPLATETYPE = 2 then '交接单模板'"
 						+"when template.TEMPLATETYPE = 3 then '校准合同模板' end as TEMPLATETYPE",
-
 				"DATE_FORMAT(template.createTime,'%Y-%m-%d %h:%s') as UPLOADTIME ",
 
 				"case when template.STATE = 0 then '未提交'"

@@ -22,6 +22,10 @@ public class Company extends Entity{
 	private int type;
 	private String remarks;
 
+	private String fax;
+	private String emailbox;
+		
+
 	
 	
 	@Override
@@ -120,6 +124,18 @@ public class Company extends Entity{
 	public String getPrimaryKey() {
 		// TODO Auto-generated method stub
 		return "ID";
+	}
+	public String getFax() {
+		return fax;
+	}
+	public void setFax(String fax) {
+		this.fax = fax;
+	}
+	public String getEmailbox() {
+		return emailbox;
+	}
+	public void setEmailbox(String emailbox) {
+		this.emailbox = emailbox;
 	}
 	
 }

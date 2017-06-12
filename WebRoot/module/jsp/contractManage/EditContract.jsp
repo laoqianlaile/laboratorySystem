@@ -259,8 +259,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="col-xs-12 col-md-12" >
                    	<label class="control-label fl" style="width:22.5%;">数量：</label>
                    	<input type="text" id="add_number" name="number" class="form-control fl" style="width:21%;"
-                   	onkeyup="this.value=this.value.replace(/\D/g,'')"
-						onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                   	onkeyup="checknum(this)"
+						onafterpaste="checknum(this)"/>
                    	<label class="control-label fl" style="width:22.5%;margin-left: 5.5%;">单价：</label>
                    	<input type="text" id="add_price" name="price" class="form-control fl" style="width:21%;" 
                    	onkeyup="checknum(this);"
@@ -362,8 +362,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="col-xs-12 col-md-12" >
                    	<label class="control-label fl" style="width:22.5%;">数量：</label>
                    	<input type="text" id="edit_number" name="number" class="form-control fl" style="width:21%;"
-                   	onkeyup="this.value=this.value.replace(/\D/g,'')"
-						onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                   	onkeyup="checknum(this)"
+						onafterpaste="checknum(this)"/>
                    	<label class="control-label fl" style="width:22.5%;margin-left: 5.5%;">单价：</label>
                    	<input type="text" id="edit_price" name="price" class="form-control fl" style="width:21%;" 
                    	onkeyup="checknum(this);"

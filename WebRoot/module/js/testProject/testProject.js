@@ -18,7 +18,7 @@ function init() {
 							// 和 checkbox
 							cache : false,// 禁用AJAX数据缓存
 							sortName : 'testProject.createTime',
-							sortOrder : 'desc',
+							order : 'desc',
 							url : 'testProjectController/getTestProjectWithPaging.do',
 							sidePagination : 'server',
 							contentType : 'application/json',

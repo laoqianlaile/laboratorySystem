@@ -3,12 +3,7 @@
 .fixed-table-container {
 	height: auto;
 }
-*{
-	font-size:10px !important;
-}
-.table{
-	font-size:10px !important;
-}
+
 .fixed-table-body {
 	height: auto;
 	 margin-bottom: -10px;
