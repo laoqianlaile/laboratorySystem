@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cqut.xiji.service.employee.IEmployeeService;
+import com.cqut.xiji.tool.util.PropertiesTool;
 import com.cqut.xiji.tool.util.RandomValidateCode;
+import com.sun.star.installation.protocols;
 
 
 @Controller
@@ -362,15 +364,21 @@ public class EmployeeController {
 		
 		@RequestMapping("/upheadCropImg")
 	    @ResponseBody
-		public String upheadCropImg(HttpServletRequest request){
+		public String upheadCropImg(String employeeID,HttpServletRequest request){
 			try {	
-				String path = "E:/xiji/user/img/headCrop";
+				PropertiesTool propertiesTool = new PropertiesTool();
+				String systemPath = propertiesTool.getSystemPram("headCropImg");
 				
-				File pathfile = new File(path);
+				File pathfile = new File(systemPath);
 				if(!pathfile.exists()){
 					pathfile.mkdirs();
 				}
-				File file = new File(path+"/d.png" );
+				
+				//头像存储路径
+				String path= systemPath+"/"+employeeID+".png";
+				
+				System.out.println(path);
+				File file = new File(path);
 				if(!file.exists()){
 					file.createNewFile();
 				}
@@ -389,13 +397,12 @@ public class EmployeeController {
 					fos.flush();
 				}
 			   
-				System.out.println(sendBytes.length);
-				
+				String result = service.upheadCropImg(employeeID,employeeID+".png");
+				return result;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
-			return null;
+			return "-1";
 		}
 }

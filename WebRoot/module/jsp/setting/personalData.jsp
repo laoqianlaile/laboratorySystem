@@ -20,7 +20,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<script src="module/js/jquery-2.1.1.min.js"></script>
 	<script src="module/js/setting/cropbox.js"></script>
-
 	<script src="module/js/fileManage/fileManage.js"></script>
 	<script src="module/js/jquery.uploadify.min.js"></script>
 	<script src="module/js/bootstrap.js"></script>
@@ -53,6 +52,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     border-top: 0px solid;
 	padding: 20px 0;
 	min-width: 100px;
+}
+.imgHead {
+	width: 120px;
+    height: 120px;
+    border-radius: 100px;
+    box-shadow: 0px 0px 12px #7E7E7E;
 }
 </style>
   </head>
