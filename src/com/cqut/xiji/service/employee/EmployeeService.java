@@ -521,6 +521,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 					"employee.birthday",
 					"employee.IDCard",
 					"employee.graduate",
+					"employee.headCrop",
 					"case WHEN employee.jobTitle = 0 then '无'"
 					+ "when employee.jobTitle = 1 then '初级工程师'"
 					+ "when employee.jobTitle = 1 then '中级工程师'"
@@ -622,6 +623,14 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			employee.setPassword(password);
 
 			return entityDao.updatePropByID(employee, ID) == 1 ? "true" : "false";
+		}
+
+		@Override
+		public String upheadCropImg(String employeeID,String path) {
+			// TODO Auto-generated method stub
+			Employee employee = entityDao.getByID(employeeID,Employee.class);
+			employee.setHeadCrop(path);
+			return entityDao.updatePropByID(employee, employeeID)+"";
 		}
 		
 }

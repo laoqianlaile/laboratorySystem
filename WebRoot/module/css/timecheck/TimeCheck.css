@@ -1,12 +1,26 @@
 @CHARSET "UTF-8";
 #main{
-	width:94%;
+	/* width:98%; */
 	margin:0 auto;
 }
+.table thead tr{
+	color:#fff;
+	background:#364760;
+	font-size: 14px;
+}  
 #head{
 	width:100%;
-	height:150px;
 
+}
+label{
+    min-width: 80px;
+}
+.form-control {
+    display: inline;
+    width: 70%;
+}
+.row {
+    margin-bottom: 10px;
 }
 #center{
 	width:100%;
@@ -28,14 +42,11 @@
 	line-height:36px;
 }
 .text{
-	display:inline-block;
 	width:200px;
-	margin-top:-5px;
 }
 .btncss{
 	display:inline-block;
 	width:80px;
-	margin-top:-5px;
 }
 .thisbtn{
 	margin-left:20px;
@@ -71,13 +82,12 @@ li:hover{
 	padding:0px;
 	height:33px;
 	width:37px;
-	margin-top:-5px;
 	margin-left:-7px;
 	border-bottom-left-radius:0;
 	border-top-left-radius:0;
 }
 .time{
-	width:168px;
+	width: 252px;
 }
 #center tr{
 	height:45px;
