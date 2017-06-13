@@ -12,7 +12,13 @@
 
 .tablebox{
 	margin-right:20px;
+	margin-bottom:30px;
 }
+.table thead tr{
+	color:#fff;
+	background:#364760;
+	font-size: 14px;
+}  
 .input-group-addon {
     padding: 6px 12px;
     font-size: 14px;
@@ -90,9 +96,14 @@
     /* text-align: right; */
 }
 .form-horizontal .form-group {
-    margin-right: -15px;
-    margin-left: -15px;
-    margin-top: 20px;
+        margin-bottom: 10px;
+}
+label{
+    min-width: 80px;
+}
+.form-control {
+    display: inline;
+    width: 70%;
 }
 .searchbox2{
 

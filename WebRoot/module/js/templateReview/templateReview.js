@@ -113,9 +113,12 @@ function init() {
 											valign : 'middle',
 											width : '10%',
 											formatter : function(value, row, index) {
-												var d = '<span onclick= "NoPassModal(\''+row.ID+'\',\''+row.SUGGEST+'\',\''+row.STATE+'\')" data-toggle="tooltip" data-placement="top" title="作废" class="glyphicon glyphicon-remove" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
-												var a = '<span  data-toggle="tooltip" data-placement="top" title="通过" onclick="PassModal(\''+row.ID+'\',\''+row.SUGGEST+'\',\''+row.STATE+'\')" class="glyphicon glyphicon-ok" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
-												return  a + d;
+											//	var d = '<span onclick= "NoPassModal(\''+row.ID+'\',\''+row.SUGGEST+'\',\''+row.STATE+'\')" data-toggle="tooltip" data-placement="top" title="作废" class="glyphicon glyphicon-remove" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
+												var d = "<img src = 'module/img/reject_icon.png' onclick='NoPassModal(\""+ row.ID+ "\",\""+ row.SUGGEST+ "\",\""+ row.STATE+ "\")'  title='作废'   style='cursor:pointer;margin-right:8px;' />";
+												var a = "<img src='module/img/submit_icon.png' onclick='PassModal(\""+ row.ID+ "\",\""+ row.SUGGEST+ "\",\""+ row.STATE+ "\")' title='通过'   style='cursor:pointer;margin-right:8px;' />";
+												var c = "<img src='module/img/view_icon.png' onclick='lookfileP(\""+ row.fileID+ "\")' title='查看'   style='cursor:pointer;margin-right:8px;' />";
+												//var a = '<span  data-toggle="tooltip" data-placement="top" title="通过" onclick="PassModal(\''+row.ID+'\',\''+row.SUGGEST+'\',\''+row.STATE+'\')" class="glyphicon glyphicon-ok" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
+												return  a + d+c;
 											}
 										} ]
 							// 列配置项,详情请查看 列参数 表格
@@ -149,7 +152,17 @@ function query() {
 	refresh();
 
 }
-
+function lookfileP(fileID) {
+		$.post("fileOperateController/onlinePreview.do", {
+			ID : fileID
+		}, function(result) {
+			if (result != null && result != "null") {
+				window.location.href = "module/jsp/documentOnlineView.jsp";
+			} else {
+				swal("无法查看");
+			}
+		});
+	}
 
 function lookfile() {
 	var rows = $("#table").bootstrapTable('getSelections');

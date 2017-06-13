@@ -59,6 +59,8 @@ public interface IEmployeeService {
 	public List<Map<String, Object>> getEmployeeNameInPersonalTask(String ID);
 	
 	String updEmployeePassword(String ID, String password);
+
+	String upheadCropImg(String employeeID,String path);
 }
 
 

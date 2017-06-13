@@ -94,9 +94,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 		   <h5>是否确认删除</h5>
 	 		   </div>
 	 		    <div class="modal-footer">
-	 		    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-	        	<button type="button" onclick="deletePlan()" class="btn btn-primary">确定</button>
-	 		   </div>
+	 		    <button type="button" onclick="deletePlan()" class="btn btn-primary tanSureButton">确定</button>
+	 		  	<button type="button" class="btn btn-default tanCancelButton" data-dismiss="modal">取消</button>
+	        	 </div>
 	     </div>
 	     </div>
 	   </div>
@@ -105,9 +105,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<div id="checkModal" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title">审核</h4>
+	      <div class="modal-header" style="height:40px;">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span style="color: #ffffff;" aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" style="margin-top: -5px;">审核</h4>
 	      </div>
 	      <div class="modal-body">
 	      	<div class="row">
@@ -126,19 +126,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                   <option>能力验证</option>
                   </select>
                </div>
+   
                <form action="abilityCheckController/imageUpload.do" method="post" enctype="multipart/form-data">
                <div class="col-xs-12 col-md-12">
  				<input  id="cID" type="hidden" name="fileID" value=""></input>
                	<input  id="cstate" type="hidden" name="state" value="0"></input>
-             	<div style="margin-top: 15px;">
-             	<input id="file" name="file" type="file" value=""></div> 
+   				<h4>上传文件：</h4>
+             	<input id="fileName" class="form-control fileText" type="text" value="">
+             	<img  class="fileImage" src="module/img/upload_icon.png">
+       			 <div style="position:relative;">
+             	<div class="fileFont">
+             	<h4>添加文件</h4>
+             	</div>
+             </div>
+ 				<input id="file" name="file" type="file" value="" class="fileClick" onchange="change()">
+             	</div>
              	<button type="submit" style="display:none;">
-               </div>
+
              </div>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-	        <button type="button" onclick="check()" class="btn btn-primary">提交</button>
+	             <button type="button" onclick="check()" class="btn btn-primary tanSureButton">提交</button>
+	        <button type="button" class="btn btn-default tanCancelButton" data-dismiss="modal">取消</button>
 	     </form> 
 	      </div>
 	    	
@@ -154,7 +163,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		<button onclick="checkTable()" type="button" class="btn btn-primary glyphicon glyphicon-file newButton" >&nbsp;填写结果</button>
   		<button class='btn btn-primary glyphicon glyphicon-refresh newButton' onclick="refresh2()" type='button'>&nbsp;刷新&nbsp;</button>
   		</div> 
-  			<button id="uploading" style="float:right;" class="btn btn-primary glyphicon glyphicon-ok" onclick="addPlan(this)" type="button">&nbsp提交制定计划&nbsp</button>
+  			<button id="uploading" style="float:right;" class="btn btn-primary glyphicon glyphicon-ok newButton" onclick="addPlan(this)" type="button">&nbsp提交制定计划&nbsp</button>
 		<table class="table table-bordered table-hover"  id="table">
 		</table>
 
