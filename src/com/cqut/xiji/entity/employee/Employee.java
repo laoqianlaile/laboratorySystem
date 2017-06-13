@@ -31,6 +31,16 @@ public class Employee extends Entity{
 	private int eduLevel;
 	private String graduate;
 	private String IDCard;
+	private String headCrop;
+	
+	public String getHeadCrop() {
+		return headCrop;
+	}
+
+	public void setHeadCrop(String headCrop) {
+		this.headCrop = headCrop;
+	}
+
 	public String getIDCard() {
 		return IDCard;
 	}
