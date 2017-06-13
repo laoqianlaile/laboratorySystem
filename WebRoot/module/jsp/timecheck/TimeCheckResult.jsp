@@ -40,47 +40,56 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
   			<p id="Serialnumber">编号:<label><%=request.getParameter("code") %></label></p>
   			<br />
   			<br />
-  			<div class="headtext">
-    			<span class="spanstyle">计划项目编号:</span>
-    			<input id="projectcode" type="text" class="form-control text">
+  			<div class="row">
+  			<div class="col-xs-4 col-md-4 col-lg-4">
+    			<label>计划项目编号:</label>
+    			<input id="projectcode" type="text" class="form-control">
     		</div>
-    		<div class="headtext">
-    			<span class="spanstyle">比对/核查点:</span>
-    			<input id="projectpoint" type="text" class="form-control text">
+    		<div class="col-xs-4 col-md-4 col-lg-4">
+    			<label>比对/核查点:</label>
+    			<input id="projectpoint" type="text" class="form-control">
     		</div>
-    		<div class="headtext">
-    			<span class="spanstyle">计划完成时间:</span>
-    			<input id="starttime" type="text" class="form-control text time">
-    			<button type="button" class="btn btn-default btn-lg timeStyle" onclick="timeget(1)">
-				  <span class="glyphicon glyphicon-time"></span> 
-				</button>
-				至
-				<input id="endtime" type="text" class="form-control text time">
-    			<button type="button" class="btn btn-default btn-lg timeStyle" onclick="timeget(2)">
-				  <span class="glyphicon glyphicon-time"></span> 
-				</button>
-    		</div>
-    		<div class="headtext">
-    			<button id="searchbtn" type="button" class="btn btn-info btncss" onclick="refresh()">搜索</button>
-    		</div>
-    		<br />
-    		<br />
-    		<div class="headtext">
-    			<span class="spanstyle">项&nbsp;&nbsp;目&nbsp;&nbsp;&nbsp;名&nbsp;&nbsp;称:</span>
-    			<input id="projectname" type="text" class="form-control text">
-    		</div>
-    		<div class="headtext">
-    			<span class="spanstyle">负&nbsp;&nbsp;责&nbsp;部&nbsp;&nbsp;门:</span>
+   			<div class="col-xs-4 col-md-4 col-lg-4">
+    			<label>负&nbsp;&nbsp;责&nbsp;部&nbsp;&nbsp;门:&nbsp;</label>
     			<div class="btn-group">
-				  <button type="button" class="btn mystyle btn-default dropdown-toggle" data-toggle="dropdown">
-				    <span id="textspan1"></span> <span style="position:absolute;left:175px;top:15px;" class="caret"></span>
+				  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="width: 282px;height: 34px;">
+				    <span id="textspan1"></span> <span style="position:absolute;left:260px;top:15px;" class="caret"></span>
 				  </button>
 				  <ul id="listul1" class="dropdown-menu" role="menu" style="width:200px;">
 				  </ul>
 				</div>
     		</div>
-    		<div class="headtext">
-    			<!-- <span class="spanstyle">负&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;责&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;人&nbsp;:</span>
+    		</div>
+    		
+    		<div class="row">
+    		<div class="col-xs-4 col-md-4 col-lg-4">
+    			<label>计划完成时间:</label>
+    			<input id="starttime" type="text" class="form-control text time">
+    			<button type="button" class="btn btn-default btn-lg timeStyle" onclick="timeget(1)">
+				  <span class="glyphicon glyphicon-time"></span> 
+				</button>
+    		</div>
+    		
+    		<div class="col-xs-4 col-md-4 col-lg-4">
+    		<label>至:&nbsp;&nbsp;</label>
+				<input id="endtime" type="text" class="form-control text time">
+    			<button type="button" class="btn btn-default btn-lg timeStyle" onclick="timeget(2)">
+				  <span class="glyphicon glyphicon-time"></span> 
+				</button>
+    		</div>
+    		<div class="col-xs-4 col-md-4 col-lg-4">
+    			<label>项目名称:</label>
+    			<input id="projectname" type="text" class="form-control">
+    		</div>
+    		</div>
+    		
+    		<div class="row">
+    		 <div class="col-xs-4 col-md-4 col-lg-4" style="float: right;">
+    			<button id="searchbtn" type="button" class="btn btn-primary btncss" onclick="refresh()">搜索</button>
+    		</div>
+    		</div>
+    		<!-- <div class="headtext">
+    			<span class="spanstyle">负&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;责&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;人&nbsp;:</span>
     			<div class="btn-group">
 				  <button id="listbutton2" class="btn btn-default mystyle dropdown-toggle" type="button" data-toggle="dropdown">
 				    <span id="textspan2"></span><span style="position:absolute;left:175px;top:15px;" class="caret"></span>
@@ -88,15 +97,15 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
 				  <ul id="listul2" class="dropdown-menu" role="menu" style="width:200px;">
 
 				  </ul>
-				</div> -->
-    		</div>
+				</div>
+    		</div> -->
   		</div>
   		<hr />
   		<div id="center">
   			<div >
-  				<button type="button" class="btn btn-info thisbtn" onclick="resetAlldata()">全部数据</button>
-    			<button type="button" class="btn btn-info thisbtn" onclick="onupdataaudit(8)">满意</button>
-    			<button type="button" class="btn btn-info thisbtn" onclick="onupdataaudit(9)">不满意</button>
+  				<button type="button" class="btn btn-primary thisbtn" onclick="resetAlldata()">全部数据</button>
+    			<button type="button" class="btn btn-primary thisbtn" onclick="onupdataaudit(8)">满意</button>
+    			<button type="button" class="btn btn-primary thisbtn" onclick="onupdataaudit(9)">不满意</button>
     		</div>
     		<div class="tablecontent">
 	    		<table id="table">
@@ -106,7 +115,7 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
   		<hr />
   		<div id="bottom">
   			<div>
-    			<button type="button" class="btn btn-info thisbtn" onclick="download()">下载</button>
+    			<button type="button" class="btn btn-primary thisbtn" onclick="download()">下载</button>
     		</div>
     		<div class="tablecontent">
     			<table id="tablefile">

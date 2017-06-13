@@ -11,6 +11,7 @@
 	}
 	.row label {
 		width: 26%;
+		text-align-last: justify;
 		min-wdith: 80px;
 	}
 	.row label.wide{
@@ -19,9 +20,45 @@
 	
 	.newButton{
 	height: 40px;
-    margin: 5px;
+    margin-right: 5px;
 	}
-	
+	.tanSureButton{
+	width: 106px;
+    height: 40px;
+    margin-right: 20px;
+ }
+	.tanCancelButton{
+	width: 106px;
+    height: 40px;
+    }
+    .fileText{
+    float:left;
+    width: 50%;
+    }
+    .fileImage{
+      float:left;
+      margin-left: 10px;
+      margin-right: 10px;
+      margin-top: 5px;
+    }
+    .fileClick{
+      float:left;
+       width: 72px;
+       margin-top: 6px;
+       font-size: 0;
+    cursor: pointer;
+     height: 20px;
+      filter:alpha(opacity=0;); /*IE滤镜，透明度50%*/
+	 -moz-opacity:0;; /*Firefox私有，透明度50%*/
+	  opacity:0;
+    }
+    .fileFont{
+    position:absolute;
+    left: 326px;
+    top: -1px;
+    cursor:pointer;
+    }
+    
 	#table thead,.modal-header {
 	background-color: #364760;
 	color: #fff;
