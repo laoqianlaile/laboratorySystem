@@ -81,6 +81,7 @@ span {
 
 textarea {
 	margin-top: 10px;
+	margin-left: 19px;
 }
 
 #form {
@@ -204,7 +205,7 @@ margin-left:16px;
 						</div>
 						<div style="margin-top:20px" id="departin">
 							<label>&nbsp;职务简介:</label>
-							<textarea rows="6" cols="66" id="add_introduction"></textarea>
+							<textarea rows="6"  id="add_introduction" class="form-control" style="width:94%"></textarea>
 							<input id="ID" type="hidden"></input>
 						</div>
 					</div>
@@ -250,7 +251,7 @@ margin-left:16px;
 						</div>
 						<div style="margin-top:20px"id="Jobprofile" >
 							<label>职务简介:</label>
-							<textarea rows="7" cols="66" id="edit_introduction"></textarea>
+							<textarea rows="7"  id="edit_introduction"class="form-control" style="width:94%"></textarea>
 							<input id="ID" type="hidden"></input>
 						</div>
 					</div>
