@@ -44,6 +44,7 @@
     padding-top: 20px;
     padding-bottom: 20px;
     width: 101%;
+    margin-bottom: 30px;
 }
 #menu button{
 	margin-right:2%;
@@ -60,7 +61,7 @@
 			<div class="col-md-12 column">
 				<div class="row clearfix">
 					<div class="col-md-12 column">
-						<div class="row clearfix">
+						<div class="row clearfix" style=" margin-bottom: 10px;">
 						<input type= "hidden" id = "EMPLOYEEID" value = "<%=session.getAttribute("EMPLOYEEID")  %>" />
 							<div class="col-md-3 column">
 								<label>编码 ： </label> <input
@@ -82,7 +83,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="row clearfix">
+						<div class="row clearfix" style=" margin-bottom: 10px;">
 							<div class="col-md-6 column">
 								<label>类别 ： </label> <select
 									id="query_TYPE"  class ="form-control"  name="TYPE" >
