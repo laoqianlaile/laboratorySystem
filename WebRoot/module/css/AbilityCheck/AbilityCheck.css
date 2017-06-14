@@ -18,9 +18,16 @@
 		width: 25%;
 	}
 	
+	#restcontent {
+    height: 70px;
+    background-color: #e8f3f9;
+    position: relative;
+        margin-bottom: 20px;
+	}
 	.newButton{
-	height: 40px;
-    margin-right: 5px;
+	    float: right;
+    margin-right: 28px;
+    margin-top: 20px;
 	}
 	.tanSureButton{
 	width: 106px;
@@ -48,8 +55,8 @@
        font-size: 0;
     cursor: pointer;
      height: 20px;
-      filter:alpha(opacity=0;); /*IEÂË¾µ£¬Í¸Ã÷¶È50%*/
-	 -moz-opacity:0;; /*FirefoxË½ÓÐ£¬Í¸Ã÷¶È50%*/
+      filter:alpha(opacity=0;); /*IEï¿½Ë¾ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ï¿½50%*/
+	 -moz-opacity:0;; /*FirefoxË½ï¿½Ð£ï¿½Í¸ï¿½ï¿½ï¿½ï¿½50%*/
 	  opacity:0;
     }
     .fileFont{

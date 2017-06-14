@@ -155,16 +155,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  </div>
 	</div>
 	
-		<div class="input-group" style="float: left;margin-bottom: 10px;">
-  		<button type="button" onclick="add()" class="btn btn-primary glyphicon glyphicon-plus newButton">&nbsp;制定计划</button>
-  		<button type="button" onclick="editPlan()" class="btn btn-primary glyphicon glyphicon-edit newButton">&nbsp;修改计划</button>
-		<button type="button" onclick="deleteModal()" class="btn btn-primary glyphicon glyphicon-remove newButton">&nbsp;删除计划</button>
-  		<button onclick="download()"  class="btn btn-primary glyphicon glyphicon-download-alt newButton">&nbsp;下载报告</button>
-  		<button onclick="checkTable()" type="button" class="btn btn-primary glyphicon glyphicon-file newButton" >&nbsp;填写结果</button>
-  		<button class='btn btn-primary glyphicon glyphicon-refresh newButton' onclick="refresh2()" type='button'>&nbsp;刷新&nbsp;</button>
+		<div id="restcontent">
+  		<button type="button" onclick="add()" class="btn btn-primary newButton">&nbsp;制定计划</button>
+  		<button type="button" onclick="editPlan()" class="btn btn-primary newButton">&nbsp;修改计划</button>
+		<button type="button" onclick="deleteModal()" class="btn btn-primary newButton">&nbsp;删除计划</button>
+  		<button onclick="download()"  class="btn btn-primary newButton">&nbsp;下载报告</button>
+  		<button onclick="checkTable()" type="button" class="btn btn-primary newButton" >&nbsp;填写结果</button>
+  		<button class='btn btn-primary newButton' onclick="refresh2()" type='button'>&nbsp;刷新&nbsp;</button>
+  		<button id="uploading" style="float:right;" class="btn btn-primary newButton" onclick="addPlan(this)" type="button">&nbsp提交制定计划&nbsp</button>
   		</div> 
-  			<button id="uploading" style="float:right;" class="btn btn-primary glyphicon glyphicon-ok newButton" onclick="addPlan(this)" type="button">&nbsp提交制定计划&nbsp</button>
-		<table class="table table-bordered table-hover"  id="table">
+  			<table class="table table-bordered table-hover"  id="table">
 		</table>
 
 		
