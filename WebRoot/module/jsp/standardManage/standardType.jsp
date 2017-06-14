@@ -36,6 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     padding-top: 20px;
     padding-bottom: 20px;
     width: 101%;
+    margin-bottom: 30px;
 }
 #menu button{
 	margin-right:2%;
@@ -64,6 +65,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	margin: 2%;
 	text-align: center;
 }
+
 </style>
    	<body>
 	<div class="container" style="width: 100%;">
@@ -71,7 +73,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="col-md-12 column">
 				<div class="row clearfix">
 					<div class="col-md-12 column">
-						<div class="row clearfix">
+						<div class="row clearfix" style=" margin-bottom: 10px;">
 							<div class="col-md-4 column">
 								<label>标准类别编号：</label> 
 								<input id="query_STANDARDTYPECODE" class="form-control" name="STANDARDTYPECODE" type="text">
@@ -81,7 +83,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<input  id="query_STANDARDTYPENAME" class="form-control" name="STANDARDTYPENAME" type="text">
 							</div>
 						</div>
-						<div id ="menu" class="row clearfix">
+						<div id ="menu" class="row clearfix" >
 							<div  class="col-md-3.5 column">
 								<div class="col-md-4 column">
 									<button id = "query"  onclick = "query()" class="btn btn-primary" type="button">

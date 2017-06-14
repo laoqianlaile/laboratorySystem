@@ -61,6 +61,7 @@ span {
     padding-top: 20px;
     padding-bottom: 20px;
     width: 101%;
+    margin-bottom: 30px;
 }
 #menu button{
 	margin-right:2%;
@@ -143,7 +144,7 @@ span {
 			<div class="col-md-12 column">
 				<div class="row clearfix">
 					<div class="col-md-12 column">
-						<div class="row clearfix">
+						<div class="row clearfix" style=" margin-bottom: 10px;">
 							<div class="col-md-3 column" >
 								<label>模板名称： </label>
 								<input id="query_templateName" name="templateName"

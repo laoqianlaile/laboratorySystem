@@ -324,7 +324,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 		};
 
 		List<Map<String, Object>> result = entityDao.findByCondition(
-				properties, " 1 = 1 and state = 1", Standard.class);
+				properties, " 1 = 1 and state = 2", Standard.class);
 
 		return result;
 	}

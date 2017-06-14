@@ -73,6 +73,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     padding-top: 20px;
     padding-bottom: 20px;
     width: 101%;
+    margin-bottom: 30px;
 }
 #menu button{
 	  margin-right: 2%;
@@ -102,8 +103,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </style>
   <body>
   	<div class="container" style="width:100%;">
-		<div class="row clearfix">
-				<div class="col-md-12">
+		<div class="row clearfix" >
+				<div class="col-md-12" style=" margin-bottom: 10px;">
 					<div class = "col-md-4 ">
 					  	<label>合同编号：</label>
 						<input  type = "text" id="query_contractCode" name = "contractCode" class="form-control"/>
@@ -114,7 +115,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					
 				</div>
-				<div class="col-md-12">
+				<div class="col-md-12" style=" margin-bottom: 10px;">
 					<div class="col-md-4 input-group date form_datetime" style="float:left;" >
 						<label class="date_left" style="padding-right: 3px;">录入日期： </label>
 						<div class="date_left">
@@ -144,11 +145,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div>
 						<button class="btn btn-primary type=" button" id="refresh"
 							onclick="query()">
-							<em class="glyphicon glyphicon-refresh"></em> 查询
+							<em class="glyphicon glyphicon-search"></em> 查询
 						</button>
 						<button class="btn btn-primary type=" button" id="refresh"
 							onclick="openAddModal()">
-							<em class="glyphicon glyphicon-refresh"></em> 新增
+							<em class="glyphicon glyphicon-plus"></em> 新增标准
 						</button>
 						<button class="btn btn-primary" type="button">
 							<em class="glyphicon glyphicon-circle-arrow-up"></em> 导入
