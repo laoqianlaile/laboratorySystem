@@ -636,6 +636,7 @@ function openedit(data) {
 	$('#edit_sampleName').val(data.sampleName);
 	$('#edit_specifications').val(data.specifications);
 	$('#edit_laborHour').val(data.laborHour);
+	$('#edit_ID').val(data.ID);
 	$('#editModal').modal('show');
 }
 

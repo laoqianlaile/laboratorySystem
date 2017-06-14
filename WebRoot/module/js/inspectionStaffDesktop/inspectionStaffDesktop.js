@@ -1,7 +1,16 @@
+var obj = {
+	reID : "",
+	order_c : 0,
+	order_f : 0,
+	order_t : 0
+}
+
+
 /*初始化页面*/
 $(function() {
 	init();
-	initMessage();
+	initTidingsTable();
+	initEvent();
 
 });
 function init() {
@@ -64,37 +73,31 @@ function init() {
 			title : '样品出厂编号',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '16%'// 宽度
+			width : '19%'// 宽度
 		}, {
 			field : 'sampleName',// 返回值名称
 			title : '样品名称',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '16%'// 宽度
+			width : '19%'// 宽度
 		}, {
 			field : 'specifications',// 返回值名称
 			title : '型号',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '16%'// 宽度
+			width : '19%'// 宽度
 		}, {
 			field : 'testName',// 返回值名称
 			title : '检测项目',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '16%'// 宽度
-		}, {
-			field : 'employeeName',// 返回值名称
-			title : '检测人',// 列名
-			align : 'center',// 水平居中显示
-			valign : 'middle',// 垂直居中显示
-			width : '16%'// 宽度
+			width : '19%'// 宽度
 		}, {
 			field : 'detectState',// 返回值名称
 			title : '状态',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : '16%'// 宽度
+			width : '19%'// 宽度
 		} ]
 	// 列配置项,详情请查看 列参数 表格
 	/* 事件 */
@@ -165,15 +168,15 @@ function turnout() {
 			+ '?taskID=' + taskID;
 }
 
-function initMessage() {
-	$('#messageTable')
+function initTidingsTable() {
+	$('.tidingsTable')
 			.bootstrapTable(
 					{
 						striped : false,// 隔行变色效果
 						pagination : true,// 在表格底部显示分页条
 						pageSize : 5,// 页面数据条数
 						pageNumber : 1,// 首页页码
-						pageList : [ 5, 10, 15 ],// 设置可供选择的页面数据条数
+						pageList : [ 3, 5, 8 ],// 设置可供选择的页面数据条数
 						clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和
 						// checkbox
 						cache : false,// 禁用 AJAX 数据缓存
@@ -198,7 +201,7 @@ function initMessage() {
 						}, // 请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
 						selectItemName : '',// radio or checkbox 的字段名
 						onLoadSuccess : function(data) {
-
+							//加上    <span class="badge pull-right">42</span>首页 在消息上面
 						},
 						columns : [
 								{
@@ -208,7 +211,7 @@ function initMessage() {
 									width : '5%',// 宽度
 									visible : true,
 									formatter : function(value, row, index) {
-										checkDataTiding(row);
+										checkDatas(row);
 										return obj.order_t++;
 									}
 								},
@@ -257,17 +260,67 @@ function initMessage() {
 										return look;
 									}
 								} ]
-					// 列配置项,详情请查看
-					// 列参数
-					// 表格
-					// /*
-					// 事件
-					// */
-		});
-
+					// 列配置项,详情请查看 列参数 表格
+					/* 事件 */
+					});
 }
 
-function checkDataTiding(dataObj) {
+function initEvent() {
+	initMessage(); //消息按钮的颜色切换
+}
+function initMessage() {
+	$(".tidingHead ul li").click(function() {
+		$(".tidingHead ul li").toggleClass("selected");
+		refrehMessage($(this).text());
+	});
+}
+function refrehMessage(text) { //读取通知信息
+	var param = {};
+	if (text == "提示信息")
+		param.isRead = false;
+	else
+		param.isRead = true;
+	$('.tidingsTable').bootstrapTable('refresh', {
+		silent : true,
+		url : "/laboratorySystem/messageController/getMessageByUserID.do",
+		query : param
+	});
+}
+
+function lookMessage(ID) {
+	sweetAlert({
+		  title: "Are you sure?",
+		  text: "确认已经查看信息!",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "是",
+		  cancelButtonText: "否"
+		
+		}, function(isConfirm){
+		        if(isConfirm){
+		        	$.ajax({
+		    			url : '/laboratorySystem/messageController/readedMessageByID.do',
+		    			dataType : "json",
+		    			type : "post",
+		    			contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
+		    			async : false,
+		    			data : {
+		    				messageNoticeID : ID
+		    			},
+		    			success : function(o) {
+
+		    			},
+		    			error : function() {
+		    			}
+		    		});
+		    		$('.tidingsTable').bootstrapTable('refresh', null);
+		        }
+		});
+	
+}
+
+function checkDatas(dataObj){
 	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
 			|| dataObj.ID.trim() == "NULL") {
 		dataObj.ID = "";
@@ -284,41 +337,6 @@ function checkDataTiding(dataObj) {
 			|| typeof dataObj.state == undefined) {
 		dataObj.remarks = "未查看";
 	}
-}
-
-function lookMessage(ID) {
-	sweetAlert(
-			{
-				title : "Are you sure?",
-				text : "确认已经查看信息!",
-				type : "warning",
-				showCancelButton : true,
-				confirmButtonColor : "#DD6B55",
-				confirmButtonText : "是",
-				cancelButtonText : "否"
-			},
-			function(isConfirm) {
-				if (isConfirm) {
-					$
-							.ajax({
-								url : '/laboratorySystem/messageController/readedMessageByID.do',
-								dataType : "json",
-								type : "post",
-								contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
-								async : false,
-								data : {
-									messageNoticeID : ID
-								},
-								success : function(o) {
-
-								},
-								error : function() {
-
-								}
-							});
-					$('.tidingsTable').bootstrapTable('refresh', null);
-				}
-			});
 }
 
 function checkData(dataObj) {
@@ -338,10 +356,6 @@ function checkData(dataObj) {
 	if (!dataObj.hasOwnProperty("testName") || dataObj.testName == null
 			|| dataObj.testName.trim() == "NULL") {
 		dataObj.testName = "";
-	}
-	if (!dataObj.hasOwnProperty("employeeName") || dataObj.employeeName == null
-			|| dataObj.employeeName.trim() == "NULL") {
-		dataObj.employeeName = "";
 	}
 	if (!dataObj.hasOwnProperty("detectState") || dataObj.detectState == null
 			|| dataObj.detectState.trim() == "NULL") {
