@@ -24,44 +24,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap-table.min.css">
 	<link rel="stylesheet" type="text/css" href="module/css/qualityPlan/QualityPlan.css">
-	
-	
-    
-    
   </head>
   
   <body>
     <div id="main">
+     <div id="searcherArea">
     	<div id="showdiv1" class="alert alert-danger tan"></div>
-    	<div class="headtext">
-    			<span class="spanstyle">计划名称:</span>
-    			<input id="type" type="text" class="form-control text">
-    		</div>
-    		<div class="headtext">
-    			<span class="spanstyle">执行年度:</span>
-    			<input id="year" type="text" class="form-control text">
-    		</div>
-    		<div class="headtext">
-    			<span class="spanstyle">计划编号:</span>
-    			<input id="code" type="text" class="form-control text">
-    		</div>
-    		<div class="headtext">
-    			<button type="button" class="btn btn-info btncss" onclick="refresh()">搜索</button>
-    		</div>
-    		<br />
-    		<div class="headtext">
-    			<span class="spanstyle" style="display:inline-block;margin-left:13px;">审核人:</span>
-    			<div class="btn-group">
-				  <button type="button" class="btn mystyle btn-default dropdown-toggle" data-toggle="dropdown">
-				    <span id="textspan1"></span> <span style="position:absolute;left:175px;top:15px;" class="caret"></span>
+    	    <div class="row">
+	    	  <div class="col-xs-4 col-md-4 col-lg-4">
+	    			<label class="spanstyle">计划名称:</label>
+	    			<input id="type" type="text" class="form-control text">
+	    		</div>
+	    		<div class="col-xs-4 col-md-4 col-lg-4">
+	    			<label class="spanstyle">执行年度:</label>
+	    			<input id="year" type="text" class="form-control text">
+	    		</div>
+	    		<div class="col-xs-4 col-md-4 col-lg-4">
+	    			<label class="spanstyle">计划编号:</label>
+	    			<input id="code" type="text" class="form-control text">
+	    		</div>
+	        </div>
+	      <div class="row">
+	    	<div class="col-xs-4 col-md-4 col-lg-4">
+    			<label class="spanstyle" style="display:inline-block;margin-left:13px;">审核人:</label>
+    			<div class="btn-group" style="width: 70%">
+				  <button type="button" class="btn mystyle btn-default dropdown-toggle" data-toggle="dropdown" style="width:100%;margin-left: -11px;">
+				    <span id="textspan1"></span> <span style="position:absolute;left:95%;top:15px;" class="caret"></span>
 				  </button>
-				  <ul id="listul2" class="dropdown-menu" role="menu" style="width:200px;">
+				  <ul id="listul2" class="dropdown-menu" role="menu" style="width:100%;">
 				  </ul>
 				</div>
     		</div>
-    	<hr />
+	       </div>
     	<div id="restcontent">
-    		<div >
     		<!-- //综合管理室的人则是新增（提交），删除，修改，全部数据，详情
     		//技术主管审核
     		//其他各个科室则是新增建议页面
@@ -69,17 +64,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			<button type="button" class="btn btn-info thisbtn" onclick="addrow()">新增</button>
     			<button type="button" class="btn btn-info thisbtn" onclick="deletequalityPlan()">删除</button>
     			<button type="button" class="btn btn-info thisbtn" onclick="updataqualityPlan(this)">修改</button> -->
-    			<button type="button" class="btn btn-info thisbtn" onclick="resetAlldata()">全部数据</button>
+    			<button type="button" class="btn btn-primary btncss" onclick="refresh()">搜索</button>
+    			<button type="button" class="btn btn-primary Allbtn" onclick="resetAlldata()">全部数据</button>
 <!--     			<button type="button" class="btn btn-info thisbtn" onclick="getTimeCheckPage()">新增建议页面</button>
- -->    			<button type="button" class="btn btn-info thisbtn" onclick="ToAuditJSP()">审核</button>
+ -->    			<button type="button" class="btn btn-primary Addbtn" onclick="ToAuditJSP()">审核</button>
 <!--     			<button type="button" class="btn btn-info thisbtn" onclick="ToResultJSP()">结果</button>
- -->    			<button type="button" class="btn btn-info thisbtn thatbtn" onclick="addQualityPlan(this)">提交</button>
-    			
-    		</div>
+ -->    			<button type="button" class="btn btn-primary thisbtn thatbtn" onclick="addQualityPlan(this)">提交</button>
+    	</div>
+     </div>
+     <hr>
     		<div id="tablecontent">
 	    		<table id="table">
 	    		</table>
-    		</div>
     	</div>
     </div>
     <script src="module/js/jquery-2.1.1.min.js"></script>

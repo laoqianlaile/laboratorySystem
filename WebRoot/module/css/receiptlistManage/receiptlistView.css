@@ -23,6 +23,8 @@
 
 .row {
 	margin-bottom: 7px;
+	margin-left:0;
+	margin-right:0;
 }
 
 .row label{
@@ -68,7 +70,3 @@
 	width: 90px;
 }
 
-.container{
-	width:100%;
-	min-width:1200px;
-}

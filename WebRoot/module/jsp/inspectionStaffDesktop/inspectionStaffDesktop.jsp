@@ -28,7 +28,7 @@
 	href="module/css/commonSystem/commonSystem.css" />
 <link rel="stylesheet" type="text/css"
 	href="module/css/inspectionStaffDesktop/inspectionStaffDesktop.css" />
-	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 
 <script src="module/js/sweetalert.min.js"></script>
 <script src="assets/js/autoPage.js"></script>
@@ -78,6 +78,8 @@
 							onclick="submit()">
 						<p>提交审核</p>
 					</div>
+				</div>
+				<div class="row">
 					<div class="task_button task_button4">
 						<input type="image"
 							src="module/img/inspectionStaffDesktop/viewAudit_icon.png"
@@ -105,11 +107,14 @@
 		</div>
 
 		<div id="right">
-			<div class="rightHead">
-				<img src="module/img/inspectionStaffDesktop/msgHint_icon.png" /> <label>消息提醒</label>
-			</div>
-			<div class="messageTable">
-				<table id="messageTable"></table>
+			<div class="tidings">
+					<div class="tidingHead">
+					<ul>
+						<li class=" selected ">提示信息</li>
+						<li>已读信息</li>
+					</ul>
+					</div>
+					<div class="tidingsTable"></div>
 			</div>
 		</div>
 	</div>
