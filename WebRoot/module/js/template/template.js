@@ -664,7 +664,7 @@ function displayChecked(testProject){
  */
 function hideSearch(){
 	setTimeout(function(){
-		$('#editReprotSearch').hide();
+		$('#showTestProject').hide();
 	},500); 
 }
 /**
