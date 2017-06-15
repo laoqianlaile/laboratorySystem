@@ -1413,8 +1413,10 @@ public class TaskService extends SearchService implements ITaskService {
 		// TODO Auto-generated method stub
 		int index = limit;
 		int pageNum = offset / limit;
+		String tableName = "taskTestProject";
 		String[] properties = new String[] {
 				"task.ID",
+				"tasktestproject.taskID",
 				"task.receiptlistID",
 				"task.taskCode",
 				"sample.factoryCode",
@@ -1423,7 +1425,6 @@ public class TaskService extends SearchService implements ITaskService {
 				"IF(testProject.nameEn IS  NULL , testProject.nameCn , "
 						+ " if ( testProject.nameCn is null ,testProject.nameEn,"
 						+ " CONCAT(testProject.nameEn,'(',testProject.nameCn,')') )) as testName ",
-				"employee.employeeName",
 				"case when task.detectState = 0 then '未领样' "
 				+ "when task.detectState = 1 then '检测中'"
 				+ "when task.detectState = 2 then '检测过程完成'"
@@ -1436,14 +1437,14 @@ public class TaskService extends SearchService implements ITaskService {
 				+ "when task.detectState = 9 then '驳回'"
 				+ "when task.detectState = 10 then '签发'end as detectState",};
 		
-		String joinEntity = " left join sample on task.sampleID =sample.ID "
-				+ "left join testProject on task.testProjectID = testProject.ID "
-				+ " left join taskMan on taskMan.taskID = task.ID "
-				+"left join employee on taskMan.detector=employee.ID";
+		String joinEntity = "left join task on tasktestproject.taskID = task.ID "
+				+ "left join testProject on tasktestproject.testProjectID = testProject.ID "
+				+" left join sample on task.sampleID =sample.ID ";
 		String condition = "1 = 1 ";
-		List<Map<String, Object>> result = searchPagingWithJoin(properties,
-				joinEntity, null, condition, false, index, pageNum);
-		int count = getForeignCountWithJoin(joinEntity, null, condition, false);
+		List<Map<String, Object>> result = originalSearchWithpaging(properties,
+				tableName, joinEntity, null, condition, false, null, sort,
+				order, index, pageNum);
+		int count = entityDao.searchForeign(properties, tableName, joinEntity, null, condition).size();
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("total", count);

@@ -46,14 +46,7 @@ $(function() {
 									checkbox : true,
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '3%'// 宽度
-								},
-								{
-									field : '',
-									title : '序号',
-									width : '2%',
-									align : 'center',
-									valign : 'middle',
+									width : '5%',// 宽度
 									formatter : function(value, row, index) {
 										checkData(row);
 										return index + 1;
@@ -125,14 +118,16 @@ $(function() {
 									title : '邮箱',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '5%'// 宽度
+									width : '5%',// 宽度
+									visible : false
 								},
 								{
 									field : 'phoneNumber',// 返回值名称
 									title : '电话号码',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '5%'// 宽度
+									width : '5%',// 宽度
+									visible : false
 								},
 								{
 									field : 'address',// 返回值名称
@@ -249,7 +244,7 @@ $(function() {
 									title : '操作',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
-									width : '14%',// 宽度
+									width : '12%',// 宽度
 									formatter : function(value, row, index) {
 										var state = row.state;
 										var btn_change;
