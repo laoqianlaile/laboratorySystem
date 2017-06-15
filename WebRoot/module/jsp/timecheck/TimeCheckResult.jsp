@@ -42,7 +42,7 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
   			<br />
   			<div class="row">
   			<div class="col-xs-4 col-md-4 col-lg-4">
-    			<label>计划项目编号:</label>
+    			<label style="width: 25%">计划项目编号:</label>
     			<input id="projectcode" type="text" class="form-control text">
     		</div>
     		<div class="col-xs-4 col-md-4 col-lg-4">
@@ -63,8 +63,8 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
     		
     		<div class="row">
     		<div class="col-xs-4 col-md-4 col-lg-4">
-    			<div class="timeLabelDiv">
-					<label>计划完成时间:</label>
+    			<div class="timeLabelDiv" style="width: 26%">
+					<label style="width: 100%">计划完成时间:</label>
 				</div>
     			<div class="input-group date form_datetime timeChooseDiv">
 					<input class="form-control" id="starttime" size="16"
@@ -81,7 +81,7 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
     		</div>
     		
     		<div class="col-xs-4 col-md-4 col-lg-4">
-	    		<div class="timeLabelDiv">
+	    		<div class="timeLabelDiv" style="width: 21%;">
 	    			<label>至</label>
 	    		</div>
     		    <div class="input-group date form_datetime timeChooseDiv">
