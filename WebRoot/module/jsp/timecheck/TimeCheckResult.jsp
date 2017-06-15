@@ -37,7 +37,7 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
   			<%=request.getParameter("year") %>年度检测/校准结果质量保证/期间核查建议
   		</div>
   		<div id="head">
-  			<p id="Serialnumber">编号:<label><%=request.getParameter("code") %></label></p>
+  			<p id="Serialnumber">编号:<label style="float: right;"><%=request.getParameter("code") %></label></p>
   			<br />
   			<br />
   			<div class="row">

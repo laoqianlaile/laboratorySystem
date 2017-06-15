@@ -73,10 +73,13 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
     		</div>
   		  		<div class="col-xs-4 col-md-4 col-lg-4">
   		    		<label>至:</label>
-  		    		<input id="endtime" type="text" class="form-control text time">
-	  			<button type="button" class="btn btn-default btn-lg timeStyle" onclick="timeget(2)">
-			  <span class="glyphicon glyphicon-time"></span> 
-				</button>
+  		    			<div class="input-group date form_datetime timeChooseDiv">
+  		    		<input id="endtime" type="text" class="form-control">
+						<span class="input-group-addon"><span
+						class="glyphicon glyphicon-remove"></span></span> <span
+						class="input-group-addon"><span
+						class="glyphicon glyphicon-calendar"></span></span>
+						</div>
   		    	</div>
     		    <div class="col-xs-4 col-md-4 col-lg-4">
     			<label class="spanstyle">负&nbsp;&nbsp;责&nbsp;部&nbsp;&nbsp;门:</label>
