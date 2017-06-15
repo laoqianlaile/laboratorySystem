@@ -39,7 +39,6 @@
 <script src="assets/js/autoPage.js"></script>
 </body>
 <!-- 功能 -->
-<div class="container">
 	<div class="searchArea">
 		<div class="head">
 			<div class="content">
@@ -74,7 +73,7 @@
 		</div>
 	</div>
 	<div class="table">
-		<table id="table" class="table table-hover">
+		<table id="table" class="table">
 		</table>
 	</div>
 
@@ -200,6 +199,5 @@
 			</div>
 		</div>
 	</div>
-</div>
 <script src="module/js/testManHour/testManHour.js"></script>
 </html>

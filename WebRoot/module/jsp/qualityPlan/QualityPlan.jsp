@@ -72,7 +72,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			<button type="button" class="btn btn-primary detailsbtn" onclick="ToResultJSP()">计划详情</button>
     			<button type="button" class="btn btn-primary delbtn" onclick="deletequalityPlan()">删除</button>
     			<button type="button" class="btn btn-primary changebtn" onclick="updataqualityPlan(this)">修改</button>    			
-    			<button type="button" class="btn btn-primary thisbtn thatbtn" onclick="addQualityPlan(this)">提交</button>
+    			<button type="button" class="btn btn-primary thisbtn thatbtn" onclick="addQualityPlan(this)" style="margin-right: 575px;margin-top: 17px;">提交</button>
     	</div>
     </div>
     		<hr />
