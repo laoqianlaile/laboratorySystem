@@ -4,12 +4,30 @@
 	width:800px;
 	margin: 30px 100px;
 }
+label{
+	float:left;
+}
+#restcontent {
+    height: 70px;
+    background-color: #e8f3f9;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    position: relative;
+}
+.thisbtn {
+    float: right;
+    margin-top: 18px;
+    margin-right: 20px;
+}
+.timeChooseDiv {
+    width: 70%;
+    margin-top: 0px;
+}
 /* .tablebox{
 	height:400px;
 	width:1200px;
 	margin: 80px 100px;
 } */
-
 .tablebox{
 	margin-right:20px;
 	margin-bottom:30px;
@@ -40,7 +58,7 @@
  .bootstrap-table{
  margin-top:10px;
  margin-left:20px;
-/*  margin-right:20px; */
+margin-bottom: 10px;
  }
 }
 .btn-default {

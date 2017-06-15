@@ -164,6 +164,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		<button class='btn btn-primary newButton' onclick="refresh2()" type='button'>&nbsp;刷新&nbsp;</button>
   		<button id="uploading" style="float:right;" class="btn btn-primary newButton" onclick="addPlan(this)" type="button">&nbsp提交制定计划&nbsp</button>
   		</div> 
+  		  		<hr />
   			<table class="table table-bordered table-hover"  id="table">
 		</table>
 
