@@ -21,19 +21,21 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<link rel="stylesheet" type="text/css"
-	href="module/css/traceability/traceabilityAudit.css">
-<link rel="stylesheet" href="module/css/bootstrap.min.css"
-	type="text/css"></link>
-<link rel="stylesheet" href="module/css/bootstrap.css" type="text/css"></link>
-<link rel="stylesheet" type="text/css"
-	href="module/css/bootstrap-table.css">
-<script type="text/javascript" src="module/js/jquery-2.1.1.min.js"></script>
-<script type="text/javascript" src="module/js/bootstrap-table.js"></script>
-<script type="text/javascript" src="module/js/bootstrap.js"></script>
-<script type="text/javascript" src="module/js/bootstrap-table-zh-CN.js"></script>
-<script type="text/javascript"
-	src="module/js/traceability/traceabilityAudit.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="module/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
+	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
+	<link rel="stylesheet" type="text/css" href="module/css/traceability/traceabilityAudit.css">
+
+	<script src="module/js/jquery-2.1.1.min.js"></script>
+	<script src="assets/js/bootstrap.min.js"></script>
+	<script src="assets/js/bootstrap-table.min.js"></script>
+	<script src="assets/js/bootstrap-table-zh-CN.min.js"></script>
+	<script src="module/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+	<script src="assets/js/bootstrap-datetimepicker.fr.js"></script>
+	<script src="assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script type="text/javascript" src="module/js/traceability/traceabilityAudit.js"></script>
 </head>
 
 <body>
@@ -48,37 +50,65 @@
 			<p style="float:right;">编号:<label><%=request.getParameter("code") %></label></p>
 		</div>
 		<div id="searcherArea">
-			<div class="list-searcher">
-				<span>设备名称：</span><input type="text" id="equipmentName"
-					name="equipmentName" class="form-control"
-					aria-describedby="basic-addon1"> <span>仪器编号：</span><input
-					type="text" id="equipmentCode" name="equipmentCode"
-					class="form-control" aria-describedby="basic-addon1"> <span>审核状态：</span><select
-					id="auditState" name="auditState" class="form-control"><option>全部</option>
-					<option>未审核</option>
-					<option>审核通过</option>
-					<option>审核不通过</option>
-
-				</select>
+			<div class="row">
+				<div class="col-xs-4 col-md-4 col-lg-4">
+	    			<label class="spanstyle">设备名称:</label>
+	    			<input type="text" id="equipmentName" name="equipmentName" class="form-control text" aria-describedby="basic-addon1"> 
+	    		</div>
+	    		<div class="col-xs-4 col-md-4 col-lg-4">
+	    			<label class="spanstyle">仪器编号:</label>
+	    			<input type="text" id="equipmentCode" name="equipmentCode" class="form-control text" aria-describedby="basic-addon1">
+	    		</div>
+	    		<div class="col-xs-4 col-md-4 col-lg-4">
+	    			<label class="spanstyle">审核状态:</label>
+	    			<select id="auditState" name="auditState" class="form-control text"><option>全部</option>
+						<option>未审核</option>
+						<option>审核通过</option>
+						<option>审核不通过</option>
+					</select>
+	    		</div>
 			</div>
-			<div class="list-searcher">
-				<span>时间：</span><input type="date" id="startTime" name="startTime"
-					class="form-control"> <span>至：</span><input type="date"
-					id="endTime" name="endTime" class="form-control"> <span>部门名称：</span><select
-					id="departmentName" class="form-control"></select>
-				<button type="button" id="search" class="btn btn-info thisbtn"
-					onclick="search()">搜索</button>
+			<div class="row">
+				<div class="col-xs-4 col-md-4 col-lg-4">
+						<div class="timeLabelDiv">
+							<label>时间:</label>
+						</div>
+		    			<div class="input-group date form_datetime timeChooseDiv">
+							<input class="form-control" id="startTime" size="16"
+								type="text" value="" readonly="true"> <span
+								class="input-group-addon"><span
+								class="glyphicon glyphicon-remove"></span></span> <span
+								class="input-group-addon"><span
+								class="glyphicon glyphicon-calendar"></span></span>
+						</div>    		
+				</div>
+				<div class="col-xs-4 col-md-4 col-lg-4">
+						<div class="timeLabelDiv">
+							<label>至:</label>
+						</div>
+		    			<div class="input-group date form_datetime timeChooseDiv">
+							<input class="form-control" id="endtime" size="16"
+								type="text" value="" readonly="true"> <span
+								class="input-group-addon"><span
+								class="glyphicon glyphicon-remove"></span></span> <span
+								class="input-group-addon"><span
+								class="glyphicon glyphicon-calendar"></span></span>
+						</div>		
+     			</div>
+				<div class="col-xs-4 col-md-4 col-lg-4">
+	    			<label class="spanstyle">部门名称：</label>
+					<select id="departmentName" class="form-control text"></select>				
+				</div>
+			</div>
+			<div id="restcontent">
+				<button type="button" id="search" class="btn btn-primary btncss" onclick="search()">搜索</button>
+				<button type="button" id="pass" class="btn btn-primary OKbtn" onclick="pass()">&nbsp;通过</button>
+				<button type="button" id="noPass" class="btn btn-primary NObtn" onclick="noPass()">&nbsp;不通过</button>
+				<button type="button" id="noPass" class="btn btn-primary Allbtn" style="float:right;" onclick="allData()">&nbsp;全部数据</button>
 			</div>
 		</div>
+		<hr />
 		<div class="content" style="margin-top:30px">
-			<div class="form-group">
-				<button type="button" id="pass" class="btn btn-info thisbtn"
-					onclick="pass()">&nbsp;通过</button>
-				<button type="button" id="noPass" class="btn btn-info thisbtn"
-					onclick="noPass()">&nbsp;不通过</button>
-				<button type="button" id="noPass" class="btn btn-info thisbtn"
-					style="float:right;" onclick="allData()">&nbsp;全部数据</button>
-			</div>
 			<table id="table"></table>
 		</div>
 	</div>
@@ -112,5 +142,18 @@
 			</div>
 		</div>
 	</div>
+	  	<script>
+			$('.form_datetime').datetimepicker({
+			    language: 'zh-CN',
+			    weekStart: 1,
+			    todayBtn: 1,
+			    autoclose: 1,
+			    todayHighlight: 1,
+			    startView: 2,
+			    minView: 2,
+			    forceParse: 0,
+			    format: 'yyyy-mm-dd'
+			});
+  	</script>
 </body>
 </html>

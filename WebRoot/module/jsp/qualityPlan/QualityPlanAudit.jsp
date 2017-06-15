@@ -24,17 +24,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap-table.min.css">
 	<link rel="stylesheet" type="text/css" href="module/css/qualityPlan/QualityPlan.css">
-	
-	
-    
-    
   </head>
   
   <body>
     <div id="main">
      <div id="searcherArea">
     	<div id="showdiv1" class="alert alert-danger tan"></div>
-    	    	    <div class="row">
+    	    <div class="row">
 	    	  <div class="col-xs-4 col-md-4 col-lg-4">
 	    			<label class="spanstyle">计划名称:</label>
 	    			<input id="type" type="text" class="form-control text">

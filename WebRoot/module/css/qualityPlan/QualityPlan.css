@@ -99,6 +99,16 @@
 .changebtn:hover {
     background: #ffc773;
 }
+.thatbtn{
+	position: absolute;
+	right: 570px;
+	display:none;
+	margin-top: -17px;
+	top: 50%;
+}
+.thatbtn:hover {
+    background: #ffc773;
+}
 #tablecontent{
 	margin-top:10px;
 }
@@ -145,10 +155,6 @@ li:hover{
 }
 #listul2{
 	margin-top:37px;
-}
-.thatbtn{
-	float:right;
-	display:none;
 }
 .trbg{
 	background:yellow !important;

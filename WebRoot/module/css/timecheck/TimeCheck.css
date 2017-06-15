@@ -25,6 +25,10 @@
 .row {
     margin-bottom: 10px;
 }
+.row label{
+	width: 20%;
+	min-width: 80px;
+}
 #center{
 	width:100%;
 }
