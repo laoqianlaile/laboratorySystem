@@ -22,10 +22,10 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap-theme.min.css">
-	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap-table.min.css">
-	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap-datetimepicker.min.css">
+	<link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="module/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
+	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
 	<link rel="stylesheet" type="text/css" href="module/css/timecheck/TimeCheck.css">
 	
 	
@@ -41,82 +41,89 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
   		</div>
   		<div id="head">
   			<p id="Serialnumber">编号:<label><%=request.getParameter("code") %></label></p>
-  			<br />
-  			<br />
-  			<div class="headtext">
-    			<span class="spanstyle">计划项目编号:</span>
+  			<br>
+  			<br>
+  			<br>
+  			<div class="row">
+  			<div class="col-xs-4 col-md-4 col-lg-4">
+    			<label>计划项目编号:</label>
     			<input id="projectcode" type="text" class="form-control text">
     		</div>
-    		<div class="headtext">
-    			<span class="spanstyle">比对/核查点:</span>
+    		<div class="col-xs-4 col-md-4 col-lg-4">
+    			<label>比对/核查点:</label>
     			<input id="projectpoint" type="text" class="form-control text">
     		</div>
-    		<div class="headtext">
-    			<span class="spanstyle">计划完成时间:</span>
-    			<input id="starttime" type="text" class="form-control text time">
-    			<button type="button" class="btn btn-default btn-lg timeStyle" onclick="timeget(1)">
-				  <span class="glyphicon glyphicon-time"></span> 
-				</button>
-				至
-				<input id="endtime" type="text" class="form-control text time">
-    			<button type="button" class="btn btn-default btn-lg timeStyle" onclick="timeget(2)">
-				  <span class="glyphicon glyphicon-time"></span> 
-				</button>
-    		</div>
-    		<div class="headtext">
-    			<button id="searchbtn" type="button" class="btn btn-info btncss" onclick="refresh()">搜索</button>
-    		</div>
-    		<br />
-    		<br />
-    		<div class="headtext">
-    			<span class="spanstyle">项&nbsp;&nbsp;目&nbsp;&nbsp;&nbsp;名&nbsp;&nbsp;称:</span>
+    		 <div class="col-xs-4 col-md-4 col-lg-4">
+    			<label class="spanstyle">项&nbsp;&nbsp;目&nbsp;&nbsp;&nbsp;名&nbsp;&nbsp;称:</label>
     			<input id="projectname" type="text" class="form-control text">
     		</div>
-    		<div class="headtext">
-    			<span class="spanstyle">负&nbsp;&nbsp;责&nbsp;部&nbsp;&nbsp;门:</span>
+    		</div>
+    		
+    		<div class="row">
+    		<div class="col-xs-4 col-md-4 col-lg-4">
+    			<label>计划完成时间:</label>
+    				<div class="input-group date form_datetime timeChooseDiv">
+    				<input class="form-control" id="starttime" size="16"
+						type="text" value="" readonly="true">
+						<span class="input-group-addon"><span
+						class="glyphicon glyphicon-remove"></span></span> <span
+						class="input-group-addon"><span
+						class="glyphicon glyphicon-calendar"></span></span>
+						</div>
+    		</div>
+  		  		<div class="col-xs-4 col-md-4 col-lg-4">
+  		    		<label>至:</label>
+  		    			<div class="input-group date form_datetime timeChooseDiv">
+  		    		<input id="endtime" type="text" class="form-control">
+						<span class="input-group-addon"><span
+						class="glyphicon glyphicon-remove"></span></span> <span
+						class="input-group-addon"><span
+						class="glyphicon glyphicon-calendar"></span></span>
+						</div>
+  		    	</div>
+    		    <div class="col-xs-4 col-md-4 col-lg-4">
+    			<label class="spanstyle">负&nbsp;&nbsp;责&nbsp;部&nbsp;&nbsp;门:</label>
     			<div class="btn-group">
 				  <button type="button" class="btn mystyle btn-default dropdown-toggle" data-toggle="dropdown">
-				    <span id="textspan1"></span> <span style="position:absolute;left:175px;top:15px;" class="caret"></span>
+				    <span id="textspan1"></span> <span style="position: absolute;left: 271px;top: 12px;" class="caret"></span>
 				  </button>
 				  <ul id="listul1" class="dropdown-menu" role="menu" style="width:200px;">
 				  </ul>
 				</div>
     		</div>
-    		<div class="headtext">
-    			<!-- <span class="spanstyle">&nbsp;负&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;责&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;人&nbsp;:</span>
-    			<div class="btn-group">
-				  <button id="listbutton2" class="btn btn-default mystyle dropdown-toggle" type="button" data-toggle="dropdown">
-				    <span id="textspan2"></span><span style="position:absolute;left:175px;top:15px;" class="caret"></span>
-				  </button>
-				  <ul id="listul2" class="dropdown-menu" role="menu" style="width:200px;">
-
-				  </ul>
-				</div> -->
     		</div>
+    	<!-- style="float: right;" -->
+<!--   			<div class="row">
+    		<div class="col-xs-4 col-md-4 col-lg-4">
+    			
+    		</div>
+    		</div> -->
     		
   		</div>
-  		<hr />
   		<div id="center">
-  			<div >
-    			<button type="button" class="btn btn-info thisbtn" onclick="deleteTimeCheck()">删除</button>
-    			<button type="button" class="btn btn-info thisbtn" onclick="addrow()">新增</button>
-    			<button type="button" class="btn btn-info thisbtn" onclick="updata(this)">修改</button>
-    			<button type="button" class="btn btn-info thisbtn" onclick="resetAlldata()">全部数据</button>
-    			<button type="button" style="display:none" class="btn btn-info thisbtn" onclick="ToAuditJSP()">审核</button>
-    			<button type="button" style="display:none" class="btn btn-info thisbtn" onclick="ToResultJSP()">结果</button>
-    			<button type="button" class="btn btn-info thisbtn thatbtn" onclick="add(this)">提交</button>
+  			<div id="restcontent">
+    			<button type="button" class="btn btn-primary thisbtn" onclick="deleteTimeCheck()">删除</button>
+    			<button type="button" class="btn btn-primary thisbtn" onclick="addrow()">新增</button>
+    			<button type="button" class="btn btn-primary thisbtn" onclick="updata(this)">修改</button>
+    			<button type="button" class="btn btn-primary thisbtn" onclick="resetAlldata()">全部数据</button>
+    			<button type="button"  class="btn btn-primary thisbtn" onclick="ToAuditJSP()">审核</button>
+    			<button type="button"  class="btn btn-primary thisbtn" onclick="ToResultJSP()">结果</button>
+    			<button id="searchbtn" type="button"  class="btn btn-primary thisbtn" onclick="refresh()">搜索</button>
+    			<button type="button" class="btn btn-primary thisbtn thatbtn" onclick="add(this)">提交</button>
     		</div>
-    		<div class="tablecontent">
+  		</div>  
+  		<hr />
+  			<div class="tablecontent">
 	    		<table id="table">
 	    		</table>
-    		</div>
-  		</div>                                                                                                                                                                                                             
+    		</div>     
+    		
+    		<div id="restcontent">
+    			<button type="button" id="asda" class="btn btn-primary thisbtn" data-toggle="modal"  onclick="getsugestID()">&nbsp;上传核查记录</button>
+    			<button type="button" class="btn btn-primary thisbtn" onclick="download()">下载</button>
+    		</div>                                                                                                                                                                                                      
   		<hr />
   		<div id="bottom">
-  			<div>
-    			<button type="button" id="asda" class="btn btn-info thisbtn" data-toggle="modal"  onclick="getsugestID()">&nbsp;上传核查记录</button>
-    			<button type="button" class="btn btn-info thisbtn" onclick="download()">下载</button>
-    		</div>
     		<div class="tablecontent">
     			<table id="tablefile">
     			</table>
@@ -184,24 +191,18 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
 	<script src="module/js/jquery.uploadify.min.js"></script>
 	<script src="module/js/timecheck/TimeCheck.js"></script>
   	<script>
-  	function timeget(num){
-  		$('.time').datetimepicker({
-  			minView:'month',
-			format: 'yyyy-mm-dd',
-			weekStart:1,
-			todayBtn:1,
-			autoclose:1,
-			todayHighlight:1,
-			startView:2,
-			forceParse:0,
-			showMeridian:1,
-			language:'zh-CN'      /*此属性是显示顺序，还有显示顺序是mm-dd-yyyy*/
-		});
-		if(num==1)
-			$('#starttime').focus();
-		if(num==2)
-			$('#endtime').focus();
-  	}
+	$('.form_datetime').datetimepicker({
+		minView:'month',
+		format: 'yyyy-mm-dd',
+		weekStart:1,
+		todayBtn:1,
+		autoclose:1,
+		todayHighlight:1,
+		startView:2,
+		forceParse:0,
+		showMeridian:1,
+		language:'zh-CN'      /*此属性是显示顺序，还有显示顺序是mm-dd-yyyy*/
+	});
   	</script>
   </body>
 </html>

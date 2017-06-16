@@ -2,7 +2,7 @@
 
 .content input,.content select {
 	display: inline;
-	width: 160px;
+	width: 140px;
 }
 
 .top {
@@ -21,26 +21,14 @@
 	width: 76px;
 }
 
-#table {
-	font-family: "Microsoft YaHei";
-	font-weight: bold;
-	color: #fff;
-	font-size: 14px;
-	margin-top: 30px;
-	min-width: 1170px;
-}
-
-#table  thead tr {
-	background: #364760;
-}
-
-#table td {
-	font-size: 14px;
-	color: #333;
-}
 
 .table-hover>tbody>tr:hover>td,.table-hover>tbody>tr:hover>th {
 	background-color: rgba(54, 71, 96, 0.2);
+}
+
+.fixed-table-container .bs-checkbox {
+    text-align: center;
+    vertical-align: middle;
 }
 
 .head {
@@ -55,7 +43,7 @@
 	font-family: "Microsoft YaHei-Regular";
 	font-size: 14px;
 	color: #333;
-	width: 30%;
+	width:75px;
 }
 
 .content input {
@@ -102,13 +90,14 @@
 	color: #333;
 	margin-left: 20px;
 	display: inline;
+	width:69px;
 }
 
 .modal-body input,.modal-body select {
 	display: inline;
 	width: 270px;
 	height: 32px;
-	margin-left: 10px;
+	margin-left: 12px;
 	font-size: 14px;
 	color: #666;
 }
@@ -136,7 +125,6 @@
 
 .container {
 	width: 100%;
-	min-width: 1200px;
 	padding: 0;
 }
 
@@ -169,7 +157,10 @@
 }
 
 .timeChoose{
- width: 72%;
+ width: 74%;
  margin-top: 0px;
+ padding-left:5px;
 }
+
+
 

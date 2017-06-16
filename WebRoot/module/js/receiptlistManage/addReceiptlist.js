@@ -728,10 +728,11 @@ function showAddTaskModal(){
 function addDepartmentList(par){
 	var html = "";
 	var data = obj.departmentData ;
+	$("#"+par+"Department").html(html);
 	for(var i = 0; i < data.length ; i++){
 		html+="<option value='"+data[i].ID+"'>"+data[i].departmentName+"</option>";
 	}
-	$("#"+par+"Department").append(html);
+	$("#"+par+"Department").html(html);
 }
 
 // 时间验证
@@ -1074,7 +1075,7 @@ function addTaskModel() {
 						if (data == true) {
 							$('#sampleTable').bootstrapTable('refresh', null);
 							swal("任务新增成功");
-
+							showAddTaskModal();
 						} else
 							swal("","任务新增失败","error");
 					},

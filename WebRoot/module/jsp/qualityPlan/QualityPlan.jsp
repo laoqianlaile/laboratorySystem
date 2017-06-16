@@ -51,11 +51,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      <div class="row">
 	    	<div class="col-xs-4 col-md-4 col-lg-4">
     			<label class="spanstyle" style="display:inline-block;margin-left:13px;">审核人:</label>
-    			<div class="btn-group">
-				  <button type="button" class="btn mystyle btn-default dropdown-toggle" data-toggle="dropdown" style="width:326px;margin-left: -11px;">
-				    <span id="textspan1"></span> <span style="position:absolute;left:307px;top:15px;" class="caret"></span>
+    			<div class="btn-group" style="width: 70%">
+				  <button type="button" class="btn mystyle btn-default dropdown-toggle" data-toggle="dropdown" style="width:100%;margin-left: -11px;">
+				    <span id="textspan1"></span> <span style="position:absolute;left:95%;top:15px;" class="caret"></span>
 				  </button>
-				  <ul id="listul2" class="dropdown-menu" role="menu" style="width:326px;">
+				  <ul id="listul2" class="dropdown-menu" role="menu" style="width:100%;">
 				  </ul>
 				</div>
     		</div>
@@ -72,7 +72,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			<button type="button" class="btn btn-primary detailsbtn" onclick="ToResultJSP()">计划详情</button>
     			<button type="button" class="btn btn-primary delbtn" onclick="deletequalityPlan()">删除</button>
     			<button type="button" class="btn btn-primary changebtn" onclick="updataqualityPlan(this)">修改</button>    			
-    			<button type="button" class="btn btn-primary thisbtn thatbtn" onclick="addQualityPlan(this)">提交</button>
+    			<button type="button" class="btn btn-primary thisbtn thatbtn" onclick="addQualityPlan(this)" style="margin-right: 575px;margin-top: 17px;">提交</button>
     	</div>
     </div>
     		<hr />
