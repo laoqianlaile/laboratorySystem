@@ -114,7 +114,7 @@ function login(){
 }*/
 
 //初始化表格方法
-$(function(){
+function getTable(){
 	$('#table2s').bootstrapTable({
 		height:500,
 		classes:'table table-hover table-condensed',
@@ -145,7 +145,7 @@ $(function(){
 	        field: 'nameCn',
 	    }]
 	});
-})
+}
 //初始化表格
 /*$(function(){
 	$('#table').bootstrapTable({

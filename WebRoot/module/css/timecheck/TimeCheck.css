@@ -12,15 +12,22 @@
 	width:100%;
 
 }
-label{
+ label{
+     float: left;
+       width: 21%;
     min-width: 80px;
-}
+} 
+
 .form-control {
     display: inline;
     width: 70%;
 }
 .row {
     margin-bottom: 10px;
+}
+.row label{
+	width: 20%;
+	min-width: 80px;
 }
 #center{
 	width:100%;
@@ -42,15 +49,18 @@ label{
 	line-height:36px;
 }
 .text{
-	width:200px;
+    display: inline;
+    width: 70%;
+}
+.form-control{
+	display: inline;
+	width: 70%;
 }
 .btncss{
 	display:inline-block;
 	width:80px;
 }
-.thisbtn{
-	margin-left:20px;
-}
+
 .tablecontent{
 	margin-top:10px;
 }
@@ -65,7 +75,7 @@ label{
 }
 .mystyle{
 	height:34px;
-	width:200px;
+	width:296px;
 
 	line-height:20px;
 	font-size:17px;
@@ -134,4 +144,75 @@ li:hover{
 }
 #showdiv1{
 	width:300px;
+}
+.input-group {
+	margin-top: 10px;
+}
+
+.input-group .btn {
+	margin-left: 3px;
+}
+.timeChooseDiv {
+	width: 70%;
+	margin-top: 0px;
+}
+.input-group-addon {
+	background-color: #fff;
+}
+.timeLabelDiv{
+	float: left;
+	height: 34px;
+	width: 26%;
+	min-width: 80px;
+}
+.timeLabelDiv label {
+	margin-top: 7px;
+}
+#restcontent{
+	height: 70px;
+    background-color: #e8f3f9;
+	margin-top:10px;
+	margin-bottom:20px;
+	position: relative;
+}
+.btncss{
+	position: absolute;
+	right: 30px;
+	top: 50%;
+	margin-top: -17px;
+}
+.thisbtn{
+	float: right;
+	    margin-top: 18px;
+    margin-right: 20px;
+}
+.btncss:hover {
+    background: #ffc773;
+}
+.Allbtn{
+	position: absolute;
+	right: 130px;
+	top: 50%;
+	margin-top: -17px;
+}
+.Allbtn:hover {
+    background: #ffc773;
+}
+.OKbtn{
+	position: absolute;
+	right: 240px;
+	top: 50%;
+	margin-top: -17px;
+}
+.OKbtn:hover {
+    background: #ffc773;
+}
+.NObtn{
+	position: absolute;
+	right: 320px;
+	top: 50%;
+	margin-top: -17px;
+}
+.NObtn:hover {
+    background: #ffc773;
 }

@@ -99,6 +99,7 @@ option.form-control:hover {
     padding-top: 20px;
     padding-bottom: 20px;
     width: 101%;
+    margin-bottom: 30px;
 }
 #menu button{
 	margin-right:2%;
@@ -169,7 +170,7 @@ option.form-control:hover {
 						
 						<button class="btn btn-primary type=" button" id="refresh"
 							onclick="openAddModal()">
-							<em class="glyphicon glyphicon-refresh"></em> 新增
+							<em class="glyphicon glyphicon-plus"></em> 新增详细
 						</button>
 						<button class="btn btn-primary type=" button" id="refresh"
 							onclick="refresh()">

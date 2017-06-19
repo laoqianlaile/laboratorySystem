@@ -31,6 +31,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="module/js/jquery.cookie.js"></script> 
     <script src="Portal/js/comment/comment.js"></script>
     <script src="Portal/js/selfApplication/selfApplication.js"></script>
+    
+    <style type="text/css">
+    	.fixed-table-container{
+    		border: none;
+    	}
+    </style>
   
 </head>
 

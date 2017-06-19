@@ -54,7 +54,6 @@
 
 <body>
 	<!-- 功能 -->
-	<div class="container">
 		<div class="searchArea">
 			<div class="head">
 				<div class="content">
@@ -82,7 +81,7 @@
 								placeholder="请输入电话号码查找" />
 						</div>
 						<div class="col-xs-3 col-md-3 col-lg-3">
-							<label class="control-label">部门 :</label> <select
+							<label class="control-label">部&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;门 &nbsp;&nbsp;:</label> <select
 								id="search_departmentName" name="departmentName"
 								class="form-control">
 								<option value=""></option>
@@ -106,7 +105,6 @@
 			<table id="table" class="table table-hover">
 			</table>
 		</div>
-	</div>
 
 	<!--新增弹框 -->
 	<div id="addModal" class="modal fade" role="dialog"
@@ -168,7 +166,7 @@
 					<div class="row">
 						<div class="col-xs-6 col-md-6">
 							<div class="timeLabelDiv">
-								<label class="control-label">出生日期 :</label>
+								<label class="control-label">出生日期:</label>
 							</div>
 							<div class="input-group date form_datetime timeChoose">
 								<input class="form-control" id="add_birthday" size="16"
@@ -395,7 +393,7 @@
 					<div class="row">
 						<div class="col-xs-6 col-md-6">
 							<div class="timeLabelDiv">
-								<label class="control-label">出生日期 :</label>
+								<label class="control-label">出生日期:</label>
 							</div>
 							<div class="input-group date form_datetime timeChoose">
 								<input class="form-control" id="edit_birthday" size="16"

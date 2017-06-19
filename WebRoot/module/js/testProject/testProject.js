@@ -392,6 +392,11 @@ function delData() {
 function openEditModal(){
 	
 	var departmentID = arguments[0].departmentID;
+	if(departmentID == null || departmentID　== "" || departmentID == undefined){
+		swal("测试部门为空");
+		return;
+	}
+	
 	var departmentIDs = departmentID.split(",");
 
 	
@@ -400,6 +405,10 @@ function openEditModal(){
 	
 	
 	var standardID = arguments[0].standardID;
+	if(standardID == null || standardID　== "" || standardID == undefined){
+		swal("依据标准为空");
+		return;
+	}
 	var standardIDs = standardID.split(",");
 	getStandard("edit_STANDARDID",standardIDs);// 从数据库里获取标准信息
 	getType("edit_type");

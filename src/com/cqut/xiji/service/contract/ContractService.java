@@ -92,6 +92,7 @@ public class ContractService extends SearchService implements IContractService{
 				"contract.ID",
 				"contract.contractCode",
 				"contract.contractName",
+				"contract.isInput",
 				"company.companyName",
 				"contract.oppositeMen",
 				"contract.linkPhone",
@@ -397,6 +398,8 @@ public class ContractService extends SearchService implements IContractService{
 		contract.setIsClassified(isClassified);
 		contract.setClassifiedLevel(classifiedLevel);
 		contract.setType(contractType);
+		contract.setOrderType(0);
+		contract.setIsInput(0);
 		contract.setState(state);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
 		Date startTime1 = null;

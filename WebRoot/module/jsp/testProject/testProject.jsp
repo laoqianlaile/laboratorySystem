@@ -89,6 +89,7 @@
     padding-top: 20px;
     padding-bottom: 20px;
     width: 101%;
+    margin-bottom: 30px;
 }
 #menu button{
 	margin-right:2%;
@@ -97,10 +98,6 @@
   border: none;
   color: #fff;
   background-color: rgb(255, 173, 51);
-}
-.row .labelName{
-	margin: 2%;
-	text-align: center;
 }
 #displayChecked {
 	width: 100%;
@@ -164,6 +161,12 @@
 .showEquipments ul li:hover{
 	background-color:#dcdcdc;
 }
+#addModal .row .margin2{
+	margin:2%;
+}
+#editModal .row .margin2{
+	margin:2%;
+}
 </style>
 <body>
 	<div class="container" style="width: 100%;">
@@ -171,7 +174,7 @@
 			<div class="col-md-12 column">
 				<div class="row clearfix">
 					<div class="col-md-12 column">
-						<div class="row clearfix">
+						<div class="row clearfix" style=" margin-bottom: 10px;">
 							<div class="col-md-4 column">
 								<label>项目名称： </label> <input id="query_nameCnORnameEn"
 									name="nameCnORnameEn" class="form-control"  type="text">
@@ -226,8 +229,8 @@
 				</div>
 				<div class="modal-body" >
 					<div class="row">
-						<div class="col-md-12 col-xs-12" >
-							<div class="col-md-6 col-xs-6">
+						<div class="col-md-12 col-xs-12 margin2" >
+							<div class="col-md-6 col-xs-6" style="padding: 0px;">
 								<label class="labelName">中文名称</label>
 								<input type=" text" id="add_NAMECN" name="NAMECN"
 									class="form-control" aria-describedby="basic-addon1" />
@@ -242,12 +245,11 @@
 									aria-describedby="basic-addon1" /> -->
 							</div>
 						</div>
-						<div class="col-md-12 col-xs-12">
+						<div class="col-md-12 col-xs-12 margin2">
 							<label class="labelName">检测部门</label>
 							<select id="add_DEPARTMENTID" name="DEPARTMENTID" class="selectpicker show-tick" multiple data-live-search="false" multiple data-selected-text-format="">
 							</select>
 						</div>
-						
 						<!-- <div class="col-md-12 col-xs-12" style="padding-bottom:10px;">
 							<div class="col-md-6 col-xs-6 " >
 								<label class="labelName">所需仪器</label>
@@ -263,26 +265,25 @@
 								<div   class="showEquipments" name = "add"></div>
 							</div>
 						</div> -->
-						<div class="col-md-12 col-xs-12">
+						<div class="col-md-12 col-xs-12 margin2">
 							<label class="labelName">依据标准</label>
 							<select id="add_STANDARDID" name="STANDARDID" class="selectpicker show-tick" multiple data-live-search="false" multiple data-selected-text-format="">
 							</select>
 						</div>
-						<div class="col-md-6 col-xs-6">
+						<div class="col-md-6 col-xs-6 margin2">
 								<label class="labelName">检测类别</label>
 								<select  id="add_type" name="type"class="form-control">
 								</select>
 						</div>
-						
-						<div class="col-md-12 col-xs-12 ">
+						<div class="col-md-12 col-xs-12 margin2">
 							<label class="labelName">标准描述</label>
 							<textarea  id="add_DESCRIBE" name="DESCRIBE"
-								class="form-control" aria-describedby="basic-addon1"></textarea>
+								class="form-control" aria-describedby="basic-addon1" style="max-width: 98%;"></textarea>
 						</div>
-						<div class="col-md-12 col-xs-12 ">
-								<label class="labelName">　备注　</label>
+						<div class="col-md-12 col-xs-12 margin2">
+								<label class="labelName">备注</label>
 								<textarea  id="add_REMARKS" name="REMARKS"
-								class="form-control" aria-describedby="basic-addon1"></textarea>
+								class="form-control" aria-describedby="basic-addon1" style="max-width: 98%;"></textarea>
 						</div>	
 					</div>
 				</div>
@@ -306,7 +307,7 @@
 					<h4 class="modal-title">检测项目修改</h4>
 				</div>
 					<div class="row">
-						<div class="col-md-12 col-xs-12 ">
+						<div class="col-md-12 col-xs-12 margin2">
 						 		<!-- 检测项目id -->
 							<input type=" hidden" id="edit_testProjectID" name="testProjectID"
 								class="form-control" aria-describedby="basic-addon1" style="display: none;" />
@@ -318,7 +319,7 @@
 								<!-- 检测仪器id  -->
 							<!-- <input type=" hidden" id="edit_testInstumentID" name="testInstumentID"
 								class="form-control" aria-describedby="basic-addon1" style="display: none;" /> -->
-							<div  class="col-md-6 col-xs-6">
+							<div  class="col-md-6 col-xs-6" style="padding: 0px;">
 								<label class="labelName">中文名称</label>
 								<input type=" text" id="edit_NAMECN" name="NAMECN"
 									class="form-control" aria-describedby="basic-addon1" />
@@ -330,7 +331,7 @@
 							</div>
 							
 						</div>	
-						<div class="col-md-12 col-xs-12">
+						<div class="col-md-12 col-xs-12 margin2">
 							<label class="labelName">检测部门</label>
 							<select id="edit_DEPARTMENTID" name="DEPARTMENTID" class="selectpicker show-tick" multiple data-live-search="false" multiple data-selected-text-format="">
 							</select>
@@ -350,23 +351,25 @@
 							</div>
 						</div> -->
 					
-					<div class="col-md-12 col-xs-12">
+					<div class="col-md-12 col-xs-12 margin2">
 							<label class="labelName">依据标准</label>
 							<select id="edit_STANDARDID" name="STANDARDID" class="selectpicker show-tick" multiple data-live-search="false" multiple data-selected-text-format="">
 							</select>
 						</div>
-					<div class="col-md-6 col-xs-6">
+					<div class="col-md-6 col-xs-6 margin2">
 							<label class="labelName">检测类别</label>
 							<select  id="edit_type" name="type"class="form-control">
 							</select>
 					</div>
-					<div class="col-md-12 column">
+					<div class="col-md-12 column margin2">
 						<label class="labelName">标准描述</label>
 						<textarea type=" text" id="edit_DESCRIBE" name="DESCRIBE"
-							class="form-control" aria-describedby="basic-addon1" ></textarea>
-						<label>　备注　</label>
+							class="form-control" aria-describedby="basic-addon1" style="max-width: 95%;" ></textarea>
+					</div>	
+					<div class="col-md-12 col-xs-12 margin2">
+						<label>备注</label>
 						<textarea type=" text" id="edit_REMARKS" name="REMARKS"
-							class="form-control" aria-describedby="basic-addon1"></textarea>
+							class="form-control" aria-describedby="basic-addon1" style="max-width: 95%;"></textarea>
 					</div>
 				</div>
 			<div class="modal-footer">

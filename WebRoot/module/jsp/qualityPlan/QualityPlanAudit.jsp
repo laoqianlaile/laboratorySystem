@@ -24,17 +24,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap-table.min.css">
 	<link rel="stylesheet" type="text/css" href="module/css/qualityPlan/QualityPlan.css">
-	
-	
-    
-    
   </head>
   
   <body>
     <div id="main">
      <div id="searcherArea">
     	<div id="showdiv1" class="alert alert-danger tan"></div>
-    	    	    <div class="row">
+    	    <div class="row">
 	    	  <div class="col-xs-4 col-md-4 col-lg-4">
 	    			<label class="spanstyle">计划名称:</label>
 	    			<input id="type" type="text" class="form-control text">
@@ -51,11 +47,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      <div class="row">
 	    	<div class="col-xs-4 col-md-4 col-lg-4">
     			<label class="spanstyle" style="display:inline-block;margin-left:13px;">审核人:</label>
-    			<div class="btn-group">
-				  <button type="button" class="btn mystyle btn-default dropdown-toggle" data-toggle="dropdown" style="width:326px;margin-left: -11px;">
-				    <span id="textspan1"></span> <span style="position:absolute;left:307px;top:15px;" class="caret"></span>
+    			<div class="btn-group" style="width: 70%">
+				  <button type="button" class="btn mystyle btn-default dropdown-toggle" data-toggle="dropdown" style="width:100%;margin-left: -11px;">
+				    <span id="textspan1"></span> <span style="position:absolute;left:95%;top:15px;" class="caret"></span>
 				  </button>
-				  <ul id="listul2" class="dropdown-menu" role="menu" style="width:326px;">
+				  <ul id="listul2" class="dropdown-menu" role="menu" style="width:100%;">
 				  </ul>
 				</div>
     		</div>

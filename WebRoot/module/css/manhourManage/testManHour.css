@@ -1,8 +1,3 @@
-.container {
-	width: 100%;
-	min-width: 1200px;
-	padding: 0;
-}
 
 .content input,.content select {
 	display: inline;
@@ -94,7 +89,6 @@
 	color: #fff;
 	font-size: 14px;
 	margin-top: 30px;
-	min-width: 1170px;
 }
 
 #table  thead tr {
@@ -164,4 +158,9 @@
 
 .col-xs-12,col-md-12 {
 	margin-top: 20px;
+}
+
+.row{
+	margin-left:0;
+	margin-right:0;
 }
