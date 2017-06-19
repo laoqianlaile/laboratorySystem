@@ -102,7 +102,7 @@ String ID = request.getParameter("articleID");
 	    </div>
 	 </div>
 		<div id="rightlist">
-		 <div class="righttable panel panel-default">
+		 <div class="panel panel-default">
 			   <div class="panel-heading"><span>新闻中心咨询报告</span></div>
 			   <div id="artContent"></div>
 			  <!--  <table class="table" id="rigTable"></table> -->
