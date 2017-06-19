@@ -149,6 +149,7 @@ public class ContractService extends SearchService implements IContractService{
 		return map;
 	}
 	
+	
 	@Override
 	public Map<String, Object> getContractAuditWithPaging(int limit, int offset, String sort, String order, String contractName, String contractCode, String employeeName, String companyName, String startTime, String endTime, String oppositeMen, String linkPhone, int state) {
 		// TODO Auto-generated method stub
@@ -1330,4 +1331,99 @@ public class ContractService extends SearchService implements IContractService{
 			return reString.substring(0, reString.length()-1);
 		}
 	}
+	public Map<String, Object> getMakeContractPaging(String reCode,
+			String coCode, String companyName, String reType, String linkMan,
+			String startTime, String endTime, String state, int limit,
+			int offset, String order, String sort) {
+		int pageNum = limit;
+		int pageIndex = offset / limit; // 分页查询数据限制
+		System.out.println("limit : " + limit + "  " + offset);
+		String[] properties = new String[] { // 查询的字段
+		"a.ID", "project.ID AS proID", "a.contractCode as coCode",
+				"a.isEditSample", "a.coID","a.isInput", "a.orderType", "a.companyID AS comID", "a.reCode",
+				"a.coState", "company.companyName", "a.linkMan", "a.startTime",
+				"a.endTime", "a.employeeName", "a.linkPhone", "a.reType",
+				"a.state" };
+		// 连接关系表和一些删选条件
+		String joinEntity = " "
+				+ "( SELECT receiptlist.ID,"
+				+ "contract.contractCode,"
+				+ "contract.ID AS coID,"
+				+ "contract.orderType,"
+				+ "IF (contract.isInput = 0,'可以',IF (contract.isInput = 1,'不可以','无')) AS isInput,"
+				+ "contract.state AS coState,"
+				+ "receiptlist.receiptlistCode AS reCode,"
+				+ "contract.companyID,"
+				+ "receiptlist.linkMan,"
+				+ "receiptlist.isEditSample,"
+				+ "receiptlist.linkPhone,"
+				+ "date_format(receiptlist.createTime,'%Y-%m-%d') AS startTime,"
+				+ "date_format(receiptlist.completeTime,'%Y-%m-%d') AS endTime,"
+				+ "employee.employeeName,"
+				+ "IF (receiptlist.state = 0,'未检测',IF (receiptlist.state = 1,'检测中',IF (receiptlist.state = 2,'检测完成',"
+				+ "IF (receiptlist.state = 3,'异常终止','无')))) AS state,"
+				+ " IF (receiptlist.receiptlistType = 0,'接受',IF (receiptlist.receiptlistType = 1,'退还','无' "
+				+ " )) AS reType FROM contract LEFT JOIN  receiptlist ON receiptlist.contractID = contract.ID "
+				+ " LEFT JOIN employee ON receiptlist.employeeID = employee.ID "
+				+ " WHERE 1 = 1 ";
+		// 异常数据判断 并加上搜索条件
+		if (reCode != null && !reCode.equals("")) {
+			joinEntity += " and receiptlistCode  like '%" + reCode + "%'  ";
+		}
+		// 异常数据判断 并加上搜索条件
+		if (coCode != null && !coCode.equals("")) {
+			joinEntity += " and  contract.contractCode like '%" + coCode
+					+ "%'  ";
+		}
+		// 异常数据判断 并加上搜索条件
+		if (reType != null && !reType.equals("")) {
+			if (!reType.equals("2")) // 2--所有类型的交接单数据
+				joinEntity += " and receiptlistType = " + reType + "  ";
+		}
+		// 异常数据判断 并加上搜索条件
+		if (linkMan != null && !linkMan.equals("")) {
+			joinEntity += " and linkMan like '%" + linkMan + "%'  ";
+		}
+		// 异常数据判断 并加上搜索条件
+		if (state != null && !state.equals("")) {
+			if (!state.equals("4")) // 4---看所有的交接单
+				joinEntity += " and receiptlist.state = " + state + "  ";
+		}
+		// 时间的三种方式查询
+		if (startTime != null && endTime != null && !startTime.equals("")
+				&& !endTime.equals("")) { // 中间
+			startTime.replaceAll(" ", "");
+			endTime.replaceAll(" ", "");
+			joinEntity += " and startTime between  '" + startTime + "' and '"
+					+ endTime + "'  ";
+		} else if ((startTime != null && !startTime.equals(""))
+				&& (endTime == null || endTime.equals(""))) { // 从什么时候起
+			startTime.replaceAll(" ", "");
+			joinEntity += " and startTime >  '" + startTime + "'  ";
+		} else if ((startTime == null || startTime.equals(""))
+				&& (endTime != null && !endTime.equals(""))) { // 到什么时候至
+			endTime.replaceAll(" ", "");
+			joinEntity += " and startTime < '" + endTime + "'  ";
+		}
+		joinEntity += " ) AS a LEFT JOIN company ON company.ID = a.companyID "
+				+ "  LEFT JOIN project on project.contractID = a.coID  and  project.state != 5 and contract.orderType=1" ;
+		// 搜索条件 condition
+		String condition = " 1 = 1    ";
+		if (companyName != null && !companyName.equals("")) {
+			condition += " and company.companyName like '%" + companyName
+					+ "%' ";
+		}
+		// 获取数据
+		List<Map<String, Object>> list = entityDao.searchWithpaging(properties,
+				null, joinEntity, null, condition, null, sort, order, pageNum,
+				pageIndex);
+		// 获取总的记录数
+		int count = entityDao.searchForeign(properties, null, joinEntity, null,
+				condition).size();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("total", count);
+		map.put("rows", list);
+		return map;
+	}
+	
 }

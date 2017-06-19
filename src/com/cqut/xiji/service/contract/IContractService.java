@@ -27,6 +27,7 @@ public interface IContractService {
 			String employeeName, String signAddress, String startTime,
 			String signTime, String endTime,
 			int isClassified, int classifiedLevel);
+	
 			
 	public int auditContract(String ID, String viewpoint, int state);
 
@@ -121,5 +122,11 @@ public interface IContractService {
  * @return
  */
 	public String getStandardByContractID(String coID); 
+	
+	
+	public Map<String, Object> getMakeContractPaging(String reCode,
+			String coCode, String companyName, String reType, String linkMan,
+			String startTime, String endTime, String state, int limit,
+			int offset, String order, String sort);
 
 }

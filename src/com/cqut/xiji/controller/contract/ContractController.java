@@ -470,5 +470,11 @@ public class ContractController{
 		}
 		return service.getStandardByContractID(coID);	
 	}
+	@RequestMapping("/getMakeContractPaging")  
+    @ResponseBody
+	public JSONObject getMakeContractPaging(String reCode,String coCode,String companyName,String reType,String linkMan,String startTime,String endTime,String state,int limit, int offset, String order, String sort){
+		Map<String, Object> result = service.getMakeContractPaging(reCode, coCode, companyName, reType, linkMan, startTime, endTime, state, limit, offset, order, sort);
+		return JSONObject.fromObject(result);
+	}
 	
 }
