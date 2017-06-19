@@ -333,6 +333,10 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 	public Map<String, Object> getTestproWithPaging(int limit, int offset,
 			String order, String sort, String contract,HttpSession session) {
 		System.out.println("kaishi222" + "<br />");
+		if(session.getAttribute("clientNo") == null)
+		{
+			return null;
+		}
 		int index = limit;
 		int pageNum = offset / limit;
 		String tablename = "testproject";
