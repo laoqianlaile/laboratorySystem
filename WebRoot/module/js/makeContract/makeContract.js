@@ -11,6 +11,7 @@ var param = {
 	startTime : $('#schStratTime').val(),
 	endTime : $("#schEndTime").val(),
 	state : $("#schState").val()
+	
 }
 
 /* 初始化数据 */
@@ -163,6 +164,12 @@ $(function() {
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
 									width : '12%',// 宽度
+									formatter : function(value, row, index) {
+										
+										
+											var a = "<img src='../../../module/img/submit_icon.png' onclick='PassModal(\""+ row.coID+ "\",\""+ row.isInput+ "\")' title='可以'   style='cursor:pointer;margin-right:8px;' />";
+											return  a;
+										}
 								} ]
 					// 列配置项,详情请查看 列参数 表格
 					/* 事件 */
@@ -183,9 +190,13 @@ function seacher() {
 	$('#table') .bootstrapTable( 'refresh',
 					{
 						silent : true,
-						url : "/laboratorySystem/receiptlistController/getReceiptlistWithPaging.do",
+						url : "/laboratorySystem/contractController/getMakeContractPaging.do",
 						query : param
 					});
+}
+/* 刷新方法 */
+function refresh() {
+	$('#table').bootstrapTable('refresh', null);
 }
 //检查交接单数据是否合理并处理
 function checkData(dataObj) { // 后台数据字段为空就不会传上来
@@ -235,4 +246,37 @@ function checkData(dataObj) { // 后台数据字段为空就不会传上来
 	if (!dataObj.hasOwnProperty("state") || dataObj.state == null || dataObj.state.trim() == "NULL") {
 		dataObj.state = "";
 	}
+	if (!dataObj.hasOwnProperty("isInput") || dataObj.isInput == null || dataObj.isInput.trim() == "NULL") {
+		dataObj.isInput = "";
+	}
 }
+function PassModal(coID,isInput){
+if(isInput=="不可以"){
+	 var parame = {};
+	 parame.ID=coID;
+	 swal({
+			title : "是否允许补录合同?",
+			text : "",
+			type : "warning",
+			showCancelButton : true,
+			cancelButtonText:"不可以",
+			confirmButtonColor : "#DD6B55",
+			confirmButtonText : "可以",
+			closeOnConfirm : false
+		}, function() {
+	 $.ajax({	
+		  url:"/laboratorySystem/contractController/passMakeContract.do",
+		  data:parame,
+		  success:function(o){
+			  if(o<=0){
+				  swal("审核失败");
+			  }
+			  swal("操作成功");
+			  refresh();
+		  }
+		});	
+		});
+}else swal("只能操作不可以补录的合同");
+	
+   }
+   
