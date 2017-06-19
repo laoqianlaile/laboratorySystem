@@ -56,7 +56,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		/*usershowid.style.display="block";
 		loginshow.style.display="none";
 		usershowid.innerHTML=""+id+"";*/
-		getTale();
 	}
 	
 		wHeight = document.documentElement.clientHeight;
