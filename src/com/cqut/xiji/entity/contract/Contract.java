@@ -26,7 +26,25 @@ public class Contract extends Entity{
 	private int state;
 	private String viewpoint;
 	private int type;
+	private int orderType;
+	private int isInput;
 	
+	public int getOrderType() {
+		return orderType;
+	}
+
+	public void setOrderType(int orderType) {
+		this.orderType = orderType;
+	}
+
+	public int getIsInput() {
+		return isInput;
+	}
+
+	public void setIsInput(int isInput) {
+		this.isInput = isInput;
+	}
+
 	public String getID() {
 		return ID;
 	}	

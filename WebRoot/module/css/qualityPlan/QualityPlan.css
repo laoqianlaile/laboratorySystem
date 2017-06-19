@@ -1,7 +1,13 @@
 @CHARSET "UTF-8";
-#main{
+/* #main{
 	width:94%;
 	margin:0 auto;
+} */
+#main{
+	margin-left:16px;
+}
+#searcherArea{
+	margin-top: 7px;
 }
 #head{
 	width:100%;
@@ -34,13 +40,74 @@
 	width:200px;
 	margin-top:-5px;
 }
-.btncss{
-	display:inline-block;
-	width:80px;
-	margin-top:-5px;
+#restcontent{
+	height: 70px;
+	background-color: #e8f3f9;
+	position: relative;
 }
-.thisbtn{
-	margin-left:20px;
+.btncss{
+	position: absolute;
+	right: 30px;
+	top: 50%;
+	margin-top: -17px;
+}
+.btncss:hover {
+    background: #ffc773;
+}
+.Allbtn{
+	position: absolute;
+	right: 110px;
+	top: 50%;
+	margin-top: -17px;
+}
+.Allbtn:hover {
+    background: #ffc773;
+}
+.Addbtn{
+	position: absolute;
+	right: 220px;
+	top: 50%;
+	margin-top: -17px;
+}
+.Addbtn:hover {
+    background: #ffc773;
+}
+.detailsbtn{
+	position: absolute;
+	right: 300px;
+	top: 50%;
+	margin-top: -17px;
+}
+.detailsbtn:hover {
+    background: #ffc773;
+}
+.delbtn{
+	position: absolute;
+	right: 410px;
+	top: 50%;
+	margin-top: -17px;
+}
+.delbtn:hover {
+    background: #ffc773;
+}
+.changebtn{
+	position: absolute;
+	right: 490px;
+	top: 50%;
+	margin-top: -17px;
+} 
+.changebtn:hover {
+    background: #ffc773;
+}
+.thatbtn{
+	position: absolute;
+	right: 570px;
+	display:none;
+	margin-top: -17px;
+	top: 50%;
+}
+.thatbtn:hover {
+    background: #ffc773;
 }
 #tablecontent{
 	margin-top:10px;
@@ -89,10 +156,6 @@ li:hover{
 #listul2{
 	margin-top:37px;
 }
-.thatbtn{
-	float:right;
-	display:none;
-}
 .trbg{
 	background:yellow !important;
 }
@@ -108,4 +171,26 @@ li:hover{
 }
 .fixed-table-body{
 	height:300px;
+}
+.text{
+	display: inline;
+	width: 70%;
+}
+.row{
+	margin-bottom: 10px;
+}
+.row label{
+	width: 20%;
+	min-width: 80px;
+}
+label{
+	display: inline-block;
+	max-width: 100%;
+	margin-bottom: 5px;
+	font-weight: 700;
+}
+.table thead tr{
+	color: #fff;
+	background: #364760;
+	font-size: 14px;
 }

@@ -47,7 +47,7 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
   <div id="showdiv1" class="alert alert-danger tan"></div>
     <!-- 搜索框2-->  
        <div id="head">
-	      <p id="Serialnumber">编号:<label><%=request.getParameter("code") %></label></p>
+	      <p id="Serialnumber">编号:<label style="float: right;"><%=request.getParameter("code") %></label></p>
   <div class="searchbox2">
 	  <form class="form-horizontal" role="form">
 	  <br>
@@ -102,13 +102,14 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
   </div>
   </div>
     <!-- 表格-->
-    <div class="tablebox">
-    <button type="button" class="btn btn-primary" onclick="showpage()">填写结果</button>
-    <button type="button" class="btn btn-primary" onclick="download()">下载</button>
-    <button type="button" class="btn btn-primary"  onclick="refreshAll()">刷新全部</button>
-  	<table id="table">
-  	</table>
+    <div id="restcontent">
+    <button type="button" class="btn btn-primary thisbtn" onclick="showpage()">填写结果</button>
+    <button type="button" class="btn btn-primary thisbtn" onclick="download()">下载</button>
+    <button type="button" class="btn btn-primary thisbtn"  onclick="refreshAll()">刷新全部</button>
   	</div>
+  	<hr>
+  	  	<table id="table">
+  	</table>
   	<div id="bottom">
   		<span style="margin-left: 19px;">文件下载</span>
 	    <table id="tablefile">

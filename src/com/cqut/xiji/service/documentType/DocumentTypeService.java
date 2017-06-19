@@ -44,7 +44,7 @@ public class DocumentTypeService extends SearchService implements IDocumentTypeS
 	public Map<String, Object> getdocumentWithPaging(int limit, int offset,String order,String sort,String table) {
 		System.out.println("2getSuggestWithPaging22" + "<br />");
 		int index = limit;
-		int pageNum = offset/limit + 1;
+		int pageNum = offset/limit;
 		String tablename = "documenttype";
 		String[] properties = new String[]{
 				"ID",

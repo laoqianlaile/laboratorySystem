@@ -50,7 +50,8 @@ function initContractFile(){
 			visible : true,
 			formatter : function(value, row, index) {
 				checkDate(row, "file");
-				return num+1;
+				num = num +1;
+				return num;
 			}
 		},{
 			field:'ID',//返回值名称
@@ -512,7 +513,8 @@ function initContractFileItem1(){
 			width : '5%',// 宽度
 			formatter : function(value, row, index) {
 				checkDate(row, "item1");
-				return num+1;
+				num = num +1;
+				return num;
 			}
 		},{
 			field:'ID',//返回值名称
@@ -650,7 +652,8 @@ function initContractFileItem2(){
 			width : '5%',// 宽度
 			formatter : function(value, row, index) {
 				checkDate(row, "item2");
-				return num+1;
+				num = num +1;
+				return num;
 			}
 		},{
 			field:'ID',//返回值名称

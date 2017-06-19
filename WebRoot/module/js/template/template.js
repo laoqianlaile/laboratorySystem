@@ -405,7 +405,6 @@ function downFile(fileID) {
 			  if (isConfirm) {
 				//下载文件
 				downOneFile(fileID);
-				swal("Ok!", "", "success")
 			  } else {
 			    swal("Cancelled", "", "error");
 			  }
@@ -664,7 +663,7 @@ function displayChecked(testProject){
  */
 function hideSearch(){
 	setTimeout(function(){
-		$('#editReprotSearch').hide();
+		$('#showTestProject').hide();
 	},500); 
 }
 /**

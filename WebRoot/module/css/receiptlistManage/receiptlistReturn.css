@@ -31,6 +31,8 @@
 
 .row {
 	margin-bottom: 7px;
+	margin-left:0;
+	margin-right:0;
 }
 
 .sample {
@@ -91,10 +93,7 @@
  margin-top: 0px;
 }
 
-.container{
-	width:100%;
-	min-width:1200px;
-}
+
 
 .col-xs-12 label,.col-md-12 label{
     font-family: "Microsoft YaHei-Regular";

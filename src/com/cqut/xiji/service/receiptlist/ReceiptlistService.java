@@ -726,6 +726,8 @@ public class ReceiptlistService extends SearchService implements
 			contract.setID(EntityIDFactory.createId());
 			contract.setContractCode("合同编号生成规则");
 			contract.setContractName("暂无具体合同信息，先生成的交接单");
+			contract.setOrderType(1);
+			contract.setIsInput(1);
 			contract.setState(0);
 			map.put("coID", contract.getID());
 			map.put("coCode", contract.getContractCode());
