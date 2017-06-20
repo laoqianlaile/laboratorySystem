@@ -476,5 +476,11 @@ public class ContractController{
 		Map<String, Object> result = service.getMakeContractPaging(reCode, coCode, companyName, reType, linkMan, startTime, endTime, state, limit, offset, order, sort);
 		return JSONObject.fromObject(result);
 	}
+	@RequestMapping("/passMakeContract")  
+    @ResponseBody
+	public int passMakeContract(String ID){
+		int result = service.passMakeContract(ID);
+		return result;
+	}
 	
 }

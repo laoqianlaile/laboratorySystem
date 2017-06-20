@@ -1343,16 +1343,16 @@ public class ContractService extends SearchService implements IContractService{
 		System.out.println("limit : " + limit + "  " + offset);
 		String[] properties = new String[] { // 查询的字段
 		"a.ID", "project.ID AS proID", "a.contractCode as coCode",
-				"a.isEditSample", "a.coID","a.isInput", "a.orderType", "a.companyID AS comID", "a.reCode",
+				"a.isEditSample", "a.coID", "a.orderType", "a.companyID AS comID", "a.reCode",
 				"a.coState", "company.companyName", "a.linkMan", "a.startTime",
 				"a.endTime", "a.employeeName", "a.linkPhone", "a.reType",
-				"a.state" };
+				"a.state","a.isInput" };
 		// 连接关系表和一些删选条件
 		String joinEntity = " "
 				+ "( SELECT receiptlist.ID,"
 				+ "contract.contractCode,"
 				+ "contract.ID AS coID,"
-				+ "contract.orderType,"
+				+ "contract.orderType AS orderType,"
 				+ "IF (contract.isInput = 0,'可以',IF (contract.isInput = 1,'不可以','无')) AS isInput,"
 				+ "contract.state AS coState,"
 				+ "receiptlist.receiptlistCode AS reCode,"
@@ -1409,9 +1409,9 @@ public class ContractService extends SearchService implements IContractService{
 			joinEntity += " and startTime < '" + endTime + "'  ";
 		}
 		joinEntity += " ) AS a LEFT JOIN company ON company.ID = a.companyID "
-				+ "  LEFT JOIN project on project.contractID = a.coID  and  project.state != 5 and contract.orderType=1" ;
+				+ "  LEFT JOIN project on project.contractID = a.coID  and  project.state != 5" ;
 		// 搜索条件 condition
-		String condition = " 1 = 1    ";
+		String condition = " 1 = 1 and a.orderType=1";
 		if (companyName != null && !companyName.equals("")) {
 			condition += " and company.companyName like '%" + companyName
 					+ "%' ";
@@ -1427,6 +1427,13 @@ public class ContractService extends SearchService implements IContractService{
 		map.put("total", count);
 		map.put("rows", list);
 		return map;
+	}
+	public int passMakeContract(String ID){
+		Contract contract=entityDao.getByID(ID, Contract.class);
+		contract.setIsInput(0);
+		int result = entityDao.updatePropByID(contract, ID);
+		return result;
+		
 	}
 	
 }

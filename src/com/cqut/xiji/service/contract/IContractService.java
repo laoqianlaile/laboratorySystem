@@ -128,5 +128,6 @@ public interface IContractService {
 			String coCode, String companyName, String reType, String linkMan,
 			String startTime, String endTime, String state, int limit,
 			int offset, String order, String sort);
+	public int passMakeContract(String ID);
 
 }
