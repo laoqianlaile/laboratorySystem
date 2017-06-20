@@ -151,5 +151,5 @@ $(function(){
 });
 
 function errorImg(img, i){
-	img.src = "Portal/images/indexPic" + i + ".png";
+	img.src = "Portal/images/indexPic" + (i+1) + ".png";
 }
