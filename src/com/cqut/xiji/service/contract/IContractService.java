@@ -3,6 +3,8 @@ package com.cqut.xiji.service.contract;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public interface IContractService {
@@ -25,6 +27,7 @@ public interface IContractService {
 			String employeeName, String signAddress, String startTime,
 			String signTime, String endTime,
 			int isClassified, int classifiedLevel);
+	
 			
 	public int auditContract(String ID, String viewpoint, int state);
 
@@ -74,9 +77,9 @@ public interface IContractService {
 	 * @param fileID
 	 * @return
 	 */
-	public int coverContractFile1(String ID, String fileID);
+	public int coverContractFile1(String ID, String fileID,HttpServletRequest request,HttpServletResponse response);
 	
-	public int coverContractFile2(String ID, String fileID);
+	public int coverContractFile2(String ID, String fileID,HttpServletRequest request,HttpServletResponse response);
 
 	
 	/**
@@ -119,5 +122,12 @@ public interface IContractService {
  * @return
  */
 	public String getStandardByContractID(String coID); 
+	
+	
+	public Map<String, Object> getMakeContractPaging(String reCode,
+			String coCode, String companyName, String reType, String linkMan,
+			String startTime, String endTime, String state, int limit,
+			int offset, String order, String sort);
+	public int passMakeContract(String ID);
 
 }

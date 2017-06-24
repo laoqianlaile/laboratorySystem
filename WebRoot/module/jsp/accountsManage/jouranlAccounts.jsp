@@ -14,10 +14,14 @@
 
 <title>流水账目</title>
 
-<link rel="stylesheet" type="text/css"	href="module/css/bootstrap.min.css">
-<link rel="stylesheey" type="text/css"	href="module/css/bootstrap-table.css">
-<link rel="stylesheet" type="text/css"	href="module/css/bootstrap-datetimepicker.css">
-<link rel="stylesheet" type="text/css"	href="module/css/commonSystem/commonSystem.css" />
+<link rel="stylesheet" type="text/css"
+	href="module/css/bootstrap.min.css">
+<link rel="stylesheey" type="text/css"
+	href="module/css/bootstrap-table.css">
+<link rel="stylesheet" type="text/css"
+	href="module/css/bootstrap-datetimepicker.css">
+<link rel="stylesheet" type="text/css"
+	href="module/css/commonSystem/commonSystem.css" />
 
 <script type="text/javascript" src="module/js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="module/js/bootstrap.min.js"></script>
@@ -30,8 +34,8 @@
 <script type="text/javascript"
 	src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
 <!-- 提示弹框 -->
-	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
-	<script src="module/js/sweetalert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+<script src="module/js/sweetalert.min.js"></script>
 </head>
 <style>
 .col-md-4 {
@@ -97,6 +101,7 @@
 	padding-top: 20px;
 	padding-bottom: 20px;
 	width: 101%;
+	margin-bottom: 30px;
 }
 
 #menu button {
@@ -109,19 +114,22 @@
 	background-color: rgb(255, 173, 51);
 }
 
-#addModal .row .form-control{
-    display: initial;
-    width:80%;
+#addModal .row .form-control {
+	display: initial;
+	width: 80%;
 }
-#addModal .row .labelName{
+
+#addModal .row .labelName {
 	margin: 2%;
 	text-align: center;
 }
-#editModal .row .form-control{
-    display: initial;
-    width:80%;
+
+#editModal .row .form-control {
+	display: initial;
+	width: 80%;
 }
-#editModal .row .labelName{
+
+#editModal .row .labelName {
 	margin: 2%;
 	text-align: center;
 }
@@ -129,7 +137,7 @@
 <body>
 	<div class="container" style="width:100%;">
 		<div class="row">
-			<div class="col-md-12  row">
+			<div class="col-md-12  row" style=" margin-bottom: 10px;">
 				<div class="col-md-4 ">
 					<label>发票编号：</label> <input type="text" id="query_invoice"
 						name="invoice" class="form-control" />
@@ -144,7 +152,7 @@
 				</div>
 
 			</div>
-			<div class="col-md-12 row">
+			<div class="col-md-12 row" style=" margin-bottom: 10px;">
 				<div class="col-md-4 input-group date form_datetime"
 					style="float:left;">
 					<label class="date_left" style="padding-right: 3px;">录入日期：
@@ -175,18 +183,30 @@
 			</div>
 			<div id="menu" class="col-md-12 row">
 				<div>
-					
-					<button class="btn btn-primary " type=" button" onclick="query()">
-						查询</button>
-					<button class ="btn btn-primary" type ="button" onclick="addIncomeorPayment(1)">支出</button>
-					
-					<button class ="btn btn-primary" type ="button" onclick="addIncomeorPayment(0)">收入</button>
-					
-					<button class="btn btn-primary" type="button">导入</button>
 
-					<button class="btn btn-primary" type="button">导出</button>
+					<button class="btn btn-primary " type=" button" onclick="query()">
+						<em class="glyphicon glyphicon-search"></em> 查询
+					</button>
+					<button class="btn btn-primary" type="button"
+						onclick="addIncomeorPayment(1)">
+						<em class="glyphicon glyphicon-minus-sign"></em> 支出
+					</button>
+
+					<button class="btn btn-primary" type="button"
+						onclick="addIncomeorPayment(0)">
+						<em class="glyphicon glyphicon-plus-sign"></em> 收入
+					</button>
+					<button class="btn btn-primary" type="button">
+						<em class="glyphicon glyphicon-circle-arrow-up"></em> 导入
+					</button>
+
+					<button class="btn btn-primary" type="button">
+						<em class="glyphicon glyphicon-circle-arrow-down"></em> 导出
+					</button>
 					<button class="btn btn-primary type=" button" id="refresh"
-						onclick="refresh()">刷新</button>
+						onclick="refresh()">
+						<em class="glyphicon glyphicon-refresh"></em> 刷新
+					</button>
 					<button class="btn btn-warning" type=" button" onclick="backstep()">
 						<em class="glyphicon glyphicon-arrow-left"></em> 返回
 					</button>
@@ -213,34 +233,35 @@
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class ="col-xs-12 col-md-12">
-							<label class="labelName" >合同编码</label> <input type="text" id="add_contractCode"
-								name="contractCode" disabled="disabled" class="form-control"
+						<div class="col-xs-12 col-md-12">
+							<label class="labelName">合同编码</label> <input type="text"
+								id="add_contractCode" name="contractCode" disabled="disabled"
+								class="form-control" aria-describedby="basic-addon1" />
+						</div>
+						<div class="col-xs-12 col-md-12">
+							<label class="labelName">合同名称</label> <input type="text"
+								id="add_contractName" name="contractName" disabled="disabled"
+								class="form-control" aria-describedby="basic-addon1" />
+						</div>
+						<div class="col-xs-12 col-md-12">
+							<label class="labelName">发票编码</label> <input type="text"
+								id="add_invoice" name="invoice" class="form-control"
 								aria-describedby="basic-addon1" />
 						</div>
-						<div class ="col-xs-12 col-md-12">
-							<label class="labelName" >合同名称</label> <input type="text" id="add_contractName"
-								name="contractName" disabled="disabled" class="form-control"
+						<div class="col-xs-12 col-md-12">
+							<label class="labelName"> 金额 </label> <input type="text"
+								id="add_money" name="money" class="form-control"
 								aria-describedby="basic-addon1" />
 						</div>
-						<div class ="col-xs-12 col-md-12">
-							<label class="labelName" >发票编码</label> <input type="text" id="add_invoice"
-								name="invoice" class="form-control"
-								aria-describedby="basic-addon1" />
-						</div>
-						<div class ="col-xs-12 col-md-12">
-							<label class="labelName" >　金额　 </label> 
-							<input type="text" id="add_money"
-								name="money" class="form-control"
-								aria-describedby="basic-addon1" />
-						</div>
-						<div class ="col-xs-12 col-md-12">
-							<label class="labelName" style="position: relative;bottom: 25px;">　备注　</label> 
+						<div class="col-xs-12 col-md-12">
+							<label class="labelName" style="position: relative;bottom: 25px;">
+								备注 </label>
 							<textarea id="add_remarks" name="remarks" class="form-control"></textarea>
 						</div>
-						<div id="displayFineItem" class ="col-xs-12 col-md-12">
-							<label class="labelName" >合同细项</label> <select id="add_contractFineItem"
-								name="contractFineItem" class="form-control">
+						<div id="displayFineItem" class="col-xs-12 col-md-12">
+							<label class="labelName">合同细项</label> <select
+								id="add_contractFineItem" name="contractFineItem"
+								class="form-control">
 							</select>
 						</div>
 					</div>
@@ -268,28 +289,30 @@
 					<input type="hidden" id="jouranlAccountID" name="jouranlAccountID"/ >
 					<div class="row">
 						<div class="col-xs-12 col-md-12">
-							<label class="labelName">合同编码</label> <input type="text" id="edit_contractCode"
-								name="contractCode" disabled="disabled" class="form-control"
+							<label class="labelName">合同编码</label> <input type="text"
+								id="edit_contractCode" name="contractCode" disabled="disabled"
+								class="form-control" aria-describedby="basic-addon1" />
+						</div>
+						<div class="col-xs-12 col-md-12">
+							<label class="labelName">合同名称</label> <input type="text"
+								id="edit_contractName" name="contractName" disabled="disabled"
+								class="form-control" aria-describedby="basic-addon1" />
+						</div>
+						<div class="col-xs-12 col-md-12">
+							<label class="labelName">发票编码</label> <input type="text"
+								id="edit_invoice" name="invoice" class="form-control"
 								aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<label class="labelName">合同名称</label> <input type="text" id="edit_contractName"
-								name="contractName" disabled="disabled" class="form-control"
+							<label class="labelName"> 金额 </label> <input type="text"
+								id="edit_money" name="money" class="form-control"
 								aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<label class="labelName">发票编码</label> <input type="text" id="edit_invoice"
-								name="invoice" class="form-control"
-								aria-describedby="basic-addon1" />
-						</div>
-						<div class="col-xs-12 col-md-12">
-							<label class="labelName">　金额 　</label> <input type="text" id="edit_money"
-								name="money" class="form-control"
-								aria-describedby="basic-addon1" />
-						</div>
-						<div class="col-xs-12 col-md-12">
-							<label class="labelName" style="position: relative;bottom: 25px;">　备注　</label>
-							<textarea type="text" id="edit_remarks" name="remarks" class="form-control"></textarea>
+							<label class="labelName" style="position: relative;bottom: 25px;">
+								备注 </label>
+							<textarea type="text" id="edit_remarks" name="remarks"
+								class="form-control"></textarea>
 						</div>
 					</div>
 				</div>

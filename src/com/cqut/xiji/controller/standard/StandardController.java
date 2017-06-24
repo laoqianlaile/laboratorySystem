@@ -152,6 +152,22 @@ public class StandardController{
 		
 	}
 	
+	/**
+	 * 标准审核分页展示
+	 * 
+	 * @author zkl
+	 * @data 2017年6月3日 下午3:23:00
+	 * @param STANDARDCODE
+	 * @param STANDARDNAME
+	 * @param TYPE
+	 * @param STATE
+	 * @param APPLICATIONTYPE
+	 * @param limit
+	 * @param offset
+	 * @param order
+	 * @param sort
+	 * @return
+	 */
 	@RequestMapping("/getStandardReviewWithPaging")  
     @ResponseBody
 	public JSONObject getStandardReviewWithPaging(String STANDARDCODE,String STANDARDNAME, String TYPE, String STATE, String APPLICATIONTYPE,int limit, int offset, String order, String sort){

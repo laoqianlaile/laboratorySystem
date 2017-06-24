@@ -38,7 +38,6 @@
 
 <body>
 	<!-- 功能 -->
-	<div class="container">
 		<div class="searchArea">
 			<div class="head">
 				<div class="content">
@@ -80,7 +79,6 @@
 			<table id="table">
 			</table>
 		</div>
-	</div>
 
 	<!--新增弹框 -->
 	<div id="addModal" class="modal fade" role="dialog"

@@ -43,6 +43,7 @@
     padding-top: 20px;
     padding-bottom: 20px;
     width: 101%;
+    margin-bottom: 30px;
 }
 #menu button{
 	  margin-right: 2%;
@@ -87,7 +88,7 @@
 			<div class="col-md-12 column">
 				<div class="row clearfix">
 					<div class="col-md-12 column">
-						<div class="row clearfix">
+						<div class="row clearfix" style=" margin-bottom: 10px;">
 							<div class="col-md-3 column">
 								<label>编码： </label> <input id="query_STANDARDCODE"
 									name="STANDARDCODE" class="form-control"  type="text">
@@ -109,7 +110,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="row clearfix">
+						<div class="row clearfix" style=" margin-bottom: 10px;">
 							<div class="col-md-6 column">
 								<label>类别： </label> <select id="query_TYPE" name="TYPE"
 									 class="form-control" >
@@ -228,7 +229,7 @@
 						<div class="col-xs-12 col-md-12">
 							<div id="fileInfo">
 								<div id="fileQueue">
-									<input type="file" name="files" id="files" style="display:none" onchange="checkFile(this)">
+									<input class="files" type="file" name="files" id="files" style="display:none" onchange="checkFile(this)">
 								</div>
 								<button type="button" id="chooseFile" name="chooseFile" class="btn btn-default">
 									<span class="glyphicon glyphicon-folder-open "></span> 选择文件
@@ -406,7 +407,7 @@
 					<div class="row">
 						<div id="fileInfo" style="text-align:left">
 							<div id="recoverfileQueue">
-								<input type="file" name="recoverFiles" id="recoverFiles" style="display:none" onchange="checkRecoverFile(this)">
+								<input class="recoverFiles" type="file" name="files" id="files"  style="display:none" onchange="checkRecoverFile(this)">
 							</div>
 							<button type="button" id="recoverButton" name="recoverButton" class="btn btn-default">
 								<span class="glyphicon glyphicon-folder-open "></span> 选择文件
@@ -418,7 +419,7 @@
 				<div class="modal-footer">
 
 					
-					<button type="button" class="btn btn-default" id="revocerCancel" name="revocerCancel">取消</button>
+					<button type="button" class="btn " id="cancel" name="cancel">取消</button>
 					<button type="button" class="btn btn-primary" id="recoverEnsure" name="recoverEnsure">确定</button>
 				</div>
 			</div>
@@ -436,7 +437,7 @@
 		$('#files').click();
 	});
 	$('#recoverButton').click(function() {
-		$('#recoverFiles').click();
+		$('.recoverFiles').click();
 	});
 	$('#cancel').click(function() {
 		if (confirm("是否取消上传?")) {

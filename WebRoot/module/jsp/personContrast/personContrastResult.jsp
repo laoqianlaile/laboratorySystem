@@ -47,60 +47,69 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
   <div id="showdiv1" class="alert alert-danger tan"></div>
     <!-- 搜索框2-->  
        <div id="head">
-	      <p id="Serialnumber">编号:<label><%=request.getParameter("code") %></label></p>
+	      <p id="Serialnumber">编号:<label style="float: right;"><%=request.getParameter("code") %></label></p>
   <div class="searchbox2">
 	  <form class="form-horizontal" role="form">
+	  <br>
+	  <br>
+	  <br>
 		  <div class="form-group">
 		  
-			  <span class="col-sm-1 control-label" for="projectCode">比对项目编号</span>
-			  <div class="col-sm-2">
+			  <div class="col-xs-4 col-md-4 col-lg-4">
+			 <label for="projectCode">比对项目编号</label>
 			  <input type="text" class="form-control" id="projectCode" placeholder="">
 			  </div>
 			  
-			  <span class="col-sm-1 control-label" for="projectName">比对项目</span>
-			  <div class="col-sm-2">
+			  <div class="col-xs-4 col-md-4 col-lg-4">
+			  <label for="projectName">比对项目</label>
 			  <input type="text" class="form-control" id="projectName" placeholder="">
 			  </div>
-			   <span class="col-sm-1 control-label">比对人员</span>
-			  <div class="col-sm-2">
+			   
+			  <div class="col-xs-4 col-md-4 col-lg-4">
+			  <label>比对人员</label>
 			     <input type="text" class="form-control" id="employeeID1" placeholder="">
 			  </div>
-			  <button type="button" id="" class="btn btn-info" onclick="refresh()">查询</button>
+			
 		  </div>
 		  
 		  <div class="form-group">  
 			 
-			  <span class="col-sm-1 control-label">测试装置</span>
-			  <div class="col-sm-2">
+			  <div class="col-xs-4 col-md-4 col-lg-4">
+			   <label>测试装置</label>
 			      <input type="text" class="form-control" id="testDevice" placeholder="">
 			  </div>  
 			  
-			  <span class="col-sm-1 control-label">待比对人员</span>
-			  <div class="col-sm-2">
-			     <input type="text" class="form-control" id="employeeID2" placeholder="">
-			  </div>
-			  
-			  <span class="col-sm-1 control-label">执行时间</span>
-				  <div class="col-sm-2">
+				  <div class="col-xs-4 col-md-4 col-lg-4">
+				   <label>执行时间</label>
 				     <input class="form_datetime form-control " type="text" id="startTime">
 				  </div>
-				  <span class="to">至</span>
-				  <div class="col-sm-2">
+				  
+				  <div class="col-xs-4 col-md-4 col-lg-4">
+				  <label>至:</label>
 				     <input class="form_datetime form-control " type="text" id="endTime">
 				  </div>
 		  </div>
 		  
+		    <div class="form-group">  
+		    <div class="col-xs-4 col-md-4 col-lg-4">
+			  <label>待比对人员</label>
+			     <input type="text" class="form-control" id="employeeID2" placeholder="">
+			  </div>
+			  
+		    <button type="button" id="" class="btn btn-primary" onclick="refresh()">查询</button>
+		    </div>
 	  </form>
   </div>
   </div>
     <!-- 表格-->
-    <div class="tablebox">
-    <button type="button" class="btn btn-info " onclick="showpage()">填写结果</button>
-    <button type="button" class="btn btn-info " onclick="download()">下载</button>
-    <button type="button" class="btn btn-info"  onclick="refreshAll()">刷新全部</button>
-  	<table id="table">
-  	</table>
+    <div id="restcontent">
+    <button type="button" class="btn btn-primary thisbtn" onclick="showpage()">填写结果</button>
+    <button type="button" class="btn btn-primary thisbtn" onclick="download()">下载</button>
+    <button type="button" class="btn btn-primary thisbtn"  onclick="refreshAll()">刷新全部</button>
   	</div>
+  	<hr>
+  	  	<table id="table">
+  	</table>
   	<div id="bottom">
   		<span style="margin-left: 19px;">文件下载</span>
 	    <table id="tablefile">

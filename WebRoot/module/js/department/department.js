@@ -51,6 +51,14 @@ function init() {
 											visible : false
 										},
 										{
+											field : 'employeeID',// 返回值名称
+											title : '',// 列名
+											align : 'center',// 水平居中显示
+											valign : 'middle',// 垂直居中显示
+											width : '10',// 宽度
+											visible : false
+										},
+										{
 											field : 'departmentCode',// 返回值名称
 											title : '部门编号',// 列名
 											align : 'center',// 水平居中显示
@@ -332,6 +340,7 @@ function openModal(){
 	$('#edit_departmentName').val(data[0].departmentName);
 	$('#edit_remarks').val(data[0].remarks);
 	$('#edit_employee').val(data[0].employeeName);
+	$('#edit_employee').attr({'name' : "" + data[0].employeeID + ""});
 	$('#textspan2').text(data[0].Pdepartment);
 	
 	$('#editModal').modal('show');

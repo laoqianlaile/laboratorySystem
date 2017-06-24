@@ -54,7 +54,6 @@
 
 <body>
 	<!-- 功能 -->
-	<div class="container">
 		<div class="searchArea">
 			<div class="head">
 				<div class="content">
@@ -82,7 +81,7 @@
 								placeholder="请输入电话号码查找" />
 						</div>
 						<div class="col-xs-3 col-md-3 col-lg-3">
-							<label class="control-label">部门 :</label> <select
+							<label class="control-label">部&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;门 &nbsp;&nbsp;:</label> <select
 								id="search_departmentName" name="departmentName"
 								class="form-control">
 								<option value=""></option>
@@ -106,7 +105,6 @@
 			<table id="table" class="table table-hover">
 			</table>
 		</div>
-	</div>
 
 	<!--新增弹框 -->
 	<div id="addModal" class="modal fade" role="dialog"
@@ -125,54 +123,54 @@
 						<div class="col-xs-6 col-md-6">
 							<label>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:</label> <input
 								type="text" id="add_employeeName" name="employeeName"
-								class="form-control" />
+								class="form-control" onkeypress="if(event.keyCode==13) focusNextInput(this);"/>
 						</div>
 						<div class="col-xs-6 col-md-6">
 							<label>员工编号:</label> <input type="text" id="add_employeeCode"
-								name="employeeCode" class="form-control" />
+								name="employeeCode" class="form-control" onkeypress="if(event.keyCode==13) focusNextInput(this);"/>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-xs-6 col-md-6">
 							<label>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别:</label> <input
-								style="color:#5dafe5;font-size:14px;width:10px;height:10px;"
+								style="color:#5dafe5;font-size:14px;width:10px;height:10px; margin-left:40px;"
 								type="radio" name="sex" value="1" />男 <input type="radio"
-								style="color:#666;font-size:14px;width:10px;height:10px;"
+								style="color:#666;font-size:14px;width:10px;height:10px;margin-left:40px;"
 								name="sex" value="0" />女
 						</div>
 						<div class="col-xs-6 col-md-6">
 							<label>邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱:</label> <input
-								type="text" id="add_email" name="email" class="form-control" />
+								type="text" id="add_email" name="email" class="form-control" onkeypress="if(event.keyCode==13) focusNextInput(this);" />
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-xs-6 col-md-6">
 							<label>手机号码:</label> <input type="text" id="add_phoneNumber"
-								name="phoneNumber" class="form-control" />
+								name="phoneNumber" class="form-control"  onkeypress="if(event.keyCode==13) focusNextInput(this);"/>
 						</div>
 						<div class="col-xs-6 col-md-6">
 							<label>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址:</label> <input
-								type="text" id="add_address" name="address" class="form-control" />
+								type="text" id="add_address" name="address" class="form-control"  onkeypress="if(event.keyCode==13) focusNextInput(this);"/>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-xs-6 col-md-6">
 							<label>身份证号:</label> <input type="text" id="add_IDCard"
-								name="IDCard" class="form-control" />
+								name="IDCard" class="form-control"  onkeypress="if(event.keyCode==13) focusNextInput(this);"/>
 						</div>
 						<div class="col-xs-6 col-md-6">
 							<label>毕业学校:</label> <input type="text" id="add_graduate"
-								name="graduate" class="form-control" />
+								name="graduate" class="form-control" onkeypress="if(event.keyCode==13) focusNextInput(this);"/>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-xs-6 col-md-6">
 							<div class="timeLabelDiv">
-								<label class="control-label">出生日期 :</label>
+								<label class="control-label">出生日期:</label>
 							</div>
 							<div class="input-group date form_datetime timeChoose">
 								<input class="form-control" id="add_birthday" size="16"
-									type="text" value="" readonly="true"> <span
+									type="text" value="" readonly="true" if(event.keyCode==13) focusNextInput(this);> <span
 									class="input-group-addon"><span
 									class="glyphicon glyphicon-remove"></span></span> <span
 									class="input-group-addon"><span
@@ -345,55 +343,111 @@
 					<label class="modal-title">修改人员</label>
 				</div>
 				<div class="modal-body">
-					<
 					<div class="col-xs-12 col-md-12" style="display:none;;">
 						<input type="text" id="edit_ID" name="ID" class="form-control" />
 					</div>
-					<div class="col-xs-12 col-md-12">
-						<label>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:</label> <input
-							type="text" id="edit_employeeName" name="employeeName"
-							class="form-control" />
+					<div class="row">
+						<div class="col-xs-6 col-md-6">
+							<label>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:</label> <input
+								type="text" id="edit_employeeName" name="employeeName"
+								class="form-control" onkeypress="if(event.keyCode==13) focusNextInput(this);"/>
+						</div>
+						<div class="col-xs-6 col-md-6">
+							<label>员工编号:</label> <input type="text" id="edit_employeeCode"
+								name="employeeCode" class="form-control" onkeypress="if(event.keyCode==13) focusNextInput(this);"/>
+						</div>
 					</div>
-					<div class="col-xs-12 col-md-12">
-						<label>员工编号:</label> <input type="text" id="edit_employeeCode"
-							name="employeeCode" class="form-control" />
+					<div class="row">
+						<div class="col-xs-6 col-md-6">
+							<label>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别:</label> <input
+								style="color:#5dafe5;font-size:14px;width:10px;height:10px; margin-left:40px;"
+								type="radio" name="sex2" value="1" />男 <input type="radio"
+								style="color:#666;font-size:14px;width:10px;height:10px;margin-left:40px;"
+								name="sex2" value="0" />女
+						</div>
+						<div class="col-xs-6 col-md-6">
+							<label>邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱:</label> <input
+								type="text" id="edit_email" name="email" class="form-control" onkeypress="if(event.keyCode==13) focusNextInput(this);" />
+						</div>
 					</div>
-					<div class="col-xs-12 col-md-12">
-						<label>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别:</label> <input
-							style="color:#5dafe5;font-size:14px;width:10px;height:10px;"
-							type="radio" name="sex2" value="1" checked />男 <input
-							type="radio"
-							style="color:#666;font-size:14px;width:10px;height:10px;"
-							name="sex2" value="0" />女
+					<div class="row">
+						<div class="col-xs-6 col-md-6">
+							<label>手机号码:</label> <input type="text" id="edit_phoneNumber"
+								name="phoneNumber" class="form-control"  onkeypress="if(event.keyCode==13) focusNextInput(this);"/>
+						</div>
+						<div class="col-xs-6 col-md-6">
+							<label>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址:</label> <input
+								type="text" id="edit_address" name="address" class="form-control"  onkeypress="if(event.keyCode==13) focusNextInput(this);"/>
+						</div>
 					</div>
-					<div class="col-xs-12 col-md-12">
-						<label>邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱:</label> <input
-							type="text" id="edit_email" name="email" class="form-control" />
+					<div class="row">
+						<div class="col-xs-6 col-md-6">
+							<label>身份证号:</label> <input type="text" id="edit_IDCard"
+								name="IDCard" class="form-control"  onkeypress="if(event.keyCode==13) focusNextInput(this);"/>
+						</div>
+						<div class="col-xs-6 col-md-6">
+							<label>毕业学校:</label> <input type="text" id="edit_graduate"
+								name="graduate" class="form-control" onkeypress="if(event.keyCode==13) focusNextInput(this);"/>
+						</div>
 					</div>
-					<div class="col-xs-12 col-md-12">
-						<label>手机号码:</label> <input type="text" id="edit_phoneNumber"
-							name="phoneNumber" class="form-control" />
+					<div class="row">
+						<div class="col-xs-6 col-md-6">
+							<div class="timeLabelDiv">
+								<label class="control-label">出生日期:</label>
+							</div>
+							<div class="input-group date form_datetime timeChoose">
+								<input class="form-control" id="edit_birthday" size="16"
+									type="text" value="" readonly="true" if(event.keyCode==13) focusNextInput(this);> <span
+									class="input-group-addon"><span
+									class="glyphicon glyphicon-remove"></span></span> <span
+									class="input-group-addon"><span
+									class="glyphicon glyphicon-calendar"></span></span>
+							</div>
+						</div>
+						<div class="col-xs-6 col-md-6">
+							<label>职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称:</label><select
+								id="edit_jobTitle" name="jobTitle" class="form-control">
+								<option value="0">无</option>
+								<option value="1">初级工程师</option>
+								<option value="2">中级工程师</option>
+								<option value="3">高级工程师</option>
+							</select>
+						</div>
 					</div>
-					<div class="col-xs-12 col-md-12">
-						<label>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址:</label> <input
-							type="text" id="edit_address" name="address" class="form-control" />
+					<div class="row">
+						<div class="col-xs-6 col-md-6">
+							<label>角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色:</label> <select
+								id="edit_name" name="name" class="selectpicker show-tick"
+								multiple data-live-search="false" multiple
+								data-selected-text-format="">
+							</select>
+						</div>
+						<div class="col-xs-6 col-md-6">
+							<label>文化程度:</label> </label><select
+								id="edit_eduLevel" name="eduLevel" class="form-control">
+								<option value="0">初中</option>
+								<option value="1">高中</option>
+								<option value="2">大专</option>
+								<option value="3">本科</option>
+								<option value="4">硕士</option>
+								<option value="5">博士</option>
+							</select>
+						</div>
 					</div>
-					<div class="col-xs-12 col-md-12">
-						<label>角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色:</label> <select
-							id="edit_name" name="name" class="selectpicker show-tick"
-							multiple data-live-search="false">
-						</select>
-					</div>
-					<div class="col-xs-12 col-md-12">
-						<label>职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;务:</label> <select
-							id="edit_dutyName" name="dutyName" class="form-control">
-						</select>
-					</div>
-					<div class="col-xs-12 col-md-12">
-						<label>部&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;门:</label> <select
-							id="edit_departmentName" name="departmentName"
-							class="form-control">
-						</select>
+					<div class="row">
+						<div class="col-xs-6 col-md-6">
+							<label>职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;务:</label> <select
+								id="edit_dutyName" name="dutyName" class="form-control">
+								<option value="-1"></option>
+							</select>
+						</div>
+						<div class="col-xs-6 col-md-6">
+							<label>部&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;门:</label> <select
+								id="edit_departmentName" name="departmentName"
+								class="form-control">
+								<option value="-1"></option>
+							</select>
+						</div>
 					</div>
 				</div>
 				<div class="modal-footer">

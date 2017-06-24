@@ -63,6 +63,13 @@ function initData(){
 			width:'10%',//宽度
 			visible:false
 		},{
+			field:'isInput',//返回值名称
+			title:'isInput',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:'10%',//宽度
+			visible:false
+		},{
 			field:'contractCode',//返回值名称
 			title:'合同编号',//列名
 			align:'center',//水平居中显示
@@ -698,6 +705,10 @@ function EditContract(){
 	}
 	if(data[0].state == "审核通过"){
 		swal("该合同已经审核通过！");
+		return;
+	}
+	if(data[0].isInput == "1" || data[0].isInput == 1){
+		swal("该合同需要领导同意补录！");
 		return;
 	}
 	var ID = data[0].ID;

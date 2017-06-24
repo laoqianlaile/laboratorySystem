@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
@@ -131,8 +133,8 @@ public class ContractController{
 	 */
 	@RequestMapping("/coverContractFile1")  
     @ResponseBody
-	public int coverContractFile1(String ID, String fileID){
-		int result = service.coverContractFile1(ID, fileID);
+	public int coverContractFile1(String ID, String fileID,HttpServletRequest request,HttpServletResponse response){
+		int result = service.coverContractFile1(ID, fileID,request,response);
 		return result;
 	}
 	/**
@@ -156,8 +158,8 @@ public class ContractController{
 	 */
 	@RequestMapping("/coverContractFile2")  
     @ResponseBody
-	public int coverContractFile2(String ID, String fileID){
-		int result = service.coverContractFile2(ID, fileID);
+	public int coverContractFile2(String ID, String fileID,HttpServletRequest request,HttpServletResponse response){
+		int result = service.coverContractFile2(ID, fileID,request,response);
 		return result;
 	}
 	/**
@@ -467,6 +469,18 @@ public class ContractController{
 			return " ";
 		}
 		return service.getStandardByContractID(coID);	
+	}
+	@RequestMapping("/getMakeContractPaging")  
+    @ResponseBody
+	public JSONObject getMakeContractPaging(String reCode,String coCode,String companyName,String reType,String linkMan,String startTime,String endTime,String state,int limit, int offset, String order, String sort){
+		Map<String, Object> result = service.getMakeContractPaging(reCode, coCode, companyName, reType, linkMan, startTime, endTime, state, limit, offset, order, sort);
+		return JSONObject.fromObject(result);
+	}
+	@RequestMapping("/passMakeContract")  
+    @ResponseBody
+	public int passMakeContract(String ID){
+		int result = service.passMakeContract(ID);
+		return result;
 	}
 	
 }

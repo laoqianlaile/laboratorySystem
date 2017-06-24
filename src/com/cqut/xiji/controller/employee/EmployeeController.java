@@ -1,11 +1,15 @@
 package com.cqut.xiji.controller.employee;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -18,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cqut.xiji.service.employee.IEmployeeService;
+import com.cqut.xiji.tool.util.PropertiesTool;
 import com.cqut.xiji.tool.util.RandomValidateCode;
+import com.sun.star.installation.protocols;
 
 
 @Controller
@@ -355,4 +361,48 @@ public class EmployeeController {
 		}
 		
 		
+		
+		@RequestMapping("/upheadCropImg")
+	    @ResponseBody
+		public String upheadCropImg(String employeeID,HttpServletRequest request){
+			try {	
+				PropertiesTool propertiesTool = new PropertiesTool();
+				String systemPath = propertiesTool.getSystemPram("headCropImg");
+				
+				File pathfile = new File(systemPath);
+				if(!pathfile.exists()){
+					pathfile.mkdirs();
+				}
+				
+				//头像存储路径
+				String path= systemPath+"/"+employeeID+".png";
+				
+				System.out.println(path);
+				File file = new File(path);
+				if(!file.exists()){
+					file.createNewFile();
+				}
+		
+				FileOutputStream  fos = new FileOutputStream(file);
+				
+				ServletInputStream input =  request.getInputStream();
+				byte[] sendBytes = new byte[1024];
+				while(true){
+					int read = 0;
+					read = input.read(sendBytes);
+					if (read == -1 || read <= 0){
+						break;
+					}
+					fos.write(sendBytes, 0, read);
+					fos.flush();
+				}
+			   
+				String result = service.upheadCropImg(employeeID,employeeID+".png");
+				return result;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return "-1";
+		}
 }

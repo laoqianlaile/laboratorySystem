@@ -1,12 +1,33 @@
 @CHARSET "UTF-8";
 #main{
-	width:94%;
+	/* width:98%; */
 	margin:0 auto;
 }
+.table thead tr{
+	color:#fff;
+	background:#364760;
+	font-size: 14px;
+}  
 #head{
 	width:100%;
-	height:150px;
 
+}
+ label{
+     float: left;
+       width: 21%;
+    min-width: 80px;
+} 
+
+.form-control {
+    display: inline;
+    width: 70%;
+}
+.row {
+    margin-bottom: 10px;
+}
+.row label{
+	width: 20%;
+	min-width: 80px;
 }
 #center{
 	width:100%;
@@ -28,18 +49,18 @@
 	line-height:36px;
 }
 .text{
-	display:inline-block;
-	width:200px;
-	margin-top:-5px;
+    display: inline;
+    width: 70%;
+}
+.form-control{
+	display: inline;
+	width: 70%;
 }
 .btncss{
 	display:inline-block;
 	width:80px;
-	margin-top:-5px;
 }
-.thisbtn{
-	margin-left:20px;
-}
+
 .tablecontent{
 	margin-top:10px;
 }
@@ -54,7 +75,7 @@
 }
 .mystyle{
 	height:34px;
-	width:200px;
+	width:296px;
 
 	line-height:20px;
 	font-size:17px;
@@ -71,13 +92,12 @@ li:hover{
 	padding:0px;
 	height:33px;
 	width:37px;
-	margin-top:-5px;
 	margin-left:-7px;
 	border-bottom-left-radius:0;
 	border-top-left-radius:0;
 }
 .time{
-	width:168px;
+	width: 252px;
 }
 #center tr{
 	height:45px;
@@ -124,4 +144,75 @@ li:hover{
 }
 #showdiv1{
 	width:300px;
+}
+.input-group {
+	margin-top: 10px;
+}
+
+.input-group .btn {
+	margin-left: 3px;
+}
+.timeChooseDiv {
+	width: 70%;
+	margin-top: 0px;
+}
+.input-group-addon {
+	background-color: #fff;
+}
+.timeLabelDiv{
+	float: left;
+	height: 34px;
+	width: 26%;
+	min-width: 80px;
+}
+.timeLabelDiv label {
+	margin-top: 7px;
+}
+#restcontent{
+	height: 70px;
+    background-color: #e8f3f9;
+	margin-top:10px;
+	margin-bottom:20px;
+	position: relative;
+}
+.btncss{
+	position: absolute;
+	right: 30px;
+	top: 50%;
+	margin-top: -17px;
+}
+.thisbtn{
+	float: right;
+	    margin-top: 18px;
+    margin-right: 20px;
+}
+.btncss:hover {
+    background: #ffc773;
+}
+.Allbtn{
+	position: absolute;
+	right: 130px;
+	top: 50%;
+	margin-top: -17px;
+}
+.Allbtn:hover {
+    background: #ffc773;
+}
+.OKbtn{
+	position: absolute;
+	right: 240px;
+	top: 50%;
+	margin-top: -17px;
+}
+.OKbtn:hover {
+    background: #ffc773;
+}
+.NObtn{
+	position: absolute;
+	right: 320px;
+	top: 50%;
+	margin-top: -17px;
+}
+.NObtn:hover {
+    background: #ffc773;
 }

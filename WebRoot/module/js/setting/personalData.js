@@ -1,4 +1,45 @@
 var EmployeeInfo = getEmployeeInfo();
+$(window).load(function() {
+	
+	var options =
+	{
+		thumbBox: '.thumbBox',
+		spinner: '.spinner',
+		imgSrc: 'module/img/avatar.png'
+	}
+	if(EmployeeInfo[0].headCrop != null || EmployeeInfo[0].headCrop  != undefined || EmployeeInfo[0].headCrop != ""){
+		options.imgSrc = "upload/img/headCrop/"+EmployeeInfo[0].headCrop;
+	}
+	var cropper = $('.imageBox').cropbox(options);
+	$('#upload-file').on('change', function(){
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			options.imgSrc = e.target.result;
+			cropper = $('.imageBox').cropbox(options);
+		}
+		reader.readAsDataURL(this.files[0]);
+		this.files = [];
+	})
+	$('#btnCrop').on('click', function(){
+		var img = cropper.getDataURL();
+		$('.cropped').html('');
+		$('.cropped').append('<img src="'+img+'" align="absmiddle" style="width:64px;margin-top:4px;border-radius:64px;box-shadow:0px 0px 12px #7E7E7E;" ><p>64px*64px</p>');
+		$('.cropped').append('<img src="'+img+'" align="absmiddle" style="width:128px;margin-top:4px;border-radius:128px;box-shadow:0px 0px 12px #7E7E7E;"><p>128px*128px</p>');
+		$('.cropped').append('<img src="'+img+'" align="absmiddle" style="width:180px;margin-top:4px;border-radius:180px;box-shadow:0px 0px 12px #7E7E7E;"><p>180px*180px</p>');
+	})
+	$('#btnZoomIn').on('click', function(){
+		cropper.zoomIn();
+	})
+	$('#btnZoomOut').on('click', function(){
+		cropper.zoomOut();
+	})
+	$('#btnheadCrop').on('click',function(){
+		upImgheadCorp(cropper.getBlob());
+	})
+	
+	personal();
+});
+
 
 $(function () {
 	_uploadFile();
@@ -174,14 +215,19 @@ function onclickNvi(){
 	 var html="";
 	 var data = getEmployeeInfo();
 	 
-
+	 html = "<tr>" +
+		"<td width='200px'>" +
+			"<div style='cursor: pointer;'>";
+	 
+	 if(data[0].headCrop != null || data[0].headCrop  != undefined || data[0].headCrop != ""){
+		 html += "<img class = 'imgHead' src ='upload/img/headCrop/"+data[0].headCrop+"'>";
+	 }
+	 else{
+		 html += "<img class = 'imgHead' src ='module/img/file/defaultPhoto.jpg'>";
+	 }
 	/* html ="<tr><td>姓名</td>"+"<td> <input id ='edit_Name' type='text' class='form-control' value='"+data[0].employeeName+"' placeholder='请输入昵称'/></td></tr>"
 */
-	 html ="<tr>" +
-		"<td width='200px'>" +
-			"<div style='cursor: pointer;'>" +
-				"<img src ='module/img/file/defaultPhoto.jpg'>" +
-			"</div>" +
+	 html +="</div>" +
 		"</td>" +
 		"<td>" +"<a class='ahead'><input unselectable='on' type='file' class='hide'>更改头像</a>" +
 		"</td>" +
@@ -360,3 +406,29 @@ function onclickNvi(){
  	}
  }
  
+ function upImgheadCorp(){
+	 console.log(arguments[0]);
+	 
+	 if($('.cropped').children().length == 0 ){
+		 swal({title:"请裁剪！",type:"warning"});
+		 return;
+	 }
+	 var oReq = new XMLHttpRequest();
+	 oReq.open("POST", 'employeeController/upheadCropImg.do?employeeID='+EmployeeInfo[0].employeeID, true);
+	 oReq.onload = function (oEvent) {
+	 // Uploaded.
+	 };
+	 oReq.send(arguments[0]);
+	 
+	 if(oReq.readyState == 200){
+		 swal({title:"上传成功",type:"success"});
+	 }
+	 $('#CropModal').modal('hide');
+	 
+	 reload();
+ }
+ 
+//重新加载页面
+ function reload() {
+ 	window.location.reload();
+ }

@@ -4,15 +4,39 @@
 	width:800px;
 	margin: 30px 100px;
 }
+label{
+	float:left;
+}
+#restcontent {
+    height: 70px;
+    background-color: #e8f3f9;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    position: relative;
+}
+.thisbtn {
+    float: right;
+    margin-top: 18px;
+    margin-right: 20px;
+}
+.timeChooseDiv {
+    width: 70%;
+    margin-top: 0px;
+}
 /* .tablebox{
 	height:400px;
 	width:1200px;
 	margin: 80px 100px;
 } */
-
 .tablebox{
 	margin-right:20px;
+	margin-bottom:30px;
 }
+.table thead tr{
+	color:#fff;
+	background:#364760;
+	font-size: 14px;
+}  
 .input-group-addon {
     padding: 6px 12px;
     font-size: 14px;
@@ -34,37 +58,8 @@
  .bootstrap-table{
  margin-top:10px;
  margin-left:20px;
-/*  margin-right:20px; */
+margin-bottom: 10px;
  }
-}
-.btn-default {
-    color: #333;
-    background-color: #ccc;
-    border-color: #333;
-}
-.btn {
-    display: inline-block;
-    padding: 6px 12px;
-    margin-bottom: -20px; 
-    margin-left:20px;
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 1.42857143;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    background-image: none;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    width: 100px;
-}
 .datetimepicker {
     padding: 4px;
     margin-top: 34px;
@@ -90,10 +85,12 @@
     /* text-align: right; */
 }
 .form-horizontal .form-group {
-    margin-right: -15px;
-    margin-left: -15px;
-    margin-top: 20px;
+        margin-bottom: 10px;
 }
+label{
+    min-width: 80px;
+}
+
 .searchbox2{
 
 	margin-bottom: 30px;
@@ -138,30 +135,6 @@
 .choose:hover{
 	background-color:#F5F5F5;
 }
-.btn{
-	display: inline-block;
-    padding: 6px 12px;
-    margin-bottom: -20px;
-    margin-left: 20px;
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 1.42857143;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    background-image: none;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    width: 100px;
-    margin-bottom: 0;
-}
 .disappear{
 	float:right;
 	display:none;
@@ -191,7 +164,79 @@
     top: 6px;
     left: -200px;
 }
-
-
-
-
+.timeLabelDiv{
+	float: left;
+	height: 34px;
+	width: 26%;
+	min-width: 80px;
+}
+.timeLabelDiv label {
+	margin-top: 7px;
+}
+.timeChooseDiv {
+	width: 70%;
+	margin-top: 0px;
+}
+.form-control {
+    display: inline;
+    width: 70%;
+}
+.row {
+    margin-bottom: 10px;
+}
+.row label{
+	width: 20%;
+	min-width: 80px;
+}
+.spanstyle{
+	width: 25%;
+}
+li{
+	text-align:center;
+}
+li:hover{
+	cursor:pointer;
+	background:#F5F5F5;
+	font-color:black;
+}
+#restcontent{
+	height: 70px;
+	background-color: #e8f3f9;
+	position: relative;
+}
+.btncss{
+	position: absolute;
+	right: 30px;
+	top: 50%;
+	margin-top: -17px;
+}
+.btncss:hover {
+    background: #ffc773;
+}
+.Allbtn{
+	position: absolute;
+	right: 110px;
+	top: 50%;
+	margin-top: -17px;
+}
+.Allbtn:hover {
+    background: #ffc773;
+}
+.OKbtn{
+	position: absolute;
+	right: 220px;
+	top: 50%;
+	margin-top: -17px;
+}
+.OKbtn:hover {
+    background: #ffc773;
+}
+.NObtn{
+	position: absolute;
+	right: 300px;
+	top: 50%;
+	margin-top: -17px;
+}
+.NObtn:hover {
+    background: #ffc773;
+}

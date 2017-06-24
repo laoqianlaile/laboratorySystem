@@ -14,10 +14,16 @@ import org.springframework.stereotype.Service;
 
 
 
+
+
+
+
+
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.company.Company;
+import com.cqut.xiji.entity.department.Department;
 import com.cqut.xiji.entity.role.Role;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
@@ -190,4 +196,105 @@ public class CompanyService extends SearchService implements ICompanyService {
 		List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, Company.class);
 		return list;
 	}
+
+public Map<String, Object> getCompanyWithPage(String companyName,String address,String linkMan,
+		 int limit, int offset,String order, String sort) {
+	int index = limit;
+	int pageNum = offset / limit;
+	String tableName = "company";
+	String[] properties = new String[] { 
+			"company.ID",
+			"company.companyName",
+			"company.linkMan",
+			"company.mobilePhone",
+			"company.address",
+			"company.scope",
+			"company.fax",
+			"company.emailbox",
+			"DATE_FORMAT(company.createTime,'%Y-%m-%d ') as createTime ",
+			
+					
+			
+	};
+
+	String condition = " 1 = 1  ";
+	if(companyName != null && !companyName.equals("")){
+		 condition+=" and company.companyName like '%"+companyName+"%'  ";
+	}
+	if(address != null && !address.equals("")){
+		 condition+=" and company.address like '%"+address+"%'  ";
+	}
+	if(linkMan != null && !linkMan.equals("")){
+		 condition+=" and company.linkMan like '%"+linkMan+"%'  ";
+	}
+
+	
+	
+/*	String joinEntity = " left join employee on department.employeeID = employee.ID "
+			+" left join department as department2 on department.parentID = department2.ID";*/
+	
+	List<Map<String, Object>> result = originalSearchWithpaging(properties,
+			tableName, null, null, condition, false, null,
+			sort, order, index, pageNum);
+
+	
+	//int count = getForeignCount(null, condition, false);
+	//int count = entityDao.getByCondition(condition, Department.class).size();
+	int count = getForeignCountWithJoin(null, null, condition, false);
+
+	Map<String, Object> map = new HashMap<String, Object>();
+	map.put("total", count);
+	map.put("rows", result);
+	return map;
+	
+}
+//@Override
+//public String delCompany(String IDs) {
+//	// TODO Auto-generated method stub
+//	if(IDs == null || IDs.isEmpty()){
+//		return 0+"";
+//	}
+//	String[] ids = IDs.split(",");
+//	int result = entityDao.deleteEntities(ids,Company.class);
+//	return result+"";
+//}
+
+@Override
+public String addCompanywj(String companyName, String linkMan,
+		String mobilePhone, String scope, String address, String fax,
+		String emailbox) {
+	Company company=new Company();
+	company.setID(EntityIDFactory.createId());
+	company.setCompanyName(companyName);
+	company.setLinkMan(linkMan);
+	company.setMobilePhone(mobilePhone);
+	company.setScope(scope);
+	company.setAddress(address);
+	company.setFax(fax);
+	company.setEmailbox(emailbox);
+	company.setCreateTime(new Date());
+	
+	
+	int result = entityDao.save(company);
+	return result+"";
+	
+	
+	
+}
+
+@Override
+public String updCompanywj(String ID, String companyName, String linkMan,
+		String mobilePhone, String scope, String address, String fax,
+		String emailbox) {
+	Company company=entityDao.getByID(ID, Company.class);
+	company.setCompanyName(companyName);
+	company.setLinkMan(linkMan);
+	company.setMobilePhone(mobilePhone);
+	company.setScope(scope);
+	company.setAddress(address);
+	company.setFax(fax);
+	company.setEmailbox(emailbox);
+	int result = entityDao.updatePropByID(company, ID);
+	return result+"";
+}
 }

@@ -130,7 +130,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 		testProject.setID(EntityIDFactory.createId());
 		testProject.setNameEn(NAMEEN);
 		testProject.setNameCn(NAMECN);
-		testProject.setEnvironmentalRequirements(ENVIRONMENTALREQUIREMENTS);
+
 		testProject.setDescribes(describes);
 		testProject.setRemarks(remarks);
 		testProject.setTestTypeID(testTypeID);
@@ -324,7 +324,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 		};
 
 		List<Map<String, Object>> result = entityDao.findByCondition(
-				properties, " 1 = 1 and state = 1", Standard.class);
+				properties, " 1 = 1 and state = 2", Standard.class);
 
 		return result;
 	}
@@ -333,6 +333,10 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 	public Map<String, Object> getTestproWithPaging(int limit, int offset,
 			String order, String sort, String contract,HttpSession session) {
 		System.out.println("kaishi222" + "<br />");
+		if(session.getAttribute("clientNo") == null)
+		{
+			return null;
+		}
 		int index = limit;
 		int pageNum = offset / limit;
 		String tablename = "testproject";
