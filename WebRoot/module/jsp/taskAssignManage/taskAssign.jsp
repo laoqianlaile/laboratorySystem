@@ -29,11 +29,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="module/js/bootstrap.js"></script>
 	<script src="module/js/bootstrap-table.js"></script>
 	<script src="module/js/bootstrap-table-zh-CN.js"></script>
-    <!-- <script src="assets/js/autoPage.js"></script> -->
+    <script src="assets/js/autoPage.js"></script>
     <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
     <script src="module/js/sweetalert.min.js"></script>
     
     <style>
+    html {
+    	overflow-x: hidden;
+    }
     #btn-assign:hover {
     	background: #ffc773;
     }

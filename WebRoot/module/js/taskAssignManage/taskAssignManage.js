@@ -31,8 +31,8 @@ $(function () {
 		pageList: [5, 10],//设置可供选择的页面数据条数
 		clickToSelect:true,//设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache: false,//禁用 AJAX 数据缓存
-		sortName:'receiptlist.ID',//定义排序列
-		sortOrder:'asc',//定义排序方式
+		sortName:'createTime',//定义排序列
+		sortOrder:'desc',//定义排序方式
 		url:'receiptlistController/getReceiptlistWithPagingInTaskAssign.do',//服务器数据的加载地址
 		sidePagination:'server',//设置在哪里进行分页
 		contentType:'application/json',//发送到服务器的数据编码类型
