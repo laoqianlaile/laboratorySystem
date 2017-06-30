@@ -36,7 +36,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     font-weight: 400;
     line-height: normal;
     border-radius: 40px;
-    background: none;"
+    background: none;
+    cursor:pointer;
     }
     
 #table .table td{ 
