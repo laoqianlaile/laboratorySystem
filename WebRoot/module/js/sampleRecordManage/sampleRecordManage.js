@@ -106,6 +106,7 @@
 function refresh(){
 	$('#table').bootstrapTable('refresh', null);
 }
+//给新增的样品号搜索
 function addGetfactoryCode(){
 	var name = $('#add_factoryCode').val();
 	name=trim(name);
@@ -142,7 +143,7 @@ function addGetfactoryCode(){
 		});
 	}
 }
-
+//给新增的样品号增加点击事件
 function addClickFactoryCode(){ 
 	
 	
@@ -158,7 +159,7 @@ function addClickFactoryCode(){
 
 
 }
-
+//给 样品名和型号赋值
 function aaa(){
 		if($("#add_factoryCode").val()!=""&&$("#add_factoryCode").val()!=null){
 		var parame = {};
@@ -185,6 +186,7 @@ function aaa(){
 		}
 
 }
+//修改的样品号搜索
 function editGetfactoryCode(){
 	var name = $('#edit_factoryCode').val();
 	name=trim(name);
@@ -222,7 +224,7 @@ function editGetfactoryCode(){
 		});
 	}
 }
-
+//给修改的样品号增加点击事件
 function addClickeditFactoryCode(){ 
 	
 	
@@ -238,6 +240,7 @@ function addClickeditFactoryCode(){
 
 
 }
+//给修改的样品号添加样品名和型号
 
 function aaa1(){
 		if($("#edit_factoryCode").val()!=""&&$("#edit_factoryCode").val()!=null){
@@ -267,7 +270,7 @@ function aaa1(){
 }
 
 
-
+//搜索人名
 function addGetEMName(){
 	var name = $('#add_getMan').val();
 	name=trimall(name);
@@ -307,6 +310,7 @@ function addGetEMName(){
 		});
 	}
 }
+//给人名添加点击
 function addClick(){ 
 	
 	
@@ -326,6 +330,7 @@ function addClick(){
 	})
 	
 }
+//搜索人名
 function addGetEMName1(){
 	var name = $('#add_returnMan').val();
 	if (!name && typeof(name)!="undefined" && name=='') 
@@ -364,6 +369,7 @@ function addGetEMName1(){
 		});
 	}
 }
+//给你人名添加点击
 function addClick1(){ 
 	
 	
@@ -382,7 +388,7 @@ function addClick1(){
 		 $(".employeeN1").hide();
 	})
 }
-
+//修改人名
 function editGetEMName(){
 	var name = $('#edit_getMan').val();
 	name=trimall(name);
@@ -422,6 +428,7 @@ function editGetEMName(){
 		});
 	}
 }
+//修改人名添加点击事件
 function editClick(){ 
 	//给input赋值
 	$(".employeeN ul li").click(function(){
@@ -476,6 +483,8 @@ function editGetEMName1(){
 		});
 	}
 }
+
+//添加点击事件
 function editClick1(){ 
 	//给input赋值
 	$(".employeeN1 ul li").click(function(){
@@ -522,7 +531,7 @@ function getdataLisk() {
 	});
 	return data;
 }
-//判断类型
+//新增判断类型
 function Judge(){
 	var parame = {};
 	parame.factoryCode = $('#add_factoryCode').val();
@@ -558,6 +567,7 @@ function Judge(){
 	});
 	
 }
+//修改判断类型
 function EJudge(){
 	var parame = {};
 	parame.factoryCode = $('#edit_factoryCode').val();
@@ -658,6 +668,7 @@ function find(){
 		query:parame
 	});
 }
+//查看方法
 function lookData(){
 	var data = $('#table').bootstrapTable('getSelections');
 	if(data.length==0 || data.length>1){

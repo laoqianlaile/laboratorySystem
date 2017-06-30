@@ -128,6 +128,7 @@ function add(){
 	});
 	}else swal("请把信息填写完整")
 }
+//判断数据重复
 function addText(){
 	var parame = {};
 	parame.dutyCode = $('#add_dutyCode').val();
@@ -149,6 +150,7 @@ function addText(){
 		  }
 		});
 }
+//删除数据
 function delData(){
 	var data = $('#table').bootstrapTable('getSelections');
 	
@@ -207,6 +209,7 @@ function openModal(){
 	$('#edit_introduction').val(data[0].introduction);
 	$('#editModal').modal('show');
 }
+//修改数据方法
 function edit(){
 	var parame = {};
 	parame.ID=$('#edit_ID').val();
@@ -248,6 +251,7 @@ function edit(){
 		  }
 		});
 }*/
+//查询方法
 function find(){
 	var parame = {};
 	parame.dutyCode = $('#linkdutyCode').val();

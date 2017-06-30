@@ -46,6 +46,6 @@ public interface IReceiptlistService {
 	Map<String, Object> getsecretWithPaging(String reCode, String coCode,
 			String companyName, String reType, String linkMan,
 			String startTime, String endTime, String classifiedLevel, int limit,
-			int offset, String order, String sort);
+			int offset, String order, String sort);//初始化涉密管理
 	
 }

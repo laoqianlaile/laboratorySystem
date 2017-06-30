@@ -192,7 +192,9 @@ public class SampleRecordService extends SearchService implements
 		return result + "" + result1 + "";
 
 	}
-
+/**
+ * 修改样品领样记录
+ */
 	@Override
 	public String updSampleRecord(String ID, String sampleID,
 			String factoryCode, String sampleName, String specifications,
@@ -247,7 +249,7 @@ public class SampleRecordService extends SearchService implements
 	@Override
 	public List<Map<String, Object>> getFactoryCode(String factoryCode) {
 		String[] properties = new String[] {"factoryCode","sampleName"};
-		String condition = "factoryCode like '%" + factoryCode + "%'";
+		String condition = "factoryCode like '%" + factoryCode + "%'or sampleName like '%" + factoryCode + "%'";
 		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Sample.class);
 		return result;
 	}
