@@ -353,10 +353,9 @@ function addTemplate(fileID) {
 	if (templateTypeString === "校准合同模板") {
 		parame.TemplateType = 3; // 新增
 	}
-	if (templateTypeString === "报告模板") {
+	if (templateTypeString === "检测报告模板") {
 		parame.TemplateType = 1;
 		parame.TestProjectIDs = getTestProjectIDs();
-		console.log(parame.TestProjectIDs);
 	}
 	if (templateTypeString === "交接单模板") {
 		parame.TemplateType = 2;
@@ -601,7 +600,7 @@ function testProjectModal() {
  * 
  */
 function isReport(){
-	if($('#fileSubtype option:checked').text() === "报告模板"){
+	if($('#fileSubtype option:checked').text() === "检测报告模板"){
 //		testProjectModal();
 		$('#editReportImg').show();
 		$('#editReprotSearch').show();
@@ -699,13 +698,11 @@ function isSameID(checkID){
  * 获取所有检测项目ID
  * 
  */
-
-//获取所有被选中仪器的id
 function getTestProjectIDs(){
 	var total = ""
 	var allTestProjectIDs =$('#add_TestProjectNameCn span.singleE');
 	if(allTestProjectIDs.length == 0){
-		swal("请至少选中一个仪器设备");
+		swal("请至少选中一个检测项目");
 		return;
 	}
 	else{

@@ -518,7 +518,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 					"employee.address",
 					"employee.signature",
 					"employee.stamp",
-					"employee.birthday",
+					"DATE_FORMAT(employee.birthday,'%Y-%m-%d') as birthday ",
 					"employee.IDCard",
 					"employee.graduate",
 					"employee.headCrop",

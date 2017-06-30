@@ -48,8 +48,8 @@ public class StandardController{
 	 */
 	@RequestMapping("/addStandard")
 	@ResponseBody
-	public String addStandard(String uploaderID,String STANDARDCODE, String STANDARDNAME, String TYPE, String SCOPE, int APPLICATIONTYPE, int EDITSTATE, String DESCRIPTION,String fileID){
-		String result = service.addStandard(uploaderID,STANDARDCODE, STANDARDNAME, TYPE, SCOPE, APPLICATIONTYPE, EDITSTATE, DESCRIPTION,fileID);
+	public String addStandard(String uploaderID,String STANDARDCODE, String STANDARDNAME, String TYPE, String SCOPE, int APPLICATIONTYPE, int EDITSTATE, String DESCRIPTION,String fileID,String EquipmentIDs){
+		String result = service.addStandard(uploaderID,STANDARDCODE, STANDARDNAME, TYPE, SCOPE, APPLICATIONTYPE, EDITSTATE, DESCRIPTION,fileID,EquipmentIDs);
 		return result;
 	}
 	
@@ -89,8 +89,8 @@ public class StandardController{
 	 */
 	@RequestMapping("/upStandard")
 	@ResponseBody
-	public String upStandard(String ID ,String STANDARDCODE , String STANDARDNAME, String TYPE, String SCOPE, String APPLICATIONTYPE, String EDITSTATE, String SUGGEST , String STATE,String ABANDONAPPLYMAN, String ABANDONAPPLYREASON){
-		String result = service.upStandard(ID,STANDARDCODE, STANDARDNAME, TYPE, SCOPE, APPLICATIONTYPE, EDITSTATE, SUGGEST,STATE,ABANDONAPPLYMAN,ABANDONAPPLYREASON);
+	public String upStandard(String ID ,String STANDARDCODE , String STANDARDNAME, String TYPE, String SCOPE, String APPLICATIONTYPE, String EDITSTATE, String SUGGEST , String STATE,String ABANDONAPPLYMAN, String ABANDONAPPLYREASON,String EquipmentIDs){
+		String result = service.upStandard(ID,STANDARDCODE, STANDARDNAME, TYPE, SCOPE, APPLICATIONTYPE, EDITSTATE, SUGGEST,STATE,ABANDONAPPLYMAN,ABANDONAPPLYREASON,EquipmentIDs);
 		return result;
 	}
 	

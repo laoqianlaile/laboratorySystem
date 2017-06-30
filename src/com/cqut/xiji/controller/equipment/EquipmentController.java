@@ -190,4 +190,18 @@ public class EquipmentController {
 		List<Map<String, Object>> result = service.getEquipmentInfo();
 		return result;
 	}
+	
+	/**
+	 * 
+	 * @discription 获取设备嘻嘻你
+	 * @author zt
+	 * @created 2017-2-27 下午3:33:04
+	 * @return
+	 */
+	@RequestMapping("/MatchNameEquipmentInfo")
+	@ResponseBody
+	public String MatchNameEquipmentInfo(String matchName) {
+		List<Map<String, Object>> result = service.MatchNameEquipmentInfo(matchName);
+		return JSONArray.fromObject(result).toString();
+	}
 }

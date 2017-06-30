@@ -103,4 +103,6 @@ public interface IEquipmentService {
 	public Long dateDiff(String startTime, String endTime, String format, String str);
 	
 	public List<Map<String,Object>> getEquipmentInfo();
+
+	public List<Map<String, Object>> MatchNameEquipmentInfo(String matchName);
 }
