@@ -129,7 +129,7 @@ function addGetfactoryCode(){
 	    			length = myobj.length;
 	    		}
 	    		for(var i=0; i < length; i++){
-	    			htmlElement += "<ul><li value='" + myobj[i].factoryCode + "'>" + myobj[i].factoryCode + "</li></ul>";
+	    			htmlElement += "<ul><li value='" + myobj[i].factoryCode + "'>" + myobj[i].factoryCode +" ,"+ myobj[i].sampleName + "</li></ul>";
 	    		}
 	    		
 	    		employee.show();
@@ -209,7 +209,7 @@ function editGetfactoryCode(){
 	    			length = myobj.length;
 	    		}
 	    		for(var i=0; i < length; i++){
-	    			htmlElement += "<ul><li value='" + myobj[i].factoryCode + "'>" + myobj[i].factoryCode + "</li></ul>";
+	    			htmlElement += "<ul><li value='" + myobj[i].factoryCode + "'>" + myobj[i].factoryCode +" ,"+ myobj[i].sampleName + "</li></ul>";
 	    		}
 	    		
 	    		employee.show();

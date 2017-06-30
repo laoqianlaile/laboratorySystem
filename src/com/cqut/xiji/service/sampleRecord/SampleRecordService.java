@@ -241,9 +241,12 @@ public class SampleRecordService extends SearchService implements
 
 		return result+"";
 	}
+	/**
+	 * 获取样品
+	 */
 	@Override
 	public List<Map<String, Object>> getFactoryCode(String factoryCode) {
-		String[] properties = new String[] {"factoryCode"};
+		String[] properties = new String[] {"factoryCode","sampleName"};
 		String condition = "factoryCode like '%" + factoryCode + "%'";
 		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Sample.class);
 		return result;
