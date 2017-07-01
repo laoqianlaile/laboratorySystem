@@ -9,6 +9,7 @@ public class Department extends Entity{
 	
 	@ID
 	private String ID;
+	private String companyID;
 	private String departmentName;
 	private String departmentCode;
 	private String employeeID;
@@ -87,12 +88,14 @@ public class Department extends Entity{
 
 	@Override
 	public String toString() {
-
-		return "Department [" +  "ID=" + ID  + ", " +  "departmentName=" + departmentName  + ", " +  "departmentCode=" + departmentCode  + ", " +  "employeeID=" + employeeID  + ", " +  "remarks=" + remarks  + ", " +  "createTime=" + createTime  + ", " +  "parentID=" + parentID  + "level=" + level0  + "]";
-
-
+		return "Department [ID=" + ID + ", companyID=" + companyID
+				+ ", departmentName=" + departmentName + ", departmentCode="
+				+ departmentCode + ", employeeID=" + employeeID + ", remarks="
+				+ remarks + ", createTime=" + createTime + ", parentID="
+				+ parentID + ", level0=" + level0 + ", property=" + property
+				+ "]";
 	}
-	
+
 	@Override
 	public String getTableName() {
 		// TODO Auto-generated method stub
@@ -103,5 +106,13 @@ public class Department extends Entity{
 	public String getPrimaryKey() {
 		// TODO Auto-generated method stub
 		return "ID";
+	}
+
+	public String getCompanyID() {
+		return companyID;
+	}
+
+	public void setCompanyID(String companyID) {
+		this.companyID = companyID;
 	}
 }
