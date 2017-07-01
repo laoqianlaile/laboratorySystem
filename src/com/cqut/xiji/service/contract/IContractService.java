@@ -123,11 +123,31 @@ public interface IContractService {
  */
 	public String getStandardByContractID(String coID); 
 	
-	
+	/**
+	 * 合同补录初始化数据
+	 * @param reCode
+	 * @param coCode
+	 * @param companyName
+	 * @param reType
+	 * @param linkMan
+	 * @param startTime
+	 * @param endTime
+	 * @param state
+	 * @param limit
+	 * @param offset
+	 * @param order
+	 * @param sort
+	 * @return
+	 */
 	public Map<String, Object> getMakeContractPaging(String reCode,
 			String coCode, String companyName, String reType, String linkMan,
 			String startTime, String endTime, String state, int limit,
 			int offset, String order, String sort);
+	/**
+	 * 允许补录合同
+	 * @param ID
+	 * @return
+	 */
 	public int passMakeContract(String ID);
 
 }

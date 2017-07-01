@@ -38,7 +38,9 @@ public class DutyService extends SearchService implements IDutyService{
 	public String getBasePrimaryKey() {
 		return "duty.ID";
 	}
-	
+	/**
+	 * 初始化职务界面
+	 */
 	@Override
 	public Map<String, Object> getDutyWithPage(String dutyCode,String dutyName,
 			 int limit, int offset,String order, String sort){
@@ -83,6 +85,9 @@ public class DutyService extends SearchService implements IDutyService{
 			
 		
 	}
+	/**
+	 * 检测职务是否重复
+	 */
 	public String addText(String dutyCode,String dutyName){
 		String[] properties = new String[] { "duty.dutyCode","duty.dutyName"};
 
@@ -96,6 +101,9 @@ public class DutyService extends SearchService implements IDutyService{
 			return "false";
 		}
 	}
+	/**
+	 * 添加职务
+	 */
 	@Override
 	public String addDuty(String dutyCode,String dutyName,String introduction){
 		Duty duty=new Duty();
@@ -110,6 +118,9 @@ public class DutyService extends SearchService implements IDutyService{
 		return result+"";
 		
 	}
+	/**
+	 * 更新职务
+	 */
 	@Override
 	public String updDuty(String ID,String dutyCode,String dutyName,String introduction){
 		Duty duty=entityDao.getByID(ID, Duty.class);
@@ -119,6 +130,9 @@ public class DutyService extends SearchService implements IDutyService{
 		int result = entityDao.updatePropByID(duty, ID);
 		return result+"";
 	}
+	/**
+	 * 删除职务
+	 */
 	@Override
 	public String delDuty(String IDs) {
 		// TODO Auto-generated method stub

@@ -110,10 +110,8 @@ public class ReceiptlistService extends SearchService implements
 		String joinEntity = " left join contract on receiptlist.contractID = contract.ID "
 				+ " left join company on contract.companyID = company.ID "
 				+ " left join employee on receiptlist.employeeID = employee.ID ";
-		String condition = "1 = 1 "
-				+ "and receiptlist.contractID = contract.ID "
-				+ "and contract.companyID = company.ID "
-				+ "and receiptlist.employeeID = employee.ID";
+		String condition = "";
+				
 		if (receiptlistCode != null && !receiptlistCode.equals("")) {
 			condition += " and receiptlist.receiptlistCode like '%"
 					+ receiptlistCode + "%'";

@@ -151,12 +151,20 @@ public class Standard extends Entity{
 	public void setTemplateID(String templateID) {
 		this.templateID = templateID;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "Standard [" +  "ID=" + ID  + ", " +  "standardCode=" + standardCode  + ", " +  "standardName=" + standardName  + ", " +  "type=" + type  + ", " +  "scope=" + scope  + ", " +  "description=" + description  + ", " +  "suggest=" + suggest  + ", " +  "fileID=" + fileID  + ", " +  "state=" + state  + ", " +  "applicationType=" + applicationType  + ", " +  "remarks=" + remarks  + ", " +  "editState=" + editState  + ", " +  "abandonApplyMan=" + abandonApplyMan + ", " +  "abandonApplyTime=" + abandonApplyTime + ", " +  "abandonApplyReason=" + abandonApplyReason + "]";
+		return "Standard [ID=" + ID + ", standardCode=" + standardCode
+				+ ", standardName=" + standardName + ", type=" + type
+				+ ", scope=" + scope + ", description=" + description
+				+ ", suggest=" + suggest + ", fileID=" + fileID + ", state="
+				+ state + ", applicationType=" + applicationType + ", remarks="
+				+ remarks + ", editState=" + editState + ", abandonApplyMan="
+				+ abandonApplyMan + ", abandonApplyTime=" + abandonApplyTime
+				+ ", abandonApplyReason=" + abandonApplyReason
+				+ ", templateID=" + templateID + "]";
 	}
-	
+
 	@Override
 	public String getTableName() {
 		// TODO Auto-generated method stub
@@ -168,4 +176,5 @@ public class Standard extends Entity{
 		// TODO Auto-generated method stub
 		return "ID";
 	}
+
 }

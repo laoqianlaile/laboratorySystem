@@ -101,6 +101,9 @@ public class TemplateService extends SearchService implements ITemplateService{
 		return map;
 
 	}
+	/**
+	 * 模板审核页面初始化
+	 */
 	@Override
 	public Map<String, Object> getTemplateReviewWithPage(String nAME,String STATE,
 			String uPLOADTIME1, String uPLOADTIME2, int limit, int offset,
@@ -236,6 +239,9 @@ public class TemplateService extends SearchService implements ITemplateService{
 		}
 		return  result +"";
 	}
+	/**
+	 * 审核通过
+	 */
 	@Override
 	public String updNoPasstemplate(String ID,String SUGGEST,String verifyMan){
 		Template template=entityDao.getByID(ID, Template.class);
@@ -246,6 +252,9 @@ public class TemplateService extends SearchService implements ITemplateService{
 		return result+"";
 
 	}
+	/**
+	 * 审核不通过
+	 */
 	@Override
 	public String updPasstemplate(String ID,String SUGGEST,String verifyMan){
 		Template template=entityDao.getByID(ID, Template.class);
