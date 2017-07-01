@@ -29,7 +29,8 @@ public class Task extends Entity{
 	private int saveState;
 	private int type;
 	private String departmentID;
-	
+	private String contractID;
+	private String projectID;
 	
 	public String getDepartmentID() {
 		return departmentID;
@@ -187,11 +188,25 @@ public class Task extends Entity{
 		this.taskCode = taskCode;
 	}
 
+	
+	
 	@Override
 	public String toString() {
-		return "Task [" +  "ID=" + ID  + ", " +  "receiptlistID=" + receiptlistID  + ", " +  "sampleID=" + sampleID  + " , " +  "startTime=" + startTime  + ", " +  "endTime=" + endTime  + ", " +  "completeTime=" + completeTime  + ", " +  "custodian=" + custodian  + ", " +  "result=" + result  + ", " +  "allotstate=" + allotstate  + ", " +  "originaldataID=" + originaldataID  + ", " +  "testReportID=" + testReportID  + ", " +  "detectstate=" + detectstate  + ", " +  "sendReportTime=" + sendReportTime  + ", " +  "acceptman=" + acceptman  + ", "  + "requires=" + requires + "levelTwo=" + levelTwo + "levelThree=" + levelThree + "]";
+		return "Task [ID=" + ID + ", receiptlistID=" + receiptlistID
+				+ ", sampleID=" + sampleID + ", startTime=" + startTime
+				+ ", endTime=" + endTime + ", completeTime=" + completeTime
+				+ ", custodian=" + custodian + ", result=" + result
+				+ ", allotstate=" + allotstate + ", originaldataID="
+				+ originaldataID + ", testReportID=" + testReportID
+				+ ", detectstate=" + detectstate + ", sendReportTime="
+				+ sendReportTime + ", acceptman=" + acceptman + ", requires="
+				+ requires + ", levelTwo=" + levelTwo + ", levelThree="
+				+ levelThree + ", taskCode=" + taskCode + ", saveState="
+				+ saveState + ", type=" + type + ", departmentID="
+				+ departmentID + ", contractID=" + contractID + ", projectID="
+				+ projectID + "]";
 	}
-	
+
 	@Override
 	public String getTableName() {
 		// TODO Auto-generated method stub
@@ -202,5 +217,21 @@ public class Task extends Entity{
 	public String getPrimaryKey() {
 		// TODO Auto-generated method stub
 		return "ID";
+	}
+
+	public String getContractID() {
+		return contractID;
+	}
+
+	public void setContractID(String contractID) {
+		this.contractID = contractID;
+	}
+
+	public String getProjectID() {
+		return projectID;
+	}
+
+	public void setProjectID(String projectID) {
+		this.projectID = projectID;
 	}
 }
