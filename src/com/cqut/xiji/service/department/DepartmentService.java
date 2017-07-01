@@ -57,7 +57,7 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Department.class);
 		return result;
 	}
-
+//初始化部门页面
 	@Override
 	public Map<String, Object> getDepartmentWithPage(String departmentCode,String departmentName,String employeeName,
 			 int limit, int offset,String order, String sort) {
@@ -112,6 +112,7 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 		return map;
 		
 	}
+	//检测是否有重复
 	public String addText(String departmentCode,String departmentName){
 		String[] properties = new String[] { "department.departmentCode","department.departmentName"};
 
@@ -125,6 +126,7 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 			return "false";
 		}
 	}
+	//添加部门
 	@Override
 	public String addDepartment(String departmentName,String departmentCode,String remarks,String property,String employeeID,String parent){
 		Department department = new Department();
@@ -166,7 +168,7 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 		return result+"";
 		
 	}
-
+//删除部门
 	@Override
 	public String delDepartment(String IDs) {
 		// TODO Auto-generated method stub
@@ -177,6 +179,7 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 		int result = entityDao.deleteEntities(ids, Department.class);
 		return result+"";
 	}
+	//查询人员方法
 	@Override
 	public JSONArray getdatalist(int type){
 		if (type==1){
@@ -191,7 +194,7 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 			return JSONArray.fromObject(entityDao.findByCondition(properties, "level0=3", Employee.class));
 		}
 	}
-	
+	//更新方法
 	@Override
 	public String updDepartment(String ID,String departmentName,String departmentCode,String remarks,String property,String employeeID,String parent){
 		Department department=entityDao.getByID(ID, Department.class);
@@ -287,6 +290,7 @@ public class DepartmentService extends SearchService implements IDepartmentServi
 		bootsrapTree.add(TreeNode);
 		return bootsrapTree;
 	}*/
+	//树形结构
 	@Override
 	public List<BootstrapTreeNode> getModuleTree() {
 		BootstrapTreeNode TreeNode = null;

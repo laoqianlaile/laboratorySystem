@@ -230,27 +230,6 @@ function edit(){
 		});	
 	}else swal("请把信息修改完整");
 }
-/*function editText(){
-	var parame = {};
-	parame.dutyCode = $('#edit_dutyCode').val();
-	parame.dutyName = $('#edit_dutyName').val();
-	$.ajax({
-		  url:'dutyController/addText.do',
-		  data:parame,
-		  dataType:'json',
-		  success:function(boolean){
-			  
-			  if(boolean=="true"){
-				  edit();
-			  }else{
-				  swal("数据有重名");
-				  $("input").val("");
-				
-			  }
-			  
-		  }
-		});
-}*/
 //查询方法
 function find(){
 	var parame = {};

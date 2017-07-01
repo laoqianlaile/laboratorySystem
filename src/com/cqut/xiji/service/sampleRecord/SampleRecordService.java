@@ -44,7 +44,9 @@ public class SampleRecordService extends SearchService implements
 	public String getBasePrimaryKey() {
 		return "sampleRecord.ID";
 	}
-
+/**
+ * 获取样品信息
+ */
 	@Override
 	public Map<String, Object>  getSample(String factoryCode) {
 			String[] properties = new String[] { "sample.ID","sample.sampleName","sample.specifications"};
@@ -57,6 +59,9 @@ public class SampleRecordService extends SearchService implements
                 return map;
 			} else return null;
 	}
+	/**
+	 * 判定样品状态
+	 */
 	@Override
 	public Map<String, Object> addJudge(String factoryCode) {
 		String[] properties = new String[] { "sample.state"};
@@ -70,14 +75,18 @@ public class SampleRecordService extends SearchService implements
 		} else return null;
 }
 		
-	
+	/**
+	 * 获取所有样品
+	 */
 	@Override
 	public String getSampleRecordAll() {
 		List<SampleRecord> resultList = entityDao.getByCondition(" 1=1 ",
 				SampleRecord.class);
 		return resultList.toString();
 	}
-
+/**
+ * 样品记录管理界面初始化
+ */
 	@Override
 	public Map<String, Object> getSampleRecordWithPaging(String factoryCode,
 			String sampleName, String specifications, String getMan, int limit,
@@ -141,7 +150,9 @@ public class SampleRecordService extends SearchService implements
 
 		return map;
 	}
-
+/**
+ * 人员选取
+ */
 	@Override
 	public JSONArray getdatalist() {
 
@@ -150,6 +161,9 @@ public class SampleRecordService extends SearchService implements
 				"1=1", Employee.class));
 
 	}
+	/**
+	 * 添加记录
+	 */
 
 	@Override
 	public String addSampleRecord(String factoryCode, String sampleName,
