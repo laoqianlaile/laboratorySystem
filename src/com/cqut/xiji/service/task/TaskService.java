@@ -429,9 +429,10 @@ public class TaskService extends SearchService implements ITaskService {
 						+ "when task.detectstate = 10 then '签发' end as detectstate", };
 
 		String joinEntity = " left join sample on task.sampleID = sample.ID "
-				+ " left join testProject on task.testProjectID = testProject.ID ";
+				+ " left join tasktestproject on task.ID = tasktestproject.taskID "
+				+ " left join testProject ON tasktestproject.testProjectID = testProject.ID ";
 
-		String condition = "task.receiptlistID = " + ID;
+		String condition = " task.receiptlistID = '" + ID + "' ";
 
 		List<Map<String, Object>> result = searchPagingWithJoin(properties,
 				joinEntity, null, condition, false, index, pageNum);
@@ -475,12 +476,13 @@ public class TaskService extends SearchService implements ITaskService {
 				"if(employee_1.employeeName is null,'无',employee_1.employeeName) as custodian" };
 
 		String joinEntity = " left join sample on task.sampleID = sample.ID "
-				+ " left join testProject on task.testProjectID = testProject.ID "
+				+ " left join tasktestproject on task.ID = tasktestproject.taskID " 
+				+ " left join testProject ON tasktestproject.testProjectID = testProject.ID " 
 				+ " left join employee as employee_1 on task.custodian = employee_1.ID "
 				+ " left join taskMan on taskMan.taskID = task.ID "
 				+ " left join employee as employee_2 on taskMan.detector = employee_2.ID ";
 
-		String condition = "task.ID = " + ID;
+		String condition = " task.ID = '" + ID + "' ";
 
 		List<Map<String, Object>> result = searchPagingWithJoin(properties,
 				joinEntity, null, condition, false, index, pageNum);
