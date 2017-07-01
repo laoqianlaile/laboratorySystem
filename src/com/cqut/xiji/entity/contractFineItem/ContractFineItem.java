@@ -15,12 +15,12 @@ public class ContractFineItem extends Entity{
 	private int number;
 	private double price;
 	private int hour;
-	private String outSourcingDepartmentID;
 	private double money;
 	private String remarks;
 	private String contractID;
 	private String sampleID;
 	private int type;
+	private String standardID;
 	
 	public String getID() {
 		return ID;
@@ -101,13 +101,7 @@ public class ContractFineItem extends Entity{
 	public void setHour(int hour) {
 		this.hour = hour;
 	}
-	public String getOutSourcingDepartmentID() {
-		return outSourcingDepartmentID;
-	}	
 	
-	public void setOutSourcingDepartmentID(String outSourcingDepartmentID) {
-		this.outSourcingDepartmentID = outSourcingDepartmentID;
-	}
 	public double getMoney() {
 		return money;
 	}	
@@ -130,11 +124,20 @@ public class ContractFineItem extends Entity{
 		this.contractID = contractID;
 	}
 	
+	
+	
 	@Override
 	public String toString() {
-		return "ContractFineItem [" +  "ID=" + ID  + ", " +  "testProjectID=" + testProjectID  + ", " +  "fineItemCode=" + fineItemCode  + ", " +  "fineItemNameEn=" + fineItemNameEn  + ", " +  "fineItemNameCn=" + fineItemNameCn  + ", " +  "isOutsourcing=" + isOutsourcing    + ", " +  "number=" + number  + ", " +  "price=" + price    + ", " +  "hour=" + hour  + ", " +  "outSourcingDepartmentID=" + outSourcingDepartmentID  + ", " +  "money=" + money  + ", " +  "remarks=" + remarks  + ", " +  "contractID=" + contractID  + ", "   + "]";
+		return "ContractFineItem [ID=" + ID + ", testProjectID="
+				+ testProjectID + ", fineItemCode=" + fineItemCode
+				+ ", fineItemNameEn=" + fineItemNameEn + ", fineItemNameCn="
+				+ fineItemNameCn + ", isOutsourcing=" + isOutsourcing
+				+ ", number=" + number + ", price=" + price + ", hour=" + hour
+				+ ", money=" + money + ", remarks=" + remarks + ", contractID="
+				+ contractID + ", sampleID=" + sampleID + ", type=" + type
+				+ ", standardID=" + standardID + "]";
 	}
-	
+
 	@Override
 	public String getTableName() {
 		// TODO Auto-generated method stub
@@ -145,5 +148,13 @@ public class ContractFineItem extends Entity{
 	public String getPrimaryKey() {
 		// TODO Auto-generated method stub
 		return "ID";
+	}
+
+	public String getStandardID() {
+		return standardID;
+	}
+
+	public void setStandardID(String standardID) {
+		this.standardID = standardID;
 	}
 }

@@ -29,22 +29,6 @@ public class Contract extends Entity{
 	private int orderType;
 	private int isInput;
 	
-	public int getOrderType() {
-		return orderType;
-	}
-
-	public void setOrderType(int orderType) {
-		this.orderType = orderType;
-	}
-
-	public int getIsInput() {
-		return isInput;
-	}
-
-	public void setIsInput(int isInput) {
-		this.isInput = isInput;
-	}
-
 	public String getID() {
 		return ID;
 	}	
@@ -174,7 +158,16 @@ public class Contract extends Entity{
 	
 	@Override
 	public String toString() {
-		return "Contract [" +  "ID=" + ID  + ", " +  "contractCode=" + contractCode  + ", " +  "contractName=" + contractName  + ", " +  "companyID=" + companyID  + ", " +  "oppositeMen=" + oppositeMen  + ", " +  "linkPhone=" + linkPhone  + ", " +  "employeeID=" + employeeID  + ", " +  "signAddress=" + signAddress  + ", " +  "signTime=" + signTime  + ", " +  "startTime=" + startTime  + ", " +  "endTime=" + endTime  + ", " +  "contractAmount=" + contractAmount  + ", " +  "fileID=" + fileID  + ", " +  "isClassified=" + isClassified  + ", " +  "classifiedLevel=" + classifiedLevel  + ", " +  "state=" + state  + ", " +  "viewpoint=" + viewpoint  + ", "   + "]";
+		return "Contract [ID=" + ID + ", contractCode=" + contractCode
+				+ ", contractName=" + contractName + ", companyID=" + companyID
+				+ ", oppositeMen=" + oppositeMen + ", linkPhone=" + linkPhone
+				+ ", employeeID=" + employeeID + ", signAddress=" + signAddress
+				+ ", signTime=" + signTime + ", startTime=" + startTime
+				+ ", endTime=" + endTime + ", contractAmount=" + contractAmount
+				+ ", fileID=" + fileID + ", isClassified=" + isClassified
+				+ ", classifiedLevel=" + classifiedLevel + ", state=" + state
+				+ ", viewpoint=" + viewpoint + ", type=" + type
+				+ ", orderType=" + orderType + ", isInput=" + isInput + "]";
 	}
 	
 	@Override
@@ -187,5 +180,21 @@ public class Contract extends Entity{
 	public String getPrimaryKey() {
 		// TODO Auto-generated method stub
 		return "ID";
+	}
+
+	public int getOrderType() {
+		return orderType;
+	}
+
+	public void setOrderType(int orderType) {
+		this.orderType = orderType;
+	}
+
+	public int getIsInput() {
+		return isInput;
+	}
+
+	public void setIsInput(int isInput) {
+		this.isInput = isInput;
 	}
 }
