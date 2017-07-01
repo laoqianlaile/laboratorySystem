@@ -156,14 +156,13 @@ function init() {
 										valign : 'middle',// 垂直居中显示
 										width : '10%',// 宽度
 									},
-									/*{
-										field : 'EQUIPMENTNAME',// 返回值名称
-										title : '所属仪器',// 列名
+									{
+										field : 'uncertainty',// 返回值名称
+										title : '不确定度',// 列名
 										align : 'center',// 水平居中显示
 										valign : 'middle',// 垂直居中显示
-										width : '10%',// 宽度
-										visible : false
-									},*/
+										width : '5%'// 宽度
+									},
 									{
 										field : 'createTime',// 返回值名称
 										title : '创建时间',// 列名
@@ -267,6 +266,11 @@ function checkNull(){
 		swal({title:"检测类别不能为空",  type:"warning",});
 		return true;
 	}
+	var reg = /^[0-9]+.?[0-9]*%?$/;//用来验证数字，包括小数的正则
+	if(!reg.test(arguments[0].uncertainty)){
+		swal({title:"只能是由数字和小数点构成",  type:"warning",});
+		return true;
+	}
 	return false;
 }
 
@@ -299,7 +303,8 @@ function addTestProject() {
 	}
 	parame.describes = ($('#add_DESCRIBE').val());
 	parame.remarks = ($('#add_REMARKS').val());
-	parame.testTypeID = ($('#add_type').val());;
+	parame.testTypeID = ($('#add_type').val());
+	parame.uncertainty = $('#add_uncertainty').val();
 	
 	if(checkNull(parame))return;
 	
@@ -425,6 +430,7 @@ function openEditModal(){
 /*	$('#edit_DEPARTMENTID').val(arguments[0].DEPARTMENTID);
 	$('#edit_STANDARDID').val(arguments[0].STANDARDID);*/
 	
+	$('#edit_uncertainty').val(arguments[0].uncertainty);
 	$('#edit_DESCRIBE').val(arguments[0].describes);
 	$('#edit_REMARKS').val(arguments[0].remarks);
 	

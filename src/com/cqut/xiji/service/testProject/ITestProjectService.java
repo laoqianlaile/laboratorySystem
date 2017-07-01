@@ -21,7 +21,7 @@ public interface ITestProjectService {
 	
 	String addTestProject(String NAMECN, String NAMEEN, String departmentID,
 			String ENVIRONMENTALREQUIREMENTS, String standardID,
-			String EQUIPMENTID, String describes, String remarks,String testTypeID);
+			String EQUIPMENTID, String describes, String remarks,String testTypeID,String uncertainty);
 
 	
 	String delTestProject(String TestProjectIDs);

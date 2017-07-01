@@ -24,7 +24,9 @@ public class Standard extends Entity{
 	private Date abandonApplyTime;
 	private String abandonApplyReason;
 	private String equipmentCode;
+	private String templateID;
 	
+
 	public String getID() {
 		return ID;
 	}	
@@ -140,6 +142,14 @@ public class Standard extends Entity{
 
 	public void setEquipmentCode(String equipmentCode) {
 		this.equipmentCode = equipmentCode;
+	}
+	
+	public String getTemplateID() {
+		return templateID;
+	}
+
+	public void setTemplateID(String templateID) {
+		this.templateID = templateID;
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
@@ -173,5 +174,20 @@ public class StandardController{
 	public JSONObject getStandardReviewWithPaging(String STANDARDCODE,String STANDARDNAME, String TYPE, String STATE, String APPLICATIONTYPE,int limit, int offset, String order, String sort){
 		Map<String, Object> result = service.getStandardReviewWithPaging(STANDARDCODE, STANDARDNAME, TYPE, STATE, APPLICATIONTYPE, limit, offset, order, sort);
 		return JSONObject.fromObject(result);
+	}
+	
+	/**
+	 * 通过输入名字或者标准代号模糊匹配查询
+	 * 
+	 * @author zkl
+	 * @data 2017年7月1日 下午1:33:33
+	 * @param standardName
+	 * @return
+	 */
+	@RequestMapping("/getStandardByName")
+    @ResponseBody
+	public String getStandardByName(String matchName){
+		List<Map<String, Object>> result = service.getTestProjectByName(matchName);
+		return JSONArray.fromObject(result).toString();
 	}
 }
