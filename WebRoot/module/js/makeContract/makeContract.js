@@ -1,4 +1,4 @@
-/**
+/*
  * 交接单搜索条件参数设置
  */
 
@@ -11,13 +11,9 @@ var param = {
 	startTime : $('#schStratTime').val(),
 	endTime : $("#schEndTime").val(),
 	state : $("#schState").val()
+	
 }
-/**
- * 全局设置项目ID
- */
-var globl = {
-	proID : "",
-}
+
 /* 初始化数据 */
 $(function() {
 	
@@ -26,14 +22,14 @@ $(function() {
 						// 定义表格的高度height: 500,
 						striped : true,// 隔行变色效果
 						pagination : true,// 在表格底部显示分页条
-						pageSize : 3,// 页面数据条数
+						pageSize : 5,// 页面数据条数
 						pageNumber : 1,// 首页页码
-						pageList : [ 3, 5, 9, 10 ],// 设置可供选择的页面数据条数
+						pageList : [ 5, 10, 15 ],// 设置可供选择的页面数据条数
 						clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和	// checkbox
 						cache : false,// 禁用 AJAX 数据缓存
 						sortName : 'ID',// 定义排序列
 						sortOrder : 'asc',// 定义排序方式 getRceiptlistWithPaging
-						url : '/laboratorySystem/receiptlistController/getsecretWithPaging.do',// 服务器数据的加载地址
+						url : '/laboratorySystem/contractController/getMakeContractPaging.do',// 服务器数据的加载地址
 						sidePagination : 'server',// 设置在哪里进行分页
 						method : "post",
 						contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
@@ -141,12 +137,27 @@ $(function() {
 									width : '8%'// 宽度
 								},
 								{
-									field : 'classifiedLevel',// 返回值名称
-									title : '涉密等级',// 列名
+									field : 'reType',// 返回值名称
+									title : '类型',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '3%'// 宽度
+								},
+								{
+									field : 'state',// 返回值名称
+									title : '检测/校准进度',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
 									width : '7%'// 宽度
 								},
+								{
+									field : 'isInput',// 返回值名称
+									title : '是否补录合同',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '7%'// 宽度
+								}
+								,
 								{
 									field : 'remarks',// 返回值名称
 									title : '操作',// 列名
@@ -155,27 +166,15 @@ $(function() {
 									width : '12%',// 宽度
 									formatter : function(value, row, index) {
 										
-										var a = "<img src ='/laboratorySystem/module/img/view_icon.png' onclick='view("+row.coID+")'  title='查看' style='cursor:pointer;margin-right:8px'>"
-										return  a;
-									}
-									
+										
+											var a = "<img src='../../../module/img/submit_icon.png' onclick='PassModal(\""+ row.coID+ "\",\""+ row.isInput+ "\")' title='可以'   style='cursor:pointer;margin-right:8px;' />";
+											return  a;
+										}
 								} ]
 					// 列配置项,详情请查看 列参数 表格
 					/* 事件 */
 					});
 });
-//查看文档
-function view(){
-	window.location.href = "/laboratorySystem/module/jsp/documentOnlineView.jsp";
-}
-// 查看页面
-function lookRe(id) {
-	
-	
-	window.location = "./receiptlistView.jsp?reID=" + id;
-	
-}
-
 /* 查询方法 */
 function seacher() {
 	// 查询的时候 他的limit 会依据页面上的数保留 不会变0
@@ -187,34 +186,19 @@ function seacher() {
 	param.linkMan = $('#schLinkMan').val();
 	param.startTime = $('#schStratTime').val();
 	param.endTime = $("#schEndTime").val();
-	param.classifiedLevel = $("#schclassifiedLevel").val();
+	param.state = $("#schState").val();
 	$('#table') .bootstrapTable( 'refresh',
 					{
 						silent : true,
-						url : "/laboratorySystem/receiptlistController/getsecretWithPaging.do",
+						url : "/laboratorySystem/contractController/getMakeContractPaging.do",
 						query : param
 					});
 }
-
 /* 刷新方法 */
 function refresh() {
-	// 清空查询数据
-	var param = {};
-	param.reCode = "";
-	param.coCode = "";
-	param.companyName = "";
-	param.reType = "";
-	param.linkMan = "";
-	param.startTime = "";
-	param.endTime = "";
-	param.state = "";
-	$('#table').bootstrapTable( 'refresh',
-					{
-						silent : false,
-						url : "/laboratorySystem/receiptlistController/getsecretWithPaging.do",
-						query : param
-					});
+	$('#table').bootstrapTable('refresh', null);
 }
+//检查交接单数据是否合理并处理
 function checkData(dataObj) { // 后台数据字段为空就不会传上来
 	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null || dataObj.ID.trim() == "NULL") {
 	    
@@ -262,5 +246,37 @@ function checkData(dataObj) { // 后台数据字段为空就不会传上来
 	if (!dataObj.hasOwnProperty("state") || dataObj.state == null || dataObj.state.trim() == "NULL") {
 		dataObj.state = "";
 	}
+	if (!dataObj.hasOwnProperty("isInput") || dataObj.isInput == null || dataObj.isInput.trim() == "NULL") {
+		dataObj.isInput = "";
+	}
 }
-
+function PassModal(coID,isInput){
+if(isInput=="不可以"){
+	 var parame = {};
+	 parame.ID=coID;
+	 swal({
+			title : "是否允许补录合同?",
+			text : "",
+			type : "warning",
+			showCancelButton : true,
+			cancelButtonText:"不可以",
+			confirmButtonColor : "#DD6B55",
+			confirmButtonText : "可以",
+			closeOnConfirm : false
+		}, function() {
+	 $.ajax({	
+		  url:"/laboratorySystem/contractController/passMakeContract.do",
+		  data:parame,
+		  success:function(o){
+			  if(o<=0){
+				  swal("审核失败");
+			  }
+			  swal("操作成功");
+			  refresh();
+		  }
+		});	
+		});
+}else swal("只能操作不可以补录的合同");
+	
+   }
+   

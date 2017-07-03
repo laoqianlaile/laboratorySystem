@@ -78,6 +78,11 @@ public interface ISampleRecordService {
 			String getManID, String getTime,String type, String remarks);
 	
 	JSONArray getdatalist();
+	/**
+	 * 获取样品信息
+	 * @param factoryCode
+	 * @return
+	 */
 	public List<Map<String, Object>> getFactoryCode(String factoryCode);
 		
 	

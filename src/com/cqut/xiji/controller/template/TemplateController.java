@@ -88,8 +88,8 @@ public class TemplateController{
 	 */
 	@RequestMapping("/addTemplate")
 	@ResponseBody
-	public String addTemplate(String TemplateName ,String TemplateRemarks,String TemplateType,String TestProjectIDs,String fileID,String uploaderID){
-		String result = service.addTemplate(TemplateName,TemplateRemarks,TemplateType,TestProjectIDs,fileID,uploaderID);
+	public String addTemplate(String TemplateName ,String TemplateRemarks,String TemplateType,String standardIDs,String fileID,String uploaderID){
+		String result = service.addTemplate(TemplateName,TemplateRemarks,TemplateType,standardIDs,fileID,uploaderID);
 		return result;
 	}
 	/**

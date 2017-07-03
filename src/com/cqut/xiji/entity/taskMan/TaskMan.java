@@ -9,6 +9,7 @@ public class TaskMan extends Entity{
 	private String ID;
 	private String taskID;
 	private String detector;
+	private double laborHour;
 	
 	public String getID() {
 		return ID;
@@ -32,11 +33,14 @@ public class TaskMan extends Entity{
 		this.detector = detector;
 	}
 	
+	
+	
 	@Override
 	public String toString() {
-		return "TaskMan [" +  "ID=" + ID  + ", " +  "taskID=" + taskID  + ", " +  "detector=" + detector  + ", "   + "]";
+		return "TaskMan [ID=" + ID + ", taskID=" + taskID + ", detector="
+				+ detector + ", laborHour=" + laborHour + "]";
 	}
-	
+
 	@Override
 	public String getTableName() {
 		// TODO Auto-generated method stub
@@ -47,5 +51,13 @@ public class TaskMan extends Entity{
 	public String getPrimaryKey() {
 		// TODO Auto-generated method stub
 		return "ID";
+	}
+
+	public double getLaborHour() {
+		return laborHour;
+	}
+
+	public void setLaborHour(double laborHour) {
+		this.laborHour = laborHour;
 	}
 }

@@ -55,8 +55,8 @@ public class TestProjectController{
 	 */ 
 	@RequestMapping("/addTestProject")
 	@ResponseBody
-	public String addTestProject(String NAMECN, String NAMEEN, String departmentID, String ENVIRONMENTALREQUIREMENTS, String standardID, String EQUIPMENTID,String describes,String remarks,String testTypeID){
-		String result = service.addTestProject(NAMECN, NAMEEN, departmentID, ENVIRONMENTALREQUIREMENTS, standardID, EQUIPMENTID,describes,remarks,testTypeID);
+	public String addTestProject(String NAMECN, String NAMEEN, String departmentID, String ENVIRONMENTALREQUIREMENTS, String standardID, String EQUIPMENTID,String describes,String remarks,String testTypeID,String uncertainty){
+		String result = service.addTestProject(NAMECN, NAMEEN, departmentID, ENVIRONMENTALREQUIREMENTS, standardID, EQUIPMENTID,describes,remarks,testTypeID,uncertainty);
 		return result;
 	}
 	

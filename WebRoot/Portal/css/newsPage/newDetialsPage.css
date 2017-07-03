@@ -91,15 +91,15 @@
 }
 #rightlist{
 	width:950px;
-	height:800px;
+	/*height:800px;*/
 	margin-left:40px;
-	border:1px solid rgb(230,230,230);
+	/*border:1px solid rgb(230,230,230);*/
 	margin-top:30px;
 	float:left;
 }
 .righttable{
-	height:800px;
-    overflow: scroll;
+	/*height:800px;
+    overflow: scroll;*/
 }
 .newsTitleDiv{
 	width: 100%;
@@ -123,11 +123,11 @@
 }
 .newsColumnDiv{
 	width: 100%;
-	height: 130px;
+	/*height: 130px;*/
 }
 .newsColumnDiv p{
 	text-indent:32px;
-	height:100%;
+	/*height:100%;*/
 	width:100%;
 	text-overflow:ellipsis; 
 	display:block; 

@@ -40,8 +40,8 @@
 				<div class="navbar-header pull-right" role="navigation">
 					<ul class="nav ace-nav" style="float:right;">
 						<li class="light-blue"><a data-toggle="dropdown" href="#"
-							class="dropdown-toggle"> <img class="nav-user-photo"
-								src="assets/avatars/user.jpg" alt="Jason's Photo" /> <span
+							class="dropdown-toggle"> <img id="navHead" class="nav-user-photo"
+								src="module/img/person.png" alt="Jason's Photo" /> <span
 								class="user-info"> 
 								<%if(request.getSession().getAttribute("EMPLOYEENAME") == null || 
 								request.getSession().getAttribute("EMPLOYEEID") == null||
@@ -110,7 +110,7 @@
 					<!-- 左边菜单栏上面的头像区域 -->
 					<div class="sidebar-header" id="sidebar-header">
 						<div class="avatar">
-							<img src="module/img/person.png" alt="头像" width="80" height="80"/>
+							<img id ="sidebarHead" src="module/img/person.png" alt="头像" width="80" height="80"/>
 						</div>
 						<span class="name"><%=request.getSession().getAttribute("EMPLOYEENAME")%><span>&nbsp;,&nbsp;您好！</span></span>
 					</div>

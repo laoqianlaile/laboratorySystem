@@ -14,6 +14,8 @@ public class Client extends Entity{
 	private String companyID;
 	private Date createTime;
 	private String  reviewStatus;
+	private String signature;
+	private String stamp;
 	
 	public String getID() {
 		return ID;
@@ -53,7 +55,10 @@ public class Client extends Entity{
 	
 	@Override
 	public String toString() {
-		return "Client [" +  "ID=" + ID  + ", " +  "clientNo=" + clientNo  + ", " +  "password=" + password   + ", " +  "companyID=" + companyID  + ", " +  "createTime=" + createTime  + ", "   + "]";
+		return "Client [ID=" + ID + ", clientNo=" + clientNo + ", password="
+				+ password + ", companyID=" + companyID + ", createTime="
+				+ createTime + ", reviewStatus=" + reviewStatus
+				+ ", signature=" + signature + ", stamp=" + stamp + "]";
 	}
 	
 	@Override
@@ -74,5 +79,21 @@ public class Client extends Entity{
 
 	public void setReviewStatus(String reviewStatus) {
 		this.reviewStatus = reviewStatus;
+	}
+
+	public String getSignature() {
+		return signature;
+	}
+
+	public void setSignature(String signature) {
+		this.signature = signature;
+	}
+
+	public String getStamp() {
+		return stamp;
+	}
+
+	public void setStamp(String stamp) {
+		this.stamp = stamp;
 	}
 }
