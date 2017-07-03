@@ -29,8 +29,26 @@ public class Task extends Entity{
 	private int saveState;
 	private int type;
 	private String departmentID;
+	private String projectID;
+	private String contractID;
 	
 	
+	public String getProjectID() {
+		return projectID;
+	}
+
+	public void setProjectID(String projectID) {
+		this.projectID = projectID;
+	}
+
+	public String getContractID() {
+		return contractID;
+	}
+
+	public void setContractID(String contractID) {
+		this.contractID = contractID;
+	}
+
 	public String getDepartmentID() {
 		return departmentID;
 	}
