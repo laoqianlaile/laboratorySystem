@@ -306,6 +306,8 @@ function wdownFile(){
 
 /* 打开新增弹出框 */
 function showAddModal(){
+	$('#add_contractCodeM').val("");
+	$('#add_contractCode').val("");
 	$('#add_contractName').val("");
 	$('#add_companyName').val("");
 	$('#add_address').val("");
@@ -316,6 +318,7 @@ function showAddModal(){
 	$('#add_signTime').val("");
 	$('#add_startTime').val("");
 	$('#add_endTime').val("");
+	$('#add_technical').val("");
 	$("#addModal").modal("show");
 }
 
@@ -384,6 +387,7 @@ function add(){
 		var endTime = $('#add_endTime').val();
 		var isClassified = $("input[name='isClassified']:checked").val();
 		var classifiedLevel = $('#add_classifiedLevel').val();
+		var technicalContent = $('#add_technical').val();
 		if (!contractName || typeof(contractName) == "undefined" || contractName.trim() == "") 
 		{ 
 			swal("合同名称为空");
@@ -456,6 +460,11 @@ function add(){
 			swal("保密等级不能为空！");
 			return;
 		}
+		if (!technicalContent || typeof(technicalContent) == "undefined" || technicalContent.trim() == "") 
+		{ 
+			swal("技术资料不能为空！");
+			return;
+		}
 		parame.contractCode = contractCode;
 		parame.contractName = contractName;
 		parame.companyID = companyID;
@@ -472,6 +481,7 @@ function add(){
 		parame.isClassified = isClassified;
 		parame.classifiedLevel = classifiedLevel;
 		parame.contractType = contractType;
+		parame.technicalContent = technicalContent;
 		if(companyID == "add_companyName"){
 			swal({
 				title: "公司不存在，是否新建合同并新增对应公司记录！",
@@ -487,6 +497,8 @@ function add(){
 						  data:parame,
 						  success:function(o){
 							  switch (o) {
+							  	case '-11':swal("合同编号已存在！");
+						  			break;
 							  	case '-2':swal("新增公司失败！");
 							  		break;
 							  	case '-4':swal("公司名与公司ID不相符！");
@@ -513,7 +525,8 @@ function add(){
 				  data:parame,
 				  success:function(o){
 					  switch (o) {
-
+					  	case '-11':swal("合同编号已存在！");
+			  				break;
 					  	case '-2':swal("新增公司失败！");
 					  		break;
 					  	case '-4':swal("公司名与公司ID不相符！");

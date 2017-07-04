@@ -3,6 +3,9 @@ package com.cqut.xiji.service.contractFineItem;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 public interface IContractFineItemService {
 	
 	// 科室任务统计
@@ -98,5 +101,15 @@ public interface IContractFineItemService {
 	public int updFineItem2(String ID,String sampleID, String factoryCode,
 			String sampleName, String specifications, double money,
 			String remarks, String contractID);
+	
+	/**
+	 * @description 导出合同细项
+	 * @author LG.hujiajun
+	 * @created 2017年7月4日 下午9:46:36
+	 * @param request
+	 * @param response
+	 */
+	public boolean contractFineItemExportExcel(HttpServletRequest request,
+			HttpServletResponse response);
 	
 }

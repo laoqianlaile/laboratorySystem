@@ -101,8 +101,8 @@ public class ContractController{
 	 */
 	@RequestMapping("/addContract")  
     @ResponseBody
-	public int addContract(String contractCode,String contractName, String companyID,String companyName, String oppositeMen,String linkPhone, String employeeID, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel,int contractType){
-		int result = service.addContract(contractCode,contractName, companyID, companyName, oppositeMen, linkPhone,employeeID, employeeName, address, signAddress, startTime, signTime, endTime,isClassified,classifiedLevel,contractType);
+	public int addContract(String contractCode,String contractName, String companyID,String companyName, String oppositeMen,String linkPhone, String employeeID, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel,int contractType,String technicalContent){
+		int result = service.addContract(contractCode,contractName, companyID, companyName, oppositeMen, linkPhone,employeeID, employeeName, address, signAddress, startTime, signTime, endTime,isClassified,classifiedLevel,contractType,technicalContent);
 		return result;
 	}
 	
@@ -243,8 +243,8 @@ public class ContractController{
 	 */
     @RequestMapping("/updContract")  
     @ResponseBody
-	public int updContract(String ID, String contractCode,String contractName, String companyID, String companyName, String address, String oppositeMen,String linkPhone, String employeeID, String employeeName, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel){
-		int result = service.updContract(ID, contractCode, contractName, companyID, companyName, address, oppositeMen, linkPhone, employeeID, employeeName, signAddress, startTime, signTime, endTime, isClassified, classifiedLevel);
+	public int updContract(String ID, String contractCode,String contractName, String companyID, String companyName, String address, String oppositeMen,String linkPhone, String employeeID, String employeeName, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel,String technicalID,String technicalContent){
+		int result = service.updContract(ID, contractCode, contractName, companyID, companyName, address, oppositeMen, linkPhone, employeeID, employeeName, signAddress, startTime, signTime, endTime, isClassified, classifiedLevel,technicalID,technicalContent);
 		return result;
 	}
     

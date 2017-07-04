@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -306,4 +308,19 @@ public class ContractFineItemController{
 		List<Map<String,Object>> result = service.getContractFineItemByContractIDs(ContractID);
 		return JSONArray.fromObject(result).toString();
 	}
+	
+	/**
+	 * 
+	 * @description 导出合同细项
+	 * @author LG.hujiajun
+	 * @created 2017年7月4日 下午9:45:30
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/contractFineItemExportExcel")
+	@ResponseBody
+	public void contractFineItemExportExcel(HttpServletRequest request,HttpServletResponse response) {
+		service.contractFineItemExportExcel(request, response);
+	}
+
 }

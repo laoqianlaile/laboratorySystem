@@ -15,7 +15,7 @@ public interface IContractService {
 	public int addContract(String contractCode,String contractName, String companyID,String companyName,
 			String oppositeMen, String linkPhone,String employeeID, String employeeName,
 			String address, String signAddress, String startTime,
-			String signTime, String endTime, int isClassified, int classifiedLevel,int contractType);
+			String signTime, String endTime, int isClassified, int classifiedLevel,int contractType,String technicalContent);
 	
 	public List<Map<String, Object>> getIdByCode(String contractCode);
 	
@@ -26,7 +26,7 @@ public interface IContractService {
 			String oppositeMen, String linkPhone, String employeeID,
 			String employeeName, String signAddress, String startTime,
 			String signTime, String endTime,
-			int isClassified, int classifiedLevel);
+			int isClassified, int classifiedLevel,String technicalID,String technicalContent);
 	
 			
 	public int auditContract(String ID, String viewpoint, int state);

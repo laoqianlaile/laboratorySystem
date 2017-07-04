@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Service;
 
@@ -706,7 +708,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 		contractFineItem.setMoney(money);
 		contractFineItem.setType(0);
 		contractFineItem.setRemarks(remarks);
-		//contractFineItem.setStandardID(standardID);
+		contractFineItem.setStandardID(standardID);
 		contractFineItem.setContractID(contractID);
 		
 		int results = entityDao.save(contractFineItem);
@@ -846,7 +848,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 		contractFineItem.setNumber(number);
 		contractFineItem.setPrice(price);
 		contractFineItem.setMoney(money); 
-		//contractFineItem.setStandardID(standardID);
+		contractFineItem.setStandardID(standardID);
 		contractFineItem.setType(0);
 		contractFineItem.setRemarks(remarks);
 				
@@ -956,4 +958,20 @@ public class ContractFineItemService extends SearchService implements IContractF
 		return list;
 		
 	}
+	/**
+	 * 
+	 * @description 导出合同细项
+	 * @author LG.hujiajun
+	 * @created 2017年7月4日 下午9:47:44
+	 * @param request
+	 * @param response
+	 * @see com.cqut.xiji.service.contractFineItem.IContractFineItemService#contractFineItemExportExcel(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
+	public boolean contractFineItemExportExcel(HttpServletRequest request,
+			HttpServletResponse response){
+		
+		return true;
+	}
+	
 }

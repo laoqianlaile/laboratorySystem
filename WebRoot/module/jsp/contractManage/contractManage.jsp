@@ -203,6 +203,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<option class="Level3" value="2">绝密</option>
 					</select>
 				</div>
+				<div class="col-xs-12 col-md-12">
+                   	<label class="control-label">技术资料:</label>
+                   	<textarea id="add_technical" name="technical" style="margin: -28 0 0 18.65%;height:34px;" class="form-control"></textarea>
+               	</div>
              </div>
 	      </div>
 	      <div class="modal-footer">

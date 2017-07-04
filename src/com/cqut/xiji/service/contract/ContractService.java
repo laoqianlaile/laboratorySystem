@@ -28,6 +28,7 @@ import com.cqut.xiji.entity.equipment.Equipment;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.entity.project.Project;
 import com.cqut.xiji.entity.receiptlist.Receiptlist;
+import com.cqut.xiji.entity.technical.Technical;
 import com.cqut.xiji.entity.template.Template;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.service.company.CompanyService;
@@ -337,6 +338,8 @@ public class ContractService extends SearchService implements IContractService{
 				"contract.contractAmount",
 				"contract.isClassified",
 				"contract.classifiedLevel",
+				"technical.ID as technicalID",
+				"technical.content as technicalContent",
 				"contract.type as contractType",
 				"case when contract.state = 0 then '未上传合同文件' "
 				+ "when contract.state = 1 then '未提交' "
@@ -348,7 +351,8 @@ public class ContractService extends SearchService implements IContractService{
 				+ "when contract.state = 7 then '异常终止' end as state"
 		};
 		String joinEntity = " LEFT JOIN company ON contract.companyID = company.ID " +
-				" LEFT JOIN employee ON contract.employeeID = employee.ID ";
+				" LEFT JOIN employee ON contract.employeeID = employee.ID " +
+				" LEFT JOIN technical ON technical.contractID = contract.ID ";
 		String condition = "contract.ID='" + ID + "'";
 		List<Map<String, Object>> result = entityDao.searchForeign(properties,baseEntity,joinEntity,null,condition);
 		System.out.println("getContractByID() result:"+result);
@@ -373,8 +377,16 @@ public class ContractService extends SearchService implements IContractService{
 	 * @see com.cqut.xiji.service.contract.IContractService#addContract(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public int addContract(String contractCode,String contractName, String companyID, String companyName, String oppositeMen,String linkPhone,String employeeID, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel,int contractType) {
+	public int addContract(String contractCode,String contractName, String companyID, String companyName, String oppositeMen,String linkPhone,String employeeID, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel,int contractType,String technicalContent) {
 		// TODO Auto-generated method stub
+		String[] properties = new String[] {"ID"};
+		String condition = " contractCode = '" + contractCode + "'";
+		List<Map<String, Object>> resul = entityDao.findByCondition(properties, condition, Contract.class);
+		if(!resul.isEmpty()){
+			System.out.println("合同编号已存在！");
+			return -11;
+		}
+		
 		String[] properties1 = new String[] {"ID"};
 		String condition1 = " companyName = '" + companyName + "'";
 		List<Map<String, Object>> result1 = entityDao.findByCondition(properties1, condition1, Company.class);
@@ -471,6 +483,14 @@ public class ContractService extends SearchService implements IContractService{
 			project.setRemarks("新增合同时创建的项目");
 			int aresult = entityDao.save(project);
 		}
+		
+		Technical technical = new Technical();
+		String technicalID = EntityIDFactory.createId();
+		technical.setID(technicalID);
+		technical.setContractID(ID);
+		technical.setContent(technicalContent);
+		entityDao.save(technical);
+		
 		return result;
 	}
 	
@@ -1139,7 +1159,7 @@ public class ContractService extends SearchService implements IContractService{
 			String oppositeMen, String linkPhone, String employeeID,
 			String employeeName, String signAddress, String startTime,
 			String signTime, String endTime,
-			int isClassified, int classifiedLevel) {
+			int isClassified, int classifiedLevel,String technicalID,String technicalContent) {
 		// TODO Auto-generated method stub
 		System.out.println("进入updContract");
 		String[] properties1 = new String[] {"ID"};
@@ -1218,6 +1238,12 @@ public class ContractService extends SearchService implements IContractService{
 		contract.setIsClassified(isClassified);
 		contract.setClassifiedLevel(classifiedLevel);
 		int result3 = entityDao.updatePropByID(contract,ID);
+		
+		Technical technical = new Technical();
+		technical.setID(technicalID);
+		technical.setContractID(ID);
+		technical.setContent(technicalContent);
+		entityDao.updatePropByID(technical,ID);
 		return result3;
 	}
 	
