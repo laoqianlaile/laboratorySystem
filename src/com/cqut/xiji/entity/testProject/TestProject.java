@@ -17,7 +17,9 @@ public class TestProject extends Entity{
 	private String describes;
 	private double laborHour;
 	private String testTypeID;
+	private String uncertainty;
 	
+
 	public String getID() {
 		return ID;
 	}	
@@ -105,12 +107,25 @@ public class TestProject extends Entity{
 	public void setDescribes(String describes) {
 		this.describes = describes;
 	}
-
-	@Override
-	public String toString() {
-		return "TestProject [" +  "ID=" + ID  + ", " +  "nameEn=" + nameEn  + ", " +  "nameCn=" + nameCn      + ", " +  "createTime=" + createTime  + ", " +  "templateID=" + templateID  + ", " +  "remarks=" + remarks + ", " +  "describes=" + describes + "]";
+	
+	public String getUncertainty() {
+		return uncertainty;
 	}
 	
+	public void setUncertainty(String uncertainty) {
+		this.uncertainty = uncertainty;
+	}
+
+	
+	@Override
+	public String toString() {
+		return "TestProject [ID=" + ID + ", nameEn=" + nameEn + ", nameCn="
+				+ nameCn + ", createTime=" + createTime + ", templateID="
+				+ templateID + ", remarks=" + remarks + ", describes="
+				+ describes + ", laborHour=" + laborHour + ", testTypeID="
+				+ testTypeID + ", uncertainty=" + uncertainty + "]";
+	}
+
 	@Override
 	public String getTableName() {
 		// TODO Auto-generated method stub
@@ -122,4 +137,5 @@ public class TestProject extends Entity{
 		// TODO Auto-generated method stub
 		return "ID";
 	}
+
 }

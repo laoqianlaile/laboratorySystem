@@ -24,7 +24,9 @@ public class Standard extends Entity{
 	private Date abandonApplyTime;
 	private String abandonApplyReason;
 	private String equipmentCode;
+	private String templateID;
 	
+
 	public String getID() {
 		return ID;
 	}	
@@ -141,12 +143,28 @@ public class Standard extends Entity{
 	public void setEquipmentCode(String equipmentCode) {
 		this.equipmentCode = equipmentCode;
 	}
+	
+	public String getTemplateID() {
+		return templateID;
+	}
 
-	@Override
-	public String toString() {
-		return "Standard [" +  "ID=" + ID  + ", " +  "standardCode=" + standardCode  + ", " +  "standardName=" + standardName  + ", " +  "type=" + type  + ", " +  "scope=" + scope  + ", " +  "description=" + description  + ", " +  "suggest=" + suggest  + ", " +  "fileID=" + fileID  + ", " +  "state=" + state  + ", " +  "applicationType=" + applicationType  + ", " +  "remarks=" + remarks  + ", " +  "editState=" + editState  + ", " +  "abandonApplyMan=" + abandonApplyMan + ", " +  "abandonApplyTime=" + abandonApplyTime + ", " +  "abandonApplyReason=" + abandonApplyReason + "]";
+	public void setTemplateID(String templateID) {
+		this.templateID = templateID;
 	}
 	
+	@Override
+	public String toString() {
+		return "Standard [ID=" + ID + ", standardCode=" + standardCode
+				+ ", standardName=" + standardName + ", type=" + type
+				+ ", scope=" + scope + ", description=" + description
+				+ ", suggest=" + suggest + ", fileID=" + fileID + ", state="
+				+ state + ", applicationType=" + applicationType + ", remarks="
+				+ remarks + ", editState=" + editState + ", abandonApplyMan="
+				+ abandonApplyMan + ", abandonApplyTime=" + abandonApplyTime
+				+ ", abandonApplyReason=" + abandonApplyReason
+				+ ", templateID=" + templateID + "]";
+	}
+
 	@Override
 	public String getTableName() {
 		// TODO Auto-generated method stub
@@ -158,4 +176,5 @@ public class Standard extends Entity{
 		// TODO Auto-generated method stub
 		return "ID";
 	}
+
 }

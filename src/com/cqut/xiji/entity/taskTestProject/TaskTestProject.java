@@ -13,6 +13,7 @@ public class TaskTestProject extends Entity{
 	private String taskID;
 	private String testProjectID;
 	private Date checkInTime;
+	private String testStandard;
 	
 	public String getID() {
 		return ID;
@@ -48,9 +49,11 @@ public class TaskTestProject extends Entity{
 
 	@Override
 	public String toString() {
-		return "TaskTestProject [" +  "ID=" + ID  + ", " +  "taskID=" + taskID  + ", " +  "testProjectID=" + testProjectID  + ", " +  "checkInTime=" + checkInTime  + "]";
+		return "TaskTestProject [ID=" + ID + ", taskID=" + taskID
+				+ ", testProjectID=" + testProjectID + ", checkInTime="
+				+ checkInTime + ", testStandard=" + testStandard + "]";
 	}
-	
+
 	@Override
 	public String getTableName() {
 		// TODO Auto-generated method stub
@@ -61,5 +64,13 @@ public class TaskTestProject extends Entity{
 	public String getPrimaryKey() {
 		// TODO Auto-generated method stub
 		return "ID";
+	}
+
+	public String getTestStandard() {
+		return testStandard;
+	}
+
+	public void setTestStandard(String testStandard) {
+		this.testStandard = testStandard;
 	}
 }

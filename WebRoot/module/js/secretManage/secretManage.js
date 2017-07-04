@@ -164,6 +164,7 @@ $(function() {
 					/* 事件 */
 					});
 });
+//查看文档
 function view(){
 	window.location.href = "/laboratorySystem/module/jsp/documentOnlineView.jsp";
 }

@@ -275,6 +275,10 @@
 								<select  id="add_type" name="type"class="form-control">
 								</select>
 						</div>
+						<div class="col-md-6 col-xs-6 margin2">
+								<label class="labelName">不确定度</label>
+								<input  type="text" id="add_uncertainty" name ="uncertainty" placeholder="请输入 1.5% 或者 0.345" class="form-control" />
+						</div>
 						<div class="col-md-12 col-xs-12 margin2">
 							<label class="labelName">标准描述</label>
 							<textarea  id="add_DESCRIBE" name="DESCRIBE"
@@ -360,6 +364,10 @@
 							<label class="labelName">检测类别</label>
 							<select  id="edit_type" name="type"class="form-control">
 							</select>
+					</div>
+					<div class="col-md-6 col-xs-6 margin2">
+							<label class="labelName">不确定度</label>
+							<input  type="text" id="edit_uncertainty" name ="uncertainty" placeholder="请输入 1.5% 或者 0.345" class="form-control" />
 					</div>
 					<div class="col-md-12 column margin2">
 						<label class="labelName">标准描述</label>

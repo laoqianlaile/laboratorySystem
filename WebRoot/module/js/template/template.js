@@ -355,7 +355,7 @@ function addTemplate(fileID) {
 	}
 	if (templateTypeString === "检测报告模板") {
 		parame.TemplateType = 1;
-		parame.TestProjectIDs = getTestProjectIDs();
+		parame.standardIDs = getStandardIDs();
 	}
 	if (templateTypeString === "交接单模板") {
 		parame.TemplateType = 2;
@@ -624,7 +624,7 @@ function fullTestProjectData(data){
 	}
 	else{
 		for(var i = 0; i < data.length; i++){
-			html+="<li  id ='"+data[i].ID+"' onclick='displayChecked(this)'>" + data[i].testName+ "</li>"
+			html+="<li  id ='"+data[i].ID+"' onclick='displayChecked(this)'>" + data[i].Name+ "</li>"
 		}
 	}
 	html +="</ul>";
@@ -635,7 +635,7 @@ function fullTestProjectData(data){
  * 获得焦点时,模糊匹配展示搜索检测项目
  */
 function showPartTestproject(){
-	var data = getTestproject();
+	var data = getStandard();
 	fullTestProjectData(data);
 }
 /**
@@ -698,7 +698,7 @@ function isSameID(checkID){
  * 获取所有检测项目ID
  * 
  */
-function getTestProjectIDs(){
+function getStandardIDs(){
 	var total = ""
 	var allTestProjectIDs =$('#add_TestProjectNameCn span.singleE');
 	if(allTestProjectIDs.length == 0){
@@ -716,13 +716,13 @@ function getTestProjectIDs(){
  * 向后台发出请求获取检测项目数据
  * 
  */
-function getTestproject(){
+function getStandard(){
 	var matchName = "";
 	matchName = $('#editReprotSearch').val();
 	console.log(matchName);
 	var date;
 	$.ajax({
-		url : 'testProjectController/getTestProjectListByName.do',
+		url : 'standardController/getStandardByName.do',
 		dataType : "json",
 		async : false,
 		data : {matchName:matchName},

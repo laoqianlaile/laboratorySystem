@@ -13,6 +13,7 @@ public class MessageNotice extends Entity{
 	private String employeeID;
 	private int state;
 	private Date lookTime;
+	private String sendMan;
 	
 	public String getID() {
 		return ID;
@@ -53,6 +54,15 @@ public class MessageNotice extends Entity{
 	public void setLookTime(Date lookTime) {
 		this.lookTime = lookTime;
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "MessageNotice [ID=" + ID + ", messageID=" + messageID
+				+ ", employeeID=" + employeeID + ", state=" + state
+				+ ", lookTime=" + lookTime + ", sendMan=" + sendMan + "]";
+	}
 
 	@Override
 	public String getTableName() {
@@ -64,5 +74,13 @@ public class MessageNotice extends Entity{
 	public String getPrimaryKey() {
 		// TODO Auto-generated method stub
 		return "ID";
+	}
+
+	public String getSendMan() {
+		return sendMan;
+	}
+
+	public void setSendMan(String sendMan) {
+		this.sendMan = sendMan;
 	}
 }

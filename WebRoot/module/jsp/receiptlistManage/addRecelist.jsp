@@ -51,7 +51,7 @@
 <body>
 	<div class="container">
 		<div class='headTitel'>
-			<label>新增检测/校准交接单</label> <label> <span>交接单编号：</span> <span>XJHJ-226-16-1014-TET</span>
+			<label>新增检测/校准交接单</label> <label> <span>交接单编号：</span> <span contenteditable="true">XJHJ-226-16-1014-TET</span>
 			</label>
 			<hr class="headHr">
 		</div>

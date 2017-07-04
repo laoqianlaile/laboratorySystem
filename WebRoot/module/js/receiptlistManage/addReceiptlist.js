@@ -456,6 +456,7 @@ function dealReSave(self) {
 	param.endTime = $("#endTime").val().trim();
 	param.linkPhone = $("#linkPhone").val().trim();
 	param.accordingDoc = $("#accordingDoc").val().trim();
+	param.reCode = $(".headTitel label span:last-child")[0].innerText ;
 	param.reID = obj.reID;
 	param.coID = obj.coID;
 	param.comID = obj.comID;
@@ -1006,15 +1007,21 @@ function initSample() {
 									valign : 'middle',// 垂直居中显示
 									width : '12%',// 宽度
 									formatter : function(value, row, index) {
-										var dele = "", edit = "", print = "";
+										var dele = "", edit = "", confirm = "", print = "";
 										print = "<img src=\"./module/img/printbarcode_icon.png\" alt=\"打印条形码\" title=\"打印条形码\" onclick='print(\""
 												+ row.qrcode + "\")'>";
 
 										edit = "<img src=\"./module/img/edit_icon.png\"  alt=\"编辑\" title='编辑' onclick='editTask("
 												+ JSON.stringify(row) + ")'>";
+										
+										if(row.saveState == 0)
+										{ 
+											confirm = "<img src=\"./module/img/submit_icon.png\"  alt=\"确认\" title='确认' onclick='confirmTask()'>";
+										}
+											
 										dele = "<img src=\"./module/img/delete_icon.png\" alt=\"删除\" title='删除' onclick='deleteTask(\""
 												+ row.ID + "\")'>";
-										return edit + dele + print;
+										return edit + dele + confirm + print;
 									}
 								} ]
 					// 列配置项,详情请查看 列参数 表格
@@ -1022,7 +1029,13 @@ function initSample() {
 					});
 
 }
-
+//确认查看样品信息
+function confirmTask(){
+	var source = event.target || event.srcElement;
+	source.style.display = "none"; 
+	//后面保存处理过
+	
+}
 // 编辑任务框打开
 function editTask() {
 	var data = arguments[0];
