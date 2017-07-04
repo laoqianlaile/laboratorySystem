@@ -2,6 +2,7 @@ package com.cqut.xiji.service.employee;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,6 +28,13 @@ import com.cqut.xiji.entity.employee.Employee;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
+import com.cqut.xiji.tool.POIEntity.DynamicLengthConfig;
+import com.cqut.xiji.tool.POIXMLReader.XMLParser;
+import org.apache.commons.lang.StringUtils;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 @Service("employeeService")
 public class EmployeeService extends SearchService implements IEmployeeService{
@@ -631,6 +639,98 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 			Employee employee = entityDao.getByID(employeeID,Employee.class);
 			employee.setHeadCrop(path);
 			return entityDao.updatePropByID(employee, employeeID)+"";
+		}
+		
+		@Override
+		public boolean employeeExportExcel(HttpServletRequest request,HttpServletResponse response) {
+			String XMLPath = getClass().getResource("/").getFile().toString();
+			XMLPath = XMLPath + "/ReportXML/employee.xml";
+			String sheetName = "employee";
+			Map<String, DynamicLengthConfig> dynamicLengthMap = new HashMap<String, DynamicLengthConfig>();
+			List<String> list1 = new ArrayList<String>();// 大标题
+			List<Map<String, Object>> dataSource =getEmployeeWithPaging1( null,
+					 null);
+			String fileName = "";
+			//dataSource =null;
+			fileName = "员工信息.xls";
+			final String userAgent = request.getHeader("USER-AGENT");
+			list1.add("员工信息");
+			DynamicLengthConfig config1 = new DynamicLengthConfig(0, 0, 1, 17,
+					list1);
+			dynamicLengthMap.put("dynamicLengt1", config1);
+			XMLParser parser = new XMLParser(XMLPath, sheetName, null,
+					dynamicLengthMap, dataSource);
+			parser.parse();
+			try {
+				if(StringUtils.contains(userAgent, "MSIE")){//IE浏览器
+	                fileName = URLEncoder.encode(fileName,"UTF8");
+	            }else if(StringUtils.contains(userAgent, "Mozilla")){//google,火狐浏览器
+	                fileName = new String(fileName.getBytes(), "ISO8859-1");
+	            }else{
+	                fileName = URLEncoder.encode(fileName,"UTF8");//其他浏览器
+	            }
+				response.setHeader("content-disposition", "attachment;filename=\""
+						+ fileName+"\"");
+			} catch (UnsupportedEncodingException e1) {
+				e1.printStackTrace();
+			}
+
+			try {
+				OutputStream output = response.getOutputStream();
+				parser.write(output);
+				output.close();
+				return true;
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return true;
+		}
+		
+		
+		public List<Map<String, Object>> getEmployeeWithPaging1(String order,
+				String sort) {
+			// TODO Auto-generated method stub
+			String tableName = "employee";
+			String[] properties = new String[] {
+					"employee.employeeName",
+					"employee.employeeCode",
+					"employee.loginName",
+					"employee.email",
+					"employee.address",
+					"employee.phoneNumber",
+					"date_format(employee.createTime,'%Y-%m-%d') as createTime",
+					"date_format(employee.birthday,'%Y-%m-%d') as birthday",
+					"case when employee.jobTitle = 0 then '无'"
+							+ "when employee.jobTitle =1 then '初级工程师' "
+							+ "when employee.jobTitle =2 then '中级工程师'"
+							+ "when employee.jobTitle = 3 then '高级工程师' end as jobTitle",
+					"case when employee.eduLevel = 0 then '初中'"
+							+"when employee.eduLevel =1 then '高中'"
+							+"when employee.eduLevel =2 then '大专'"
+							+"when employee.eduLevel =3 then '本科'"
+							+"when employee.eduLevel =4 then '硕士'"
+							+"when employee.eduLevel =5 then '博士' end as eduLevel",
+					"employee.graduate",
+					"employee.IDCard",
+					"(select GROUP_CONCAT(role.`name`) from role where FIND_IN_SET(role.ID,employee.roleID))as roleName",
+					"department.departmentName",
+					"duty.dutyName",
+					"case when employee.sex = 0 then '女'"
+							+ "when employee.sex = 1 then '男' end as sex",};
+
+			String joinEntity = " left join department on employee.departmentID = department.ID "
+					+ " left join duty on employee.dutyID = duty.ID ";
+			int permission = 1;
+			String condition = "1 = 1 and employee.permission=" + permission;
+			int index=1;
+			int count = getForeignCountWithJoin(joinEntity, null, condition, false);
+			index=count;
+			List<Map<String, Object>> result = originalSearchWithpaging(properties,
+					tableName, joinEntity, null, condition, false, null, sort,
+					order, index,0);
+			
+			return result;
 		}
 		
 }

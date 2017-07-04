@@ -31,6 +31,7 @@
 	href="module/css/bootstrap-datetimepicker.css">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-select.css">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-select.min.css">
+<link rel="stylesheet" type="text/css" href="module/css/uploadify.css">
 <link rel="stylesheet" type="text/css"
 	href="module/css/employeeManage/employeeManage.css" />
 	
@@ -43,6 +44,7 @@
 <script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="module/js/bootstrap-datetimepicker.fr.js"></script>
 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+<script src="module/js/jquery.uploadify.min.js"></script>
 <script src="module/js/sweetalert.min.js"></script>
 <script src="module/js/alert.js"></script>
 <script src="assets/js/autoPage.js"></script>
@@ -99,6 +101,8 @@
 					style="hover:#ffad33" onclick="add()">新增</button>
 				<button type="button" class="btn btn-primary glyphicon btn3"
 					onclick="reset()">重置</button>
+				<button type="button" class="btn btn-primary glyphicon btn3"
+					onclick="exportReport()">导出</button>
 			</div>
 		</div>
 		<div class="table">
@@ -458,6 +462,38 @@
 			</div>
 		</div>
 	</div>
+	
+	<div id="importExcel" class="modal fade" role="dialog"  
+		aria-labelledby="gridSystemModalLabel">
+		<div class="modal-dialog" role="document" style="width:450px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">导入Excel文件</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div id="fileInfo" style="text-align:left">
+							<div id="file">
+								<input type="file" name="files" id="files" style="display:none" onchange="checkFile(this)">
+							</div>
+							
+							<button type="button" id="chooseFile" name="chooseFile" class="btn btn-default">
+								<span class="glyphicon glyphicon-folder-open "></span> 选择文件
+							</button>
+							<span id="fileName"></span>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+
+					<button type="button" class="btn btn-primary" id="ensure" name="ensure" onclick="importExcel()">确定</button>
+					<button type="button" style="background:#fff;color:#333;"
+						class="btn btn-primary" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<script type="text/javascript">
 		$('.form_datetime').datetimepicker({
 			language : 'zh-CN',
@@ -469,6 +505,11 @@
 			minView : 2,
 			forceParse : 0,
 			format : 'yyyy-mm-dd hh:ii:ss'
+		});
+		
+		$('#chooseFile').click(function() {
+			$('#files').click();
+
 		});
 	</script>
 </body>
