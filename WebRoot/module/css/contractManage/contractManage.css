@@ -201,3 +201,20 @@
 .employeeName ul li:hover {
 	background-color: #dcdcdc;
 }
+.row1 .contractCodeM{
+	width: 27%;
+    margin-left: 26%;
+    margin-top: 10px;
+    padding: 0px 7px;
+}
+.row1 .contractCodeR{
+	width: 27%;
+    height: 25px;
+    margin-top: 10px;
+    margin-left: 10%;
+    padding: 0px 3px;
+}
+.row1 .contractCodeA{
+	margin-left: 18.65%;
+    margin-top: 10px;
+}

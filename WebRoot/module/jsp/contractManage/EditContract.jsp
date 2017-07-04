@@ -163,7 +163,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="contractFileItem_title"><img src="module/img/contractDetail_icon.png" alt="contractDetail_icon" />编辑合同细项</div>
 				<div class="btnAdd fr">
 					<button id="ItemModal1" type="button" onclick="openAddItemModal1()" class="btn btn-primary">添加检测细项</button>
-					<button id="ItemModal2" type="button" onclick="openAddItemModal2()" class="btn btn-primary">添加校准细项</button>
+					<button id="ItemModal2" type="button" onclick="openAddItemModal2()" class="btn btn-primary">添加校准细项</button> 	
 				</div>
 			</div>
 			<div class="bottom">
@@ -240,10 +240,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      </div>
 	      <div class="modal-body">
 	      	<div id="addContent" class="row">
-	      		<div class="col-xs-12 col-md-12">
-                   	<label class="control-label">合同细项编号：</label>
-                   	<input type="text" id="add_fineItemCode" name="fineItemCode" class="form-control" />
-               	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label">是否外包:</label>
                    	<input type="radio" value="0" checked="checked"  name="isOutsourcing1" style="margin:0 0 0 80px;vertical-align: text-top;"/><span>内测</span>
@@ -256,11 +252,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                   
                    </div>
                 </div>
+                <div class="col-xs-12 col-md-12">
+                   	<label class="control-label">检测项目标准：</label>
+                   	<input type="text" id="add_testStandard" name="testStandard" class="form-control" />
+                   <div class="testStandard">
+	                   
+                   </div>
+                </div>
                 <div class="col-xs-12 col-md-12" >
                    	<label class="control-label fl" style="width:22.5%;">数量：</label>
                    	<input type="text" id="add_number" name="number" class="form-control fl" style="width:21%;"
-                   	onkeyup="checknum(this)"
-						onafterpaste="checknum(this)"/>
+                   	onkeyup="this.value=this.value.replace(/\D/g,'')"
+						onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
                    	<label class="control-label fl" style="width:22.5%;margin-left: 5.5%;">单价：</label>
                    	<input type="text" id="add_price" name="price" class="form-control fl" style="width:21%;" 
                    	onkeyup="checknum(this);"
@@ -343,10 +346,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    	<label class="control-label">合同细项ID：</label>
                    	<input type="text" id="edit_fineItemID1" name="fineItemID1" class="form-control" />
                	</div>
-	      		<div class="col-xs-12 col-md-12">
-                   	<label class="control-label">合同细项编号：</label>
-                   	<input type="text" id="edit_fineItemCode" name="fineItemCode" class="form-control" />
-               	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label">是否外包:</label>
                    	<input type="radio" value="0" checked="checked"  name="isOutsourcing2" style="margin:0 0 0 80px;vertical-align: text-top;"/><span>内测</span>
@@ -362,8 +361,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="col-xs-12 col-md-12" >
                    	<label class="control-label fl" style="width:22.5%;">数量：</label>
                    	<input type="text" id="edit_number" name="number" class="form-control fl" style="width:21%;"
-                   	onkeyup="checknum(this)"
-						onafterpaste="checknum(this)"/>
+                   onkeyup="this.value=this.value.replace(/\D/g,'')"
+						onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
                    	<label class="control-label fl" style="width:22.5%;margin-left: 5.5%;">单价：</label>
                    	<input type="text" id="edit_price" name="price" class="form-control fl" style="width:21%;" 
                    	onkeyup="checknum(this);"
@@ -443,6 +442,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <script type="text/javascript" src="assets/fileupload/jquery.iframe-transport.js"></script>
   <script type="text/javascript" src="assets/fileupload/jquery.ui.widget.js"></script>
   <script type="text/javascript" src="assets/fileupload/jquery.fileupload.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+	<script src="assets/js/bootstrap-table.min.js"></script>
+	<script src="assets/js/bootstrap-table-zh-CN.min.js"></script>
   <script>
    $('#chooseFile').click(function() {
 		$('#files').click();

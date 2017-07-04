@@ -402,7 +402,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 	 */
 	@Override
 	public List<Map<String, Object>> getTestProjectByName(String testProjectName){
-		String[] properties = new String[] {"ID","nameCn","nameEn","departmentID"};
+		String[] properties = new String[] {"ID","nameCn","nameEn"};
 		String condition = " nameCn like '%" + testProjectName + "%' or nameEn like '%" + testProjectName + "%'";
 		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, TestProject.class);
 		return result;

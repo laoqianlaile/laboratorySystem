@@ -212,6 +212,45 @@ label.wide{
 .testProjectName ul li:hover{
 	background-color:#dcdcdc;
 }
+.testStandard{
+	position: absolute;
+	height: auto;
+	max-height: 100px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    margin-left: 21.5%;
+    float: left;
+    width: 66.5%;
+    display: none;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 3px;
+    background-color: #fff;
+    z-index: 10;
+}
+.testStandard ul {
+	display: block;
+	height:auto;
+    max-height: 100px;
+    overflow-y: scroll;
+	border:none;
+	margin:0;
+	margin-left:-40px;
+}
+.testStandard ul li{
+	display: block;
+    vertical-align: middle;
+	height:30px;
+	line-height: 30px;
+	list-style-type: none;
+	text-indent: 12px;
+}
+.testStandard ul li.noDate{
+ 	color: red;
+}
+.testStandard ul li:hover{
+	background-color:#dcdcdc;
+}
 .sample{
 	position: absolute;
 	height: auto;
@@ -323,7 +362,7 @@ label.wide{
 	margin:20px 10px;
 	height:250px;
 	width:99%;
-	border:1px solid #ccc;
+	//border:1px solid #ccc;
 }
 #show_contractFileItem{
 	min-width:1042px;

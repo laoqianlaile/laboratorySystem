@@ -22,6 +22,7 @@ import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.company.Company;
 import com.cqut.xiji.entity.contract.Contract;
+import com.cqut.xiji.entity.contractFineItem.ContractFineItem;
 import com.cqut.xiji.entity.employee.Employee;
 import com.cqut.xiji.entity.equipment.Equipment;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
@@ -150,7 +151,27 @@ public class ContractService extends SearchService implements IContractService{
 		return map;
 	}
 	
-	
+	/**
+	 * 
+	 * @description 获取合同审核界面需要的数据
+	 * @author LG.hujiajun
+	 * @created 2017年6月30日 上午9:31:12
+	 * @param limit
+	 * @param offset
+	 * @param sort
+	 * @param order
+	 * @param contractName
+	 * @param contractCode
+	 * @param employeeName
+	 * @param companyName
+	 * @param startTime
+	 * @param endTime
+	 * @param oppositeMen
+	 * @param linkPhone
+	 * @param state
+	 * @return
+	 * @see com.cqut.xiji.service.contract.IContractService#getContractAuditWithPaging(int, int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, int)
+	 */
 	@Override
 	public Map<String, Object> getContractAuditWithPaging(int limit, int offset, String sort, String order, String contractName, String contractCode, String employeeName, String companyName, String startTime, String endTime, String oppositeMen, String linkPhone, int state) {
 		// TODO Auto-generated method stub
@@ -235,6 +256,15 @@ public class ContractService extends SearchService implements IContractService{
 		return result;
 	}
 	
+	/**
+	 * 
+	 * @description 通过合同编号获得合同
+	 * @author LG.hujiajun
+	 * @created 2017年6月30日 上午9:32:28
+	 * @param contractCode
+	 * @return
+	 * @see com.cqut.xiji.service.contract.IContractService#getContractByCode(java.lang.String)
+	 */
 	@Override
 	public List<Map<String, Object>> getContractByCode(String contractCode) {
 		// TODO Auto-generated method stub
@@ -275,6 +305,15 @@ public class ContractService extends SearchService implements IContractService{
 		return result;
 	}
 	
+	/**
+	 * 
+	 * @description 通过合同ID获得合同
+	 * @author LG.hujiajun
+	 * @created 2017年6月30日 上午9:33:06
+	 * @param ID
+	 * @return
+	 * @see com.cqut.xiji.service.contract.IContractService#getContractByID(java.lang.String)
+	 */
 	@Override
 	public List<Map<String, Object>> getContractByID(String ID) {
 		// TODO Auto-generated method stub
@@ -334,7 +373,7 @@ public class ContractService extends SearchService implements IContractService{
 	 * @see com.cqut.xiji.service.contract.IContractService#addContract(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public int addContract(String contractName, String companyID, String companyName, String oppositeMen,String linkPhone,String employeeID, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel,int contractType) {
+	public int addContract(String contractCode,String contractName, String companyID, String companyName, String oppositeMen,String linkPhone,String employeeID, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel,int contractType) {
 		// TODO Auto-generated method stub
 		String[] properties1 = new String[] {"ID"};
 		String condition1 = " companyName = '" + companyName + "'";
@@ -384,8 +423,6 @@ public class ContractService extends SearchService implements IContractService{
 		}
 		Contract contract = new Contract();
 		String ID = EntityIDFactory.createId();
-		String contractCode = "HT"+ID.substring(0, (ID.length()-3));
-		System.out.println(contractCode);
 		int state = 0;
 		contract.setID(ID);
 		contract.setContractCode(contractCode);
@@ -437,6 +474,60 @@ public class ContractService extends SearchService implements IContractService{
 		return result;
 	}
 	
+	/**
+	 * 
+	 * @description 复制合同
+	 * @author LG.hujiajun
+	 * @created 2017年6月30日 下午4:21:16
+	 * @param ID
+	 * @return
+	 * @see com.cqut.xiji.service.contract.IContractService#cloneContractByID(java.lang.String)
+	 */
+	@Override
+	public int cloneContractByID(String ID){
+		Contract contract = entityDao.getByID(ID, Contract.class);
+		String contractID = EntityIDFactory.createId();
+		String contractCode = contract.getContractCode();
+		contract.setID(contractID);
+		contract.setContractCode(contractCode);
+		int result1 = entityDao.save(contract);
+		if(result1 <= 0){
+			String position = "ID =" + contractID;
+			entityDao.deleteByCondition(position,Contract.class);
+			return -2;
+		}
+		
+		String baseEntityf = "contractFineItem";
+		String[] propertiesf = new String[]{
+				" contractFineItem.ID as contractFineItemID"
+		};
+		String joinEntityf = "";
+		String conditionf = " contractFineItem.contractID = " + ID;
+		List<Map<String, Object>> result2 = entityDao.searchForeign(propertiesf,baseEntityf,joinEntityf,null,conditionf);
+		String contractFineItemID = "";
+		String contractFineItemId = "";
+		int result4 = 1;
+		System.out.println("result2:"+result2);
+		if(!result2.isEmpty()){
+			for(int i = 0; i < result2.size(); i++){
+				contractFineItemID = result2.get(i).get("contractFineItemID").toString();
+				ContractFineItem contractFineItem = entityDao.getByID(contractFineItemID, ContractFineItem.class);
+				contractFineItemId = EntityIDFactory.createId();
+				contractFineItem.setID(contractFineItemId);
+				contractFineItem.setContractID(contractID);
+				int result3 = entityDao.save(contractFineItem);
+				if(result3 <= 0){
+					result4 = result3;
+					String position = "ID =" + contractFineItemId;
+					entityDao.deleteByCondition(position,ContractFineItem.class);
+				}
+			}
+			if(result4 <= 0){
+				return -3;
+			}
+		}
+		return 1;
+	}
 	@Override
 	public int isContractFile(String ID){
 		String[] properties1 = new String[] {"ID"};

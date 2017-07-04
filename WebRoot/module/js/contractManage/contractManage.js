@@ -337,9 +337,38 @@ function classifiedLevelSth(){
 	}
 }
 
+function checkCode(obj){
+	if(/^\d{0,4}$/.test(obj.value)){
+		obj.value = obj.value;
+	}else{
+	    obj.value = obj.value.substring(0,obj.value.length-1);
+	}
+	addContractCode();
+}
+
+function addContractCode(){
+	var contractCodeL = $("input[name='contractCodeL']:checked").val();
+	if(!contractCodeL || typeof(contractCodeL) == "undefined" || contractCodeL.trim() == ""){
+		contractCodeL = "";
+	}
+	var contractCodeM = $('#add_contractCodeM').val();
+	if(!contractCodeM || typeof(contractCodeM) == "undefined" || contractCodeM.trim() == ""){
+		contractCodeM = "";
+	}
+	var contractCodeR = $('#add_contractCodeR').val();
+	if(!contractCodeR || typeof(contractCodeR) == "undefined" || contractCodeR.trim() == ""){
+		contractCodeR = "";
+	}
+	var date = new Date();
+	var contractCodeT = date.getFullYear() - 2000;
+	var contractCode = contractCodeL + "-" + contractCodeT + "-" + contractCodeM + "-" + contractCodeR;
+	$('#add_contractCode').val(contractCode);
+}
+
 /* 新增方法 */
 function add(){
 		var parame = {};
+		var contractCode = $('#add_contractCode').val();
 		var contractType = $("input[name='contractType']:checked").val();
 		var contractName = $('#add_contractName').val();
 		var companyName = $('#add_companyName').val();
@@ -427,6 +456,7 @@ function add(){
 			swal("保密等级不能为空！");
 			return;
 		}
+		parame.contractCode = contractCode;
 		parame.contractName = contractName;
 		parame.companyID = companyID;
 		parame.companyName = companyName;
@@ -505,6 +535,54 @@ function add(){
 				  }
 			});
 		}
+}
+
+/**
+ * 复制合同
+ */
+function cloneContract() {
+	var data = $('#table').bootstrapTable('getSelections');
+	if(data.length==0 || data.length>1){
+		swal("请选中一条数据");
+		return;
+	}
+	var ID = data[0].ID;
+	var message = "将要复制合同：" + data[0].contractName;
+	
+	var ajaxParameter = {
+		ID:ID	
+	};
+	swal({
+		title: message,
+		type: "warning",
+		showCancelButton: true,
+		confirmButtonColor: "#DD6B55",
+		confirmButtonText: "确定",
+		closeOnConfirm: false
+		},
+		function(){	
+			$.ajax({
+			  url:'contractController/cloneContractByID.do',
+			  type:"post",
+			  data:ajaxParameter,
+			  success:function(o){
+				  if(o > 0){
+					  swal("复制成功！");
+					  setTimeout(refresh, 1000);
+				  }else if(o == -2){
+					  swal("复制失败！");
+				  }else if(o == -3){
+					  swal("复制成功,复制合同细项出错！");
+					  setTimeout(refresh, 1000);
+				  }else{
+					  swal("出现未知错误，请重试！");
+				  }
+			  },
+			  error : function() {
+				return false;
+			  }
+		});
+	});
 }
 
 /**

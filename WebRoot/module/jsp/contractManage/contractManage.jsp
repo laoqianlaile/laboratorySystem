@@ -95,6 +95,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	 			<button type="button" onclick="searchContract()" class="btn btn-primary glyphicon glyphicon-search">&nbsp;查询</button>
   				<button type="button" onclick="showAddModal()" class="btn btn-primary glyphicon glyphicon-plus">&nbsp;新增</button>
   				<button type="button" onclick="showContractM()" class="btn btn-primary glyphicon glyphicon-show">&nbsp;查看</button>
+  				<button type="button" onclick="cloneContract()" class="btn btn-primary glyphicon glyphicon-plus">&nbsp;复制</button>
   				<button type="button" onclick="EditContract()" class="btn btn-primary glyphicon glyphicon-edit">&nbsp;修改</button>
   				<button id="del" onclick="delData()" type="button" class="btn btn-primary glyphicon glyphicon-remove">&nbsp;删除</button>
   				<button onclick="wdownFile()" type="button" class="btn btn-primary glyphicon glyphicon-down">&nbsp;下载</button>
@@ -113,9 +114,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      <div class="modal-body">
 	      	<div id="adDcontent" class="row1">
 	      		<div class="col-xs-12 col-md-12">
+                   	<label class="control-label">合同编号:</label>
+                   	<input type="radio" value="SCC-IMSTEC-479" checked="checked"  name="contractCodeL" style="margin: -5 0 0 42px;vertical-align: text-top;" onchange="addContractCode()"/><span>SCC-IMSTEC-479</span>
+					<input type="radio" value="SCC-IMSTEC-TEC" name="contractCodeL" style="margin: -5 0 0 68px;vertical-align: text-top;" onchange="addContractCode()"/><span>SCC-IMSTEC-TEC</span>
+					<input type="text" id="add_contractCodeM" name="contractCodeM" class="form-control contractCodeM" required="required" oninput="checkCode(this)" onpropertychange="checkCode(this)"  placeholder="请输入合同编号序号"/>
+					<select id="add_contractCodeR" name="contractCodeR" class="form-control contractCodeR" oninput="addContractCode()" onpropertychange="addContractCode()">
+						<option class="Code4" value="CAL">校准类—CAL</option>
+						<option class="Code4" value="TET">环境类—TET</option>
+						<option class="Code4" value="EMC">电磁兼容类—EMC</option>
+						<option class="Code4" value="PAT">元器件室－PAT</option>
+						<option class="Code4" value="STE">测评室－STE</option>
+						<option class="Code4" value="TEC">中心-TEC</option>
+					</select>
+					<input type="text" id="add_contractCode" name="contractName" class="form-control contractCodeA" required="required"/>
+                </div>
+	      		<div class="col-xs-12 col-md-12">
                    	<label class="control-label">合同类型:</label>
-                   	<input type="radio" value="0" checked="checked"  name="contractType" style="margin: -5 0 0 80px;vertical-align: text-top;"/><span>技术服务合同</span>
-					<input type="radio" value="1" name="contractType" style="margin: -5 0 0 80px;vertical-align: text-top;"/><span>简约版合同</span>
+                   	<input type="radio" value="0" checked="checked"  name="contractType" style="margin: -5 0 0 42px;vertical-align: text-top;"/><span>技术服务合同</span>
+					<input type="radio" value="1" name="contractType" style="margin: -5 0 0 101px;vertical-align: text-top;"/><span>简约版合同</span>
                 </div>
 	      		<div class="col-xs-12 col-md-12">
                    <label class="control-label">合同名称:</label>

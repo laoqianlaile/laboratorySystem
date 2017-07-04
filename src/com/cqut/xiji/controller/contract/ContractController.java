@@ -101,8 +101,8 @@ public class ContractController{
 	 */
 	@RequestMapping("/addContract")  
     @ResponseBody
-	public int addContract(String contractName, String companyID,String companyName, String oppositeMen,String linkPhone, String employeeID, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel,int contractType){
-		int result = service.addContract(contractName, companyID, companyName, oppositeMen, linkPhone,employeeID, employeeName, address, signAddress, startTime, signTime, endTime,isClassified,classifiedLevel,contractType);
+	public int addContract(String contractCode,String contractName, String companyID,String companyName, String oppositeMen,String linkPhone, String employeeID, String employeeName, String address, String signAddress,String startTime,String signTime, String endTime,int isClassified,int classifiedLevel,int contractType){
+		int result = service.addContract(contractCode,contractName, companyID, companyName, oppositeMen, linkPhone,employeeID, employeeName, address, signAddress, startTime, signTime, endTime,isClassified,classifiedLevel,contractType);
 		return result;
 	}
 	
@@ -190,11 +190,34 @@ public class ContractController{
 		return JSONArray.fromObject(result).toString();
 	}
 	
+	/**
+	 * 
+	 * @description 通过合同id获得合同
+	 * @author LG.hujiajun
+	 * @created 2017年6月30日 下午4:16:19
+	 * @param ID
+	 * @return
+	 */
 	@RequestMapping("/getContractByID")  
     @ResponseBody
 	public String getContractByID(String ID){
 		List<Map<String, Object>> result = service.getContractByID(ID);
 		return JSONArray.fromObject(result).toString();
+	}
+	
+	/**
+	 * 
+	 * @description 复制合同
+	 * @author LG.hujiajun
+	 * @created 2017年6月30日 下午4:16:19
+	 * @param ID
+	 * @return
+	 */
+	@RequestMapping("/cloneContractByID")  
+    @ResponseBody
+	public int cloneContractByID(String ID){
+		int result = service.cloneContractByID(ID);
+		return result;
 	}
 	
 	/**
