@@ -30,10 +30,14 @@ import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 import com.cqut.xiji.tool.POIEntity.DynamicLengthConfig;
 import com.cqut.xiji.tool.POIXMLReader.XMLParser;
+
 import org.apache.commons.lang.StringUtils;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 @Service("employeeService")
@@ -643,13 +647,27 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 		
 		@Override
 		public boolean employeeExportExcel(HttpServletRequest request,HttpServletResponse response) {
-			String XMLPath = getClass().getResource("/").getFile().toString();
-			XMLPath = XMLPath + "/ReportXML/employee.xml";
+			Class objClass = this.getClass(); 
+			String strRealPath  = objClass.getClassLoader().getResource("").getFile(); 
+			try {
+				strRealPath = URLDecoder.decode(strRealPath, "UTF-8");
+			} catch (UnsupportedEncodingException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			} 
+
+			File objFile = new File(strRealPath); 
+
+			strRealPath = objFile.getParent(); 
+			String XMLPath = strRealPath;
+			//String XMLPath = getClass().getResource("/").getFile().toString();
+			XMLPath = XMLPath + "/classes/ReportXML/employee.xml";
 			String sheetName = "employee";
 			Map<String, DynamicLengthConfig> dynamicLengthMap = new HashMap<String, DynamicLengthConfig>();
 			List<String> list1 = new ArrayList<String>();// 大标题
 			List<Map<String, Object>> dataSource =getEmployeeWithPaging1( null,
 					 null);
+			System.out.println("dataSource:"+dataSource);
 			String fileName = "";
 			//dataSource =null;
 			fileName = "员工信息.xls";

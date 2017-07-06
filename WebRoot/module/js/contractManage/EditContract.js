@@ -248,10 +248,12 @@ function getContractByID(){
 		    		if(myobj[0].contractType == undefined || myobj[0].contractType == "0"){
 		    			$('#edit_contractID').attr({'title' : "" + myobj.contractType + ""});
 		    			$('#ItemModal2').hide();
+		    			$('#ItemBtn2').hide();
 			    		initContractFileItem1();
 		    		}else{
 		    			$('#edit_contractID').attr({'title' : "" + myobj[0].contractType + ""});
 		    			$('#ItemModal1').hide();
+		    			$('#ItemBtn1').hide();
 			    		initContractFileItem2();
 		    		}
 		    		initContractFile();
@@ -2564,9 +2566,16 @@ function updateItem(){
 	
 }
 
-//导出数据
-function exportReport() {
-	window.location.href = "employeeController/employeeExportExcel.do";
+//导出技术合同细项数据
+function exportReport1() {
+	var contractID = $('#edit_contractID').val();
+	window.location.href = "contractFineItemController/contractFineItemExportExcel1.do?contractID=" + contractID;
+}
+
+//导出校准合同细项数据
+function exportReport2() {
+	var contractID = $('#edit_contractID').val();
+	window.location.href = "contractFineItemController/contractFineItemExportExcel2.do?contractID=" + contractID;
 }
 
 //导入数据

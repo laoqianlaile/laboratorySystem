@@ -317,10 +317,24 @@ public class ContractFineItemController{
 	 * @param request
 	 * @param response
 	 */
-	@RequestMapping("/contractFineItemExportExcel")
+	@RequestMapping("/contractFineItemExportExcel1")
 	@ResponseBody
-	public void contractFineItemExportExcel(HttpServletRequest request,HttpServletResponse response) {
-		service.contractFineItemExportExcel(request, response);
+	public void contractFineItemExportExcel1(HttpServletRequest request,HttpServletResponse response) {
+		service.contractFineItemExportExcel1(request, response);
+	}
+	
+	/**
+	 * 
+	 * @description 导出合同细项
+	 * @author LG.hujiajun
+	 * @created 2017年7月4日 下午9:45:30
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/contractFineItemExportExcel2")
+	@ResponseBody
+	public void contractFineItemExportExcel2(HttpServletRequest request,HttpServletResponse response) {
+		service.contractFineItemExportExcel2(request, response);
 	}
 
 }

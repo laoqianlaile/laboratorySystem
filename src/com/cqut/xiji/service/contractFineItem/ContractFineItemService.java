@@ -1,5 +1,12 @@
 package com.cqut.xiji.service.contractFineItem;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +16,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
@@ -20,6 +28,8 @@ import com.cqut.xiji.entity.contractFineItem.ContractFineItem;
 import com.cqut.xiji.entity.sample.Sample;
 import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.service.base.SearchService;
+import com.cqut.xiji.tool.POIEntity.DynamicLengthConfig;
+import com.cqut.xiji.tool.POIXMLReader.XMLParser;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
 @Service
@@ -968,10 +978,200 @@ public class ContractFineItemService extends SearchService implements IContractF
 	 * @see com.cqut.xiji.service.contractFineItem.IContractFineItemService#contractFineItemExportExcel(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
-	public boolean contractFineItemExportExcel(HttpServletRequest request,
+	public boolean contractFineItemExportExcel1(HttpServletRequest request,
 			HttpServletResponse response){
-		
+		String contractID = request.getParameter("contractID");//"20170607203548388";
+		Class objClass = this.getClass(); 
+		String strRealPath  = objClass.getClassLoader().getResource("").getFile(); 
+		try {
+			strRealPath = URLDecoder.decode(strRealPath, "UTF-8");
+		} catch (UnsupportedEncodingException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} 
+
+		File objFile = new File(strRealPath); 
+
+		strRealPath = objFile.getParent(); 
+		String XMLPath = strRealPath;
+		//String XMLPath = getClass().getResource("/").getFile().toString();
+		XMLPath = XMLPath + "/classes/ReportXML/contractfineitem1.xml";
+		String sheetName = "contractfineitem1";
+		Map<String, DynamicLengthConfig> dynamicLengthMap = new HashMap<String, DynamicLengthConfig>();
+		List<String> list1 = new ArrayList<String>();// 大标题
+		List<Map<String, Object>> dataSource =getContractFileItemWithPaging3(contractID, null,
+				 null);
+		System.out.println("dataSource:"+dataSource);
+		String fileName = "";
+		//dataSource =null;
+		fileName = "技术检测合同细项.xls";
+		final String userAgent = request.getHeader("USER-AGENT");
+		list1.add("技术检测合同细项");
+		DynamicLengthConfig config1 = new DynamicLengthConfig(0, 0, 1, 10,
+				list1);
+		dynamicLengthMap.put("dynamicLengt1", config1);
+		XMLParser parser = new XMLParser(XMLPath, sheetName, null,
+				dynamicLengthMap, dataSource);
+		parser.parse();
+		try {
+			if(StringUtils.contains(userAgent, "MSIE")){//IE浏览器
+                fileName = URLEncoder.encode(fileName,"UTF8");
+            }else if(StringUtils.contains(userAgent, "Mozilla")){//google,火狐浏览器
+                fileName = new String(fileName.getBytes(), "ISO8859-1");
+            }else{
+                fileName = URLEncoder.encode(fileName,"UTF8");//其他浏览器
+            }
+			response.setHeader("content-disposition", "attachment;filename=\""
+					+ fileName+"\"");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+
+		try {
+			OutputStream output = response.getOutputStream();
+			parser.write(output);
+			output.close();
+			return true;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return true;
 	}
 	
+	/**
+	 * 
+	 * @description 导出合同细项
+	 * @author LG.hujiajun
+	 * @created 2017年7月4日 下午9:47:44
+	 * @param request
+	 * @param response
+	 * @see com.cqut.xiji.service.contractFineItem.IContractFineItemService#contractFineItemExportExcel(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
+	public boolean contractFineItemExportExcel2(HttpServletRequest request,
+			HttpServletResponse response){
+		String contractID = request.getParameter("contractID");//"20170607203548388";
+		Class objClass = this.getClass(); 
+		String strRealPath  = objClass.getClassLoader().getResource("").getFile(); 
+		try {
+			strRealPath = URLDecoder.decode(strRealPath, "UTF-8");
+		} catch (UnsupportedEncodingException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} 
+
+		File objFile = new File(strRealPath); 
+
+		strRealPath = objFile.getParent(); 
+		String XMLPath = strRealPath;
+		//String XMLPath = getClass().getResource("/").getFile().toString();
+		XMLPath = XMLPath + "/classes/ReportXML/contractfineitem2.xml";
+		String sheetName = "contractfineitem2";
+		Map<String, DynamicLengthConfig> dynamicLengthMap = new HashMap<String, DynamicLengthConfig>();
+		List<String> list1 = new ArrayList<String>();// 大标题
+		List<Map<String, Object>> dataSource =getContractFileItemWithPaging4(contractID, null,
+				 null);
+		System.out.println("dataSource:"+dataSource);
+		String fileName = "";
+		//dataSource =null;
+		fileName = "校准合同细项.xls";
+		final String userAgent = request.getHeader("USER-AGENT");
+		list1.add("校准合同细项");
+		DynamicLengthConfig config1 = new DynamicLengthConfig(0, 0, 1, 5,
+				list1);
+		dynamicLengthMap.put("dynamicLengt1", config1);
+		XMLParser parser = new XMLParser(XMLPath, sheetName, null,
+				dynamicLengthMap, dataSource);
+		parser.parse();
+		try {
+			if(StringUtils.contains(userAgent, "MSIE")){//IE浏览器
+                fileName = URLEncoder.encode(fileName,"UTF8");
+            }else if(StringUtils.contains(userAgent, "Mozilla")){//google,火狐浏览器
+                fileName = new String(fileName.getBytes(), "ISO8859-1");
+            }else{
+                fileName = URLEncoder.encode(fileName,"UTF8");//其他浏览器
+            }
+			response.setHeader("content-disposition", "attachment;filename=\""
+					+ fileName+"\"");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+
+		try {
+			OutputStream output = response.getOutputStream();
+			parser.write(output);
+			output.close();
+			return true;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
+	public List<Map<String, Object>> getContractFileItemWithPaging3(String contractID,String order,
+			String sort) {
+		// TODO Auto-generated method stub
+		String tableName = "contractFineItem";
+		String[] properties = new String[]{
+				"contractFineItem.testProjectID",
+				"testProject.nameCn",
+				"testProject.nameEn",
+				"contractFineItem.number",
+				"contractFineItem.price",
+				"contractFineItem.money",
+				"contractFineItem.standardID",
+				"standard.standardCode",
+				"standard.standardName",
+				"case when contractFineItem.isOutsourcing = 0 then '内测' " + 
+				"when contractFineItem.isOutsourcing = 1 then '外包' end as isOutsourcing",
+				"contractFineItem.remarks"
+			};
+			String joinEntity = " LEFT JOIN testProject ON contractFineItem.testProjectID = testProject.ID " +
+					" LEFT JOIN standard ON contractFineItem.standardID = standard.ID ";
+		String condition = "1 = 1 ";
+		
+		if(contractID != null && !contractID.isEmpty()){
+			condition = " and contractFineItem.contractID = " + contractID;
+		}
+		
+		int index=1;
+		int count = getForeignCountWithJoin(joinEntity, null, condition, false);
+		index=count;
+		List<Map<String, Object>> result = originalSearchWithpaging(properties,
+				tableName, joinEntity, null, condition, false, null, sort,
+				order, index,0);
+		
+		return result;
+	}
+	
+	public List<Map<String, Object>> getContractFileItemWithPaging4(String contractID,String order,
+			String sort) {
+		// TODO Auto-generated method stub
+		String tableName = "contractFineItem";
+		String[] properties = new String[]{
+			"sample.factoryCode",
+			"sample.sampleName",
+			"sample.specifications",
+			"contractFineItem.money",
+			"contractFineItem.remarks"
+		};
+		String joinEntity = " LEFT JOIN sample ON contractFineItem.sampleID = sample.ID ";
+		
+		String condition = "1 = 1 ";
+		
+		if(contractID != null && !contractID.isEmpty()){
+			condition = " and contractFineItem.contractID = " + contractID;
+		}
+		
+		int index=1;
+		int count = getForeignCountWithJoin(joinEntity, null, condition, false);
+		index=count;
+		List<Map<String, Object>> result = originalSearchWithpaging(properties,
+				tableName, joinEntity, null, condition, false, null, sort,
+				order, index,0);
+		
+		return result;
+	}
 }
