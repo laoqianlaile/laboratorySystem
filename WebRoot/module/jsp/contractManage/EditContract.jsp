@@ -168,7 +168,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="btnAdd fr">
 					<button id="ItemModal1" type="button" onclick="openAddItemModal1()" class="btn btn-primary">添加检测细项</button>
 					<button id="ItemModal2" type="button" onclick="openAddItemModal2()" class="btn btn-primary">添加校准细项</button>
-					<button type="button" class="btn btn-primary glyphicon btn3" onclick="exportReport()">导出</button>
+					<button id="ItemBtn1" type="button" class="btn btn-primary glyphicon btn3" onclick="exportReport1()">导出</button>
+					<button id="ItemBtn2" type="button" class="btn btn-primary glyphicon btn3" onclick="exportReport2()">导出</button>
 					
 				</div>
 			</div>

@@ -109,7 +109,18 @@ public interface IContractFineItemService {
 	 * @param request
 	 * @param response
 	 */
-	public boolean contractFineItemExportExcel(HttpServletRequest request,
+	public boolean contractFineItemExportExcel1(HttpServletRequest request,
 			HttpServletResponse response);
+	
+	/**
+	 * @description 导出合同细项
+	 * @author LG.hujiajun
+	 * @created 2017年7月4日 下午9:46:36
+	 * @param request
+	 * @param response
+	 */
+	public boolean contractFineItemExportExcel2(HttpServletRequest request,
+			HttpServletResponse response);
+	
 	
 }
