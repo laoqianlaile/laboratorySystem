@@ -153,7 +153,7 @@ function getTree(){
 		  }
 		});
  }
-/* 个人信息弹窗 */
+/* 个人信息弹窗 
  function openPersonModal(){
 	 
 	 var employeeInfo = getEmployeeInfo();
@@ -175,7 +175,7 @@ function getTree(){
 	 
 	 $('#PersonalModal').modal('show');
  }
- 
+ */
  /* 个人信息修改 */
  function editInfo(){
 	 
@@ -200,10 +200,9 @@ function getTree(){
  }
  /*　获取登录人信息　 */
  function getEmployeeInfo(){
-	 var employeeID = $('#LoginID').val();
 	 var data;
 	$.ajax({
-		url : 'employeeController/getEmployeeinfo.do?employeeID='+employeeID,
+		url : 'employeeController/getEmployeeinfo.do?',
 		dataType : "json",
 		async : false,
 		data : {},
@@ -216,12 +215,21 @@ function getTree(){
 	});
 	return data;
  }
- /* 密码修改弹窗 */
+ 
+$(function(){
+	 empolyee = getEmployeeInfo();
+	 if(empolyee[0].headCrop!= null && empolyee[0].headCrop  != undefined && empolyee[0].headCrop != ""){
+		$('#sidebarHead').attr("src","upload/img/headCrop/"+empolyee[0].headCrop); 
+		$('#navHead').attr("src","upload/img/headCrop/"+empolyee[0].headCrop);
+	}
+ }
+ );
+/*  密码修改弹窗 
  function openEditpwd(){
 	 $('#editpwdModal').modal('show');
  }
  
- /* 密码验证 */
+  密码验证 
  function changePwd(){
 	 var newpwd = $('#new_pwd').val();
 	 if(newpwd.length < 6 || newpwd.length > 12){
@@ -250,7 +258,7 @@ function getTree(){
 		 }
 	 }
  }
- /* 密码纠正 */
+  密码纠正 
  function currentPwd(){
 	if( $('#new_pwd').val() === $('#current_pwd').val()){
 		$('#currentpwd_tip').hide();
@@ -268,7 +276,7 @@ function getTree(){
 	}
  }
  
- /* 密码修改 */
+  密码修改 
  function editPwd(){
 	 if( !currentPwd()){
 		 return;
@@ -299,7 +307,7 @@ function getTree(){
 		 }
 	 }
  }
- 
+ */
  /* 登录跳转  */
  function login(){
 	 window.location.href = "http://localhost:8080/laboratorySystem/login.jsp";
@@ -336,63 +344,4 @@ function changeDateInfo() {
 	$('.week').text(week);
 	$('.season').text(season);
 	$('.time').text(time);
-}
-
-//上传文件(覆盖上传)
-function uploadFile() {
-	$("#files").fileupload({
-				autoUpload : true,
-				url : 'fileOperateController/upload.do',
-				dataType : 'json',
-				add : function(e, data) {
-					$("#ensure").click(function() {
-						data.submit();
-					});
-				},
-			}).bind('fileuploaddone',function(e, data) {
-						var fileID = JSON.parse(data.result);
-						if (fileID != null && fileID != "null" && fileID != "") {
-							
-						} else {
-							alert("上传失败");
-						} 
-					});
-
-	// 文件上传前触发事件,如果需要额外添加参数可以在这里添加
-	$('#files').bind('fileuploadsubmit', function(e, data) {
-		data.formData = {
-			filePath : param.path,
-			TypeNumber : param.type,
-			belongtoID : param.taskID
-		}
-	});
-}
-// 上传图片
-function uploadImage(selectorName) {
-	$(selectorName).fileupload({
-		autoUpload : true,
-		url : 'fileOperateController/upload.do?TypeNumber=' + 3,
-		dataType : 'text',
-		add : function(e, data) {
-			$("#ensureUploadImg").click(function() {
-				data.submit();
-			});
-		},
-	}).bind('fileuploaddone', function(e, data) {
-		var fileID = JSON.parse(data.result);
-		if (fileID != null && fileID != "null" && fileID != "") {
-			$.post("employeeController/addSignatrueAndStamp.do", {
-				fileID : fileID,
-				selectorName : selectorName
-			});
-		} else {
-			alert("图片上传失败");
-		}
-	});
-}
-function upSignature(){
-	
-}
-function upStamp(){
-	console.log("上传电子盖章图片");
 }

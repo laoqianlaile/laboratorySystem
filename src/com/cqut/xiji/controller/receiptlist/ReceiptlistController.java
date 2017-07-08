@@ -181,8 +181,8 @@ public class ReceiptlistController{
 	 */
 	@RequestMapping("/saveSubmitReceipt")
 	@ResponseBody
-	public String saveSubmitReceipt(String reID ,String saveState ,String addState ,String companyName ,String address ,String linkMan ,String startTime ,String endTime ,String linkPhone , String accordingDoc ,String coID ,String comID) {
-		String result = service.saveSubmitReceipt( reID , saveState , addState , companyName , address , linkMan , startTime , endTime , linkPhone ,  accordingDoc , coID ,comID) ;
+	public String saveSubmitReceipt(String reID ,String saveState ,String addState ,String companyName ,String address ,String linkMan ,String startTime ,String endTime ,String linkPhone , String accordingDoc ,String reCode,String coID ,String comID) {
+		String result = service.saveSubmitReceipt( reID , saveState , addState , companyName , address , linkMan , startTime , endTime , linkPhone ,  accordingDoc , reCode,coID ,comID) ;
 		return result;
 	}
 	/**

@@ -162,44 +162,25 @@ $(function() {
 									width : '12%',// 宽度
 									formatter : function(value, row, index) { //操作按钮的设置
 									  var look = "", edit = "", dele = ""; download = "",submit = "";
-									  	if(row.ID != ""){   //没有交接单---就没有任何编辑，查看，删除等功能
-									  		look =	"<img src=\"../../img/view_icon.png\"  alt=\"查看\" title=\"查看\" onclick='lookRe(\""+row.ID+"\")'>";
-									  	/*	look = '<span onclick= "lookRe(\'' + row.ID
-												+ '\')" data-toggle="tooltip" data-toggle="top"  title="查看"  class="icon-eye-open" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>';
-									*/
-										if(row.isEditSample == 1)  //能否编辑--提交的不能编辑
+									  if(row.ID != ""){   //没有交接单---就没有任何编辑，查看，删除等功能
+									  		
+									  		 look =	"<img src=\"../../img/view_icon.png\"  alt=\"查看\" title=\"查看\" onclick='lookRe(\""+row.ID+"\")'>";
+									  
+										 if(row.isEditSample == 1)  //能否编辑--提交的不能编辑
 										 {    
-											if(row.reType == "接受")  //接受的交接单跳转的页面
-											edit = "<img src=\"../../img/edit_icon.png\"  alt=\"编辑\" title=\"编辑\" onclick='editRe(\"" + row.ID+"\" , \""+row.coID+"\",\""+row.proID+"\",\""+row.comID+"\",\""+row.coCode+"\",\""+row.reCode+"\",\""+"recive\""+")'>";
-											/*  edit = '<span  onclick= "editRe(\'' + row.ID+"\' , \'"+row.coID+"\',\'"+row.proID+"\',\'"+row.comID+"\',\'"+row.coCode+"\',\'"+row.reCode+"\',\'"+"recive\'"
-												+ ')" data-toggle="tooltip" data-placement="top" title="修改" class="glyphicon glyphicon-edit" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span> ';
-											*/
-											else   //退还的交接单跳转的页面
-											
-												{ 
+											  if(row.reType == "接受")  //接受的交接单跳转的页面
+											  {   
+												  edit = "<img src=\"../../img/edit_icon.png\"  alt=\"编辑\" title=\"编辑\" onclick='editRe(\"" + row.ID+"\" , \""+row.coID+"\",\""+row.proID+"\",\""+row.comID+"\",\""+row.coCode+"\",\""+row.reCode+"\",\""+"recive\""+")'>";
+											  }
+											else{   //退还的交接单跳转的页面
 											      edit = "<img src=\"../../img/edit_icon.png\"  alt=\"编辑\" title=\"编辑\"  onclick='editRe(\"" + row.ID+"\" , \""+row.coID+"\",\""+row.proID+"\",\""+row.comID+"\",\""+row.coCode+"\",\""+row.reCode+"\",\""+"return\""+")'>";
-												  
-											    	/*edit = '<span  onclick= "editRe(\'' + row.ID+"\' , \'"+row.coID+"\',\'"+row.proID+"\',\'"+row.comID+"\',\'"+row.coCode+"\',\'"+row.reCode+"\',\'"+"return\'"
-												    + ')" data-toggle="tooltip" data-placement="top" title="修改" class="glyphicon glyphicon-edit" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span> ';*/
 												}
-										}
-									
-										 if (row.state == "未检测") //未检测的交接单(保存在自己的还没有提交的可以删除)
-										 {  
-											// dele = "<img src=\"../../img/delete_icon.png\" alt=\"删除\" title=\"删除\" onclick='deleteRe(\""+row.ID+"\")'>";
-											/*cancel = '<span onclick= "deleteRe(\'' + row.ID
-													+ '\')" data-toggle="tooltip" data-placement="top" title="删除"  class="glyphicon glyphicon-remove" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>'*/
-										 } 
+										 }
 											download =  "<img src=\"../../img/download_icon.png\" alt=\"下载\" title=\"下载\" onclick='downloadReFile(\"" + row.ID+"\",\""+row.coID+"\",\""+row.proID+"\")'>";
-												/*'<span onclick= "downloadReFile(\'' + row.ID+'\''+',\''+row.coID+'\',\''+row.proID
-													+ '\')" data-toggle="tooltip" data-placement="top" title="下载"  class="glyphicon glyphicon-download-alt" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></span>'*/
-											/*submit = "<img src=\"../../img/submit_icon.png\" alt=\"提交\" title=\"提交\" onclick='dealReSave()'>";*/
-														
 									  	}
-									 
 										return look + edit + submit +download;
 									}
-								} ]
+								}]
 					// 列配置项,详情请查看 列参数 表格
 					/* 事件 */
 					});
@@ -214,11 +195,50 @@ function addRe() {
 
 	var result = initAddReceiptlist(data[0],"yes");  //创建交接单跳转
 	window.location.href = "./addRecelist.jsp?reID="
-		    +result.reID+"&coID=" 
-	        + data[0].coID + "&comID="
-			+ data[0].comID + "&coCode=" + data[0].coCode
-			+ "&state=yes&reCode=" + result.reCode+"&proID="+data[0].proID;
+		    				+result.reID+"&coID=" 
+		    				+ data[0].coID + "&comID="
+		    				+ data[0].comID + "&coCode=" + data[0].coCode
+		    				+ "&state=yes&reCode=" + result.reCode+"&proID="+data[0].proID;
 
+}
+
+//无合同新增--接受类交接单
+function addReNo() {
+	// 在这里创建新的合同
+	sweetAlert({
+		  title: "确认无合同新增！",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "是",
+		  cancelButtonText: "否"
+		}, function(isConfirm){
+		        if(isConfirm){
+		        	var result = initAddReceiptlist({},"no");  //创建交接单跳转
+		        	window.location.href = "./addRecelist.jsp?reID="
+		        						 + result.reID+"&coID=" 
+		        						 + result.coID + "&comID="
+		        						 + "" + "&coCode=" + result.coCode
+		        						 + "&state=no&reCode=" + result.reCode+"&proID="+result.proID;
+		        }
+		});
+	
+}
+//有合同新增--退还类交接单
+function returnSample() {
+	var data = $('#table').bootstrapTable('getSelections');
+	if (data.length == 0 || data.length > 1) {
+		sweetAlert("请选中一条数据");
+		return;
+	}
+	if(data[0].comID == null || data[0].comID == ""){
+		sweetAlert("此时你还没有样品可以退");
+	}
+	var result = initAddReceiptlist(data[0],"return");
+	window.location.href = "./receiptlistReturn.jsp?reID="+result.reID
+							+"&coID=" + result.coID + "&comID="
+							+ "" + "&coCode=" + result.coCode
+							+ "&state=add&reCode=" + result.reCode;
 }
 //创建交接单 --各种类型
 function initAddReceiptlist(data,state) {
@@ -242,48 +262,9 @@ function initAddReceiptlist(data,state) {
           });
           return result;
 }
-// 无合同新增--接受类交接单
-function addReNo() {
-	// 在这里创建新的合同
-	sweetAlert({
-		  title: "确认无合同新增！",
-		  type: "warning",
-		  showCancelButton: true,
-		  confirmButtonColor: "#DD6B55",
-		  confirmButtonText: "是",
-		  cancelButtonText: "否"
-	
-		
-		}, function(isConfirm){
-		        if(isConfirm){
-		        	var result = initAddReceiptlist({},"no");  //创建交接单跳转
-		        	window.location.href = "./addRecelist.jsp?reID="
-		        			+result.reID+"&coID=" 
-		        			+ result.coID + "&comID="
-		        			+ "" + "&coCode=" + result.coCode
-		        			+ "&state=no&reCode=" + result.reCode+"&proID="+result.proID;
-		        }
-		});
-	
-}
 
 
-// 有合同新增--退还类交接单
-function returnSample() {
-	var data = $('#table').bootstrapTable('getSelections');
-	if (data.length == 0 || data.length > 1) {
-		sweetAlert("请选中一条数据");
-		return;
-	}
-	if(data[0].comID == null || data[0].comID == ""){
-		sweetAlert("此时你还没有样品可以退");
-	}
-	var result = initAddReceiptlist(data[0],"return");
-	window.location.href = "./receiptlistReturn.jsp?reID="+result.reID
-							+"&coID=" + result.coID + "&comID="
-							+ "" + "&coCode=" + result.coCode
-							+ "&state=add&reCode=" + result.reCode;
-}
+
 // 查看页面
 function lookRe(id) {
 	
@@ -359,7 +340,6 @@ function deleteRe() {
 		  confirmButtonText: "是",
 		  cancelButtonText: "否",
 		  closeOnConfirm:false
-		
 		}, function(isConfirm){
 		        if(isConfirm){
 		        	deleteRe_ok();
@@ -379,11 +359,11 @@ function deleteRe_ok(){
    var ids = "";
    for(var i = 0; i < data.length ; i++){
 		   if (data[i].state == "未检测") // 未检测的才能删
-		{
-			if (data[i].ID == null || data[i].ID == undefined || data[i].ID == "") {
-				  ;
-			} else {
-				ids += data[i].ID + ",";
+		   {
+			   if (data[i].ID == null || data[i].ID == undefined || data[i].ID == ""){
+				   				;
+			   }else{
+				   		ids += data[i].ID + ",";
 			}
 		}
    }
@@ -413,8 +393,6 @@ function deleteRe_ok(){
 					}
 					$('#table').bootstrapTable('refresh',null);
 				}
-				
-		
 		});
 
 	
@@ -434,11 +412,9 @@ function downloadReFile(reID ,coID,proID){
 			proID: proID
 		},
 		success : function(o) {
-		
 			if (o == "false") {
 				sweetAlert("还没有交接单文件模板");
 			} else {
-				
 				fileID = o;
 				downOneFile(fileID);
 			}
@@ -450,11 +426,10 @@ function downloadReFile(reID ,coID,proID){
 // 检查交接单数据是否合理并处理
 function checkData(dataObj) { // 后台数据字段为空就不会传上来
 	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null || dataObj.ID.trim() == "NULL") {
-	    
 		dataObj.ID = "";
 	}
 	if (!dataObj.hasOwnProperty("proID") || dataObj.proID == null 	|| dataObj.proID.trim() == "NULL") {
-		  dataObj.proID = "";
+		dataObj.proID = "";
 	}
 	if (!dataObj.hasOwnProperty("coState") || dataObj.coState == null || dataObj.coState == undefined ) {
 		dataObj.coState = "0"; //没有合同文件
@@ -496,60 +471,3 @@ function checkData(dataObj) { // 后台数据字段为空就不会传上来
 		dataObj.state = "";
 	}
 }
-/*function fillLookEdit(id) {
-	var dataS = getOneDate(id);
-	chen.alert("2");
-	console.log(dataS);
-	checkData(dataS);
-
-	// 填充查看页面的
-	$('#lookSampleName').val(dataS.name);
-	$('#lookSampleType').val(dataS.type);
-	$('#lookUnit').val(dataS.unit);
-	$('#lookRemarks').val(dataS.remarks);
-	$('#lookCreateTime').val(dataS.createTime);
-	$('#lookTakeMan').val(dataS.takeMan);
-	$('#lookGiveMan').val(dataS.giveMan);
-	$("#lookFactoryCode").val(dataS.factoryCode);
-	$('#lookReceiptlistCode').val(dataS.receiptlistCode);
-	// 填充编辑页面的
-	$('#editSampleName').val(dataS.name);
-	$('#editSampleType').val(dataS.type);
-	$('#editUnit').val(dataS.unit);
-	$('#editRemarks').val(dataS.remarks);
-	$('#editCreateTime').val(dataS.createTime);
-	$('#editTakeMan').val(dataS.takeMan);
-	$('#editGiveMan').val(dataS.giveMan);
-	$("#editFactoryCode").val(dataS.factoryCode);
-	$('#editReceiptlistCode').val(dataS.receiptlistCode);
-
-}*/
-/*function getOneDate(id) {
-	var dataS;
-	$.ajax({
-		type : "post",
-		async : false,
-		url : '/laboratorySystem/sampleController/getSample.do',
-		contentType : "application/x-www-form-urlencoded; charset=UTF-8", // 中文乱码
-		data : {
-			sampleID : id
-		},
-		dataType : "json",
-		success : function(data) {
-			dataS = eval("(" + data + ")");
-		}
-	});
-	return dataS;
-}*/
-/* 弹出修改弹框方法 */
-/*function openModal() {
-	var data = $('#table').bootstrapTable('getSelections');
-
-	if (data.length == 0 || data.length > 1) {
-		chen.alert("请选中一条数据");
-		return;
-	}
-	// var ids = data[0].ROLEID;
-	fillLookEdit(data[0].ID);
-	$('#editModal').modal('show');
-}*/

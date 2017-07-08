@@ -190,7 +190,7 @@ public class TemplateService extends SearchService implements ITemplateService{
 
 	@Override
 	public String addTemplate(String TemplateName, String TemplateRemarks,
-			String TemplateType, String TestProjectIDs,String fileID,String uploaderID) {
+			String TemplateType, String standardIDs,String fileID,String uploaderID) {
 
 		int result = 0;
 
@@ -221,20 +221,20 @@ public class TemplateService extends SearchService implements ITemplateService{
 		result += entityDao.save(template);
 		result += entityDao.updatePropByID(fileInformation, fileID);
 
-		//当只是报告文件模板时有值
+		//当只是报告文件模板时有值 关联标准
 		
 		int count =0;
 		
-		if(TestProjectIDs != null && TestProjectIDs != ""){
-			String[] ids = TestProjectIDs.replaceAll(" ", "").split(",");
+		if(standardIDs != null && standardIDs != ""){
+			String[] ids = standardIDs.replaceAll(" ", "").split(",");
 			for(String id : ids){
-				TestProject project = entityDao.getByID(id,TestProject.class);
-				if(project == null){
+				Standard DBstandard = entityDao.getByID(id,Standard.class);
+				if(DBstandard == null){
 					count++;
 					continue;
 				}
-				project.setTemplateID(template.getID());
-				result += entityDao.updatePropByID(project, id);
+				DBstandard.setTemplateID(template.getID());
+				result += entityDao.updatePropByID(DBstandard, id);
 			}
 		}
 		return  result +"";

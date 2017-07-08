@@ -64,6 +64,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 				"testProject.NAMECN",
 				/*"testProject.ENVIRONMENTALREQUIREMENTS",*/
 				"testproject.describes",
+				"testproject.uncertainty",
 				"testproject.remarks",
 				"GROUP_CONCAT(DISTINCT standard.ID) AS standardID",
 				"GROUP_CONCAT(DISTINCT testdepartment.ID) AS testDepartmentID",
@@ -121,7 +122,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 	@Override
 	public String addTestProject(String NAMECN, String NAMEEN,
 			String departmentID, String ENVIRONMENTALREQUIREMENTS,
-			String standardID, String EQUIPMENTID,String describes,String remarks,String testTypeID) {
+			String standardID, String EQUIPMENTID,String describes,String remarks,String testTypeID,String uncertainty) {
 
 		int result = 0; //
 		// 检测项目
@@ -134,6 +135,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 		testProject.setDescribes(describes);
 		testProject.setRemarks(remarks);
 		testProject.setTestTypeID(testTypeID);
+		testProject.setUncertainty(uncertainty);
 		testProject.setCreateTime(new Date());
 
 		result += entityDao.save(testProject);
@@ -402,7 +404,7 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 	 */
 	@Override
 	public List<Map<String, Object>> getTestProjectByName(String testProjectName){
-		String[] properties = new String[] {"ID","nameCn","nameEn","departmentID"};
+		String[] properties = new String[] {"ID","nameCn","nameEn"};
 		String condition = " nameCn like '%" + testProjectName + "%' or nameEn like '%" + testProjectName + "%'";
 		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, TestProject.class);
 		return result;

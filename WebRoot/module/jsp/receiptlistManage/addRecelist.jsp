@@ -51,7 +51,7 @@
 <body>
 	<div class="container">
 		<div class='headTitel'>
-			<label>新增检测/校准交接单</label> <label> <span>交接单编号：</span> <span>XJHJ-226-16-1014-TET</span>
+			<label>新增检测/校准交接单</label> <label> <span>交接单编号：</span> <span contenteditable="true">XJHJ-226-16-1014-TET</span>
 			</label>
 			<hr class="headHr">
 		</div>
@@ -97,7 +97,7 @@
 			<div class="row">
 				<div class="col-xs-6">
 					<label>委托单位：</label><input type="text" id="companyName"
-						onpropertychange="searchCompany()" oninput="searchCompany()"
+						onpropertychange="handleCompany()" oninput="handleCompany()"
 						class="form-control">
 					<div id="companyContainer">
 						<div id="over_company">
@@ -251,8 +251,8 @@
 									<input type="text" id="addSampleCode" name="sampleCode"
 										placeholder="输入出厂编码" class="form-control"
 										aria-describedby="basic-addon1"
-										onpropertychange="set_alert_wb_comment(this,'add')"
-										oninput="set_alert_wb_comment(this,'add')" /> <input
+										onpropertychange="handleSearchSample(this,'add')"
+										oninput="handleSearchSample(this,'add')" /> <input
 										type="hidden" id="addSampleID" name="sampleID"
 										class="form-control" aria-describedby="basic-addon1" />
 									<div class="tip-factory  ">
@@ -360,8 +360,8 @@
 									<input type="text" id="editSampleCode" name="sampleCode"
 										placeholder="输入出厂编码" class="form-control"
 										aria-describedby="basic-addon1"
-										onpropertychange="set_alert_wb_comment(this,'edit')"
-										oninput="set_alert_wb_comment(this,'edit')" /> <input
+										onpropertychange="handleSearchSample(this,'edit')"
+										oninput="handleSearchSample(this,'edit')" /> <input
 										type="hidden" id="editSampleID" name="sampleID"
 										class="form-control" aria-describedby="basic-addon1" /> <input
 										type="hidden" id="editTaskID" name="taskID"

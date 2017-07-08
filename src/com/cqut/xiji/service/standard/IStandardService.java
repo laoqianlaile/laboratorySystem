@@ -42,5 +42,7 @@ public interface IStandardService {
 			String aPPLICATIONTYPE, int limit, int offset, String order,
 			String sort);
 
+	public List<Map<String, Object>> getTestProjectByName(String standardName);
+
 
 }

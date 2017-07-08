@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.company.Company;
 import com.cqut.xiji.entity.contract.Contract;
+import com.cqut.xiji.entity.contractFineItem.ContractFineItem;
 import com.cqut.xiji.entity.department.Department;
 import com.cqut.xiji.entity.employee.Employee;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
@@ -41,6 +43,7 @@ import com.cqut.xiji.service.fileEncrypt.DES;
 import com.cqut.xiji.service.fileEncrypt.FileEncryptService;
 import com.cqut.xiji.service.fileEncrypt.IFileEncryptService;
 import com.cqut.xiji.service.fileType.IFileTypeService;
+import com.cqut.xiji.tool.util.CalendarTool;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 import com.cqut.xiji.tool.util.PropertiesTool;
 import com.cqut.xiji.tool.word.WordProcess;
@@ -245,9 +248,10 @@ public class ReceiptlistService extends SearchService implements
 			condition += " and company.companyName like '%" + companyName
 					+ "%' ";
 		}
+	
 		// 获取数据
 		List<Map<String, Object>> list = entityDao.searchWithpaging(properties,
-				null, joinEntity, null, condition, null, sort, order, pageNum,
+				null, joinEntity, null, condition, null, " startTime DESC,ID ", " desc ", pageNum,
 				pageIndex);
 		// 获取总的记录数
 		int count = entityDao.searchForeign(properties, null, joinEntity, null,
@@ -400,6 +404,7 @@ public class ReceiptlistService extends SearchService implements
 					"a.askFor",
 					"a.sampleID",
 					"a.startTime",
+					"a.saveState",
 					"sample.sampleName",
 					"sample.factoryCode",
 					"sample.specifications as sampleStyle",
@@ -415,6 +420,7 @@ public class ReceiptlistService extends SearchService implements
 					+ " ( SELECT "
 					+ "task.ID,"
 					+ "task.receiptlistID as reID,"
+					+ "task.saveState as saveState,"
 					+ "task.sampleID,"
 					+ "task.departmentID,"
 					+ " date_format(task.startTime,'%Y-%m-%d %H:%i:%s') as startTime , "
@@ -623,7 +629,7 @@ public class ReceiptlistService extends SearchService implements
 	public String saveSubmitReceipt(String reID, String saveState,
 			String addState, String companyName, String address,
 			String linkMan, String startTime, String endTime, String linkPhone,
-			String accordingDoc, String coID ,String comID) {
+			String accordingDoc,String reCode, String coID ,String comID) {
 		// TODO Auto-generated method stub
 		Contract contract = null;
 		
@@ -644,6 +650,7 @@ public class ReceiptlistService extends SearchService implements
 		receiptlist.setCreateTime(StrToDate(startTime));
 		receiptlist.setCompleteTime(StrToDate(endTime));
 		receiptlist.setAccordingDoc(accordingDoc);
+		receiptlist.setReceiptlistCode(reCode);
 		receiptlist.setState(0);
 		receiptlist.setReceiptlistType(0);
 		if (saveState == null || saveState.equals("") || saveState.equals("save") ){ // 保存交接单
@@ -702,6 +709,7 @@ public class ReceiptlistService extends SearchService implements
 	public Map<String, Object> addReceiptList(HttpSession session, String coID,
 			String proID, String state, HttpServletRequest request) {
 		// String employeeID = (String) request.getSession().getAttribute("ID");
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		String employeeID = session.getAttribute("EMPLOYEEID").toString();
 		// request.getSession().getAttribute("employeeid");
@@ -715,39 +723,120 @@ public class ReceiptlistService extends SearchService implements
 		receiptlist.setReceiptlistType(0);
 		map.put("coID", coID);
 		if (state.equals("yes")) { // 有合同新增交接单-接受
-			receiptlist.setReceiptlistCode("交接单编码生成规则不知道-有合同接受");
+			//查询以前交接单号
+			String recode = getCurrentRecode(coID,receiptlist.getID(),proID);
+			receiptlist.setReceiptlistCode(recode);
 			receiptlist.setContractID(coID);
 			receiptlist.setProjectID(proID);
 		} else if (state.equals("no")) { // 无合同新增交接单 --新增交接单和项目-接受
-			receiptlist.setReceiptlistCode("交接单编码生成规则不知道-无合同接受");
-			Contract contract = new Contract();
-			contract.setID(EntityIDFactory.createId());
-			contract.setContractCode("合同编号生成规则");
-			contract.setContractName("暂无具体合同信息，先生成的交接单");
-			contract.setOrderType(1);
-			contract.setIsInput(1);
-			contract.setState(0);
-			map.put("coID", contract.getID());
-			map.put("coCode", contract.getContractCode());
+			
+			 String yearAfterTwo  = CalendarTool.getYearAfterTwo();
+			
+			Contract contract_n = new Contract();
+			contract_n.setID(EntityIDFactory.createId());
+			contract_n.setContractCode("SCC-IMSTEC-479-"+yearAfterTwo+"-0000-TEC");
+			contract_n.setContractName("暂无具体合同信息，先生成的委托单");
+			contract_n.setOrderType(1);
+			contract_n.setClassifiedLevel(3);
+			contract_n.setIsClassified(0);
+			contract_n.setType(0);
+			contract_n.setOrderType(1);
+			contract_n.setIsInput(1);
+			contract_n.setState(0);
+			receiptlist.setReceiptlistCode("SCC-IMSTEC-479-"+yearAfterTwo+"-0000-TEC-001");
+			map.put("coID", contract_n.getID());
+			map.put("coCode", contract_n.getContractCode());
 			Project project = new Project();
 			project.setID(EntityIDFactory.createId());
-			project.setContractID(contract.getID());
+			project.setContractID(contract_n.getID());
 			project.setState(0);
 			project.setCreateTime(new Date());
 			project.setRemarks("这是先接受的样品，后拟定合同的");
 			receiptlist.setProjectID(project.getID());
 			map.put("proID", project.getID());
 			entityDao.save(project);
-			entityDao.save(contract);
+			entityDao.save(contract_n);
 		} else { // 有合同新增交接单-退还
-			receiptlist.setReceiptlistCode("交接单编码生成规则不知道--退还");
+			receiptlist.setReceiptlistCode(getCurrentRecode(coID,receiptlist.getID(),proID));
 			receiptlist.setContractID(coID);
 			receiptlist.setProjectID(proID);
+			receiptlist.setReceiptlistType(1);
 		}
 		map.put("reCode", receiptlist.getReceiptlistCode());
 		entityDao.save(receiptlist);
 		return map;
 	}
+   /**
+    * 
+    * 获取当前的交接单编码根据合同ID
+    * @author wzj
+    * @date 2017年6月30日 下午3:02:49
+    * @param coID
+    * @return
+    */
+	private String getCurrentRecode(String coID,String reID,String proID) {
+		// TODO Auto-generated method stub
+		Contract contract = entityDao.getByID(coID, Contract.class);
+		String  new_recode = null;
+		String condition = " receiptlist.contractID = '"+coID+"' ORDER BY receiptlistCode DESC LIMIT 0 , 1 "; 
+		
+    	if(contract.getType() == 1){ //是校准合同自动录入样品--包括退还和接受类型
+			inputTaskByCoID(coID,reID,proID);
+		}
+		List<Receiptlist> receiptlist_list =  entityDao.getByCondition(condition, Receiptlist.class);
+		if(receiptlist_list != null && receiptlist_list.size() > 0){
+			Receiptlist  receiptlist = receiptlist_list.get(0);
+			String recodeString = receiptlist.getReceiptlistCode();
+			 String valueString = String.valueOf(Integer.parseInt(recodeString.substring(recodeString.length()-3,recodeString.length()))+1);
+		    switch (valueString.length()) {
+			case 0:
+				valueString = "-001";
+				break;
+			case 1:
+				valueString = "-00"+valueString;
+				break;
+			case 2:
+				valueString = "-0"+valueString;
+				break;
+			case 3:
+				valueString = "-"+valueString;
+				break;
+			default:
+				valueString = "-"+valueString;
+				break;
+			}
+		    new_recode = contract.getContractCode()+valueString;
+		}else{
+			 new_recode = contract.getContractCode()+"-001";
+		}
+		
+		return new_recode;
+	}
+    @Override
+	public void inputTaskByCoID(String coID, String reID, String proID) {
+	// TODO Auto-generated method stub
+    	String[] properties = new String[]{
+    			"contractfineitem.sampleID "
+    	};
+    	String condition = " contractfineitem.contractID = '"+coID+"' ";
+    	List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, ContractFineItem.class);
+    	for (Map<String, Object> map : list) {
+			    Task task = new Task();
+			    task.setID(EntityIDFactory.createId());
+			    task.setReceiptlistID(reID);
+			    task.setSampleID((String)map.get("sampleID"));
+			    task.setAllotstate(0);
+			    task.setDetectstate(0);
+			    task.setSaveState(0);
+			    task.setType(1);
+			    task.setProjectID(proID);
+			    task.setContractID(coID);
+			    entityDao.save(task);    
+		}
+	
+}
+
+
 
 	/**
 	 * 

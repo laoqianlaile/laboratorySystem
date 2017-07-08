@@ -1,6 +1,18 @@
 // 请求数据时的额外参数
 var param = {};
 
+var object= {},
+pubtype = "",   //作为field的中间传递值
+datacount = -1,  //新增一行每次在顶部新增
+sbtjude = 0,   //判断表上的数据是否修改
+visture = "", // 值暂存的载体
+viscount = 0, //事件判断参数
+visture2 = "", //值暂存的载体
+viscount2 = 0, //事件判断参数
+judg= 0,       //后台方法判断参数
+judg2 = 0,    //后台方法判断参数
+judgHtml=0; //判断下拉选择是否选择完成
+
 $(function() {
 	setID();
 	getContractByID();
@@ -213,6 +225,13 @@ function getContractByID(){
 		    		}else{
 		    			$('#edit_contractAmount').attr({'value' : "" + myobj[0].contractAmount + ""});
 		    		}
+		    		if(myobj[0].technicalContent == undefined){
+		    			$('#edit_technical').attr({'value' : "" + myobj.technicalContent + "",'name' : "" + myobj[0].technicalID + ""});
+		    			$('#edit_technical').val(myobj.technicalContent);
+		    		}else{
+		    			$('#edit_technical').attr({'value' : "" + myobj[0].technicalContent + "",'name' : "" + myobj[0].technicalID + ""});
+		    			$('#edit_technical').val(myobj[0].technicalContent);
+		    		}
 		    		if(myobj[0].isClassified == "1"){
 		    			$('#r1').prop('checked','true');
 		    			$('#r2').prop('checked','');
@@ -229,10 +248,12 @@ function getContractByID(){
 		    		if(myobj[0].contractType == undefined || myobj[0].contractType == "0"){
 		    			$('#edit_contractID').attr({'title' : "" + myobj.contractType + ""});
 		    			$('#ItemModal2').hide();
+		    			$('#ItemBtn2').hide();
 			    		initContractFileItem1();
 		    		}else{
 		    			$('#edit_contractID').attr({'title' : "" + myobj[0].contractType + ""});
 		    			$('#ItemModal1').hide();
+		    			$('#ItemBtn1').hide();
 			    		initContractFileItem2();
 		    		}
 		    		initContractFile();
@@ -524,12 +545,6 @@ function initContractFileItem1(){
 			width:'10',//宽度
 			visible:false
 		},{
-			field:'fineItemCode',//返回值名称
-			title:'合同细项编号',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-			width:'18%',//宽度
-		},{
 			field:'testProjectID',//返回值名称
 			title:'检测项目ID',//列名
 			align:'center',//水平居中显示
@@ -549,6 +564,25 @@ function initContractFileItem1(){
 			valign:'middle',//垂直居中显示
 			width:'10%',//宽度
 		},{
+			field:'standardID',//返回值名称
+			title:'检测标准ID',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:'10',//宽度
+			visible:false
+		},{
+			field:'standardCode',//返回值名称
+			title:'检测标准编号',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:'10%',//宽度
+		},{
+			field:'standardName',//返回值名称
+			title:'检测标准',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:'13%',//宽度
+		},{
 			field:'isOutsourcing',//返回值名称
 			title:'是否外包',//列名
 			align:'center',//水平居中显示
@@ -559,7 +593,7 @@ function initContractFileItem1(){
 			title:'金额',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'8%',//宽度
+			width:'7%',//宽度
 		},{
 			field:'price',//返回值名称
 			title:'单价',//列名
@@ -574,39 +608,26 @@ function initContractFileItem1(){
 			valign:'middle',//垂直居中显示
 			width:'10',//宽度
 			visible:false
-		}/*,{
-			field:'departmentID',//返回值名称
-			title:'检测部门ID',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-			width:'10',//宽度
-			visible:false
 		},{
-			field:'departmentName',//返回值名称
-			title:'检测部门',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-			width:'12%',//宽度
-		}*/,{
 			field:'remarks',//返回值名称
 			title:'备注',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'13%',//宽度
+			width:'14%',//宽度
 		},{
 			field:'',
 			title:'操作',
 			align:'center',
 			valign:'middle',
-			width:'20%',
+			width:'13%',
 			 formatter:function(value,row,index){    
                  var b = '<img src ="module/img/update_icon.png" onclick="openEditItemModal1(\'' + row.ID + 
-                 '\',\'' + row.fineItemCode + '\',\'' + row.testProjectID + '\',\'' + row.nameCn + '\',\'' + 
-                 row.nameEn + '\',\'' + row.number + '\',\'' + row.price + '\',\'' + row.money + '\',\'' + 
-                 /*row.departmentID + '\',\'' + row.departmentName + '\',\'' + */
+                 '\',\'' + row.testProjectID + '\',\'' + row.nameCn + '\',\'' + 
+                 row.nameEn + '\',\'' + row.number + '\',\'' + row.price + '\',\'' +
+                 row.standardID + '\',\'' + row.standardCode + '\',\'' + row.standardName + '\',\'' +
                  row.isOutsourcing + '\',\'' + row.remarks + '\')"'+
                  ' title="修改" style="cursor:pointer;padding-right:8px;"></img>';
-                 var c = "<img src ='module/img/delete_icon.png' onclick='delFileItem(\""+ row.ID +"\",\"" + row.fineItemCode +"\")'"+" title='删除' style='cursor:pointer;padding-right:8px;'></img>";
+                 var c = "<img src ='module/img/delete_icon.png' onclick='delFileItem(\""+ row.ID +"\",\"" + row.nameCn +"\")'"+" title='删除' style='cursor:pointer;padding-right:8px;'></img>";
                  return b+c;    
              }   
 		}]////列配置项,详情请查看 列参数 表格
@@ -643,7 +664,8 @@ function initContractFileItem2(){
 			param.ID = $.trim($('#edit_contractID').val())
 			return param;
 		}, //参数
-	    queryParamsType: "limit", 
+	    queryParamsType: "limit",
+	    onDblClickCell:onDblClickCell,
 		selectItemName : '',// radio or checkbox 的字段名
 		columns:[{
 			title : '序号',// 列名
@@ -717,6 +739,71 @@ function initContractFileItem2(){
 	});
 }
 
+//双击时触发的方法
+function onDblClickCell(field,value,row,$element){
+	object = row;
+	var getvalue ="";
+	if(field=="factoryCode"||field=="sampleName"||field=="specifications"||field=="money"||field=="remarks"){
+		pubtype = field;
+		switch(field){
+		case "factoryCode":getvalue = row.factoryCode;
+		$element[0].innerHTML="<input onblur='getobject(this,this.value,"+"pubtype"+")' type='text' class='form-control' value='"+getvalue+"'>";
+		;break;
+		case "sampleName":getvalue = row.sampleName;
+		$element[0].innerHTML="<input onblur='getobject(this,this.value,"+"pubtype"+")' type='text' class='form-control' value='"+getvalue+"'>";
+		;break;
+		case "specifications":getvalue = row.specifications;
+		$element[0].innerHTML="<input onblur='getobject(this,this.value,"+"pubtype"+")' type='text' class='form-control' value='"+getvalue+"'>";
+		;break;
+		case "money":getvalue = row.money;
+		$element[0].innerHTML="<input onblur='getobject(this,this.value,"+"pubtype"+")' type='text' class='form-control' value='"+getvalue+"'>";
+		;break;
+		case "remarks":getvalue = row.remarks;
+		$element[0].innerHTML="<input onblur='getobject(this,this.value,"+"pubtype"+")' type='text' class='form-control' value='"+getvalue+"'>";
+		;break;
+		}
+	}else{
+		swal("此项不能修改");
+	};
+}
+
+function getobject(dom,value,type){
+	dom.parentNode.innerHTML=value;
+	switch(type){
+	case "factoryCode":if(object.factoryCode == value){
+		sbtjude = sbtjude;
+		}else{
+			object.factoryCode =value;
+			sbtjude = 1;
+		};break;
+	case "sampleName":if(object.sampleName == value){
+		sbtjude = sbtjude;
+		}else{
+			object.sampleName =value;
+			sbtjude = 1;
+		};break;
+	case "specifications":if(object.specifications == value){
+		sbtjude = sbtjude;
+		}else{
+			object.specifications =value;
+			sbtjude = 1;
+		};break;
+	case "money":if(object.money == value){
+		sbtjude = sbtjude;
+		}else{
+			object.money =value;
+			sbtjude = 1;
+		};break;
+	case "remarks":if(object.remarks == value){
+		sbtjude = sbtjude;
+		}else{
+			object.remarks =value;
+			sbtjude = 1;
+		};break;
+	}
+	updateItem();
+}
+
 //检查合同数据、合同文件数据和合同细项是否合理
 function checkDate(data, who) {
 	if (who == "con"){
@@ -775,6 +862,12 @@ function chenkDataCon(dataObj) { // 后台数据字段为空就不会传上来
 	if (!dataObj.hasOwnProperty("contractAmount") || dataObj.contractAmount == null || dataObj.contractAmount == undefined ) {
 		dataObj.contractAmount = "0";
 	}
+	if (!dataObj.hasOwnProperty("technicalID") || dataObj.technicalID == null || dataObj.technicalID == undefined || dataObj.technicalID.trim() == "") {
+		dataObj.technicalID = "";
+	}
+	if (!dataObj.hasOwnProperty("technicalContent") || dataObj.technicalContent == null || dataObj.technicalContent == undefined || dataObj.technicalContent.trim() == "") {
+		dataObj.technicalContent = "";
+	}
 	if (!dataObj.hasOwnProperty("isClassified") || dataObj.isClassified == null || dataObj.isClassified == undefined || dataObj.isClassified.trim() == "") {
 		dataObj.isClassified = "0";
 	}
@@ -826,11 +919,6 @@ function chenkDataItem1(dataObj) { // 后台数据字段为空就不会传上来
 			|| dataObj.ID == undefined 
 			|| dataObj.ID.trim() == "") {
 		dataObj.ID = "";
-	}
-	if (!dataObj.hasOwnProperty("fineItemCode") || dataObj.fineItemCode == null
-			|| dataObj.fineItemCode == undefined 
-			|| dataObj.fineItemCode.trim() == "") {
-		dataObj.fineItemCode = "";
 	}
 	if (!dataObj.hasOwnProperty("testProjectID") || dataObj.testProjectID == null
 			|| dataObj.testProjectID == undefined 
@@ -1078,6 +1166,50 @@ function addGetTPName(){
 		});
 	}
 }
+
+/**
+ * 改变信息触发相关提示信息的方法(add)
+ * addGetTSName(通过检测项目id获取检测标准)
+ */
+function addGetTSName(id){ 
+	if (!id || typeof(id) == "undefined" || id.trim() == "") 
+	{ 
+		$(".testStandard").hide();
+	}else {
+		var parame = {};
+		parame.testProjectID = id;
+		
+		$.ajax({  
+		    url:'testStandardController/getTSdByTPID.do',// 跳转到 action
+		    type:'post', 
+		    data:parame,
+		    dataType:'json',
+		    success:function(data){  
+		    	if (data) { 
+		    		var testStandard,length;
+		    		var myobj = JSON.parse(data);
+		    		var htmlElement = "";//定义HTML
+		    		testStandard = $(".testStandard");
+		    		if(myobj.length == 0){
+		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
+		    		}else{
+		    			length = myobj.length;
+		    			htmlElement += "<ul>";
+		    			for(var i=0; i < length; i++){
+			    			htmlElement += "<li value='" + myobj[i].standardName + " | " + myobj[i].standardCode + "' title='" + myobj[i].standardName + "' name='" + myobj[i].ID + "'>" + myobj[i].standardName + " | " + myobj[i].standardCode + "</li>";
+			    		}
+		    			htmlElement += "</ul>";
+		    		}
+		    		 
+		    		testStandard.show();
+		    		testStandard.empty();
+		    		testStandard.append(htmlElement);
+		    		addClick();
+		    	}
+		    }
+		});
+	}
+}
 /**
  * 改变信息触发相关提示信息的方法(add)
  */
@@ -1131,11 +1263,6 @@ function addClick(){
 			 name = "";
 			}
 		 $("#add_testProjectName").val(name);
-		 var departmentID =  $(this).attr("class");
-		 if (departmentID == null || departmentID.trim() == "" || departmentID == "undefined") {
-			 departmentID = "";
-			}
-		 $("#add_departmentName").val(departmentID);
 		 var ID =  $(this).attr("name");
 		 var nameCn =  $(this).attr("title");
 		 if (ID == null || ID.trim() == "" || ID == "undefined") {
@@ -1147,12 +1274,38 @@ function addClick(){
 		 $('#add_testProjectName').attr({'name' : "" + ID + ""});
 		 $('#add_testProjectName').attr({'value' : "" + name + ""});
 		 $('#add_testProjectName').attr({'title' : "" + nameCn + ""});
+		 addGetTSName(ID);
 		 $(".testProjectName").hide();
 	})
 
 	//隐藏提示框
 	$("#addContent").click(function(){
 		 $(".testProjectName").hide();
+	})
+	
+	$(".testStandard ul li").click(function(){
+		 var name =  $(this).attr("value");
+		 if (name == null || name.trim() == "" || name == "undefined") {
+			 name = "";
+			}
+		 $("#add_testStandard").val(name);
+		 var ID =  $(this).attr("name");
+		 var standardName =  $(this).attr("title");
+		 if (ID == null || ID.trim() == "" || ID == "undefined") {
+			 ID = "";
+			}
+		 if (standardName == null || standardName.trim() == "" || standardName == "undefined") {
+			 standardName = "";
+			}
+		 $('#add_testStandard').attr({'name' : "" + ID + ""});
+		 $('#add_testStandard').attr({'value' : "" + name + ""});
+		 $('#add_testStandard').attr({'title' : "" + standardName + ""});
+		 $(".testStandard").hide();
+	})
+
+	//隐藏提示框
+	$("#addContent").click(function(){
+		 $(".testStandard").hide();
 	})
 	
 	//给input赋值
@@ -1241,10 +1394,12 @@ function editSth(){
 }
 
 function openAddItemModal1(){
-	$('#add_fineItemCode').val("");
 	$('#add_testProjectName').attr("name","");
 	$('#add_testProjectName').attr("title","");
 	$('#add_testProjectName').val("");
+	$('#add_testStandard').attr("name","");
+	$('#add_testStandard').attr("title","");
+	$('#add_testStandard').val("");
 	$('#add_number').val("");
 	$('#add_price').val("");
 	$('#add_remarks1').val("");
@@ -1261,12 +1416,14 @@ function openAddItemModal2(){
 	$('#addContractItemModal2').modal('show');
 }
 
-function openEditItemModal1(ID,fineItemCode,testProjectID,nameCn,nameEn,number,price,money,calculateType,isOutsourcing,remarks,hour){
+function openEditItemModal1(ID,testProjectID,nameCn,nameEn,number,price,testStandardID,standardCode,standardName,isOutsourcing,remarks){
 	$('#edit_fineItemID1').val(ID);
-	$('#edit_fineItemCode').val(fineItemCode);
 	$('#edit_testProjectName').attr({'name' : "" + testProjectID + ""});
 	$('#edit_testProjectName').attr({'title' : "" + nameCn + ""});
 	$('#edit_testProjectName').attr({'value' : "" + nameCn + " | " + nameEn + ""});
+	$('#edit_testStandard').attr({'name' : "" + testStandardID + ""});
+	$('#edit_testStandard').attr({'title' : "" + standardName + ""});
+	$('#edit_testStandard').attr({'value' : "" + standardName + " | " + standardCode + ""});
 	$('#edit_number').val(number);
 	$('#edit_price').val(price);
 	$('#edit_remarks1').val(remarks);
@@ -1457,6 +1614,49 @@ function editGetTPName(){
 }
 /**
  * 改变信息触发相关提示信息的方法(edit)
+ * editGetTSName(通过检测项目id获取检测标准)
+ */
+function editGetTSName(id){ 
+	if (!id || typeof(id) == "undefined" || id.trim() == "") 
+	{ 
+		$(".testStandard").hide();
+	}else {
+		var parame = {};
+		parame.testProjectID = id;
+		
+		$.ajax({  
+		    url:'testStandardController/getTSdByTPID.do',// 跳转到 action
+		    type:'post', 
+		    data:parame,
+		    dataType:'json',
+		    success:function(data){  
+		    	if (data) { 
+		    		var testStandard,length;
+		    		var myobj = JSON.parse(data);
+		    		var htmlElement = "";//定义HTML
+		    		testStandard = $(".testStandard");
+		    		if(myobj.length == 0){
+		    			htmlElement += "<ul><li class='noDate'>没有查到数据，请更改输入信息或新增对应数据</li></ul>";
+		    		}else{
+		    			length = myobj.length;
+		    			htmlElement += "<ul>";
+		    			for(var i=0; i < length; i++){
+			    			htmlElement += "<li value='" + myobj[i].standardName + " | " + myobj[i].standardCode + "' title='" + myobj[i].standardName + "' name='" + myobj[i].ID + "'>" + myobj[i].standardName + " | " + myobj[i].standardCode + "</li>";
+			    		}
+		    			htmlElement += "</ul>";
+		    		}
+		    		 
+		    		testStandard.show();
+		    		testStandard.empty();
+		    		testStandard.append(htmlElement);
+		    		editClick();
+		    	}
+		    }
+		});
+	}
+}
+/**
+ * 改变信息触发相关提示信息的方法(edit)
  */
 function editGetSName(){ 
 	var codeOrName = $('#edit_factoryCode').val().trim();
@@ -1549,11 +1749,6 @@ function editClick(){
 			 name = "";
 			}
 		 $("#edit_testProjectName").val(name);
-		 var departmentID =  $(this).attr("class");
-		 if (departmentID == null || departmentID.trim() == "" || departmentID == "undefined") {
-			 departmentID = "";
-			}
-		 $("#edit_departmentName").val(departmentID);
 		 var ID =  $(this).attr("name");
 		 var nameCn =  $(this).attr("title");
 		 if (ID == null || ID.trim() == "" || ID == "undefined") {
@@ -1565,12 +1760,38 @@ function editClick(){
 		 $('#edit_testProjectName').attr({'name' : "" + ID + ""});
 		 $('#edit_testProjectName').attr({'value' : "" + name + ""});
 		 $('#edit_testProjectName').attr({'title' : "" + nameCn + ""});
+		 editGetTSName(ID);
 		 $(".testProjectName").hide();
 	})
 
 	//隐藏提示框
 	$(".row").click(function(){
 		 $(".testProjectName").hide();
+	})
+	
+	$(".testStandard ul li").click(function(){
+		 var name =  $(this).attr("value");
+		 if (name == null || name.trim() == "" || name == "undefined") {
+			 name = "";
+			}
+		 $("#edit_testStandard").val(name);
+		 var ID =  $(this).attr("name");
+		 var standardName =  $(this).attr("title");
+		 if (ID == null || ID.trim() == "" || ID == "undefined") {
+			 ID = "";
+			}
+		 if (standardName == null || standardName.trim() == "" || standardName == "undefined") {
+			 standardName = "";
+			}
+		 $('#edit_testStandard').attr({'name' : "" + ID + ""});
+		 $('#edit_testStandard').attr({'value' : "" + name + ""});
+		 $('#edit_testStandard').attr({'title' : "" + standardName + ""});
+		 $(".testStandard").hide();
+	})
+
+	//隐藏提示框
+	$(".row").click(function(){
+		 $(".testStandard").hide();
 	})
 	
 	//给input赋值
@@ -1711,7 +1932,6 @@ function edit(){
 		var signAddress = $('#edit_signAddress').val();
 		var address = $('#edit_address').val();
 		var companyID = $('#edit_companyName').attr("name");
-		
 		var companyName = $('#edit_companyName').val();
 		var oppositeMen = $('#edit_oppositeMen').val();
 		var linkPhone = $('#edit_linkPhone').val();
@@ -1722,7 +1942,8 @@ function edit(){
 		var signTime = $('#edit_signTime').val();
 		var isClassified = $("input[name='isClassified']:checked").val();
 		var classifiedLevel = $('#edit_classifiedLevel').val();
-		
+		var technicalID = $('#edit_technical').attr("name");
+		var technicalContent = $('#edit_technical').val();
 		if (!contractCode || typeof(contractCode) == "undefined" || contractCode.trim() == "") 
 		{ 
 			swal("合同编号不能为空！"); 
@@ -1799,6 +2020,11 @@ function edit(){
 			swal("保密等级不能为空！");
 			return;
 		}
+		if (!technicalContent || typeof(technicalContent) == "undefined" || technicalContent.trim() == "") 
+		{ 
+			swal("技术资料不能为空！");
+			return;
+		}
 		parame.contractCode = contractCode;
 		parame.contractName = contractName;
 		parame.signAddress = signAddress;
@@ -1815,6 +2041,8 @@ function edit(){
 		//parame.contractAmount = contractAmount;
 		parame.isClassified = isClassified;
 		parame.classifiedLevel = classifiedLevel;
+		parame.technicalID = technicalID;
+		parame.technicalContent = technicalContent;
 		if(companyID == "edit_companyName"){
 			swal({
 				title: "公司不存在，是否修改合同并新增对应公司记录！",
@@ -1892,50 +2120,33 @@ function checknum(obj)
 function addItem1(){
 	edit();
 	var parame = {};
-	var fineItemCode = $('#add_fineItemCode').val();
 	var isOutsourcing = $("input[name='isOutsourcing1']:checked").val();
 	var testProjectID = $('#add_testProjectName').attr("name");
 	var testProjectName = $('#add_testProjectName').attr("title");
+	var standardID = $('#add_testStandard').attr("name");
+	var standardName = $('#add_testStandard').attr("title");
 	var number = $('#add_number').val();
 	var price = $('#add_price').val();
-	//var departmentName = $('#add_departmentName').val();
 	var remarks = $('#add_remarks1').val();
 	
-	if (!fineItemCode || typeof(fineItemCode) == "undefined" || fineItemCode.trim() == "") 
-	{ 
-		swal("合同细项编号不能为空！"); 
-		return;
-	}
 	if (!testProjectName || typeof(testProjectName) == "undefined" || testProjectName.trim() == "") 
 	{
 		swal("检测项目不能为空！"); 
 		return;
 	}
-	/*if(departmentName != 11){
-		if (!departmentName || typeof(departmentName) == "undefined" || departmentName.trim() == "") 
-		{
-			swal("检测单位不能为空！请修改检测项目的所属单位或选择新的检测单位");
-			return;
-		}
-		parame.isOutsourcing = 0;
-		parame.departmentID = departmentName;
-	}else{
-		if (!departmentName || typeof(departmentName) == "undefined" || departmentName .trim() == "") 
-		{
-			swal("外包单位不能为空！");
-			return;
-		}
-		parame.isOutsourcing = 1;
-		parame.departmentID = departmentName;
-	}*/
+	if (!standardName || typeof(standardName) == "undefined" || standardName.trim() == "") 
+	{
+		swal("检测标准不能为空！"); 
+		return;
+	}
 	if (!remarks || typeof(remarks) == "undefined" || remarks.trim() == "") 
 	{ 
 		parame.remarks = "";
 	}
 		parame.isOutsourcing = isOutsourcing;
-		parame.fineItemCode = fineItemCode;
 		parame.testProjectID = testProjectID;
 		parame.testProjectName = testProjectName;
+		parame.standardID = standardID;
 		parame.number = number;
 		parame.price = price;
 		parame.money = number * price;
@@ -2081,13 +2292,41 @@ function addItem2(){
 		}
 }
 
+function addNullFineItem(){
+	edit();
+	var parame = {};
+	parame.contractID = $('#edit_contractID').val();
+	
+	$.ajax({
+		  url:'contractFineItemController/addNullFineItem.do',
+		  type:'post', 
+		  data:parame,
+		  dataType:'json',
+		  success:function(o){
+			  switch (o) {
+				case 1:swal("新增成功！");
+					setTimeout(refresh, 1000);
+					break;
+				case 0:swal("新增失败！");
+					break;
+				default:
+					break;
+			  }
+		  },
+		  error:function(o){
+			  console.log(o);
+			  refresh();
+		  }
+	});
+}
+
 //删除合同细项
 function delFileItem(id,fineItemCode){
 	var parame = {};
 	parame.itemID = id;
 	parame.contractID = $('#edit_contractID').val();
 	swal({
-		title: "确认删除：" + fineItemCode,
+		title: "确认删除?",
 		type: "warning",
 		showCancelButton: true,
 		confirmButtonColor: "#DD6B55",
@@ -2116,50 +2355,34 @@ function editItem1(){
 	edit();
 	var parame = {};
 	parame.ID = $('#edit_fineItemID1').val();
-	var fineItemCode = $('#edit_fineItemCode').val();
 	var isOutsourcing = $("input[name='isOutsourcing2']:checked").val();
 	var testProjectID = $('#edit_testProjectName').attr("name");
 	var testProjectName = $('#edit_testProjectName').attr("title");
+	var standardID = $('#edit_testStandard').attr("name");
+	var standardName = $('#edit_testStandard').attr("title");
 	var number = $('#edit_number').val();
 	var price = $('#edit_price').val();
 	//var departmentName = $('#edit_departmentName').val();
 	var remarks = $('#edit_remarks').val();
 		
-	if (!fineItemCode || typeof(fineItemCode) == "undefined" || fineItemCode.trim() == "") 
-	{ 
-		swal("合同细项编号不能为空！"); 
-		return;
-	}
 	if (!testProjectName || typeof(testProjectName) == "undefined" || testProjectName.trim() == "") 
 	{
 		swal("检测项目不能为空！"); 
+		return;
+	}
+	if (!standardName || typeof(standardName) == "undefined" || standardName.trim() == "") 
+	{
+		swal("检测标准不能为空！"); 
 		return;
 	}
 	if (!remarks || typeof(remarks) == "undefined" || remarks.trim() == "") 
 	{ 
 		parame.remarks = "";
 	}
-	/*if(departmentName != 11){
-		if (!departmentName || typeof(departmentName) == "undefined" || departmentName.trim() == "") 
-		{
-			swal("检测单位不能为空！");
-			return;
-		}
-		parame.isOutsourcing = 0;
-		parame.departmentID = departmentName;
-	}else{
-		if (!departmentName || typeof(departmentName) == "undefined" || departmentName .trim() == "") 
-		{
-			swal("外包单位不能为空！");
-			return;
-		}
-		parame.isOutsourcing = 1;
-		parame.departmentID = departmentName;
-	}*/
 	    parame.isOutsourcing = isOutsourcing;
-		parame.fineItemCode = fineItemCode;
 		parame.testProjectID = testProjectID;
 		parame.testProjectName = testProjectName;
+		parame.standardID = standardID;
 		parame.number = number;
 		parame.price = price;
 		parame.money = number * price;
@@ -2304,6 +2527,77 @@ function editItem2(){
 			});	
 		}
 }
+
+//修改
+function updateItem(){
+	edit();
+	var parame={};
+		parame.ID = object.ID;
+		parame.sampleID = object.sampleID;
+		parame.factoryCode = object.factoryCode;
+		parame.sampleName = object.sampleName;
+		parame.specifications = object.specifications;
+		parame.money = object.money;
+		parame.remarks = object.remarks;
+		parame.contractID = $('#edit_contractID').val();
+		if(sbtjude == 1){
+				$.ajax({
+					url:'contractFineItemController/updFineItem2.do',
+					  type:'post', 
+					  data:parame,
+					  dataType:'json',
+					  success:function(o){
+						  switch (o) {
+						  	case -2:swal("修改样品信息失败！修改失败");
+					  			break;
+							case 1:swal("修改成功！");
+								setTimeout(refresh, 1000);
+								break;
+							default:swal("修改失败！");
+								break;
+						  }
+					  },
+					  error:function(o){
+						  console.log(o);
+						  refresh();
+					  }
+				});
+			}
+	
+}
+
+//导出技术合同细项数据
+function exportReport1() {
+	var contractID = $('#edit_contractID').val();
+	window.location.href = "contractFineItemController/contractFineItemExportExcel1.do?contractID=" + contractID;
+}
+
+//导出校准合同细项数据
+function exportReport2() {
+	var contractID = $('#edit_contractID').val();
+	window.location.href = "contractFineItemController/contractFineItemExportExcel2.do?contractID=" + contractID;
+}
+
+//导入数据
+
+
+//检查文件类型
+function checkFile2(o) {
+	$("#chooseFile").attr("disabled", "disabled");
+	var filePath = $(o).val();
+	if (filePath != "" && filePath != undefined) {
+		var arr = filePath.split('\\');
+		var fileName = arr[arr.length - 1];
+		$("#fileName").html(fileName);
+	}
+	if (o.value.indexOf('.xls') < 0 && o.value.indexOf('.xlsx') < 0) {
+		swal("此类型文件不能上传");
+		$("#chooseFile").removeAttr("disabled");
+		$("#fileName").empty(); // 清空子元素
+	}
+} 
+
+
 $('.form_datetime_edit_Time').datetimepicker({
     language: 'zh-CN',
     weekStart: 1,

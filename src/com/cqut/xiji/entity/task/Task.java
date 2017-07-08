@@ -29,8 +29,8 @@ public class Task extends Entity{
 	private int saveState;
 	private int type;
 	private String departmentID;
-	private String contractID;
 	private String projectID;
+	private String contractID;
 	
 	public String getDepartmentID() {
 		return departmentID;

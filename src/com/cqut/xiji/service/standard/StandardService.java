@@ -22,6 +22,7 @@ import com.cqut.xiji.entity.messageNotice.MessageNotice;
 import com.cqut.xiji.entity.standard.Standard;
 import com.cqut.xiji.entity.standardType.StandardType;
 import com.cqut.xiji.entity.template.Template;
+import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
@@ -372,6 +373,34 @@ public class StandardService extends SearchService implements IStandardService{
 		map.put("total", count);
 		map.put("rows", result);
 		return map;
+	}
+
+	@Override
+	public List<Map<String, Object>> getTestProjectByName(String standardName) {
+		String condition = "";
+		String[] properties = new String[] {
+						"standard.ID ",
+						"IF ( "
+						+ " standard.standardCode IS NULL,"
+						+ " standard.standardName,"
+						+ "	CONCAT("
+						+ "		standard.standardCode,"
+						+ "		' - ',"
+						+ "		standard.standardName"
+						+ "	)"
+						+ ")  AS Name"
+			};
+		if(standardName != null && !standardName.equals("")){
+			standardName = standardName.replaceAll(" ", "");
+			condition = " standard.standardName LIKE '%"+standardName+"%' or standard.standardCode  like '%"+standardName+"%' ";
+		}else{
+			condition = " 1=1 ";
+		}
+		
+		List<Map<String, Object>> list = entityDao.findByCondition(properties,
+				condition, Standard.class);
+		
+		return list;
 	}
 
 }

@@ -3,6 +3,9 @@ package com.cqut.xiji.service.duty;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 public interface IDutyService {
 	/**
 	 * 初始化职位界面
@@ -51,4 +54,12 @@ public interface IDutyService {
 	 * @return
 	 */
 	public String addText(String dutyCode,String dutyName);
+	/**
+	 * 导出数据
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public boolean dutyExportExcel(HttpServletRequest request,
+			HttpServletResponse response);
 }

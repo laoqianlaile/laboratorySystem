@@ -143,6 +143,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<option class="Level3" value="2">绝密</option>
 					</select>
 				</div>
+				<div class="col-xs-9 col-md-9">
+                   	<label class="control-label">技术资料:</label>
+                   	<textarea id="edit_technical" name="technical" style="margin: -38 0 0 9.45%;height: 34px;width: 76.22%;" class="form-control"></textarea>
+               	</div>
 			</div>
 		</div>
 		<div class="contractFile">
@@ -164,6 +168,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="btnAdd fr">
 					<button id="ItemModal1" type="button" onclick="openAddItemModal1()" class="btn btn-primary">添加检测细项</button>
 					<button id="ItemModal2" type="button" onclick="openAddItemModal2()" class="btn btn-primary">添加校准细项</button>
+					<button id="ItemBtn1" type="button" class="btn btn-primary glyphicon btn3" onclick="exportReport1()">导出</button>
+					<button id="ItemBtn2" type="button" class="btn btn-primary glyphicon btn3" onclick="exportReport2()">导出</button>
+					
 				</div>
 			</div>
 			<div class="bottom">
@@ -176,8 +183,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<button type="button" id="btn-edit" onclick="edit()">保存</button>
 			<button type="button" id="btn-audit" onclick="submitAudit()">提交审核</button>
 		</div>
+		
+		<div id="importExcel" class="modal fade" role="dialog"  
+		aria-labelledby="gridSystemModalLabel">
+		<div class="modal-dialog" role="document" style="width:450px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">导入Excel文件</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div id="fileInfo" style="text-align:left">
+							<div id="file">
+								<input type="file" name="files" id="files" style="display:none" onchange="checkFile(this)">
+							</div>
+							
+							<button type="button" id="chooseFile" name="chooseFile" class="btn btn-default">
+								<span class="glyphicon glyphicon-folder-open "></span> 选择文件
+							</button>
+							<span id="fileName"></span>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
 
-		<!-- 新增弹框 -->
+					<button type="button" class="btn btn-primary" id="ensure" name="ensure" onclick="importExcel()">确定</button>
+					<button type="button" style="background:#fff;color:#333;"
+						class="btn btn-primary" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+		
+		<!-- 上传文件弹框 -->
 		<div id="file_uploadModal" class="modal" role="dialog" aria-labelledby="gridSystemModalLabel">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -240,10 +278,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      </div>
 	      <div class="modal-body">
 	      	<div id="addContent" class="row">
-	      		<div class="col-xs-12 col-md-12">
-                   	<label class="control-label">合同细项编号：</label>
-                   	<input type="text" id="add_fineItemCode" name="fineItemCode" class="form-control" />
-               	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label">是否外包:</label>
                    	<input type="radio" value="0" checked="checked"  name="isOutsourcing1" style="margin:0 0 0 80px;vertical-align: text-top;"/><span>内测</span>
@@ -256,22 +290,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                   
                    </div>
                 </div>
+                <div class="col-xs-12 col-md-12">
+                   	<label class="control-label">检测项目标准：</label>
+                   	<input type="text" id="add_testStandard" name="testStandard" class="form-control" readonly="true"/>
+                   <div class="testStandard">
+	                   
+                   </div>
+                </div>
                 <div class="col-xs-12 col-md-12" >
                    	<label class="control-label fl" style="width:22.5%;">数量：</label>
                    	<input type="text" id="add_number" name="number" class="form-control fl" style="width:21%;"
-                   	onkeyup="checknum(this)"
-						onafterpaste="checknum(this)"/>
+                   	onkeyup="this.value=this.value.replace(/\D/g,'')"
+						onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
                    	<label class="control-label fl" style="width:22.5%;margin-left: 5.5%;">单价：</label>
                    	<input type="text" id="add_price" name="price" class="form-control fl" style="width:21%;" 
                    	onkeyup="checknum(this);"
 						onafterpaste="checknum(this);"/>
                	</div>
-               <!-- 	<div class="col-xs-12 col-md-12">
-                   	<label class="control-label">检测单位：</label>
-                   	<select id="add_departmentName" name="departmentName" class="form-control">
-						
-		           	</select>
-               	</div> -->
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label">备注:</label>
                    	<textarea id="add_remarks1" name="remarks" style="margin: -34px 0 0 22.5%;" class="form-control"></textarea>
@@ -343,10 +378,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    	<label class="control-label">合同细项ID：</label>
                    	<input type="text" id="edit_fineItemID1" name="fineItemID1" class="form-control" />
                	</div>
-	      		<div class="col-xs-12 col-md-12">
-                   	<label class="control-label">合同细项编号：</label>
-                   	<input type="text" id="edit_fineItemCode" name="fineItemCode" class="form-control" />
-               	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label">是否外包:</label>
                    	<input type="radio" value="0" checked="checked"  name="isOutsourcing2" style="margin:0 0 0 80px;vertical-align: text-top;"/><span>内测</span>
@@ -359,22 +390,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                   
                    </div>
                 </div>
+                <div class="col-xs-12 col-md-12">
+                   	<label class="control-label">检测项目标准：</label>
+                   	<input type="text" id="edit_testStandard" name="testStandard" class="form-control" readonly="true"/>
+                   <div class="testStandard">
+	                   
+                   </div>
+                </div>
                 <div class="col-xs-12 col-md-12" >
                    	<label class="control-label fl" style="width:22.5%;">数量：</label>
                    	<input type="text" id="edit_number" name="number" class="form-control fl" style="width:21%;"
-                   	onkeyup="checknum(this)"
-						onafterpaste="checknum(this)"/>
+                   onkeyup="this.value=this.value.replace(/\D/g,'')"
+						onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
                    	<label class="control-label fl" style="width:22.5%;margin-left: 5.5%;">单价：</label>
                    	<input type="text" id="edit_price" name="price" class="form-control fl" style="width:21%;" 
                    	onkeyup="checknum(this);"
 						onafterpaste="checknum(this);"/>
                	</div>
-               	<!-- <div class="col-xs-12 col-md-12">
-                   	<label class="control-label">检测单位：</label>
-                   	<select id="edit_departmentName" name="departmentName" class="form-control">
-						
-		           	</select>
-               	</div> -->
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label">备注:</label>
                    	<textarea id="edit_remarks1" name="remarks" style="margin: -34px 0 0 22.5%;" class="form-control"></textarea>
@@ -443,6 +475,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <script type="text/javascript" src="assets/fileupload/jquery.iframe-transport.js"></script>
   <script type="text/javascript" src="assets/fileupload/jquery.ui.widget.js"></script>
   <script type="text/javascript" src="assets/fileupload/jquery.fileupload.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+	<script src="assets/js/bootstrap-table.min.js"></script>
+	<script src="assets/js/bootstrap-table-zh-CN.min.js"></script>
   <script>
    $('#chooseFile').click(function() {
 		$('#files').click();

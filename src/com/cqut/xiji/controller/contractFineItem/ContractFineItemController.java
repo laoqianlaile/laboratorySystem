@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -224,10 +226,10 @@ public class ContractFineItemController{
 	
 	@RequestMapping("/addContractFineItem1")  
     @ResponseBody
-	public int addContractFineItem1(int isOutsourcing, String fineItemCode,
-			String testProjectID, String testProjectName,int number, double price, double money,
+	public int addContractFineItem1(int isOutsourcing,
+			String testProjectID, String testProjectName,String standardID,int number, double price, double money,
 			String remarks, String contractID){
-		int results = service.addContractFineItem1(isOutsourcing,fineItemCode, testProjectID,testProjectName, number, price, money, remarks, contractID);
+		int results = service.addContractFineItem1(isOutsourcing, testProjectID,testProjectName,standardID, number, price, money, remarks, contractID);
 		return results;
 	}
 	
@@ -236,6 +238,21 @@ public class ContractFineItemController{
 	public int addContractFineItem2(String sampleID,String factoryCode,String sampleName,String specifications,
 			double money,String remarks, String contractID){
 		int results = service.addContractFineItem2(sampleID,factoryCode,sampleName,specifications,money,remarks,contractID);
+		return results;
+	}
+	
+	/**
+	 * 
+	 * @description 新增一个空的校准合同细项
+	 * @author LG.hujiajun
+	 * @created 2017年7月1日 下午4:23:10
+	 * @param contractID
+	 * @return
+	 */
+	@RequestMapping("/addNullFineItem")  
+    @ResponseBody
+	public int addNullFineItem(String contractID){
+		int results = service.addNullFineItem(contractID);
 		return results;
 	}
 	
@@ -248,10 +265,10 @@ public class ContractFineItemController{
 	
 	@RequestMapping("/updContractFineItem1")  
     @ResponseBody
-	public int updContractFineItem1(String ID,int isOutsourcing, String fineItemCode,
-			String testProjectID, String testProjectName,int number, double price, double money,
+	public int updContractFineItem1(String ID,int isOutsourcing,
+			String testProjectID, String testProjectName,String standardID,int number, double price, double money,
 			String remarks, String contractID){
-		int results = service.updContractFineItem1(ID, isOutsourcing, fineItemCode, testProjectID, testProjectName, number, price, money, remarks, contractID);
+		int results = service.updContractFineItem1(ID, isOutsourcing, testProjectID, testProjectName,standardID, number, price, money, remarks, contractID);
 		return results;
 	}
 	
@@ -260,6 +277,14 @@ public class ContractFineItemController{
 	public int updContractFineItem2(String ID,String sampleID,String factoryCode,String sampleName,String specifications,
 			double money,String remarks, String contractID){
 		int results = service.updContractFineItem2(ID,sampleID,factoryCode,sampleName,specifications,money,remarks,contractID);
+		return results;
+	}
+	
+	@RequestMapping("/updFineItem2")  
+    @ResponseBody
+	public int updFineItem2(String ID,String sampleID,String factoryCode,String sampleName,String specifications,
+			double money,String remarks, String contractID){
+		int results = service.updFineItem2(ID,sampleID,factoryCode,sampleName,specifications,money,remarks,contractID);
 		return results;
 	}
 	
@@ -283,4 +308,33 @@ public class ContractFineItemController{
 		List<Map<String,Object>> result = service.getContractFineItemByContractIDs(ContractID);
 		return JSONArray.fromObject(result).toString();
 	}
+	
+	/**
+	 * 
+	 * @description 导出合同细项
+	 * @author LG.hujiajun
+	 * @created 2017年7月4日 下午9:45:30
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/contractFineItemExportExcel1")
+	@ResponseBody
+	public void contractFineItemExportExcel1(HttpServletRequest request,HttpServletResponse response) {
+		service.contractFineItemExportExcel1(request, response);
+	}
+	
+	/**
+	 * 
+	 * @description 导出合同细项
+	 * @author LG.hujiajun
+	 * @created 2017年7月4日 下午9:45:30
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/contractFineItemExportExcel2")
+	@ResponseBody
+	public void contractFineItemExportExcel2(HttpServletRequest request,HttpServletResponse response) {
+		service.contractFineItemExportExcel2(request, response);
+	}
+
 }
