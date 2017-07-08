@@ -3,11 +3,11 @@
 	<sheet id="sheet1" sheetName="sheet1">
 		<style> 
 		   <colWidth>
+                <widthItem>5000</widthItem>
+                <widthItem>5000</widthItem>
                 <widthItem>3000</widthItem>
                 <widthItem>3000</widthItem>
-                <widthItem>3000</widthItem>
-                <widthItem>3000</widthItem>
-                <widthItem>3000</widthItem>
+                <widthItem>5000</widthItem>
             </colWidth>
 		 </style> 
 		<!-- 定义动态表头 -->

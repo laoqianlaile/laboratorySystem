@@ -1,6 +1,7 @@
 package com.cqut.xiji.service.contractFineItem;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -17,7 +18,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
@@ -26,11 +34,14 @@ import com.cqut.xiji.entity.company.Company;
 import com.cqut.xiji.entity.contract.Contract;
 import com.cqut.xiji.entity.contractFineItem.ContractFineItem;
 import com.cqut.xiji.entity.sample.Sample;
+import com.cqut.xiji.entity.standard.Standard;
 import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.POIEntity.DynamicLengthConfig;
+import com.cqut.xiji.tool.POIXLSReader.ExcelReader;
 import com.cqut.xiji.tool.POIXMLReader.XMLParser;
 import com.cqut.xiji.tool.util.EntityIDFactory;
+import com.cqut.xiji.tool.util.PropertiesTool;
 
 @Service
 public class ContractFineItemService extends SearchService implements IContractFineItemService{
@@ -1007,7 +1018,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 		fileName = "技术检测合同细项.xls";
 		final String userAgent = request.getHeader("USER-AGENT");
 		list1.add("技术检测合同细项");
-		DynamicLengthConfig config1 = new DynamicLengthConfig(0, 0, 1, 10,
+		DynamicLengthConfig config1 = new DynamicLengthConfig(0, 0, 1, 9,
 				list1);
 		dynamicLengthMap.put("dynamicLengt1", config1);
 		XMLParser parser = new XMLParser(XMLPath, sheetName, null,
@@ -1115,13 +1126,11 @@ public class ContractFineItemService extends SearchService implements IContractF
 		// TODO Auto-generated method stub
 		String tableName = "contractFineItem";
 		String[] properties = new String[]{
-				"contractFineItem.testProjectID",
 				"testProject.nameCn",
 				"testProject.nameEn",
 				"contractFineItem.number",
 				"contractFineItem.price",
 				"contractFineItem.money",
-				"contractFineItem.standardID",
 				"standard.standardCode",
 				"standard.standardName",
 				"case when contractFineItem.isOutsourcing = 0 then '内测' " + 
@@ -1174,4 +1183,252 @@ public class ContractFineItemService extends SearchService implements IContractF
 		
 		return result;
 	}
+	
+	/**
+	 * @description 导入合同细项
+	 * @author LG.hujiajun
+	 * @created 2017年7月8日 下午4:36:47
+	 * @param file
+	 * @param req
+	 * @param response
+	 * @param typeNumber
+	 * @param belongtoID
+	 */
+	@Override
+	public int importExcelTemplate(CommonsMultipartFile file, HttpServletRequest req,
+			HttpServletResponse response, int typeNumber, String belongtoID){
+		String ID = EntityIDFactory.createId();// 文件ID
+		String fileName = file.getOriginalFilename();// 获取文件全名
+		PropertiesTool pe = new PropertiesTool();
+		String[] fileNames = fileName.split("\\.");// 将文件名以\.分割成一个数组
+		String cacheFilePath = "";// 缓存文件路径
+		cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\";// 缓存文件地址
+		System.out.println("cacheFilePath1: " + cacheFilePath);
+		for (int j = 0; j < fileNames.length; j++) {
+			if (fileNames.length - j > 1) {
+				cacheFilePath += fileNames[j];
+			} else {
+				cacheFilePath += "_" + ID + "." + fileNames[j];
+			}
+		}
+
+		File targetFile = new File(cacheFilePath);
+		if (!targetFile.exists()) {
+			targetFile.mkdirs();
+		}
+		try {
+			file.transferTo(targetFile);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("fileName :" + fileName);
+		System.out.println("cacheFilePath " + cacheFilePath);
+		
+		System.out.println("TypeNumber:"+typeNumber);
+		if(typeNumber == 0){
+			String nameCn = "";
+			String nameEn = "";
+			int number = 0;
+			double price = 0;
+			double money = 0;
+			String standardCode = "";
+			String standardName = "";
+			int isOutsourcing = 0;
+			String remarks = "";
+			
+			try {  
+				List<ArrayList<String>> list = new ExcelReader().readExcel(file); 
+				ArrayList<String> rowList = null;
+		        //获得Excel表格的内容:
+		        for (int i = 1; i < list.size(); i++) {
+		        	rowList = list.get(i);
+		        	for (int j = 0; j < rowList.size(); j++) {
+		        		rowList.get(j);
+		        		switch (j) {
+		    			case 0:nameCn = rowList.get(j);
+		    				break;
+		    			case 1:nameEn = rowList.get(j);
+							break;
+		    			case 2:number = Integer.parseInt(rowList.get(j));
+							break;
+		    			case 3:price = Double.parseDouble(rowList.get(j));
+							break;
+		    			case 4:money = Double.parseDouble(rowList.get(j));;
+							break;
+		    			case 5:standardCode = rowList.get(j);
+							break;
+						case 6:standardName = rowList.get(j);
+							break;
+						case 7:if(rowList.get(j).equals("内测")){
+									isOutsourcing = 0;
+								}else{
+									isOutsourcing = 1;
+								}
+							break;
+						case 8:remarks = rowList.get(j);
+							break;
+		    			default:
+		    				break;
+		    			}
+		        	}
+		        	String testProjectID = "";
+		        	String standardID = "";
+		        	String[] properties1 = new String[] {"testProject.ID as testProjectID"};
+		    		String condition1 = " testProject.nameCn = '" + nameCn + "' AND "+
+		    						" testProject.nameEn = '" + nameEn + "'";
+		    		List<Map<String, Object>> result1 = entityDao.findByCondition(properties1, condition1, TestProject.class);
+		    		if(result1.isEmpty()){
+		    			System.out.println("不存在该检测项目,将新增对应检测项目");
+		    			//return -2;
+		    			TestProject testProject = new TestProject();
+		    			testProjectID = EntityIDFactory.createId();
+		    			testProject.setID(testProjectID);
+		    			testProject.setNameCn(nameCn);
+		    			testProject.setNameEn(nameEn);
+		    			testProject.setRemarks("系统新增");
+		    			testProject.setCreateTime(new Date());
+		    			int result = entityDao.save(testProject);
+		    			if(result <= 0){
+		    				String position = "ID =" + testProjectID;
+		    				entityDao.deleteByCondition(position,TestProject.class);
+		    				return -2;
+		    			}
+		    		}else{
+		    			testProjectID = result1.get(0).get("testProjectID").toString();
+		    		}
+		    			
+		    		String[] properties2 = new String[] {"standard.ID as standardID"};
+		    		String condition2 = " standard.standardCode = '" + standardCode + "' AND "+
+		    						" standard.standardName = '" + standardName + "'";
+		    		List<Map<String, Object>> result2 = entityDao.findByCondition(properties2, condition2, Standard.class);
+		    		if(result2.isEmpty()){
+		    			System.out.println("不存在该检测项目,将新增对应检测项目");
+		    			Standard standard = new Standard();
+		    			standardID = EntityIDFactory.createId();
+		    			standard.setID(standardID);
+		    			standard.setStandardCode(standardCode);
+		    			standard.setStandardName(standardName);
+		    			standard.setRemarks("系统新增");
+		    			int result = entityDao.save(standard);
+		    			if(result <= 0){
+		    				String position = "ID =" + standardID;
+		    				entityDao.deleteByCondition(position,Standard.class);
+		    				return -2;
+		    			}
+		    		}else{
+		    			standardID = result2.get(0).get("standardID").toString();
+		    		}
+		    		
+		    		ContractFineItem contractFineItem = new ContractFineItem();
+		    		String id = EntityIDFactory.createId();
+		    		contractFineItem.setID(id);
+		    		contractFineItem.setTestProjectID(testProjectID);
+		    		contractFineItem.setIsOutsourcing(isOutsourcing);
+		    		contractFineItem.setNumber(number);
+		    		contractFineItem.setPrice(price);
+		    		contractFineItem.setMoney(money);
+		    		contractFineItem.setType(0);
+		    		contractFineItem.setRemarks(remarks);
+		    		contractFineItem.setStandardID(standardID);
+		    		contractFineItem.setContractID(belongtoID);
+		    		
+		    		int results = entityDao.save(contractFineItem);
+		    		
+		    		if(results <= 0){
+		    			String position = "ID =" + id;
+		    			results = entityDao.deleteByCondition(position, ContractFineItem.class);
+		    			return results;
+		    		}
+		    		updateContractAmount(belongtoID);
+		        }  
+		    } catch (IOException e) {  
+		        System.out.println("未找到指定路径的文件!");  
+		        e.printStackTrace();  
+		    }
+			return 1;
+		}else if(typeNumber == 1){
+			String factoryCode = "";
+			String sampleName = "";
+			String specifications = "";
+			double money = 0;
+			String remarks = "";
+			
+			try {  
+				List<ArrayList<String>> list = new ExcelReader().readExcel(file); 
+				ArrayList<String> rowList = null;
+		        //获得Excel表格的内容:
+		        for (int i = 1; i < list.size(); i++) {
+		        	rowList = list.get(i);
+		        	for (int j = 0; j < rowList.size(); j++) {
+		        		rowList.get(j);
+		        		switch (j) {
+		    			case 0:factoryCode = rowList.get(j);
+		    				break;
+		    			case 1:sampleName = rowList.get(j);
+							break;
+		    			case 2:specifications = rowList.get(j);
+							break;
+		    			case 3:money = Double.parseDouble(rowList.get(j));;
+							break;
+		    			case 4:remarks = rowList.get(j);
+							break;
+		    			default:
+		    				break;
+		    			}
+		        	}
+		        	String sampleID = "";
+		        	String[] properties1 = new String[] {"sample.ID as sampleID"};
+		    		String condition1 = " sample.sampleName = '" + sampleName + "' AND "+
+		    						" sample.specifications = '" + specifications + "' AND " +
+		    						" sample.factoryCode = '" + factoryCode + "' ";
+		    		List<Map<String, Object>> result1 = entityDao.findByCondition(properties1, condition1, Sample.class);
+		    		if(result1.isEmpty()){
+		    			System.out.println("不存在该样品名的样品,将新增对应样品记录");
+		    			Sample sample = new Sample();
+		    			sampleID = EntityIDFactory.createId();
+		    			sample.setID(sampleID);
+		    			sample.setFactoryCode(factoryCode);
+		    			sample.setSampleName(sampleName);
+		    			sample.setSpecifications(specifications);
+		    			sample.setCreateTime(new Date());
+		    			int result = entityDao.save(sample);
+		    			if(result <= 0){
+		    				String position = "ID =" + sample;
+		    				entityDao.deleteByCondition(position,Sample.class);
+		    				return -2;
+		    			}
+		    		}else{
+		    			sampleID = result1.get(0).get("sampleID").toString();
+		    		}
+		    		
+		    		ContractFineItem contractFineItem = new ContractFineItem();
+		    		String id = EntityIDFactory.createId();
+		    		contractFineItem.setID(id);
+		    		contractFineItem.setSampleID(sampleID);
+		    		contractFineItem.setMoney(money);
+		    		contractFineItem.setRemarks(remarks);
+		    		contractFineItem.setType(1);
+		    		contractFineItem.setContractID(belongtoID);
+		    		
+		    		int results = entityDao.save(contractFineItem);
+		    		
+		    		if(results <= 0){
+		    			String position = "ID =" + id;
+		    			results = entityDao.deleteByCondition(position, ContractFineItem.class);
+		    			return results;
+		    		}
+		    		updateContractAmount(belongtoID);
+		        }  
+		    } catch (IOException e) {  
+		        System.out.println("未找到指定路径的文件!");  
+		        e.printStackTrace();  
+		    }
+			return 1;
+		}
+		return 1;
+	}
+	
 }
