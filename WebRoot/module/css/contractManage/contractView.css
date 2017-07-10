@@ -60,7 +60,7 @@ label.control-label {
 .main .showContract .bottom{
 	width:99%;
 	float:right;
-	height:164px;
+	height:204px;
 }
 .main .showContract .bottom div{
 	height:40px;
@@ -87,7 +87,10 @@ label.control-label {
 	border:1px solid transparent;
 	border-radius: 4px;
 }
-
+.footer button:HOVER{
+	color:#eee;
+	background-color:#ffad33;
+}
 #table thead,.modal-header {
 	background-color: #364760;
 	color: #fff;

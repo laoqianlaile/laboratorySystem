@@ -502,27 +502,27 @@ public class XMLParser {
 					value = dataItem.toString();
 				}
 
-				if (NumCheck.numCheck(value)) {
-					int count = 0;
-					if (pointNumber1 != null && pointNumber1.size() != 0) {
-						count = pointNumber1.get(j);
-				    }
-					//String fmt = "#,##0";
-					//if (count > 0) {
-					//	fmt += ".";
-					//	for (int k = 0; k < count; k++) {
-					//		fmt += "0";
-					//	}
-					//}
-					//short format = workbook.createDataFormat().getFormat(fmt);
-					//cellStyle.setDataFormat(format);
-					cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-					// 不加粗
-					cell.setCellStyle(cellStyle);
-					cell.setCellValue(Double.parseDouble(value));
-				} else {
+//				if (NumCheck.numCheck(value)) {
+//					int count = 0;
+//					if (pointNumber1 != null && pointNumber1.size() != 0) {
+//						count = pointNumber1.get(j);
+//				    }
+//					//String fmt = "#,##0";
+//					//if (count > 0) {
+//					//	fmt += ".";
+//					//	for (int k = 0; k < count; k++) {
+//					//		fmt += "0";
+//					//	}
+//					//}
+//					//short format = workbook.createDataFormat().getFormat(fmt);
+//					//cellStyle.setDataFormat(format);
+//					cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+//					// 不加粗
+//					cell.setCellStyle(cellStyle);
+//					cell.setCellValue(Double.parseDouble(value));
+//				} else {
 					cell.setCellValue(value);
-				}
+//				}
 
 				// 如果key请求到了数据，就把它加入trueDataItemList
 				trueDataItemList.add(key);

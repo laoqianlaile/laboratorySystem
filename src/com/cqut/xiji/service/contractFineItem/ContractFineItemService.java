@@ -1197,37 +1197,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 	@Override
 	public int importExcelTemplate(CommonsMultipartFile file, HttpServletRequest req,
 			HttpServletResponse response, int typeNumber, String belongtoID){
-		String ID = EntityIDFactory.createId();// 文件ID
-		String fileName = file.getOriginalFilename();// 获取文件全名
-		PropertiesTool pe = new PropertiesTool();
-		String[] fileNames = fileName.split("\\.");// 将文件名以\.分割成一个数组
-		String cacheFilePath = "";// 缓存文件路径
-		cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\";// 缓存文件地址
-		System.out.println("cacheFilePath1: " + cacheFilePath);
-		for (int j = 0; j < fileNames.length; j++) {
-			if (fileNames.length - j > 1) {
-				cacheFilePath += fileNames[j];
-			} else {
-				cacheFilePath += "_" + ID + "." + fileNames[j];
-			}
-		}
-
-		File targetFile = new File(cacheFilePath);
-		if (!targetFile.exists()) {
-			targetFile.mkdirs();
-		}
-		try {
-			file.transferTo(targetFile);
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		
-		System.out.println("fileName :" + fileName);
-		System.out.println("cacheFilePath " + cacheFilePath);
-		
-		System.out.println("TypeNumber:"+typeNumber);
 		if(typeNumber == 0){
 			String nameCn = "";
 			String nameEn = "";

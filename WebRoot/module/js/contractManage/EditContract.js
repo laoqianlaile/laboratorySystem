@@ -2295,34 +2295,6 @@ function addItem2(){
 		}
 }
 
-function addNullFineItem(){
-	edit();
-	var parame = {};
-	parame.contractID = $('#edit_contractID').val();
-	
-	$.ajax({
-		  url:'contractFineItemController/addNullFineItem.do',
-		  type:'post', 
-		  data:parame,
-		  dataType:'json',
-		  success:function(o){
-			  switch (o) {
-				case 1:swal("新增成功！");
-					setTimeout(refresh, 1000);
-					break;
-				case 0:swal("新增失败！");
-					break;
-				default:
-					break;
-			  }
-		  },
-		  error:function(o){
-			  console.log(o);
-			  refresh();
-		  }
-	});
-}
-
 //删除合同细项
 function delFileItem(id,fineItemCode){
 	var parame = {};
