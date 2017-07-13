@@ -18,7 +18,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta http-equiv="description" content="This is my page">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
-<link rel="stylesheet" type="text/css" href="module/css/uploadify.css">
+<link rel="stylesheet" type="text/css" href="module/css/bootstrap-editable.css">
+<link rel="stylesheet" type="text/css" href="module/css/bootstrap-treeview.css" >
 <link rel="stylesheet" type="text/css" href="module/css/taskManage/taskView.css">
 <link rel="stylesheet"  type="text/css" href="module/css/wait.css">
 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
@@ -28,10 +29,83 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="module/js/bootstrap.js"></script>
 <script src="module/js/bootstrap-table.js"></script>
 <script src="module/js/bootstrap-table-zh-CN.js"></script>
-<script src="module/js/jquery.uploadify.min.js"></script>
+<script src="module/js/bootstrap-editable.js"></script>
+<script src="module/js/bootstrap-treeview.js"></script>
 <script src="module/js/sweetalert.min.js"></script>
 <script src="assets/js/autoPage.js"></script>
+<style>
+.choose ul {
+	height: 120px;
+	max-height: 120px;
+	min-height: 114px;
+	overflow-y: auto;
+}
 
+.sortTree {
+	width: 90%;
+	margin: 0 auto;
+	border: 1px solid #000;
+}
+
+#testProjectTree {
+	width: 260px;
+	float: left;
+	margin-left: 400px;
+	margin-top: 10px;
+	max-height: 700px;
+	overflow: auto;
+	padding-left: 0px;
+}
+
+#standardTree {
+	width: 260px;
+	float: left;
+	margin-top: 10px;
+	height: auto;
+	max-height: 700px;
+	overflow: auto;
+	padding: 0
+}
+
+.treeview .list-group-item {
+	cursor: pointer
+}
+
+.treeview span.indent {
+	margin-left: 10px;
+	margin-right: 10px
+}
+
+.treeview span.icon {
+	width: 12px;
+	margin-right: 5px
+}
+
+.treeview .node-disabled {
+	color: silver;
+	cursor: not-allowed
+}
+
+.node-treeview-checkable {
+	
+}
+
+.node-treeview-checkable:not     (.node-disabled     ):hover {
+	background-color: #F5F5F5;
+}
+
+.orginalDataInfo .row label {
+	float: left;
+	width: 25%;
+	maring-top: 6px;
+	margin-left: 10px;
+}
+
+.orginalDataInfo .row input {
+	display: inline;
+	width: 70%;
+}
+</style>
 </head>
 
 <body>
@@ -96,16 +170,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="col-xs-8 col-md-8 col-lg-8 buttonGroup">
 					<button type="button" class="btn btn-primary"
-						onclick="testProjectRegister()">
+						onclick="registeTestProject()">
 						<span class="glyphicon glyphicon-edit"></span> 检测项目登记
-					</button>
-					<button type="button" class="btn btn-primary"
-						onclick="equipmentRegister()">
-						<span class="glyphicon glyphicon-edit"></span> 设备登记
 					</button>
 					<button type="button" class="btn btn-primary"
 						onclick="downReportTemplate()">
 						<span class="glyphicon glyphicon-arrow-down"></span>生成或下载报告
+					</button>
+					<button type="button" class="btn btn-primary"
+						onclick="uploadOriginalData()">
+						<span class="glyphicon glyphicon-arrow-up"></span>上传原始数据
 					</button>
 					<button type="button" class="btn btn-primary"
 						onclick="uploadTestReport()">
@@ -167,25 +241,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 	</div>
-	
+
 	<div id="testprojectInfo" class="modal fade" role="dialog"
 		aria-labelledby="gridSystemModalLabel">
-		<div class="modal-dialog" role="document" style="width:800px">
+		<div class="modal-dialog" role="document" style="width:600px">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h4 class="modal-title">检测项目登记</h4>
 				</div>
 				<div class="modal-body">
-					<div class="row testprojectList"></div>
+					<div class="row">
+						<ul id="testProjectTree" style="margin-left:40;">
+						</ul>
+
+						<ul id="standardTree" style="margin-left:0;">
+						</ul>
+					</div>
 				</div>
+
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="registTestprojectSure" name="registTestprojectSure" onclick="registTestprojectSure()">确定</button>
+					<button type="button" class="btn btn-primary" style="background-color:#238bc8" onclick="sureRegisteTestProject()">确定</button>
+
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 	<div id="uploadReport" class="modal fade" role="dialog"
 		aria-labelledby="gridSystemModalLabel">
 		<div class="modal-dialog" role="document" style="width:500px">
@@ -225,6 +307,78 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	</div>
 
+	<div id="originalDataModal" class="modal fade" role="dialog"
+		aria-labelledby="gridSystemModalLabel">
+		<div class="modal-dialog" role="document" style="width:500px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">上传原始数据</h4>
+				</div>
+				<div class="modal-body">
+					<div class="orginalDataInfo">
+						<div class="row" style="margin-bottom:10px">
+							<label>图片插入标签名 :</label> <input type="text" id="mark" name="mark"
+								class="form-control" placeholder="请输入图片插入标签" />
+						</div>
+
+						<div class="row" style="margin-bottom:10px">
+							<label>原始数据名称 :</label> <input type="text" id="originalName"
+								name="originalName" class="form-control" placeholder="请输入意见" />
+						</div>
+
+						<div class="row" style="margin-bottom:10px">
+							<label>原始数据编号 :</label> <input type="text" id="originaldataCode"
+								name="originaldataCode" class="form-control"
+								placeholder="请输入原始数据编号" />
+						</div>
+						
+						
+						<div class="row" style="margin-bottom:10px">
+							<label>意见 :</label> <input type="text" id="suggest"
+								name="suggest" class="form-control" placeholder="请输入原始数据前面的标号" />
+						</div>
+						
+						<div class="row" style="margin-bottom:10px">
+							<label>标号 :</label> <input type="text" id="codeOne"
+								name="codeOne" class="form-control" placeholder="请输入原始数据前面的标号" />
+						</div>
+
+						<div class="row" style="margin-bottom:10px">
+							<label>编号 :</label> <input type="text" id="codeTwo"
+								name="codeTwo" class="form-control" placeholder="请输入原始数据后面的编号" />
+						</div>
+
+						<div class="row" style="margin-bottom:10px">
+							<label>备注 :</label> <input type="text" id="originalRemarks"
+								name="originalRemarks" class="form-control" placeholder="请输入备注" />
+						</div>
+
+						<div class="row">
+							<label>原始数据 :</label>
+							<img id="defaultPhoto" src="module/img/file/defaultPhoto.jpg" data-holder-rendered="true" " style="widhth:70%;height:230px"/> 
+							<input class="originalDataImag" type="file" name="files" id="files"
+								onchange="previewImage(this,'defaultPhoto')"
+								accept="image/png, image/gif, image/jpg, image/jpeg"
+								style="width:66px;height:25px;position:absolute;left:10px;top:155px;opacity: 0;filter: alpha(opacity = 0);" />
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="ensureUploadOriginalData"
+						name="ensureUploadOriginalData">确定</button>
+					<button type="button" class="btn btn-default" id="cancelUploadOriginalData"
+						name="cancelUploadOriginalData">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
 	<div id="wait_img">
 		<img src="module/img/wait.jpg" style="width:48px;height:48px;" />
 	</div>
@@ -241,13 +395,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$('#files').click();
 
 		});
-		$('#cancel').click(function() {
+		$('#cancel,#cancelUploadOriginalData').click(function() {
 			if (confirm("是否取消上传?")) {
 				reload();
 			}
 		});
-		$("#mask").click(function() {
+		$('#mask').click(function() {
 			hideDiv();
+		});
+		$('#defaultPhoto').click(function() {
+			$('.originalDataImag').click();
 		});
 	</script>
 </body>

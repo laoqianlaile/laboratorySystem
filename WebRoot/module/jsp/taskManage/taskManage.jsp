@@ -21,6 +21,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
 <link rel="stylesheet" type="text/css" href="module/css/taskManage/taskManage.css">
+
+<link rel="stylesheet" type="text/css" href="module/css/bootstrap-editable.css">
 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 <link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
 

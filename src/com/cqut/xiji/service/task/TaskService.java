@@ -3,6 +3,7 @@ package com.cqut.xiji.service.task;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,14 +17,17 @@ import org.springframework.stereotype.Service;
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
+import com.cqut.xiji.entity.base.BootstrapTreeNode;
 import com.cqut.xiji.entity.fileInformation.FileInformation;
 import com.cqut.xiji.entity.message.Message;
 import com.cqut.xiji.entity.messageNotice.MessageNotice;
+import com.cqut.xiji.entity.originaldata.Originaldata;
 import com.cqut.xiji.entity.receiptlist.Receiptlist;
 import com.cqut.xiji.entity.sample.Sample;
 import com.cqut.xiji.entity.task.Task;
 import com.cqut.xiji.entity.taskMan.TaskMan;
 import com.cqut.xiji.entity.taskTestProject.TaskTestProject;
+import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.entity.testReport.TestReport;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.service.fileEncrypt.IFileEncryptService;
@@ -687,9 +691,10 @@ public class TaskService extends SearchService implements ITaskService {
 				+ " IFNULL( "
 				+ " ( "
 				+ " SELECT "
-				+ "group_concat("
+				+ "group_concat(DISTINCT("
 				+ " IF (testproject.nameEn IS NULL,testproject.nameCn,"
 				+ " CONCAT(testproject.nameCn,'(',testproject.nameEn,')' "
+				+ " ) "
 				+ " ) "
 				+ " ) "
 				+ " ) "
@@ -852,23 +857,34 @@ public class TaskService extends SearchService implements ITaskService {
 				&& !taskID.isEmpty()) {
 			filteConditon = " WHERE task.ID = '" + taskID + "'";
 		}
-		String tableName = " ( "
-				+ " SELECT "
+		String tableName = " ( " + " SELECT " + "sample.ID AS sampleID,"
 				+ "sample.factoryCode AS factoryCode,"
 				+ "sample.sampleName AS sampleName,"
 				+ "sample.specifications AS specifications,"
-				+ "task.detectstate AS detectstate,"
-				+ " IFNULL( "
+				+ "task.detectstate AS detectstate," + " IFNULL( " + " ( "
+				+ " SELECT " + "group_concat(" + " IF ( "
+				+ "standard.standardName IS NULL," + "'无',"
+				+ "standard.standardName" + " ) " + " ) " + " FROM "
+				+ "tasktestproject," + "standard" + " WHERE "
+				+ " tasktestproject.taskID = '"
+				+ taskID
+				+ "'"
+				+ " AND tasktestproject.testStandard = standard.ID "
+				+ " ), "
+				+ "'无'"
+				+ " ) AS standardName, "
+				+ " IFNULL("
 				+ " ( "
 				+ " SELECT "
-				+ " group_concat( "
+				+ "group_concat(DISTINCT("
 				+ " IF ( "
 				+ "testproject.nameEn IS NULL,"
 				+ "testproject.nameCn,"
-				+ "CONCAT(testproject.nameCn,'(',testproject.nameEn,')'"
+				+ " CONCAT(testproject.nameCn,'(',testproject.nameEn,')' "
 				+ " ) "
 				+ " ) "
-				+ " )  "
+				+ " ) "
+				+ " ) "
 				+ " FROM "
 				+ "tasktestproject,"
 				+ "testproject"
@@ -877,22 +893,23 @@ public class TaskService extends SearchService implements ITaskService {
 				+ taskID
 				+ "'"
 				+ " AND tasktestproject.testProjectID = testproject.ID "
-				+ " ),'无' "
-				+ " ) AS testProjectName, "
+				+ " ), "
+				+ "'无' "
+				+ " ) AS testProjectName,"
 				+ "task.ID AS ID "
 				+ " FROM  "
 				+ " task  "
 				+ " LEFT JOIN sample ON task.sampleID = sample.ID  "
-				+ " LEFT JOIN samplerecord ON sample.ID = samplerecord.sampleID  "
 				+ filteConditon + " ) AS a ";
 		String[] properties = new String[] {
+				"a.sampleID AS sampleID",
 				"a.ID AS ID",
 				"a.factoryCode AS factoryCode",
 				"a.sampleName AS sampleName",
 				"a.specifications AS specifications",
 				"IF (a.detectstate = 0,'无报告',IF (a.detectstate = 1,'未提交',IF (a.detectstate = 2,'二审中',IF (a.detectstate=3,'二审未通过',IF (a.detectstate = 4,'三审中',"
 						+ "IF (a.detectstate = 5,'三审未通过',IF (a.detectstate = 6,'审核通过','其它'))))))) AS detectstate",
-				"a.testProjectName", };
+				"a.standardName AS standardName", "a.testProjectName", };
 		List<Map<String, Object>> result = entityDao.searchWithpaging(
 				properties, tableName, null, null, null, null, sort, order,
 				index, pageNum);
@@ -917,7 +934,7 @@ public class TaskService extends SearchService implements ITaskService {
 				"IF (employee.state = 0, '禁用', '启用') AS employeeState",
 				"IF (employee.`level` = 0,'初级',IF (employee.`level` = 1,'中级',IF(employee.`level` = 2,'高级','其它'))) AS employeeLevel",
 				"role.`name` AS roleName" };
-		String condition = " role.`name` = '报告审核人' OR role.`name` = '超级管理员' AND employee.state = '1' ";
+		String condition = " role.`name` = '报告审核人' AND employee.state = '1' ";
 		String joinEntity = " LEFT JOIN role ON LOCATE(role.ID, employee.roleID) > 0 ";
 
 		List<Map<String, Object>> result = entityDao.searchWithpaging(
@@ -931,7 +948,7 @@ public class TaskService extends SearchService implements ITaskService {
 	}
 	
 	@Override
-	public boolean recoverFileCheck(String taskID){
+	public boolean taskDectstateCheck(String taskID){
 		String tableName = "task";
 		Map<String, Object> result = baseEntityDao.findByID(new String[] { "detectstate" }, taskID, "ID", tableName);
         if(result==null){
@@ -945,21 +962,6 @@ public class TaskService extends SearchService implements ITaskService {
         	}
         }
 	}
-	
-/*	@Override
-	public List<Map<String, Object>> getProjectName(String taskID) {
-		String filteCondition = "";
-		if (taskID != null && !taskID.equals("") && !taskID.isEmpty()) {
-			filteCondition += " where task.ID = '" + taskID + "'";
-		}
-		String baseEntiy = " ( " + " SELECT " + " task.receiptlistID "
-				+ " FROM " + "task" + filteCondition + " ) AS a ";
-		String[] properties = new String[] { "receiptlist.projectID AS NAME" };
-		String joinEntity = " LEFT JOIN receiptlist ON a.receiptlistID = receiptlist.ID ";
-		List<Map<String, Object>> result = entityDao.searchForeign(properties,
-				baseEntiy, joinEntity, null, null);
-		return result;
-	}*/
 	
 	@Override
 	public boolean setTaskDetectState(String taskID) {
@@ -1128,277 +1130,351 @@ public class TaskService extends SearchService implements ITaskService {
 
 	@Override
 	public String downReportTemplate(String taskID, String UPLOADER) {
-		String filteCondition = "";
-		String testReportID = "";
-		String baseEntiy = "";
+		String tableName = "";
 		String[] properties = null;
-		String joinEntity = "";
-		filteCondition = " where tasktestproject.taskID = '" + taskID + "'";  
-		baseEntiy = " ( " + " SELECT " + " DISTINCT (template.fileID) AS fileID "  // 找到对应的模版
+		String filterConditionString = "";
+
+		// 查询任务对应的检测项目的相关信息
+		filterConditionString = " WHERE tasktestproject.taskID = '" + taskID
+				+ "'";
+		tableName = " ( " + " SELECT " + " tasktestproject.testProjectID "
+				+ " FROM " + " tasktestproject" + filterConditionString
+				+ " ) AS a";
+		properties = new String[] {
+				"DISTINCT(a.testProjectID) AS testProjectID",
+				"IF ( testproject.nameEn IS NULL, testproject.nameCn, CONCAT( testproject.nameCn, '(', testproject.nameEn, ')' ) ) AS testprojectName",
+				"testproject.uncertainty AS uncertainty" };
+		String joinEntity = " LEFT JOIN testproject ON a.testProjectID = testproject.ID ";
+		List<Map<String, Object>> taskTestprojectData = entityDao
+				.searchForeign(properties, tableName, joinEntity, null, null);
+
+		System.out.println("所有检测项目 : " + taskTestprojectData);
+		
+		
+		// 生成报告所需要的公共信息,如:样品编号、规格等
+		filterConditionString = " where task.ID = '" + taskID + "'";
+		tableName = " ( "
+				+ " SELECT "
+				+ "b.sampleName AS sampleName,"
+				+ "b.specifications AS specifications,"
+				+ "b.sampleID AS sampleID,"
+				+ "b.sampleFactoryCode AS sampleFactoryCode,"
+				+ "contract.ID AS contractID,"
+				+ "b.createTime AS createTime,"
+				+ "contract.companyID AS companyID"
+				+ " FROM "
+				+ " ( "
+				+ " SELECT "
+				+ "a.sampleName AS sampleName,"
+				+ "a.specifications AS specifications,"
+				+ "a.sampleID AS sampleID,"
+				+ "a.sampleFactoryCode AS sampleFactoryCode,"
+				+ "receiptlist.contractID AS contractID,"
+				+ "receiptlist.accordingDoc AS accordingDoc,"
+				+ "DATE_FORMAT(receiptlist.createTime,'%Y-%m-%d %H:%i:%s') AS createTime"
 				+ " FROM " + " ( " + " SELECT "
-				+ " testproject.templateID AS templateID " + " FROM " + " ( "
-				+ " SELECT " + " tasktestproject.testProjectID AS testProjectID "
-				+ " FROM " + " tasktestproject " + filteCondition + " ) AS a "
-				+ " LEFT JOIN testproject ON a.testProjectID = testproject.ID "
+				+ "sample.sampleName AS sampleName,"
+				+ "sample.specifications AS specifications,"
+				+ "sample.ID AS sampleID,"
+				+ "sample.factoryCode AS sampleFactoryCode,"
+				+ "task.receiptlistID AS receiptlistID,"
+				+ "task.requires AS requires," + "task.ID AS ID" + " FROM "
+				+ " task " + " LEFT JOIN sample ON task.sampleID = sample.ID "
+				+ filterConditionString + " ) AS a "
+				+ " LEFT JOIN receiptlist ON a.receiptlistID = receiptlist.ID "
 				+ " ) AS b "
-				+ " LEFT JOIN template ON b.templateID = template.ID "
+				+ " LEFT JOIN contract ON b.contractID = contract.ID "
 				+ " ) AS c ";
-		properties = new String[] { "fileinformation.ID AS ID",
-				"fileinformation.path AS path",
-				"fileinformation.pathPassword AS pathPassword" };
-		joinEntity = " LEFT JOIN fileinformation ON c.fileID = fileinformation.ID ";
-		List<Map<String, Object>> result = entityDao.searchForeign(properties,
-				baseEntiy, joinEntity, null, null);
-		if (result == null) {
-			return null;
-		} else {
-			try {
-				Map<String, Object> fileInfoMap = result.get(0);
-				if (fileInfoMap == null) {
-					return null;
-				} else {
-				String fileInfoID = fileInfoMap.get("ID").toString();
-				String filePath = fileInfoMap.get("path").toString();
-				String pathPassword = fileInfoMap.get("pathPassword")
-						.toString();
-				filteCondition = " where task.ID = '" + taskID + "'"; 
-				
-				// 填充部分报告信息
-				baseEntiy = " ( "
-						+ " SELECT "
-						+ "b.sampleName AS sampleName,"
-						+ "b.specifications AS specifications,"
-						+ "b.sampleID AS sampleID,"
-						+ "b.sampleFactoryCode AS sampleFactoryCode,"
-						+ "b.requires AS requires,"
-						+ "b.testProjectName AS testProjectName,"
-						+ "b.accordingDoc AS accordingDoc,"
-						+ "b.createTime AS createTime,"
-						+ "contract.companyID AS companyID"
-						+ " FROM "
-						+ " ( "
-						+ " SELECT "
-						+ "a.sampleName AS sampleName,"
-						+ "a.specifications AS specifications,"
-						+ "a.sampleID AS sampleID,"
-						+ "a.sampleFactoryCode AS sampleFactoryCode,"
-						+ "a.requires AS requires,"
-						+ "IFNULL( "
-						+ " ( "
-						+ " SELECT "
-						+ " group_concat(IF (testproject.nameEn IS NULL,testproject.nameCn, "
-						+ " CONCAT(testproject.nameCn,'(',testproject.nameEn,')' "
-						+ " ) "
-						+ " ) "
-						+ "SEPARATOR '_'"
-						+ " ) "
-						+ " FROM "
-						+ " tasktestproject, "
-						+ " testproject "
-						+ " WHERE "
-						+ " tasktestproject.taskID = a.ID "
-						+ " AND tasktestproject.testProjectID = testproject.ID "
-						+ " ),'无' "
-						+ " ) AS testProjectName,"
-						+ "receiptlist.contractID AS contractID,"
-						+ "receiptlist.accordingDoc AS accordingDoc,"
-						+ "DATE_FORMAT(receiptlist.createTime,'%Y-%m-%d %H:%i:%s') AS createTime"
-						+ " FROM "
-						+ " ( "
-						+ " SELECT "
-						+ "sample.sampleName AS sampleName,"
-						+ "sample.specifications AS specifications,"
-						+ "sample.ID AS sampleID,"
-						+ "sample.factoryCode AS sampleFactoryCode,"
-						+ "task.receiptlistID AS receiptlistID,"
-						+ "task.requires AS requires,"
-						+ "task.ID AS ID"
-						+ " FROM "
-						+ " task "
-						+ " LEFT JOIN sample ON task.sampleID = sample.ID "
-						+ filteCondition
-						+ " ) AS a "
-						+ " LEFT JOIN receiptlist ON a.receiptlistID = receiptlist.ID "
-						+ " ) AS b "
-						+ " LEFT JOIN contract ON b.contractID = contract.ID "
-						+ " ) AS c ";
-				properties = new String[] { "c.sampleName AS sampleName",
-						"c.specifications AS specifications",
-						"c.sampleID AS sampleID",
-						"c.sampleFactoryCode AS sampleFactoryCode",
-						"c.requires AS requires",
-						"c.testProjectName AS testProjectName",
-						"c.accordingDoc AS accordingDoc",
-						"c.createTime AS createTime",
-						"company.companyName AS companyName",
-						"company.address AS address" };
-				joinEntity = " LEFT JOIN company ON c.companyID = company.ID ";
-				List<Map<String, Object>> wordData = entityDao.searchForeign(
-						properties, baseEntiy, joinEntity, null, null);
+		properties = new String[] { "c.sampleName AS sampleName",
+				"c.specifications AS specifications", "c.sampleID AS sampleID",
+				"c.sampleFactoryCode AS sampleFactoryCode",
+				"c.contractID AS contractID", "c.createTime AS createTime",
+				"company.companyName AS companyName",
+				"company.address AS address" };
+		joinEntity = " LEFT JOIN company ON c.companyID = company.ID ";
+		List<Map<String, Object>> wordData = entityDao.searchForeign(
+				properties, tableName, joinEntity, null, null);
 
-				// 查找任务对应的检测项目
-				String taskTestprojectFilterConditionString = " WHERE tasktestproject.taskID = '"
-						+ taskID + "'";
-				String taskTestprojectTable = "	( " + " SELECT "
-						+ " tasktestproject.testProjectID " + " FROM "
-						+ " tasktestproject"
-						+ taskTestprojectFilterConditionString + " ) AS a";
-				String[] taskTestprojectProperties = new String[] { "IF ( testproject.nameEn IS NULL, testproject.nameCn, CONCAT( testproject.nameCn, '(', testproject.nameEn, ')' ) ) AS testprojectName" };
-				String taskTestprojectjoinEntity = " LEFT JOIN testproject ON a.testProjectID = testproject.ID ";
-				List<Map<String, Object>> taskTestprojectData = entityDao
-						.searchForeign(taskTestprojectProperties,
-								taskTestprojectTable,
-								taskTestprojectjoinEntity, null, null);
+		System.out.println("公共数据   : " + wordData);
+		
+		// 查询合同依据的技术文件
+		String contractID = wordData.get(0).get("contractID").toString();
+		
+		filterConditionString = " WHERE technical.contractID = '" + contractID + "'";
+		
+		tableName = "technical";
+		
+		properties = new String[] {"technical.content AS content"};
+		
+		List<Map<String, Object>> contractContent = entityDao.searchForeign(
+				properties, tableName, null, null, null);
+		
+		System.out.println("合同依据的技术文件 :" + contractContent);
+		
+		// 需要填写的标准信息
+		List<Map<String, Object>> standardInfo = null; 
+		
+		// 需要填写设备信息
+		List<Map<String, Object>> EquiInfo = null; 
+		
+		// 找到模版信息
+		List<Map<String, Object>> fileInfo = null; 
+		
+		
+		Map<String, Object> fileInfoMap = null; // 每一个模版信息
+		
+		PropertiesTool pe = new PropertiesTool();
+		
+		String testProjectID = "";
 
-				// 查找任务对应的设备
-				String taskEquiptFilterCondition = " WHERE taskequipment.taskID = '" + taskID + "'";
-				String taskEquiptTable = " ( " + " SELECT "
-						+ " taskequipment.equipmentID " + " FROM "
-						+ " taskequipment " + taskEquiptFilterCondition
-						+ " ) AS a ";
+		String fileInfoID = "";
+		
+		String filePath = "";
+		
+		String systemPramPath = "";
+		
+		String relativePath = "";
+		
+		String fileName = "";
+		
+		String memoryName = "";
+		
+		String cacheFilePath = "";
+		
+		String standardName = "";
 
-				String[] taskEquiptProperties = new String[] { "group_concat(equipment.equipmentName) AS taskEquitName" };
-				String taskEquiptjoinEntity = " LEFT JOIN equipment ON a.equipmentID = equipment.ID ";
-				List<Map<String, Object>> taskEquiptData = entityDao
-						.searchForeign(taskEquiptProperties, taskEquiptTable,
-								taskEquiptjoinEntity, null, null);
+		String testProjectName = "";
 
-				PropertiesTool pe = new PropertiesTool();
+		String contractContentText = "";
 
-				filePath = fileEncryptservice.decryptPath(filePath, pathPassword);
-				String path = pe.getSystemPram("filePath") + "\\";
+		Map<String, Object> EquitMap = null;
 
-				String fileName = "";
-				String memoryName = "";
-				if (wordData.get(0).get("sampleName") != null) {
-					fileName += wordData.get(0).get("sampleName").toString();
-					memoryName += wordData.get(0).get("sampleName").toString();
-				}
-				if (wordData.get(0).get("testProjectName") != null) {
-					fileName += "的"
-							+ "检测报告";
-					memoryName += "的"
-							+ "检测报告";
-				}
+		Map<String, Object> standardMap = null;
 
-				String cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\"
-						+ fileName + ".docx";
+		List<String> list = new ArrayList<String>();
+		
+		for (Map map : taskTestprojectData) {
+			testProjectID = map.get("testProjectID").toString();
+			filterConditionString = " WHERE teststandard.testProjectID = '"
+					+ testProjectID + "'";
+			tableName = " ( "
+					+ " SELECT "
+					+ "standardequipment.equipmentID AS equipmentID"
+					+ " FROM "
+					+ " ( "
+					+ " SELECT "
+					+ "teststandard.standardID "
+					+ " FROM "
+					+ "teststandard "
+					+ filterConditionString
+					+ " ) AS a "
+					+ " LEFT JOIN standard ON a.standardID = standard.ID "
+					+ " LEFT JOIN standardequipment ON a.standardID = standardequipment.standardID "
+					+ " ) AS b";
+			properties = new String[] {
+					"equipment.equipmentName AS equipmentName",
+					"equipment.model AS model",
+					"equipment.factoryCode AS factoryCode",
+					"equipment.credentials AS credentials",
+					"DATE_FORMAT(equipment.effectiveTime,'%Y-%m-%d %H:%i:%s') AS effectiveTime"};
 
-				fileEncryptservice.decryptFile(path + filePath, cacheFilePath,
-						fileInfoID);
-				System.out.println("文件的路径1 ：" + filePath);
-				System.out.println("文件的路径2 ：" + cacheFilePath);
-
-				WordProcess wp = new WordProcess(false);
-				wp.openDocument(cacheFilePath);
-				if (wordData.get(0).get("sampleName") != null)
-					wp.replaceText("{样品名称}", wordData.get(0).get("sampleName")
-							.toString());
-				if (wordData.get(0).get("specifications") != null)
-					wp.replaceText("{样品型号}",
-							wordData.get(0).get("specifications").toString());
-				if (wordData.get(0).get("companyName") != null)
-					wp.replaceText("{委托方}", wordData.get(0).get("companyName")
-							.toString());
-				if (wordData.get(0).get("address") != null)
-					wp.replaceText("{委托方地址}", wordData.get(0).get("address")
-							.toString());
-				if (wordData.get(0).get("createTime") != null)
-					wp.replaceText("{接收日期}", wordData.get(0).get("createTime")
-							.toString());
-				if (wordData.get(0).get("requires") != null)
-					wp.replaceText("{任务的要求描述}", wordData.get(0).get("requires")
-							.toString());
-				if (wordData.get(0).get("testProjectName") != null) {
-					String testProjectName = wordData.get(0).get("testProjectName").toString();
-					wp.moveStart();
-					wp.replaceAllText("{检测项目名}",testProjectName);
-				}
-				if (wordData.get(0).get("accordingDoc") != null)
-					wp.replaceText("{交接单的依据文件}",
-							wordData.get(0).get("accordingDoc").toString());
-
-				if (wordData.get(0).get("sampleFactoryCode") != null) {
-					wp.replaceText("{样品出厂编号}",
-							wordData.get(0).get("sampleFactoryCode").toString());
-				}
-				if (wordData.get(0).get("sampleID") != null) {
-					wp.replaceText("{样品编号}", wordData.get(0).get("sampleID")
-							.toString());
-					wp.moveStart();
-				}
-				if (taskEquiptData.get(0) != null) {
-					wp.replaceText("{任务登记的设备}",
-							taskEquiptData.get(0).get("taskEquitName")
-									.toString());
-
-				}
-				
-				for(int index = 0, len = taskTestprojectData.size(); index < len; index++) {
-						if(taskTestprojectData.get(index) != null) {
-							wp.putTxtToCell(5, index+2, 2, taskTestprojectData.get(index).get("testprojectName").toString());
-							wp.putTxtToCell(5, index+2, 1, index+1 +"");
-						
-					}
-				}
-	
-				String relativePath = "报告文件" + "\\";
-				path += relativePath;
-				File targetFile = new File(path);
-				if (!targetFile.exists()) {
-					targetFile.mkdirs();
-				}
-				testReportID = EntityIDFactory.createId();
-				fileName += "_" + testReportID + ".docx";
-				memoryName += ".docx";
-				relativePath += fileName;
-				path += fileName;
-				wp.save(cacheFilePath);
-				wp.close();
-				Task tk = entityDao.getByID(taskID, Task.class);
-				tk.setDetectstate(1);
-				tk.setTestReportID(testReportID);
-				baseEntityDao.updatePropByID(tk, taskID);
-
-				FileInformation fi = new FileInformation();
-				String fileID = EntityIDFactory.createId();
-				fi.setID(fileID);
-				fi.setBelongtoID(taskID);
-				fi.setUploaderID(UPLOADER);
-				fi.setFileName(memoryName);
-				System.out.println("保存的相对路径是a: " + relativePath);
-				fi.setPath(relativePath);
-				Date now = new Date(System.currentTimeMillis());
-				SimpleDateFormat dateFormat = new SimpleDateFormat(
-						"yyyy-MM-dd HH:mm:ss");
-				fi.setUploadTime(dateFormat.parse(dateFormat.format(now)));
-				fi.setState(0);
-				fi.setType(2);
-				baseEntityDao.save(fi);
-				System.out.println("relativePath :" + relativePath);
-				System.out.println("cacheFilePath :" + cacheFilePath);
-				fileEncryptservice.encryptPath(relativePath, fileID);
-				fileEncryptservice.encryptFile(cacheFilePath, path, fileID);
-
-				TestReport tr = new TestReport();
-
-				Map<String, Object> receiptlistIDInfo = baseEntityDao.findByID(
-						new String[] { "receiptlistID" }, taskID, "ID", "task");
-				String receiptlistID = receiptlistIDInfo.get("receiptlistID")
-						.toString();
-				tr.setID(testReportID);
-				tr.setReceiptlistID(receiptlistID);
-				tr.setTaskID(taskID);
-				tr.setVersionNumber("1.0");
-				tr.setState(0);
-				tr.setFileID(fileID);
-				tr.setSendState(0);
-				baseEntityDao.save(tr);
-				return fileID;
-				}
-			} catch (Exception e) {
+			joinEntity = " LEFT JOIN equipment ON b.equipmentID = equipment.ID ";
+			
+			EquiInfo = entityDao.searchForeign(properties,
+					tableName, joinEntity, null, null);
+			
+			System.out.println("设备信息  : " + EquiInfo);
+			
+			filterConditionString = " WHERE teststandard.testProjectID = '"
+					+ testProjectID + "'";
+			tableName = 	" ( "+
+					" SELECT "+
+					"teststandard.standardID AS standardID "+
+				" FROM "+
+					"teststandard"+
+					filterConditionString+
+			" ) AS a ";
+			properties = new String[]{"CONCAT(standard.standardName,'(',standard.standardCode,')') as standardName"};
+			joinEntity = " LEFT JOIN standard ON a.standardID = standard.ID ";
+			
+			standardInfo = entityDao.searchForeign(properties,
+					tableName, joinEntity, null, null);
+			
+			System.out.println("标准信息 :" + standardInfo);
+			
+			// 模版信息,暂时写死
+			filterConditionString = " fileinformation.ID = '20170713152116338' ";  // 模版暂时写死
+			tableName = "fileinformation";
+			properties = new String[] { "fileinformation.ID AS ID",
+					"fileinformation.path AS path",
+					"fileinformation.pathPassword AS pathPassword" };
+			fileInfo = entityDao.searchForeign(properties, tableName, null,
+					null, filterConditionString);
+			if (fileInfo == null) {
 				return null;
+			} else {
+				try {
+				    fileInfoMap = fileInfo.get(0);
+					if (fileInfoMap == null) {
+						return null;
+					} else {
+						fileInfoID = fileInfoMap.get("ID").toString();
+						filePath = fileEncryptservice.decryptPath(fileInfoMap.get("path").toString(), fileInfoMap.get("pathPassword").toString());
+						systemPramPath = pe.getSystemPram("filePath") + "\\";
+						if (wordData.get(0).get("sampleName") != null) {
+							fileName = wordData.get(0).get("sampleName").toString() + "的检测报告" + EntityIDFactory.createId();
+						}
+					    cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\" + fileName + ".docx";
+
+						fileEncryptservice.decryptFile(systemPramPath + filePath, cacheFilePath,
+								fileInfoID);
+						
+						System.out.println("文件的路径1 ：" + filePath);
+						System.out.println("文件的路径2 ：" + cacheFilePath);
+
+						WordProcess wp = new WordProcess(false);
+						wp.openDocument(cacheFilePath);
+						if (wordData.get(0).get("sampleName") != null)
+							wp.replaceText("{样品名称}", wordData.get(0).get("sampleName")
+									.toString());
+						if (wordData.get(0).get("specifications") != null)
+							wp.replaceText("{样品型号}",
+									wordData.get(0).get("specifications").toString());
+						if (wordData.get(0).get("companyName") != null)
+							wp.replaceText("{委托方}", wordData.get(0).get("companyName")
+									.toString());
+						if (wordData.get(0).get("address") != null)
+							wp.replaceText("{委托方地址}", wordData.get(0).get("address")
+									.toString());
+						if (wordData.get(0).get("createTime") != null)
+							wp.replaceText("{接收日期}", wordData.get(0).get("createTime")
+									.toString());
+						if (map.get("testprojectName") != null) {
+						    testProjectName = map.get("testprojectName").toString();
+							wp.moveStart();
+							wp.replaceAllText("{检测项目名}",testProjectName);
+						}
+						if (contractContent.size() > 0 && contractContent != null) {
+							wp.moveStart();
+						    contractContentText = "";
+							for (int contractContentIndex = 0, contractContentLen = contractContent.size(); 
+									contractContentIndex < contractContentLen; contractContentIndex++) {
+								contractContentText += contractContent.get(contractContentIndex).get("content") + "、";
+							}
+							contractContentText = contractContentText.substring(0,contractContentText.length() - 1);
+							wp.replaceText("{合同的依据文件}", contractContentText);
+						}
+
+						if (wordData.get(0).get("sampleFactoryCode") != null) {
+							wp.replaceText("{样品出厂编号}",
+									wordData.get(0).get("sampleFactoryCode").toString());
+						}
+						if (wordData.get(0).get("sampleID") != null) {
+							wp.replaceText("{样品编号}", wordData.get(0).get("sampleID")
+									.toString());
+							wp.moveStart();
+						}
+						
+						for(int i = 0, len = EquiInfo.size(); i < len; i ++ ) {
+							if(EquiInfo.get(i) != null) {
+								EquitMap = EquiInfo.get(i) ;
+								wp.putTxtToCell(5, i+7, 1, EquitMap.get("equipmentName").toString());
+								wp.putTxtToCell(5, i+7, 2, EquitMap.get("model").toString());
+								wp.putTxtToCell(5, i+7, 3, EquitMap.get("factoryCode").toString());
+								wp.putTxtToCell(5, i+7, 4, EquitMap.get("credentials").toString());
+								wp.putTxtToCell(5, i+7, 5, EquitMap.get("effectiveTime").toString());
+							
+							}
+						}
+						standardName = "";
+						for (int standardIndex = 0, standardLen = standardInfo.size(); 
+								standardIndex < standardLen; standardIndex++) {
+							if(standardInfo.get(standardIndex) != null) {
+								standardMap = standardInfo.get(standardIndex);
+								standardName += standardMap.get("standardName").toString() +  "\r";
+							}
+						}
+						
+						wp.moveStart();
+						wp.replaceText("{检测项目对应的标准}", standardName);
+						wp.replaceText("{误差}", map.get("uncertainty").toString());
+						wp.save(cacheFilePath);
+						wp.close();
+						list.add(cacheFilePath);
+					}
+				 }
+
+				catch (Exception e) {
+					return null;
+				}
 			}
+		}
+		try {
+			String ID = EntityIDFactory.createId();
+			fileName =  wordData.get(0).get("sampleName").toString() + "的检测报告" + "_" + ID + ".docx";
+			cacheFilePath =  pe.getSystemPram("cacheFilePath") + "\\" + fileName ;
+			WordProcess wp = new WordProcess(false);
+			wp.comblineDocument(list, cacheFilePath);
+			wp.close();
+			
+			cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\" +fileName;
+			relativePath = "报告文件" + "\\" + fileName;
+			filePath = pe.getSystemPram("filePath") + "\\" + relativePath;
+			
+			fileName = wordData.get(0).get("sampleName").toString() + "的检测报告" + ".docx";
+			
+			// 插入文件表
+			FileInformation fi = new FileInformation();
+			fi.setID(ID);
+			fi.setBelongtoID(taskID);
+			fi.setUploaderID(UPLOADER);
+			fi.setFileName(fileName);
+			System.out.println("文件保存的相对路径是: " + relativePath);
+			fi.setPath(relativePath);
+			Date now = new Date(System.currentTimeMillis());
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			fi.setUploadTime(dateFormat.parse(dateFormat.format(now)));
+			fi.setState(0);
+			fi.setType(2);
+			baseEntityDao.save(fi);
+			
+			System.out.println("relativePath :" + relativePath);
+			System.out.println("cacheFilePath :" + cacheFilePath);
+			
+			fileEncryptservice.encryptPath(relativePath, ID);
+			fileEncryptservice.encryptFile(cacheFilePath, filePath, ID);
+			
+			// 保存检测报告数据
+			Map<String, Object> receiptlistIDInfo = baseEntityDao.findByID(
+					new String[] { "receiptlistID" }, taskID, "ID", "task");
+			String receiptlistID = receiptlistIDInfo.get("receiptlistID").toString();
+			String testReportID = EntityIDFactory.createId();
+			TestReport tr = new TestReport();
+			tr.setID(testReportID);
+			tr.setReceiptlistID(receiptlistID);
+			tr.setTaskID(taskID);
+			tr.setVersionNumber("1.0");
+			tr.setState(0);
+			tr.setFileID(ID);
+			tr.setSendState(0);
+			baseEntityDao.save(tr);
+			
+			// 更新任务信息
+			Task tk = entityDao.getByID(taskID, Task.class);
+			tk.setDetectstate(1);
+			tk.setTestReportID(testReportID);
+			baseEntityDao.updatePropByID(tk, taskID);
+			
+			File file = null;
+			for (String str : list) {
+				file = new File(str);
+				if (file.exists()) {
+					file.delete();
+				}
+			}
+			return ID + "";
+		} catch (Exception e) {
+			return null;
 		}
 	}
 
@@ -1516,9 +1592,160 @@ public class TaskService extends SearchService implements ITaskService {
 	}
 	
 	@Override
+	public boolean deleteTaskTestproject(String[] testprojectIDs) {
+		return baseEntityDao.deleteEntities(testprojectIDs, "tasktestproject", "testProjectID") > 0 ? true : false;
+	}
+	
+	@Override
+	public String checkTaskTypeIsCalibration(String taskID) {
+		Map<String, Object> taskTypeInfo = baseEntityDao.findByID(
+				new String[] { "type" }, taskID, "ID", "task");
+		if (taskTypeInfo != null && taskTypeInfo.size() > 0) {
+			String type = taskTypeInfo.get("type").toString();
+			if (type.equals("1")) {
+				return "true";
+			} else {
+				return "检测类型的任务不在此界面登记检测项目!";
+			}
+		} else {
+			return "没有找到任务的类型信息!";
+		}
+	};
+	
+	@Override
+	public List<BootstrapTreeNode> getTestProjectTree() {
+		String ID = "";
+		List<BootstrapTreeNode> list = new ArrayList<>();
+		BootstrapTreeNode nodeName = new BootstrapTreeNode("", "所有检测项目");
+		BootstrapTreeNode node = null;
+		nodeName.setlevel0("0");
+		nodeName.setBackColor("#fff");
+		nodeName.setIcon("glyphicon glyphicon-th");
+		nodeName.setColor("#238bc8");
+		nodeName.setHref("javascript:void(0)");
+		String[] testProjectProperties = new String[] { "ID",
+				"CONCAT(nameCn, '(', nameEn, ')') AS testprojectName" };
+		List<Map<String, Object>> testProjectList = entityDao.findByCondition(
+				testProjectProperties, " 1 = 1 order by createTime ", TestProject.class);
+
+		for (Map map : testProjectList) {
+			node = new BootstrapTreeNode("", "所有检测项目");
+			node.setText((String) map.get("testprojectName"));
+			node.setHref("javascript:void(0)");
+			ID = (String) map.get("ID");
+
+			
+			node.setId(ID);
+			nodeName.setChecked(0);
+			nodeName.addChilred(node);
+		}
+		list.add(nodeName);
+		return list;
+	}
+	
+	@Override
+	public List<BootstrapTreeNode> getStandardByProjectID(String testProjectID,
+			String testprojectName) {
+		if (testProjectID != null && !testProjectID.equals("") && !testProjectID.equals("null")) {
+			List<BootstrapTreeNode> list = new ArrayList<>();
+			BootstrapTreeNode nodeName = new BootstrapTreeNode("",
+					testprojectName + "的标准");
+			BootstrapTreeNode node = null;
+			nodeName.setlevel0("0");
+			nodeName.setBackColor("#fff");
+			nodeName.setIcon("glyphicon glyphicon-th");
+			nodeName.setColor("#238bc8");
+			nodeName.setHref("javascript:void(0)");
+			String[] standarProperties = new String[] {
+					"standard.standardName AS standardName",
+					"a.standardID AS standardID" };
+			String joinEntity = " LEFT JOIN standard ON a.standardID = standard.ID ";
+			String condition = " 1=1 ";
+			String baseEntity = " ( " + " SELECT DISTINCT "
+					+ " (teststandard.standardID) AS standardID " + " FROM "
+					+ "teststandard " + " WHERE "
+					+ " teststandard.testProjectID = '" + testProjectID + "'"
+					+ " ) AS a ";
+			List<Map<String, Object>> standardList = entityDao.searchForeign(
+					standarProperties, baseEntity, joinEntity, null, condition);
+
+			if (standardList.size() > 0 && standardList != null) {
+				for (Map map : standardList) {
+					node = new BootstrapTreeNode("", "标准");
+					node.setText((String) map.get("standardName"));
+					node.setHref("javascript:void(0)");
+					node.setId((String) map.get("standardID"));
+					nodeName.addChilred(node);
+				}
+			}
+			list.add(nodeName);
+			return list;
+		} else {
+			return null;
+		}
+	}
+	
+	@Override
+	public boolean registeTestPeojcetAndStandardOfTask(String taskID,
+			String testProjectID, String[] standards) {
+		String condition = " taskID = '" + taskID + "'" + " AND testProjectID = '"
+				+ testProjectID + "'";
+		
+		baseEntityDao.deleteByCondition(condition, "tasktestproject");
+
+		List<TaskTestProject> list = null;
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd HH:mm:ss");
+		Date now = null;
+		int registeSucssCount = 0;
+		for (int i = 0, len = standards.length; i < len; i++) {
+			list = entityDao.getByCondition(" taskID='" + taskID
+					+ "' AND testProjectID='" + testProjectID + "'"
+					+ " AND testStandard='" + standards[i] + "'",
+					TaskTestProject.class);
+			if (list != null && list.size() > 0) {
+				continue;
+			} else {
+
+				TaskTestProject ttp = new TaskTestProject();
+				ttp.setID(EntityIDFactory.createId());
+				ttp.setTaskID(taskID);
+				ttp.setTestProjectID(testProjectID);
+				now = new Date(System.currentTimeMillis());
+				try {
+					ttp.setCheckInTime(dateFormat.parse(dateFormat.format(now)));
+				} catch (ParseException e) {
+					return false;
+				}
+				ttp.setTestStandard(standards[i]);
+				if (entityDao.save(ttp) > 0) {
+					registeSucssCount++;
+				}
+			}
+		}
+		if (registeSucssCount == standards.length) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public List<Map<String, Object>> getRegistedStandard(String taskID,
+			String testProjectID) {
+		String tableName = "tasktestproject";
+		String[] properties = new String[] { "testStandard" };
+		String condition = " tasktestproject.taskID = '" + taskID + "'"
+				+ " AND testProjectID = '" + testProjectID + "'";
+		List<Map<String, Object>> result = entityDao.searchForeign(properties,
+				tableName, null, null, condition);
+		return result;
+	}
+	
+	@Override
 	public List<Map<String, Object>> getTestprojectOfTask(String taskID) {
 		String tableName = "tasktestproject";
-		String[] properties = new String[] { "tasktestproject.testProjectID AS ID" };
+		String[] properties = new String[] { "testProjectID" };
 		String condition = " tasktestproject.taskID = '" + taskID + "'";
 		List<Map<String, Object>> result = entityDao.searchForeign(properties,
 				tableName, null, null, condition);
@@ -1526,40 +1753,75 @@ public class TaskService extends SearchService implements ITaskService {
 	}
 	
 	@Override
-	public String saveTaskTestproject(String[] testprojectIDs,String taskID) {
-		if (testprojectIDs == null || testprojectIDs.length == 0) {
-			return "没有新登记的检测项目";
-		} else {
-			int saveSuccessCount = 0;
-			String ID = "";
-			SimpleDateFormat dateFormat = new SimpleDateFormat(
-					"yyyy-MM-dd HH:mm:ss");
-			for (int i = 0, len = testprojectIDs.length; i < len; i++) {
-				ID = EntityIDFactory.createId();
-				Date time = new Date(System.currentTimeMillis());
-				TaskTestProject te = new TaskTestProject();
-				te.setID(ID);
-				te.setTaskID(taskID);
-				te.setTestProjectID(testprojectIDs[i]);
-				try {
-					te.setCheckInTime(dateFormat.parse(dateFormat.format(time)));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				if (baseEntityDao.save(te) == 1) {
-					saveSuccessCount++;
-				}
+	public String addOriginalDataImag(String taskID, String fileID,
+			String mark, String originalName, String originaldataCode,
+			String suggest, String codeOne, String codeTwo,
+			String originalRemarks){
+		String condition = " type = '3'";
+		List<Map<String, Object>> fileInfo = entityDao.searchWithpaging(
+				new String[] { "fileinformation.path AS path"},
+				"fileinformation", null, null, condition, null,
+				"fileinformation.uploadTime", "DESC", 1, 0);
+		if(fileInfo.size() > 0 && fileInfo != null) {
+			String tableNmae = "fileinformation";
+			String[] properties = new String[] {
+					"fileinformation.filePassword",
+					"fileinformation.pathPassword", "fileinformation.path" };
+		    condition = "fileinformation.ID = '" + fileID + "'";
+			List<Map<String, Object>> result = entityDao.searchForeign(properties, tableNmae, null, null, condition);
+			PropertiesTool pe = new PropertiesTool();
+			String path = result.get(0).get("path").toString();
+			String passWord = result.get(0).get("pathPassword").toString();
+			String fileTruePath = pe.getSystemPram("filePath") + "\\" + fileEncryptservice.decryptPath(path, passWord);
+			
+			File file = new File(fileTruePath);
+			if(!file.exists()) {
+				return "报告真实文件已被删除";
 			}
-			if (saveSuccessCount == testprojectIDs.length) {
+			
+			int length = fileTruePath.length();
+			int x = fileTruePath.lastIndexOf("\\");
+			x++;
+
+			String filedisplay = fileTruePath.substring(x, length);// 文件名
+
+			String cachePath = pe.getSystemPram("cacheFilePath") + "\\" + filedisplay;
+
+			System.out.println("cachePath  :" + cachePath);
+
+			System.out.println("fileTruePath :" + fileTruePath);
+			
+			fileEncryptservice.decryptFile(fileTruePath, cachePath, fileID);
+			
+			String imgPath = pe.getSystemPram("imgPath") + "\\" + fileInfo.get(0).get("path");
+		
+			try {
+				WordProcess wp = new WordProcess(false);
+				wp.openDocument(cachePath);
+				wp.find("{" + mark + "}");
+				wp.insertImage(imgPath);
+				wp.save(cachePath);
+				wp.close();
+				fileEncryptservice.encryptFile(cachePath, fileTruePath, fileID); // 将文件重新加密
+				
+			
+				Originaldata od = new Originaldata();
+				od.setID(EntityIDFactory.createId());
+				od.setTaskID(taskID);
+				od.setOriginaldataCode(originaldataCode);
+				od.setFileID(fileID);
+				od.setRemarks(originalRemarks);
+				od.setSuggest(suggest);
+				od.setName(originalName);
+				od.setCodeOne(codeOne);
+				od.setCodeTwo(codeTwo);
+				baseEntityDao.save(od);
+				
 				return "true";
-			} else {
-				return "登记失败";
+			} catch (Exception e) {
+				return "程序运行出错";
 			}
 		}
-	}
-	
-	@Override
-	public boolean deleteTaskTestproject(String[] testprojectIDs) {
-		return baseEntityDao.deleteEntities(testprojectIDs, "tasktestproject", "testProjectID") > 0 ? true : false;
+		return "false";
 	}
 }
