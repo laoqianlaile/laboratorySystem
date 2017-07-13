@@ -27,15 +27,15 @@ body {
 }
 
 #onlineViewFile {
-	width: 1050px;
-	height: 855px;
+	width: 1200px;
+	height: 1000px;
 	margin: 20px auto;
 	border: 1px solid #ccc;
 	margin: 20px auto;
 }
 
 #onlineViewMainContent {
-	width: 1000px;
+	width: 1100px;
 	margin: 0 auto;
 }
 
@@ -44,7 +44,7 @@ body {
 }
 
 #onlineViewFile hr {
-	width: 1000px;
+	width: 1100px;
 	margin: 15px auto;
 }
 
@@ -110,7 +110,7 @@ body {
             attributes.name = "Diyflexpaper";
             swfobject.embedSWF(
                 "module/js/Diyflexpaper.swf", "flashContent", 
-                "1000", "700",
+                "100%", "800",
                 swfVersionStr, xiSwfUrlStr, 
                 flashvars, params, attributes);
         </script>

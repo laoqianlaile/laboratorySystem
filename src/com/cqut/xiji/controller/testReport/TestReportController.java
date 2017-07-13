@@ -5,15 +5,12 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.cqut.xiji.service.fileEncrypt.FileEncryptService;
 import com.cqut.xiji.service.testReport.ITestReportService;
 
 @Controller
@@ -280,8 +277,14 @@ public class TestReportController {
 		return JSONObject.fromObject(result);
 	}
 	
-	
-
+	/**
+	 * 
+     * @discription 判断当前检测状态下，是否能删除相应报告
+     * @author zt       
+     * @created 2017-7-13 下午5:01:58     
+     * @param ID
+     * @return
+	 */
 	@RequestMapping("/deleteCheck")
 	@ResponseBody
 	public boolean deleteCheck(String ID) {
@@ -503,8 +506,8 @@ public class TestReportController {
 	 */
 	@RequestMapping("/recoatCheck")
 	@ResponseBody
-	public String recoatCheck(String[] taskIDs, String[] fileIDs, String[] projectIDs, String[] states, String[] testProjectID) {
-		String result = service.recoatCheck(taskIDs, fileIDs, projectIDs, states, testProjectID);
+	public String recoatCheck(String[] taskIDs, String[] fileIDs, String[] projectIDs, String[] states) {
+		String result = service.recoatCheck(taskIDs, fileIDs, projectIDs, states);
 		return result;
 
 	}

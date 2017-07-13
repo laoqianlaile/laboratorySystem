@@ -153,30 +153,6 @@ $(function() {
 
 });
 
-/*// 上传图片
-function uploadImage(selectorName) {
-	$(selectorName).fileupload({
-		autoUpload : true,
-		url : 'fileOperateController/upload.do?TypeNumber=' + 3,
-		dataType : 'text',
-		add : function(e, data) {
-			$("#ensureUploadImg").click(function() {
-				data.submit();
-			});
-		},
-	}).bind('fileuploaddone', function(e, data) {
-		var fileID = JSON.parse(data.result);
-		if (fileID != null && fileID != "null" && fileID != "") {
-			$.post("employeeController/addSignatrueAndStamp.do", {
-				fileID : fileID,
-				selectorName : selectorName
-			});
-		} else {
-			alert("图片上传失败");
-		}
-	});
-}*/
-
 // 查询
 function search() {
 	var additionalCondition = {
@@ -251,9 +227,6 @@ function thirdAuditPass() {
 		}, 
 		function(result) {
 			if (result == true || result == "true") {
-				/*$("#PassReason").val("");
-				uploadImage(".singnatureImg");
-				uploadImage(".stampImg");*/
 				$("#thirdAuditPassModal").modal("show");
 			} else {
 				alert("当前报告不允许设置审核通过");
@@ -261,30 +234,6 @@ function thirdAuditPass() {
 		});
 	}
 }
-
-/*// 预览图片
-function previewImage(file, imgArea) {
-	if (file.files && file.files[0]) {
-		var fileSuffixName = file.value.toLowerCase();
-		if (fileSuffixName.indexOf('.jpg') < 0 && fileSuffixName.indexOf('.gif') < 0 &&  fileSuffixName.indexOf('.png') < 0) {
-			alert("不能将此类型文件作为电子签名上传");
-		}
-		var img = document.getElementById(imgArea);
-		var reader = new FileReader();
-		reader.onload = function(evt) {
-			img.src = evt.target.result;
-		}
-		reader.readAsDataURL(file.files[0]);
-	} else // 兼容IE
-	{
-		var sFilter = 'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
-		file.select();
-		var src = document.selection.createRange().text;
-		var img = document.getElementById(imgArea);
-		img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
-	}
-}
-*/
 
 // 确认审核通过
 function thirdAuditPassSure() {

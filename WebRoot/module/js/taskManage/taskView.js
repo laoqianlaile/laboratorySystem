@@ -1,50 +1,14 @@
 var param = {
-	taskID : ""
+	taskID : "",
+	testProjectID : "",
+	standards : [],
+	fileID : "",
+	mark : ""
 };
 
 $(function() {
-	var ID = getUrlParam("taskID"); 		
-	
-	// 获取所有的检测项目信息
-	$.post("testProjectController/getAllTestProject.do",
-			function(result) {
-				result = JSON.parse(result);
-				if (result != null && result != "null" && result != "") {
-					var htmlElement = "";
-					for ( var i = 0,len = result.length;i <len ; i++) {
-						htmlElement += "<div class='col-xs-4 col-md-4 col-lg-4'>"
-			                        	+ "<input type='checkbox' name='testproject" + i + "' id='testproject" + i + "' value=" + result[i].ID + ">" 
-			                        	+ "<label for='testproject" + i + "' >"
-				                        +  result[i].testprojectName 
-				                        + "</label>" 
-				                        + "</div>";
-					}
-					$(".testprojectList").append(htmlElement);
-				}
-			});
-	
-	getTaskTestprojectID(ID);
-	
-	// 获取设备的信息
-	$.post("equipmentController/getEquipmentInfo.do",
-			function(result) {
-				result = JSON.parse(result);
-				if (result != null && result != "null" && result != "") {
-					var htmlElement = "";
-					for ( var i = 0,len = result.length;i <len ; i++) {
-						htmlElement += "<div class='col-xs-4 col-md-4 col-lg-4'>"
-			                        	+ "<input type='checkbox' name='equipment" + i + "' id='equipment" + i + "' value=" + result[i].ID + ">" 
-			                        	+ "<label for='equipment" + i + "' >"
-				                        +  result[i].equipmentInfo 
-				                        + "</label>" 
-				                        + "</div>";
-					}
-					$(".equipmentList").append(htmlElement);
-				}
-			});
+	var ID = getUrlParam("taskID"); 
 
-	getTaskEquipmentID(ID);
-	
 	$.post("taskController/checkTaskClientInfo.do", {
 		taskID : ID
 	}, function(result) {
@@ -120,36 +84,79 @@ $(function() {
 			width : "10%",// 宽度
 			visible : false
 		}, {
+			field : 'sampleID',// 返回值名称
+			title : '样品',// 列名
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width : "10%",// 宽度
+			visible : false
+		}, {
 			field : 'factoryCode',// 返回值名称
 			title : '出厂编号',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : "18%",// 宽度
+			width : "15%",// 宽度
 		}, {
 			field : 'sampleName',// 返回值名称
 			title : '样品名称',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : "20%",// 宽度
+			width : "15%",// 宽度
+			formatter : function(value, row, index) {
+				  return '<a href="#" class="sampleName" name="'+row.sampleID+ '">' + row.sampleName + '</a>';
+			},
 		}, {
 			field : 'specifications',// 返回值名称
 			title : '型号/规格/代号',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : "20%",// 宽度
+			width : "15%",// 宽度
 		}, {
 			field : 'testProjectName',// 返回值名称
 			title : '检测/校准项目',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : "20%",// 宽度
+			width : "18%",// 宽度
+			
+		}, {
+			field : 'standardName',// 返回值名称
+			title : '标准',// 列名
+			align : 'center',// 水平居中显示
+			valign : 'middle',// 垂直居中显示
+			width : "18%",// 宽度
 		}, {
 			field : 'detectstate',// 返回值名称
 			title : '检测状态',// 列名
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
-			width : "20%",// 宽度
-		} ]
+			width : "15%",// 宽度
+		} ],
+	    onClickRow: function (row, $element) {
+			  param.curRow = row;
+          },
+        onLoadSuccess: function () {
+            $(".sampleName").editable({
+                url: function (params) {
+                   var ID = $(this).attr("name");
+                   var Name = $.trim(params.value);
+                   $.post("sampleController/updateSampleNameByID.do",
+                   {
+                	   sampleID : ID,
+                	   sampleName : Name
+                   },function(result) {
+                	   refresh();
+                	   }
+                   );
+                },
+            	title: "修改样品名",
+                type: 'text',
+                validate: function (value) { // 字段验证
+                	if (!$.trim(value)) {
+                		return '不能为空';
+                		} 
+                	}
+            });
+        }
 	});
 
 	// 请求数据时的额外参数
@@ -166,7 +173,6 @@ $(function() {
 
 	param.taskID = ID;
 
-	
 	// 得到任务对应文件的信息
 	$("#taskFile")
 			.bootstrapTable(
@@ -254,45 +260,8 @@ $(function() {
 								} ]
 					});
 	uploadFile();
+	uploadOriginalDataFile();
 });
-
-// 获取任务所选择的检测项目
-function getTaskTestprojectID() {
-	var ID = arguments[0];
-	$.post("taskController/getTestprojectOfTask.do", 
-	{
-		taskID : ID
-	}, function(result) {
-		result = JSON.parse(result);
-		for ( var i = 0, len = result.length; i < len; i++) {
-			$(".testprojectList input[type=checkbox]").each(function() {
-				if (result[i].ID == $(this).val()) {
-					$(this).attr("checked", "checked");
-				}
-			});
-			continue;
-		}
-	});
-}
-
-// 获取任务所登记的设备ID
-function getTaskEquipmentID() {
-	var ID = arguments[0];
-	$.post("taskEquipmentController/getTaskEquipmentID.do", 
-	{
-		taskID : ID
-	}, function(result) {
-		result = JSON.parse(result);
-		for ( var i = 0, len = result.length; i < len; i++) {
-			$(".equipmentList input[type=checkbox]").each(function() {
-				if (result[i].equipmentID == $(this).val()) {
-					$(this).attr("checked", "checked");
-				}
-			});
-			continue;
-		}
-	});
-}
 
 // 获取地址栏的任务ID
 function getUrlParam(name) {
@@ -350,187 +319,95 @@ function uploadFile() {
 	});
 }
 
+// 初始化上传原始数据的方法
+function uploadOriginalDataFile() {
+	$(".originalDataImag").fileupload({
+		autoUpload : true,
+		url : 'fileOperateController/upload.do?TypeNumber=' + 3,
+		dataType : 'text',
+		add : function(e, data) {
+			$("#ensureUploadOriginalData").click(function() {
+				var mark = $.trim($("#mark").val());
+				if(mark == "" || mark == undefined) {
+					return;
+				} else {
+					param.mark =  mark;
+					data.submit();
+				}
+			});
+		},
+	}).bind('fileuploaddone', function(e, data) {
+		var returnFileID = JSON.parse(data.result);
+		if (returnFileID != null && returnFileID != "null" && returnFileID != "") {
+			$.post("taskController/addOriginalDataImag.do", {
+				taskID : param.taskID,
+				fileID : param.fileID,
+				mark : param.mark,
+				originalName : $.trim($("#originalName").val()),
+				originaldataCode : $.trim($("#originaldataCode").val()),
+				suggest : $.trim($("#suggest").val()),
+				codeOne : $.trim($("#codeOne").val()),
+				codeTwo : $.trim($("#codeTwo").val()),
+				originalRemarks : $.trim($("#originalRemarks").val())
+			}, function(result) {
+				result = JSON.parse(result);
+				if(result == "true" || result == true) {
+					reload();
+				} else {
+					alert(result);
+				}
+			});
+		} else {
+			alert("图片上传失败");
+		}
+	});
+}
+
 // 检测项目登记
-function testProjectRegister() {
-	$("#testprojectInfo").modal("show");
-}
-
-// 设备登记
-function equipmentRegister() {
-	$("#equipmentInfo").modal("show");
-}
-
-// 确认登记的检测项目 
-function registTestprojectSure() {
-	var testprojectChooseArray = [],
-	testprojectArray = [], 
-	temporary = [];
-	ID = param.taskID;
-	$(".testprojectList input[type=checkbox]").each(function() { // 遍历已选中的选项
-		if (this.checked) {
-			testprojectChooseArray.push($(this).val());
-		}
-	});
-	$.post("taskController/getTestprojectOfTask.do",
+function registeTestProject() {
+	var ID = param.taskID;
+	$.post("taskController/checkTaskTypeIsCalibration.do",
 	{
-		taskID : ID
+		taskID :ID
 	},
 	function(result) {
 		result = JSON.parse(result);
-		var testprojectChooseLen = testprojectChooseArray.length;
-		var resultLen = result.length
-		if(testprojectChooseLen == resultLen && testprojectChooseLen == 0) {
-			refresh();
-			alert("没有登记的检测项目");
+		if (result == "true" || result == true) {
+			initTestprojectTree();
+			$("#testprojectInfo").modal("show");
 		} else {
-			for (var index = 0; index < resultLen; index++) {  // 原来登记的检测项目保存到一个数组中
-				temporary.push(result[index].ID);
-				}
-			if(result.length === 0) {
-				for (var k = 0, len = testprojectChooseLen; k < len; k++) {
-					testprojectArray.push(testprojectChooseArray[k]); // 如果没有登记检测项目，直接添加到testprojectArray
-					}
-				alterTestproject(testprojectArray);
-			} else {
-				if(testprojectChooseLen > resultLen) { // 保存新添加的设备
-					for (var i = 0, tArryLen = testprojectChooseLen; i < tArryLen; i++) { // 去除已登记的检测项目
-						if ($.inArray(testprojectChooseArray[i], temporary) == -1) {
-							testprojectArray.push(testprojectChooseArray[i]);
-						}
-					}
-					alterTestproject(testprojectArray);
+			alert(result);
+		}
+	});
+}
+
+// 确认登记的检测项目
+function sureRegisteTestProject() {
+	if (param.testProjectID !== "" && param.standards.length > 0) {
+		$.ajax({
+			url : 'taskController/registeTestPeojcetAndStandardOfTask.do',
+			type : 'POST',
+			data : {
+				taskID : param.taskID,
+				testProjectID : param.testProjectID,
+				standards : param.standards
+			},
+			traditional : true,
+			success : function(result) {
+				result = JSON.parse(result);
+				if (result == true || result == "true") {
+					refresh();
+					alert("成功登记或修改检测项目和标准");
 				} else {
-					$.ajax({
-						url : 'taskController/deleteTaskTestproject.do',
-						type : 'POST',
-						data : {
-							testprojectIDs : temporary,
-						},
-						traditional : true,
-						success : function(result) {
-							result = JSON.parse(result);
-							if(result == false || result == "false") {
-								alert("修改登记检测项目出错");
-							} else {
-								alterTestproject(testprojectChooseArray); // 登记修改过后新检测项目
-							}
-						}
-					});
+					refresh();
+					alert("系统运行出错");
 				}
 			}
-		}		
-	});
-}
-
-// 修改登记的检测项目
-function alterTestproject(testprojectArray) {
-	$.ajax({
-		url : 'taskController/saveTaskTestproject.do',
-		type : 'POST',
-		data : {
-			taskID : ID,
-			testprojectIDs : testprojectArray
-		},
-		traditional : true,
-		success : function(result) {
-			result = JSON.parse(result);
-			if (result == true || result == "true") {
-				getTaskTestprojectID();
-				$("#testprojectInfo").modal("hide");
-				refresh();
-				alert("检测项目登记或修改成功");
-			} else {
-				refresh();
-				alert(result);
-			}
-		}
-	});
-}
-
-// 确定登记的设备
-function sure() {
-	var equipmentChooseArray = [],
-	 	equipmentArray = [], 
-		temporary = [];
-		ID = param.taskID;
-	$(".equipmentList input[type=checkbox]").each(function() { // 遍历已选中的选项
-		if (this.checked) {
-			equipmentChooseArray.push($(this).val());
-		}
-	});
-	$.post("taskEquipmentController/getTaskEquipmentID.do",
-	{
-		taskID : ID
-	},
-	function(result) {
-		result = JSON.parse(result);
-		var equipmentChooseLen = equipmentChooseArray.length;
-		var resultLen = result.length
-		if(equipmentChooseLen == resultLen) {
-			alert("没有新登记的设备");
-		} else {
-			for (var index = 0; index < resultLen; index++) {  // 原来登记的设备保存到一个数组中
-				temporary.push(result[index].equipmentID);
-				}
-			if(result.length === 0) {
-				for (var k = 0, len = equipmentChooseArray.length; k < len; k++) {
-					equipmentArray.push(equipmentChooseArray[k]); // 如果没有登记设备，直接添加到equipmentArray
-					}
-				alterEquipment(equipmentArray);
-			} else {
-				if(equipmentChooseLen > resultLen) { // 保存新添加的设备
-					for (var i = 0, eArryLen = equipmentChooseArray.length; i < eArryLen; i++) { // 去除已登记的设备
-						if ($.inArray(equipmentChooseArray[i], temporary) == -1) {
-							equipmentArray.push(equipmentChooseArray[i]);
-						}
-					}
-					alterEquipment(equipmentArray);
-				} else {
-					$.ajax({
-						url : 'taskEquipmentController/deleteTaskEquipmentID.do',
-						type : 'POST',
-						data : {
-							taskIDs : temporary,
-						},
-						traditional : true,
-						success : function(result) {
-							result = JSON.parse(result);
-							if(result == false || result == "false") {
-								alert("修改登记设备失败");
-							} else {
-								alterEquipment(equipmentChooseArray); // 登记修改过后新设备
-							}
-						}
-					});
-				}
-			}
-		}		
-	});
-	
-}
-
-// 修改登记设备
-function alterEquipment(equipmentArray) {
-	$.ajax({
-		url : 'taskEquipmentController/saveTaskEquipment.do',
-		type : 'POST',
-		data : {
-			taskID : ID,
-			equipmentIDs : equipmentArray
-		},
-		traditional : true,
-		success : function(result) {
-			result = JSON.parse(result);
-			if (result == true || result == "true") {
-				getTaskEquipmentID();
-				$("#equipmentInfo").modal("hide");
-				alert("设备登记或修改成功");
-				
-			} else {
-				alert(result);
-			}
-		}
-	});
+		});
+	} else {
+		alert("请确定检测项目和标准都已登记");
+		return;
+	}
 }
 
 // 下载报告模版
@@ -552,17 +429,19 @@ function downReportTemplate() {
 				if (result == null || result == "null" || result == "") {
 					alert("生成报告前请先登记检测项目");
 				} else {
+					displayDiv();
 					$.post("taskController/downReportTemplate.do", 
 					{
 						taskID : ID
 					},
 					function(fileID) {
+						hideDiv();
 						fileID = JSON.parse(fileID);
 						if (fileID != null && fileID != "null" && fileID != "") {
 							refresh();
 							downOneFile(fileID);
 						} else {
-							alert("下载出错,请确定模版是否上传或系统是否正常允许");
+							alert("下载出错,请确定模版是否上传或系统是否运行正常");
 						}
 					});
 				}
@@ -590,7 +469,7 @@ function checkFile(o) {
 // 上传报告
 function uploadTestReport() {
 	var ID = param.taskID;
-	$.post("taskController/recoverFileCheck.do", {
+	$.post("taskController/taskDectstateCheck.do", {
 		taskID : ID
 	}, function(result) {
 		if (result == true || result == "true") {
@@ -677,7 +556,195 @@ function submitReport() {
     		});
     }
 }
-				
+
+// 初始化检测项目数
+function initTestprojectTree() {
+	$('#testProjectTree').treeview({
+		collapsed : false,
+		data : getTestProjectTree(),
+		showIcon : true,
+		showCheckbox : true,
+		onNodeChecked : function(event, node) {// 一个节点被checked
+			var thisId = node.nodeId;
+			var thisParentId = node.parentId;
+			var total = "";
+			if (node.id == undefined || node.id == "") { // 点击所有模块
+				$('#testProjectTree').treeview('checkAll', {
+					silent : true
+				});
+				alert("不可以同时选择多个检测项目同时登记标准");
+				return;
+			} else {
+				$('#testProjectTree').treeview('uncheckAll', { silent: false });
+				$('#testProjectTree').treeview('checkNode', [ thisId, { silent: true } ]);
+				param.testProjectID = node.id;
+				initStandardTreeByTestProjectID(param.testProjectID,node.text);
+			}
+		},
+		onNodeUnchecked : function(event, node) { // 一个节点取消选择
+			var thisId = node.nodeId;
+			var thisParentId = node.parentId;
+			var total = ""; // 最后一个节点才用
+			if (node.id == undefined || node.id == "") { // 所有节点
+				$('#testProjectTree').treeview('uncheckAll', {
+					silent : true
+				}); // 选择的勾不会去掉
+			}
+			param.testProjectID = "";
+			return;
+		}
+	});
+}
+
+//获取检测项目树
+function getTestProjectTree() {
+	var trees;
+	$.ajax({
+		type : 'POST',
+		dataType : 'text',
+		url : 'taskController/getTestProjectTree.do',
+		async : false,
+		success : function(value) {
+			trees = JSON.parse(value);
+		}
+	});
+	return trees;
+}
+
+//初始化相应检测项目对应的标准树
+function initStandardTreeByTestProjectID(testProjectID, testprojectName) {
+	param.standards.splice(0,param.standards.length);
+	
+	$.post("taskController/getStandardByProjectID.do", {
+		testProjectID : testProjectID,
+		testprojectName : testprojectName
+	}, function(result) {
+		result = JSON.parse(result);
+		if (result !== null && result !== "null" && result !== "") {
+			$('#standardTree').treeview({ // 初始化标准树
+				collapsed : false,
+				data : result,
+				showIcon : true,
+				showCheckbox : true,
+				onNodeChecked : function(event, node) {// 一个节点被checked
+					var thisId = node.nodeId;
+					if(param.testProjectID  == "" ||  param.testProjectID  == null){
+						alert("请先选择检测项目");
+						return ;
+					}
+					if (node.id == undefined || node.id == "") { // 点击所有模块 
+						$('#standardTree').treeview('checkAll', {
+							silent : true
+						});
+						if (node.nodes !== null && node.nodes !== "null") {
+							var len = node.nodes.length
+							for ( var i = 0; i < len; i++) {
+								param.standards.push(node.nodes[i].id);
+							}
+						}
+					} else {
+						$('#standardTree').treeview('checkNode', [ 0, { silent: true } ]);
+						param.standards.push(node.id);
+					}
+				},
+				onNodeUnchecked : function(event, node) { // 一个节点取消选择
+					var thisId = node.nodeId;
+					var thisParentId = node.parentId;
+					var total = ""; // 最后一个节点才用
+					if (node.id == undefined || node.id == "") { // 所有节点
+						$('#standardTree').treeview('uncheckAll', {
+							silent : true
+						});
+						param.standards.splice(0,param.standards.length);
+					} else {
+						for(var i = 0, len = param.standards.length; i < len; i++){
+				            if (param.standards[i] == node.id) {
+				            	param.standards.splice(i,1);
+				            	} 
+				            }
+					}
+				}
+			});
+			setRegistedStandardSelected(result); // 将相应标准选中
+		} else {
+			alert("没有找到该检测项目所对应的标准");
+		}
+	});
+}
+
+// 将已登记的标准选中
+function setRegistedStandardSelected(result) {
+	param.standards.splice(0,param.standards.length);
+	$.post("taskController/getRegistedStandard.do",
+	{
+		taskID : param.taskID,
+		testProjectID : param.testProjectID
+	}, function(o) {
+		o = JSON.parse(o);
+		if(o !== null && o.length > 0) {
+			var selectedStandardID, standardID;  
+			for(var j = 0, selectedStandardLen = o.length; j < selectedStandardLen ; j ++) {
+				selectedStandardID = o[j].testStandard;
+				for(var i = 0, nodeid = 1, len = result[0].nodes.length; i < len ; i ++, nodeid ++) {
+					if(isContains(selectedStandardID,result[0].nodes[i].id)) {
+						param.standards.push(result[0].nodes[i].id);
+						$('#standardTree').treeview('checkNode', [ 0, { silent: true } ]);
+						$('#standardTree').treeview('checkNode', [ nodeid, { silent: true } ]);  //怕把所有子节点的模块都选中
+					}
+				}
+			}		
+		}
+	});
+}
+
+// 上传原始数据
+function uploadOriginalData() {
+	$.post("taskController/taskDectstateCheck.do", {
+		taskID : param.taskID
+	}, function(result) {
+		if (result == true || result == "true") {
+			$.post("taskController/getFileIdOfTask.do", 
+			{
+				taskID : param.taskID
+			}, function(fileID) {
+				fileID = JSON.parse(fileID);
+				if (fileID == null || fileID == "null" || fileID == "") {
+					alert("上传原始数据前请确定已生成或上传了报告");
+				} else {
+					param.fileID = fileID;
+					$("#originalDataModal").modal("show");
+				}
+			});
+		} else {
+			alert("当前审核状态不可以上传原始数据图片");
+		}
+	});
+}
+
+// 预览图片
+function previewImage(file, imgArea) {
+	if (file.files && file.files[0]) {
+		var fileSuffixName = file.value.toLowerCase();
+		if (fileSuffixName.indexOf('.jpg') < 0 && fileSuffixName.indexOf('.gif') < 0 &&  fileSuffixName.indexOf('.png') < 0) {
+			alert("不能将此类型文件作为原始数据上传上传");
+			return ;
+		}
+		var img = document.getElementById(imgArea);
+		var reader = new FileReader();
+		reader.onload = function(evt) {
+			img.src = evt.target.result;
+		}
+		reader.readAsDataURL(file.files[0]);
+	} else // 兼容IE
+	{
+		var sFilter = 'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
+		file.select();
+		var src = document.selection.createRange().text;
+		var img = document.getElementById(imgArea);
+		img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
+	}
+}
+
 // 下载
 function fileDown() {
 	var fileID = arguments[0];
@@ -686,7 +753,8 @@ function fileDown() {
 
 // 返回
 function turnBack() {
-	window.history.back(-1);
+	window.location.href = window.location.href.split("?")[0].replace(
+			'taskView.jsp', 'taskManage.jsp');
 }
 
 // 重新加载页面
@@ -698,6 +766,11 @@ function reload() {
 function refresh() {
 	$("#taskFile").bootstrapTable("refresh", null);
 	$("#sampleInfoTable").bootstrapTable("refresh", null);
+}
+
+// 判断字符串是否包含字串
+function isContains(str, substr) {
+	return str.indexOf(substr) >= 0;
 }
 
 // 检查任务数据

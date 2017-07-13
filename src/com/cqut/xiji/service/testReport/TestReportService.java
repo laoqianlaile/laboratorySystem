@@ -859,44 +859,53 @@ public class TestReportService extends SearchService implements
 
 				System.out.println("fileTruePath :" + fileTruePath);
 
-			
-					fileEncryptservice.decryptFile(fileTruePath, cachePath, fileID);
+				fileEncryptservice.decryptFile(fileTruePath, cachePath, fileID);
 
-					String imgPath = pe.getSystemPram("imgPath") + "\\";
-					String employeeName = employeeSignImage.get("employeeName").toString();
+				String imgPath = pe.getSystemPram("imgPath") + "\\";
+				String employeeName = employeeSignImage.get("employeeName").toString();
+				
+				Object signatrue =  employeeSignImage.get("signature");
+				Object stamp =  employeeSignImage.get("stamp");
 					
-					Object signatrue =  employeeSignImage.get("signature");
-					Object stamp =  employeeSignImage.get("stamp");
-					
-					if(signatrue != null && stamp != null) {
-						String singnaturePath =  signatrue.toString();
-						String stampPath = stamp.toString();
-						if(!singnaturePath.equals("") && !singnaturePath.equals(" ") && !stampPath.equals(" ") && !stampPath.equals("")) {
-							singnaturePath = imgPath + singnaturePath;
-							stampPath = imgPath + stampPath;
-							System.out.println("signatrue :" + singnaturePath);
-	                       	System.out.println("stampPath :" + stampPath);
-	                    	try {
-								WordProcess wp = new WordProcess(false);
-								wp.openDocument(cachePath);
-								wp.replaceText("{签发人}", employeeName);
-								wp.insertImage("{电子签名}", singnaturePath, 100, 100);
-								wp.replaceAllText("{电子签名}", "");
-								wp.insertImage("{电子盖章}", stampPath, 100, 100);
-								wp.replaceAllText("{电子盖章}", "");
-								wp.save(cachePath);
-								wp.close();
-							    fileEncryptservice.encryptFile(cachePath, fileTruePath, fileID); // 将文件重新加密
-	                    	}
-						    catch (Exception e) {
-								return "程序运行出错";
-							}
-						} else {
-							return "请先上传电子签名或电子盖章";
+				if(signatrue != null && stamp != null) {
+					String singnaturePath =  signatrue.toString();
+					String stampPath = stamp.toString();
+					if(!singnaturePath.equals("") && !singnaturePath.equals(" ") && !stampPath.equals(" ") && !stampPath.equals("")) {
+						singnaturePath = imgPath + singnaturePath;
+						stampPath = imgPath + stampPath;
+						System.out.println("signatrue :" + singnaturePath);
+                       	System.out.println("stampPath :" + stampPath);
+                       	File singnatureFile = new File(singnaturePath);
+                       	File stampFile = new File(stampPath);
+                       	
+                       	if(!singnatureFile.exists() || !stampFile.exists()) {
+                       		return "电子盖章或电子签名实际图片已删除";
+                       	}
+                       	
+                    	try {
+							WordProcess wp = new WordProcess(false);
+							wp.openDocument(cachePath);
+							wp.replaceText("{签发人}", employeeName);
+							wp.moveStart();
+							wp.insertImage("{电子盖章}", stampPath, 80, 45);
+							wp.replaceAllText("{电子盖章}", "");
+
+							wp.moveStart();
+							wp.insertImage("{电子签名}", singnaturePath, 80, 45);
+							wp.replaceAllText("{电子签名}", "");
+							wp.save(cachePath);
+							wp.close();
+						    fileEncryptservice.encryptFile(cachePath, fileTruePath, fileID); // 将文件重新加密
+                    	}
+					    catch (Exception e) {
+							return "程序运行出错";
 						}
-				} else {
-					return "请先上传电子签名或电子盖章";
-				}
+					} else {
+						return "请先上传电子签名或电子盖章";
+					}
+			} else {
+				return "请先上传电子签名或电子盖章";
+			}
 
 			}
 			Map<String, Object> result = baseEntityDao.findByID( new String[] { "receiptlistID" }, taskID, "ID", "task");
@@ -1121,7 +1130,7 @@ public class TestReportService extends SearchService implements
 	}
 	
 	@Override
-	public String recoatCheck(String[] taskIDs, String fileIDs[], String[] projectIDs, String[] states, String[] testProjectID) {
+	public String recoatCheck(String[] taskIDs, String fileIDs[], String[] projectIDs, String[] states) {
 		boolean flag = true;
 		for (int i = 0, len = projectIDs.length; i < len - 1; i++) { // 遍历查看所合并报告是否在同一项目下
 			for (int j = 0; j < len - i; j++) {
@@ -1169,23 +1178,23 @@ public class TestReportService extends SearchService implements
 		}
 		String condition = " ID IN " + " ( " + IDs + " )";
 		List<Map<String, Object>> result = baseEntityDao.findByCondition(
-				new String[] { "type", "sampleID" }, condition, "task");
+				new String[] { "sampleID" }, condition, "task");
 		System.out.println("晴天 :" + result);
 		int len = result.size();
 		if (len == 0) {
-			return "没有找到报告所对应的任务";
+			return "没有找到报告所对应的样品信息";
 		} else {
-			String[] types = new String[len];
+			String[] sampleID = new String[len];
 			for (int i = 0; i < len; i++) {
-				types[i] = result.get(i).get("type").toString();
+				sampleID[i] = result.get(i).get("sampleID").toString();
 			}
-			int typeLen = types.length;
-			for (int i = 0; i < typeLen - 1; i++) { // 遍历查看所合并报告所对应的任务类型是否一样
-				for (int j = 0; j < typeLen - i; j++) {
+			int sampleLen = sampleID.length;
+			for (int i = 0; i < sampleLen - 1; i++) { // 遍历查看所合并报告是否对于同一样品
+				for (int j = 0; j < sampleLen - i; j++) {
 					if (i == j) {
 						continue;
 					} else {
-						if (!types[i].equals(types[j])) {
+						if (!sampleID[i].equals(sampleID[j])) {
 							flag = false;
 							break;
 						}
@@ -1196,61 +1205,16 @@ public class TestReportService extends SearchService implements
 				}
 			}
 			if (flag) {
-				String type = types[0];
-				if (type.equals("1")) {
-					return "true";
-				} else {
-					String[] sampleID = new String[len];
-					for (int i = 0; i < len; i++) {
-						sampleID[i] = result.get(i).get("sampleID").toString();
-					}
-					int sampleLen = sampleID.length;
-					for (int i = 0; i < sampleLen - 1; i++) { // 遍历查看所合并报告是否对于同一样品
-						for (int j = 0; j < sampleLen - i; j++) {
-							if (i == j) {
-								continue;
-							} else {
-								if (!sampleID[i].equals(sampleID[j])) {
-									flag = false;
-									break;
-								}
-							}
-						}
-						if (flag == false) {
-							break;
-						}
-					}
-					if (flag) {
-						return "true";
-					} else {
-						int testProjectLen = testProjectID.length;
-						for (int i = 0; i < testProjectLen - 1; i++) { // 遍历查看所合并报告所对应的检测项目是否一样
-							for (int j = 0; j < testProjectLen - i; j++) {
-								if (i == j) {
-									continue;
-								} else {
-									if (!testProjectID[i].equals(testProjectID[j])) {
-										flag = false;
-										break;
-									}
-								}
-							}
-							if (flag == false) {
-								return "选择合并的报告所对应的检测项目不一样";
-							}
-						}
-						return "true";
-					}
-				}
+				return "true";
 			} else {
-				return "选择合并的报告所对应的任务的类型不一样";
+				return "所选择合并的报告不对应同一样品";
 			}
+
 		}
 	}
 	
 	@Override
 	public String recoatReport(String[] fileIDs, String[] IDs, String[] taskIDs, String projectID, String uploader) {
-		System.out.println("项目ID ： "+ projectID);
 		PropertiesTool pt = new PropertiesTool();
 		String filePath = "", pathPassword = "", relativePath = "", fileName = "", path = "", cacheFilePath = "";
 		int length,x;
