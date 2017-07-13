@@ -1,5 +1,6 @@
 package com.cqut.xiji.controller.qualityPlan;
 
+import java.net.URLDecoder;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -56,6 +57,12 @@ public class QualityPlanController{
 	@RequestMapping("/updataQualityPlanById")
 	@ResponseBody
 	public int updataQualityPlanById(String id,String type,String code,String year,String employeeName,String employeeName2,int judg,int judg2){
+		try
+		{
+			type = new String(type.getBytes("iso-8859-1"),"UTF-8");
+		}catch(Exception e){
+			return 0;
+		}
 		return service.updataQualityPlanById(id, type, code, year,employeeName,employeeName2,judg,judg2);
 	}
 	
@@ -84,6 +91,12 @@ public class QualityPlanController{
 	@RequestMapping("/addQualityPlan")
 	@ResponseBody
 	public String addQualityPlan(String type,String code,String year,String employeeName, String employeeName2,HttpSession session){
+		try
+		{
+			type = new String(type.getBytes("iso-8859-1"),"UTF-8");
+		}catch(Exception e){
+			return null;
+		}
 		return service.addQualityPlan(type, code, year, employeeName ,employeeName2,session);
 	}
 }
