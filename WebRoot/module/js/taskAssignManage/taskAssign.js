@@ -114,12 +114,6 @@ $(function () {
 			valign:'middle',//垂直居中显示
 			width:'10%'//宽度
 		},{
-			field:'laborHour',//返回值名称
-			title:'工时',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-			width:'5%'//宽度
-		},{
 			field:'state',//返回值名称
 			title:'分配状态',//列名
 			align:'center',//水平居中显示
@@ -245,14 +239,9 @@ $("#btn-assign").click(function(){
 				title: "请选择一条数据!",
 				type: 'warning'
 			});
-	} else if (data[0].detector != "无" && data[0].custodian != "无") {
+	} else if (data[0].state === "已分配" ) {
 		swal({
 			title: "该任务已分配完成!",
-			type: 'warning'
-		});
-	} else if (data[0].laborHour === '?') {
-		swal({
-			title: "请先分配工时!",
 			type: 'warning'
 		});
 	} else {
@@ -450,46 +439,136 @@ $('#assign').click(function(){
 	}
 });
 
-//修改工时按钮点击事件
+//分配工时按钮点击事件
 $('#btn-laborHour').click(function(){
 	var data = $('#taskTable').bootstrapTable('getSelections');
+	
+	if (data.length === 0) {
+		swal({
+				title: "请选择一条数据!",
+				type: 'warning'
+			});
+	} else {
+		var ID = data[0].ID;
+		
+		$('#laborHourTable').bootstrapTable('destroy');// 销毁原表格内数据
 
-	if(data.length==0 || data.length>1){
+		$('#laborHourTable').bootstrapTable({
+			striped: false,// 隔行变色效果
+			pagination: true,//在表格底部显示分页条
+			pageSize: 5,//页面数据条数
+			pageNumber:1,//首页页码
+			pageList: [1, 3, 5],//设置可供选择的页面数据条数
+			clickToSelect:true,//设置true 将在点击行时，自动选择rediobox 和 checkbox
+			cache: false,//禁用 AJAX 数据缓存
+			sortName:'employee.ID',//定义排序列
+			sortOrder:'asc',//定义排序方式
+			url:'taskManController/getTaskManWithPaging.do',//服务器数据的加载地址
+			sidePagination:'server',//设置在哪里进行分页
+			contentType:'application/json',//发送到服务器的数据编码类型
+			dataType:'json',//服务器返回的数据类型
+			queryParams:function queryParams(params) { //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
+			    			var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+			    				limit: params.limit, //页面大小
+			    				offset: params.offset, //偏移量
+				    			search: "",//初始化搜索文字
+				    			sort: params.sort, //排序列名
+				    			order: params.order, //排位命令（desc，asc）
+				    			ID: ID //任务ID
+			    			};
+			    			return temp;
+			    	  	},
+		  	queryParamsType: "limit", //参数格式,发送标准的RESTFul类型的参数请求
+			selectItemName:'',//radio or checkbox 的字段名
+			undefinedText: '',//当数据为 undefined 时显示的字符
+			singleSelect:true,//禁止多选
+			columns:[{
+				checkbox:true,
+				width:'5%'//宽度
+			},{
+				field:'ID',//返回值名称
+				title:'任务检测ID',//列名
+				align:'center',//水平居中显示
+				valign:'middle',//垂直居中显示
+				width:'5%',//宽度
+				visible:false
+			},{
+				field:'detector',//返回值名称
+				title:'检测人ID',//列名
+				align:'center',//水平居中显示
+				valign:'middle',//垂直居中显示
+				width:'5%',//宽度
+				visible:false
+			},{
+				field:'employeeName',//返回值名称
+				title:'姓名',//列名
+				align:'center',//水平居中显示
+				valign:'middle',//垂直居中显示
+				width:'20%'//宽度
+			},{
+				field:'laborhour',//返回值名称
+				title:'工时',//列名
+				align:'center',//水平居中显示
+				valign:'middle',//垂直居中显示
+				width:'10%'//宽度
+			}]//列配置项,详情请查看 列参数 表格
+			/*事件*/
+		});
+		
+		$('#assignHourModal').modal('show');
+	}
+});
+
+//显示填写工时方法
+$('#editHour').click(function(){
+	var data = $('#laborHourTable').bootstrapTable('getSelections');
+
+	if(data.length === 0){
 		swal({
 			title: "请选中一条数据",
 			type: 'warning'
 		});
 		return;
-	} else if (data[0].laborHour !== '?') {
-		swal({
-			title: "不需要修改工时",
-			type: 'warning'
-		});
 	} else {
 		$('#editHourModal').modal('show');
+		$('#laborhour').val('');
 	}
 });
 
-//修改工时方法
+//分配工时方法
 $('#edit-hour').click(function(){
+	var data = $('#laborHourTable').bootstrapTable('getSelections');
 	var laborHour = $('#laborhour').val().trim();
-	var myreg = /^\+?[1-9][0-9]*$/;
-	var data = $('#taskTable').bootstrapTable('getSelections');
-	var ID = data[0].testProjectID;
+	var myreg = /^\+?[1-9][0-9]*$/; // 验证工时必须为纯数字的正则表达式
+	var ID = data[0].ID;
+	var detector = data[0].detector;
+	
 	if (myreg.test(laborHour)) {
 		$.ajax({
-			url:'testProjectController/editLaborHourInTaskAssign.do',
-			dataType:'json',
+			url:'taskManController/assignLaborHour.do',
 			data: {
 				ID: ID,
+				detector: detector,
 				laborHour: laborHour
 			},
+			dataType:'json',
 			success:function(data){
-				alert(typeof data);
-				if (data === '1') {
+				if (data === "1") {
+					swal({
+						title: "分配成功",
+						type: 'success'
+					});
 					$('#editHourModal').modal('hide');
-					$('#taskTable').bootstrapTable('refresh', {
-						silent: true
+					$('#laborHourTable').bootstrapTable('refresh');
+				} else if (data === "2") {
+					swal({
+						title: "分配工时超过总工时",
+						type: 'error'
+					});
+				} else if (data === "3") {
+					swal({
+						title: "分配工时超过可分配工时",
+						type: 'error'
 					});
 				}
 		  	}
@@ -501,6 +580,7 @@ $('#edit-hour').click(function(){
 		});
 	}
 });
+
 
 
 //分配监督员

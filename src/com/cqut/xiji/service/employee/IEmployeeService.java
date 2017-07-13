@@ -61,6 +61,9 @@ public interface IEmployeeService {
 	String updEmployeePassword(String ID, String password);
 
 	String upheadCropImg(String employeeID,String path);
+
+	boolean employeeExportExcel(HttpServletRequest request,
+			HttpServletResponse response);
 }
 
 

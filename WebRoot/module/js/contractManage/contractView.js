@@ -43,37 +43,189 @@ function getContractByID(){
 		     success:getid=function(data){
 		    	 if (data) {
 		    		var myobj = JSON.parse(data);
-		    		$('#contractID').html(myobj[0].ID);
-		    		$('#fileID').html(myobj[0].fileID);
-		    		$('#show_state').html(myobj[0].state);
-		    		$('#show_contractCode').html(myobj[0].contractCode);
-		    		$('#show_contractName').html(myobj[0].contractName);
-		    		$('#show_signAddress').html(myobj[0].signAddress);
-		    		$('#show_companyName').html(myobj[0].companyName);
-		    		$('#show_oppositeMen').html(myobj[0].oppositeMen);
-		    		$('#show_linkPhone').html(myobj[0].linkPhone);
-		    		$('#show_startTime').html(myobj[0].startTime);
-		    		$('#show_endTime').html(myobj[0].endTime);
-		    		$('#show_employeeName').html(myobj[0].employeeName);
-		    		$('#show_signTime').html(myobj[0].signTime);
-		    		$('#show_contractAmount').html(myobj[0].contractAmount);
-		    		switch (myobj[0].isClassified) {
-		    		case 0: $('#show_isClassified').html("非涉密");break;
-		    		case 1: $('#show_isClassified').html("涉密");break;
-		    		default:
-		    			break;
+		    		chenkDataCon(myobj);
+		    		if(myobj[0].ID == undefined){
+		    			$('#contractID').html(myobj.ID);
+		    		}else{
+		    			$('#contractID').html(myobj[0].ID);
 		    		}
-		    		switch (myobj[0].classifiedLevel) {
-		    		case 0: $('#show_classifiedLevel').html("秘密");break;
-		    		case 1: $('#show_classifiedLevel').html("机密");break;
-		    		case 2: $('#show_classifiedLevel').html("绝密");break;
-		    		case 3: $('#show_classifiedLevel').html("无密级");break;
-		    		default:
-		    			break;
+		    		if(myobj[0].fileID == undefined){
+		    			$('#fileID').html(myobj.fileID);
+		    		}else{
+		    			$('#fileID').html(myobj[0].fileID);
 		    		}
+		    		if(myobj[0].show_state == undefined){
+		    			$('#show_state').html(myobj.state);
+		    		}else{
+		    			$('#show_state').html(myobj[0].state);
+		    		}
+		    		if(myobj[0].contractCode == undefined){
+		    			$('#show_contractCode').html(myobj.contractCode);
+		    		}else{
+		    			$('#show_contractCode').html(myobj[0].contractCode);
+		    		}
+		    		if(myobj[0].contractName == undefined){
+		    			$('#show_contractName').html(myobj.contractName);
+		    		}else{
+		    			$('#show_contractName').html(myobj[0].contractName);
+		    		}
+		    		if(myobj[0].address == undefined){
+		    			$('#show_address').html(myobj.address);
+		    		}else{
+		    			$('#show_address').html(myobj[0].address);
+		    		}
+		    		if(myobj[0].signAddress == undefined){
+		    			$('#show_signAddress').html(myobj.signAddress);
+		    		}else{
+		    			$('#show_signAddress').html(myobj[0].signAddress);
+		    		}
+		    		if(myobj[0].companyName == undefined){
+		    			$('#show_companyName').html(myobj.companyName);
+		    		}else{
+		    			$('#show_companyName').html(myobj[0].companyName);
+		    		}
+		    		if(myobj[0].oppositeMen == undefined){
+		    			$('#show_oppositeMen').html(myobj.oppositeMen);
+		    		}else{
+		    			$('#show_oppositeMen').html(myobj[0].oppositeMen);
+		    		}
+		    		if(myobj[0].linkPhone == undefined){
+		    			$('#show_linkPhone').html(myobj.linkPhone);
+		    		}else{
+		    			$('#show_linkPhone').html(myobj[0].linkPhone);
+		    		}
+		    		if(myobj[0].startTime == undefined){
+		    			$('#show_startTime').html(myobj.startTime);
+		    		}else{
+		    			$('#show_startTime').html(myobj[0].startTime);
+		    		}
+		    		if(myobj[0].endTime == undefined){
+		    			$('#show_endTime').html(myobj.endTime);
+		    		}else{
+		    			$('#show_endTime').html(myobj[0].endTime);
+		    		}
+		    		if(myobj[0].employeeName == undefined){
+		    			$('#show_employeeName').html(myobj.employeeName);
+		    		}else{
+		    			$('#show_employeeName').html(myobj[0].employeeName);
+		    		}
+		    		if(myobj[0].signTime == undefined){
+		    			$('#show_signTime').html(myobj.signTime);
+		    		}else{
+		    			$('#show_signTime').html(myobj[0].signTime);
+		    		}
+		    		if(myobj[0].contractAmount == undefined){
+		    			$('#show_contractAmount').html(myobj.contractAmount);
+		    		}else{
+		    			$('#show_contractAmount').html(myobj[0].contractAmount);
+		    		}
+		    		if(myobj[0].technicalContent == undefined){
+		    			$('#show_technical').html(myobj.technicalContent);
+		    		}else{
+		    			$('#show_technical').html(myobj[0].technicalContent);
+		    		}
+		    		if(myobj[0].isClassified == undefined){
+		    			switch (myobj.isClassified) {
+			    		case 0: $('#show_isClassified').html("非涉密");break;
+			    		case 1: $('#show_isClassified').html("涉密");break;
+			    		default:
+			    			break;
+			    		}
+		    		}else{
+		    			switch (myobj[0].isClassified) {
+			    		case 0: $('#show_isClassified').html("非涉密");break;
+			    		case 1: $('#show_isClassified').html("涉密");break;
+			    		default:
+			    			break;
+			    		}
+		    		}
+		    		if(myobj[0].classifiedLevel == undefined){
+		    			switch (myobj.classifiedLevel) {
+			    		case 0: $('#show_classifiedLevel').html("秘密");break;
+			    		case 1: $('#show_classifiedLevel').html("机密");break;
+			    		case 2: $('#show_classifiedLevel').html("绝密");break;
+			    		case 3: $('#show_classifiedLevel').html("无密级");break;
+			    		default:
+			    			break;
+			    		}
+		    		}else{
+		    			switch (myobj[0].classifiedLevel) {
+			    		case 0: $('#show_classifiedLevel').html("秘密");break;
+			    		case 1: $('#show_classifiedLevel').html("机密");break;
+			    		case 2: $('#show_classifiedLevel').html("绝密");break;
+			    		case 3: $('#show_classifiedLevel').html("无密级");break;
+			    		default:
+			    			break;
+			    		}
+		    		}
+		    		
 		    		}
 		    	 }
 		});
+	}
+}
+
+//检查合同文件数据是否合理
+function chenkDataCon(dataObj) { // 后台数据字段为空就不会传上来
+	if (!dataObj.hasOwnProperty("contractCode") || dataObj.contractCode == null || dataObj.contractCode == undefined || dataObj.contractCode.trim() == "") {
+		dataObj.contractCode = ""; //没有合同文件
+	}
+	if (!dataObj.hasOwnProperty("contractName") || dataObj.contractName == null || dataObj.contractName == undefined || dataObj.contractName.trim() == "") {
+		 dataObj.contractName = "";
+	}
+	if (!dataObj.hasOwnProperty("companyID") || dataObj.companyID == null || dataObj.companyID == undefined || dataObj.companyID.trim() == "") {
+		dataObj.companyID = ""; 
+	}
+	if (!dataObj.hasOwnProperty("companyName") || dataObj.companyName == null || dataObj.companyName == undefined || dataObj.companyName.trim() == "") {
+		dataObj.companyName = "没有该公司,请新增";
+	}
+	if (!dataObj.hasOwnProperty("oppositeMen") || dataObj.oppositeMen == null || dataObj.oppositeMen == undefined || dataObj.oppositeMen.trim() == "") {
+		dataObj.oppositeMen = "";
+	}
+	if (!dataObj.hasOwnProperty("linkPhone") || dataObj.linkPhone == null || dataObj.linkPhone == undefined ) {
+		dataObj.linkPhone = "";
+	}
+	if (!dataObj.hasOwnProperty("employeeID") || dataObj.employeeID == null || dataObj.employeeID == undefined || dataObj.employeeID.trim() == "") {
+		dataObj.employeeID = "";
+	}
+	if (!dataObj.hasOwnProperty("employeeName") || dataObj.employeeName == null || dataObj.contractCode == undefined || dataObj.employeeName.trim() == "") {
+		dataObj.employeeName = "";
+	}
+	if (!dataObj.hasOwnProperty("address") || dataObj.address == null || dataObj.address == undefined || dataObj.address.trim() == "") {
+		dataObj.address = "";
+	}
+	if (!dataObj.hasOwnProperty("signAddress") || dataObj.signAddress == null || dataObj.signAddress == undefined || dataObj.signAddress.trim() == "") {
+		dataObj.signAddress = "";
+	}
+	if (!dataObj.hasOwnProperty("signTime") || dataObj.signTime == null || dataObj.signTime == undefined || dataObj.signTime.trim() == "") {
+		dataObj.signTime = "";
+	}
+	if (!dataObj.hasOwnProperty("startTime") || dataObj.startTime == null || dataObj.startTime == undefined || dataObj.startTime.trim() == "") {
+		dataObj.startTime = "";
+	}
+	if (!dataObj.hasOwnProperty("endTime") || dataObj.endTime == null || dataObj.endTime == undefined || dataObj.endTime.trim() == "") {
+		dataObj.endTime = "";
+	}
+	if (!dataObj.hasOwnProperty("contractAmount") || dataObj.contractAmount == null || dataObj.contractAmount == undefined ) {
+		dataObj.contractAmount = "0";
+	}
+	if (!dataObj.hasOwnProperty("technicalID") || dataObj.technicalID == null || dataObj.technicalID == undefined || dataObj.technicalID.trim() == "") {
+		dataObj.technicalID = "";
+	}
+	if (!dataObj.hasOwnProperty("technicalContent") || dataObj.technicalContent == null || dataObj.technicalContent == undefined || dataObj.technicalContent.trim() == "") {
+		dataObj.technicalContent = "";
+	}
+	if (!dataObj.hasOwnProperty("isClassified") || dataObj.isClassified == null || dataObj.isClassified == undefined || dataObj.isClassified.trim() == "") {
+		dataObj.isClassified = "0";
+	}
+	if (!dataObj.hasOwnProperty("classifiedLevel") || dataObj.classifiedLevel == null || dataObj.classifiedLevel == undefined || dataObj.classifiedLevel.trim() == "") {
+		dataObj.classifiedLevel = "3";
+	}
+	if (!dataObj.hasOwnProperty("contractType") || dataObj.contractType == null || dataObj.contractType == undefined) {
+		dataObj.contractType = "0";
+	}
+	if (!dataObj.hasOwnProperty("contractType") || dataObj.contractType == null || dataObj.contractType == undefined) {
+		dataObj.contractType = "0";
 	}
 }
 

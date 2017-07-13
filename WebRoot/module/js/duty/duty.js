@@ -243,3 +243,7 @@ function find(){
 		query:parame
 	});
 }
+//导出数据
+function exportReport() {
+	window.location.href = "dutyController/dutyExportExcel.do";
+}

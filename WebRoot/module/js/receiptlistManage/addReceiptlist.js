@@ -263,11 +263,15 @@ function initTestProject_event() {
 	});
 
 }
+function handleSearchSample(){
+	curral(searchSampleCode,window,arguments);
+}
 
 // 自动搜索样品编号
-function set_alert_wb_comment(the, state) {
-	var sampleCode = $(the).val();
-	var html = '<ul class="list_sampleCode">';
+function searchSampleCode(args) {
+	
+	var sampleCode = $(args[0]).val();
+	var html = '<ul class="list_sampleCode"  onclick="selectSample(this)" data-state="'+args[1]+'"  >';
 	var list_data;
 	$(".tip-factory .tip-factory-content").html("");// 清空原来的数据
 	$.ajax({
@@ -286,8 +290,7 @@ function set_alert_wb_comment(the, state) {
 		}
 	});
 	for (var i = 0; i < list_data.length; i++) {
-		html += '<li onclick="selectSample(this,\'' + state + '\',\''
-				+ list_data[i].ID + '\')">' + list_data[i].sampleCode + '</li>';
+		html += '<li id="'+list_data[i].sampleCode+'" >' + list_data[i].sampleCode + '</li>';
 	}
 	html += '</ul>';
 	if(list_data != null && list_data.length > 0)
@@ -300,8 +303,15 @@ function set_alert_wb_comment(the, state) {
 	}
 }
 //选择搜索出来的样品后的操作
-function selectSample(the, state, sampleID) {
-	var sampleCode = $(the).text();
+function selectSample(self) {
+	var source = event.srcElement || event.target;
+	console.log("soucre===");
+	console.log(source);
+	var sampleCode = $(source).text();
+	var sampleID = source.id;
+	console.log("self======");
+	console.log(self);
+	var state = self.dataset.state;
 	if (state == "add") {
 
 		$("#addSampleCode").val(sampleCode);
@@ -310,7 +320,7 @@ function selectSample(the, state, sampleID) {
 		$("#editSampleCode").val(sampleCode);
 		$("#editSampleID").val(sampleID);
 	}
-	$(the).parent().css("display", "none"); // 隐藏搜索面板
+	//$(self).parent().css("display", "none"); // 隐藏搜索面板 不需要，因为出厂编号输入框失去焦点也会隐藏
 	isExitSample(sampleCode); // 填充数据--并设置相关属性--避免搜索后不选择
 
 }
@@ -456,6 +466,7 @@ function dealReSave(self) {
 	param.endTime = $("#endTime").val().trim();
 	param.linkPhone = $("#linkPhone").val().trim();
 	param.accordingDoc = $("#accordingDoc").val().trim();
+	param.reCode = $(".headTitel label span:last-child")[0].innerText ;
 	param.reID = obj.reID;
 	param.coID = obj.coID;
 	param.comID = obj.comID;
@@ -517,19 +528,24 @@ function vaildInputData(param) {
 		swal("请选择已存在的委托单位");
 		return false;
 	}
-	
-	/*if (param.address == null || param.address == undefined
-			|| param.address == "") {
-		swal("通讯地址为空");
-		return false;
-	}*/
-
 	if (!isNoramlPhone(param.linkPhone)) {
 		swal("联系人电话格式不正确");
 		return false;
 	}
 	return true;
 }
+function handleCompany(){
+	console.log(this);
+	curral(searchCompany,window,arguments);
+}
+//函数节流处理 --减少执行次数
+function curral(method,context,args){
+	clearTimeout(method.tid);
+	method.tid = setTimeout(function(){
+		method.call(context,args); //虽然传过去是数组，但是函数处理还是和原来一样(args0,arrgs1); apply(是把数组中的每个值都是当作参数处理) 和 call(把args当成一个数组参数传过去) 函数处理也不一样 
+	},400); 
+}
+
 // 搜索公司名称
 function searchCompany() {
 	var companyName = $("#companyName").val();
@@ -1006,15 +1022,21 @@ function initSample() {
 									valign : 'middle',// 垂直居中显示
 									width : '12%',// 宽度
 									formatter : function(value, row, index) {
-										var dele = "", edit = "", print = "";
+										var dele = "", edit = "", confirm = "", print = "";
 										print = "<img src=\"./module/img/printbarcode_icon.png\" alt=\"打印条形码\" title=\"打印条形码\" onclick='print(\""
 												+ row.qrcode + "\")'>";
 
 										edit = "<img src=\"./module/img/edit_icon.png\"  alt=\"编辑\" title='编辑' onclick='editTask("
 												+ JSON.stringify(row) + ")'>";
+										
+										if(row.saveState == 0)
+										{ 
+											confirm = "<img src=\"./module/img/submit_icon.png\"  alt=\"确认\" title='确认' onclick='confirmTask()'>";
+										}
+											
 										dele = "<img src=\"./module/img/delete_icon.png\" alt=\"删除\" title='删除' onclick='deleteTask(\""
 												+ row.ID + "\")'>";
-										return edit + dele + print;
+										return edit + dele + confirm + print;
 									}
 								} ]
 					// 列配置项,详情请查看 列参数 表格
@@ -1022,7 +1044,13 @@ function initSample() {
 					});
 
 }
-
+//确认查看样品信息
+function confirmTask(){
+	var source = event.target || event.srcElement;
+	source.style.display = "none"; 
+	//后面保存处理过
+	
+}
 // 编辑任务框打开
 function editTask() {
 	var data = arguments[0];

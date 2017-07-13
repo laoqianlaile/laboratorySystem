@@ -405,4 +405,10 @@ public class EmployeeController {
 			}
 			return "-1";
 		}
+		
+		@RequestMapping("/employeeExportExcel")
+		@ResponseBody
+		public void employeeExportExcel(HttpServletRequest request,HttpServletResponse response) {
+			service.employeeExportExcel(request, response);
+		}
 }

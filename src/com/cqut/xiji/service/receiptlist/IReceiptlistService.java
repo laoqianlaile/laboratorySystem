@@ -26,7 +26,7 @@ public interface IReceiptlistService {
 			String unit, String require, String reID, String state);//新增或者编辑任务
 	String deleteTaskByID(String taskID); //删除任务
 	String saveSubmitReceipt(String reID, String saveState, String addState,  String companyName, String address, String linkMan,
-			String startTime, String endTime, String linkPhone, String accordingDoc, String coID, String comID);//保存和提交交接单
+			String startTime, String endTime, String linkPhone, String accordingDoc, String reCode,String coID, String comID);//保存和提交交接单
 	Map<String, Object> addReceiptList(HttpSession session, String coID, String proID, String state,HttpServletRequest request); //新增交接单
 	Map<String, Object> getReceiptByReID(String reID); //获取交接单信息通过交接单ID
 	String delReceiptlist(String reID); //删除交接单
@@ -47,5 +47,7 @@ public interface IReceiptlistService {
 			String companyName, String reType, String linkMan,
 			String startTime, String endTime, String classifiedLevel, int limit,
 			int offset, String order, String sort);//初始化涉密管理
+	
+	void inputTaskByCoID(String coID, String reID, String proID); //自动录入样品信息通过校准合同生成概要任务
 	
 }

@@ -94,6 +94,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <label class="control-label">涉密等级:</label>
 				<label id="show_classifiedLevel"></label>
 			</div>
+			<div class="col-xs-12 col-md-12">
+                   	<label class="control-label">技术资料:</label>
+                   	<label id="show_technical"></label>
+            </div>
 		</div>
 	</div>
 	<div class="footer">

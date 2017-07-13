@@ -12,10 +12,10 @@ public interface IContractService {
 	Map<String, Object> getContractWithPaging(int limit, int offset,
 			String order, String sort, String taleName,HttpSession session);
 
-	public int addContract(String contractName, String companyID,String companyName,
+	public int addContract(String contractCode,String contractName, String companyID,String companyName,
 			String oppositeMen, String linkPhone,String employeeID, String employeeName,
 			String address, String signAddress, String startTime,
-			String signTime, String endTime, int isClassified, int classifiedLevel,int contractType);
+			String signTime, String endTime, int isClassified, int classifiedLevel,int contractType,String technicalContent);
 	
 	public List<Map<String, Object>> getIdByCode(String contractCode);
 	
@@ -26,7 +26,7 @@ public interface IContractService {
 			String oppositeMen, String linkPhone, String employeeID,
 			String employeeName, String signAddress, String startTime,
 			String signTime, String endTime,
-			int isClassified, int classifiedLevel);
+			int isClassified, int classifiedLevel,String technicalID,String technicalContent);
 	
 			
 	public int auditContract(String ID, String viewpoint, int state);
@@ -149,5 +149,15 @@ public interface IContractService {
 	 * @return
 	 */
 	public int passMakeContract(String ID);
+
+	
+	/**
+	 * @description 复制合同
+	 * @author LG.hujiajun
+	 * @created 2017年6月30日 下午4:18:27
+	 * @param ID
+	 * @return
+	 */
+	public int cloneContractByID(String ID);
 
 }

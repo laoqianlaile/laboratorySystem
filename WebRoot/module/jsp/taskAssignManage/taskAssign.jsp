@@ -38,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	overflow-x: hidden;
     }
     #btn-assign:hover {
-    	background: #ffc773;
+    	background: #ffc773;R
     }
      #return:hover {
     	background: #ffc773;
@@ -101,14 +101,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<hr />
 	<div class="row">
 		<div class="col-xs-2 col-md-2 col-lg-2">
-			<span id="employeeName">样品管理员:&nbsp;<span></span></span>
+			<span id="employeeName">样品管理员:&nbsp;&nbsp;<span></span></span>
 		</div>
 		<div class="col-xs-8 col-md-8 col-lg-8"></div>
 		<div class="col-xs-1 col-md-1 col-lg-1">
-			<button id="btn-laborHour" type="button" class="btn btn-primary" >修改工时</button>
+			<button id="btn-assign" type="button" class="btn btn-primary" >分配人员</button>
 		</div>
 		<div class="col-xs-1 col-md-1 col-lg-1">
-			<button id="btn-assign" type="button" class="btn btn-primary" >分配人员</button>
+			<button id="btn-laborHour" type="button" class="btn btn-primary" >分配工时</button>
 		</div>
 	</div>
 	<br />
@@ -134,7 +134,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	</div>
   	
-	<!-- 分配弹框 -->
+	<!-- 分配人员弹框 -->
 	<div id="assignPeopleModal" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
@@ -182,14 +182,48 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	</div>
 	
-	<!-- 修改工时弹框 -->
+	<!-- 分配工时弹框 -->
+	<div id="assignHourModal" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="row">
+						<div class="col-xs-11 col-md-11 col-lg-11">
+							<h4>分配工时</h4>
+						</div>
+						<div class="col-xs-1 col-md-1 col-lg-1">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"> 
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-xs-10 col-md-10 col-lg-10"></div>
+						<button id="editHour" type="button" class="btn btn-primary" class="col-xs-1 col-md-1 col-lg-1">填写工时</button>
+					</div>
+					<br/>
+					<div class="row">
+						<div id="laborHourTable" class="col-xs-10 col-md-10 col-lg-10" ></div>	
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="assign-hour" type="button" class="btn btn-primary">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 填写工时弹框 -->
 	<div id="editHourModal" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<div class="row">
 						<div class="col-xs-11 col-md-11 col-lg-11">
-							<h4>修改工时</h4>
+							<h4>填写工时</h4>
 						</div>
 						<div class="col-xs-1 col-md-1 col-lg-1">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"> 
@@ -201,7 +235,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="modal-body">
 					<form id="a" class="form-horizontal">
         				<div class="form-group">
-		    				<label for="" class="col-xs-3 col-md-3 col-lg-3 control-label">请输入工时：</label>
+		    				<label for="" class="col-xs-4 col-md-4 col-lg-4 control-label">请输入需要分配的工时：</label>
 		    				<div class="col-xs-4 col-md-4 col-lg-4">
 		      					<input type="text" class="form-control" id="laborhour" name="" required/>
 		    				</div>
@@ -216,6 +250,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 	</div>
+
 </body>
   
   <script src="module/js/taskAssignManage/taskAssign.js"></script>

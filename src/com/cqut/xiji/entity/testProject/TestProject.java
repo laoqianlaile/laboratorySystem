@@ -19,6 +19,7 @@ public class TestProject extends Entity{
 	private String testTypeID;
 	private String uncertainty;
 	
+
 	public String getID() {
 		return ID;
 	}	
@@ -106,8 +107,15 @@ public class TestProject extends Entity{
 	public void setDescribes(String describes) {
 		this.describes = describes;
 	}
-
 	
+	public String getUncertainty() {
+		return uncertainty;
+	}
+	
+	public void setUncertainty(String uncertainty) {
+		this.uncertainty = uncertainty;
+	}
+
 	
 	@Override
 	public String toString() {
@@ -130,11 +138,4 @@ public class TestProject extends Entity{
 		return "ID";
 	}
 
-	public String getUncertainty() {
-		return uncertainty;
-	}
-
-	public void setUncertainty(String uncertainty) {
-		this.uncertainty = uncertainty;
-	}
 }

@@ -5,7 +5,7 @@ $(function () {
 		pagination: true,//在表格底部显示分页条
 		pageSize: 10,//页面数据条数
 		pageNumber:1,//首页页码
-		pageList: [10, 20, 50, 100, 200, 500],//设置可供选择的页面数据条数
+		pageList: [10,15, 20],//设置可供选择的页面数据条数
 		clickToSelect:true,//设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache: false,//禁用 AJAX 数据缓存
 		sortName:'ID',//定义排序列

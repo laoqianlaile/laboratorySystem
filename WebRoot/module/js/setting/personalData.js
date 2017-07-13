@@ -5,7 +5,7 @@ $(window).load(function() {
 	{
 		thumbBox: '.thumbBox',
 		spinner: '.spinner',
-		imgSrc: 'module/img/avatar.png'
+		imgSrc: 'module/img/person.png'
 	}
 	if(EmployeeInfo[0].headCrop != null && EmployeeInfo[0].headCrop  != undefined && EmployeeInfo[0].headCrop != ""){
 		options.imgSrc = "upload/img/headCrop/"+EmployeeInfo[0].headCrop;
@@ -224,7 +224,7 @@ function onclickNvi(){
 		 html += "<img class = 'imgHead' src ='upload/img/headCrop/"+data[0].headCrop+"'>";
 	 }
 	 else{
-		 html += "<img class = 'imgHead' src ='module/img/file/defaultPhoto.jpg'>";
+		 html += "<img class = 'imgHead' src ='module/img/person.png'>";
 	 }
 	 html +="</div>" +
 		"</td>" +
