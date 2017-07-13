@@ -18,7 +18,7 @@ public interface IStandardService {
 
 	public String addStandard(String uploaderID,String STANDARDCODE, String STANDARDNAME,
 			String TYPE, String SCOPE, int APPLICATIONTYPE, int EDITSTATE,
-			String DESCRIPTION, String fileID);
+			String DESCRIPTION, String fileID,String EquipmentIDs);
 
 	public Map<String, Object> getStandardWithPaging(String STANDARDCODE,
 			String STANDARDNAME, String TYPE, String STATE, String APPLICATIONTYPE, int limit, int offset,
@@ -27,7 +27,7 @@ public interface IStandardService {
 	public String upStandard(String ID,String STANDARDCODE, String STANDARDNAME,
 			String TYPE, String SCOPE, String APPLICATIONTYPE,
 			String EDITSTATE,String SUGGEST, String STATE, String ABANDONAPPLYMAN,
-			 String ABANDONAPPLYREASON);
+			 String ABANDONAPPLYREASON,String EquipmentIDs);
 
 	public List<Map<String, Object>> getStandardType();
 
@@ -41,6 +41,8 @@ public interface IStandardService {
 			String sTANDARDNAME, String tYPE, String sTATE,
 			String aPPLICATIONTYPE, int limit, int offset, String order,
 			String sort);
+
+	public List<Map<String, Object>> getTestProjectByName(String standardName);
 
 
 }

@@ -130,7 +130,7 @@ margin-left:16px;
 							<div class="col-md-3 column" style="margin-top:12px;">
 								<label>状态&nbsp;： </label>
 								<select id="state" style="margin-top:6px;">
-								<option >所有</option>
+								<option value="" >所有</option>
 								<option value="1">待审核</option>
 								<option value="2">通过</option>
 								<option value="3">驳回</option>

@@ -284,14 +284,22 @@ span {
 								</label>
 								<select id="fileSubtype" oninput="isReport()"
 									onpropertychange="isReport()" class="form-control" style="display: inline;width: 50%;" >
-									<option class="form-control" >交接单模板</option>
-									<option class="form-control" >检测合同模板</option>
-									<option class="form-control" >校准合同模板</option>
-									<option class="form-control" >报告模板</option>
+									<option class="form-control">交接单模板</option>
+									<option class="form-control">检测合同模板</option>
+									<option class="form-control">校准合同模板</option>
+									<option class="form-control">检测报告模板</option>
+									<option class="form-control">校准报告模板</option>
 								</select>
 								<img id ="editReportImg" src ='module/img/edit_icon.png' onclick=''  title="修改报告模板" style='cursor:pointer;margin-right:8px;display: none'/>
 						</div>
 						<div class="col-md-6 column" >
+							<select class= "form-control" style="width: 47%;position: absolute;top: -36px;">
+									<option class="form-control">交接单模板</option>
+									<option class="form-control">检测合同模板</option>
+									<option class="form-control">校准合同模板</option>
+									<option class="form-control">检测报告模板</option>
+									<option class="form-control">校准报告模板</option>
+							</select>
 							<input id="editReprotSearch" type="text" class="form-control" placeholder="检测项目搜索"  style="margin-top: 12px;display: none" onblur="hideSearch()" onfocus="showPartTestproject()"  oninput="showPartTestproject()"
 											onpropertychange="showPartTestproject()"/>
 							<div   id="showTestProject" ></div>

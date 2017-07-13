@@ -22,6 +22,7 @@ import com.cqut.xiji.entity.messageNotice.MessageNotice;
 import com.cqut.xiji.entity.standard.Standard;
 import com.cqut.xiji.entity.standardType.StandardType;
 import com.cqut.xiji.entity.template.Template;
+import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
@@ -82,7 +83,7 @@ public class StandardService extends SearchService implements IStandardService{
 	@Override
 	public String addStandard(String uploaderID,String STANDARDCODE, String STANDARDNAME,
 			String TYPE, String SCOPE, int APPLICATIONTYPE,
-			int EDITSTATE, String DESCRIPTION,String fileID ) {
+			int EDITSTATE, String DESCRIPTION,String fileID,String EquipmentIDs) {
 		try {
 			URLDecoder.decode(STANDARDNAME, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
@@ -99,6 +100,7 @@ public class StandardService extends SearchService implements IStandardService{
 		standard.setDescription(DESCRIPTION);
 		standard.setAbandonApplyMan(uploaderID); // 提交人
 		standard.setFileID(fileID);
+		standard.setEquipmentCode(EquipmentIDs);
 		
 		int result = entityDao.save(standard);
 		
@@ -135,6 +137,8 @@ public class StandardService extends SearchService implements IStandardService{
 		String tableName = "Standard";
 		String[] properties = new String[]{
 				"standard.ID",
+				"GROUP_CONCAT(equipment.ID) AS equipmentID",
+				"GROUP_CONCAT(equipment.equipmentName) AS equipmentName",
 				"standard.STANDARDCODE",
 				"standard.STANDARDNAME",
 				"standard.TYPE",
@@ -147,7 +151,9 @@ public class StandardService extends SearchService implements IStandardService{
 				"standard.abandonApplyReason",
 				"case when standard.APPLICATIONTYPE = 0 then '国家标准'"
 				+ "when standard.APPLICATIONTYPE = 1 then '企业标准'"
-				+ "when standard.APPLICATIONTYPE = 2 then '作业指导书' end as APPLICATIONTYPE",
+				+ "when standard.APPLICATIONTYPE = 2 then '作业指导书' "
+				+ "when standard.APPLICATIONTYPE = 3 then '军用标准' "
+				+ "when standard.APPLICATIONTYPE = 4 then '行业标准' end as APPLICATIONTYPE",
 				
 				"case when standard.EDITSTATE = 0 then '不可编辑'"
 				+ "when standard.EDITSTATE = 1 then '可编辑' end as EDITSTATE",
@@ -178,9 +184,10 @@ public class StandardService extends SearchService implements IStandardService{
 		}
 		
 		String joinEntity =" LEFT JOIN standardtype ON standardtype.ID = standard.type "
-				+ " LEFT JOIN employee on employee.ID = standard.abandonApplyMan ";
+				+ " LEFT JOIN employee on employee.ID = standard.abandonApplyMan "
+				+ " LEFT JOIN equipment ON  FIND_IN_SET(equipment.ID,standard.equipmentCode) ";
 		
-		List<Map<String, Object>> result = originalSearchWithpaging(properties, tableName, joinEntity, null, condition, false, null, sort, order, index, pageNum);
+		List<Map<String, Object>> result = originalSearchWithpaging(properties, tableName, joinEntity, null, condition, false, "standard.ID", sort, order, index, pageNum);
 		int count = getForeignCountWithJoin(joinEntity, null, condition, false);
 		
 		
@@ -194,7 +201,7 @@ public class StandardService extends SearchService implements IStandardService{
 	public String upStandard(String ID,String STANDARDCODE, String STANDARDNAME,
 			String TYPE, String SCOPE, String APPLICATIONTYPE,
 			String EDITSTATE,String SUGGEST, String STATE, String ABANDONAPPLYMAN,
-			 String ABANDONAPPLYREASON) {
+			 String ABANDONAPPLYREASON,String EquipmentIDs) {
 		
 		Standard standard = entityDao.getByID(ID, Standard.class);
 		
@@ -226,6 +233,10 @@ public class StandardService extends SearchService implements IStandardService{
 		if(STATE !=null && STATE != "" ){
 			standard.setState(Integer.parseInt(STATE));
 		}
+		if(EquipmentIDs != null && EquipmentIDs != ""){
+			standard.setEquipmentCode(EquipmentIDs);
+		}
+		
 		if(ABANDONAPPLYMAN != null && ABANDONAPPLYMAN !="" && ABANDONAPPLYREASON != null && ABANDONAPPLYREASON !="" ){
 			standard.setAbandonApplyMan(ABANDONAPPLYMAN);
 			standard.setAbandonApplyTime(new Date());
@@ -362,6 +373,34 @@ public class StandardService extends SearchService implements IStandardService{
 		map.put("total", count);
 		map.put("rows", result);
 		return map;
+	}
+
+	@Override
+	public List<Map<String, Object>> getTestProjectByName(String standardName) {
+		String condition = "";
+		String[] properties = new String[] {
+						"standard.ID ",
+						"IF ( "
+						+ " standard.standardCode IS NULL,"
+						+ " standard.standardName,"
+						+ "	CONCAT("
+						+ "		standard.standardCode,"
+						+ "		' - ',"
+						+ "		standard.standardName"
+						+ "	)"
+						+ ")  AS Name"
+			};
+		if(standardName != null && !standardName.equals("")){
+			standardName = standardName.replaceAll(" ", "");
+			condition = " standard.standardName LIKE '%"+standardName+"%' or standard.standardCode  like '%"+standardName+"%' ";
+		}else{
+			condition = " 1=1 ";
+		}
+		
+		List<Map<String, Object>> list = entityDao.findByCondition(properties,
+				condition, Standard.class);
+		
+		return list;
 	}
 
 }

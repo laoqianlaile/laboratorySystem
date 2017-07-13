@@ -63,7 +63,7 @@ function init(){
 				visible:false
 			},{
 				field:'STANDARDCODE',// 返回值名称
-				title:'标准编码',// 列名
+				title:'标准代号',// 列名
 				align:'center',// 水平居中显示
 				valign:'middle',// 垂直居中显示
 				width:'5%',// 宽度
@@ -85,7 +85,20 @@ function init(){
 				title:'技术条件',// 列名
 				align:'center',// 水平居中显示
 				valign:'middle',// 垂直居中显示
-				width:'15%'// 宽度
+				width:'10%'// 宽度
+			},{
+				field:'equipmentID',// 返回值名称
+				title:'设备仪器ID',// 列名
+				align:'center',// 水平居中显示
+				valign:'middle',// 垂直居中显示
+				width:'10%',// 宽度
+				visible:false
+			},{
+				field:'equipmentName',// 返回值名称
+				title:'设备仪器',// 列名
+				align:'center',// 水平居中显示
+				valign:'middle',// 垂直居中显示
+				width:'10%'// 宽度
 			},{
 				field:'SCOPE',// 返回值名称
 				title:'适用范围',// 列名
@@ -222,7 +235,10 @@ function openAddmodal(){
 	
 }
 
-
+//重新加载页面
+function reload() {
+	window.location.reload();
+}
 //上传文件
 function uploadFile() {
 	$("#files").fileupload({
@@ -240,6 +256,7 @@ function uploadFile() {
 						parame.APPLICATIONTYPE = $('#add_APPLICATIONTYPE').val();
 						parame.EDITSTATE = $('#add_EDITSTATE').val();
 						parame.DESCRIPTION = $('#add_DESCRIPTION').val();//
+						parame.EquipmentIDs = getEquipmentIDs('add');
 						if(!checkNull(parame)){
 							data.submit();
 						}
@@ -365,7 +382,7 @@ function recover() {
 
 function checkNull(){
 	if(　arguments[0].STANDARDCODE　== ""){
-		swal({title:"标准编码不能为空",  type:"warning",});
+		swal({title:"标准代号不能为空",  type:"warning",});
 		return true;
 	}
 	if(　arguments[0].STANDARDNAME　== ""){
@@ -404,7 +421,10 @@ function checkNull(){
 		swal({title:"废弃理由不能为空",  type:"warning",});
 		return true;
 	}
-	
+	if(arguments[0].EquipmentIDs == undefined || arguments[0].EquipmentIDs == "" ){
+		swal({title:"设备仪器不能为空",  type:"warning",});
+		return true;
+	}
 }
 //新增标准（处理文件ID）
 function addstandard(fileIDs){
@@ -419,6 +439,7 @@ function addstandard(fileIDs){
 	parame.EDITSTATE = $('#add_EDITSTATE').val();
 	parame.DESCRIPTION = $('#add_DESCRIPTION').val();//
 	parame.fileID = fileIDs;
+	parame.EquipmentIDs = getEquipmentIDs('add');
 	if(checkNull(parame))return;
 	
 	var Content = "有新的标准:"+parame.STANDARDNAME+"(标准名称)"+"-"+parame.STANDARDCODE+"(标准编码)需要审核。";
@@ -482,6 +503,12 @@ function applyMondal(){
 	}
 	if(data[0].APPLICATIONTYPE == "作业指导书"){
 		$('#apply_APPLICATIONTYPE').val("2");	
+	} 
+	if(data[0].APPLICATIONTYPE == "军用标准"){
+		$('#apply_APPLICATIONTYPE').val("3");	
+	}
+	if(data[0].APPLICATIONTYPE == "行业标准"){
+		$('#apply_APPLICATIONTYPE').val("4");	
 	} 
 	$('#apply_APPLICATIONTYPE').attr("disabled","disabled"); 
 	
@@ -550,6 +577,7 @@ function downFile(fileID){
 /* 弹出修改弹框方法 */
 function openEditModal(){
 
+	
 		$('#edit_STANDARDID').val(arguments[0].ID);
 		$('#edit_STANDARDCODE').val(arguments[0].STANDARDCODE);
 		$('#edit_STANDARDNAME').val(arguments[0].STANDARDNAME);
@@ -566,21 +594,52 @@ function openEditModal(){
 		if(arguments[0].APPLICATIONTYPE == "作业指导书"){
 			$('#edit_APPLICATIONTYPE').val("2");	
 		}
+		if(arguments[0].APPLICATIONTYPE == "军用标准"){
+			$('#edit_APPLICATIONTYPE').val("3");	
+		}
+		if(arguments[0].APPLICATIONTYPE == "行业标准"){
+			$('#edit_APPLICATIONTYPE').val("4");	
+		}
 		/*是否编辑处理 */
 		
 		if(arguments[0].EDITSTATE == "可编辑"){
 			$('#edit_EDITSTATE').val("1");
-			$("div#edit .form-control").attr("disabled",false);
-			$("#editbtn").attr("disabled", false); 
 		}
 		if(arguments[0].EDITSTATE == "不可编辑"){
 			$('#edit_EDITSTATE').val("0");
+		}
+		
+		if (arguments[0].STATE == '未提交'){
+			$("div#edit .form-control").attr("disabled",false);
+			$("#editbtn").attr("disabled", false);
+		}
+		else{
 			$("div#edit .form-control").attr("disabled","disabled");
 			$("#editbtn").attr("disabled", true); 
 		}
 		
-		
 		$('#edit_SUGGEST').val(arguments[0].SUGGEST);
+		console.log(arguments[0]);
+		
+		
+		if(arguments[0].equipmentID == "" || arguments[0].equipmentID == null || arguments[0].equipmentID == undefined){
+			$('#editModal').modal('show');
+			return ;
+		}
+		var EquipmentID = arguments[0].equipmentID.split(','); 
+		var EquipmentName = arguments[0].equipmentName.split(',');
+		if(EquipmentID === undefined || EquipmentID === null || EquipmentID === "" 
+			|| EquipmentName === undefined || EquipmentName === null || EquipmentName ===""){
+			return;
+		}
+		$('#edit_EquipmentNames').empty();
+		
+		for(var i = 0 ; i < EquipmentID.length; i++){
+			var ddd = {}
+			ddd.id= EquipmentID[i];
+			ddd.innerHTML = EquipmentName[i];
+			displayChecked(ddd,'edit');
+		}
 		
 	/*	 状态处理
 		
@@ -612,6 +671,7 @@ function edit(){
 	parame.APPLICATIONTYPE = $("#edit_APPLICATIONTYPE").val();
 	parame.EDITSTATE = $('#edit_EDITSTATE').val();
 	parame.STATE = $('#edit_STATE').val();
+	parame.EquipmentIDs = getEquipmentIDs('edit');
 	
 	if(checkNull(parame))return;
 	$.ajax({
@@ -724,4 +784,137 @@ function getStandardType(id){
 		}
 
 	});
+}
+/**
+ * 获取设备信息
+ * 
+ */
+function getEquipment(){
+	var matchName = "";
+	matchName = $('#addEquipmentSearch').val();
+	console.log(matchName);
+	var date;
+	$.ajax({
+		url : 'equipmentController/MatchNameEquipmentInfo.do',
+		dataType : "json",
+		async : false,
+		data : {matchName:matchName},
+		success :function(o){
+			date = JSON.parse(o);
+		},
+		error : function(){
+			return false;
+		}
+	});
+	return date;
+}
+/**
+ * 获得焦点时,模糊匹配展示搜索检测项目
+ */
+function showPartEquipment(type){
+	var data = getEquipment();
+	fullEquipmentData(data,type);
+	console.log(type);
+}
+/**
+ * 失去焦点隐藏搜索
+ * 
+ * @param type
+ */
+function hideSearch(type){
+	setTimeout(function(){
+		$('.showEquipment[name = '+type+']').hide();
+	},500); 
+}
+/**
+ * 点击设备仪器时，添加到被选中的input里
+ * 
+ */
+function displayChecked(equipment,type){
+	
+	if(isSameID(equipment.id,type)){
+		html='<span class = "spanTag"><span class= "singleE" id ="'+equipment.id+'" >'+ equipment.innerHTML +'&nbsp;&nbsp;</span><a  onclick="moveSingleE(this)">x</a></span>'
+		
+		$('#'+type+'_EquipmentNames').append(html);
+		$('.showEquipment[name = '+type+']').hide();
+	}
+	else{
+		swal("请不要重新选择设备仪器");
+	}
+}
+/**
+ * 删除点中的span
+ * 
+ */
+function moveSingleE(SingleEInfo){
+	console.log(SingleEInfo);
+	$(SingleEInfo).parent().remove();
+}
+/**
+ * 判断是否有重复的检测项目
+ * 
+ */
+function isSameID(checkID,type){
+	
+	var allEquipments =$('#'+type+'_EquipmentNames span.singleE');
+	
+	if(allEquipments.length == 0){
+		return true;
+	}
+	else{
+		for(var i=0;i<allEquipments.length;i++){
+			if(allEquipments[i].id === checkID){
+				return false;
+			}
+		}
+		return true;
+	}
+}
+
+/**
+ * 设备仪器数据填充
+ * @param data
+ */
+function fullEquipmentData(data,type){
+	
+	console.log(data);
+	var html = "<ul>";
+	if(data.length == 0){
+		html += "<li class='noDate'>没有查到数据</li>"
+	}
+	else{
+		for(var i = 0; i < data.length; i++){
+			html+='<li id = "'+data[i].ID+'" onclick = "displayChecked(this,\''+type+'\')">'  + data[i].equipmentInfo+ '</li>';
+		}
+	}
+	html +="</ul>";
+	if(type == 'add'){
+		$('.showEquipment[name = add]').html(html);
+		$('.showEquipment[name = add]').show();
+	}
+	else{
+		$('.showEquipment[name = edit]').html(html);
+		$('.showEquipment[name = edit]').show();
+	}
+	
+}
+
+/**
+ * 获取所有仪器设备ID
+ * 
+ */
+function getEquipmentIDs(type){
+	var total = ""
+	var allEquipmentIDs =$('#'+type+'_EquipmentNames span.singleE');
+	if(allEquipmentIDs.length == 0){
+		swal("请至少选中一个仪器设备");
+		return;
+	}
+	else{
+		for(var i=0;i<allEquipmentIDs.length;i++){
+			total += allEquipmentIDs[i].id+",";
+		}
+		total = total.substring(0, (total.length - 1));
+		return total;
+	}
 }

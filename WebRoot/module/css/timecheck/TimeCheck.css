@@ -13,11 +13,11 @@
 
 }
  label{
-    display: inline-block;
-	max-width: 100%;
-	margin-bottom: 5px;
-	font-weight: 700
+     float: left;
+       width: 21%;
+    min-width: 80px;
 } 
+
 .form-control {
     display: inline;
     width: 70%;
@@ -49,8 +49,8 @@
 	line-height:36px;
 }
 .text{
-	display: inline;
-	width: 70%;
+    display: inline;
+    width: 70%;
 }
 .form-control{
 	display: inline;
@@ -75,7 +75,7 @@
 }
 .mystyle{
 	height:34px;
-	width:200px;
+	width:296px;
 
 	line-height:20px;
 	font-size:17px;
@@ -170,7 +170,9 @@ li:hover{
 }
 #restcontent{
 	height: 70px;
-	background-color: #e8f3f9;
+    background-color: #e8f3f9;
+	margin-top:10px;
+	margin-bottom:20px;
 	position: relative;
 }
 .btncss{
@@ -178,6 +180,11 @@ li:hover{
 	right: 30px;
 	top: 50%;
 	margin-top: -17px;
+}
+.thisbtn{
+	float: right;
+	    margin-top: 18px;
+    margin-right: 20px;
 }
 .btncss:hover {
     background: #ffc773;

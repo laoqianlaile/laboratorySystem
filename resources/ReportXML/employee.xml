@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workbook>
+	<sheet id="sheet1" sheetName="sheet1">
+		<style> 
+		   <colWidth>
+                <widthItem>3000</widthItem>
+                <widthItem>3000</widthItem>
+                <widthItem>3000</widthItem>
+                <widthItem>3000</widthItem>
+                <widthItem>3000</widthItem>
+                <widthItem>3000</widthItem>
+                <widthItem>3000</widthItem>
+                <widthItem>3000</widthItem>
+                <widthItem>3000</widthItem>
+                <widthItem>3000</widthItem>
+                <widthItem>3000</widthItem>
+                <widthItem>3000</widthItem>
+                <widthItem>3000</widthItem>
+                <widthItem>3000</widthItem>
+                <widthItem>3000</widthItem>
+                <widthItem>3000</widthItem>
+                <widthItem>3000</widthItem>
+            </colWidth>
+		 </style> 
+		<!-- 定义动态表头 -->
+		<dynamicReportHeader>
+			<!-- 动态可变长表头 -->
+			<dynamicLengthReportHeader>
+				<header>
+					<require>
+						dynamicLengt1
+					</require>
+				</header>
+			</dynamicLengthReportHeader>
+			
+			<!-- 静态单表头 -->
+			<staticSingleReportHeader>
+				<header id="header1">
+					<address>
+						<row>1</row>
+						<col>0</col>
+					</address>
+					<title>员工编号</title>
+				</header>
+
+				<header id="header2">
+					<address>
+						<row>1</row>
+						<col>1</col>
+					</address>
+					<title>账号名</title>
+				</header>
+
+				<header id="header3">
+					<address>
+						<row>1</row>
+						<col>2</col>
+					</address>
+					<title>员工名</title>
+				</header>
+
+				<header id="header4">
+					<address>
+						<row>1</row>
+						<col>3</col>
+					</address>
+					<title>性别</title>
+				</header>
+
+				<header id="header5">
+					<address>
+						<row>1</row>
+						<col>4</col>
+					</address>
+					<title>邮箱</title>
+				</header>
+				
+				<header id="header6">
+					<address>
+						<row>1</row>
+						<col>5</col>
+					</address>
+					<title>地址</title>
+				</header>
+				
+				<header id="header7">
+					<address>
+						<row>1</row>
+						<col>6</col>
+					</address>
+					<title>手机号</title>
+				</header>
+				<header id="header8">
+					<address>
+						<row>1</row>
+						<col>7</col>
+					</address>
+					<title>出生日期</title>
+				</header>
+				
+				<header id="header9">
+					<address>
+						<row>1</row>
+						<col>8</col>
+					</address>
+					<title>身份证号</title>
+				</header>
+				
+				<header id="header10">
+					<address>
+						<row>1</row>
+						<col>9</col>
+					</address>
+					<title>文化程度</title>
+				</header>
+				<header id="header11">
+					<address>
+						<row>1</row>
+						<col>10</col>
+					</address>
+					<title>毕业学校</title>
+				</header>
+				<header id="header12">
+					<address>
+						<row>1</row>
+						<col>11</col>
+					</address>
+					<title>职称</title>
+				</header>
+				<header id="header13">
+					<address>
+						<row>1</row>
+						<col>12</col>
+					</address>
+					<title>角色</title>
+				</header>
+				<header id="header14">
+					<address>
+						<row>1</row>
+						<col>13</col>
+					</address>
+					<title>部门</title>
+				</header>
+				<header id="header15">
+					<address>
+						<row>1</row>
+						<col>14</col>
+					</address>
+					<title>职务</title>
+				</header>
+				<header id="header16">
+					<address>
+						<row>1</row>
+						<col>15</col>
+					</address>
+					<title>能力等级</title>
+				</header>
+				<header id="header17">
+					<address>
+						<row>1</row>
+						<col>16</col>
+					</address>
+					<title>创建时间</title>
+				</header>
+			</staticSingleReportHeader>
+		</dynamicReportHeader>
+		<!-- 表格数据体 -->
+		<dataArea>
+			<!-- 起始点 -->
+			<basePoint>
+				<row>2</row>
+				<col>0</col>
+			</basePoint>
+
+			<!-- 数据项 -->
+			<dataItem>
+				<item>employeeCode</item>
+				<item>loginName</item>
+				<item>employeeName</item>
+				<item>sex</item>
+				<item>email</item>
+				<item>address</item>
+				<item>phoneNumber</item>
+				<item>birthday</item>
+				<item>IDCard</item>
+				<item>eduLevel</item>
+				<item>graduate</item>
+				<item>jobTitle</item>
+				<item>roleName</item>
+				<item>departmentName</item>
+				<item>dutyName</item>
+				<item>level</item>
+				<item>createTime</item>
+			</dataItem>
+		</dataArea>
+	</sheet>
+</workbook>
+

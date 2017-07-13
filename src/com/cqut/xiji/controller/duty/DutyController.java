@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 import net.sf.json.JSONArray;
@@ -68,5 +70,10 @@ public class DutyController{
 	public String getAllDutyName(){
 		List<Map<String, Object>> result = service.getAllDutyName();
 		return JSONArray.fromObject(result).toString();
+	}
+	@RequestMapping("/dutyExportExcel")
+	@ResponseBody
+	public void dutyExportExcel(HttpServletRequest request,HttpServletResponse response) {
+		service.dutyExportExcel(request, response);
 	}
 }

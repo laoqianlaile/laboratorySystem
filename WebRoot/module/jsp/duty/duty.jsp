@@ -136,15 +136,16 @@ margin-left:16px;
 				class="form-control" id="linkdutytName">
 		</div>
 		<div class="col-md-3.5 column">
-		<button id="Import" onclick="" class="btn btn-primary"
+		<!-- <button id="Import" onclick="" class="btn btn-primary"
 					type="button">
 					<em class=""></em> 导入
 				</button>
-				<button id="export" onclick="" class="btn btn-primary"
+				-->
+				<button id="export" onclick="exportReport()" class="btn btn-primary"
 					type="button">
 					<em class=""></em> 导出
 				</button>
-				
+				 
 		</div>
 
 	</div>

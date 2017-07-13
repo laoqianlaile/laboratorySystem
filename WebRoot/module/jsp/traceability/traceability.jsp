@@ -29,16 +29,8 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-<link rel="stylesheet" type="text/css"
-	href="module/css/traceability/traceability.css">
-<link rel="stylesheet" href="module/css/traceability/bootstrap.min.css"
-	type="text/css"></link>
-<link rel="stylesheet" href="module/css/traceability/bootstrap.css"
-	type="text/css"></link>
-<!-- <link rel="stylesheet" href="module/css/bootstrap.css" type="text/css"></link> -->
+
+			<link rel="stylesheet" type="text/css" href="module/css/bootstrap.min.css">
 
 <link rel="stylesheet" type="text/css"
 	href="assets/css/bootstrap-theme.min.css">
@@ -46,7 +38,10 @@
 	href="assets/css/bootstrap-table.min.css">
 <link rel="stylesheet" type="text/css"
 	href="assets/css/bootstrap-datetimepicker.min.css">
-
+	<link rel="stylesheet" type="text/css"
+	href="module/css/traceability/traceability.css">
+	
+	
 <script type="text/javascript" src="assets/js/jquery-3.1.1.min.js"></script>
 <!-- <script type="text/javascript"
 	src="assets/fileupload/jquery.ui.widget.js"></script>
@@ -65,7 +60,7 @@
 	src="module/js/traceability/traceability.js"></script>
 <body>
 	<!-- 功能按钮 -->
-	<div class="wrapper">
+	<div>
 		<div style="height:70px">
 			<span id="yearvalue" hidden><%=traceabilityYear %></span><span
 				id="codevalue" hidden><%=traceabilityCode %></span>
@@ -75,59 +70,94 @@
 			</div>
 			<p style="float:right;">编号:<label><%=traceabilityCode %></label></p>
 		</div>
+		
+		<br>
+		<br>
 		<div id="searcherArea">
 		
 			<div class="list-searcher">
-				<span>设备名称：</span><input type="text" id="equipmentName"
+			<div class="col-xs-4 col-md-4 col-lg-4">
+				<label>设备名称：</label>
+				<input type="text" id="equipmentName"
 					name="equipmentName" class="form-control"
-					aria-describedby="basic-addon1"> <span>规格型号：</span><input
+					aria-describedby="basic-addon1"></div>
+					
+					<div class="col-xs-4 col-md-4 col-lg-4">
+					 <label>规格型号：</label><input
 					type="text" id="model" name="model"
-					class="form-control" aria-describedby="basic-addon1"> <span>审核状态：</span><select
+					class="form-control" aria-describedby="basic-addon1"> </div>
+					<div class="col-xs-4 col-md-4 col-lg-4">
+					<label>审核状态：</label><select
 					id="auditState" name="auditState" class="form-control"><option>全部</option>
 					<option>未审核</option>
 					<option>审核通过</option>
 					<option>审核不通过</option>
-
-				</select>
-				<button type="button" id="artSearch" class="btn btn-info thisbtn"
-					onclick="search()">搜索</button>
+					</select></div>
+				
 			</div>
+			
 			<div class="list-searcher">
-				<span>仪器编号：</span><input type="text" id="equipmentCode"
-					name="equipmentCode" class="form-control"
-					aria-describedby="basic-addon1"> <span>校准服务机构：</span><input
+					<div class="col-xs-4 col-md-4 col-lg-4">
+					 <label>校准服务机构：</label><input
 					type="text" id="correctOrgan" name="correctOrgan"
-					class="form-control" aria-describedby="basic-addon1"><span
-					style="width:80px">校验时间：</span><input type="date"
-					style="width: 140px;" id="startTime" name="startTime"
-					class="form-control" aria-describedby="basic-addon1" /><span
-					style="width:20px;">至</span><input type="date"
-					style="width: 140px;" id="endTime" name="endTime"
-					class="form-control" aria-describedby="basic-addon1" />
+					class="form-control" aria-describedby="basic-addon1"></div>
+					<div class="col-xs-4 col-md-4 col-lg-4">
+					<label>校验时间：</label>
+					 <div class="input-group date form_datetime timeChooseDiv"> <input 
+					 id="startTime" name="startTime"
+					class="form-control" size="16"
+						type="text" value="" readonly="true" />
+					 <span class="input-group-addon"><span
+						class="glyphicon glyphicon-remove"></span></span> <span
+						class="input-group-addon"><span
+						class="glyphicon glyphicon-calendar"></span></span>
+					</div></div>
+					
+					<div class="col-xs-4 col-md-4 col-lg-4">
+					<label>至</label>					
+					<div class="input-group date form_datetime timeChooseDiv"><input
+					 id="endTime" name="endTime"
+					class="form-control" size="16"
+						type="text" value="" readonly="true" />
+					    <span class="input-group-addon"><span
+						class="glyphicon glyphicon-remove"></span></span> <span
+						class="input-group-addon"><span
+						class="glyphicon glyphicon-calendar"></span></span>
+					</div>
 			</div>
 		</div>
-
-		<div class="mainTableDate">
-			<div class="form-group">
+		
+		<div class="list-searcher">
+				<div class="col-xs-4 col-md-4 col-lg-4" style="clear: both;">
+				<label>仪器编号：</label>
+				<input type="text" id="equipmentCode"
+					name="equipmentCode" class="form-control"
+					aria-describedby="basic-addon1"></div>
+			</div>
+		    <div id="restcontent">
+		    <button type="button" id="artSearch" class="btn btn-primary thisbtn"
+					onclick="search()">搜索</button>
 				<button type="button" id="artShow"
-					class="btn btn-info thisbtn glyphicon glyphicon-plus"
+					class="btn btn-primary thisbtn"
 					onclick="add()">&nbsp;新增</button>
 				<button type="button" id="artEdit"
-					class="btn btn-info thisbtn glyphicon glyphicon-edit"
+					class="btn btn-primary thisbtn"
 					onclick="Updatesubmit()">&nbsp;修改</button>
 				<button type="button" id="artDel"
-					class="btn btn-info thisbtn glyphicon glyphicon-remove"
+					class="btn btn-primary thisbtn"
 					onclick="del()">&nbsp;刪除</button>
 				<button type="button" id="AddSubmit"
-					class="btn btn-info thisbtn glyphicon glyphicon-ok"
+					class="btn btn-primary thisbtn"
 					onclick="addSubmit()" style="float:right;display:none">&nbsp;提交</button>
 				<button type="button" id="uploadTable"
-					class="btn btn-info thisbtn glyphicon glyphicon-upload"
+					class="btn btn-primary thisbtn"
 					onclick="Upload()">上传检测记录表</button>
 				<button type="button" id="upload_Table"
-					class="btn btn-info thisbtn glyphicon glyphicon-list-alt"
+					class="btn btn-primary thisbtn"
 					onclick="allData()">全部数据</button>
-			</div>
+		    </div>
+		    <hr>
+		<div class="mainTableDate">
 			<table id="table" class="table">
 			</table>
 		</div>
@@ -197,4 +227,18 @@
 		</div>
 	</div>
 </body>
+	<script>
+	$('.form_datetime').datetimepicker({
+		minView:'month',
+		format: 'yyyy-mm-dd',
+		weekStart:1,
+		todayBtn:1,
+		autoclose:1,
+		todayHighlight:1,
+		startView:2,
+		forceParse:0,
+		showMeridian:1,
+		language:'zh-CN'      /*此属性是显示顺序，还有显示顺序是mm-dd-yyyy*/
+	});
+  	</script>
 </html>

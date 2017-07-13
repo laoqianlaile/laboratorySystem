@@ -28,6 +28,7 @@ if (qualiyPlanId != null && qualiyPlanId != ""){
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<link rel="stylesheet" type="text/css" href="module/css/personContrast/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="module/css/bootstrap.min.css">
 	<link rel="stylesheet" href="module/css/personContrast/bootstrapValidator.min.css" type="text/css"/>
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
@@ -61,60 +62,87 @@ if (qualiyPlanId != null && qualiyPlanId != ""){
 	      <p id="Serialnumber">编号:<label><%=personContrastCode %></label></p>
 		  <div class="searchbox2">
 			  <form class="form-horizontal" role="form">
+			  <br>
+			  <br>
+			  <br>
 				  <div class="form-group">
 				  
-					  <span class="col-sm-1 control-label" for="projectCode">比对项目编号</span>
-					  <div class="col-sm-2">
+					  <div class="col-xs-4 col-md-4 col-lg-4">
+					   <label for="projectCode">比对项目编号:</label>
 					  <input type="text" class="form-control" id="projectCode" placeholder="">
 					  </div>
-					  
-					  <span class="col-sm-1 control-label" for="projectName">比对项目</span>
-					  <div class="col-sm-2">
+					  <div class="col-xs-4 col-md-4 col-lg-4">
+					   <label for="projectName">比对项目:</label>
 					  <input type="text" class="form-control" id="projectName" placeholder="">
 					  </div>
-					   <span class="col-sm-1 control-label">比对人员</span>
-					  <div class="col-sm-2">
+					  
+					  <div class="col-xs-4 col-md-4 col-lg-4">
+					   <label>比对人员:</label>
 					     <input type="text" class="form-control" id="employeeID1" placeholder="">
 					  </div>
-					  <button type="button" id="" class="btn btn-info " onclick="query()">查询</button>
 				  </div>
 				  
 				  <div class="form-group">  
 					 
-					  <span class="col-sm-1 control-label">测试装置</span>
-					  <div class="col-sm-2">
-					      <input type="text" class="form-control" id="testDevice" placeholder="">
-					  </div>  
-					  <span class="col-sm-1 control-label">待比对人员</span>
-					  <div class="col-sm-2">
+
+				
+					  <div class="col-xs-4 col-md-4 col-lg-4">
+					  	  <label>待比对人员:</label>
 					     <input type="text" class="form-control" id="employeeID2" placeholder="">
 					  </div>
-					  <span class="col-sm-1 control-label">执行时间</span>
-					  <div class="col-sm-2">
-					      <input class="form_datetime form-control " type="text" id="startTime">
+
+					  <div class="col-xs-4 col-md-4 col-lg-4">
+					  	<label>执行时间:</label>
+					  	<div class="input-group date form_datetime timeChooseDiv">
+					      <input class="form-control " size="16"
+						type="text" value="" readonly="true" id="startTime">
+					    <span class="input-group-addon"><span
+						class="glyphicon glyphicon-remove"></span></span> <span
+						class="input-group-addon"><span
+						class="glyphicon glyphicon-calendar"></span></span>
+					     </div>
 					  </div>
-					  <span class="to">至</span>
-					  <div class="col-sm-2">
-					     <input class="form_datetime form-control " type="text" id="endTime">
+	
+					  <div class="col-xs-4 col-md-4 col-lg-4">
+					  	 <label>至:</label>
+					  	 <div class="input-group date form_datetime timeChooseDiv">
+					     <input class="form-control " size="16"
+						type="text" value="" readonly="true" id="endTime">
+					     <span class="input-group-addon"><span
+						class="glyphicon glyphicon-remove"></span></span> <span
+						class="input-group-addon"><span
+						class="glyphicon glyphicon-calendar"></span></span>
+					     </div>
 					  </div>
 				  </div>
 				  
+				 <div class="form-group">  				  
+					  <div class="col-xs-4 col-md-4 col-lg-4">
+					  <label>测试装置:</label>
+					      <input type="text" class="form-control" id="testDevice" placeholder="">
+					  </div>  
+					 </div>
 			  </form>
 		  </div>
   
 		    <!-- 表格2-->
-		    <div class="tablebox">
-		    <button type="button" class="btn btn-info " onclick="addrow(this)">新增</button>
-		    <button type="button" class="btn btn-info " onclick="deletelist(this)">删除</button>
-		    <button type="button" class="btn btn-info " onclick="updataPersonContrast(this)">修改</button>
-		    <button type="button" class="btn btn-info disappear"  id="disappear" onclick="addpersonconTrast()">提交</button>
-		    <button type="button" class="btn btn-info"  onclick="refreshAll()">刷新全部</button>		  	
-		  	<table id="table"></table>  	
+		    <div id="restcontent">
+		    <button type="button" class="btn btn-primary thisbtn" onclick="addrow(this)">新增</button>
+		    <button type="button" class="btn btn-primary thisbtn" onclick="deletelist(this)">删除</button>
+		    <button type="button" class="btn btn-primary thisbtn" onclick="updataPersonContrast(this)">修改</button>
+		    <button type="button" class="btn btn-primary thisbtn"  id="disappear" onclick="addpersonconTrast()">提交</button>
+		    <button type="button" class="btn btn-primary thisbtn"  onclick="refreshAll()">刷新全部</button>	
+		    <button type="button" id="" class="btn btn-primary thisbtn " onclick="query()">查询</button>	  	
 		  	</div>
+		  	<hr>
+		  	<table id="table"></table>  
+		  		    <div id="restcontent">
+		  		    <button type="button" id="asda" class="btn btn-primary thisbtn" data-toggle="modal"  onclick="uploadfile()">&nbsp;上传结果</button>
+			   		  </div>
+			   		  
+			   		  	<hr>
 			<div id="bottom">
-			  	<button type="button" id="asda" class="btn btn-info thisbtn" data-toggle="modal"  onclick="uploadfile()">&nbsp;上传结果</button>
-			    <table id="tablefile">
-			    
+			   <table id="tablefile">
 			    </table>
 		  	</div>
 		  	<!-- 上传文件弹框-->

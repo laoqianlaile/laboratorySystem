@@ -152,6 +152,7 @@ function query() {
 	refresh();
 
 }
+//查看文件
 function lookfileP(fileID) {
 		$.post("fileOperateController/onlinePreview.do", {
 			ID : fileID
@@ -163,7 +164,7 @@ function lookfileP(fileID) {
 			}
 		});
 	}
-
+//查看文件
 function lookfile() {
 	var rows = $("#table").bootstrapTable('getSelections');
 	if (rows.length == 0) {
@@ -206,7 +207,7 @@ function find(){
 
 
 
-
+//不通过方法
 function NoPassModal(ID,SUGGEST,STATE){
 	if(SUGGEST === undefined || SUGGEST === "undefined") {
 		SUGGEST = "";
@@ -221,6 +222,7 @@ function NoPassModal(ID,SUGGEST,STATE){
 	 }
 	
 }
+//通过方法
 function PassModal(ID,SUGGEST,STATE){
 	if(SUGGEST === undefined) {
 		SUGGEST = "";
@@ -237,6 +239,7 @@ function PassModal(ID,SUGGEST,STATE){
 	
 	
 }
+//不通过
 function NoPass(){
 	if($('#ID').val())
 	var parame = {};
@@ -258,6 +261,7 @@ function NoPass(){
 	
 	
 }
+//通过
 function Pass(){
 	var parame = {};
 	parame.ID = $('#ID').val();

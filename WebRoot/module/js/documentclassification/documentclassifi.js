@@ -6,9 +6,9 @@ $(function(){
 		pagination: true,//在表格底部显示分页条
 		classes:'table table-condensed',
 		clickToSelect:true,
-		pageSize: 10,//页面数据条数
+		pageSize: 20,//页面数据条数
 		pageNumber:1,//首页页码
-		pageList: [1,2,3, 10, 20, 50, 200, 500],//设置可供选择的页面数据条数
+		pageList: [5,10, 20,50],//设置可供选择的页面数据条数
 		cache: false,//禁用 AJAX 数据缓存
 		sortName:'ID',//定义排序列
 		sortOrder:'asc',//定义排序方式
@@ -18,13 +18,13 @@ $(function(){
 		dataType:'json',//服务器返回的数据类型
 //		queryParams:'',//请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
 	    columns:[{
+	    	field:'ID',
+	    	visible:false,
+	    },{
 	    	checkbox:true,
 	    	align:'center',
 	    	valign:'middle',
-	    	width:'20',
-	    },{
-	    	field:'ID',
-	    	visible:false,
+	    	width:'30',
 	    },{
 	    	field:'number',
 	    	title:'序号',

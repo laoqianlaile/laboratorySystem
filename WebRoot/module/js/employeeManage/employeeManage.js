@@ -792,10 +792,37 @@ function del(IDs) {
 	});
 }
 
+//导出数据
 function exportReport() {
 	window.location.href = "employeeController/employeeExportExcel.do";
 }
 
+//导入数据
+
+
+//检查文件类型
+function checkFile(o) {
+	$("#chooseFile").attr("disabled", "disabled");
+	var filePath = $(o).val();
+	if (filePath != "" && filePath != undefined) {
+		var arr = filePath.split('\\');
+		var fileName = arr[arr.length - 1];
+		$("#fileName").html(fileName);
+	}
+	if (o.value.indexOf('.xls') < 0 && o.value.indexOf('.xlsx') < 0) {
+		swal("此类型文件不能上传");
+		$("#chooseFile").removeAttr("disabled");
+		$("##fileName").empty(); // 清空子元素
+	}
+} 
+
+
+//重新加载页面
+function reload() {
+	window.location.reload();
+}
+
+//核对身份证号
 function checkIDCard(IDCard) {
 	var city = {11 : "北京",12 : "天津",13 : "河北",14 : "山西",15 : "内蒙古",21 : "辽宁",22 : "吉林",23 : "黑龙江 ",31 : "上海",
 		32 : "江苏",33 : "浙江",34 : "安徽",35 : "福建",36 : "江西",37 : "山东",41 : "河南",42 : "湖北 ",43 : "湖南",44 : "广东",

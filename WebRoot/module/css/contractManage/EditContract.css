@@ -12,7 +12,7 @@ body{
 }
 .showContract{
 	width:99%;
-	height:250px;
+	height:300px;
 	margin:20px 10px;
 }
 .showContract .top{
@@ -36,7 +36,7 @@ body{
 }
 .contract_code .contractCode{
 	height:40px;
-	width:300px;
+	width:340px;
 }
 .control-label{
 	width: 22%;
@@ -49,7 +49,7 @@ body{
 }
 .showContract .bottom{
 }
-.showContract .bottom div.col-xs-4,div.col-md-2{
+.showContract .bottom div.col-xs-4,div.col-xs-9,div.col-md-2{
 	height:32px;
 	line-height:32px;
 	margin:10px 0;
@@ -212,6 +212,45 @@ label.wide{
 .testProjectName ul li:hover{
 	background-color:#dcdcdc;
 }
+.testStandard{
+	position: absolute;
+	height: auto;
+	max-height: 100px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    margin-left: 21.5%;
+    float: left;
+    width: 66.5%;
+    display: none;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 3px;
+    background-color: #fff;
+    z-index: 10;
+}
+.testStandard ul {
+	display: block;
+	height:auto;
+    max-height: 100px;
+    overflow-y: scroll;
+	border:none;
+	margin:0;
+	margin-left:-40px;
+}
+.testStandard ul li{
+	display: block;
+    vertical-align: middle;
+	height:30px;
+	line-height: 30px;
+	list-style-type: none;
+	text-indent: 12px;
+}
+.testStandard ul li.noDate{
+ 	color: red;
+}
+.testStandard ul li:hover{
+	background-color:#dcdcdc;
+}
 .sample{
 	position: absolute;
 	height: auto;
@@ -272,7 +311,7 @@ label.wide{
 	margin-top: -2px;
     margin-right: 10px;
 }
-.contractFile .top .btnAdd button{
+.contractFile .top .btnAdd .btn{
 	width:106px;
 	height:30px;
 	line-height:20px;
@@ -280,6 +319,10 @@ label.wide{
 	background-color:#198ac8;
 	color:#fff;
 	border: none;
+}
+.contractFile .top .btnAdd .btn:HOVER{
+	background-color:#ffad33;
+	color:#364760;
 }
 .contractFile .bottom{
 	margin:20px 10px;
@@ -306,10 +349,10 @@ label.wide{
 	margin:0 10px;
 }
 .contractFileItem .top .btnAdd{
-	margin-top: 4px;
+	margin-top: -2px;
     margin-right: 10px;
 }
-.contractFileItem .top .btnAdd button{
+.contractFileItem .top .btnAdd .btn{
 	width:106px;
 	height:30px;
 	line-height:20px;
@@ -318,12 +361,15 @@ label.wide{
 	color:#fff;
 	border: none;
 }
-
+.contractFileItem .top .btnAdd .btn:HOVER{
+	background-color:#ffad33;
+	color:#364760;
+}
 .contractFileItem .bottom{
 	margin:20px 10px;
 	height:250px;
 	width:99%;
-	border:1px solid #ccc;
+	//border:1px solid #ccc;
 }
 #show_contractFileItem{
 	min-width:1042px;
@@ -337,6 +383,10 @@ label.wide{
 	color:#364760;
 	background-color:#fff;
 }
+.footer button#btn-back:HOVER{
+	color:#364760;
+	background-color:#ffad33;
+}
 .footer button#btn-edit{
 	margin-left:10px;
 }
@@ -347,6 +397,10 @@ label.wide{
 	color:#eee;
 	background-color:#364760;
 	border:2px solid #475879;
+}
+.footer button:HOVER{
+	color:#364760;
+	background-color:#ffad33;
 }
 #show_contractFile thead,.modal-header {
 	background-color: #364760;

@@ -13,6 +13,9 @@ public class Originaldata extends Entity{
 	private String remarks;
 	private int state;
 	private String suggest;
+	private String name;
+	private String codeOne;
+	private String codeTwo;
 	
 	public String getID() {
 		return ID;
@@ -64,11 +67,17 @@ public class Originaldata extends Entity{
 		this.suggest = suggest;
 	}
 	
+	
+	
 	@Override
 	public String toString() {
-		return "Originaldata [" +  "ID=" + ID  + ", " +  "taskID=" + taskID  + ", " +  "originaldataCode=" + originaldataCode  + ", " +  "fileID=" + fileID  + ", " +  "remarks=" + remarks  + ", " +  "state=" + state  + ", " +  "suggest=" + suggest  + ", "   + "]";
+		return "Originaldata [ID=" + ID + ", taskID=" + taskID
+				+ ", originaldataCode=" + originaldataCode + ", fileID="
+				+ fileID + ", remarks=" + remarks + ", state=" + state
+				+ ", suggest=" + suggest + ", name=" + name + ", codeOne="
+				+ codeOne + ", codeTwo=" + codeTwo + "]";
 	}
-	
+
 	@Override
 	public String getTableName() {
 		// TODO Auto-generated method stub
@@ -79,5 +88,29 @@ public class Originaldata extends Entity{
 	public String getPrimaryKey() {
 		// TODO Auto-generated method stub
 		return "ID";
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCodeOne() {
+		return codeOne;
+	}
+
+	public void setCodeOne(String codeOne) {
+		this.codeOne = codeOne;
+	}
+
+	public String getCodeTwo() {
+		return codeTwo;
+	}
+
+	public void setCodeTwo(String codeTwo) {
+		this.codeTwo = codeTwo;
 	}
 }

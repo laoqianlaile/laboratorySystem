@@ -63,6 +63,13 @@ function initData(){
 			width:'10%',//宽度
 			visible:false
 		},{
+			field:'isInput',//返回值名称
+			title:'isInput',//列名
+			align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+			width:'10%',//宽度
+			visible:false
+		},{
 			field:'contractCode',//返回值名称
 			title:'合同编号',//列名
 			align:'center',//水平居中显示
@@ -299,6 +306,8 @@ function wdownFile(){
 
 /* 打开新增弹出框 */
 function showAddModal(){
+	$('#add_contractCodeM').val("");
+	$('#add_contractCode').val("");
 	$('#add_contractName').val("");
 	$('#add_companyName').val("");
 	$('#add_address').val("");
@@ -309,6 +318,7 @@ function showAddModal(){
 	$('#add_signTime').val("");
 	$('#add_startTime').val("");
 	$('#add_endTime').val("");
+	$('#add_technical').val("");
 	$("#addModal").modal("show");
 }
 
@@ -330,9 +340,38 @@ function classifiedLevelSth(){
 	}
 }
 
+function checkCode(obj){
+	if(/^\d{0,4}$/.test(obj.value)){
+		obj.value = obj.value;
+	}else{
+	    obj.value = obj.value.substring(0,obj.value.length-1);
+	}
+	addContractCode();
+}
+
+function addContractCode(){
+	var contractCodeL = $("input[name='contractCodeL']:checked").val();
+	if(!contractCodeL || typeof(contractCodeL) == "undefined" || contractCodeL.trim() == ""){
+		contractCodeL = "";
+	}
+	var contractCodeM = $('#add_contractCodeM').val();
+	if(!contractCodeM || typeof(contractCodeM) == "undefined" || contractCodeM.trim() == ""){
+		contractCodeM = "";
+	}
+	var contractCodeR = $('#add_contractCodeR').val();
+	if(!contractCodeR || typeof(contractCodeR) == "undefined" || contractCodeR.trim() == ""){
+		contractCodeR = "";
+	}
+	var date = new Date();
+	var contractCodeT = date.getFullYear() - 2000;
+	var contractCode = contractCodeL + "-" + contractCodeT + "-" + contractCodeM + "-" + contractCodeR;
+	$('#add_contractCode').val(contractCode);
+}
+
 /* 新增方法 */
 function add(){
 		var parame = {};
+		var contractCode = $('#add_contractCode').val();
 		var contractType = $("input[name='contractType']:checked").val();
 		var contractName = $('#add_contractName').val();
 		var companyName = $('#add_companyName').val();
@@ -348,6 +387,7 @@ function add(){
 		var endTime = $('#add_endTime').val();
 		var isClassified = $("input[name='isClassified']:checked").val();
 		var classifiedLevel = $('#add_classifiedLevel').val();
+		var technicalContent = $('#add_technical').val();
 		if (!contractName || typeof(contractName) == "undefined" || contractName.trim() == "") 
 		{ 
 			swal("合同名称为空");
@@ -420,6 +460,12 @@ function add(){
 			swal("保密等级不能为空！");
 			return;
 		}
+		if (!technicalContent || typeof(technicalContent) == "undefined" || technicalContent.trim() == "") 
+		{ 
+			swal("技术资料不能为空！");
+			return;
+		}
+		parame.contractCode = contractCode;
 		parame.contractName = contractName;
 		parame.companyID = companyID;
 		parame.companyName = companyName;
@@ -435,6 +481,7 @@ function add(){
 		parame.isClassified = isClassified;
 		parame.classifiedLevel = classifiedLevel;
 		parame.contractType = contractType;
+		parame.technicalContent = technicalContent;
 		if(companyID == "add_companyName"){
 			swal({
 				title: "公司不存在，是否新建合同并新增对应公司记录！",
@@ -450,6 +497,8 @@ function add(){
 						  data:parame,
 						  success:function(o){
 							  switch (o) {
+							  	case '-11':swal("合同编号已存在！");
+						  			break;
 							  	case '-2':swal("新增公司失败！");
 							  		break;
 							  	case '-4':swal("公司名与公司ID不相符！");
@@ -476,7 +525,8 @@ function add(){
 				  data:parame,
 				  success:function(o){
 					  switch (o) {
-
+					  	case '-11':swal("合同编号已存在！");
+			  				break;
 					  	case '-2':swal("新增公司失败！");
 					  		break;
 					  	case '-4':swal("公司名与公司ID不相符！");
@@ -498,6 +548,54 @@ function add(){
 				  }
 			});
 		}
+}
+
+/**
+ * 复制合同
+ */
+function cloneContract() {
+	var data = $('#table').bootstrapTable('getSelections');
+	if(data.length==0 || data.length>1){
+		swal("请选中一条数据");
+		return;
+	}
+	var ID = data[0].ID;
+	var message = "将要复制合同：" + data[0].contractName;
+	
+	var ajaxParameter = {
+		ID:ID	
+	};
+	swal({
+		title: message,
+		type: "warning",
+		showCancelButton: true,
+		confirmButtonColor: "#DD6B55",
+		confirmButtonText: "确定",
+		closeOnConfirm: false
+		},
+		function(){	
+			$.ajax({
+			  url:'contractController/cloneContractByID.do',
+			  type:"post",
+			  data:ajaxParameter,
+			  success:function(o){
+				  if(o > 0){
+					  swal("复制成功！");
+					  setTimeout(refresh, 1000);
+				  }else if(o == -2){
+					  swal("复制失败！");
+				  }else if(o == -3){
+					  swal("复制成功,复制合同细项出错！");
+					  setTimeout(refresh, 1000);
+				  }else{
+					  swal("出现未知错误，请重试！");
+				  }
+			  },
+			  error : function() {
+				return false;
+			  }
+		});
+	});
 }
 
 /**
@@ -698,6 +796,10 @@ function EditContract(){
 	}
 	if(data[0].state == "审核通过"){
 		swal("该合同已经审核通过！");
+		return;
+	}
+	if(data[0].isInput == "1" || data[0].isInput == 1){
+		swal("该合同需要领导同意补录！");
 		return;
 	}
 	var ID = data[0].ID;

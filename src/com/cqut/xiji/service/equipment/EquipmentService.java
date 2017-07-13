@@ -364,6 +364,20 @@ public class EquipmentService extends SearchService implements
 				tableName, null, null, null);
 		return result;
 	}
+
+	@Override
+	public List<Map<String, Object>> MatchNameEquipmentInfo(String matchName) {
+		String tableName = "equipment";
+		
+		String condition = " 1 = 1 ";
+		if(matchName != null ){
+			condition += " and equipment.equipmentName like '%"+matchName+"%'";
+		}
+		String[] properties = new String[] { "ID,IF (factoryCode IS NULL,equipmentName,CONCAT(equipmentName,'(',factoryCode,')')) AS equipmentInfo" };
+		List<Map<String, Object>> result = entityDao.searchForeign(properties,
+				tableName, null, null, condition);
+		return result;
+	}
 }
 	
 
