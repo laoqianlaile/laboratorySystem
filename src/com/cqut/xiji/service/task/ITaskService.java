@@ -3,6 +3,8 @@ package com.cqut.xiji.service.task;
 import java.util.List;
 import java.util.Map;
 
+import com.cqut.xiji.entity.base.BootstrapTreeNode;
+
 public interface ITaskService {
 
 	int setTestprojectId(String projectID);
@@ -58,7 +60,7 @@ public interface ITaskService {
 
 	public boolean setTaskDetectState(String taskID);
 
-	public boolean recoverFileCheck(String taskID);
+	public boolean taskDectstateCheck(String taskID);
 
 	public boolean setTestReportInfo(String taskID, String remarks);
 
@@ -78,9 +80,25 @@ public interface ITaskService {
 
 	List<Map<String, Object>> getTaskInfor(String ID);
 
+	public boolean deleteTaskTestproject(String[] testprojectIDs);
+
+	public String checkTaskTypeIsCalibration(String taskID);
+
+	public List<BootstrapTreeNode> getTestProjectTree();
+
+	public List<BootstrapTreeNode> getStandardByProjectID(String testProjectID,
+			String testprojectName);
+
+	public boolean registeTestPeojcetAndStandardOfTask(String taskID,
+			String testProjectID, String[] standards);
+
+	public List<Map<String, Object>> getRegistedStandard(String taskID,
+			String testProjectID);
+
 	public List<Map<String, Object>> getTestprojectOfTask(String taskID);
 
-	public String saveTaskTestproject(String[] testprojectIDs, String taskID);
-
-	public boolean deleteTaskTestproject(String[] testprojectIDs);
+	public String addOriginalDataImag(String taskID, String fileID,
+			String mark, String originalName, String originaldataCode,
+			String suggest, String codeOne, String codeTwo,
+			String originalRemarks);
 }

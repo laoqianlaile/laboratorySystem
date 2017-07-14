@@ -1,6 +1,8 @@
 package com.cqut.xiji.controller.traceability;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.ParseException;
 import java.util.Map;
 
@@ -64,7 +66,8 @@ public class TraceabilityController {
 	 */
 	@RequestMapping("/saveTracebility")
 	@ResponseBody
-	public String saveTracebility(Traceability traceability, HttpSession session) {
+	public String saveTracebility(Traceability traceability, HttpSession session) throws UnsupportedEncodingException {
+		traceability.setCorrectOrgan(URLDecoder.decode(traceability.getCorrectOrgan(), "utf-8"));
 		return service.saveTracebility(traceability, session) == 1 ? "true"
 				: "false";
 	}
@@ -114,12 +117,14 @@ public class TraceabilityController {
 	 * @param traceability
 	 * @return
 	 * @author 蒋兴成
+	 * @throws UnsupportedEncodingException 
 	 * @date 2016年11月15日 下午9:27:51
 	 * 
 	 */
 	@RequestMapping("/updateTracebilityByID")
 	@ResponseBody
-	public String updateTracebilityByID(Traceability traceability) {
+	public String updateTracebilityByID(Traceability traceability) throws UnsupportedEncodingException {
+		traceability.setCorrectOrgan(new String(traceability.getCorrectOrgan().getBytes("iso-8859-1"),"UTF-8"));
 		return service.updateTracebilityByID(traceability) == 1 ? "true"
 				: "false";
 	}

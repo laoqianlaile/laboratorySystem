@@ -11,6 +11,8 @@ import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.cqut.xiji.entity.base.BootstrapTreeNode;
 import com.cqut.xiji.service.task.ITaskService;
 @Controller
 @RequestMapping("/taskController")
@@ -337,10 +339,10 @@ public class TaskController{
      * @param taskID
      * @return
      */
-	@RequestMapping("/recoverFileCheck")
+	@RequestMapping("/taskDectstateCheck")
 	@ResponseBody
 	public boolean recoverFileCheck(String taskID) {
-		boolean result = service.recoverFileCheck(taskID);
+		boolean result = service.taskDectstateCheck(taskID);
 		return result;
 	}
 	
@@ -506,37 +508,6 @@ public class TaskController{
 	
 	/**
 	 * 
-     * @discription 获取任务对应的检测项目
-     * @author zt       
-     * @created 2017-5-23 下午8:04:19     
-     * @param taskID
-     * @return
-	 */
-	@RequestMapping("/getTestprojectOfTask")
-	@ResponseBody
-	public List<Map<String, Object>> getTestprojectOfTask(String taskID) {
-		List<Map<String, Object>> result = service.getTestprojectOfTask(taskID);
-		return result;
-	}
-
-	/**
-	 * 
-     * @discription 任务所使用的检测项目登记
-     * @author zt       
-     * @created 2017-5-23 下午9:42:46     
-     * @param equipmentIDs
-     * @param taskID
-     * @return
-	 */
-	@RequestMapping("/saveTaskTestproject")
-	@ResponseBody
-	public String saveTaskTestproject(String[] testprojectIDs,String taskID) {
-		String result = service.saveTaskTestproject(testprojectIDs,taskID);
-		return result;
-	}
-	
-	/**
-	 * 
      * @discription 删除任务所对应的检测项目
      * @author zt       
      * @created 2017-5-23 下午9:37:54     
@@ -548,6 +519,131 @@ public class TaskController{
 	public boolean deleteTaskTestproject(String[] testprojectIDs) {
 		boolean flag = service.deleteTaskTestproject(testprojectIDs);
 		return flag;
+	}
+	
+	/**
+	 * 
+     * @discription 检查任务是否为校准类型的任务
+     * @author zt       
+     * @created 2017-7-2 下午3:39:48     
+     * @param taskID
+     * @return
+	 */
+	@RequestMapping("/checkTaskTypeIsCalibration")
+	@ResponseBody
+	public String checkTaskTypeIsCalibration(String taskID) {
+		String result = service.checkTaskTypeIsCalibration(taskID);
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @discription 获取检测项目树
+	 * @author zt
+	 * @created 2017-7-4 上午9:56:50
+	 * @return
+	 */
+	@RequestMapping("/getTestProjectTree")
+	@ResponseBody
+	public List<BootstrapTreeNode> getTestProjectTree() {
+		List<BootstrapTreeNode> result = service.getTestProjectTree();
+		return result;
+	}
+	
+	/**
+	 * 
+     * @discription 获取相应检测项目的所有标准
+     * @author zt       
+     * @created 2017-7-8 下午3:46:50     
+     * @param testProjectID
+     * @param testprojectName
+     * @return
+	 */
+	@RequestMapping("/getStandardByProjectID")
+	@ResponseBody
+	public List<BootstrapTreeNode> getStandardByProjectID(String testProjectID, String testprojectName){
+		List<BootstrapTreeNode> result = service.getStandardByProjectID(testProjectID, testprojectName);
+		return result;
+	}
+
+	/**
+	 * 
+     * @discription 登记任务的检测项目和标准
+     * @author zt       
+     * @created 2017-7-10 上午9:56:57     
+     * @param taskID
+     * @param testProjectID
+     * @param standards
+     * @return
+	 */
+	@RequestMapping("/registeTestPeojcetAndStandardOfTask")
+	@ResponseBody
+	public boolean registeTestPeojcetAndStandardOfTask(String taskID,
+			String testProjectID, String[] standards) {
+		boolean flag = service.registeTestPeojcetAndStandardOfTask(taskID,
+				testProjectID, standards);
+		return flag;
+	}
+	
+	/**
+	 * 
+     * @discription 获取任务已登记的标准
+     * @author zt       
+     * @created 2017-7-10 下午7:48:46     
+     * @param taskID
+     * @param testProjectID
+     * @return
+	 */
+	@RequestMapping("/getRegistedStandard")
+	@ResponseBody
+	public List<Map<String, Object>> getRegistedStandard(String taskID,
+			String testProjectID) {
+		List<Map<String, Object>> result = service.getRegistedStandard(taskID,
+				testProjectID);
+		return result;
+	}
+	
+	/**
+	 * 
+     * @discription 获取任务所对应的检测项目
+     * @author zt       
+     * @created 2017-7-12 下午4:09:12     
+     * @param taskID
+     * @return
+	 */
+	@RequestMapping("/getTestprojectOfTask")
+	@ResponseBody
+	public List<Map<String, Object>> getTestprojectOfTask(String taskID) {
+		List<Map<String, Object>> result = service.getTestprojectOfTask(taskID);
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @discription 上传原始数据
+	 * @author zt
+	 * @created 2017-7-12 下午6:56:41
+	 * @param taskID
+	 * @param fileID
+	 * @param mark
+	 * @param originalName
+	 * @param originaldataCode
+	 * @param suggest
+	 * @param codeOne
+	 * @param codeTwo
+	 * @param originalRemarks
+	 * @return
+	 */
+	@RequestMapping("/addOriginalDataImag")
+	@ResponseBody
+	public String addOriginalDataImag(String taskID, String fileID,
+			String mark, String originalName, String originaldataCode,
+			String suggest, String codeOne, String codeTwo,
+			String originalRemarks) {
+		String result = service.addOriginalDataImag(taskID, fileID, mark,
+				originalName, originaldataCode, suggest, codeOne, codeTwo,
+				originalRemarks);
+		return result;
 	}
 }
 
