@@ -397,6 +397,7 @@ function addSubmit() {
 		}
 		dataobj.reason = getdata[0].reason;
 		dataobj.auditState = getdata[0].auditState;
+		dataobj.correctOrgan = encodeURI(dataobj.correctOrgan);
 		$.ajax({
 			url : 'traceabilityController/saveTracebility.do',
 			data : dataobj,
@@ -465,8 +466,8 @@ function Updatesubmit() {
 				Value : dom.find("tr").eq(i).find("td").eq(1).html(),
 			}
 		}
-		$
-				.ajax({
+		
+		$.ajax({
 					url : 'calibrationValueController/deleteCalibrationValueByCondition.do',
 					data : {
 						traceabilityID : getdata[0].traceabilityID,
