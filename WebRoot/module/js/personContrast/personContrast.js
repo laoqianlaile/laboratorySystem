@@ -13,6 +13,10 @@ var object= {},
 	judg2 = 0;
 var mydata=new Array();
 var mydataID=new Array();
+var mydata1=new Array();
+var mydataID1=new Array();
+var mydata2=new Array();
+var mydataID2=new Array();
 
 $(function(){
 	init();
@@ -200,7 +204,6 @@ var mydataID=new Array();
 							row：点击列的整行数据，
 							$element：td 元素。*/
 function onDblClickCell(field,value,row,$element){
-	
 	object==null;
 	if(row==object){
 	}else{
@@ -245,7 +248,7 @@ function onDblClickCell(field,value,row,$element){
 				getvalue2 = updatevalue;
 			};
 			$element[0].innerHTML="<div class=''>"
-				+"<button class='btn btn-default dropdown-toggle' type='button' id='dropdowmlist' data-toggle='dropdown'>"
+				+"<button class='btn btn-default dropdown-toggle' type='button'  data-toggle='dropdown'>"
 				+getvalue2+"<span class='caret'></span></button>"
 				+"<ul id='departdata' class='dropdown-menu' role='menu' aria-labelledby='dropdownMenu1'>"
 				+"</ul></div>";
@@ -271,11 +274,10 @@ function onDblClickCell(field,value,row,$element){
 			}
 				
 			if(clicked1==1){
-				
 				getvalue = updatevalue1;
 			};
 			$element[0].innerHTML="<div class=''>"
-				+"<button class='btn btn-default dropdown-toggle' type='button' id='dropdowmlist' data-toggle='dropdown'>"
+				+"<button class='btn btn-default dropdown-toggle'  type='button'  data-toggle='dropdown'>"
 				+getvalue+"<span class='caret'></span></button>"
 				+"<ul id='Name1data' class='dropdown-menu ' role='menu' aria-labelledby='dropdownMenu1'>"
 				+"</ul></div>";
@@ -288,9 +290,9 @@ function onDblClickCell(field,value,row,$element){
 						var myobj = eval(mag);
 						var listdata = $('#Name1data');
 						for(var i = 0;i< myobj.length;i++){
-							mydata[i] = myobj[i].employeeName;
-							mydataID[i]= myobj[i].ID;
-							var rstring = "<li role='presentation' onclick='getParentbutton1(this,"+"mydata["+i+"]"+","+"mydataID["+i+"]" + ")'>"+mydata[i]+"</li>";
+							mydata1[i] = myobj[i].employeeName;
+							mydataID1[i]= myobj[i].ID;
+							var rstring = "<li role='presentation' onclick='getParentbutton1(this,"+"mydata1["+i+"]"+","+"mydataID1["+i+"]" + ")'>"+mydata1[i]+"</li>";
 							listdata.append(rstring);
 						}
 					}
@@ -306,7 +308,7 @@ function onDblClickCell(field,value,row,$element){
 				getvalue = updatevalue2;
 			};
 			$element[0].innerHTML="<div class=''>"
-				+"<button class='btn btn-default dropdown-toggle' type='button' id='dropdowmlist' data-toggle='dropdown'>"
+				+"<button class='btn btn-default dropdown-toggle' type='button' data-toggle='dropdown'>"
 				+getvalue+"<span class='caret'></span></button>"
 				+"<ul id='Name2data' class='dropdown-menu ' role='menu' aria-labelledby='dropdownMenu1'>"
 				+"</ul></div>";
@@ -318,15 +320,13 @@ function onDblClickCell(field,value,row,$element){
 					var myobj = eval(mag);
 					var listdata = $('#Name2data');
 					for(var i = 0;i< myobj.length;i++){
-						mydata[i] = myobj[i].employeeName;
-						mydataID[i]= myobj[i].ID;
-						var rstring = "<li role='presentation' onclick='getParentbutton2(this,"+"mydata["+i+"]"+","+"mydataID["+i+"]" + ")'>"+mydata[i]+"</li>";
+						mydata2[i] = myobj[i].employeeName;
+						mydataID2[i]= myobj[i].ID;
+						var rstring = "<li role='presentation' onclick='getParentbutton2(this,"+"mydata2["+i+"]"+","+"mydataID2["+i+"]" + ")'>"+mydata2[i]+"</li>";
 						listdata.append(rstring);
 					}
 				}
 			});
-			
-			
 			break;
 		case "startTime":
 				getvalue = row.startTime;
@@ -376,6 +376,48 @@ function getParentbutton(dom,value,ID){
 			parentdom = parentdom.parentNode;
 		}
 	}
+	
+	var name1 = $(parentdom).next();
+	var name2 = $(parentdom).next().next();
+	name1.html("<div class=''>"
+				+"<button class='btn btn-default dropdown-toggle'  type='button'  data-toggle='dropdown'>"
+				+"<span class='caret'></span></button>"
+				+"<ul id='Name1data' class='dropdown-menu ' role='menu' aria-labelledby='dropdownMenu1'>"
+				+"</ul></div>");
+	$.ajax({
+		data:{departmentID:ID},
+		url:'personconTrastController/getbydepartment.do',
+		success:function(mag){
+			var myobj = eval(mag);
+			var listdata = $('#Name1data');
+			for(var i = 0;i< myobj.length;i++){
+				mydata1[i] = myobj[i].employeeName;
+				mydataID1[i]= myobj[i].ID;
+				var rstring = "<li role='presentation' onclick='getParentbutton1(this,"+"mydata1["+i+"]"+","+"mydataID1["+i+"]" + ")'>"+mydata1[i]+"</li>";
+				listdata.append(rstring);
+			}
+		}
+	});
+	
+	name2.html("<div class=''>"
+				+"<button class='btn btn-default dropdown-toggle' type='button' data-toggle='dropdown'>"
+				+"<span class='caret'></span></button>"
+				+"<ul id='Name2data' class='dropdown-menu ' role='menu' aria-labelledby='dropdownMenu1'>"
+				+"</ul></div>");
+	$.ajax({
+		data:{departmentID:ID},
+		url:'personconTrastController/getbydepartment.do',
+		success:function(mag){
+			var myobj = eval(mag);
+			var listdata = $('#Name2data');
+			for(var i = 0;i< myobj.length;i++){
+				mydata2[i] = myobj[i].employeeName;
+				mydataID2[i]= myobj[i].ID;
+				var rstring = "<li role='presentation' onclick='getParentbutton2(this,"+"mydata2["+i+"]"+","+"mydataID2["+i+"]" + ")'>"+mydata2[i]+"</li>";
+				listdata.append(rstring);
+			}
+		}
+	});
 }
 //获取点击后的值
 function getParentbutton1(dom,value,ID){
