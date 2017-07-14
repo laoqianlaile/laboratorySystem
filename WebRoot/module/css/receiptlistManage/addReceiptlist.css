@@ -406,12 +406,12 @@ h4,.h4 {
 #editTaskModal input[type=radio]{
 	width:17px;
 	display:inline-block;
-	margin-left: 125px;
+	margin-left: 20%;
 }
 .radioLabel{
 	
 	margin-top: 6px;
-    width: 10%;
+    width: 20%;
     display: inline-block;
 	
 }
