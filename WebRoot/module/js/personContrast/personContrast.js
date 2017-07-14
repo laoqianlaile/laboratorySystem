@@ -244,16 +244,16 @@ function onDblClickCell(field,value,row,$element){
 			if(clicked==1){
 				getvalue2 = updatevalue;
 			};
-			$element[0].innerHTML="<form><div class=''>"
+			$element[0].innerHTML="<div class=''>"
 				+"<button class='btn btn-default dropdown-toggle' type='button' id='dropdowmlist' data-toggle='dropdown'>"
 				+getvalue2+"<span class='caret'></span></button>"
-				+"<ul id='listdata' class='dropdown-menu' role='menu' aria-labelledby='dropdownMenu1'>"
-				+"</ul></div></form>";
+				+"<ul id='departdata' class='dropdown-menu' role='menu' aria-labelledby='dropdownMenu1'>"
+				+"</ul></div>";
 				$.ajax({
 					url:'personconTrastController/getdepartmentlist.do',
 					success:function(data){
 						var myobj = eval(data);
-						var listdata = $('#listdata');
+						var listdata = $('#departdata');
 						for(var i = 0;i< myobj.length;i++){
 							mydata[i] = myobj[i].departmentName;
 							mydataID[i]= myobj[i].ID;
@@ -277,7 +277,7 @@ function onDblClickCell(field,value,row,$element){
 			$element[0].innerHTML="<div class=''>"
 				+"<button class='btn btn-default dropdown-toggle' type='button' id='dropdowmlist' data-toggle='dropdown'>"
 				+getvalue+"<span class='caret'></span></button>"
-				+"<ul id='listdata' class='dropdown-menu ' role='menu' aria-labelledby='dropdownMenu1'>"
+				+"<ul id='Name1data' class='dropdown-menu ' role='menu' aria-labelledby='dropdownMenu1'>"
 				+"</ul></div>";
 			//还要加判断是否点击
 			var departmentid = object.departmentName;	
@@ -286,7 +286,7 @@ function onDblClickCell(field,value,row,$element){
 					url:'personconTrastController/getbydepartment.do',
 					success:function(mag){
 						var myobj = eval(mag);
-						var listdata = $('#listdata');
+						var listdata = $('#Name1data');
 						for(var i = 0;i< myobj.length;i++){
 							mydata[i] = myobj[i].employeeName;
 							mydataID[i]= myobj[i].ID;
@@ -308,7 +308,7 @@ function onDblClickCell(field,value,row,$element){
 			$element[0].innerHTML="<div class=''>"
 				+"<button class='btn btn-default dropdown-toggle' type='button' id='dropdowmlist' data-toggle='dropdown'>"
 				+getvalue+"<span class='caret'></span></button>"
-				+"<ul id='listdata' class='dropdown-menu ' role='menu' aria-labelledby='dropdownMenu1'>"
+				+"<ul id='Name2data' class='dropdown-menu ' role='menu' aria-labelledby='dropdownMenu1'>"
 				+"</ul></div>";
 			var departmentid = object.departmentName;	
 			$.ajax({
@@ -316,7 +316,7 @@ function onDblClickCell(field,value,row,$element){
 				url:'personconTrastController/getbydepartment.do',
 				success:function(mag){
 					var myobj = eval(mag);
-					var listdata = $('#listdata');
+					var listdata = $('#Name2data');
 					for(var i = 0;i< myobj.length;i++){
 						mydata[i] = myobj[i].employeeName;
 						mydataID[i]= myobj[i].ID;
