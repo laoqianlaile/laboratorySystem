@@ -152,7 +152,7 @@ $(document).ready(function() {
 		}
 	});
 	initialize();
-});
+ });
 
 function refresh2(){
 	location.reload([false]);
@@ -540,7 +540,7 @@ function download(){
 	}
 }
 
-$(".form_datetime").datetimepicker({
+/*$(".form_datetime").datetimepicker({
     minView: 'month',            //设置时间选择为年月日 去掉时分秒选择
     format:'yyyy-mm',
     todayBtn:"linked",
@@ -549,5 +549,5 @@ $(".form_datetime").datetimepicker({
     startView:3,
     minView:3,
     language: 'zh-CN'
-});
+});*/
 

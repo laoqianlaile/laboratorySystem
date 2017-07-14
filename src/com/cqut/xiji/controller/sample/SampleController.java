@@ -298,4 +298,11 @@ public class SampleController{
 		String result = service.addSampleInManHour(factoryCode, sampleName, specifications, laborHour);
 		return result;
 	}
+	
+	@RequestMapping("/updateSampleNameByID")
+	@ResponseBody
+	public boolean updateSampleNameByID(String sampleID, String sampleName) {
+		boolean flag = service.updateSampleNameByID(sampleID, sampleName);
+		return flag;
+	}
 }

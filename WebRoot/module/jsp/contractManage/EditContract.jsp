@@ -168,8 +168,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="btnAdd fr">
 					<button id="ItemModal1" type="button" onclick="openAddItemModal1()" class="btn btn-primary">添加检测细项</button>
 					<button id="ItemModal2" type="button" onclick="openAddItemModal2()" class="btn btn-primary">添加校准细项</button>
-					<button id="ItemBtn1" type="button" class="btn btn-primary glyphicon btn3" onclick="exportReport1()">导出</button>
-					<button id="ItemBtn2" type="button" class="btn btn-primary glyphicon btn3" onclick="exportReport2()">导出</button>
+					<button id="ItemBtn1" type="button" class="btn btn-primary" onclick="exportReport1()">导出</button>
+					<button id="ItemBtn2" type="button" class="btn btn-primary" onclick="exportReport2()">导出</button>
+					<button id="ItemBtn3" type="button" class="btn btn-primary" onclick="showImportExcelModal()">导入</button>
 					
 				</div>
 			</div>
@@ -194,22 +195,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="modal-body">
 					<div class="row">
 						<div id="fileInfo" style="text-align:left">
-							<div id="file">
-								<input type="file" name="files" id="files" style="display:none" onchange="checkFile(this)">
+							<div id="file2">
+								<input type="file" name="contractfineitem" id="contractfineitem" style="display:none" onchange="checkFile2(this)">
 							</div>
 							
-							<button type="button" id="chooseFile" name="chooseFile" class="btn btn-default">
+							<button type="button" id="chooseFile2" name="chooseFile2" class="btn btn-default">
 								<span class="glyphicon glyphicon-folder-open "></span> 选择文件
 							</button>
-							<span id="fileName"></span>
+							<span id="fileName2"></span>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
 
-					<button type="button" class="btn btn-primary" id="ensure" name="ensure" onclick="importExcel()">确定</button>
+					<button class="btn btn-primary" id="submitFileItemBtn" >提交</button>
 					<button type="button" style="background:#fff;color:#333;"
-						class="btn btn-primary" data-dismiss="modal">取消</button>
+						class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
 			</div>
 		</div>
@@ -495,5 +496,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			refresh();
 		});
 	});
+	$('#chooseFile2').click(function() {
+		$('#contractfineitem').click();
+	});
+	
   </script>
  </html>

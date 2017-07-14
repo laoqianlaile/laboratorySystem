@@ -28,14 +28,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="module/css/AbilityCheck/AbilityCheck.css">
 
 
-	<script src="module/js/jquery-2.1.1.min.js"></script>
+	<script src="assets/js/jquery-3.1.1.min.js"></script>
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script src="assets/js/bootstrap-table.min.js"></script>
 	<script src="assets/js/bootstrap-table-zh-CN.min.js"></script>
-	<script src="module/js/bootstrap-datetimepicker.js"></script>
-	<script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
-	<script src="module/js/bootstrap-datetimepicker.fr.js"></script>
-	<script src="module/js/AbilityCheck/messenger.js"></script>
+	<script src="module/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+	<script src="assets/js/bootstrap-datetimepicker.fr.js"></script>
+	<script src="assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script src="module/js/AbilityCheck/messenger.js"></script>  
+	<script type="text/javascript" src="module/js/AbilityCheck/AbilityCheck.js"></script>
   </head>
   
   <body>
@@ -139,7 +140,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
              	<h4>添加文件</h4>
              	</div>
              </div>
- 				<input id="file" name="file" type="file" value="" class="fileClick" onchange="change()">
+ 				<input id="file" name="file" type="file" value="" class="fileClick">
              	</div>
              	<button type="submit" style="display:none;">
 
@@ -170,11 +171,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 		
 </body>
-
-  <script type="text/javascript" src="module/js/AbilityCheck/AbilityCheck.js"></script>
   <script type="text/javascript">
+  $(".form_datetime").datetimepicker({
+	    minView: 'month',            //设置时间选择为年月日 去掉时分秒选择
+	    format:'yyyy-mm',
+	    todayBtn:"linked",
+	    autoclose:true,
+	    todayHighlight:true,
+	    startView:3,
+	    minView:3,
+	    language: 'zh-CN'
+	});
 $('#Implement').val("");
 $('#Organizer').val("");
-
+$("#file").change(function(){
+	  $("#fileName").val($("#file").val());
+	});
 </script>
 </html>

@@ -148,7 +148,7 @@
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close"></button>
 					<h4 class="modal-title">
-						<strong>填写驳回意见</strong>
+						<strong>填写审核通过意见</strong>
 					</h4>
 				</div>
 				<div class="modal-body">
@@ -158,7 +158,7 @@
 							id="PassTaskID" style="display:none"></span> <span
 							id="PassFileName" style="display:none"></span> <label>审核意见:</label>
 						<textarea id="PassReason" class="form-control"
-							style="overflow-y:scroll"></textarea>
+							style="overflow-y:auto"></textarea>
 					</div>
 
 					<hr />
@@ -191,7 +191,7 @@
 							id="taskID" style="display:none"></span> <span id="fileName"
 							style="display:none"></span> <label>审核意见:</label>
 						<textarea id="rejectReason" class="form-control"
-							style="overflow-y:scroll"></textarea>
+							style="overflow-y:auto"></textarea>
 					</div>
 					<hr />
 				</div>

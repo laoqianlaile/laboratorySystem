@@ -12,12 +12,13 @@ viscount2 = 0, //事件判断参数
 judg= 0,       //后台方法判断参数
 judg2 = 0,    //后台方法判断参数
 judgHtml=0; //判断下拉选择是否选择完成
-
+var contractType = 0;//合同类型 0检测   1校准
 $(function() {
 	setID();
 	getContractByID();
 	updateContractFileID();
 	uploadFile();
+	importExcel();
 });
 
 //初始化数据
@@ -246,11 +247,13 @@ function getContractByID(){
 		    			$('#edit_classifiedLevel').val(myobj[0].classifiedLevel);
 		    		}
 		    		if(myobj[0].contractType == undefined || myobj[0].contractType == "0"){
+		    			contractType = 0;
 		    			$('#edit_contractID').attr({'title' : "" + myobj.contractType + ""});
 		    			$('#ItemModal2').hide();
 		    			$('#ItemBtn2').hide();
 			    		initContractFileItem1();
 		    		}else{
+		    			contractType = 1;
 		    			$('#edit_contractID').attr({'title' : "" + myobj[0].contractType + ""});
 		    			$('#ItemModal1').hide();
 		    			$('#ItemBtn1').hide();
@@ -2292,34 +2295,6 @@ function addItem2(){
 		}
 }
 
-function addNullFineItem(){
-	edit();
-	var parame = {};
-	parame.contractID = $('#edit_contractID').val();
-	
-	$.ajax({
-		  url:'contractFineItemController/addNullFineItem.do',
-		  type:'post', 
-		  data:parame,
-		  dataType:'json',
-		  success:function(o){
-			  switch (o) {
-				case 1:swal("新增成功！");
-					setTimeout(refresh, 1000);
-					break;
-				case 0:swal("新增失败！");
-					break;
-				default:
-					break;
-			  }
-		  },
-		  error:function(o){
-			  console.log(o);
-			  refresh();
-		  }
-	});
-}
-
 //删除合同细项
 function delFileItem(id,fineItemCode){
 	var parame = {};
@@ -2578,22 +2553,56 @@ function exportReport2() {
 	window.location.href = "contractFineItemController/contractFineItemExportExcel2.do?contractID=" + contractID;
 }
 
-//导入数据
+//打开文件弹出框
+function showImportExcelModal(){
+	$("#chooseFile2").removeAttr("disabled");
+	$("#fileName2").html("");
+	param.type = contractType;
+	param.belongtoID = $('#edit_contractID').val();
+	$("#importExcel").modal("show");
+	
+}
 
+//导入数据
+function importExcel() {
+	$("#contractfineitem").fileupload({
+		autoUpload : true,
+		url : 'contractFineItemController/importExcelTemplate.do',
+		dataType : 'json',
+		add : function(e, data) {
+			$("#submitFileItemBtn").click(function() {
+				data.submit();
+			});
+		},
+	}).bind('fileuploaddone', function(e, data) {
+		var fileID = JSON.parse(data.result);
+		if(fileID != null && fileID != "null" && fileID != ""){
+			swal("导入成功","","success");
+			setTimeout(refresh, 1000);
+		}
+	});
+	// 文件上传前触发事件
+	$('#contractfineitem').bind('fileuploadsubmit', function(e, data) {
+		data.formData = {
+			typeNumber : param.type,
+			belongtoID : param.belongtoID
+		}
+	});
+}
 
 //检查文件类型
 function checkFile2(o) {
-	$("#chooseFile").attr("disabled", "disabled");
+	$("#chooseFile2").attr("disabled", "disabled");
 	var filePath = $(o).val();
 	if (filePath != "" && filePath != undefined) {
 		var arr = filePath.split('\\');
 		var fileName = arr[arr.length - 1];
-		$("#fileName").html(fileName);
+		$("#fileName2").html(fileName);
 	}
 	if (o.value.indexOf('.xls') < 0 && o.value.indexOf('.xlsx') < 0) {
 		swal("此类型文件不能上传");
-		$("#chooseFile").removeAttr("disabled");
-		$("#fileName").empty(); // 清空子元素
+		$("#chooseFile2").removeAttr("disabled");
+		$("#fileName2").empty(); // 清空子元素
 	}
 } 
 

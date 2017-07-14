@@ -89,6 +89,8 @@ function inti() {
 											title : '设备名称',
 											field : 'equipmentName',
 											align : 'center',
+											valign: 'middle',
+											width: '5',
 											colspan : 1,
 											rowspan : 2
 										},
@@ -96,6 +98,8 @@ function inti() {
 											title : '仪器编号',
 											field : 'equipmentCode',
 											align : 'center',
+											valign: 'middle',
+											width: '5',
 											colspan : 1,
 											rowspan : 2
 										},
@@ -103,6 +107,8 @@ function inti() {
 											title : '规格型号',
 											field : 'model',
 											align : 'center',
+											valign: 'middle',
+											width: '5',
 											colspan : 1,
 											rowspan : 2
 										},
@@ -397,6 +403,7 @@ function addSubmit() {
 		}
 		dataobj.reason = getdata[0].reason;
 		dataobj.auditState = getdata[0].auditState;
+		dataobj.correctOrgan = encodeURI(dataobj.correctOrgan);
 		$.ajax({
 			url : 'traceabilityController/saveTracebility.do',
 			data : dataobj,
@@ -465,8 +472,8 @@ function Updatesubmit() {
 				Value : dom.find("tr").eq(i).find("td").eq(1).html(),
 			}
 		}
-		$
-				.ajax({
+		
+		$.ajax({
 					url : 'calibrationValueController/deleteCalibrationValueByCondition.do',
 					data : {
 						traceabilityID : getdata[0].traceabilityID,
