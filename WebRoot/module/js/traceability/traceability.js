@@ -89,6 +89,8 @@ function inti() {
 											title : '设备名称',
 											field : 'equipmentName',
 											align : 'center',
+											valign: 'middle',
+											width: '5',
 											colspan : 1,
 											rowspan : 2
 										},
@@ -96,6 +98,8 @@ function inti() {
 											title : '仪器编号',
 											field : 'equipmentCode',
 											align : 'center',
+											valign: 'middle',
+											width: '5',
 											colspan : 1,
 											rowspan : 2
 										},
@@ -103,6 +107,8 @@ function inti() {
 											title : '规格型号',
 											field : 'model',
 											align : 'center',
+											valign: 'middle',
+											width: '5',
 											colspan : 1,
 											rowspan : 2
 										},

@@ -162,6 +162,28 @@ public class TraceabilityController {
 			String equipmentTypeName, String correctOrgan, String auditState,
 			String startTime, String endTime, String departmentName,
 			String qualityPlanID) throws ParseException {
+		
+		try {
+			if(equipmentName != null)
+			{
+				equipmentName = URLDecoder.decode(equipmentName, "utf-8");
+			}
+			if(equipmentCode != null)
+			{
+				equipmentCode = URLDecoder.decode(equipmentCode, "urf=8");
+			}
+			if(equipmentTypeName != null)
+			{
+				equipmentTypeName = URLDecoder.decode(equipmentTypeName, "utf-8");
+			}
+			if(correctOrgan != null)
+			{
+				correctOrgan = URLDecoder.decode(correctOrgan, "utf-8");
+			}
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
 
 		String condition = "";
 		String userID = (String) session.getAttribute("ID"); // 获取制定者ID
