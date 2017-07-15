@@ -75,6 +75,18 @@ body {
 	margin: 20px auto;
 }
 
+#sampleInfoTable .btn-sm,.btn-group-sm>.btn {
+	height: 30px;
+}
+
+#sampleInfoTable a {
+	color: #000 !important;
+}
+
+#sampleInfoTable a.editable-click {
+	border-color: #000 !important;
+}
+
 .originalNumber .form-control {
 	width: 32%;
 }

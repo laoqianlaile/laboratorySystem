@@ -14,6 +14,8 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
@@ -21,6 +23,7 @@ import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.company.Company;
 import com.cqut.xiji.entity.linkReSample.LinkReSample;
 import com.cqut.xiji.entity.sample.Sample;
+import com.cqut.xiji.entity.task.Task;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
@@ -545,5 +548,12 @@ public class SampleService extends SearchService implements ISampleService{
 		sample.setLaborHour(laborHour);
 	
 		 return  entityDao.save(sample) == 1 ?"true":"false";
+	}
+	
+	@Override
+	public boolean updateSampleNameByID(String sampleID, String sampleName) {
+		Sample se = entityDao.getByID(sampleID, Sample.class);
+		se.setSampleName(sampleName);
+		return baseEntityDao.updatePropByID(se, sampleID) > 1 ? true : false;
 	}
 }

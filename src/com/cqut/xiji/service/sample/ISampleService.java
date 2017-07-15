@@ -39,5 +39,5 @@ public interface ISampleService {
 	String updateManHour(String ID, double laborHour);
 	public String addSampleInManHour(String factoryCode,String sampleName, String specifications, double laborHour);
 	
-	
+	public boolean updateSampleNameByID(String sampleID, String sampleName); 
 }

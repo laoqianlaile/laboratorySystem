@@ -123,11 +123,15 @@ public class PersonconTrastController{
 		String condition = "";
 		System.out.println("11111111111111"+startTime);
 		System.out.println("2222222222222222"+endTime);
-		condition = " EmployeeID0 = '" + session.getAttribute("ID").toString() + "'";
+		String EmployeeID0 = session.getAttribute("ID").toString();
 		qualityPlanID = session.getAttribute("qualiyPlanId").toString();
 		
-		condition += getCondition(projectCode, projectName, testDevice, startTime, endTime,
+		condition = getCondition(projectCode, projectName, testDevice, startTime, endTime,
 				employeeID1, employeeID2, state, departmentName, qualityPlanID);
+		if(condition != null)
+			condition += " and EmployeeID0 ='" + EmployeeID0 + "'";
+		else
+			condition = " EmployeeID0 ='" + EmployeeID0 + "'";
 		return JSONObject.fromObject(service.getPersonconTrastWithPaging(limit, offset, order, sort, condition));
 	}
 	
@@ -139,7 +143,10 @@ public class PersonconTrastController{
 			String qualityPlanID){
 		String condition = "";
 		if(qualityPlanID != null && !qualityPlanID.trim().toString().equals("")){
-			qualityPlanID += " and qualityPlanID = '" + qualityPlanID + "'";
+			if(condition == "")
+				condition = " qualityPlanID = '" + qualityPlanID + "'";
+			else
+				condition += " and qualityPlanID = '" + qualityPlanID + "'";
 		}
 		
 		if(projectCode != null && !projectCode.trim().toString().equals("")){
@@ -201,9 +208,9 @@ public class PersonconTrastController{
 			String projectName,String testDevice,String startTime,String endTime,
 			String employeeID1,String employeeID2,String auditState,String departmentID,
 			String qualityPlanID,HttpSession session){
+		qualityPlanID = session.getAttribute("qualiyPlanId").toString();
 		String condition = getCondition(projectCode, projectName, testDevice, startTime, endTime, 
 				employeeID1, employeeID2, auditState, departmentID, qualityPlanID);
-		qualityPlanID = session.getAttribute("qualiyPlanId").toString();
 		return JSONObject.fromObject(service.getPersonconTrastWithPaging(limit, offset, order, sort, condition));
 	}
 	

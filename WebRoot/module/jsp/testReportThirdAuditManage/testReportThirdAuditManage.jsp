@@ -154,7 +154,7 @@
 						 <span id="PassTaskID" style="display:none"></span> 
 						 <span id="PassFileName" style="display:none"></span>
 						<label>审核意见:</label>
-						<textarea id="PassReason" class="form-control" style="overflow-y:scroll"></textarea>
+						<textarea id="PassReason" class="form-control" style="overflow-y:auto"></textarea>
 					</div>
 		<!-- 			<div class="signature">
 						<label>电子签名:</label>
@@ -203,7 +203,7 @@
 							id="taskID" style="display:none"></span> <span id="fileName"
 							style="display:none"></span> <label>审核意见:</label>
 						<textarea id="rejectReason" class="form-control"
-							style="overflow-y:scroll"></textarea>
+							style="overflow-y:auto"></textarea>
 					</div>
 					<hr />
 				</div>
