@@ -254,6 +254,8 @@ h4,.h4 {
     max-height: 170px;
     overflow-y: scroll;
     width: 115%;
+    margin : 0;
+    padding : 0;
 }
 .tip-factory-content li {
 	
@@ -264,8 +266,9 @@ h4,.h4 {
     padding-top: 7px;
     border-bottom: 1px solid;
     margin-bottom: 5px;
-    background: #ddd;
+    background: #d1dae8;
     border-radius: 4px;
+    padding-left:12px;
 }
 #file_uploadModal .modal-header{
 	background-color: #364760;
@@ -333,7 +336,7 @@ h4,.h4 {
 	display: inline-block;
 }
 #displayChecked {
-	width: 95%;
+	width: 100%;
 	height: 100px;
 	border: 1px solid #ccc;
 	border-radius: 5px;

@@ -15,7 +15,9 @@
 .btn-primary:hover {
 	background-color: #0677b5;
 }
-
+.modal-dialog{
+	width:500px;
+}
 .modal-header {
 	background: #37475f;
 	color: #fff;
@@ -37,6 +39,18 @@
     font-weight: bold;
     margin: 0px;
     padding: 0px;
+}
+.modal-dialog  .modal-title {
+	color:#ffffff;
+} 
+.modal-footer button.btn:first-child{
+	background: #37475f;
+    color: #fff;
+}
+.modal-footer button.btn:last-child{
+	background: #fff;
+    border-color: #37475f;
+    color: #3747
 }
 .modal-dialog .col-xs-12 input  ,.modal-dialog .col-md-12 input{
 	height: 25px;
