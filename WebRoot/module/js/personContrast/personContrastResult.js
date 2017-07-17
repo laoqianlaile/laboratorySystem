@@ -1,3 +1,4 @@
+ var rowID = "";
 $(function () {
 	
 	//加载时间控件
@@ -282,7 +283,7 @@ function download(){
 		if(getdata.length == 1){
 			var fileID;
 			fileID=getdata[0].fileID;
-			window.location.href="fileOperateController/filedownload.do?ID="+fileID;
+			window.location.href="timeCheckController/filedownload.do?ID="+fileID;
 		}
 		if(getdata==null||getdata==""){
 			swal({ title: "请选择一条数据!", type: "warning"});		}else
@@ -300,17 +301,6 @@ function refresh(){
 function refreshfile(){
 	$('#tablefile').bootstrapTable('refresh', null);
 }
-
-        var rowID = "";
-
-		function Params(pageRequest){
-			
-			pageRequest.pageNo = this.offset;
-			pageRequest.pageSize = this.pageNumber;
-			pageRequest.length = 6;
-			pageRequest.planID = rowID;
-			return pageRequest;
-		}
 
 function initTableFile(){
 	$('#tablefile').bootstrapTable({
@@ -358,7 +348,14 @@ function initTableFile(){
 	});
 	
 }
-			
+function Params(pageRequest){
+	
+	pageRequest.pageNo = this.offset;
+	pageRequest.pageSize = this.pageNumber;
+	pageRequest.length = 6;
+	pageRequest.belongtoID = rowID;
+	return pageRequest;
+}			
 
 //刷新全部
 function refreshAll(){

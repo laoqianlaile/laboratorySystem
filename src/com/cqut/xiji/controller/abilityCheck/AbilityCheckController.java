@@ -187,7 +187,7 @@ public class AbilityCheckController{
 		String ID = belongtoID;// 文件ID
 		String fileName = file.getOriginalFilename();// 获取文件全名
 		PropertiesTool pe = new PropertiesTool();
-		String path = ""; // 实际文件存储路径
+		String path = pe.getSystemPram("filePath") +"\\核查记录文件"+ "\\"; // 实际文件存储路径
 		String relativePath = "";// 文件的相对路径,加密后存入数据库
 		String[] fileNames = fileName.split("\\.");// 将文件名以\.分割成一个数组
 		String cacheFilePath = "";// 缓存文件路径
@@ -199,9 +199,7 @@ public class AbilityCheckController{
 				return null;
 			}
 		}
-		if (TypeNumber == 3) {
 			if (fileSuffixName.equals("jpg") || fileSuffixName.equals("png") || fileSuffixName.equals("gif")) {
-				path = pe.getSystemPram("imgPath") + "\\";
 				for (int j = 0; j < fileNames.length; j++) {
 					if (fileNames.length - j > 1) {
 						path += fileNames[j];
@@ -226,10 +224,6 @@ public class AbilityCheckController{
 
 				System.out.println("这里的path: " + path);
 			} else {
-				return null;
-			}
-		} else {
-			path = pe.getSystemPram("filePath") + "\\";// 文件路径
 			cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\";// 缓存文件地址
 			if (filePath != null && !filePath.isEmpty() && !filePath.equals("")) {
 				path = path + filePath;
@@ -295,7 +289,7 @@ public class AbilityCheckController{
 		fr.setID(ID);
 		fr.setContent(content);
 		fr.setFileName(fileName);
-		fr.setPath(relativePath);
+		fr.setPath("核查记录文件\\"+fileNames[0]+"_"+belongtoID+fileNames[fileNames.length - 1].toLowerCase());
 		fr.setRemarks(remark);
 		fr.setBelongtoID(belongtoID);
 		System.out.println("UPLOADER :" + uploader);

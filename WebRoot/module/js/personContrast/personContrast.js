@@ -17,7 +17,8 @@ var mydata1=new Array();
 var mydataID1=new Array();
 var mydata2=new Array();
 var mydataID2=new Array();
-
+var fileParam = {};
+fileParam.type = 1;
 $(function(){
 	init();
 });
@@ -38,12 +39,10 @@ function init(){
 		});	
 	
 	$('#table').bootstrapTable({
-		clickToSelect : true,
 			striped: true,// 隔行变色效果
 			pagination: true,//在表格底部显示分页条
 			pageSize: 3,//页面数据条数
 			pageNumber:1,//首页页码
-			singleSelect : true,
 			pageList: [1, 5, 10, 15, 20],//设置可供选择的页面数据条数
 			clickToSelect:true,//设置true 将在点击行时，自动选择rediobox 和 checkbox
 			cache: false,//禁用 AJAX 数据缓存
@@ -159,6 +158,7 @@ function init(){
 				/*事件*/
 	    });
 	initTableFile();
+	uploadFile();
 }
 
 
@@ -704,13 +704,57 @@ function refreshAll(){
 	$('#table').bootstrapTable('refresh', null);
 	$(".disappear").css("display","none");
 }
-
+/*新增js方法*/
+//检查文件类型
+function checkFile(o) {
+	$("#chooseFile").attr("disabled", "disabled");
+	var filePath = $(o).val();
+	if (filePath != "" && filePath != undefined) {
+		var arr = filePath.split('\\');
+		var fileName = arr[arr.length - 1];
+		$("#fileName").html(fileName);
+	}
+	if (o.value.indexOf('.jpg') > 0 || o.value.indexOf('.png') > 0 || o.value.indexOf('.gif')) {
+		fileParam.type = 3;
+	}
+} 
+//上传文件
+function uploadFile() {
+	$("#files").fileupload({
+				autoUpload : true,
+				url : 'timeCheckController/upload.do',
+				dataType : 'json',
+				add : function(e, data) {
+					$("#upfile").click(function() {
+						fileParam.secondDirectoryName = "核查记录文件"; // 二级目录
+						fileParam.remarks = $('#remarks').text();
+						data.submit();
+						$('#showfilepage').modal('hide');
+						window.location.reload();
+					});
+				},
+	// 文件上传前触发事件,如果需要额外添加参数可以在这里添加
+	$('#files').bind('fileuploadsubmit', function(e, data) {
+		data.formData = {
+			secondDirectory : fileParam.secondDirectoryName,
+			TypeNumber : fileParam.type,
+			belongtoID : fileParam.belongtoID,
+			remark : fileParam.remarks
+		}
+	});
+}
 //展示文件上传
-function uploadfile(){
+function checkFileMoudle(){
+	$("#chooseFile").removeAttr("disabled");
+	fileParam.firstDirectoryName = $('#fileType option:checked').text();// 一级目录
+	fileParam.type = 1 ;
+	
 	var getdata = $('#table').bootstrapTable('getSelections');
 	if(getdata.length==1){
 		$('#showfilepage').modal('show');	
 		$('#belongID').val(getdata[0].ID);
+		fileParam.belongtoID = getdata[0].ID;
+		fileParam.remarks = $('#remarks').val(); // 备注
 	}else
 	swal({ title: "请选择一条数据", type: "warning"});
 }
@@ -718,7 +762,7 @@ function uploadfile(){
 //选中行展示文件
 function onClickRow(row){
 	rowID = row.ID;
-	refreshfile();
+	refresh();
 }
 //刷新文件表格
 function refresh(){

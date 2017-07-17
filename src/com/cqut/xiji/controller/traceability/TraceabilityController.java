@@ -68,6 +68,7 @@ public class TraceabilityController {
 	@ResponseBody
 	public String saveTracebility(Traceability traceability, HttpSession session) throws UnsupportedEncodingException {
 		traceability.setCorrectOrgan(URLDecoder.decode(traceability.getCorrectOrgan(), "utf-8"));
+		traceability.setPeriod(URLDecoder.decode(traceability.getPeriod(), "utf-8"));
 		return service.saveTracebility(traceability, session) == 1 ? "true"
 				: "false";
 	}
@@ -124,7 +125,8 @@ public class TraceabilityController {
 	@RequestMapping("/updateTracebilityByID")
 	@ResponseBody
 	public String updateTracebilityByID(Traceability traceability) throws UnsupportedEncodingException {
-		traceability.setCorrectOrgan(new String(traceability.getCorrectOrgan().getBytes("iso-8859-1"),"UTF-8"));
+		traceability.setCorrectOrgan(URLDecoder.decode(traceability.getCorrectOrgan(),"utf-8"));
+		traceability.setPeriod(URLDecoder.decode(traceability.getPeriod(), "utf-8"));
 		return service.updateTracebilityByID(traceability) == 1 ? "true"
 				: "false";
 	}
