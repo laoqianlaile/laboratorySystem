@@ -10,6 +10,7 @@ var obj = {
 	state : "",
 	comID : "",
 	isSelectedCom:false,
+	isSelectedSample:false,
 	departmentData :[],
 	isCreate : false
 }
@@ -207,6 +208,7 @@ function dealHaveCom(dara) {
 /**
  * 检测项目的事件-遮罩，点击，选取
  */
+/*
 function initTestProject_event() {
 
 	$(document).on("click", "#addOver", function(event) {
@@ -241,11 +243,11 @@ function initTestProject_event() {
 		// this == event.target
 		$(event.target).prev().click();
 	});
-	/*
+	
 	 * $(document).on("click",".choose .row .col-xs-12",function(event){
 	 * $(this).children("input.chooseInput").click(); event.stopPropagation();
 	 * });
-	 */
+	 
 	$(".choose  .row  .col-xs-12").click(function(event) {
 		$(this).children("input.chooseInput").click();
 		event.stopPropagation();
@@ -289,7 +291,7 @@ function initTestProject_event() {
 
 	});
 
-}
+}*/
 function handleSearchSample(){
 	curral(searchSampleCode,window,arguments);
 }
@@ -298,6 +300,12 @@ function handleSearchSample(){
 function searchSampleCode(args) {
 	
 	var sampleCode = $(args[0]).val();
+	if(args[1] == "add"){
+		$("#addSammpleID").val("");
+	}else{
+		$("#editSammpleID").val("");
+	}
+	
 	var html = '<ul class="list_sampleCode"  onclick="selectSample(this)" data-state="'+args[1]+'"  >';
 	var list_data;
 	$(".tip-factory .tip-factory-content").html("");// 清空原来的数据
@@ -310,14 +318,14 @@ function searchSampleCode(args) {
 		},
 		success : function(o) {
 			list_data = JSON.parse(o);
-			console.log(list_data);
+			
 		},
 		error : function() {
 			return false;
 		}
 	});
 	for (var i = 0; i < list_data.length; i++) {
-		html += '<li id="'+list_data[i].sampleCode+'" >' + list_data[i].sampleCode + '</li>';
+		html += '<li id="'+list_data[i].ID+'" data-unit='' data-sampleStyle=''>' + list_data[i].sampleCode +' ~~ '+list_data[i].sampleName+ '</li>';
 	}
 	html += '</ul>';
 	if(list_data != null && list_data.length > 0)
@@ -335,6 +343,10 @@ function selectSample(self) {
 	var sampleCode = $(source).text();
 	var sampleID = source.id;
 	var state = self.dataset.state;
+	if(source.className == "list_sampleCode"){ //点击到ul中，却没有点击到li中
+		 
+		return ;
+	}
 	if (state == "add") {
 
 		$("#addSampleCode").val(sampleCode);
@@ -343,6 +355,7 @@ function selectSample(self) {
 		$("#editSampleCode").val(sampleCode);
 		$("#editSampleID").val(sampleID);
 	}
+	obj.isSelectedSample = true ;
 	EventUtil.stopPropagation(event);
 	//$(self).parent().css("display", "none"); // 隐藏搜索面板 不需要，因为出厂编号输入框失去焦点也会隐藏
 	isExitSample(sampleCode); // 填充数据--并设置相关属性--避免搜索后不选择
@@ -394,7 +407,7 @@ function getTestLisk() {
 }
 // 初始事件
 function initEvent() {
-	initTestProject_event(); // 检测项目的事件-遮罩，点击，选取
+	//initTestProject_event(); // 检测项目的事件-遮罩，点击，选取
 	initAddTask_event();// 打开新增任务框清除数据事件
 	initSampleCode_event();// 初始出厂编码填写框失去焦点事件
 	initSearchTestProject();
@@ -573,6 +586,7 @@ function curral(method,context,args){
 // 搜索公司名称
 function searchCompany() {
 	var companyName = $("#companyName").val();
+	obj.comID = "" ; //重新输入 公司清空
 	if (companyName != null && companyName != "") {
 		$.ajax({
 			url : '/laboratorySystem/companyController/getComListByName.do',
