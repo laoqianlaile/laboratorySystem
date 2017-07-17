@@ -73,8 +73,8 @@ public class TimeCheckController{
 	 */
 	@RequestMapping("/getTimecheckFileWithPaging")
 	@ResponseBody
-	public JSONObject getTimecheckFileWithPaging(int limit, int offset,String order, String sort, String planID){
-		Map<String, Object> result = service.getTimecheckFileWithPaging(limit, offset, order, sort, planID);
+	public JSONObject getTimecheckFileWithPaging(int limit, int offset,String order, String sort, String belongtoID){
+		Map<String, Object> result = service.getTimecheckFileWithPaging(limit, offset, order, sort, belongtoID);
 		return JSONObject.fromObject(result);
 	}
 	

@@ -417,11 +417,17 @@ public class SampleService extends SearchService implements ISampleService{
 		// TODO Auto-generated method stub
 		String[] properties = new String[]{
 				"sample.ID ",
-				"factoryCode as sampleCode"
+				"factoryCode as sampleCode",
+				"sampleName as sampleName"
 		};
-		String condition = " factoryCode like '%"+sampleCode+"%' order by factoryCode asc ";
-		List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, Sample.class);
-		return list;
+		if( sampleCode == null || sampleCode.equals("")){ //sampleCode 有可能是编号或者名称
+			return null;
+		}else{
+			String condition = " factoryCode like '%"+sampleCode+"%' or sampleName like '%"+sampleCode+"%' order by factoryCode asc ";
+			List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, Sample.class);
+			return list;
+		}
+	
 	}
 
 	@Override
