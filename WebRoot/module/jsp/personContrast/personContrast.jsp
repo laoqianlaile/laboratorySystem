@@ -34,7 +34,9 @@ if (qualiyPlanId != null && qualiyPlanId != ""){
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
 	<link rel="stylesheet" href="module/css/changeACE.css" />
 	<link rel="stylesheet" href="module/css/personContrast/PersonContrast.css" />
-	 
+    <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+    
+    <script src="module/js/sweetalert.min.js"></script>
 	<script src="assets/js/jquery-1.8.3.min.js"></script>
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script src="module/js/personContrast/bootstrapValidator.min.js"></script>

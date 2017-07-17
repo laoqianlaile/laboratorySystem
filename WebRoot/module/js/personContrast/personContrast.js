@@ -24,7 +24,6 @@ $(function(){
 
 //初始化页面加载表格
 function init(){
-		
 	$(".form_datetime").datetimepicker({
 		minView: 'month',            //设置时间选择为年月日 去掉时分秒选择
 		format:'yyyy-mm-dd',
@@ -39,6 +38,7 @@ function init(){
 		});	
 	
 	$('#table').bootstrapTable({
+		clickToSelect : true,
 			striped: true,// 隔行变色效果
 			pagination: true,//在表格底部显示分页条
 			pageSize: 3,//页面数据条数
@@ -61,7 +61,7 @@ function init(){
 			onClickRow:onClickRow,
 			onDblClickCell:onDblClickCell,//当用户双击某一列的时候触发
 			columns:[{
-				checkbox:true,
+				radio:true,
 				width:'5'//宽度
 			},{
 				title : '序号',
@@ -355,7 +355,7 @@ function onDblClickCell(field,value,row,$element){
 		}	
 	}
 	else{
-		alert("此项不能修改");
+		swal({ title: "此项不能修改", type: "error"});
 	};
 }
 //获取点击后的值
@@ -561,16 +561,16 @@ function updataPersonContrast(dom){
 				  url:'personconTrastController/updatePersonconTrastByID.do',
 				  data:personcontrast,
 				  success:function(o){  
-					  alert("成功");
+					 	swal({ title: "成功", type: "success"});
 					  sbtjude=0;
 					  refresh();
 					  }
 			});
 		}else{
-			alert("更新出错，请重试或联系维护人员");
+		swal({ title: "更新出错，请重试或联系维护人员", type: "error"});
 		}		
 	}else{
-		alert("请选择或者选择一条");
+		swal({ title: "请选择或者选择一条", type: "warning"});
 	}
 	
 }
@@ -582,7 +582,7 @@ function deletelist(dom){
 	var getdata = $('#table').bootstrapTable('getSelections');
 	var allid = "";
 	if(getdata.length<=0){
-		alert("请选择");
+		swal({ title: "请选择", type: "warning"});
 	}else{
 		
 		for (var i = 0 ; i < getdata.length ; i++){
@@ -590,7 +590,7 @@ function deletelist(dom){
 		}
 		var deleteid={};
 		deleteid.id = allid;
-		alert("确认删除？")
+		swal({ title: "确认删除？", type: "warning"});
 		$.ajax({
 			  url:'personconTrastController/deletePersonconTrastByID.do',
 			  data:deleteid,
@@ -625,40 +625,40 @@ function addpersonconTrast(){
 	var getdata = $('#table').bootstrapTable('getSelections');
 	
 	if(getdata.length<=0||getdata.length > 1){
-		alert("请选择一条数据");
+		swal({ title: "请选择一条数据？", type: "warning"});
 	}else{
 		
 		for(var i = 0;i < 1;i++){
 			if(getdata[0].projectCode==null||getdata[0].projectCode==""){
-				alert("请填写比对项目编号");
+				swal({ title: "请填写比对项目编号", type: "warning"});
 				break;
 			}	
 			if(getdata[0].projectName==null||getdata[0].projectName==""){
-				alert("请填写比对项目名称");
+				swal({ title: "请填写比对项目名称", type: "warning"});
 			    break;
 			}	
 			if(getdata[0].testDevice==null||getdata[0].testDevice==""){
-				alert("请填写测试装置");
+				swal({ title: "请填写测试装置", type: "warning"});
 			    break;
 			}	
 			if(getdata[0].departmentName==null||getdata[0].departmentName==""){
-				alert("请选择比对人员科室");
+				swal({ title: "请选择比对人员科室", type: "warning"});
 				break;
 			}
 			if(getdata[0].Name1==null||getdata[0].Name1==""){
-				alert("请选择比对标准人员");
+				swal({ title: "请选择比对标准人员", type: "warning"});
 			    break;
 			}	
 			if(getdata[0].Name2==null||getdata[0].Name2==""){
-				alert("请选择待比对人员");
+				swal({ title: "请选择待比对人员", type: "warning"});
 				break;
 			}
 			if(getdata[0].startTime==null||getdata[0].startTime==""){
-				alert("请选择执行时间");
+				swal({ title: "请选择执行时间", type: "warning"});
 				break;
 			}	
 			if(getdata[0].Name2==getdata[0].Name1){
-				alert("待比对人员不能和比对人员相同");
+				swal({ title: "待比对人员不能和比对人员相同", type: "warning"});
 				break;
 			}
 			var personcontrast={};
@@ -676,7 +676,7 @@ function addpersonconTrast(){
 				success:function(e){
 					refresh();
 					$(".disappear").css("display","none");
-					alert("新增成功!")
+					swal({ title: "新增成功", type: "success"});
 					},
 				});
 			}
@@ -712,7 +712,7 @@ function uploadfile(){
 		$('#showfilepage').modal('show');	
 		$('#belongID').val(getdata[0].ID);
 	}else
-		showdiag("请选择一条数据");
+	swal({ title: "请选择一条数据", type: "warning"});
 }
 
 //选中行展示文件
@@ -721,7 +721,7 @@ function onClickRow(row){
 	refreshfile();
 }
 //刷新文件表格
-function refreshfile(){
+function refresh(){
 	$('#tablefile').bootstrapTable('refresh', null);
 }
 
@@ -733,10 +733,9 @@ function Params(pageRequest){
 	pageRequest.pageNo = this.offset;
 	pageRequest.pageSize = this.pageNumber;
 	pageRequest.length = 6;
-	pageRequest.planID = rowID;
+	pageRequest.belongtoID = rowID;
 	return pageRequest;
 }
-
 function initTableFile(){
 	$('#tablefile').bootstrapTable({
 		height: '320',//定义表格的高度
