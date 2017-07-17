@@ -35,6 +35,7 @@ if (qualiyPlanId != null && qualiyPlanId != ""){
 	<link rel="stylesheet" href="module/css/changeACE.css" />
 	<link rel="stylesheet" href="module/css/personContrast/PersonContrast.css" />
     <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+    	<link rel="stylesheet" type="text/css" href="module/css/fileManage/fileManage.css">
     
     <script src="module/js/sweetalert.min.js"></script>
 	<script src="assets/js/jquery-1.8.3.min.js"></script>
@@ -45,7 +46,9 @@ if (qualiyPlanId != null && qualiyPlanId != ""){
 	<script src="module/js/bootstrap-datetimepicker.js"></script>
 	<script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
     <script src="module/js/personContrast/personContrast.js"></script>
-    
+    <script type="text/javascript" src="assets/fileupload/jquery.iframe-transport.js"></script>
+    <script type="text/javascript" src="assets/fileupload/jquery.ui.widget.js"></script> 
+    <script type="text/javascript"src="assets/fileupload/jquery.fileupload.js"></script>
  
   
   </head>
@@ -139,7 +142,7 @@ if (qualiyPlanId != null && qualiyPlanId != ""){
 		  	<hr>
 		  	<table id="table"></table>  
 		  		    <div id="restcontent">
-		  		    <button type="button" id="asda" class="btn btn-primary thisbtn" data-toggle="modal"  onclick="uploadfile()">&nbsp;上传结果</button>
+		  		    <button type="button" id="asda" class="btn btn-primary thisbtn" data-toggle="modal"  onclick="checkFileMoudle()">&nbsp;上传结果</button>
 			   		  </div>
 			   		  
 			   		  	<hr>
@@ -148,53 +151,50 @@ if (qualiyPlanId != null && qualiyPlanId != ""){
 			    </table>
 		  	</div>
 		  	<!-- 上传文件弹框-->
-  	<div class="modal fade" id="showfilepage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-	  		<div class="modal-dialog" role="document">
-	    		<div class="modal-content" style="height:400px;">
-	      			<div class="modal-header">
-	        			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	        			<span aria-hidden="true">&times;</span></button>
-	        				<h4 class="modal-title" id="myModalLabel">上传文件:</h4>
-	      			</div>
-	      			<div class="modal-body">
-	      			<h4 ></h4>
-		      			<form id="adddata" action="personconTrastController/upload.do"
-						method="post" enctype="multipart/form-data"
-						class="form-horizontal">
-						<div id="files">
-							<div class="form-group">
-								<span for="inputEmail3" class="col-sm-4 control-label">选择文件</span>
-								<div class="col-sm-5">
-									<input id="fileupload" type="file" name="file"
-										placeholder="请选择" />
-								</div>
+  	<div id="showfilepage" class="modal fade" role="dialog" style="display: none;"
+		aria-labelledby="gridSystemModalLabel">
+		<div class="modal-dialog" role="document" >
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">上传</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div id="fileInfo" class="col-md-6 column">
+							<div id="fileQueue">
+								<input type="file" name="files" id="files" style="display:none" onchange="checkFile(this)">
 							</div>
-							<div class="form-group">
-								<span class="col-sm-4 control-label">备注</span>
-								<div class="col-sm-8">
-								     <input class="form-control" id="remarks"  type="text">
-								</div>				
-							</div>	
+							<button type="button" id="chooseFile" name="chooseFile" class="btn btn-default">
+								<span class="glyphicon glyphicon-folder-open "></span> 选择文件
+							</button>
+							<span id="fileName"></span>
 							
-							<div class="form-group" style="visibility:hidden;">
-								<label for="inputPassword3" class="col-sm-2 control-label">ID</label>
-								<div class="col-sm-10">
-									<input type="text" class="form-control" id="belongID"
-										name="belongID" readonly="true">
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="submit" class="btn btn-info thisbtn">确定<tton>
-								<button type="button" class="btn btn-info thisbtn"
-									data-dismiss="modal">退出<tton>
-							</div>
 						</div>
-					</form>		  				  							  							      			        			
-	      			</div>
-	   		 </div>
-	  	</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 column">
+							<label>备注信息</label>
+							<textarea id="remarks" name = "remarks" class="form-control" style="margin-left: -32px;height: 147px;"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" id="cancel" name="cancel" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary" id="upfile"  style="width: 100px;">确定</button>
+				</div>
+			</div>
+		</div>
 	</div>
-	  	</div>
   	</div>
+  	<script>
+	$('#chooseFile').click(function() {
+		$('#files').click();
+
+	});
+  	</script>
   </body>
 </html>
