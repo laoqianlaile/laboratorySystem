@@ -714,7 +714,7 @@ function checkFile(o) {
 		var fileName = arr[arr.length - 1];
 		$("#fileName").html(fileName);
 	}
-	if (o.value.indexOf('.jpg') > 0 || o.value.indexOf('.png') > 0 || o.value.indexOf('.gif')) {
+	if (o.value.indexOf('.jpg') > 0 || o.value.indexOf('.png') > 0 || o.value.indexOf('.gif')>0) {
 		fileParam.type = 3;
 	}
 } 
@@ -727,19 +727,20 @@ function uploadFile() {
 				add : function(e, data) {
 					$("#upfile").click(function() {
 						fileParam.secondDirectoryName = "核查记录文件"; // 二级目录
-						fileParam.remarks = $('#remarks').text();
+						fileParam.remark = $('#remarks').val();
 						data.submit();
 						$('#showfilepage').modal('hide');
 						window.location.reload();
 					});
-				},
+				}
+	});
 	// 文件上传前触发事件,如果需要额外添加参数可以在这里添加
 	$('#files').bind('fileuploadsubmit', function(e, data) {
 		data.formData = {
 			secondDirectory : fileParam.secondDirectoryName,
 			TypeNumber : fileParam.type,
 			belongtoID : fileParam.belongtoID,
-			remark : fileParam.remarks
+			remark : fileParam.remark
 		}
 	});
 }
