@@ -1,3 +1,4 @@
+ var rowID = "";
 $(function () {
 	
 	//加载时间控件
@@ -164,31 +165,17 @@ function showpage(){
 	 selectobject = $('#table').bootstrapTable('getSelections');
 	 
 	 if(selectobject==null||selectobject==""){
-			showdiag("请选择一条数据！");
+			swal({ title: "请选择一条数据!", type: "warning"});
 		}
 	 if(selectobject.length == 1){
 		 
 		 $('#showPage').modal('show');	
 	 }else
 		 {
-		 showdiag("只能选择一条数据！");
-		 }
+		 swal({ title: "请选择一条数据!", type: "warning"});		 }
 	 
 }
 
-//消息提示
-function showdiag(data){
-	$('#dequ').remove();
-	document.getElementById("showdiv1").style.display = "none";
-	var sentence = "<span id='dequ'>" + data + "</span>" ; 
-	$('#showdiv1').append(sentence);
-	var width=(document.body.clientWidth-300)/2;                    // 这里可以修改弹框显示的宽度
-	//var height = (document.body.clientHeight-360-100)/2;          这里可以修改弹框显示的高度
-	//document.getElementById("showdiv1").style.marginTop = height;  这里可以修改弹框显示的高度
-	document.getElementById("showdiv1").style.marginLeft = width;    //这里可以修改弹框显示的宽度
-	document.getElementById("showdiv1").style.display = "block";
-	setTimeout("document.getElementById('showdiv1').style.display = 'none'",800);
-}
 
 //获取结果值
 function changeValue(){
@@ -253,18 +240,18 @@ function check(){
 			  data:object,
 			  url:'personconTrastController/resultPersonconTrastByID.do',		 
 			  success:function(e){
-				  alert("结果填写成功");
+					swal({ title: "结果填写成功", type: "success"});
 				  refresh();
 				  },
 			  error:function(){
-					alert("失败");
+					swal({ title: "失败", type: "error"});
 				  }
 		
 			});
 		$('#showPage').modal('hide');
 	}else
 		{
-		showdiag("请选择一条数据！");
+		swal({ title: "请选择一条数据!", type: "warning"});
 		}
 	
 }
@@ -288,8 +275,7 @@ function uploadfile(){
 		$('#showfilepage').modal('show');	
 		$('#belongID').val(getdata[0].ID);
 	}else
-		showdiag("请选择一条数据");
-}
+		swal({ title: "请选择一条数据!", type: "warning"});}
 
 //下载文件
 function download(){
@@ -297,14 +283,13 @@ function download(){
 		if(getdata.length == 1){
 			var fileID;
 			fileID=getdata[0].fileID;
-			window.location.href="fileOperateController/filedownload.do?ID="+fileID;
+			window.location.href="timeCheckController/filedownload.do?ID="+fileID;
 		}
 		if(getdata==null||getdata==""){
-			showdiag("请选择一条数据！");
-		}else
+			swal({ title: "请选择一条数据!", type: "warning"});		}else
 			{
-			showdiag("只能选择一条数据！");
-			}	
+				swal({ title: "请选择一条数据!", type: "warning"});
+				}	
 }
 
 //刷新表格
@@ -316,17 +301,6 @@ function refresh(){
 function refreshfile(){
 	$('#tablefile').bootstrapTable('refresh', null);
 }
-
-        var rowID = "";
-
-		function Params(pageRequest){
-			
-			pageRequest.pageNo = this.offset;
-			pageRequest.pageSize = this.pageNumber;
-			pageRequest.length = 6;
-			pageRequest.planID = rowID;
-			return pageRequest;
-		}
 
 function initTableFile(){
 	$('#tablefile').bootstrapTable({
@@ -374,7 +348,14 @@ function initTableFile(){
 	});
 	
 }
-			
+function Params(pageRequest){
+	
+	pageRequest.pageNo = this.offset;
+	pageRequest.pageSize = this.pageNumber;
+	pageRequest.length = 6;
+	pageRequest.belongtoID = rowID;
+	return pageRequest;
+}			
 
 //刷新全部
 function refreshAll(){

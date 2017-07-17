@@ -221,11 +221,11 @@ function pass(){
 			url:'personconTrastController/auditPersonconTrastByID.do',
 			success:function(msg){
 				refresh();
-				alert("审核成功");
+				 swal({ title: "审核成功", type: "success"});
 			}
 		});
 	}else{
-		showdiag("请只选择一条数据！");
+		swal({ title: "请只选择一条数据！", type: "warning"});
 	}
 }
 
@@ -237,31 +237,16 @@ function showModal(){
 		 
 		 $('#showModal').modal('show');
 	 }else{
-		 showdiag("只能选择一条数据！");
-	 }
+		 swal({ title: "请只选择一条数据！", type: "warning"});
+		 }
 	
 }
 
-//展示提示框
-function showdiag(data){
-	$('#dequ').remove();
-	document.getElementById("showdiv1").style.display = "none";
-	var sentence = "<span id='dequ'>" + data + "</span>" ; 
-	$('#showdiv1').append(sentence);
-	var width=(document.body.clientWidth-300)/2;                    // 这里可以修改弹框显示的宽度
-	//var height = (document.body.clientHeight-360-100)/2;          这里可以修改弹框显示的高度
-	//document.getElementById("showdiv1").style.marginTop = height;  这里可以修改弹框显示的高度
-	document.getElementById("showdiv1").style.marginLeft = width;    //这里可以修改弹框显示的宽度
-	document.getElementById("showdiv1").style.display = "block";
-	setTimeout("document.getElementById('showdiv1').style.display = 'none'",800);
-}
 
 //提交不通过原因
 function unpass(){
-	/*alert("222");*/
 	
 	var reason = $('#reason').val();
-/*	alert(reason);*/
 	var object={};
 	object.ID = selectobject2[0].ID;
 	object.projectCode = selectobject2[0].projectCode;
@@ -281,7 +266,7 @@ function unpass(){
 		success:function(msg){	
 			$('#showModal').modal('hide');
 			refresh();
-			alert("审核成功");
+			swal({ title: "审核成功", type: "success"});
 		}
 	});
 }

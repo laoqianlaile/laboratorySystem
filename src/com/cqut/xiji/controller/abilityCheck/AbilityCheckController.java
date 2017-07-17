@@ -176,24 +176,77 @@ public class AbilityCheckController{
 	 * @date : 2016年11月18日 下午9:14:42
 	 * 
 	 */ 
-	@RequestMapping("/imageUpload")
+	@RequestMapping("/upload")
 	@ResponseBody
-	public void imageUpload(@RequestParam("file") CommonsMultipartFile file,HttpServletRequest request, HttpServletResponse response) throws IOException{
-		
-		    String state = request.getParameter("state");
-			long begin = 0;
-			String[] fileNames = null; // 文件名按"."分割后文件名的集合
-			String ID = request.getParameter("fileID");// 文件ID
-			String uploader = (String)request.getSession().getAttribute("EMPLOYEEID");
-			String fileName = "";// 文件名
-			PropertiesTool pe = new PropertiesTool();
-			String path = pe.getSystemPram("filePath") + "\\";// 文件路径
-			String relativePath = "";// 文件的相对路径,加密后存入数据库
-			fileName = file.getOriginalFilename();// 获取文件全名
-			fileNames = fileName.split("\\.");// 将文件名以\.分割成一个数组
-			String directoryName = path;
-			String cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\";//缓存文件地址
-			
+	public String uploadFile(@RequestParam("files") CommonsMultipartFile file,
+			HttpServletRequest req, HttpServletResponse response,
+			String filePath, String firstDirectory, String secondDirectory,
+			String thirdDirectory, int TypeNumber, String belongtoID,
+			String content, String remark) throws IOException {
+		String uploader = (String) req.getSession().getAttribute("EMPLOYEEID");// 上传人
+		String ID = belongtoID;// 文件ID
+		String fileName = file.getOriginalFilename();// 获取文件全名
+		PropertiesTool pe = new PropertiesTool();
+		String path = pe.getSystemPram("filePath") +"\\核查记录文件"+ "\\"; // 实际文件存储路径
+		String relativePath = "";// 文件的相对路径,加密后存入数据库
+		String[] fileNames = fileName.split("\\.");// 将文件名以\.分割成一个数组
+		String cacheFilePath = "";// 缓存文件路径
+		String directoryName = "";
+		String fileSuffixName = fileNames[fileNames.length - 1].toLowerCase();
+		if (TypeNumber == 2) {
+			System.out.println("fileSuffixName :" + fileSuffixName);
+			if (!fileSuffixName.equals("docx") && !fileSuffixName.equals("doc")) {
+				return null;
+			}
+		}
+			if (fileSuffixName.equals("jpg") || fileSuffixName.equals("png") || fileSuffixName.equals("gif")) {
+				for (int j = 0; j < fileNames.length; j++) {
+					if (fileNames.length - j > 1) {
+						path += fileNames[j];
+						relativePath += fileNames[j];
+					} else {
+						path += "_" + ID + "." + fileNames[j];
+						relativePath += "_" + ID + "." + fileNames[j];
+					}
+				}
+				File targetFile = new File(path);
+				if (!targetFile.exists()) {
+					targetFile.mkdirs();
+				}
+
+				try {
+					file.transferTo(targetFile);
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				System.out.println("这里的path: " + path);
+			} else {
+			cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\";// 缓存文件地址
+			if (filePath != null && !filePath.isEmpty() && !filePath.equals("")) {
+				path = path + filePath;
+				relativePath = relativePath + filePath;
+			} else if (firstDirectory != null && !firstDirectory.isEmpty()
+					&& !firstDirectory.equals("")) {
+				path = path + firstDirectory + "\\";
+				relativePath += firstDirectory + "\\";
+			}
+			if (secondDirectory != null && !secondDirectory.isEmpty()
+					&& !secondDirectory.equals("")) {
+				path = path + secondDirectory + "\\";
+				relativePath += secondDirectory + "\\";
+
+			}
+			if (thirdDirectory != null && !thirdDirectory.isEmpty()
+					&& !thirdDirectory.equals("")) {
+				path = path + thirdDirectory + "\\";
+				relativePath += thirdDirectory + "\\";
+			}
+			System.out.println(firstDirectory + " " + secondDirectory + " "
+					+ " " + thirdDirectory);
+			directoryName += path;
 			for (int j = 0; j < fileNames.length; j++) {
 				if (fileNames.length - j > 1) {
 					path += fileNames[j];
@@ -205,15 +258,13 @@ public class AbilityCheckController{
 					cacheFilePath += "_" + ID + "." + fileNames[j];
 				}
 			}
-			
 
-			
 			File directoryCreate = new File(directoryName);
 			if (!directoryCreate.exists()) {
 				directoryCreate.mkdirs();
 			}
 			File targetFile = new File(cacheFilePath);
-			
+
 			if (!targetFile.exists()) {
 				targetFile.mkdirs();
 			}
@@ -224,91 +275,39 @@ public class AbilityCheckController{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println("path :"+path);
-	        System.out.println("cacheFilePath "+cacheFilePath);
-	        System.out.println("relativePath "+relativePath);
-			Date now = new Date(System.currentTimeMillis());
-			SimpleDateFormat dateFormat = new SimpleDateFormat(
-					"yyyy-MM-dd HH:mm:ss");
-			FileInformation fr = new FileInformation();
-			fr.setID(ID);
-			fr.setContent("1");
-			fr.setFileName(fileName);
-			fr.setBelongtoID("1");
-			fr.setPath(relativePath);
-			fr.setRemarks("");
-			fr.setUploaderID("1");
-			fr.setType(0);
-			fr.setState(Integer.parseInt(state));
-			try {
-				fr.setUploadTime(dateFormat.parse(dateFormat.format(now)));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			String result = "";
-			int res = 0;
-			if(state.equals("0"))
-			result = service.saveFiles(fr);
+		}
 
-			else
-				res = entityDao.updatePropByID(fr, ID);
-			fileEncryptservice.encryptPath(relativePath, ID);//加密路径
-			fileEncryptservice.encryptFile(cacheFilePath,path,ID);//加密文件
-		/*	
-			for (int j = 0; j < fileNames.length; j++) {
-				if (fileNames.length - j > 1) {
-					path += fileNames[j];
-				} else {
-					path += "_" + ID + "." + fileNames[j];
-				}
-			}
-
-			File targetFile = new File(path);
-			if (!targetFile.exists()) {
-				targetFile.mkdirs();
-			}
-			
-			try {
-				file.transferTo(targetFile);
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
+		System.out.println("fileName :" + fileName);
+		System.out.println("path :" + path);
+		System.out.println("cacheFilePath " + cacheFilePath);
+		System.out.println("relativePath " + relativePath);
 		
-			
-			Date now = new Date(begin);
-			SimpleDateFormat dateFormat = new SimpleDateFormat(
-					"yyyy-MM-dd HH:mm:ss");
-			FileInformation fr = new FileInformation();
-			fr.setID(ID);
-			fr.setContent("1");
-			fr.setFileName(fileName);
-			fr.setBelongtoID("1");
-			fr.setPath(path);
-			fr.setRemarks("");
-			fr.setUploaderID("1");
-			fr.setType(0);
-			fr.setState(Integer.parseInt(state));
-			try {
-				fr.setUploadTime(dateFormat.parse(dateFormat.format(now)));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			String result = "";
-			int res = 0;
-			if(state.equals("0"))
-			result = service.saveFiles(fr);
+		Date now = new Date(System.currentTimeMillis());
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd HH:mm:ss");
+		FileInformation fr = new FileInformation();
+		fr.setID(ID);
+		fr.setContent(content);
+		fr.setFileName(fileName);
+		fr.setPath("核查记录文件\\"+fileNames[0]+"_"+belongtoID+fileNames[fileNames.length - 1].toLowerCase());
+		fr.setRemarks(remark);
+		fr.setBelongtoID(belongtoID);
+		System.out.println("UPLOADER :" + uploader);
+		fr.setUploaderID(uploader);
+		fr.setType(TypeNumber);
+		fr.setState(0);
+		try {
+			fr.setUploadTime(dateFormat.parse(dateFormat.format(now)));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		service.saveFiles(fr);
 
-			else
-				res = entityDao.updatePropByID(fr, ID);
-		*/
-
-		  if(result=="true" || res == 1){
-			  System.out.println("返回结果正确");
-			  response.sendRedirect("../module/jsp/AbilityCheck/AbilityCheck.jsp");
-		  }
-		 }
+		if (!fileSuffixName.equals("jpg") && !fileSuffixName.equals("png") && !fileSuffixName.equals("gif")) {
+			fileEncryptservice.encryptPath(relativePath, ID);// 加密路径
+			fileEncryptservice.encryptFile(cacheFilePath, path, ID);// 加密文件
+		}
+		return ID + "";
+	}
 	
 }

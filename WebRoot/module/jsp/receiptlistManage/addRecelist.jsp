@@ -101,12 +101,7 @@
 						class="form-control">
 					<div id="companyContainer">
 						<div id="over_company">
-							<ul>
-								<!--   <li>vdfgvfd</li>
-					    <li>vdfgvfd</li>
-					      <li>vdfgvfd</li>
-					        <li>vdfgvfd</li>
-					          <li>vdfgvfd</li> -->
+							<ul onclick="selectedCompany()">
 							</ul>
 						</div>
 					</div>
@@ -270,8 +265,28 @@
 									<input type="text" id="addSampleStyle" name="sampleStyle"
 										class="form-control" aria-describedby="basic-addon1" />
 								</div>
-								<div class="col-xs-12 col-md-12">
+								    <div class="col-xs-12 col-md-12">
+							
 									<div class="col-md-6 col-xs-6 ">
+										<p>检测类型：</p>
+									<input type="radio" name="addTaskType" id="addTaskType1" value="0" checked="checked"> <label class="radioLabel" for="addTaskType1">检测</label>									
+									<input type="radio" name="addTaskType" id="addTaskType2" value="1"> <label class="radioLabel" for="addTaskType2">校准</label>					
+								</div>
+									
+										<div class="col-md-6 col-xs-6 ">
+										<div>
+											<p class="labelName">搜索查询添加检测项目:</p>
+											<input type="text" id="addsearchTestProjects"
+												class="form-control" placeholder="选择所需检测项目"
+												oninput="searchTestProject('add')"
+												onpropertychange="searchTestProject('add')" />
+										</div>
+										<div class="showTestProjects" name="add"></div>
+								
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-12">
+									
 										<p>检测/校准项目：</p>
 										<!-- 	<textarea id="addTestProject" rows="3" cols="30"
 										class="testProjectName" placeholder="选择检测项目"></textarea> -->
@@ -282,32 +297,10 @@
 										</li>
 										<li><input type="checkbox">检测项目</li>
 										</ul> -->
-									</div>
-									<div class="col-md-6 col-xs-6 ">
-										<div>
-											<p class="labelName">搜索查询添加检测项目</p>
-											<input type="text" id="addsearchTestProjects"
-												class="form-control" placeholder="选择所需检测项目"
-												oninput="searchTestProject('add')"
-												onpropertychange="searchTestProject('add')" />
-										</div>
-										<div class="showTestProjects" name="add"></div>
-									</div>
+								
+								
 								</div>
-								<!-- 选择检测项目 -->
-								<div class="over" id="addOver">
-									<div class="overChoose  ">
-										<!-- 隐藏滑动条 -->
-										<div class="choose">
-											<div class="row"></div>
-										</div>
-									</div>
-								</div>
-                                <div class="col-xs-12 col-md-12">
-								<p>检测类型：</p>
-									<input type="radio" name="addTaskType" id="addTaskType1" value="0" checked="checked"> <label class="radioLabel" for="addTaskType1">检测</label>									
-									<input type="radio" name="addTaskType" id="addTaskType2" value="1"> <label class="radioLabel" for="addTaskType2">校准</label>					
-								</div>
+                            
 								<div class="col-xs-12 col-md-12">
 									<p>检测部门：</p>
 									<select id="addDepartment" >
@@ -381,54 +374,33 @@
 									<input type="text" id="editSampleStyle" name="sampleStyle"
 										class="form-control" aria-describedby="basic-addon1" />
 								</div>
-
-								<div class="col-xs-12 col-md-12">
+	<div class="col-xs-12 col-md-12">
+							
 									<div class="col-md-6 col-xs-6 ">
-										<p>检测/校准项目：</p>
-										<div id="displayChecked" class="testProjectName" name="edit"
-											placeholder="选择检测项目"></div>
-
-									</div>
-									<div  class="col-md-6 col-xs-6 ">
+									<p>检测类型：</p>
+									<input type="radio" name="editTaskType" id="editTaskType1" value="0"> <label class="radioLabel" for="editTaskType1">检测</label>									
+									<input type="radio" name="editTaskType" id="editTaskType2" value="1"> <label class="radioLabel" for="editTaskType2">校准</label>										
+								</div>
+									<div class="col-md-6 col-xs-6 ">
 										<div>
-											<p class="labelName">搜索查询添加仪器</p>
-											<input type="text" id="editsearchTestProjects" name="edit"
-												class="form-control" placeholder="选择所需仪器"
-												oninput="searchTestProject('edit')"
-												onpropertychange="searchTestProject('edit')" />
+											<p class="labelName">搜索查询添加检测项目:</p>
+											<input type="text" id="editsearchTestProjects" name="edit" class="form-control" placeholder="选择所需仪器" oninput="searchTestProject('edit')"
+											onpropertychange="searchTestProject('edit')" />
 										</div>
 										<div class="showTestProjects" name="edit"></div>
 									</div>
 								</div>
+								<div class="col-xs-12 col-md-12">
+							
+										<p>检测/校准项目：</p>
+										<div id="displayChecked" class="testProjectName" name="edit"
+											placeholder="选择检测项目"></div>
 
-								<!-- 选择检测项目 -->
-								<div class="over" id="editOver">
-									<div class="overChoose  ">
-										<!-- 隐藏滑动条 -->
-										<div class="choose">
-											<div class="row">
-												<div class="col-xs-12 col-md-12">
-													<input type="checkbox" value="123" name="task"
-														class="chooseInput"><label class="fontStyle">电磁兼容</label>
-												</div>
+									
+								
+								</div>
 
-												<div class="col-xs-12 col-md-12">
-													<input type="checkbox" value="1234" name="task"
-														class="chooseInput"><label class="fontStyle">电压传导</label>
-												</div>
-												<div class="col-xs-12 col-md-12">
-													<input type="checkbox" value="1235" name="task"
-														class="chooseInput"><label class="fontStyle">环境测验</label>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-    							<div class="col-xs-12 col-md-12">
-								<p>检测类型：</p>
-									<input type="radio" name="editTaskType" id="editTaskType1" value="0"> <label class="radioLabel" for="editTaskType1">检测</label>										<option value="个">个</option>
-									<input type="radio" name="editTaskType" id="editTaskType2" value="1"> <label class="radioLabel" for="editTaskType2">校准</label>										<option value="个">个</option>
-								</div>
+    						
 								<div class="col-xs-12 col-md-12">
 									<p>检测部门：</p>
 									<select id="editDepartment" >
