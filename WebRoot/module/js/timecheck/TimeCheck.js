@@ -225,7 +225,7 @@ function queryParams(params) { // 配置参数
 		offset : params.offset, // 页码
 		sort : params.sort, // 排序列名
 		order : params.order,
-		planID:rowID,
+		belongtoID:rowID,
 	// 排位命令（desc，asc）
 	};
 	return temp;
@@ -485,8 +485,11 @@ function checkFile(o) {
 		var fileName = arr[arr.length - 1];
 		$("#fileName").html(fileName);
 	}
-	if (o.value.indexOf('.jpg') > 0 || o.value.indexOf('.png') > 0 || o.value.indexOf('.gif')) {
+	if (o.value.indexOf('.jpg') > 0 || o.value.indexOf('.png') > 0 || o.value.indexOf('.gif') > 0) {
 		fileParam.type = 3;
+	}
+	if (o.value.indexOf('.doc') > 0 || o.value.indexOf('.docx') > 0) {
+		fileParam.type = 2;
 	}
 } 
 

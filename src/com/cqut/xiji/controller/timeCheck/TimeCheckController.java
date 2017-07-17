@@ -240,7 +240,7 @@ public class TimeCheckController{
 			String filePath, String firstDirectory, String secondDirectory,
 			String thirdDirectory, int TypeNumber, String belongtoID,
 			String content, String remark) throws IOException {
-		String uploader = (String) req.getSession().getAttribute("EMPLOYEEID");// 上传人
+		String uploader = belongtoID;// 上传人
 		String ID = EntityIDFactory.createId();// 文件ID
 		String fileName = file.getOriginalFilename();// 获取文件全名
 		PropertiesTool pe = new PropertiesTool();
@@ -250,15 +250,15 @@ public class TimeCheckController{
 		String cacheFilePath = "";// 缓存文件路径
 		String directoryName = "";
 		String fileSuffixName = fileNames[fileNames.length - 1].toLowerCase();
+		if (TypeNumber == 2) {
+			System.out.println("fileSuffixName :" + fileSuffixName);
+			if (!fileSuffixName.equals("docx") && !fileSuffixName.equals("doc")) {
+				return null;
+			}
+		}
 		if (TypeNumber == 3) {
 			if (fileSuffixName.equals("jpg") || fileSuffixName.equals("png") || fileSuffixName.equals("gif")) {
 				path = pe.getSystemPram("filePath") + "\\";
-				if (secondDirectory != null && !secondDirectory.isEmpty()
-						&& !secondDirectory.equals("")) {
-					path = path + secondDirectory + "\\";
-					relativePath += secondDirectory + "\\";
-		
-				}
 				for (int j = 0; j < fileNames.length; j++) {
 					if (fileNames.length - j > 1) {
 						path += fileNames[j];
@@ -285,8 +285,7 @@ public class TimeCheckController{
 			} else {
 				return null;
 			}
-		}
-		else{
+		} else {
 			path = pe.getSystemPram("filePath") + "\\";// 文件路径
 			cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\";// 缓存文件地址
 			if (filePath != null && !filePath.isEmpty() && !filePath.equals("")) {
@@ -301,7 +300,7 @@ public class TimeCheckController{
 					&& !secondDirectory.equals("")) {
 				path = path + secondDirectory + "\\";
 				relativePath += secondDirectory + "\\";
-	
+
 			}
 			if (thirdDirectory != null && !thirdDirectory.isEmpty()
 					&& !thirdDirectory.equals("")) {
@@ -322,13 +321,13 @@ public class TimeCheckController{
 					cacheFilePath += "_" + ID + "." + fileNames[j];
 				}
 			}
-	
+
 			File directoryCreate = new File(directoryName);
 			if (!directoryCreate.exists()) {
 				directoryCreate.mkdirs();
 			}
 			File targetFile = new File(cacheFilePath);
-	
+
 			if (!targetFile.exists()) {
 				targetFile.mkdirs();
 			}
@@ -340,6 +339,7 @@ public class TimeCheckController{
 				e.printStackTrace();
 			}
 		}
+
 		System.out.println("fileName :" + fileName);
 		System.out.println("path :" + path);
 		System.out.println("cacheFilePath " + cacheFilePath);
@@ -354,8 +354,11 @@ public class TimeCheckController{
 		fr.setFileName(fileName);
 		fr.setPath(relativePath);
 		fr.setRemarks(remark);
-		fr.setBelongtoID(belongtoID);
-		
+		if (fileSuffixName.equals("jpg") || fileSuffixName.equals("png") || fileSuffixName.equals("gif")) {
+			fr.setBelongtoID(uploader);
+		} else {
+			fr.setBelongtoID(belongtoID);
+		}
 		System.out.println("UPLOADER :" + uploader);
 		fr.setUploaderID(uploader);
 		fr.setType(TypeNumber);
@@ -365,8 +368,7 @@ public class TimeCheckController{
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		System.out.println(ID);
-		service.saveFiles(fr);
+		fileOperateService.saveFiles(fr);
 
 		if (!fileSuffixName.equals("jpg") && !fileSuffixName.equals("png") && !fileSuffixName.equals("gif")) {
 			fileEncryptservice.encryptPath(relativePath, ID);// 加密路径
@@ -374,6 +376,7 @@ public class TimeCheckController{
 		}
 		return ID + "";
 	}
+
 	
 	/***
 	 * 

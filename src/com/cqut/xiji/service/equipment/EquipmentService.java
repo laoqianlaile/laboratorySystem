@@ -71,7 +71,7 @@ public class EquipmentService extends SearchService implements
 								"model", },
 						"equipment",
 						null,
-						null, null, "equipment.ID=" + equipmentID + "");
+						null, null, "equipment.ID='" + equipmentID + "'");
 		return ens;
 	}
 	@Override
