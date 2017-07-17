@@ -289,7 +289,7 @@ public class AbilityCheckController{
 		fr.setID(ID);
 		fr.setContent(content);
 		fr.setFileName(fileName);
-		fr.setPath("核查记录文件\\"+fileNames[0]+"_"+belongtoID+fileNames[fileNames.length - 1].toLowerCase());
+		fr.setPath("核查记录文件\\"+fileNames[0]+"_"+belongtoID+"."+fileNames[fileNames.length - 1].toLowerCase());
 		fr.setRemarks(remark);
 		fr.setBelongtoID(belongtoID);
 		System.out.println("UPLOADER :" + uploader);
