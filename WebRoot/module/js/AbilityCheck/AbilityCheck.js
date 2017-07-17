@@ -480,7 +480,7 @@ function download(){
 		 swal({ title: "该文档为空", type: "warning"});
 	}
 	else{
-		window.location.href="fileOperateController/filedownload.do?ID="+getdata[0].fileID;
+		window.location.href="timeCheckController/filedownload.do?ID="+getdata[0].fileID;
 	}
 }
 
