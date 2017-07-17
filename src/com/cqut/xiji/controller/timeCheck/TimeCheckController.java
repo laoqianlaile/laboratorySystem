@@ -259,12 +259,11 @@ public class TimeCheckController{
 		if (TypeNumber == 3) {
 			if (fileSuffixName.equals("jpg") || fileSuffixName.equals("png") || fileSuffixName.equals("gif")) {
 				path = pe.getSystemPram("filePath") + "\\";
-				if (secondDirectory != null && !secondDirectory.isEmpty()
-						&& !secondDirectory.equals("")) {
-					path = path + secondDirectory + "\\";
-					relativePath += secondDirectory + "\\";
+			if (secondDirectory != null && !secondDirectory.isEmpty() && !secondDirectory.equals("")) {
+				path = path + secondDirectory + "\\";
+				relativePath += secondDirectory + "\\";
 
-				}
+			}
 				for (int j = 0; j < fileNames.length; j++) {
 					if (fileNames.length - j > 1) {
 						path += fileNames[j];
