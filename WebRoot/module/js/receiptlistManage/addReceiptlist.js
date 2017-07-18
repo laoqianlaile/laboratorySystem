@@ -205,93 +205,7 @@ function dealHaveCom(dara) {
 	$("#address").prop("disabled", true);
 }
 
-/**
- * 检测项目的事件-遮罩，点击，选取
- */
-/*
-function initTestProject_event() {
 
-	$(document).on("click", "#addOver", function(event) {
-		event.stopPropagation();
-		$(".over").css("display", "none");
-		$(".over").css("width", "0");
-		$(".over").css("height", "0");
-		var names = getTestTatol("add").names;
-		$("#addTestProject").val("");
-		$("#addTestProject").val(names.substring(0, names.length - 3));
-
-	});
-	$(document).on("click", "#editOver", function(event) {
-		event.stopPropagation();
-		$(".over").css({
-			"display": "none",
-			"width": "0",
-			"height": "0"
-		});
-		$(".over").css();
-		$(".over").css("height", "0");
-		var names = getTestTatol("edit").names;
-		$("#editTestProject").val("");
-		$("#editTestProject").val(names.substring(0, names.length - 3));
-
-	});
-	$(document).on("click", ".chooseInput", function(event) {
-		event.stopPropagation();
-	});
-	$(document).on("click", ".fontStyle", function(event) {
-		event.stopPropagation();
-		// this == event.target
-		$(event.target).prev().click();
-	});
-	
-	 * $(document).on("click",".choose .row .col-xs-12",function(event){
-	 * $(this).children("input.chooseInput").click(); event.stopPropagation();
-	 * });
-	 
-	$(".choose  .row  .col-xs-12").click(function(event) {
-		$(this).children("input.chooseInput").click();
-		event.stopPropagation();
-	});
-
-	// 检测项目的选取
-	$("#addTestProject").focus(function(event) {
-		var testNamevalue = $("#addTestProject").val();
-		var data = getTestLisk(); // 获取检测项目列表
-		var htmlP = "";
-		if (data != false) {
-			htmlP = playTestProjectHtml(data, testNamevalue, "add");// 拼装项目列表html
-			$("#addOver .overChoose .choose .row ").empty(); // 清空子元素
-			$("#addOver .overChoose .choose .row ").html(htmlP);
-		}
-		// 显示第二层遮罩
-		$(".overChoose").css("display", "block");
-		$(".over").css("display", "block");
-		var docWidth = $("#addTaskModal .modal-dialog").width();
-		var docHeight = $("#addTaskModal .modal-dialog").height();
-		$(".over").css("width", docWidth);
-		$(".over").css("height", docHeight);
-
-	});
-	$("#editTestProject").focus(function(event) {
-		var testNamevalue = $("#editTestProject").val();
-		var data = getTestLisk(); // 获取检测项目列表
-		var htmlP = "";
-		if (data != false) {
-			htmlP = playTestProjectHtml(data, testNamevalue, "edit");// 拼装项目列表html
-			$("#editOver .overChoose .choose .row ").empty(); // 清空子元素
-			$("#editOver .overChoose .choose .row ").html(htmlP);
-		}
-		// 显示第二层遮罩
-		$(".overChoose").css("display", "block");
-		$(".over").css("display", "block");
-		var docWidth = $("#editTaskModal .modal-dialog").width();
-		var docHeight = $("#editTaskModal .modal-dialog").height();
-		$(".over").css("width", docWidth);
-		$(".over").css("height", docHeight);
-
-	});
-
-}*/
 function handleSearchSample(){
 	curral(searchSampleCode,window,arguments);
 }
@@ -325,7 +239,7 @@ function searchSampleCode(args) {
 		}
 	});
 	for (var i = 0; i < list_data.length; i++) {
-		html += '<li id="'+list_data[i].ID+'" data-unit="'+list_data[i].unit+'"  data-sampleName="'+list_data[i].sampleName+'" data-sampleCode="'+list_data[i].sampleCode+'"  data-sampleStyle="'+list_data.[i].sampleStyle+'">' + list_data[i].sampleCode +' ~~ '+list_data[i].sampleName+ '</li>';
+		html += '<li id="'+list_data[i].ID+'" data-unit="'+list_data[i].unit+'"  data-sampleName="'+list_data[i].sampleName+'" data-sampleCode="'+list_data[i].sampleCode+'"  data-sampleStyle="'+list_data[i].sampleStyle+'">' + list_data[i].sampleCode +' ~~ '+list_data[i].sampleName+ '</li>';
 	}
 	html += '</ul>';
 	if(list_data != null && list_data.length > 0)
@@ -645,7 +559,7 @@ function selectedCompany(){
 	EventUtil.stopPropagation(event);
 	
 }
-// 输入样品编号检查样品库是否存在--避免选择后重新输入没有的样品
+/*// 输入样品编号检查样品库是否存在--避免选择后重新输入没有的样品
 function isExitSample(sampleCode) {
 	var data;
 	$.ajax({
@@ -705,7 +619,7 @@ function isExitSample(sampleCode) {
 		$("#addUnit").attr("disabled", false);
 
 	}
-}
+}*/
 //检测项目方法失去焦点隐藏展示列表
 function initSearchTestProject() {
 
@@ -737,31 +651,7 @@ function initSampleCode_event() {
 		    setTimeout("hideSampleOver('add')",700);
 		 
 	     });
-	/* if($("#editSampleCode").val() == "") { // swal("样品编号不能为空");
-	 //sample_global.isAddEdit = false;
-	 //$(".tip-factory").css("display","none"); //隐藏下面的提示搜索框 } else
-	 setTimeout(isExitSample($("#addSampleCode").val()),400); }); var fn1 =
-	 $(document).on("blur", "#editSampleCode", function() { //需要blur事件填充剩余的数据
-	 
-	 if($("#editSampleCode").val() == "") { // swal("样品编号不能为空");
-	 //sample_global.isAddEdit = false;
-	 //$(".tip-factory").css("display","none"); //隐藏下面的提示搜索框 } else
-	 isExitSample($("#editSampleCode").val()); }); var fn2 =
-	 $("#addSampleCode").blur(function(){ if($("#addSampleCode").val() == "") {
-	 //swal("样品编号不能为空"); //sample_global.isAddEdit = false;
-	 //$(".tip-factory").css("display","none"); //隐藏下面的提示搜索框 } else
-	 setTimeout(isExitSample($("#addSampleCode").val()),400); });*/
-	 
-	/*
-	 * var fn2 = $(document).on("blur", "#addSampleCode", function() {
-	 * if($("#addSampleCode").val() == "") { //swal("样品编号不能为空");
-	 * //sample_global.isAddEdit = false;
-	 * //$(".tip-factory").css("display","none"); //隐藏下面的提示搜索框 } else
-	 * isExitSample($("#addSampleCode").val()); });
-	 */
-	/*
-	 * setTimeout(fn1,200); setTimeout(fn2,200);
-	 */
+
 }
 // 离开出厂编号搜索框处理
 function hideSampleOver(state){

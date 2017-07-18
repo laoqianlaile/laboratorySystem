@@ -619,7 +619,7 @@ public class SampleService extends SearchService implements ISampleService{
 		fileName = "样品信息.xls";
 		final String userAgent = request.getHeader("USER-AGENT");
 		list1.add("样品信息");
-		DynamicLengthConfig config1 = new DynamicLengthConfig(0, 0, 1, 7,
+		DynamicLengthConfig config1 = new DynamicLengthConfig(0, 0, 1, 8,
 				list1);
 		dynamicLengthMap.put("dynamicLengt1", config1);
 		XMLParser parser = new XMLParser(XMLPath, sheetName, null,
@@ -673,6 +673,7 @@ public class SampleService extends SearchService implements ISampleService{
 		"factoryCode as sampleCode",
 		"sampleName",
 		"specifications AS sampleStype", 
+		"laborHour",
 		"unit",
 		"if(state = 0 ,'未领用','领用') as state",
 		"sample.remarks  ",
