@@ -154,7 +154,7 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
 					<input type= "hidden" id = "EMPLOYEEID" value = "<%=session.getAttribute("EMPLOYEEID")%>" />
 					<div class="row">
 						<div class ="col-md-6 column">
-							<label>模板名称：</label> <input type="text" id="add_TemplateName"
+							<label>文件名称：</label> <input type="text" id="add_TemplateName"
 								name="TemplateName" class="form-control" />
 						</div>
 						

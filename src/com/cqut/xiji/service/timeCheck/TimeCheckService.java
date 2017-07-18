@@ -277,12 +277,12 @@ public class TimeCheckService extends SearchService implements ITimeCheckService
 	}
 	
 	@Override
-	public Map<String, Object> getTimecheckFileWithPaging(int limit, int offset,String order,String sort,String planID) {
-		System.out.println("planID="+planID);
+	public Map<String, Object> getTimecheckFileWithPaging(int limit, int offset,String order,String sort,String belongtoID) {
+		System.out.println("planID="+belongtoID);
 		int index = limit;
 		int pageNum = offset/limit;
 		String tablename = "fileinformation";
-		String conditon="belongtoID='"+planID+"'";
+		String conditon="belongtoID='"+belongtoID+"'";
 		String[] properties = new String[]{
 				"ID",
 				"fileName",

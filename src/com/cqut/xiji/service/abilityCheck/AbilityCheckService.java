@@ -106,7 +106,7 @@ public class AbilityCheckService extends SearchService implements IAbilityCheckS
 		int mergeCount;
 		int mergeIndex;
 		String tableName = "abilitycheck";
-		String contectString = "LEFT JOIN employee ON abilitycheck.employeeID = employee.ID " + " LEFT JOIN duty ON employee.dutyID = duty.ID " + " LEFT JOIN equipment ON abilitycheck.equipmentID = equipment.ID" + " LEFT JOIN department ON abilitycheck.departmentID = department.ID" + " LEFT JOIN fileinformation ON abilitycheck.fileID = fileinformation.ID"; 
+		String contectString = "LEFT JOIN employee ON abilitycheck.employeeID = employee.ID " + " LEFT JOIN duty ON employee.dutyID = duty.ID " + " LEFT JOIN equipment ON abilitycheck.equipmentID = equipment.ID" + " LEFT JOIN department ON abilitycheck.departmentID = department.ID" + " LEFT JOIN fileinformation ON abilitycheck.fileID = fileinformation.belongtoID"; 
 		// 获取总数
 		int count = getForeignCountInFull("abilitycheck.ID", contectString, null,
 				condition, false);

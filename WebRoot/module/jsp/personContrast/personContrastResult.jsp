@@ -25,7 +25,9 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
 	<link rel="stylesheet" href="module/css/changeACE.css" />
 	<link rel="stylesheet" href="module/css/personContrast/PersonContrast.css" />
 	<link rel="stylesheet" href="module/css/personContrast/auditcontrast.css" />
-		 
+	 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+    
+    <script src="module/js/sweetalert.min.js"></script>	 
 	<script src="assets/js/jquery-3.1.1.min.js"></script>
 	<script src="module/js/bootstrap.js"></script>
 	<script src="module/js/bootstrap-table.js"></script>

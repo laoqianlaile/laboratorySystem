@@ -130,7 +130,7 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
   		</div>
   		<hr />
   		<div id="bottom">
-  			<div>
+  			<div id="restcontent">
     			<button type="button" class="btn btn-primary thisbtn" onclick="download()">下载</button>
     		</div>
     		<div class="tablecontent">

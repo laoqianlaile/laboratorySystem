@@ -250,7 +250,7 @@ function download(){
 	var getdata = $('#tablefile').bootstrapTable('getSelections');
 	var fileID;
 	fileID=getdata[0].ID;
-	window.location.href="fileOperateController/filedownload.do?ID="+fileID;
+	window.location.href="timeCheckController/filedownload.do?ID="+fileID;
 }
 
 function changevalue(type,value){

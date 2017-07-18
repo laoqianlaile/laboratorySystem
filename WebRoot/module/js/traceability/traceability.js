@@ -1,8 +1,13 @@
 var object = {}, pubtype = "", datacount = -1, sbtjude = 0, visture = "", viscount = 0, visture2 = "", viscount2 = 0, visture3 = "", viscount3 = 0, judg = 0, judg1 = 0, judg2 = 0, judg3 = 0, visture1 = "", viscount1 = 0, logojuge = 1;
-var mydata = new Array();
 var obj = {};
-var mydataID = new Array();
 var rowID;
+var mydataID = new Array();
+var mydata = new Array();
+var mydata1 = new Array();
+var mydataID1 = new Array();
+var mydata2 = new Array();
+var mydataID2 = new Array();
+
 function queryParams(pageReqeust) {
 	pageReqeust.pageNo = this.offset;
 	pageReqeust.pageSize = this.pageNumber;
@@ -60,125 +65,109 @@ function inti() {
 						selectItemName : '',// radio or checkbox 的字段名//设置True
 						// 将禁止多选
 						columns : [
-								[
-										{
-											field : 'ck',
-											checkbox : true,
-											align : 'center',
-											colspan : 1,
-											rowspan : 2
-										},
-										{
-											title : 'ID',
-											field : 'traceabilityID',
-											visible : false,
-											colspan : 1,
-											rowspan : 2,
-										},
-										{
-											title : '序号',
-											field : 'Number',
-											colspan : 1,
-											rowspan : 2,
-											formatter : function(value, row,
-													index) {
-												return index + 1;
-											}
-										},
-										{
-											title : '设备名称',
-											field : 'equipmentName',
-											align : 'center',
-											valign: 'middle',
-											width: '5',
-											colspan : 1,
-											rowspan : 2
-										},
-										{
-											title : '仪器编号',
-											field : 'equipmentCode',
-											align : 'center',
-											valign: 'middle',
-											width: '5',
-											colspan : 1,
-											rowspan : 2
-										},
-										{
-											title : '规格型号',
-											field : 'model',
-											align : 'center',
-											valign: 'middle',
-											width: '5',
-											colspan : 1,
-											rowspan : 2
-										},
-										{
-											title : '需要校准的量值',
-											align : 'center',
-											colspan : 1,
-											rowspan : 1
-										},
-										{
-											title : '校验服务机构',
-											field : 'correctOrgan',
-											align : 'center',
-											colspan : 1,
-											rowspan : 2
-										},
-										{
-											title : '部门名称',
-											field : 'departmentName',
-											align : 'center',
-											colspan : 1,
-											rowspan : 2
-										},
-										{
-											title : '本次校验周期',
-											field : 'period',
-											align : 'center',
-											colspan : 1,
-											rowspan : 2
-										},
-										{
-											title : '本年度校验时间',
-											field : 'nowCorrectYear',
-											align : 'center',
-											colspan : 1,
-											rowspan : 2
-										},
-										{
-											title : '下次计划校验时间',
-											field : 'nextCorrectYear',
-											align : 'center',
-											colspan : 1,
-											rowspan : 2
-										},
-										{
-											title : '不通过原因',
-											field : 'reason',
-											align : 'center',
-											colspan : 1,
-											rowspan : 2
-										},
-										{
-											title : '审核状态',
-											field : 'auditState',
-											align : 'center',
-											colspan : 1,
-											rowspan : 2,
-											formatter : function(value, row,
-													index) {
-												var content="";
-												if (value == "0") {
-													content = "未审核";
-												} else if (value == "1") {
-													content= "审核通过";
-												} else if (value== "2") {
-													content = "审核不通过";
-												}
-												return content;
-											}
-										}, ],
+								[ {
+									field : 'ck',
+									checkbox : true,
+									align : 'center',
+									colspan : 1,
+									rowspan : 2
+								}, {
+									title : 'ID',
+									field : 'traceabilityID',
+									visible : false,
+									colspan : 1,
+									rowspan : 2,
+								}, {
+									title : '序号',
+									field : 'Number',
+									colspan : 1,
+									rowspan : 2,
+									formatter : function(value, row, index) {
+										return index + 1;
+									}
+								}, {
+									title : '设备名称',
+									field : 'equipmentName',
+									align : 'center',
+									valign : 'middle',
+									width : '5',
+									colspan : 1,
+									rowspan : 2
+								}, {
+									title : '仪器编号',
+									field : 'equipmentCode',
+									align : 'center',
+									valign : 'middle',
+									width : '5',
+									colspan : 1,
+									rowspan : 2
+								}, {
+									title : '规格型号',
+									field : 'model',
+									align : 'center',
+									valign : 'middle',
+									width : '5',
+									colspan : 1,
+									rowspan : 2
+								}, {
+									title : '需要校准的量值',
+									align : 'center',
+									colspan : 1,
+									rowspan : 1
+								}, {
+									title : '校验服务机构',
+									field : 'correctOrgan',
+									align : 'center',
+									colspan : 1,
+									rowspan : 2
+								}, {
+									title : '部门名称',
+									field : 'departmentName',
+									align : 'center',
+									colspan : 1,
+									rowspan : 2
+								}, {
+									title : '本次校验周期',
+									field : 'period',
+									align : 'center',
+									colspan : 1,
+									rowspan : 2
+								}, {
+									title : '本年度校验时间',
+									field : 'nowCorrectYear',
+									align : 'center',
+									colspan : 1,
+									rowspan : 2
+								}, {
+									title : '下次计划校验时间',
+									field : 'nextCorrectYear',
+									align : 'center',
+									colspan : 1,
+									rowspan : 2
+								}, {
+									title : '不通过原因',
+									field : 'reason',
+									align : 'center',
+									colspan : 1,
+									rowspan : 2
+								}, {
+									title : '审核状态',
+									field : 'auditState',
+									align : 'center',
+									colspan : 1,
+									rowspan : 2,
+									formatter : function(value, row, index) {
+										var content = "";
+										if (value == "0") {
+											content = "未审核";
+										} else if (value == "1") {
+											content = "审核通过";
+										} else if (value == "2") {
+											content = "审核不通过";
+										}
+										return content;
+									}
+								}, ],
 								[ {
 									title : '量值名称&nbsp;|&nbsp;测量范围',
 									field : 'Name1',
@@ -199,7 +188,7 @@ function inti() {
 										 * onclick='deletetd(this,"+index+")'></span></td></tr>"; } }
 										 * });
 										 */
-										for ( var i = 0; i < value.length; i++) {
+										for (var i = 0; i < value.length; i++) {
 											if ((value[i].Value == undefined)
 													&& (value[i].Name == undefined)) {
 
@@ -257,12 +246,12 @@ function delNameAndRange(dom, index) {
 	var str = "Ntable" + index;
 	var length = $("#" + str).find("span").length;
 	if (logojuge == 1) {
-		for ( var i = 0; i < length; i++) {
+		for (var i = 0; i < length; i++) {
 			$("#" + str).find("span").eq(i).css("display", "block");
 		}
 		logojuge = 0;
 	} else {
-		for ( var i = 0; i < length; i++) {
+		for (var i = 0; i < length; i++) {
 			$("#" + str).find("span").eq(i).css("display", "none");
 		}
 		logojuge = 1;
@@ -271,7 +260,7 @@ function delNameAndRange(dom, index) {
 
 function deletetd(dom, index) {
 	var parentdom = dom.parentNode;
-	for ( var i = 0;; i++) {
+	for (var i = 0;; i++) {
 		if (parentdom.nodeName != "TR") {
 			parentdom = parentdom.parentNode;
 		} else {
@@ -349,88 +338,91 @@ function returnbtn(count) {
 			+ count + ')"></button>';
 	return div + button1 + button2;
 }
-//新增提交
+// 新增提交
 function addSubmit() {
 	var getdata = $("#table").bootstrapTable('getSelections');
 	var dom;
 	if (getdata.length == 1) {
 		var getdata = $("#table").bootstrapTable('getSelections');
 		var dataobj = {};
-		dataobj.ID = obj.traceabilityID;	
-		if(getdata[0].equipmentName!=null&&getdata[0].equipmentName!=""){
+		dataobj.ID = obj.traceabilityID;
+		if (getdata[0].equipmentName != null && getdata[0].equipmentName != "") {
 			dataobj.equipmentName = getdata[0].equipmentName;
-		}else{
+		} else {
 			alert("设备名称不能为空");
 			return;
 		}
 		dataobj.equipmentID = getdata[0].equipmentID;
-		if(getdata[0].equipmentCode!=null&&getdata[0].equipmentCode!=""){
+		if (getdata[0].equipmentCode != null && getdata[0].equipmentCode != "") {
 			dataobj.equipmentCode = getdata[0].equipmentCode;
-		}else{
+		} else {
 			alert("仪器编号不能为空");
 			return;
 		}
-		if(getdata[0].model!=null&&getdata[0].model!=""){
+		if (getdata[0].model != null && getdata[0].model != "") {
 			dataobj.model = getdata[0].model;
-		}else{
+		} else {
 			alert("规格型号不能为空");
 			return;
 		}
-		if(getdata[0].correctOrgan!=null&&getdata[0].correctOrgan!=""){
+		if (getdata[0].correctOrgan != null && getdata[0].correctOrgan != "") {
 			dataobj.correctOrgan = getdata[0].correctOrgan;
-		}else{
+		} else {
 			alert("校验服务机构不能为空");
 			return;
-		}	
+		}
 		dataobj.departmentName = getdata[0].departmentName;
-		if(getdata[0].period!=null&& getdata[0].period!=""){
+		if (getdata[0].period != null && getdata[0].period != "") {
 			dataobj.period = getdata[0].period;
-		}else{
+		} else {
 			alert("本次校验周期不能为空");
 			return;
 		}
-		if(getdata[0].nowCorrectYear!=null&&getdata[0].nowCorrectYear!=""){
+		if (getdata[0].nowCorrectYear != null
+				&& getdata[0].nowCorrectYear != "") {
 			dataobj.nowCorrectYear = getdata[0].nowCorrectYear;
-		}else{
+		} else {
 			alert("本年度校验时间不能为空");
 			return;
 		}
-		if(getdata[0].nextCorrectYear!=null&&getdata[0].nextCorrectYear!=""){
+		if (getdata[0].nextCorrectYear != null
+				&& getdata[0].nextCorrectYear != "") {
 			dataobj.nextCorrectYear = getdata[0].nextCorrectYear;
-		}else{
+		} else {
 			alert("下次校验时间不能为空");
 			return;
 		}
 		dataobj.reason = getdata[0].reason;
 		dataobj.auditState = getdata[0].auditState;
 		dataobj.correctOrgan = encodeURI(dataobj.correctOrgan);
+		dataobj.period = encodeURI(dataobj.period);
 		$.ajax({
 			url : 'traceabilityController/saveTracebility.do',
 			data : dataobj,
-			success : function(e) {	
+			success : function(e) {
 				alert("新增成功");
 				$("#AddSubmit").hide();
 			}
 		});
 		var trlength = $('#table').find("tr").length;
-		for ( var i = 0; i < trlength; i++) {
+		for (var i = 0; i < trlength; i++) {
 			if ($('#table').find("tr").eq(i).attr("class") == "selected") {
 				dom = $('#table').find("tr").eq(i).find("table").eq(0);
 			}
 		}
 		var length = dom.find("tr").length;
 		var myArray = new Array(length);
-		for ( var i = 0; i < length; i++) {
+		for (var i = 0; i < length; i++) {
 			myArray[i] = {
 				Name : dom.find("tr").eq(i).find("td").eq(0).html(),
 				Value : dom.find("tr").eq(i).find("td").eq(1).html(),
 			}
 		}
 
-		for ( var i = 0; i < length; i++) {
+		for (var i = 0; i < length; i++) {
 
 		}
-		for ( var i = 0; i < length; i++) {
+		for (var i = 0; i < length; i++) {
 			$.ajax({
 				url : 'calibrationValueController/saveCalibrationValue.do',
 				data : {
@@ -443,9 +435,8 @@ function addSubmit() {
 				}
 			});
 		}
-		
-	}
 
+	}
 
 }
 
@@ -459,27 +450,28 @@ function Updatesubmit() {
 	var dom;
 	if (getdata.length == 1) {
 		var trlength = $('#table').find("tr").length;
-		for ( var i = 0; i < trlength; i++) {
+		for (var i = 0; i < trlength; i++) {
 			if ($('#table').find("tr").eq(i).attr("class") == "selected") {
 				dom = $('#table').find("tr").eq(i).find("table").eq(0);
 			}
 		}
 		var length = dom.find("tr").length;
 		var myArray = new Array(length);
-		for ( var i = 0; i < length; i++) {
+		for (var i = 0; i < length; i++) {
 			myArray[i] = {
 				Name : dom.find("tr").eq(i).find("td").eq(0).html(),
 				Value : dom.find("tr").eq(i).find("td").eq(1).html(),
 			}
 		}
-		
-		$.ajax({
+
+		$
+				.ajax({
 					url : 'calibrationValueController/deleteCalibrationValueByCondition.do',
 					data : {
 						traceabilityID : getdata[0].traceabilityID,
 					},
 					success : function(e) {
-						for ( var i = 0; i < length; i++) {
+						for (var i = 0; i < length; i++) {
 							$
 									.ajax({
 										url : 'calibrationValueController/saveCalibrationValue.do',
@@ -494,9 +486,9 @@ function Updatesubmit() {
 											dataobj.equipmentID = getdata[0].equipmentID;
 											dataobj.equipmentCode = getdata[0].equipmentCode;
 											dataobj.model = getdata[0].model;
-											dataobj.correctOrgan = getdata[0].correctOrgan;
+											dataobj.correctOrgan = encodeURI(getdata[0].correctOrgan);
 											dataobj.departmentName = getdata[0].departmentName;
-											dataobj.period = getdata[0].period;
+											dataobj.period = encodeURI(getdata[0].period);
 											dataobj.nowCorrectYear = getdata[0].nowCorrectYear;
 											dataobj.nextCorrectYear = getdata[0].nextCorrectYear;
 											dataobj.reason = getdata[0].reason;
@@ -519,39 +511,28 @@ function Updatesubmit() {
 	}
 
 }
-//页面加载
+// 页面加载
 window.onload = function() {
 	inti();
 	intiFileTable();
 }
 
-/*function getfilename(){
-	var myobj={};
-	var files = $("#fileupload").val();
-	var type=$("#type").val();
-	var remark = $("#remarks").val();
-	myobj.type=type;
-	myobj.files = files;
-	myobj.remark=remark;
-	$.ajax({
-		url:'timeCheckController/upload.do',
-		datatype:"json",
-		data:myobj,
-		success:function(e){
-			alert("上传成功");
-		}
-	});
-}*/
-//上传文件
+/*
+ * function getfilename(){ var myobj={}; var files = $("#fileupload").val(); var
+ * type=$("#type").val(); var remark = $("#remarks").val(); myobj.type=type;
+ * myobj.files = files; myobj.remark=remark; $.ajax({
+ * url:'timeCheckController/upload.do', datatype:"json", data:myobj,
+ * success:function(e){ alert("上传成功"); } }); }
+ */
+// 上传文件
 function Upload() {
 	var getData = $('#table').bootstrapTable("getSelections");
-	if(getData.length==1){
+	if (getData.length == 1) {
 		$('#UploadModal').modal('show');
 		$('#belongID').val(getData[0].traceabilityID);
-	}
-	else{
+	} else {
 		alert("请为一条建议上传文件");
-	}	
+	}
 }
 function getobject(dom, value, type) {
 	dom.parentNode.innerHTML = value;
@@ -666,8 +647,7 @@ function onDblClickCell(field, value, row, $element) {
 	if (receive == "equipmentName" || receive == "equipmentCode"
 			|| receive == "nowCorrectYear" || receive == "nextCorrectYear"
 			|| receive == "period" || receive == "correctOrgan"
-			|| receive == "model" || receive == "Name1"
-			|| receive == "Range1") {
+			|| receive == "model" || receive == "Name1" || receive == "Range1") {
 		pubtype = receive;
 		switch (receive) {
 		case "equipmentName":
@@ -676,7 +656,7 @@ function onDblClickCell(field, value, row, $element) {
 			if (viscount == 1) {
 				getvalue = visture;
 			}
-			;
+			$element[0].innerHTML = "";
 			$element[0].innerHTML = "<div class=''>"
 					+ "<button class='btn btn-default dropdown-toggle' type='button' id='dropdowmlist' data-toggle='dropdown'>"
 					+ getvalue
@@ -691,9 +671,9 @@ function onDblClickCell(field, value, row, $element) {
 							var myobj = eval("(" + data + ")");
 							var myobje = myobj.equipements;
 							var listdata = $('#listdata');
-							for ( var i = 0; i < myobje.length; i++) {
-								mydata[i] = myobje[i].equipmentName;//设备名称
-								mydataID[i] = myobje[i].equipmentID;//设备ID
+							for (var i = 0; i < myobje.length; i++) {
+								mydata[i] = myobje[i].equipmentName;// 设备名称
+								mydataID[i] = myobje[i].equipmentID;// 设备ID
 								var rstring = "<li role='presentation' onclick='getParentbutton(this,"
 										+ "mydata["
 										+ i
@@ -716,11 +696,12 @@ function onDblClickCell(field, value, row, $element) {
 				getvalue = row.equipmentCode;
 			if (viscount2 == 1)
 				getvalue = visture2;
+			$element[0].innerHTML = "";
 			$element[0].innerHTML = "<div class=''>"
 					+ "<button class='btn btn-default dropdown-toggle' type='button' id='dropdowmlist' data-toggle='dropdown'>"
 					+ getvalue
 					+ "<span class='caret'></span></button>"
-					+ "<ul id='listdata' class='dropdown-menu ' role='menu' aria-labelledby='dropdownMenu1'>"
+					+ "<ul id='listdata1' class='dropdown-menu ' role='menu' aria-labelledby='dropdownMenu1'>"
 					+ "</ul></div>";
 			var equipmentID = encodeURI(object.equipmentID, "UTF-8");
 			$
@@ -732,20 +713,22 @@ function onDblClickCell(field, value, row, $element) {
 						success : function(data) {
 							var myobj = eval("(" + data + ")");
 							var myobje = myobj.equipements;
-							var listdata = $('#listdata');
-							for ( var i = 0; i < myobje.length; i++) {
-								mydata[i] = myobje[i].equipmentCode;
-								mydataID[i] = myobje[i].equipmentID;
+							var listdata = $('#listdata1');
+							mydataID1.splice(0, mydataID1.length);
+							mydata1.splice(0, mydata1);
+							for (var i = 0; i < myobje.length; i++) {
+								mydata1[i] = myobje[i].equipmentCode;
+								mydataID1[i] = myobje[i].equipmentID;
 								var rstring = "<li role='presentation' onclick='getParentbutton2(this,"
-										+ "mydata["
+										+ "mydata1["
 										+ i
 										+ "]"
 										+ ","
-										+ "mydataID["
+										+ "mydataID1["
 										+ i
 										+ "]"
 										+ ")'>"
-										+ mydata[i] + "</li>";
+										+ mydata1[i] + "</li>";
 								listdata.append(rstring);
 							}
 						}
@@ -819,8 +802,8 @@ function onDblClickCell(field, value, row, $element) {
 		case "model":
 			if (viscount1 == 0)
 				getvalue = row.model;
-			if(getvalue==undefined){
-				getvalue="";
+			if (getvalue == undefined) {
+				getvalue = "";
 			}
 			if (viscount1 == 1)
 				getvalue = visture1;
@@ -828,7 +811,7 @@ function onDblClickCell(field, value, row, $element) {
 					+ "<button class='btn btn-default dropdown-toggle' type='button' id='dropdowmlist' data-toggle='dropdown'>"
 					+ getvalue
 					+ "<span class='caret'></span></button>"
-					+ "<ul id='listdata' class='dropdown-menu ' role='menu' aria-labelledby='dropdownMenu1'>"
+					+ "<ul id='listdata2' class='dropdown-menu ' role='menu' aria-labelledby='dropdownMenu1'>"
 					+ "</ul></div>";
 			var equipmentID = encodeURI(object.equipmentID, "UTF-8");
 			$
@@ -840,20 +823,22 @@ function onDblClickCell(field, value, row, $element) {
 						success : function(data) {
 							var myobj = eval("(" + data + ")");
 							var myobje = myobj.equipements;
-							var listdata = $('#listdata');
-							for ( var i = 0; i < myobje.length; i++) {
-								mydata[i] = myobje[i].model;
-								mydataID[i] = myobje[i].equipmentID;
+							var listdata = $('#listdata2');
+							mydataID2.splice(0, mydataID2.length);
+							mydata2.splice(0, mydata2.length);
+							for (var i = 0; i < myobje.length; i++) {
+								mydata2[i] = myobje[i].model;
+								mydataID2[i] = myobje[i].equipmentID;
 								var rstring = "<li role='presentation' onclick='getParentbutton1(this,"
-										+ "mydata["
+										+ "mydata2["
 										+ i
 										+ "]"
 										+ ","
-										+ "mydataID["
+										+ "mydataID2["
 										+ i
 										+ "]"
 										+ ")'>"
-										+ mydata[i] + "</li>";
+										+ mydata2[i] + "</li>";
 								listdata.append(rstring);
 							}
 						}
@@ -861,18 +846,14 @@ function onDblClickCell(field, value, row, $element) {
 			;
 			break;
 		}
-	} else {
-		alert("此项不能修改");
-	}
-	;
+	};
 }
 // 获取点击后的值
 function getParentbutton(dom, value, ID) {
 	var parentdom = dom.parentNode;
-	for ( var i = 0;; i++) {
+	for (var i = 0;; i++) {
 		if (parentdom.nodeName == "TD") {
 			parentdom.innerHTML = value;
-			updatevalue = value;
 			object.equipmentID = ID;
 			object.equipmentName = value;
 			sbtjude = 1;
@@ -887,10 +868,9 @@ function getParentbutton(dom, value, ID) {
 // 获取点击后的值
 function getParentbutton1(dom, value, ID) {
 	var parentdom = dom.parentNode;
-	for ( var i = 0;; i++) {
+	for (var i = 0;; i++) {
 		if (parentdom.nodeName == "TD") {
 			parentdom.innerHTML = value;
-			updatevalue1 = value;
 			object.equipmentTypeID = ID;
 			object.model = value;
 			sbtjude = 1;
@@ -905,10 +885,9 @@ function getParentbutton1(dom, value, ID) {
 // 获取点击后的值
 function getParentbutton2(dom, value, ID) {
 	var parentdom = dom.parentNode;
-	for ( var i = 0;; i++) {
+	for (var i = 0;; i++) {
 		if (parentdom.nodeName == "TD") {
 			parentdom.innerHTML = value;
-			updatevalue = value;
 			object.equipmentID = ID;
 			object.equipmentCode = value;
 			sbtjude = 1;
@@ -923,10 +902,9 @@ function getParentbutton2(dom, value, ID) {
 // 获取点击后的值
 function getParentbutton3(dom, value, ID) {
 	var parentdom = dom.parentNode;
-	for ( var i = 0;; i++) {
+	for (var i = 0;; i++) {
 		if (parentdom.nodeName == "TD") {
 			parentdom.innerHTML = value;
-			updatevalue = value;
 			object.departmentID = ID;
 			object.departmentName = value;
 			sbtjude = 1;
@@ -957,10 +935,10 @@ function del() {
 	if (data.length == 0) {
 		alert("请选择至少一条数据");
 	} else {
-		var message=confirm("确定要删除这条建议吗？");
-		if(message==true){
+		var message = confirm("确定要删除这条建议吗？");
+		if (message == true) {
 			var ids = "";
-			for ( var i = 0; i < data.length; i++) {
+			for (var i = 0; i < data.length; i++) {
 				ids += data[i].traceabilityID + ",";
 			}
 			var ajaxParameter = {
@@ -977,10 +955,10 @@ function del() {
 					refresh();
 				}
 			});
-		}else{
+		} else {
 			refresh();
 		}
-		
+
 	}
 }
 
@@ -995,96 +973,94 @@ function search() {
 	$('#table').bootstrapTable('refresh', queryParams);
 }
 // 传参
-function Params(pageReqeust) {	
+function Params(pageReqeust) {
 	pageReqeust.pageNo = this.offset;
 	pageReqeust.pageSize = this.pageNumber;
 	pageReqeust.length = 6;
 	pageReqeust.belongtoID = rowID;
 	return pageReqeust;
 }
-function intiFileTable(){
+function intiFileTable() {
 	$('#filetable')
-	.bootstrapTable(
-			{
-				// height:500,
-				striped : true,// 隔行变色效果
-				classes : 'table table-hover table-bordered table-condensed',
-				clickToSelect : true, // 设置true
-				// 将在点击行时，自动选择rediobox 和
-				// checkbox
-				singleSelect : true,
-				pagination : true,// 在表格底部显示分页条
-				rownumbers : true,// 行数 .
-				pageSize : 10,// 页面数据条数
-				pageNumber : 1,// 首页页码
-				pageList : [5, 10, 20, 50, 200, 500 ],// 设置可供选择的页面数据条数
-				clickToSelect : true,// 设置true
-				// 将在点击行时，自动选择rediobox 和
-				// checkbox
-				cache : false,// 禁用 AJAX 数据缓存
-				sortOrder : 'asc',// 定义排序方式
-				url : 'fileOperateController/getFileInfoBybelongtoIDWithPaging.do',
-				sidePagination : 'server',// 设置在哪里进行分页
-				contentType : 'application/json',// 发送到服务器的数据编码类型
-				dataType : 'json',// 服务器返回的数据类型
-				queryParams : Params,
-				queryParamsType : "limit",
-				selectItemName : '',// radio or checkbox
-				// 的字段名//设置True
-				// 将禁止多选
-				columns : [
-						{
-							field : 'ck',
-							checkbox : true,
-							align : 'center'
-						},
-						{
-							title : '送检方式',
-							field : 'type',
-							align : 'center',
-							formatter : function(value, row,
-									index) {
-								var content="";
-								if (value == "0") {
-									content = "自检";
-								} else if (value == "1") {
-									content= "外检";
-								}
-								return content;
-							}
-						},
+			.bootstrapTable(
+					{
+						// height:500,
+						striped : true,// 隔行变色效果
+						classes : 'table table-hover table-bordered table-condensed',
+						clickToSelect : true, // 设置true
+						// 将在点击行时，自动选择rediobox 和
+						// checkbox
+						singleSelect : true,
+						pagination : true,// 在表格底部显示分页条
+						rownumbers : true,// 行数 .
+						pageSize : 10,// 页面数据条数
+						pageNumber : 1,// 首页页码
+						pageList : [ 5, 10, 20, 50, 200, 500 ],// 设置可供选择的页面数据条数
+						clickToSelect : true,// 设置true
+						// 将在点击行时，自动选择rediobox 和
+						// checkbox
+						cache : false,// 禁用 AJAX 数据缓存
+						sortOrder : 'asc',// 定义排序方式
+						url : 'fileOperateController/getFileInfoBybelongtoIDWithPaging.do',
+						sidePagination : 'server',// 设置在哪里进行分页
+						contentType : 'application/json',// 发送到服务器的数据编码类型
+						dataType : 'json',// 服务器返回的数据类型
+						queryParams : Params,
+						queryParamsType : "limit",
+						selectItemName : '',// radio or checkbox
+						// 的字段名//设置True
+						// 将禁止多选
+						columns : [
+								{
+									field : 'ck',
+									checkbox : true,
+									align : 'center'
+								},
+								{
+									title : '送检方式',
+									field : 'type',
+									align : 'center',
+									formatter : function(value, row, index) {
+										var content = "";
+										if (value == "0") {
+											content = "自检";
+										} else if (value == "1") {
+											content = "外检";
+										}
+										return content;
+									}
+								},
 
-						{
-							title : '文件名',
-							field : 'fileName',
-							align : 'center'
-						},
-						{
-							title : 'ID',
-							field : 'ID',
-							align : 'center',
-							visible:false
-						},
-						{
-							title : '上传时间',
-							field : 'uploadTime',
-							align : 'center',
-						},
-						{
-							title : '操作',
-							formatter : function(value, row,
-									index) {
-								var submit = '<button style="background-color:#31b0d5;color:#FFF" class="btn glyphicon" onclick="fileDownload()">下载</button>';
-								return submit;
-							}
-						}, {
-							title : '备注',
-							field : 'remarks',
-							align : 'center',
-						} ]
-			});
+								{
+									title : '文件名',
+									field : 'fileName',
+									align : 'center'
+								},
+								{
+									title : 'ID',
+									field : 'ID',
+									align : 'center',
+									visible : false
+								},
+								{
+									title : '上传时间',
+									field : 'uploadTime',
+									align : 'center',
+								},
+								{
+									title : '操作',
+									formatter : function(value, row, index) {
+										var submit = '<button style="background-color:#31b0d5;color:#FFF" class="btn glyphicon" onclick="fileDownload()">下载</button>';
+										return submit;
+									}
+								}, {
+									title : '备注',
+									field : 'remarks',
+									align : 'center',
+								} ]
+					});
 }
-	
+
 // 下载文件
 function fileDownload() {
 	var getdata = $("#filetable").bootstrapTable('getSelections');
