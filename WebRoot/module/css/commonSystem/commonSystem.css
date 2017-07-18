@@ -1,8 +1,12 @@
 @CHARSET "UTF-8";
 *{
-	
+	font-size:9px;
 }
-
+html body{
+	width:100%;
+	height:100%;
+	font-size:9px;
+}
 .bootstrap-table .table thead tr{
 	color:#fff;
 	background:#364760;

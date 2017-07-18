@@ -1,7 +1,13 @@
 
 @CHARSET "UTF-8";
+*{
+	font-size: 9px;
+}
+html body{
+		font-size: 9px;
+}
 .contairw {
-	min-width: 1300px;
+/* 	min-width: 1300px; */
 }
 
 .navbar {
@@ -88,7 +94,7 @@
 #content_frame{
 	
 	width: 100%;
-	min-height:510px;
+	/* min-height:510px; */
 }
 .col-xs-12-w{
 margin-left: 5px;

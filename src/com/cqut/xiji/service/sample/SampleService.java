@@ -1,7 +1,14 @@
 package com.cqut.xiji.service.sample;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,22 +16,32 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.company.Company;
+import com.cqut.xiji.entity.contractFineItem.ContractFineItem;
 import com.cqut.xiji.entity.linkReSample.LinkReSample;
 import com.cqut.xiji.entity.sample.Sample;
+import com.cqut.xiji.entity.standard.Standard;
 import com.cqut.xiji.entity.task.Task;
+import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.service.base.SearchService;
+import com.cqut.xiji.tool.POIEntity.DynamicLengthConfig;
+import com.cqut.xiji.tool.POIXLSReader.ExcelReader;
+import com.cqut.xiji.tool.POIXMLReader.XMLParser;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
 @Service
@@ -565,5 +582,165 @@ public class SampleService extends SearchService implements ISampleService{
 		Sample se = entityDao.getByID(sampleID, Sample.class);
 		se.setSampleName(sampleName);
 		return baseEntityDao.updatePropByID(se, sampleID) > 1 ? true : false;
+	}
+   /**
+    * 
+    * f导出样品信息表
+    * @author wzj
+    * @date 2017年7月18日 上午9:45:20
+    *
+    */
+	@Override
+	public void exportSample(HttpServletRequest request,
+			HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		Class objClass = this.getClass(); 
+		String strRealPath  = objClass.getClassLoader().getResource("").getFile(); 
+		try {
+			strRealPath = URLDecoder.decode(strRealPath, "UTF-8");
+		} catch (UnsupportedEncodingException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} 
+
+		File objFile = new File(strRealPath); 
+
+		strRealPath = objFile.getParent(); 
+		String XMLPath = strRealPath;
+		//String XMLPath = getClass().getResource("/").getFile().toString();
+		XMLPath = XMLPath + "/classes/ReportXML/sample.xml";
+		String sheetName = "employee";
+		Map<String, DynamicLengthConfig> dynamicLengthMap = new HashMap<String, DynamicLengthConfig>();
+		List<String> list1 = new ArrayList<String>();// 大标题
+		List<Map<String, Object>> dataSource =getAllSample(-1);
+		System.out.println("dataSource:"+dataSource);
+		String fileName = "";
+		//dataSource =null;
+		fileName = "样品信息.xls";
+		final String userAgent = request.getHeader("USER-AGENT");
+		list1.add("样品信息");
+		DynamicLengthConfig config1 = new DynamicLengthConfig(0, 0, 1, 7,
+				list1);
+		dynamicLengthMap.put("dynamicLengt1", config1);
+		XMLParser parser = new XMLParser(XMLPath, sheetName, null,
+				dynamicLengthMap, dataSource);
+		parser.parse();
+		try {
+			if(StringUtils.contains(userAgent, "MSIE")){//IE浏览器
+                fileName = URLEncoder.encode(fileName,"UTF8");
+            }else if(StringUtils.contains(userAgent, "Mozilla")){//google,火狐浏览器
+                fileName = new String(fileName.getBytes(), "ISO8859-1");
+            }else{
+                fileName = URLEncoder.encode(fileName,"UTF8");//其他浏览器
+            }
+			response.setHeader("content-disposition", "attachment;filename=\""
+					+ fileName+"\"");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+
+		try {
+			OutputStream output = response.getOutputStream();
+			parser.write(output);
+			output.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 获取前面N条样品信息
+	 * features or effect
+	 * @author wzj
+	 * @date 2017年7月18日 下午1:03:44
+	 *
+	 */
+	@Override
+	public List<Map<String, Object>> getAllSample(int total) {
+	// TODO Auto-generated method stub
+		String condition =" 1 = 1  ";
+		int pageNum = 0;
+		if(total == -1){
+			 pageNum = entityDao.getByCondition(condition, Sample.class).size();
+		}else if(total > 0){
+			pageNum = total;
+		}
+	
+		
+		int pageIndex = 0;
+		String[] properties =  new String[]{
+		"sample.ID",
+		"factoryCode as sampleCode",
+		"sampleName",
+		"specifications AS sampleStype", 
+		"unit",
+		"if(state = 0 ,'未领用','领用') as state",
+		"sample.remarks  ",
+		"DATE_FORMAT(sample.createTime,'%Y-%m-%d %H:%i:%s') AS createTime "
+		};
+	
+	    String tableName = " sample ";
+    	String sort = " desc ";
+    	String order= " sample.createTime ";
+	    List<Map<String, Object>> list = entityDao.searchWithpaging(properties, tableName, null, null, condition, null, order, sort, pageNum, pageIndex);
+	     return list;
+	}
+   /**
+    * 导入样品信息
+    * features or effect
+    * @author wzj
+    * @date 2017年7月18日 下午1:03:27
+    *
+    */
+	@Override
+	public int importExcel(CommonsMultipartFile file, HttpServletRequest req,	HttpServletResponse response) {
+			
+			Date date = new Date();
+			try {  
+				List<ArrayList<String>> list = new ExcelReader().readExcel(file); 
+				ArrayList<String> rowList = null;
+		        //获得Excel表格的内容:
+				
+		        for (int i = 1; i < list.size(); i++) {
+		        	rowList = list.get(i);
+		        	Sample sample = new Sample();
+		        	sample.setID(EntityIDFactory.createId());
+		        	sample.setFactoryCode(rowList.get(0));
+		        	sample.setSampleName(rowList.get(1));
+		        	sample.setSpecifications(rowList.get(2));
+		        	String tempString = rowList.get(3);
+		        	if(tempString == null || tempString.equals("")){
+		        		sample.setLaborHour(0);
+		        	}else{
+		        		sample.setLaborHour(Integer.parseInt(tempString));
+		        	}
+		        
+		        	sample.setUnit(rowList.get(4));
+		        	sample.setState(0);
+		        	sample.setRemarks(rowList.get(6));
+		        	sample.setCreateTime(date);
+		            entityDao.save(sample);
+		        }
+		      
+		     
+		        
+		    } 
+			catch(NumberFormatException e ){
+				
+				  e.printStackTrace();  
+				  return 2 ; //未在指定位置输入正确工时时间
+			}
+			catch (IndexOutOfBoundsException e){
+				
+				  e.printStackTrace();  
+				  return 1 ; //格式不对
+			}
+			catch (IOException e) {  
+		        System.out.println("未找到指定路径的文件!");  
+		        e.printStackTrace();  
+		  	    return 3 ; //
+		    }
+			return 0;
+	
 	}
 }

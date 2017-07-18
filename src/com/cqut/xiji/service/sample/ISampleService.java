@@ -3,6 +3,11 @@ package com.cqut.xiji.service.sample;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 public interface ISampleService {
 
     /**
@@ -28,6 +33,17 @@ public interface ISampleService {
 	String addSample(String factoryCode, String sampleName, String sampleType,String remarks, String unit); //新增样品
 	String isExitFactory(String factoryCode); //查看样品编号是否存在
 	List<Map<String, Object>> getSampleListByCodeLimit(String sampleCode); //模糊搜索样品通过名称或者样品编码
+	public void   exportSample (HttpServletRequest request,HttpServletResponse response) ; //导出样品信息
+	public  List<Map<String, Object>> getAllSample(int total);   //获取前面N条样品信息  -1 代表所有
+	int importExcel(CommonsMultipartFile file, HttpServletRequest req,HttpServletResponse response); //导入样品信息
+	/**
+	 * 
+	 * features or effect
+	 * @author wzj
+	 * @date 2017年5月18日 上午9:42:15
+	 * @param codeOrName
+	 * @return
+	 */
 	
 	public List<Map<String, Object>> getSampleMsg(String codeOrName);
 
@@ -39,5 +55,7 @@ public interface ISampleService {
 	String updateManHour(String ID, double laborHour);
 	public String addSampleInManHour(String factoryCode,String sampleName, String specifications, double laborHour);
 	
-	public boolean updateSampleNameByID(String sampleID, String sampleName); 
+	public boolean updateSampleNameByID(String sampleID, String sampleName);
+
+
 }

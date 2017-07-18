@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workbook>
+	<sheet id="sheet1" sheetName="sheet1">
+		<style> 
+		   <colWidth>
+                <widthItem>3000</widthItem>
+                <widthItem>3000</widthItem>
+                <widthItem>3000</widthItem>
+                <widthItem>3000</widthItem>
+                <widthItem>3000</widthItem>
+                <widthItem>3000</widthItem>
+                <widthItem>3000</widthItem>
+            </colWidth>
+		 </style> 
+		<!-- 定义动态表头 -->
+		<dynamicReportHeader>
+			<!-- 动态可变长表头 -->
+			<dynamicLengthReportHeader>
+				<header>
+					<require>
+						dynamicLengt1
+					</require>
+				</header>
+			</dynamicLengthReportHeader>
+			
+			<!-- 静态单表头 -->
+			<staticSingleReportHeader>
+			
+				<header id="header1">
+					<address>
+						<row>1</row>
+						<col>0</col>
+					</address>
+					<title>样品编码</title>
+				</header>
+
+				<header id="header2">
+					<address>
+						<row>1</row>
+						<col>1</col>
+					</address>
+					<title>样品名称</title>
+				</header>
+
+				<header id="header3">
+					<address>
+						<row>1</row>
+						<col>2</col>
+					</address>
+					<title>样品型号/规格</title>
+				</header>
+
+				<header id="header4">
+					<address>
+						<row>1</row>
+						<col>3</col>
+					</address>
+					<title>单位</title>
+				</header>
+
+				<header id="header5">
+					<address>
+						<row>1</row>
+						<col>4</col>
+					</address>
+					<title>领用状态</title>
+				</header>
+				
+				<header id="header6">
+					<address>
+						<row>1</row>
+						<col>5</col>
+					</address>
+					<title>备注</title>
+				</header>
+				
+				<header id="header7">
+					<address>
+						<row>1</row>
+						<col>6</col>
+					</address>
+					<title>录入时间</title>
+				</header>
+			</staticSingleReportHeader>
+		</dynamicReportHeader>
+		<!-- 表格数据体 -->
+		<dataArea>
+			<!-- 起始点 -->
+			<basePoint>
+				<row>2</row>
+				<col>0</col>
+			</basePoint>
+
+			<!-- 数据项 -->
+			<dataItem>
+				<item>sampleCode</item>
+				<item>sampleName</item>
+				<item>sampleStype</item>
+				<item>unit</item>
+				<item>state</item>
+				<item>remarks</item>
+				<item>createTime</item>
+			</dataItem>
+		</dataArea>
+	</sheet>
+</workbook>
+
