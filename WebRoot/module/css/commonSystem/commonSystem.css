@@ -50,7 +50,7 @@
 .modal-footer button.btn:last-child{
 	background: #fff;
     border-color: #37475f;
-    color: #3747
+    color: #37475f;
 }
 .modal-dialog .col-xs-12 input  ,.modal-dialog .col-md-12 input{
 	height: 25px;

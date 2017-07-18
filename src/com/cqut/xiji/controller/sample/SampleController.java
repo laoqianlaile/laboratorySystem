@@ -164,12 +164,7 @@ public class SampleController{
 		String result = service.updateLinkSample(ID, sampleName,factoryCode, sampleType, remarks, unit, linkID, reID);
 		return result;
 	}
-	@RequestMapping("/getSampleByCode")  
-    @ResponseBody
-	public String getSampleByCode(String sampleCode){
-		String result = service.getSampleByCode(sampleCode);
-		return result;
-	}
+
 	@RequestMapping("/isExitFactory")  
     @ResponseBody
 	public String isExitFactory(String factoryCode){

@@ -225,35 +225,33 @@ public class SampleService extends SearchService implements ISampleService{
 	 */
 	@Override
 	public String addSample(String factoryCode,String sampleName, String sampleType, String remarks,String unit){
-		System.out.println(sampleName+" sn "+ sampleType+" st "+remarks+ " r "+ unit);
-		// TODO Auto-generated method stub
-		Sample sample = new Sample();
-		String sampleID = EntityIDFactory.createId();
-		sample.setID(sampleID);
-	/*	LinkReSample linkReSample = null ;*/
-		if(factoryCode != null && !factoryCode.equals("")){
-			sample.setFactoryCode(factoryCode);
+		String sampleID = isExitByCodeName(factoryCode, sampleName, sampleType);
+		if(sampleID == null || sampleID.equals("")){
+			Sample sample = new Sample();
+			sampleID = EntityIDFactory.createId();
+			sample.setID(sampleID);
+			if(factoryCode != null && !factoryCode.equals("")){
+				sample.setFactoryCode(factoryCode);
+			}
+			if(sampleName != null && !sampleName.equals("")){
+				sample.setSampleName(sampleName);
+			}
+			if(sampleType != null && !sampleType.equals("")){
+				sample.setSpecifications(sampleType);
+			}
+			
+			if(remarks != null  && !remarks.equals("")){
+				sample.setRemarks(remarks);
+			}
+			sample.setUnit(unit);
+			sample.setState(0);
+			sample.setCreateTime(new Date());
+			sample.setQrcode(EntityIDFactory.createId());	
+			 return  entityDao.save(sample) == 1 ?"true":"false";
 		}
-		if(sampleName != null && !sampleName.equals("")){
-			sample.setSampleName(sampleName);
+		else {
+			return "have";
 		}
-		if(sampleType != null && !sampleType.equals("")){
-			sample.setSpecifications(sampleType);
-		}
-		
-		if(remarks != null  && !remarks.equals("")){
-			sample.setRemarks(remarks);
-		}
-		
-		sample.setUnit(unit);
-		sample.setState(0);
-		sample.setCreateTime(new Date());
-		sample.setQrcode(EntityIDFactory.createId());
-	/*	String condition = " factoryCode ='"+factoryCode+"'";
-		List<Sample> list = entityDao.getByCondition(condition, Sample.class);*/
-	
-		 return  entityDao.save(sample) == 1 ?"true":"false";
-	
 	}
 	
 	/**
@@ -324,44 +322,48 @@ public class SampleService extends SearchService implements ISampleService{
 		if(ID == null  || ID.equals("")){
 			return "false";
 		}
-		Sample	sample = entityDao.getByID(ID, Sample.class);
-		if(sample == null )
-			return "false";
-		sample.setSampleName(sampleName);
-		sample.setSpecifications(sampleType);
-		sample.setRemarks(remarks);
-		/*sample.setCreateTime(new Date());
-		List<Sample> list = entityDao.getByCondition("  sample.factoryCode='"+factoryCode+"'", Sample.class);
-		if(list != null && list.size() > 0)
-			return "codeExit";*/
-		sample.setFactoryCode(factoryCode);
-		return entityDao.updatePropByID(sample, ID)  == 1 ? "true": "false";
+		String sampleID = isExitByCodeName(factoryCode, sampleName, sampleType);
+		if(sampleID == null || sampleID.equals("")){
+			Sample	sample = entityDao.getByID(ID, Sample.class);
+			if(sample == null )
+				return "false";
+			sample.setSampleName(sampleName);
+			sample.setSpecifications(sampleType);
+			sample.setRemarks(remarks);
+			sample.setFactoryCode(factoryCode);
+			return entityDao.updatePropByID(sample, ID)  == 1 ? "true": "false";
+		}else{
+	       return "true";
+		}
 	}
 /**
  * 
- * 通过样品编码获得样品信息
+ * 通过样品编码 名称 型号 判断是否存在获得样品信息
  * @author wzj
  * @date 2016年11月29日 上午12:20:54
  *
  */
 	@Override
-	public String getSampleByCode(String sampleCode) {
+	public String isExitByCodeName(String sampleCode,String sampleName , String sampleStyle) {
 		// TODO Auto-generated method stub
 		String[] properties = new String[]{
 				 "sample.ID as sampleID",
-				 "sampleName",
-				 "factoryCode as sampleCode",
-				 "specifications as sampleStyle",
-				 "unit",
-				 "DATE_FORMAT(sample.createTime,'%Y-%m-%d %H:%i:%s') as createTime ",
-				 "remarks"
 				
 		};
-		String condition = "  sample.factoryCode ='"+sampleCode+"'";
-		 List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, Sample.class);
+		String condition = " specifications ='"+sampleStyle+"' and factory ='"+sampleCode+"' and sampleName ='"+sampleName+"'";
+		List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, Sample.class);
+	
 	  if(list == null || list.size() == 0)
-		 return "false";
-	  else return JSONObject.fromObject(list.get(0)).toString();
+		 return "";
+	  else {
+		  Object sampleID =  list.get(0).get("smapleID");
+		  if(sampleID == null ){
+			  return "";
+		  }
+		  else{
+			  return sampleID.toString();
+		  }
+	  }
 	}
 	
 	public String getSampleByID(String sampleID) {
@@ -407,7 +409,7 @@ public class SampleService extends SearchService implements ISampleService{
 	}
     /**
      * 
-     * 模糊搜索样品
+     * 模糊搜索样品通过名称或者样品编码
      * @author wzj
      * @date 2017年3月20日 下午5:28:19
      *
@@ -418,7 +420,9 @@ public class SampleService extends SearchService implements ISampleService{
 		String[] properties = new String[]{
 				"sample.ID ",
 				"factoryCode as sampleCode",
-				"sampleName as sampleName"
+				"sampleName as sampleName",
+				"specifications as sampleStyle",
+				"unit"
 		};
 		if( sampleCode == null || sampleCode.equals("")){ //sampleCode 有可能是编号或者名称
 			return null;

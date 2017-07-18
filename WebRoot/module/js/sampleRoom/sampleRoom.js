@@ -279,7 +279,10 @@ function add() {
 			dataType:"json",
 			data : parame,
 			success : function(o) {
-				if (o == "false") {
+				if(o == "have"){
+					sweetAlert("存在此类样品");
+				}
+				else if (o == "false") {
 					sweetAlert("新增失败");
 				}
 				else {
@@ -349,7 +352,7 @@ function isNoramlPhone(phone){
 		 }
 	}
 }
- function isExitFactory(who){
+/* function isExitFactory(who){
 	 var factoryCode = "";
 	 if(who == "add")
 	  factoryCode = $("#addFactoryCode").val();
@@ -379,7 +382,7 @@ function isNoramlPhone(phone){
 				
 			}
 		});
- }
+ }*/
 /* 修改方法 */
 function edit(){
 

@@ -111,7 +111,7 @@
 							<h4>出厂编号：</h4>
 							<input type="text" id="addFactoryCode" name="addFactoryCode"
 								class="form-control" aria-describedby="basic-addon1"
-								  onblur="isExitFactory('add')" value=""/> <!-- onpropertychange="set_alert_wb_comment(this,'onp')" oninput="set_alert_wb_comment(this,'oni')" -->
+								  value=""/>
 							<div class="tip-factory  ">
 							     <div class="tip-factory-content"></div>
 							</div>
@@ -150,8 +150,9 @@
 				</div>
 
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 					<button type="button" class="btn btn-primary" onclick="add()">新增</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				
 				</div>
 			</div>
 		</div>
@@ -236,7 +237,7 @@
 							<h4>出厂编号：</h4>
 							<input type="text" id="editFactoryCode" name="editFactoryCode"
 								class="form-control" aria-describedby="basic-addon1"
-								onblur="isExitFactory('edit')" />
+								 />
 							<div class="tip-factory  ">
 							     <div class="tip-factory-content"></div>
 							</div>
@@ -275,8 +276,9 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 					<button type="button" class="btn btn-primary" onclick="edit()">修改</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					
 				</div>
 			</div>
 		</div>

@@ -325,7 +325,7 @@ function searchSampleCode(args) {
 		}
 	});
 	for (var i = 0; i < list_data.length; i++) {
-		html += '<li id="'+list_data[i].ID+'" data-unit='' data-sampleStyle=''>' + list_data[i].sampleCode +' ~~ '+list_data[i].sampleName+ '</li>';
+		html += '<li id="'+list_data[i].ID+'" data-unit="'+list_data[i].unit+'"  data-sampleName="'+list_data[i].sampleName+'" data-sampleCode="'+list_data[i].sampleCode+'"  data-sampleStyle="'+list_data.[i].sampleStyle+'">' + list_data[i].sampleCode +' ~~ '+list_data[i].sampleName+ '</li>';
 	}
 	html += '</ul>';
 	if(list_data != null && list_data.length > 0)
@@ -348,18 +348,31 @@ function selectSample(self) {
 		return ;
 	}
 	if (state == "add") {
-
-		$("#addSampleCode").val(sampleCode);
+		// 填充数据-新增
+		$("#addSampleName").val(source.dataset.sampleName);
+		$("#addSampleStyle").val(source.dataset.sampleStyle);
+		$("#addUnit").val(source.dataset.unit);
+		$("#addSampleCode").val(source.dataset.sampleCode);
 		$("#addSampleID").val(sampleID);
+		// 设置不可编辑--新增
+		$("#addSampleName").prop("disabled", true); 
+		$("#addSampleStyle").prop("disabled", true);
+		$("#addUnit").prop("disabled", true);
 	} else {
-		$("#editSampleCode").val(sampleCode);
+		// 填充数据-编辑
+		$("#editSampleName").val(source.dataset.sampleName);
+		$("#editSampleStyle").val(source.dataset.sampleStyle);
+		$("#editUnit").val(data.datasset.unit);
+		$("#editSampleCode").val(data.datasset.sampleCode);
 		$("#editSampleID").val(sampleID);
+		// 设置不可编辑--编辑
+		$("#editSampleName").prop("disabled", true);
+		$("#editSampleStyle").prop("disabled", true);
+		$("#editUnit").prop("disabled", true);
 	}
 	obj.isSelectedSample = true ;
 	EventUtil.stopPropagation(event);
 	//$(self).parent().css("display", "none"); // 隐藏搜索面板 不需要，因为出厂编号输入框失去焦点也会隐藏
-	isExitSample(sampleCode); // 填充数据--并设置相关属性--避免搜索后不选择
-
 }
 // 拼装项目列表html
 function playTestProjectHtml(data, testNamevalue, isAdd) {
@@ -715,13 +728,13 @@ function initSampleCode_event() {
     
 	    
 	  var fn1 = $("#editSampleCode").blur(function(){
-		    var self = this.id ;
-		    setTimeout("hideSampleOver('"+self+"')",700);
+		   // var self = this.id ;
+		    setTimeout("hideSampleOver('edit')",700);
 		  
 	     });
 	  var fn2 = $("#addSampleCode").blur(function(){
-		  var self = this.id ;
-		    setTimeout("hideSampleOver('"+self+"')",700);
+		  //var self = this.id ;
+		    setTimeout("hideSampleOver('add')",700);
 		 
 	     });
 	/* if($("#editSampleCode").val() == "") { // swal("样品编号不能为空");
@@ -751,10 +764,26 @@ function initSampleCode_event() {
 	 */
 }
 // 离开出厂编号搜索框处理
-function hideSampleOver(id){
+function hideSampleOver(state){
 	    $(".tip-factory").css("display", "none");  //隐藏面板
-	    var val = $("#"+id).val();
-	     isExitSample(val); //输入不点击搜索面板
+	    var sampleID = $("#"+state+"SampleID").val();
+	    if(state = "add"){
+	    	if(sampleID == "" ||  sampleID == null){
+	    		// 设置可编辑--新增
+	    		$("#addSampleName").prop("disabled", false); 
+	    		$("#addSampleStyle").prop("disabled", false);
+	    		$("#addUnit").prop("disabled", false);
+	    	}
+	    }else{
+	    	if(sampleID == "" ||  sampleID == null){
+	    		// 设置可编辑--编辑
+	    		$("#editSampleName").prop("disabled", false);
+	    		$("#editSampleStyle").prop("disabled", false);
+	    		$("#editUnit").prop("disabled", false);
+	    		
+	    	}
+	    }
+	  
 }
 /**
  * 打开新增任务框清除数据事件

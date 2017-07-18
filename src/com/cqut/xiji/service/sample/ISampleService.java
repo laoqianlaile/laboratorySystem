@@ -22,12 +22,12 @@ public interface ISampleService {
 	String updateSample(String ID, String sampleName,String factoryCode, String sampleType,
 			String remarks, String unit); //单纯的修改样品信息
 	String delLinkReSample(String linkIDs);
-	String getSampleByCode(String sampleCode);
+	String isExitByCodeName(String sampleCode,String sampleName,String sampleStyle); //通过判断名称 编码 型号 是否存在
 	String getSampleByID(String sampleID);
 	public List<Map<String, Object>> getSampleInfor(String qrcode);
 	String addSample(String factoryCode, String sampleName, String sampleType,String remarks, String unit); //新增样品
 	String isExitFactory(String factoryCode); //查看样品编号是否存在
-	List<Map<String, Object>> getSampleListByCodeLimit(String sampleCode); //根据样品编号搜索样品-限制5条以内
+	List<Map<String, Object>> getSampleListByCodeLimit(String sampleCode); //模糊搜索样品通过名称或者样品编码
 	
 	public List<Map<String, Object>> getSampleMsg(String codeOrName);
 
