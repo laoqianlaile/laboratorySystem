@@ -244,6 +244,7 @@ public class AbilityCheckController{
 				path = path + thirdDirectory + "\\";
 				relativePath += thirdDirectory + "\\";
 			}
+			relativePath  += "核查记录文件\\";
 			System.out.println(firstDirectory + " " + secondDirectory + " "
 					+ " " + thirdDirectory);
 			directoryName += path;

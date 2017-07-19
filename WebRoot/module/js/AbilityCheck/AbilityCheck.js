@@ -262,29 +262,31 @@ function add(){
 
 function addPlan(dom){
 	var getdata = $('#table').bootstrapTable('getSelections');
-	if(getdata[0].parameter == "" || getdata[0].equipmentName == "" || getdata[0].departmentName == ""){
-		 swal({ title: "参数，设备名称，部门名称必填", type: "warning"});
-	}
-	if(getdata.length<=0||getdata.length > 1){
-		 swal({ title: "请选择一条数据", type: "warning"});
-	}else if(getdata[0].ID == null || getdata[0].ID == ""){
-	var dataobj={};
-	dataobj.parameter = getdata[0].parameter;
-	dataobj.equipmentID = reciveID.equipmentID;
-	dataobj.departmentID = reciveID.departmentID;
-		dataobj.startTime = getdata[0].startTime + "-1 00:00:00";
-	dataobj.state = "未完成";
-	$.ajax({
-		url:'abilityCheckController/addAbilityCheck.do',
-		data:dataobj,
-		success:function(e){
-			 swal({ title: "制定成功", type: "success"});
-			refresh();
-		},
-		});
+	if(getdata[0].parameter == "" || getdata[0].equipmentName == "" || getdata[0].departmentName == ""|| getdata[0].startTime == ""){
+		 swal({ title: "参数，设备名称，部门名称，实施日期必填", type: "warning"});
 	}
 	else{
-		 swal({ title: "请上传新增计划", type: "warning"});
+		if(getdata.length<=0||getdata.length > 1){
+			 swal({ title: "请选择一条数据", type: "warning"});
+		}else if(getdata[0].ID == null || getdata[0].ID == ""){
+		var dataobj={};
+		dataobj.parameter = getdata[0].parameter;
+		dataobj.equipmentID = reciveID.equipmentID;
+		dataobj.departmentID = reciveID.departmentID;
+			dataobj.startTime = getdata[0].startTime + "-1 00:00:00";
+		dataobj.state = "未完成";
+		$.ajax({
+			url:'abilityCheckController/addAbilityCheck.do',
+			data:dataobj,
+			success:function(e){
+				 swal({ title: "制定成功", type: "success"});
+				refresh();
+			},
+			});
+		}
+		else{
+			 swal({ title: "请上传新增计划", type: "warning"});
+		}
 	}
 }
 function deleteModal(){
@@ -386,7 +388,6 @@ function find(){
 		condition += " and equipmentName = '" + equipmentID + "'";
 	}
 	if((startTime != null && startTime != "") && (endTime == "")){
-		alert("111");
 		startTime += "-01 00:00:00";
 		if(condition == "")
 			condition += " startTime = '" + startTime + "'";

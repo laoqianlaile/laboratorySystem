@@ -67,7 +67,7 @@
 				</div>
 				<div class="headModeal col-xs-3 col-md-3 col-lg-3">
 					<div class="timeLabelDiv">
-						<label class="control-label">委托时间:</label>
+						<label class="control-label">委托时间：</label>
 					</div>
 					<div class="input-group date form_datetime timeChooseDiv">
 						<input class="form-control" id="startTime" size="16" type="text"
@@ -79,7 +79,7 @@
 				</div>
 				<div class="headModeal col-xs-3 col-md-3 col-lg-3">
 					<div class="timeLabelDiv">
-						<label class="control-label">至:</label>
+						<label class="control-label">至：</label>
 					</div>
 					<div class="input-group date form_datetime timeChooseDiv">
 						<input class="form-control" id="endTime" size="16" type="text"
@@ -120,7 +120,7 @@
 			</div>
 			<div class="row">
 				<div class=" col-xs-12">
-					<label class="kemiche ">依据的技术文件(代号、名称)及客户要求：</label>
+					<span class="kemiche ">依据的技术文件(代号、名称)及客户要求：</span>
 					<!-- &nbsp;&nbsp;QRX-1型雷达光电望远镜按《QRX-1型雷达光电望远镜系统更新技术状态鉴定试验大纲WLDGA》和《GJB50.11A-2009军用设备实验室环境实验方法第II部分：盐雾实验》进行24h喷雾，24h干燥，两种状态，供240h的盐雾实验 -->
 
 
@@ -163,27 +163,7 @@
 
 				</div>
 				<table id="fileTable">
-					<!-- <tr>
-						<th>序号</th>
-						<th>文件名称</th>
-						<th>备注</th>
-						<th>上传时间</th>
-						<th>操作</th>
-					</tr>
-					<tr>
-						<td>序号</td>
-						<td>出厂编号</td>
-						<td>检测/校准项目</td>
-						<td>录入时间</td>
-						<td>操作</td>
-					</tr>
-					<tr>
-						<td>序号</td>
-						<td>出厂编号</td>
-						<td>检测/校准项目</td>
-						<td>录入时间</td>
-						<td>操作</td>
-					</tr> -->
+				
 				</table>
 			</div>
 			<div class="footer">
@@ -244,7 +224,7 @@
 								<div class="col-xs-12 col-md-12">
 									<p>出厂编号：</p>
 									<input type="text" id="addSampleCode" name="sampleCode"
-										placeholder="输入出厂编码" class="form-control"
+										placeholder="输入出厂编码或者名称搜索" class="form-control"
 										aria-describedby="basic-addon1"
 										onpropertychange="handleSearchSample(this,'add')"
 										oninput="handleSearchSample(this,'add')" /> <input
@@ -351,7 +331,7 @@
 								<div class="col-xs-12 col-md-12">
 									<p>出厂编号：</p>
 									<input type="text" id="editSampleCode" name="sampleCode"
-										placeholder="输入出厂编码" class="form-control"
+										placeholder="输入出厂编码或者名称搜索" class="form-control"
 										aria-describedby="basic-addon1"
 										onpropertychange="handleSearchSample(this,'edit')"
 										oninput="handleSearchSample(this,'edit')" /> <input
