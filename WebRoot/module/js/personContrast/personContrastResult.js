@@ -279,11 +279,11 @@ function uploadfile(){
 
 //下载文件
 function download(){
-		var getdata = $('#table').bootstrapTable('getSelections');
+		var getdata = $('#tablefile').bootstrapTable('getSelections');
 		if(getdata.length == 1){
 			var fileID;
-			fileID=getdata[0].fileID;
-			window.location.href="timeCheckController/filedownload.do?ID="+fileID;
+			ID=getdata[0].ID;
+			window.location.href="timeCheckController/filedownload.do?ID="+ID;
 		}
 		if(getdata==null||getdata==""){
 			swal({ title: "请选择一条数据!", type: "warning"});		}else

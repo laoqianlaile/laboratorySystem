@@ -13,6 +13,7 @@
 <link rel="stylesheet" type="text/css" href="../../css/sweetalert.css">
 <link rel="stylesheet" type="text/css" href="../../css/bootstrap-datetimepicker.css">
 
+  
 <script src="../../js/jquery-2.1.1.min.js"></script>
 <script src="../../js/bootstrap.js"></script>
 <script src="../../js/bootstrap-table.js"></script>
@@ -80,17 +81,17 @@
 	<div class="input-group-area" >
 		<button type="button"
 			class="btn btn-primary glyphicon glyphicon-search"
-			onclick="seacher()">&nbsp;查询</button>
+			onclick="seacher()">查询</button>
 		<button type="button" class="btn btn-primary glyphicon glyphicon-plus"
-			onclick="addSample()">&nbsp;新增</button>
-	<!-- 	<button type="button" onclick="showModal()"
-			class="btn btn-primary glyphicon glyphicon-show">&nbsp;查看</button>
-		<button type="button" onclick="openModal()"
-			class="btn btn-primary glyphicon glyphicon-edit">&nbsp;修改</button> -->
+			onclick="addSample()">新增</button>
+	 	<button type="button" onclick="importSample()"
+			class="btn btn-primary glyphicon glyphicon-upload">导入</button>
+		<button type="button" onclick="exportSample()" 
+			class="btn btn-primary glyphicon glyphicon-download">导出</button> 
 		<button id="del" onclick="delData()" type="button"
-			class="btn btn-primary glyphicon glyphicon-remove">&nbsp;删除</button>
+			class="btn btn-primary glyphicon glyphicon-remove">删除</button>
 		<button id="refresh" onclick="refresh()" type="button"
-			class="btn btn-primary glyphicon glyphicon-refresh">&nbsp;刷新</button>
+			class="btn btn-primary glyphicon glyphicon-refresh">刷新</button>
 	</div>
 
 	<!-- 新增弹框 -->
@@ -111,7 +112,7 @@
 							<h4>出厂编号：</h4>
 							<input type="text" id="addFactoryCode" name="addFactoryCode"
 								class="form-control" aria-describedby="basic-addon1"
-								  onblur="isExitFactory('add')" value=""/> <!-- onpropertychange="set_alert_wb_comment(this,'onp')" oninput="set_alert_wb_comment(this,'oni')" -->
+								  value=""/>
 							<div class="tip-factory  ">
 							     <div class="tip-factory-content"></div>
 							</div>
@@ -150,8 +151,9 @@
 				</div>
 
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 					<button type="button" class="btn btn-primary" onclick="add()">新增</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				
 				</div>
 			</div>
 		</div>
@@ -236,7 +238,7 @@
 							<h4>出厂编号：</h4>
 							<input type="text" id="editFactoryCode" name="editFactoryCode"
 								class="form-control" aria-describedby="basic-addon1"
-								onblur="isExitFactory('edit')" />
+								 />
 							<div class="tip-factory  ">
 							     <div class="tip-factory-content"></div>
 							</div>
@@ -275,20 +277,58 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 					<button type="button" class="btn btn-primary" onclick="edit()">修改</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					
 				</div>
 			</div>
 		</div>
 	</div>
+    
+    <div id="importSampleModal" class="modal fade" role="dialog"  
+		aria-labelledby="gridSystemModalLabel">
+		<div class="modal-dialog" role="document" style="width:450px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">导入Excel文件</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div id="fileInfo" style="text-align:left">
+							<div id="file2">
+								<input type="file" name="files" id="files" style="display:none" onchange="vaildFileType(this)">
+							</div>
+							
+							<button type="button" id="submitFile" name="submitFile" class="btn btn-default">
+								<span class="glyphicon glyphicon-folder-open ">选择文件</span> 
+							</button>
+							<span id="fileName"></span>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
 
+					<button class="btn btn-primary" id="submitFileBtn" >提交</button> 
+					<button type="button" style="background:#fff;color:#333;"
+						class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+		
 
 	<table id="table">
 	</table>
 
 
 </body>
+
+<script src="../../js/fileManage/fileManage.js" type="text/javascript"></script>
+<script type="text/javascript" src="../../../assets/fileupload/jquery.iframe-transport.js"></script>
+<script type="text/javascript" src="../../../assets/fileupload/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="../../../assets/fileupload/jquery.fileupload.js"></script>
 <script src="../../js/sampleRoom/sampleRoom.js"></script>
+
 <script type="text/javascript">
 	$('.form_datetime').datetimepicker({
 	    language: 'zh-CN',
@@ -301,6 +341,9 @@
 	    maxView: 3,
 	    forceParse: 0,
 	    format: 'yyyy-mm-dd'
+	});
+	$('#submitFile').click(function() {
+		$('#files').click();
 	});
 	</script>
 </html>

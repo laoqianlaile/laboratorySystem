@@ -1,18 +1,14 @@
 package com.cqut.xiji.service.receiptlist;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
 
 import javax.annotation.Resource;
-import javax.enterprise.inject.New;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -22,7 +18,6 @@ import org.springframework.stereotype.Service;
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
-import com.cqut.xiji.entity.company.Company;
 import com.cqut.xiji.entity.contract.Contract;
 import com.cqut.xiji.entity.contractFineItem.ContractFineItem;
 import com.cqut.xiji.entity.department.Department;
@@ -39,10 +34,8 @@ import com.cqut.xiji.entity.taskTestProject.TaskTestProject;
 import com.cqut.xiji.entity.template.Template;
 import com.cqut.xiji.entity.testProject.TestProject;
 import com.cqut.xiji.service.base.SearchService;
-import com.cqut.xiji.service.fileEncrypt.DES;
-import com.cqut.xiji.service.fileEncrypt.FileEncryptService;
 import com.cqut.xiji.service.fileEncrypt.IFileEncryptService;
-import com.cqut.xiji.service.fileType.IFileTypeService;
+import com.cqut.xiji.service.sample.ISampleService;
 import com.cqut.xiji.tool.util.CalendarTool;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 import com.cqut.xiji.tool.util.PropertiesTool;
@@ -59,6 +52,8 @@ public class ReceiptlistService extends SearchService implements
 	BaseEntityDao baseEntityDao;
 	@Resource(name="fileEncryptService")
 	IFileEncryptService fileEncryptService;
+	@Resource(name="sampleService")
+	ISampleService sampleService;
 	
 	
 
@@ -500,19 +495,25 @@ public class ReceiptlistService extends SearchService implements
 			type = "1";
 		}
 		if (sampleID == null || sampleID.equals("")) {
-			// 样品还不存在
-			Sample sample = new Sample();
-			sample.setID(EntityIDFactory.createId());
-			sample.setFactoryCode(sampleCode);
-			sample.setSampleName(sampleName);
-			sample.setCreateTime(new Date());
-			sample.setSpecifications(sampleStyle);
-			sample.setState(0);
-			sample.setUnit(unit);
-			sample.setQrcode(EntityIDFactory.createId());
-			sampleID = sample.getID();
-			if (entityDao.save(sample) != 1)
-				return "false";
+			String sampleID1 = sampleService.isExitByCodeName(sampleCode, sampleName, sampleStyle); //查询是否存在此类样品
+			if(sampleID1 == null || sampleID1.equals("") ){
+				// 样品还不存在
+				Sample sample = new Sample();
+				sample.setID(EntityIDFactory.createId());
+				sample.setFactoryCode(sampleCode);
+				sample.setSampleName(sampleName);
+				sample.setCreateTime(new Date());
+				sample.setSpecifications(sampleStyle);
+				sample.setState(0);
+				sample.setUnit(unit);
+				sample.setQrcode(EntityIDFactory.createId());
+				if (entityDao.save(sample) != 1)
+					return "false";
+			}
+			else{
+				sampleID = sampleID1;
+			}
+		
 		} else {
 			Sample sample = entityDao.getByID(sampleID, Sample.class); // 有样品更新数据
 			sample.setFactoryCode(sampleCode);
