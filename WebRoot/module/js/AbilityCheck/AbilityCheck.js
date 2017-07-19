@@ -388,7 +388,6 @@ function find(){
 		condition += " and equipmentName = '" + equipmentID + "'";
 	}
 	if((startTime != null && startTime != "") && (endTime == "")){
-		alert("111");
 		startTime += "-01 00:00:00";
 		if(condition == "")
 			condition += " startTime = '" + startTime + "'";
