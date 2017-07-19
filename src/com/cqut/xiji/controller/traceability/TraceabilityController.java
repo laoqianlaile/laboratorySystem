@@ -319,12 +319,10 @@ public class TraceabilityController {
 	@ResponseBody
 	public void upload(HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) throws IOException {
-		Boolean result = service.upload(request, response, model);
-		if (result == true) {
-			response.sendRedirect("../module/jsp/traceability/traceability.jsp");
-		} else {
-			response.sendRedirect("../module/jsp/traceability/traceability.jsp");
-		}
+		
+		service.upload(request, response, model);
+
+		response.sendRedirect("../module/jsp/traceability/traceability.jsp");
 	}
 
 }
