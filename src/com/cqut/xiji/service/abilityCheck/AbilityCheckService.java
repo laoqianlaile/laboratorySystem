@@ -180,7 +180,16 @@ public class AbilityCheckService extends SearchService implements IAbilityCheckS
 			// TODO Auto-generated method stub
 		String ID = EntityIDFactory.createId();
 		abilityCheck.setID(ID);
+		String condition = "";
 		abilityCheck.setEmployeeID((String)session.getAttribute("EMPLOYEEID"));
+		condition += " employeeID ='"+abilityCheck.getEmployeeID()+"'";
+		condition += " and equipmentID ='"+abilityCheck.getEquipmentID()+"'";
+		condition += " and startTime ='"+abilityCheck.getStartTime()+"'";
+		List<Map<String, Object>> list = searchDao.searchForeign(new String[]{
+				"fileID"}, "abilitycheck", null, null, null, condition);
+		if(list.size() != 0){
+			abilityCheck.setFileID(list.get(0).get("fileID").toString());
+		}
 		int res = entityDao.save(abilityCheck);
 			return res + "";
 		
