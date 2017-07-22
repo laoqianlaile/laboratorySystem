@@ -1287,13 +1287,13 @@ public class TaskService extends SearchService implements ITaskService {
 			
 			System.out.println("设备信息  : " + EquiInfo);
 			
-			filterConditionString = " WHERE teststandard.testProjectID = '"
-					+ testProjectID + "'";
+			filterConditionString = " WHERE tasktestproject.testProjectID = '"
+					+ testProjectID + "' AND" + " tasktestproject.taskID = '" + taskID + "'";
 			tableName = 	" ( "+
 					" SELECT "+
-					"teststandard.standardID AS standardID "+
+					"tasktestproject.testStandard AS standardID "+
 				" FROM "+
-					"teststandard"+
+					"tasktestproject"+
 					filterConditionString+
 			" ) AS a ";
 			properties = new String[]{"CONCAT(standard.standardName,'(',standard.standardCode,')') as standardName"};
