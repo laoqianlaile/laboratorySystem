@@ -52,16 +52,10 @@
 						<row>1</row>
 						<col>3</col>
 					</address>
-					<title>性别</title>
-				</header>
-
-				<header id="header5">
-					<address>
-						<row>1</row>
-						<col>4</col>
-					</address>
 					<title>创建时间</title>
 				</header>
+
+				
 				
 				
 			</staticSingleReportHeader>
@@ -76,8 +70,8 @@
 
 			<!-- 数据项 -->
 			<dataItem>
-				<item>dutyName</item>
 				<item>dutyCode</item>
+				<item>dutyName</item>
 				<item>introduction</item>
 				<item>createTime</item>
 			</dataItem>

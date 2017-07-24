@@ -94,6 +94,13 @@ margin: 6px;
 #bl button{
 margin-left:16px;
 }
+#menu {
+    background-color: rgb(232, 249, 248);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 101%;
+    margin-bottom: 30px;
+}
 </style>
 
 <body>
@@ -137,10 +144,10 @@ margin-left:16px;
 							</select>
 							</div>
 						</div>
-						<div class="row clearfix">
+						<div class="row clearfix" id="menu">
 
 							<div class="col-md-3.5 column">
-								<div style="float: left;width:100%;background: #9abdd0;" id="bl">
+								<div style="float: left;width:100%; id="bl">
 									<button id="query" onclick="find()"
 										class="btn btn-primary" type="button">
 										<em class="glyphicon glyphicon-search"></em> 查询

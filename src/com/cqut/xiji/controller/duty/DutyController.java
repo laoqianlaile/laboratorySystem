@@ -1,5 +1,7 @@
 package com.cqut.xiji.controller.duty;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -12,9 +14,12 @@ import net.sf.json.JSONArray;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.cqut.xiji.service.duty.IDutyService;
+import com.cqut.xiji.tool.util.PropertiesTool;
 
 @Controller
 @RequestMapping("/dutyController")
@@ -75,5 +80,24 @@ public class DutyController{
 	@ResponseBody
 	public void dutyExportExcel(HttpServletRequest request,HttpServletResponse response) {
 		service.dutyExportExcel(request, response);
+	}
+	@RequestMapping("/dutyGoExcel")
+	@ResponseBody
+	public void dutyGoExcel(@RequestParam("files") CommonsMultipartFile file) {
+		PropertiesTool pe = new PropertiesTool();
+		String path = pe.getSystemPram("filePath") + "\\" + file.getOriginalFilename();// 文件路径
+		
+		File directoryCreate = new File(path);
+		if (!directoryCreate.exists()) {
+			directoryCreate.mkdirs();
+		}
+		try {
+			file.transferTo(directoryCreate);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		service.dutyGoExcel(path);
 	}
 }

@@ -1,5 +1,6 @@
 $(function() {
 	init();
+	sureImportExcel();
 });
 
 function init() {
@@ -247,3 +248,34 @@ function find(){
 function exportReport() {
 	window.location.href = "dutyController/dutyExportExcel.do";
 }
+function checkFile(o) {
+	$("#chooseFile").attr("disabled", "disabled");
+	var filePath = $(o).val();
+	if (filePath != "" && filePath != undefined) {
+		var arr = filePath.split('\\');
+		var fileName = arr[arr.length - 1];
+		$("#fileName").html(fileName);
+	}
+	if (o.value.indexOf('.xls') < 0 && o.value.indexOf('.xlsx') < 0) {
+		alert("不能将此类型文档作为检测报告上传");
+		return;
+	}
+} 
+
+// 
+function sureImportExcel() {
+	$("#files").fileupload({
+		autoUpload : true,
+		url : 'dutyController/dutyGoExcel.do',
+		dataType : 'json',
+		add : function(e, data) {
+			$("#ensure").click(function() {
+				data.submit();
+			});
+		},
+	}).bind('fileuploaddone', function(e, data) {
+
+	});
+}
+
+
