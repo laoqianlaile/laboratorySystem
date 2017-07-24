@@ -28,7 +28,7 @@ $(function(){
             if (main_height -17 != pre_height){ ///17留的多的 横向滑动条
             	
             	pre_height = main_height;
-            	autoHeightWidth();
+            //	autoHeightWidth();
                
                /* frame_content.height(Math.max(mainheight,350));*/
              }

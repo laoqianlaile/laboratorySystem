@@ -311,7 +311,7 @@ label.wide{
 	margin-top: -2px;
     margin-right: 10px;
 }
-.contractFile .top .btnAdd button{
+.contractFile .top .btnAdd .btn{
 	width:106px;
 	height:30px;
 	line-height:20px;
@@ -319,6 +319,10 @@ label.wide{
 	background-color:#198ac8;
 	color:#fff;
 	border: none;
+}
+.contractFile .top .btnAdd .btn:HOVER{
+	background-color:#ffad33;
+	color:#364760;
 }
 .contractFile .bottom{
 	margin:20px 10px;
@@ -345,10 +349,10 @@ label.wide{
 	margin:0 10px;
 }
 .contractFileItem .top .btnAdd{
-	margin-top: 4px;
+	margin-top: -2px;
     margin-right: 10px;
 }
-.contractFileItem .top .btnAdd button{
+.contractFileItem .top .btnAdd .btn{
 	width:106px;
 	height:30px;
 	line-height:20px;
@@ -357,7 +361,10 @@ label.wide{
 	color:#fff;
 	border: none;
 }
-
+.contractFileItem .top .btnAdd .btn:HOVER{
+	background-color:#ffad33;
+	color:#364760;
+}
 .contractFileItem .bottom{
 	margin:20px 10px;
 	height:250px;
@@ -376,6 +383,10 @@ label.wide{
 	color:#364760;
 	background-color:#fff;
 }
+.footer button#btn-back:HOVER{
+	color:#364760;
+	background-color:#ffad33;
+}
 .footer button#btn-edit{
 	margin-left:10px;
 }
@@ -386,6 +397,10 @@ label.wide{
 	color:#eee;
 	background-color:#364760;
 	border:2px solid #475879;
+}
+.footer button:HOVER{
+	color:#364760;
+	background-color:#ffad33;
 }
 #show_contractFile thead,.modal-header {
 	background-color: #364760;

@@ -1,6 +1,8 @@
 package com.cqut.xiji.controller.traceability;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.ParseException;
 import java.util.Map;
 
@@ -64,7 +66,9 @@ public class TraceabilityController {
 	 */
 	@RequestMapping("/saveTracebility")
 	@ResponseBody
-	public String saveTracebility(Traceability traceability, HttpSession session) {
+	public String saveTracebility(Traceability traceability, HttpSession session) throws UnsupportedEncodingException {
+		traceability.setCorrectOrgan(URLDecoder.decode(traceability.getCorrectOrgan(), "utf-8"));
+		traceability.setPeriod(URLDecoder.decode(traceability.getPeriod(), "utf-8"));
 		return service.saveTracebility(traceability, session) == 1 ? "true"
 				: "false";
 	}
@@ -114,12 +118,15 @@ public class TraceabilityController {
 	 * @param traceability
 	 * @return
 	 * @author 蒋兴成
+	 * @throws UnsupportedEncodingException 
 	 * @date 2016年11月15日 下午9:27:51
 	 * 
 	 */
 	@RequestMapping("/updateTracebilityByID")
 	@ResponseBody
-	public String updateTracebilityByID(Traceability traceability) {
+	public String updateTracebilityByID(Traceability traceability) throws UnsupportedEncodingException {
+		traceability.setCorrectOrgan(URLDecoder.decode(traceability.getCorrectOrgan(),"utf-8"));
+		traceability.setPeriod(URLDecoder.decode(traceability.getPeriod(), "utf-8"));
 		return service.updateTracebilityByID(traceability) == 1 ? "true"
 				: "false";
 	}
@@ -157,6 +164,28 @@ public class TraceabilityController {
 			String equipmentTypeName, String correctOrgan, String auditState,
 			String startTime, String endTime, String departmentName,
 			String qualityPlanID) throws ParseException {
+		
+		try {
+			if(equipmentName != null)
+			{
+				equipmentName = URLDecoder.decode(equipmentName, "utf-8");
+			}
+			if(equipmentCode != null)
+			{
+				equipmentCode = URLDecoder.decode(equipmentCode, "urf=8");
+			}
+			if(equipmentTypeName != null)
+			{
+				equipmentTypeName = URLDecoder.decode(equipmentTypeName, "utf-8");
+			}
+			if(correctOrgan != null)
+			{
+				correctOrgan = URLDecoder.decode(correctOrgan, "utf-8");
+			}
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
 
 		String condition = "";
 		String userID = (String) session.getAttribute("ID"); // 获取制定者ID
@@ -290,12 +319,10 @@ public class TraceabilityController {
 	@ResponseBody
 	public void upload(HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) throws IOException {
-		Boolean result = service.upload(request, response, model);
-		if (result == true) {
-			response.sendRedirect("../module/jsp/traceability/traceability.jsp");
-		} else {
-			response.sendRedirect("../module/jsp/traceability/traceability.jsp");
-		}
+		
+		service.upload(request, response, model);
+
+		response.sendRedirect("../module/jsp/traceability/traceability.jsp");
 	}
 
 }

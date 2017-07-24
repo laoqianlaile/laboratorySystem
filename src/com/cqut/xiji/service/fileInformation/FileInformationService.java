@@ -277,7 +277,7 @@ public class FileInformationService extends SearchService implements IFileInform
 			"date_format(fileInformation.uploadTime,'%Y-%m-%d %H:%i:%s') as uploadTime",
 			"fileInformation.remarks AS remarks",
 		};
-		String condition = " 1 = 1 and fileInformation.belongToID = " + taskID + " AND fileinformation.state = 0 ";
+		String condition = " 1 = 1 and fileInformation.belongToID like '%" + taskID + "%' AND fileinformation.state = 0 ";
 		List<Map<String, Object>> result  = entityDao.searchWithpaging(properties, tableName, null, null, condition, null, sort, order, index, pageNum);
 		int count = entityDao.getForeignCount(getBasePrimaryKey(), tableName, null, null, condition);		
 		Map<String,Object> map = new HashMap<String, Object>();

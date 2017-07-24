@@ -1,3 +1,4 @@
+var fileParam = {};
 var object={},
 	pubtype = "", //值传递载体
 	datacount = -1, //保证新增行在顶部
@@ -8,17 +9,6 @@ var object={},
 	
 var mydata=new Array();
 var mydataID=new Array();
-
-function showdiag(data){
-	$('#dequ').remove();
-	document.getElementById("showdiv1").style.display = "none";
-	var sentence = "<span id='dequ'>" + data + "</span>" ; 
-	$('#showdiv1').append(sentence);
-	var width=(document.body.clientWidth-300)/2;
-	document.getElementById("showdiv1").style.marginLeft = width;
-	document.getElementById("showdiv1").style.display = "block";
-	setTimeout("document.getElementById('showdiv1').style.display = 'none'",800);
-}
 
 //初始化表格
 $(function(){
@@ -190,6 +180,7 @@ $(function(){
 		    }]
 		});
 		rowID="";
+		uploadFile();
 	});
 })
 
@@ -234,7 +225,7 @@ function queryParams(params) { // 配置参数
 		offset : params.offset, // 页码
 		sort : params.sort, // 排序列名
 		order : params.order,
-		planID:rowID,
+		belongtoID:rowID,
 	// 排位命令（desc，asc）
 	};
 	return temp;
@@ -283,7 +274,7 @@ function onDblClickCell(field,value,row,$element){
 		;break;
 		}
 	}else{
-		showdiag("此项不能修改");
+		swal({title:"此项不能修改",  type:"warning",});
 	};
 }
 
@@ -323,9 +314,8 @@ function getsugestID(){
 		$('#asda').attr("data-target","#addModal");
 		$('#belongID').val(getdata[0].ID);
 	}else
-		showdiag("请选择一条数据");
-	
-	
+		swal({title:"请选择一条数据",  type:"warning",});
+
 }
 
 function refresh(){
@@ -381,18 +371,17 @@ function add(dom){
 					success:function(e){
 						//dom.setAttribute("onclick", "updatasuggest(this)"); 
 						refresh();
-						showdiag("新增成功");
+						swal({title:"新增成功",  type:"success",});
 						$(".thatbtn").css("display","none");
 					},
 				});
 			}else
-				showdiag("请填写计划完成时间");
+				swal({title:"请填写计划完成时间",  type:"warning",});
 		}else{
-			showdiag("请点击修改该按钮");
+			swal({title:"请点击修改该按钮",  type:"warning",});
 		}
 	}else
-		showdiag("请选择数据或选择一条数据");
-	
+		swal({title:"请选择数据或选择一条数据",  type:"warning",});
 }
 
 function updata(dom){
@@ -405,7 +394,7 @@ function updata(dom){
 		dataobj.endTime = getdata[0].endTime;
 		dataobj.remark = getdata[0].remark;
 		if(getdata[0].ID==undefined){
-			showdiag("请点击新增按钮");
+			swal({title:"请点击新增按钮",  type:"warning",});
 		}else{
 			if(sbtjude == 1){
 				$.ajax({
@@ -414,13 +403,13 @@ function updata(dom){
 					  success:function(o){  
 						  sbtjude=0;
 						  refresh();
-						  showdiag("修改成功");
+						  swal({title:"修改成功",  type:"success",});
 					  }
 				});
 			}
 		}
 	}else{
-		showdiag("请选择或者选择一条");
+		swal({title:"请选择或者选择一条",  type:"warning",});
 	}
 	
 }
@@ -429,7 +418,7 @@ function deleteTimeCheck(){
 	var getdata = $('#table').bootstrapTable('getSelections');
 	var allid = "";
 	if(getdata.length<=0){
-		showdiag("请选择");
+		swal({title:"请选择",  type:"warning",});
 	}else{
 		for (var i = 0 ; i < getdata.length ; i++){
 			allid += getdata[i].ID+","; 
@@ -441,7 +430,7 @@ function deleteTimeCheck(){
 			  data:dataobj,
 			  success:function(e){
 				  refresh();
-				  showdiag("删除成功");
+				  swal({title:"删除成功",  type:"success",});
 				  $(".thatbtn").css("display","none");
 			  }
 			});
@@ -466,7 +455,7 @@ function download(){
 	var getdata = $('#tablefile').bootstrapTable('getSelections');
 	var fileID;
 	fileID=getdata[0].ID;
-	window.location.href="fileOperateController/filedownload.do?ID="+fileID;
+	window.location.href="timeCheckController/filedownload.do?ID="+fileID;
 }
 
 function resetAlldata(){
@@ -484,4 +473,86 @@ function ToAuditJSP(){
 }
 function ToResultJSP(){
 	window.location.href="http://localhost:8080/laboratorySystem/module/jsp/timecheck/TimeCheckResult.jsp?year="+$('#yearvalue').html()+"&&code="+$('#codevalue').html();
+}
+
+/*新增js方法*/
+//检查文件类型
+function checkFile(o) {
+	$("#chooseFile").attr("disabled", "disabled");
+	var filePath = $(o).val();
+	if (filePath != "" && filePath != undefined) {
+		var arr = filePath.split('\\');
+		var fileName = arr[arr.length - 1];
+		$("#fileName").html(fileName);
+	}
+	if (o.value.indexOf('.jpg') > 0 || o.value.indexOf('.png') > 0 || o.value.indexOf('.gif') > 0) {
+		fileParam.type = 3;
+	}
+	if (o.value.indexOf('.doc') > 0 || o.value.indexOf('.docx') > 0) {
+		fileParam.type = 2;
+	}
+} 
+
+function openModal() {
+	$("#chooseFile").removeAttr("disabled");
+	$("#fileName").html("");
+	fileParam.firstDirectoryName = $('#fileType option:checked').text();// 一级目录
+	fileParam.type = 1 ;
+	fileParam.remarks = $('#add_TemplateRemarks').val(); // 备注
+	fileParam.belongtoID = rowID;
+	$("#addModal").modal("show");
+	
+}
+
+//上传文件
+function uploadFile() {
+	$("#files").fileupload({
+				autoUpload : true,
+				url : 'timeCheckController/upload.do',
+				dataType : 'json',
+				add : function(e, data) {
+					$("#ensure").click(function() {
+						fileParam.secondDirectoryName = "核查记录文件"; // 二级目录
+						data.submit();
+					});
+				},
+			}).bind('fileuploaddone',function(e, data) {
+						var fileID = data.result;
+						if (fileID != null && fileID != "null" && fileID != "") {
+							// 传过来的fileID 与数据库不匹配
+							swal({title:"上传成功",  type:"success",});
+							$("#addModal").modal("hide");
+							reload();
+						} else {
+							swal({title:"上传失败! 网路繁忙",  type:"error",});
+						} 
+					});
+
+	// 文件上传前触发事件,如果需要额外添加参数可以在这里添加
+	$('#files').bind('fileuploadsubmit', function(e, data) {
+		data.formData = {
+			firstDirectory : fileParam.firstDirectoryName,
+			secondDirectory : fileParam.secondDirectoryName,
+			TypeNumber : fileParam.type,
+			belongtoID : fileParam.belongtoID,
+			remark : fileParam.remarks
+		}
+	});
+}
+
+// 判空处理
+function checkNull(){
+	if(arguments[0].TemplateName == ""){
+		swal({title:"文件名称不能为空",  type:"warning",});
+		return true;
+	}
+	if(arguments[0].fileID == ""){
+		swal({title:"请选择一个文件上传",  type:"warning",});
+		return true;
+	}
+}
+
+//重新加载页面
+function reload() {
+	window.location.reload();
 }

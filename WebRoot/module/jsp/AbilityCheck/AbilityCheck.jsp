@@ -22,20 +22,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
-	<link rel="stylesheet" type="text/css" href="module/css/AbilityCheck/messenger.css">
-	<link rel="stylesheet" type="text/css" href="module/css/AbilityCheck/messenger-theme-future.css">
 	<link rel="stylesheet" type="text/css" href="module/css/fileManage/fileManage.css">
 	<link rel="stylesheet" type="text/css" href="module/css/AbilityCheck/AbilityCheck.css">
-
-
-	<script src="module/js/jquery-2.1.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+    
+    <script src="module/js/sweetalert.min.js"></script>
+	<script src="assets/js/jquery-3.1.1.min.js"></script>
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script src="assets/js/bootstrap-table.min.js"></script>
 	<script src="assets/js/bootstrap-table-zh-CN.min.js"></script>
-	<script src="module/js/bootstrap-datetimepicker.js"></script>
-	<script src="module/js/bootstrap-datetimepicker.zh-CN.js"></script>
-	<script src="module/js/bootstrap-datetimepicker.fr.js"></script>
-	<script src="module/js/AbilityCheck/messenger.js"></script>
+	<script src="module/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+	<script src="assets/js/bootstrap-datetimepicker.fr.js"></script>
+	<script src="assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script type="text/javascript" src="module/js/AbilityCheck/AbilityCheck.js"></script>
   </head>
   
   <body>
@@ -127,7 +126,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                   </select>
                </div>
    
-               <form action="abilityCheckController/imageUpload.do" method="post" enctype="multipart/form-data">
+            
                <div class="col-xs-12 col-md-12">
  				<input  id="cID" type="hidden" name="fileID" value=""></input>
                	<input  id="cstate" type="hidden" name="state" value="0"></input>
@@ -139,16 +138,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
              	<h4>添加文件</h4>
              	</div>
              </div>
- 				<input id="file" name="file" type="file" value="" class="fileClick" onchange="change()">
+ 				<input id="files" name="files" type="file" value="" class="fileClick">
              	</div>
-             	<button type="submit" style="display:none;">
-
+      
              </div>
 	      </div>
 	      <div class="modal-footer">
-	             <button type="button" onclick="check()" class="btn btn-primary tanSureButton">提交</button>
+	             <button type="button" onclick="check()" id="submitFile" name="submitFile" class="btn btn-primary tanSureButton">提交</button>
 	        <button type="button" class="btn btn-default tanCancelButton" data-dismiss="modal">取消</button>
-	     </form> 
+	
 	      </div>
 	    	
 	    </div>
@@ -170,11 +168,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 		
 </body>
-
-  <script type="text/javascript" src="module/js/AbilityCheck/AbilityCheck.js"></script>
+	<script type="text/javascript" src="assets/fileupload/jquery.iframe-transport.js"></script>
+    <script type="text/javascript" src="assets/fileupload/jquery.ui.widget.js"></script> 
+    <script type="text/javascript"src="assets/fileupload/jquery.fileupload.js"></script>
   <script type="text/javascript">
+  $(".form_datetime").datetimepicker({
+	    minView: 'month',            //设置时间选择为年月日 去掉时分秒选择
+	    format:'yyyy-mm',
+	    todayBtn:"linked",
+	    autoclose:true,
+	    todayHighlight:true,
+	    startView:3,
+	    minView:3,
+	    language: 'zh-CN'
+	});
 $('#Implement').val("");
 $('#Organizer').val("");
-
+$("#files").change(function(){
+	  $("#fileName").val($("#files").val());
+	});
 </script>
 </html>

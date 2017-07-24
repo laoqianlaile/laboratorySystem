@@ -13,14 +13,18 @@ var object= {},
 	judg2 = 0;
 var mydata=new Array();
 var mydataID=new Array();
-
+var mydata1=new Array();
+var mydataID1=new Array();
+var mydata2=new Array();
+var mydataID2=new Array();
+var fileParam = {};
+fileParam.type = 1;
 $(function(){
 	init();
 });
 
 //初始化页面加载表格
 function init(){
-		
 	$(".form_datetime").datetimepicker({
 		minView: 'month',            //设置时间选择为年月日 去掉时分秒选择
 		format:'yyyy-mm-dd',
@@ -39,7 +43,6 @@ function init(){
 			pagination: true,//在表格底部显示分页条
 			pageSize: 3,//页面数据条数
 			pageNumber:1,//首页页码
-			singleSelect : true,
 			pageList: [1, 5, 10, 15, 20],//设置可供选择的页面数据条数
 			clickToSelect:true,//设置true 将在点击行时，自动选择rediobox 和 checkbox
 			cache: false,//禁用 AJAX 数据缓存
@@ -57,7 +60,7 @@ function init(){
 			onClickRow:onClickRow,
 			onDblClickCell:onDblClickCell,//当用户双击某一列的时候触发
 			columns:[{
-				checkbox:true,
+				radio:true,
 				width:'5'//宽度
 			},{
 				title : '序号',
@@ -155,6 +158,7 @@ function init(){
 				/*事件*/
 	    });
 	initTableFile();
+	uploadFile();
 }
 
 
@@ -200,7 +204,6 @@ var mydataID=new Array();
 							row：点击列的整行数据，
 							$element：td 元素。*/
 function onDblClickCell(field,value,row,$element){
-	
 	object==null;
 	if(row==object){
 	}else{
@@ -244,16 +247,16 @@ function onDblClickCell(field,value,row,$element){
 			if(clicked==1){
 				getvalue2 = updatevalue;
 			};
-			$element[0].innerHTML="<form><div class=''>"
-				+"<button class='btn btn-default dropdown-toggle' type='button' id='dropdowmlist' data-toggle='dropdown'>"
+			$element[0].innerHTML="<div class=''>"
+				+"<button class='btn btn-default dropdown-toggle' type='button'  data-toggle='dropdown'>"
 				+getvalue2+"<span class='caret'></span></button>"
-				+"<ul id='listdata' class='dropdown-menu' role='menu' aria-labelledby='dropdownMenu1'>"
-				+"</ul></div></form>";
+				+"<ul id='departdata' class='dropdown-menu' role='menu' aria-labelledby='dropdownMenu1'>"
+				+"</ul></div>";
 				$.ajax({
 					url:'personconTrastController/getdepartmentlist.do',
 					success:function(data){
 						var myobj = eval(data);
-						var listdata = $('#listdata');
+						var listdata = $('#departdata');
 						for(var i = 0;i< myobj.length;i++){
 							mydata[i] = myobj[i].departmentName;
 							mydataID[i]= myobj[i].ID;
@@ -271,13 +274,12 @@ function onDblClickCell(field,value,row,$element){
 			}
 				
 			if(clicked1==1){
-				
 				getvalue = updatevalue1;
 			};
 			$element[0].innerHTML="<div class=''>"
-				+"<button class='btn btn-default dropdown-toggle' type='button' id='dropdowmlist' data-toggle='dropdown'>"
+				+"<button class='btn btn-default dropdown-toggle'  type='button'  data-toggle='dropdown'>"
 				+getvalue+"<span class='caret'></span></button>"
-				+"<ul id='listdata' class='dropdown-menu ' role='menu' aria-labelledby='dropdownMenu1'>"
+				+"<ul id='Name1data' class='dropdown-menu ' role='menu' aria-labelledby='dropdownMenu1'>"
 				+"</ul></div>";
 			//还要加判断是否点击
 			var departmentid = object.departmentName;	
@@ -286,11 +288,11 @@ function onDblClickCell(field,value,row,$element){
 					url:'personconTrastController/getbydepartment.do',
 					success:function(mag){
 						var myobj = eval(mag);
-						var listdata = $('#listdata');
+						var listdata = $('#Name1data');
 						for(var i = 0;i< myobj.length;i++){
-							mydata[i] = myobj[i].employeeName;
-							mydataID[i]= myobj[i].ID;
-							var rstring = "<li role='presentation' onclick='getParentbutton1(this,"+"mydata["+i+"]"+","+"mydataID["+i+"]" + ")'>"+mydata[i]+"</li>";
+							mydata1[i] = myobj[i].employeeName;
+							mydataID1[i]= myobj[i].ID;
+							var rstring = "<li role='presentation' onclick='getParentbutton1(this,"+"mydata1["+i+"]"+","+"mydataID1["+i+"]" + ")'>"+mydata1[i]+"</li>";
 							listdata.append(rstring);
 						}
 					}
@@ -306,9 +308,9 @@ function onDblClickCell(field,value,row,$element){
 				getvalue = updatevalue2;
 			};
 			$element[0].innerHTML="<div class=''>"
-				+"<button class='btn btn-default dropdown-toggle' type='button' id='dropdowmlist' data-toggle='dropdown'>"
+				+"<button class='btn btn-default dropdown-toggle' type='button' data-toggle='dropdown'>"
 				+getvalue+"<span class='caret'></span></button>"
-				+"<ul id='listdata' class='dropdown-menu ' role='menu' aria-labelledby='dropdownMenu1'>"
+				+"<ul id='Name2data' class='dropdown-menu ' role='menu' aria-labelledby='dropdownMenu1'>"
 				+"</ul></div>";
 			var departmentid = object.departmentName;	
 			$.ajax({
@@ -316,17 +318,15 @@ function onDblClickCell(field,value,row,$element){
 				url:'personconTrastController/getbydepartment.do',
 				success:function(mag){
 					var myobj = eval(mag);
-					var listdata = $('#listdata');
+					var listdata = $('#Name2data');
 					for(var i = 0;i< myobj.length;i++){
-						mydata[i] = myobj[i].employeeName;
-						mydataID[i]= myobj[i].ID;
-						var rstring = "<li role='presentation' onclick='getParentbutton2(this,"+"mydata["+i+"]"+","+"mydataID["+i+"]" + ")'>"+mydata[i]+"</li>";
+						mydata2[i] = myobj[i].employeeName;
+						mydataID2[i]= myobj[i].ID;
+						var rstring = "<li role='presentation' onclick='getParentbutton2(this,"+"mydata2["+i+"]"+","+"mydataID2["+i+"]" + ")'>"+mydata2[i]+"</li>";
 						listdata.append(rstring);
 					}
 				}
 			});
-			
-			
 			break;
 		case "startTime":
 				getvalue = row.startTime;
@@ -355,7 +355,7 @@ function onDblClickCell(field,value,row,$element){
 		}	
 	}
 	else{
-		alert("此项不能修改");
+		swal({ title: "此项不能修改", type: "error"});
 	};
 }
 //获取点击后的值
@@ -376,6 +376,48 @@ function getParentbutton(dom,value,ID){
 			parentdom = parentdom.parentNode;
 		}
 	}
+	
+	var name1 = $(parentdom).next();
+	var name2 = $(parentdom).next().next();
+	name1.html("<div class=''>"
+				+"<button class='btn btn-default dropdown-toggle'  type='button'  data-toggle='dropdown'>"
+				+"<span class='caret'></span></button>"
+				+"<ul id='Name1data' class='dropdown-menu ' role='menu' aria-labelledby='dropdownMenu1'>"
+				+"</ul></div>");
+	$.ajax({
+		data:{departmentID:ID},
+		url:'personconTrastController/getbydepartment.do',
+		success:function(mag){
+			var myobj = eval(mag);
+			var listdata = $('#Name1data');
+			for(var i = 0;i< myobj.length;i++){
+				mydata1[i] = myobj[i].employeeName;
+				mydataID1[i]= myobj[i].ID;
+				var rstring = "<li role='presentation' onclick='getParentbutton1(this,"+"mydata1["+i+"]"+","+"mydataID1["+i+"]" + ")'>"+mydata1[i]+"</li>";
+				listdata.append(rstring);
+			}
+		}
+	});
+	
+	name2.html("<div class=''>"
+				+"<button class='btn btn-default dropdown-toggle' type='button' data-toggle='dropdown'>"
+				+"<span class='caret'></span></button>"
+				+"<ul id='Name2data' class='dropdown-menu ' role='menu' aria-labelledby='dropdownMenu1'>"
+				+"</ul></div>");
+	$.ajax({
+		data:{departmentID:ID},
+		url:'personconTrastController/getbydepartment.do',
+		success:function(mag){
+			var myobj = eval(mag);
+			var listdata = $('#Name2data');
+			for(var i = 0;i< myobj.length;i++){
+				mydata2[i] = myobj[i].employeeName;
+				mydataID2[i]= myobj[i].ID;
+				var rstring = "<li role='presentation' onclick='getParentbutton2(this,"+"mydata2["+i+"]"+","+"mydataID2["+i+"]" + ")'>"+mydata2[i]+"</li>";
+				listdata.append(rstring);
+			}
+		}
+	});
 }
 //获取点击后的值
 function getParentbutton1(dom,value,ID){
@@ -519,16 +561,16 @@ function updataPersonContrast(dom){
 				  url:'personconTrastController/updatePersonconTrastByID.do',
 				  data:personcontrast,
 				  success:function(o){  
-					  alert("成功");
+					 	swal({ title: "成功", type: "success"});
 					  sbtjude=0;
 					  refresh();
 					  }
 			});
 		}else{
-			alert("更新出错，请重试或联系维护人员");
+		swal({ title: "更新出错，请重试或联系维护人员", type: "error"});
 		}		
 	}else{
-		alert("请选择或者选择一条");
+		swal({ title: "请选择或者选择一条", type: "warning"});
 	}
 	
 }
@@ -540,7 +582,7 @@ function deletelist(dom){
 	var getdata = $('#table').bootstrapTable('getSelections');
 	var allid = "";
 	if(getdata.length<=0){
-		alert("请选择");
+		swal({ title: "请选择", type: "warning"});
 	}else{
 		
 		for (var i = 0 ; i < getdata.length ; i++){
@@ -548,7 +590,7 @@ function deletelist(dom){
 		}
 		var deleteid={};
 		deleteid.id = allid;
-		alert("确认删除？")
+		swal({ title: "确认删除？", type: "warning"});
 		$.ajax({
 			  url:'personconTrastController/deletePersonconTrastByID.do',
 			  data:deleteid,
@@ -583,40 +625,40 @@ function addpersonconTrast(){
 	var getdata = $('#table').bootstrapTable('getSelections');
 	
 	if(getdata.length<=0||getdata.length > 1){
-		alert("请选择一条数据");
+		swal({ title: "请选择一条数据？", type: "warning"});
 	}else{
 		
 		for(var i = 0;i < 1;i++){
 			if(getdata[0].projectCode==null||getdata[0].projectCode==""){
-				alert("请填写比对项目编号");
+				swal({ title: "请填写比对项目编号", type: "warning"});
 				break;
 			}	
 			if(getdata[0].projectName==null||getdata[0].projectName==""){
-				alert("请填写比对项目名称");
+				swal({ title: "请填写比对项目名称", type: "warning"});
 			    break;
 			}	
 			if(getdata[0].testDevice==null||getdata[0].testDevice==""){
-				alert("请填写测试装置");
+				swal({ title: "请填写测试装置", type: "warning"});
 			    break;
 			}	
 			if(getdata[0].departmentName==null||getdata[0].departmentName==""){
-				alert("请选择比对人员科室");
+				swal({ title: "请选择比对人员科室", type: "warning"});
 				break;
 			}
 			if(getdata[0].Name1==null||getdata[0].Name1==""){
-				alert("请选择比对标准人员");
+				swal({ title: "请选择比对标准人员", type: "warning"});
 			    break;
 			}	
 			if(getdata[0].Name2==null||getdata[0].Name2==""){
-				alert("请选择待比对人员");
+				swal({ title: "请选择待比对人员", type: "warning"});
 				break;
 			}
 			if(getdata[0].startTime==null||getdata[0].startTime==""){
-				alert("请选择执行时间");
+				swal({ title: "请选择执行时间", type: "warning"});
 				break;
 			}	
 			if(getdata[0].Name2==getdata[0].Name1){
-				alert("待比对人员不能和比对人员相同");
+				swal({ title: "待比对人员不能和比对人员相同", type: "warning"});
 				break;
 			}
 			var personcontrast={};
@@ -634,7 +676,7 @@ function addpersonconTrast(){
 				success:function(e){
 					refresh();
 					$(".disappear").css("display","none");
-					alert("新增成功!")
+					swal({ title: "新增成功", type: "success"});
 					},
 				});
 			}
@@ -662,24 +704,69 @@ function refreshAll(){
 	$('#table').bootstrapTable('refresh', null);
 	$(".disappear").css("display","none");
 }
-
+/*新增js方法*/
+//检查文件类型
+function checkFile(o) {
+	$("#chooseFile").attr("disabled", "disabled");
+	var filePath = $(o).val();
+	if (filePath != "" && filePath != undefined) {
+		var arr = filePath.split('\\');
+		var fileName = arr[arr.length - 1];
+		$("#fileName").html(fileName);
+	}
+	if (o.value.indexOf('.jpg') > 0 || o.value.indexOf('.png') > 0 || o.value.indexOf('.gif')>0) {
+		fileParam.type = 3;
+	}
+} 
+//上传文件
+function uploadFile() {
+	$("#files").fileupload({
+				autoUpload : true,
+				url : 'timeCheckController/upload.do',
+				dataType : 'json',
+				add : function(e, data) {
+					$("#upfile").click(function() {
+						fileParam.secondDirectoryName = "核查记录文件"; // 二级目录
+						fileParam.remark = $('#remarks').val();
+						data.submit();
+						$('#showfilepage').modal('hide');
+						window.location.reload();
+					});
+				}
+	});
+	// 文件上传前触发事件,如果需要额外添加参数可以在这里添加
+	$('#files').bind('fileuploadsubmit', function(e, data) {
+		data.formData = {
+			secondDirectory : fileParam.secondDirectoryName,
+			TypeNumber : fileParam.type,
+			belongtoID : fileParam.belongtoID,
+			remark : fileParam.remark
+		}
+	});
+}
 //展示文件上传
-function uploadfile(){
+function checkFileMoudle(){
+	$("#chooseFile").removeAttr("disabled");
+	fileParam.firstDirectoryName = $('#fileType option:checked').text();// 一级目录
+	fileParam.type = 1 ;
+	
 	var getdata = $('#table').bootstrapTable('getSelections');
 	if(getdata.length==1){
 		$('#showfilepage').modal('show');	
 		$('#belongID').val(getdata[0].ID);
+		fileParam.belongtoID = getdata[0].ID;
+		fileParam.remarks = $('#remarks').val(); // 备注
 	}else
-		showdiag("请选择一条数据");
+	swal({ title: "请选择一条数据", type: "warning"});
 }
 
 //选中行展示文件
 function onClickRow(row){
 	rowID = row.ID;
-	refreshfile();
+	refresh();
 }
 //刷新文件表格
-function refreshfile(){
+function refresh(){
 	$('#tablefile').bootstrapTable('refresh', null);
 }
 
@@ -691,10 +778,9 @@ function Params(pageRequest){
 	pageRequest.pageNo = this.offset;
 	pageRequest.pageSize = this.pageNumber;
 	pageRequest.length = 6;
-	pageRequest.planID = rowID;
+	pageRequest.belongtoID = rowID;
 	return pageRequest;
 }
-
 function initTableFile(){
 	$('#tablefile').bootstrapTable({
 		height: '320',//定义表格的高度

@@ -62,7 +62,7 @@ body {
 .mainTitel button,.secondTitel button {
 	position: absolute;
 	right: 15px;
-	margin-top: -13px;
+	margin-top: -18px;
 }
 
 table {
@@ -131,7 +131,7 @@ table {
 	width: 100%;
 	display: block;
 	width: 100%;
-	height: 34px;
+	height: 26px;
 }
 
 h4,.h4 {
@@ -207,19 +207,26 @@ h4,.h4 {
 }
 
 .row label {
-	/* width: 70px; */
+	 width: 50px; 
 }
 
 .timeLabelDiv {
 	float: left;
-	height: 34px;
-	width: 70px;
+    height: 34px;
+    vertical-align: middle;
+    display: inline-block;
+    line-height: 34px;
 }
 
-.timeLabelDiv label {
+/* .timeLabelDiv label {
 	margin-top: 7px;
+} */
+.kemiche{
+	display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
-
 .timeChooseDiv {
 	width: 70%;
 	margin-top: 0px;
@@ -254,6 +261,8 @@ h4,.h4 {
     max-height: 170px;
     overflow-y: scroll;
     width: 115%;
+    margin : 0;
+    padding : 0;
 }
 .tip-factory-content li {
 	
@@ -264,8 +273,9 @@ h4,.h4 {
     padding-top: 7px;
     border-bottom: 1px solid;
     margin-bottom: 5px;
-    background: #ddd;
+    background: #d1dae8;
     border-radius: 4px;
+    padding-left:12px;
 }
 #file_uploadModal .modal-header{
 	background-color: #364760;
@@ -333,8 +343,8 @@ h4,.h4 {
 	display: inline-block;
 }
 #displayChecked {
-	width: 95%;
-	height: 100px;
+	width: 100%;
+	height: 75px;
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	min-height: 80px;
@@ -406,12 +416,12 @@ h4,.h4 {
 #editTaskModal input[type=radio]{
 	width:17px;
 	display:inline-block;
-	margin-left: 125px;
+	margin-left: 20%;
 }
 .radioLabel{
 	
-	margin-top: 6px;
-    width: 10%;
+	margin-top: 10px;
+    width: 20%;
     display: inline-block;
 	
 }

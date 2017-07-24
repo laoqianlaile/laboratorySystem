@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 public interface IContractFineItemService {
 	
 	// 科室任务统计
@@ -109,7 +111,37 @@ public interface IContractFineItemService {
 	 * @param request
 	 * @param response
 	 */
-	public boolean contractFineItemExportExcel(HttpServletRequest request,
+	public boolean contractFineItemExportExcel1(HttpServletRequest request,
 			HttpServletResponse response);
+	
+	/**
+	 * @description 导出合同细项
+	 * @author LG.hujiajun
+	 * @created 2017年7月4日 下午9:46:36
+	 * @param request
+	 * @param response
+	 */
+	public boolean contractFineItemExportExcel2(HttpServletRequest request,
+			HttpServletResponse response);
+	/**
+	 * @param request
+	 * @param response
+	 *//*
+	public boolean contractFineItemImportExcel2(HttpServletRequest request,
+			HttpServletResponse response);*/
+	
+	/**
+	 * @description 导入合同细项
+	 * @author LG.hujiajun
+	 * @created 2017年7月8日 下午4:36:47
+	 * @param file
+	 * @param req
+	 * @param response
+	 * @param typeNumber
+	 * @param belongtoID
+	 */
+	public int importExcelTemplate(CommonsMultipartFile file, HttpServletRequest req,
+			HttpServletResponse response, int typeNumber, String belongtoID);
+	
 	
 }

@@ -27,7 +27,10 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
 	<link rel="stylesheet" type="text/css" href="module/css/timecheck/TimeCheck.css">
+	<link rel="stylesheet"  type="text/css" href="module/css/wait.css">
+	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 	
+		<script src="module/js/sweetalert.min.js"></script>
   </head>
   
   <body>
@@ -74,10 +77,6 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
 						class="input-group-addon"><span
 						class="glyphicon glyphicon-calendar"></span></span>
 				</div>
-    			<!-- <input id="starttime" type="text" class="form-control text time">
-    			<button type="button" class="btn btn-default btn-lg timeStyle" onclick="timeget(1)">
-				  <span class="glyphicon glyphicon-time"></span> 
-				</button> -->
     		</div>
     		
     		<div class="col-xs-4 col-md-4 col-lg-4">
@@ -92,28 +91,12 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
 						class="input-group-addon"><span
 						class="glyphicon glyphicon-calendar"></span></span>
 				</div>
-			<!-- 	<input id="endtime" type="text" class="form-control text time">
-    			<button type="button" class="btn btn-default btn-lg timeStyle" onclick="timeget(2)">
-				  <span class="glyphicon glyphicon-time"></span> 
-				</button> -->
     		</div>
     		<div class="col-xs-4 col-md-4 col-lg-4">
     			<label>项目名称:</label>
     			<input id="projectname" type="text" class="form-control">
     		</div>
     		</div>
-    		
-    		<!-- <div class="headtext">
-    			<span class="spanstyle">负&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;责&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;人&nbsp;:</span>
-    			<div class="btn-group">
-				  <button id="listbutton2" class="btn btn-default mystyle dropdown-toggle" type="button" data-toggle="dropdown">
-				    <span id="textspan2"></span><span style="position:absolute;left:175px;top:15px;" class="caret"></span>
-				  </button>
-				  <ul id="listul2" class="dropdown-menu" role="menu" style="width:200px;">
-
-				  </ul>
-				</div>
-    		</div> -->
   		</div>
   		<div id="restcontent">
   				<button type="button" class="btn btn-primary Allbtn" onclick="resetAlldata()">全部数据</button>
@@ -130,7 +113,7 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
   		</div>
   		<hr />
   		<div id="bottom">
-  			<div>
+  			<div id="restcontent">
     			<button type="button" class="btn btn-primary thisbtn" onclick="download()">下载</button>
     		</div>
     		<div class="tablecontent">
@@ -148,25 +131,8 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
 	<script src="assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
 	<script src="module/js/jquery.uploadify.min.js"></script>
 	<script src="module/js/timecheck/TimeCheckResult.js"></script>
+	<script src="module/js/wait.js"></script>
   	<script>
-/*   	 function timeget(num){
-  		$('.time').datetimepicker({
-  			minView:'month',
-			format: 'yyyy-mm-dd',
-			weekStart:1,
-			todayBtn:1,
-			autoclose:1,
-			todayHighlight:1,
-			startView:2,
-			forceParse:0,
-			showMeridian:1,
-			language:'zh-CN'     
-		});
-		if(num==1)
-			$('#starttime').focus();
-		if(num==2)
-			$('#endtime').focus();
-  	}  */
 	$('.form_datetime').datetimepicker({
 	    language: 'zh-CN',
 	    weekStart: 1,

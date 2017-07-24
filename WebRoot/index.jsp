@@ -173,7 +173,7 @@
 					</div> -->
 					<div class="col-xs-12-w">
 						<div class="datagrid">
-							<iframe id="content_frame" name="aa"  height="500px"
+							<iframe id="content_frame" name="aa"  
 								frameborder=0 scrolling=auto src="./welcome.jsp"></iframe>
 						</div>
 					</div>

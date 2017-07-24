@@ -175,7 +175,6 @@
 			<div>
 				<button type="button" class="btn btn-primary " onclick="search()">查询</button>
 				<button type="button" class="btn btn-primary " onclick="viewFilePath()">查看文件路径</button>
-				<button type="button" class="btn btn-primary " onclick="openModal()">上传报告模版</button>
 			</div>
 		</div>
 	</div>

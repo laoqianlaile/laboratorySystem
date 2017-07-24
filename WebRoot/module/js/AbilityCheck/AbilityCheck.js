@@ -1,4 +1,6 @@
-
+var param = {
+		
+};
 var object= {};
 	pubtype = "";
 	datacount = -1;
@@ -25,6 +27,7 @@ $._messengerDefaults = {
 
 function initialize(){
 	$('#table').bootstrapTable({
+		clickToSelect : true,
 		striped: true,// 隔行变色效果
 		pagination: true,//在表格底部显示分页条
 		pageSize: 10,//页面数据条数
@@ -41,7 +44,7 @@ function initialize(){
 		selectItemName:'',//radio or checkbox 的字段名
 		onDblClickCell:onDblClickCell,
 		columns : [ {
-			checkbox : true,
+			radio : true,
 			width : '5%'// 宽度
 		}, {
 			field : 'ID',// 返回值名称
@@ -120,13 +123,7 @@ function initialize(){
 	// 列配置项,详情请查看 列参数 表格
 	/* 事件 */
         onLoadError: function () {
-        	 $.globalMessenger().post({
-        		   message: "操作失败",//提示信息
-        		   type: 'error',//消息类型。error、info、success
-        		   hideAfter: 2,//多长时间消失
-        		   showCloseButton:true,//是否显示关闭按钮
-        		   hideOnNavigate: true //是否隐藏导航
-        		 });
+        		swal({ title: "操作失败", type: "error"});
         }
 	
 });
@@ -152,7 +149,34 @@ $(document).ready(function() {
 		}
 	});
 	initialize();
-});
+	uploadFile();
+ });
+
+
+// 文件上传
+function uploadFile() {
+	$("#files").fileupload({
+		autoUpload : true,
+		url : 'abilityCheckController/upload.do',
+		dataType : 'json',
+		add : function(e, data) {
+		$("#submitFile").click(function() {
+			data.submit();
+			});
+		},
+	}).bind('fileuploaddone',function(e, data) {
+		  window.location.reload();
+		});
+	
+	// 文件上传前触发事件,如果需要额外添加参数可以在这里添加
+	$('#files').bind('fileuploadsubmit', function(e, data) {
+		data.formData = {
+				TypeNumber : param.type,
+				belongtoID : param.belongtoID
+		};
+	});
+}
+
 
 function refresh2(){
 	location.reload([false]);
@@ -214,13 +238,7 @@ function onDblClickCell(field,value,row,$element){
 		break;
 		}
 	}else{
-		 $.globalMessenger().post({
-			   message: "此项不能修改",//提示信息
-			   type: 'info',//消息类型。error、info、success
-			   hideAfter: 2,//多长时间消失
-			   showCloseButton:true,//是否显示关闭按钮
-			   hideOnNavigate: true //是否隐藏导航
-			 });
+		 swal({ title: "此项不能修改", type: "warning"});
 	};
 }
 
@@ -244,65 +262,37 @@ function add(){
 
 function addPlan(dom){
 	var getdata = $('#table').bootstrapTable('getSelections');
-	if(getdata[0].parameter == "" || getdata[0].equipmentName == "" || getdata[0].departmentName == ""){
-		 $.globalMessenger().post({
-	  		   message: "参数，设备名称，部门名称必填",//提示信息
-	  		   type: 'error',//消息类型。error、info、success
-	  		   hideAfter: 2,//多长时间消失
-	  		   showCloseButton:true,//是否显示关闭按钮
-	  		   hideOnNavigate: true //是否隐藏导航
-	  		 });	
-	}
-	if(getdata.length<=0||getdata.length > 1){
-		 $.globalMessenger().post({
-  		   message: "请选择一条数据",//提示信息
-  		   type: 'error',//消息类型。error、info、success
-  		   hideAfter: 2,//多长时间消失
-  		   showCloseButton:true,//是否显示关闭按钮
-  		   hideOnNavigate: true //是否隐藏导航
-  		 });
-	}else if(getdata[0].ID == null || getdata[0].ID == ""){
-	var dataobj={};
-	dataobj.parameter = getdata[0].parameter;
-	dataobj.equipmentID = reciveID.equipmentID;
-	dataobj.departmentID = reciveID.departmentID;
-		dataobj.startTime = getdata[0].startTime + "-1 00:00:00";
-	dataobj.state = "未完成";
-	$.ajax({
-		url:'abilityCheckController/addAbilityCheck.do',
-		data:dataobj,
-		success:function(e){
-			 $.globalMessenger().post({
-		  		   message: "制定成功",//提示信息
-		  		   type: 'success',//消息类型。error、info、success
-		  		   hideAfter: 2,//多长时间消失
-		  		   showCloseButton:true,//是否显示关闭按钮
-		  		   hideOnNavigate: true //是否隐藏导航
-		  		 });
-			refresh();
-		},
-		});
+	if(getdata[0].parameter == "" || getdata[0].equipmentName == "" || getdata[0].departmentName == ""|| getdata[0].startTime == ""){
+		 swal({ title: "参数，设备名称，部门名称，实施日期必填", type: "warning"});
 	}
 	else{
-		 $.globalMessenger().post({
-	  		   message: "请上传新增计划",//提示信息
-	  		   type: 'info',//消息类型。error、info、success
-	  		   hideAfter: 2,//多长时间消失
-	  		   showCloseButton:true,//是否显示关闭按钮
-	  		   hideOnNavigate: true //是否隐藏导航
-	  		 });
+		if(getdata.length<=0||getdata.length > 1){
+			 swal({ title: "请选择一条数据", type: "warning"});
+		}else if(getdata[0].ID == null || getdata[0].ID == ""){
+		var dataobj={};
+		dataobj.parameter = getdata[0].parameter;
+		dataobj.equipmentID = reciveID.equipmentID;
+		dataobj.departmentID = reciveID.departmentID;
+			dataobj.startTime = getdata[0].startTime + "-1 00:00:00";
+		dataobj.state = "未完成";
+		$.ajax({
+			url:'abilityCheckController/addAbilityCheck.do',
+			data:dataobj,
+			success:function(e){
+				 swal({ title: "制定成功", type: "success"});
+				refresh();
+			},
+			});
+		}
+		else{
+			 swal({ title: "请上传新增计划", type: "warning"});
+		}
 	}
 }
 function deleteModal(){
 	var getdata = $('#table').bootstrapTable('getSelections');
 	if(getdata.length<=0){
-		 $.globalMessenger().post({
-	  		   message: "请选择数据",//提示信息
-	  		   type: 'error',//消息类型。error、info、success
-	  		   hideAfter: 2,//多长时间消失
-	  		   showCloseButton:true,//是否显示关闭按钮
-	  		   hideOnNavigate: true //是否隐藏导航
-	  		 });
+		 swal({ title: "请选择数据", type: "warning"});
 	}else{
 		$('#delModal').modal('show');	
 	}
@@ -323,13 +313,7 @@ function deletePlan(){
 			  }
 			});
 
-	 $.globalMessenger().post({
-		   message: "删除成功",//提示信息
-		   type: 'success',//消息类型。error、info、success
-		   hideAfter: 2,//多长时间消失
-		   showCloseButton:true,//是否显示关闭按钮
-		   hideOnNavigate: true //是否隐藏导航
-		 });
+	 swal({ title: "删除成功", type: "success"});
 	 $('#delModal').modal('hide');
 	  refresh();
 }
@@ -339,13 +323,7 @@ function editPlan(){
 	var data={};
 
 	if(updata.length<=0||updata.length > 1){
-		 $.globalMessenger().post({
-	  		   message: "请选择一条数据",//提示信息
-	  		   type: 'error',//消息类型。error、info、success
-	  		   hideAfter: 2,//多长时间消失
-	  		   showCloseButton:true,//是否显示关闭按钮
-	  		   hideOnNavigate: true //是否隐藏导航
-	  		 });
+		 swal({ title: "请选择一条数据", type: "warning"});
 	}
 
 	else{
@@ -363,13 +341,7 @@ function editPlan(){
 			  url:'abilityCheckController/updateAbilityCheck.do',
 			  data:data,
 			  success:function(e){
-				  $.globalMessenger().post({
-			  		   message: "修改成功",//提示信息
-			  		   type: 'success',//消息类型。error、info、success
-			  		   hideAfter: 2,//多长时间消失
-			  		   showCloseButton:true,//是否显示关闭按钮
-			  		   hideOnNavigate: true //是否隐藏导航
-			  		 });
+					 swal({ title: "修改成功", type: "success"});
 				  refresh();
 			  }
 			});
@@ -416,7 +388,6 @@ function find(){
 		condition += " and equipmentName = '" + equipmentID + "'";
 	}
 	if((startTime != null && startTime != "") && (endTime == "")){
-		alert("111");
 		startTime += "-01 00:00:00";
 		if(condition == "")
 			condition += " startTime = '" + startTime + "'";
@@ -451,103 +422,66 @@ function find(){
 function checkTable(){
 	var data = $('#table').bootstrapTable('getSelections');
 	if(data.length <= 0||data.length > 1){
-		 $.globalMessenger().post({
-	  		   message: "请选择一条数据",//提示信息
-	  		   type: 'error',//消息类型。error、info、success
-	  		   hideAfter: 2,//多长时间消失
-	  		   showCloseButton:true,//是否显示关闭按钮
-	  		   hideOnNavigate: true //是否隐藏导航
-	  		 });
+		 swal({ title: "请选择一条数据", type: "warning"});
 	}else{
+		param.type = 3;
 		$('#checkModal').modal('show');
+		var date = new Date(); 	
+		param.belongtoID = ""+date.getFullYear()+date.getMonth()+date.getDate()+date.getHours()+date.getMinutes()+date.getSeconds()+date.getMilliseconds();
+	
 	}
 }
 
-/*审查*/
+// 审查
 function check(){
-	var file = $('#file').val();
-	var data = $('#table').bootstrapTable('getSelections');
+	var mydata = $('#table').bootstrapTable('getSelections');
 	var checkdata = {};
-	checkdata.ID = data[0].ID;
-	var date = new Date();  
+	checkdata.ID = mydata[0].ID;
 	checkdata.result = $('#check_Result').val();
 	checkdata.type = $('#get_Type').val();
 	
-	if(file!=""){
-	checkdata.fileID = ""+date.getFullYear()+date.getMonth()+date.getDate()+date.getHours()+date.getMinutes()+date.getSeconds()+date.getMilliseconds();
-	$('#cID').val(checkdata.fileID);
-	}
 	checkdata.state = "已完成";
-	var update = {};
-	update.fileID = checkdata.fileID;
-	update.equipmentID = data[0].equipmentID;
-	update.startTime = data[0].startTime + "-1 00:00:00";
-	if(file != null && file !=""){
+	var files = $("#files");
+	var filename = $("#fileName").val();
+	if(filename != ""){
+	checkdata.fileID = param.belongtoID;
+	}
+	
+	/*	var update = {};
+	update.fileID = param.belongtoID;
+	update.equipmentID = mydata[0].equipmentID;
+	update.startTime = mydata[0].startTime + "-1 00:00:00";
+			if(file != null && file !=""){
 	$.ajax({
 			url:'abilityCheckController/updateAbilityCheckByCondition.do',
 			data:update,
 			success:function(e){
 			}
 	});
-	}
+	}*/
 	$.ajax({
 		  url:'abilityCheckController/updateAbilityCheck.do',
 		  data:checkdata,
 		  success:function(e){
 			  refresh();
-				 $.globalMessenger().post({
-			  		   message: "审核成功",//提示信息
-			  		   type: 'success',//消息类型。error、info、success
-			  		   hideAfter: 2,//多长时间消失
-			  		   showCloseButton:true,//是否显示关闭按钮
-			  		   hideOnNavigate: true //是否隐藏导航
-			  		 });
+				 swal({ title: "审核成功", type: "success"});
 		  }
 		});
-
-	if(file != "" && file != null){
-	var form = document.forms[0];
-		form.submit();
-	}
-	$('#file').val("");
-	$('#checkModal').modal('hide');
+	 $("#fileName").val("");
+	$('#checkModal').modal('hide');	
 	
-
 }
 
 /*文件下载*/
 function download(){
 	var getdata = $('#table').bootstrapTable('getSelections');
 	if(getdata.length<=0||getdata.length > 1){
-		 $.globalMessenger().post({
-	  		   message: "请选择一条数据",//提示信息
-	  		   type: 'error',//消息类型。error、info、success
-	  		   hideAfter: 2,//多长时间消失
-	  		   showCloseButton:true,//是否显示关闭按钮
-	  		   hideOnNavigate: true //是否隐藏导航
-	  		 });
+		 swal({ title: "请选择一条数据", type: "warning"});
 	}else if(getdata[0].fileName == null || getdata[0].fileName == ""){
-		 $.globalMessenger().post({
-	  		   message: "该文档为空",//提示信息
-	  		   type: 'error',//消息类型。error、info、success
-	  		   hideAfter: 2,//多长时间消失
-	  		   showCloseButton:true,//是否显示关闭按钮
-	  		   hideOnNavigate: true //是否隐藏导航
-	  		 });
+		 swal({ title: "该文档为空", type: "warning"});
 	}
 	else{
-		window.location.href="fileOperateController/filedownload.do?ID="+getdata[0].fileID;
+		window.location.href="timeCheckController/filedownload.do?ID="+getdata[0].fileID;
 	}
 }
-
-$(".form_datetime").datetimepicker({
-    minView: 'month',            //设置时间选择为年月日 去掉时分秒选择
-    format:'yyyy-mm',
-    todayBtn:"linked",
-    autoclose:true,
-    todayHighlight:true,
-    startView:3,
-    minView:3,
-    language: 'zh-CN'
-});
 

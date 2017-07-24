@@ -2,19 +2,6 @@
 var object={},
 	pubtype = "";
 
-function showdiag(data){
-	$('#dequ').remove();
-	document.getElementById("showdiv1").style.display = "none";
-	var sentence = "<span id='dequ'>" + data + "</span>" ; 
-	$('#showdiv1').append(sentence);
-	var width=(document.body.clientWidth-300)/2;
-	//var height = (document.body.clientHeight-360-100)/2;
-	//document.getElementById("showdiv1").style.marginTop = height;
-	document.getElementById("showdiv1").style.marginLeft = width;
-	document.getElementById("showdiv1").style.display = "block";
-	setTimeout("document.getElementById('showdiv1').style.display = 'none'",800);
-}
-
 $(function(){
 	$('#table').bootstrapTable({
 		pagination: true,//在表格底部显示分页条
@@ -183,7 +170,7 @@ function onDblClickCell(field,value,row,$element){
 		;break;
 		}
 	}else{
-		showdiag("此项不能修改");
+		swal({title:"此项不能修改",  type:"warning",});
 	};
 }
 
@@ -218,7 +205,7 @@ function onupdataaudit(str){
 					}
 				});
 			}else
-				showdiag("请填写不通过原因");
+				swal({title:"请填写不通过原因",  type:"warning",});
 		}else
 			if(getdata[0].reason==null||getdata[0].reason==""){
 				$.ajax({
@@ -229,8 +216,7 @@ function onupdataaudit(str){
 					}
 				});
 			}else
-				showdiag("请删除不通过原因");
-		
+				swal({title:"请删除不通过原因",  type:"warning",});
 }
 
 

@@ -116,27 +116,10 @@ $(function(){
 			
 		}
 	});
-	/*$.ajax({
-		url:'timeCheckController/getDepartOrEmployeeID1.do',
-		data:{type:2},
-		success:function(e){
-			var myobj = eval(e);
-			var dom1 = $('#listul2');
-			$('#textspan2').html("");
-			var str2 = "<li role='presentation' onclick='changevalue(2,\"\")'>空</li>";
-			dom1.append(str2);
-			for(var i = 0;i< myobj.length;i++){ 	
-				var str = "<li role='presentation' onclick='changevalue(2,\""+myobj[i].employeeName+"\")'>"+myobj[i].employeeName+"</li>";
-				dom1.append(str);
-			}
-		}
-	});*/
 });
 
 function queryParams2(params) { // 配置参数
-
 	var temp = { // 这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-
 		limit : params.limit, // 页面大小
 		offset : params.offset, // 页码
 		sort : params.sort, // 排序列名
@@ -219,28 +202,14 @@ function setTimeoutgetID(dom,rowID){
 }
 
 function queryParams(params) { // 配置参数
-
+	
 	var temp = { // 这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
 
 		limit : params.limit, // 页面大小
 		offset : params.offset, // 页码
 		sort : params.sort, // 排序列名
 		order : params.order,
-		planID:rowID,
-	// 排位命令（desc，asc）
-	};
-	return temp;
-}
-
-function queryParams(params) { // 配置参数
-
-	var temp = { // 这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-
-		limit : params.limit, // 页面大小
-		offset : params.offset, // 页码
-		sort : params.sort, // 排序列名
-		order : params.order,
-		planID:rowID,
+		belongtoID:rowID,
 	// 排位命令（desc，asc）
 	};
 	return temp;
@@ -250,7 +219,7 @@ function download(){
 	var getdata = $('#tablefile').bootstrapTable('getSelections');
 	var fileID;
 	fileID=getdata[0].ID;
-	window.location.href="fileOperateController/filedownload.do?ID="+fileID;
+	window.location.href="timeCheckController/filedownload.do?ID="+fileID;
 }
 
 function changevalue(type,value){
@@ -281,7 +250,7 @@ function onupdataaudit(str){
 			url:'timeCheckController/AuditAndResultUpdata.do',
 			data:mydata,
 			success:function(e){
-				showdiag("成功");
+				swal({title:"更新状态成功",  type:"success",});
 				refresh();
 			}
 		});

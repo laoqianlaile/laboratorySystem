@@ -106,7 +106,7 @@ public class AbilityCheckService extends SearchService implements IAbilityCheckS
 		int mergeCount;
 		int mergeIndex;
 		String tableName = "abilitycheck";
-		String contectString = "LEFT JOIN employee ON abilitycheck.employeeID = employee.ID " + " LEFT JOIN duty ON employee.dutyID = duty.ID " + " LEFT JOIN equipment ON abilitycheck.equipmentID = equipment.ID" + " LEFT JOIN department ON abilitycheck.departmentID = department.ID" + " LEFT JOIN fileinformation ON abilitycheck.fileID = fileinformation.ID"; 
+		String contectString = "LEFT JOIN employee ON abilitycheck.employeeID = employee.ID " + " LEFT JOIN duty ON employee.dutyID = duty.ID " + " LEFT JOIN equipment ON abilitycheck.equipmentID = equipment.ID" + " LEFT JOIN department ON abilitycheck.departmentID = department.ID" + " LEFT JOIN fileinformation ON abilitycheck.fileID = fileinformation.belongtoID"; 
 		// 获取总数
 		int count = getForeignCountInFull("abilitycheck.ID", contectString, null,
 				condition, false);
@@ -120,7 +120,7 @@ public class AbilityCheckService extends SearchService implements IAbilityCheckS
 				"abilitycheck.type",// 实施类型
 				"equipmentName",// 设备名称
 				"departmentName",//实验室名称（部门名称）
-				"abilitycheck.startTime",//实施日期
+				"DATE_FORMAT(abilitycheck.startTime,'%Y-%m') as startTime",//实施日期
 				"result",// 结果
 				"abilitycheck.state",// 状态
 				"fileName",// 结果报告
@@ -129,13 +129,6 @@ public class AbilityCheckService extends SearchService implements IAbilityCheckS
 				}
 		, tableName, contectString, null, condition, null, sort, order, pageNum, index);
 		int i = 0;		int j = 0;
-		SimpleDateFormat s2 = new SimpleDateFormat("yyyy-MM");  
-		String outTime = null;
-		while(i < result.size()){
-		outTime = s2.format(result.get(i).get("startTime")); 
-		result.get(i).put("startTime", outTime);
-		i++;
-		}
 
 		j = 0;i=0;
 		while(j < (result.size()-1)){
@@ -180,7 +173,16 @@ public class AbilityCheckService extends SearchService implements IAbilityCheckS
 			// TODO Auto-generated method stub
 		String ID = EntityIDFactory.createId();
 		abilityCheck.setID(ID);
+		String condition = "";
 		abilityCheck.setEmployeeID((String)session.getAttribute("EMPLOYEEID"));
+		condition += " employeeID ='"+abilityCheck.getEmployeeID()+"'";
+		condition += " and equipmentID ='"+abilityCheck.getEquipmentID()+"'";
+		condition += " and startTime ='"+abilityCheck.getStartTime()+"'";
+		List<Map<String, Object>> list = searchDao.searchForeign(new String[]{
+				"fileID"}, "abilitycheck", null, null, null, condition);
+		if(list.size() != 0){
+			abilityCheck.setFileID(list.get(0).get("fileID").toString());
+		}
 		int res = entityDao.save(abilityCheck);
 			return res + "";
 		

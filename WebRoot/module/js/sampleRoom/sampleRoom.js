@@ -16,7 +16,7 @@ var sample_global ={};
     sample_global.isAddEdit = true;
 /* 初始化数据 */
 $(function() {
-	
+	uploadFile(); //初始化文件导入
 	$('#table').bootstrapTable({
 		// 定义表格的高度height: 500,
 		striped : true,// 隔行变色效果
@@ -279,7 +279,10 @@ function add() {
 			dataType:"json",
 			data : parame,
 			success : function(o) {
-				if (o == "false") {
+				if(o == "have"){
+					sweetAlert("存在此类样品");
+				}
+				else if (o == "false") {
 					sweetAlert("新增失败");
 				}
 				else {
@@ -349,7 +352,74 @@ function isNoramlPhone(phone){
 		 }
 	}
 }
- function isExitFactory(who){
+//导出文件
+function exportSample(){
+	window.location.href = "/laboratorySystem/sampleController/exportSample.do";
+}
+//检查文件类型
+function vaildFileType(self) {
+
+	$("#submitFileBtn").removeAttr("disabled");
+	var filePath = $(self).val();
+	if (filePath != "" && filePath != undefined) {
+		var arr = filePath.split('\\');
+		var fileName = arr[arr.length - 1];
+		$("#fileName").html(fileName);
+	}
+	if (self.value.indexOf('.xls') < 0 && self.value.indexOf('.xlsx') < 0) {
+		swal("此类型文件不能上传");
+		$("#submitFileBtn").attr("disabled", true);
+		$("#fileName").empty(); // 清空子元素
+	}
+} 
+function importSample(){
+	$("#importSampleModal").modal("show");
+}
+//初始化上传文件的方法
+function uploadFile() {
+	$("#files").fileupload({
+		autoUpload : true,
+		url : '/laboratorySystem/sampleController/importSample.do',
+		dataType : 'json',
+		add : function(e, data) {
+			$("#submitFileBtn").click(function() {
+				data.submit();
+			});
+		},
+	}).bind('fileuploaddone', function(e, data) {
+		var state = data;
+		switch(state){
+		case 0:
+			$("#importSampleModal").modal("hide");
+			swal("导入成功","","success");
+			
+			break;
+		case 1:
+			swal("格式不对","","waring");
+			break;
+		case 2:
+			swal("未在指定位置输入正确工时时间","","error");
+			break;
+		case 3:
+			swal("文件路径不对","","error");
+			break;
+		default:
+			$("#importSampleModal").modal("hide");
+			swal("导入成功","","success");
+			break;
+		}
+		
+	
+	});
+	// 文件上传前触发事件
+	$('#files').bind('fileuploadsubmit', function(e, data) { 
+		data.formData = {
+
+		}
+	});
+}
+
+/* function isExitFactory(who){
 	 var factoryCode = "";
 	 if(who == "add")
 	  factoryCode = $("#addFactoryCode").val();
@@ -379,7 +449,7 @@ function isNoramlPhone(phone){
 				
 			}
 		});
- }
+ }*/
 /* 修改方法 */
 function edit(){
 

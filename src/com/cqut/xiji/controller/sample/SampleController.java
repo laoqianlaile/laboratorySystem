@@ -6,13 +6,17 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.cqut.xiji.service.sample.ISampleService;
 
@@ -164,12 +168,7 @@ public class SampleController{
 		String result = service.updateLinkSample(ID, sampleName,factoryCode, sampleType, remarks, unit, linkID, reID);
 		return result;
 	}
-	@RequestMapping("/getSampleByCode")  
-    @ResponseBody
-	public String getSampleByCode(String sampleCode){
-		String result = service.getSampleByCode(sampleCode);
-		return result;
-	}
+
 	@RequestMapping("/isExitFactory")  
     @ResponseBody
 	public String isExitFactory(String factoryCode){
@@ -297,5 +296,44 @@ public class SampleController{
 		sampleName=URLDecoder.decode(sampleName,"utf-8");
 		String result = service.addSampleInManHour(factoryCode, sampleName, specifications, laborHour);
 		return result;
+	}
+	
+	@RequestMapping("/updateSampleNameByID")
+	@ResponseBody
+	public boolean updateSampleNameByID(String sampleID, String sampleName) {
+		boolean flag = service.updateSampleNameByID(sampleID, sampleName);
+		return flag;
+	}
+	/**
+	 * 
+	 * 导出sample样品信息
+	 * @author wzj
+	 * @date 2017年7月18日 上午10:36:07
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping("/exportSample")
+	@ResponseBody
+	public void exportSample(HttpServletRequest request , HttpServletResponse response ) {
+		 service.exportSample(request, response);
+		
+	}
+	/**
+	 * 
+	 * 导sample样品信息
+	 * @author wzj
+	 * @date 2017年7月18日 下午1:01:55
+	 * @param file
+	 * @param req
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/importSample")
+	@ResponseBody
+	public int importSample(@RequestParam("files") CommonsMultipartFile file,
+			HttpServletRequest req, HttpServletResponse response ) {
+		int result = service.importExcel(file,req,response);
+		return result;
+		
 	}
 }
