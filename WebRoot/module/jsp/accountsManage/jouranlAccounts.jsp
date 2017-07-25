@@ -14,14 +14,11 @@
 
 <title>流水账目</title>
 
-<link rel="stylesheet" type="text/css"
-	href="module/css/bootstrap.min.css">
-<link rel="stylesheey" type="text/css"
-	href="module/css/bootstrap-table.css">
-<link rel="stylesheet" type="text/css"
-	href="module/css/bootstrap-datetimepicker.css">
-<link rel="stylesheet" type="text/css"
-	href="module/css/commonSystem/commonSystem.css" />
+<link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
+<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
+<link rel="stylesheet" type="text/css" href="module/css/bootstrap-select.css">
+<link rel="stylesheet" type="text/css" href="module/css/bootstrap-select.min.css">
 
 <script type="text/javascript" src="module/js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="module/js/bootstrap.min.js"></script>
@@ -97,15 +94,14 @@
 }
 
 #menu {
+	height: 50px;
+	line-height: 50px;
 	background-color: rgb(232, 243, 249);
-	padding-top: 20px;
-	padding-bottom: 20px;
-	width: 101%;
 	margin-bottom: 30px;
 }
 
 #menu button {
-	margin-right: 2%;
+	margin-left: 26px;
 }
 
 #menu button:hover {
@@ -181,42 +177,41 @@
 					</div>
 				</div>
 			</div>
-			<div id="menu" class="col-md-12 row">
-				<div>
-
-					<button class="btn btn-primary " type=" button" onclick="query()">
-						<em class="glyphicon glyphicon-search"></em> 查询
-					</button>
-					<button class="btn btn-primary" type="button"
-						onclick="addIncomeorPayment(1)">
-						<em class="glyphicon glyphicon-minus-sign"></em> 支出
-					</button>
-
-					<button class="btn btn-primary" type="button"
-						onclick="addIncomeorPayment(0)">
-						<em class="glyphicon glyphicon-plus-sign"></em> 收入
-					</button>
-					<button class="btn btn-primary" type="button">
-						<em class="glyphicon glyphicon-circle-arrow-up"></em> 导入
-					</button>
-
-					<button class="btn btn-primary" type="button">
-						<em class="glyphicon glyphicon-circle-arrow-down"></em> 导出
-					</button>
-					<button class="btn btn-primary type=" button" id="refresh"
-						onclick="refresh()">
-						<em class="glyphicon glyphicon-refresh"></em> 刷新
-					</button>
-					<button class="btn btn-warning" type=" button" onclick="backstep()">
-						<em class="glyphicon glyphicon-arrow-left"></em> 返回
-					</button>
-				</div>
-			</div>
-			<table id="table"
-				class="table table-hover table-striped table-bordered">
-			</table>
 		</div>
 	</div>
+	<div id="menu">
+		<div>
+			<button class="btn btn-primary " type=" button" onclick="query()">
+				<em class="glyphicon glyphicon-search"></em> 查询
+			</button>
+			<button class="btn btn-primary" type="button"
+				onclick="addIncomeorPayment(1)">
+				<em class="glyphicon glyphicon-minus-sign"></em> 支出
+			</button>
+
+			<button class="btn btn-primary" type="button"
+				onclick="addIncomeorPayment(0)">
+				<em class="glyphicon glyphicon-plus-sign"></em> 收入
+			</button>
+			<button class="btn btn-primary" type="button">
+				<em class="glyphicon glyphicon-circle-arrow-up"></em> 导入
+			</button>
+
+			<button class="btn btn-primary" type="button">
+				<em class="glyphicon glyphicon-circle-arrow-down"></em> 导出
+			</button>
+			<button class="btn btn-primary type=" button" id="refresh"
+				onclick="refresh()">
+				<em class="glyphicon glyphicon-refresh"></em> 刷新
+			</button>
+			<button class="btn btn-warning" type=" button" onclick="backstep()">
+				<em class="glyphicon glyphicon-arrow-left"></em> 返回
+			</button>
+		</div>
+	</div>
+	<table id="table">
+	</table>
+
 	<!-- 获取当前操作人的ID -->
 	<input type="hidden" id="employeeID" name="employeeID"
 		value="<%=session.getAttribute("EMPLOYEEID")%>" />

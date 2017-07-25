@@ -21,19 +21,19 @@ $(function(){
         //mainheight用于获取本次检查时body的高度，并赋予iframe的高度
         var main_height,pre_height;
         var frame_content = $(this);
-        timer = setInterval(function(){
+    /*    timer = setInterval(function(){
         	main_height = frame_content.contents().find("body").height();
-          /*  console.warn("pre:"+pre_height);
-            console.warn("new:"+main_height);*/
+            console.warn("pre:"+pre_height);
+            console.warn("new:"+main_height);
             if (main_height -17 != pre_height){ ///17留的多的 横向滑动条
             	
             	pre_height = main_height;
             //	autoHeightWidth();
                
-               /* frame_content.height(Math.max(mainheight,350));*/
+                frame_content.height(Math.max(mainheight,350));
              }
         },1000);//每1秒检查一次
-    });
+*/    });
 });
 
 //自动适应本窗口的大小--高度

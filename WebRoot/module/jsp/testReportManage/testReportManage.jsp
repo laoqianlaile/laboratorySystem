@@ -111,13 +111,18 @@
 
 		<div class="buttonGroup">
 			<div>
-				<button type="button" class="btn btn-primary " onclick="search()">查询</button>
-				&nbsp;
-				<button type="button" class="btn btn-primary " onclick="checkReport()">查看</button>
-				&nbsp;
-				<button type="button" class="btn btn-primary " onclick="recoatCheck()">合并</button>
-				&nbsp;
-				<button type="button" class="btn btn-primary " onclick="recover()">重新覆盖</button>
+				<button type="button" class="btn btn-primary " onclick="search()">
+					<em class="glyphicon glyphicon-search"></em> 查询
+				</button>
+				<button type="button" class="btn btn-primary " onclick="checkReport()">
+				<em class="glyphicon glyphicon-eye-open"></em> 查看
+				</button>
+				<button type="button" class="btn btn-primary " onclick="recoatCheck()">
+				<em class="glyphicon glyphicon-repeat"></em> 合并
+				</button>
+				<button type="button" class="btn btn-primary " onclick="recover()">
+				<em class="glyphicon glyphicon-arrow-up"></em> 重新覆盖
+				</button>
 			</div>
 		</div>
 		
