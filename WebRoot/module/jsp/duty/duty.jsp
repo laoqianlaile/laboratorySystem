@@ -109,17 +109,17 @@ textarea {
 .btn-primary:hover {
     background-color: #ffad33;
 }
-#bl{
-padding-top:12px;
-padding-bottom:12px;
-}
+
 
 #bl button{
-margin-left:16px;
+margin-left:26px;
 }
 .row {
      margin-right: 0px; 
      margin-left: 0px; 
+}
+.bootstrap-table{
+margin-top:30px;
 }
 
 	
@@ -154,7 +154,7 @@ margin-left:16px;
 	<!--功能按钮 -->
 	<div class="row clearfix">
 		<div class="col-md-3.5 column">
-			<div style="float: left;width:100%;background: #9abdd0;" id="bl">
+			<div style="float: left;width:100%;background: rgba(27, 137, 196, 0.1);height: 50px;    line-height: 50px;" id="bl">
 				<button id="query" onclick="find()" class="btn btn-primary"
 					type="button">
 					<em class="glyphicon glyphicon-search"></em> 查询
@@ -232,7 +232,7 @@ margin-left:16px;
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title">添加职务</h4>
+					<h4 class="modal-title">导入数据</h4>
 				</div>
 				<div class="modal-body">
 					<div class="row">
@@ -248,7 +248,8 @@ margin-left:16px;
 				<div class="modal-footer">
 				
 					<button type="button" class="btn btn-primary" id="ensure" name="ensure">确定</button>
-					<button type="button" class="btn btn-default" id="cancel" name="cancel">关闭</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal"onclick="refreshall();">关闭</button>
+					<!-- <button type="button" class="btn btn-default" id="cancel" data-dismiss="modal">关闭</button> -->
 			
 				</div>
 			</div>

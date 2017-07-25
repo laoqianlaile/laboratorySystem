@@ -92,12 +92,11 @@ margin: 6px;
 }
 
 #bl button{
-margin-left:16px;
+margin-left:26px;
 }
 #menu {
-    background-color: rgb(232, 249, 248);
-    padding-top: 20px;
-    padding-bottom: 20px;
+    background-color:rgba(27, 137, 196, 0.1);
+   height: 50px;
     width: 101%;
     margin-bottom: 30px;
 }

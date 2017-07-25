@@ -248,6 +248,7 @@ function find(){
 function exportReport() {
 	window.location.href = "dutyController/dutyExportExcel.do";
 }
+//检查文件
 function checkFile(o) {
 	$("#chooseFile").attr("disabled", "disabled");
 	var filePath = $(o).val();
@@ -262,7 +263,7 @@ function checkFile(o) {
 	}
 } 
 
-// 
+// 导入数据
 function sureImportExcel() {
 	$("#files").fileupload({
 		autoUpload : true,
@@ -277,5 +278,8 @@ function sureImportExcel() {
 
 	});
 }
-
+/* 刷新方法 */
+function refreshall(){
+	window.location.href="module/jsp/duty/duty.jsp";
+}
 
