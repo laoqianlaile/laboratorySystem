@@ -18,15 +18,13 @@
 	width:100%;
 	height: 50px;
 /* 	background: #1b89c4; */
-	background:#9abdd0;
-	opacity: 0.69;
+	background-color: rgba(27, 137, 196, 0.1);
 }
 
 .input-group-area  .btn-primary {
     margin-top:8px;
 	margin-left: 26px;
-  /*   background: #198ac8; */
-    background: #089beb;
+    background: #198ac8;
     color: #fff;
     opacity: 1;
     font-size:14px;
