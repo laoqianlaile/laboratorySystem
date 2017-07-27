@@ -11,23 +11,28 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>模板审核 </title>
+<title>模板审核</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 
 
-<link rel="stylesheet" type="text/css" href="module/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
-<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
+<link rel="stylesheet" type="text/css"
+	href="module/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css"
+	href="module/css/bootstrap-table.css">
+<link rel="stylesheet" type="text/css"
+	href="module/css/bootstrap-datetimepicker.css">
 <link rel="stylesheet" type="text/css" href="module/css/uploadify.css">
-<link rel="stylesheet" type="text/css" href="module/css/fileManage/fileManage.css">
- <link rel="stylesheet" href="module/css/changeACE.css" />
- <link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
-	 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
- 		
-	<script src="module/js/sweetalert.min.js"></script>	
-	
+<link rel="stylesheet" type="text/css"
+	href="module/css/fileManage/fileManage.css">
+<link rel="stylesheet" href="module/css/changeACE.css" />
+<link rel="stylesheet" type="text/css"
+	href="module/css/commonSystem/commonSystem.css" />
+<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 
- 
+<script src="module/js/sweetalert.min.js"></script>
+
+
+
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="assets/js/autoPage.js"></script>
 <script src="module/js/fileManage/fileManage.js"></script>
@@ -45,8 +50,8 @@
 .bs-checkbox {
 	width: 5%;
 }
+
 span {
-	font-size: 20px;
 	padding: 0px;
 	margin: 0px;
 }
@@ -63,42 +68,53 @@ span {
 	z-index: 2;
 	float: right;
 }
-label{
-	float:left;
+
+label {
+	float: left;
 	margin-top: 6px;
 }
+
 .col-md-2 {
-    width: 23%;
-    }
-  .col-md-3{
-   width: 20%;
-  }
-  .btn-primary:hover {
-    background-color: #ffad33;
+	width: 23%;
 }
-.btn{
-margin: 6px;
+
+.col-md-3 {
+	width: 20%;
 }
+
+.btn-primary:hover {
+	background-color: #ffad33;
+}
+
+.btn {
+	margin: 6px;
+}
+
 .btn-primary {
-    background-color: #089beb;
-  
+	background-color: #089beb;
 }
 
-#bl{
-    padding-top:12px;
-    padding-bottom:12px;
-    width:97%;
-    margin-left:16px;
+#bl {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	width: 97%;
+	margin-left: 16px;
 }
 
-#bl button{
-margin-left:26px;
+#bl button {
+	margin-left: 26px;
 }
+
 #menu {
-    background-color:rgba(27, 137, 196, 0.1);
-   height: 50px;
-    width: 101%;
-    margin-bottom: 30px;
+	height: 50px;
+	line-height: 50px;
+	background-color: rgb(232, 243, 249);
+	margin-bottom: 30px;
+	margin-top: 10px;
+}
+
+#menu button {
+	margin-left: 26px;
 }
 </style>
 
@@ -110,56 +126,66 @@ margin-left:26px;
 					<div class="col-md-12 column">
 						<div class="row clearfix">
 							<div class="col-md-3 column" style="margin-top:8px;">
-								<label>模板名称&nbsp;： </label>
-								<input id="query_STANDARDCODE" name="STANDARDCODE"
-									class="form-control" type="text"
+								<label>模板名称&nbsp;： </label> <input id="query_STANDARDCODE"
+									name="STANDARDCODE" class="form-control" type="text"
 									style="display: inline; width:57%;">
 							</div>
-							<input type= "hidden" id = "verifyMan" value = "<%=session.getAttribute("EmployeeID")  %>" />
+							<input type="hidden" id="verifyMan"
+								value="<%=session.getAttribute("EmployeeID")  %>" />
 							<div class="input-group date form_datetime col-md-2 column "
 								style="margin-top:8px;">
-								<label>上传时间： </label> <input class="form-control" size="10" type="text" id="uPLOADTIME1" value="" readonly
-									style="display: inline; width:55%;">
-									<span class="input-group-addon"><i class="glyphicon glyphicon-remove"></i></span>
-									<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-							</div>
-							<div class="input-group date form_datetime col-md-2 column "
-								style="margin-top: 8px;">
-								<label style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;至:</label> <input
-									class="form-control" size="20" type="text" id="uPLOADTIME2" value="" readonly
-									style="display: inline; width:65%;"> <span
+								<label>上传时间： </label> <input class="form-control" size="10"
+									type="text" id="uPLOADTIME1" value="" readonly
+									style="display: inline; width:55%;"> <span
 									class="input-group-addon"><i
 									class="glyphicon glyphicon-remove"></i></span> <span
 									class="input-group-addon"><i
 									class="glyphicon glyphicon-calendar"></i></span>
 							</div>
-							<div class="col-md-3 column" style="margin-top:12px;">
-								<label>状态&nbsp;： </label>
-								<select id="state" style="margin-top:6px;">
-								<option value="" >所有</option>
-								<option value="1">待审核</option>
-								<option value="2">通过</option>
-								<option value="3">驳回</option>
-							</select>
+							<div class="input-group date form_datetime col-md-2 column "
+								style="margin-top: 8px;">
+								<label style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;至:</label> <input
+									class="form-control" size="20" type="text" id="uPLOADTIME2"
+									value="" readonly style="display: inline; width:65%;">
+								<span class="input-group-addon"><i
+									class="glyphicon glyphicon-remove"></i></span> <span
+									class="input-group-addon"><i
+									class="glyphicon glyphicon-calendar"></i></span>
+							</div>
+							<div class="col-md-3 column form-inline" style="margin-top:12px;">
+								<label>状态&nbsp;： </label> <select id="state"class="form-control"
+									style="margin-top:-2px;">
+									<option value="">所有</option>
+									<option value="1">待审核</option>
+									<option value="2">通过</option>
+									<option value="3">驳回</option>
+								</select>
 							</div>
 						</div>
-						<div class="row clearfix" id="menu">
 
-							<div class="col-md-3.5 column">
-								<div style="float: left;width:100%; id="bl">
-									<button id="query" onclick="find()"
-										class="btn btn-primary" type="button">
-										<em class="glyphicon glyphicon-search"></em> 查询
-									</button>
+					</div>
+				</div>
 
-									
+			</div>
+		</div>
+	</div>
+	<div id="menu">
 
-									<button class="btn btn-primary" button" id="look"
-										onclick="lookfile()">
-										<em class="glyphicon glyphicon-search"></em> 查看模板
-									</button>
-									
-									<!-- <button class="btn btn-success type=" button" id="pass"
+		<div>
+			<div style="float: left;width:100%; id="bl">
+				<button id="query" onclick="find()" class="btn btn-primary"
+					type="button">
+					<em class="glyphicon glyphicon-search"></em> 查询
+				</button>
+
+
+
+				<button class="btn btn-primary" button" id="look"
+					onclick="lookfile()">
+					<em class="glyphicon glyphicon-search"></em> 查看模板
+				</button>
+
+				<!-- <button class="btn btn-success type=" button" id="pass"
 										onclick="">
 										<em class="glyphicon glyphicon-ok"></em> 通过
 									</button>
@@ -168,24 +194,19 @@ margin-left:26px;
 										onclick="">
 										<em class="glyphicon glyphicon-trash"></em> 作废
 									</button> -->
-									
-									
 
-									<button class="btn btn-primary" button" id="refresh"
-										onclick="refresh()">
-										<em class="glyphicon glyphicon-refresh"></em> 刷新
-									</button>
 
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<table id="table">
-				</table>
+
+				<button class="btn btn-primary" button" id="refresh"
+					onclick="refresh()">
+					<em class="glyphicon glyphicon-refresh"></em> 刷新
+				</button>
+
 			</div>
 		</div>
 	</div>
+	<table id="table">
+	</table>
 
 	<!-- 作废弹框 -->
 	<div id="NoPassModal" class="modal fade" role="dialog"
@@ -199,21 +220,21 @@ margin-left:26px;
 					</button>
 					<h4 class="modal-title">驳回审核意见</h4>
 				</div>
-			
-				
-							<div style="margin-top:20px">
-								<label>描述:</label>
-								<textarea rows="6" cols="40" id="Nopasstemplate"></textarea>
-								<input id="ID" type="hidden"></input>
-							</div>
-							
+
+
+				<div style="margin-top:20px">
+					<label>描述:</label>
+					<textarea rows="6" cols="40" id="Nopasstemplate"></textarea>
+					<input id="ID" type="hidden"></input>
+				</div>
+
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 					<button type="button" class="btn btn-primary" id="ensure"
 						name="ensure" onclick="NoPass()">确定</button>
 				</div>
-						</div>
-					</div>
+			</div>
+		</div>
 	</div>
 	<!-- 通过弹框 -->
 	<div id="PassModal" class="modal fade" role="dialog"
@@ -227,21 +248,21 @@ margin-left:26px;
 					</button>
 					<h4 class="modal-title">通过审核意见</h4>
 				</div>
-			
-				
-							<div style="margin-top:20px">
-								<label>描述:</label>
-								<textarea rows="6" cols="40" id="Passtemplate"></textarea>
-								<input id="ID" type="hidden"></input>
-							</div>
-							
+
+
+				<div style="margin-top:20px">
+					<label>描述:</label>
+					<textarea rows="6" cols="40" id="Passtemplate"></textarea>
+					<input id="ID" type="hidden"></input>
+				</div>
+
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 					<button type="button" class="btn btn-primary" id="ensure"
 						name="ensure" onclick="Pass()">确定</button>
 				</div>
-						</div>
-					</div>
+			</div>
+		</div>
 	</div>
 </body>
 
