@@ -239,7 +239,7 @@ function searchSampleCode(args) {
 		}
 	});
 	for (var i = 0; i < list_data.length; i++) {
-		html += '<li id="'+list_data[i].ID+'" data-unit="'+list_data[i].unit+'"  data-sampleName="'+list_data[i].sampleName+'" data-sampleCode="'+list_data[i].sampleCode+'"  data-sampleStyle="'+list_data[i].sampleStyle+'">' + list_data[i].sampleCode +' ~~ '+list_data[i].sampleName+ '</li>';
+		html += '<li id="'+list_data[i].ID+'" data-unit="'+list_data[i].unit+'"  data-samplename="'+list_data[i].sampleName+'" data-samplecode="'+list_data[i].sampleCode+'"  data-samplestyle="'+list_data[i].sampleStyle+'">' + list_data[i].sampleCode +' ~~ '+list_data[i].sampleName+ '</li>';
 	}
 	html += '</ul>';
 	if(list_data != null && list_data.length > 0)
@@ -254,19 +254,20 @@ function searchSampleCode(args) {
 //选择搜索出来的样品后的操作
 function selectSample(self) {
 	var source = event.srcElement || event.target;
-	var sampleCode = $(source).text();
-	var sampleID = source.id;
-	var state = self.dataset.state;
 	if(source.className == "list_sampleCode"){ //点击到ul中，却没有点击到li中
 		 
 		return ;
 	}
+	var sampleCode = $(source).text();
+	var sampleID = source.id;
+	var state = self.dataset.state;
+	
 	if (state == "add") {
 		// 填充数据-新增
-		$("#addSampleName").val(source.dataset.sampleName);
-		$("#addSampleStyle").val(source.dataset.sampleStyle);
+		$("#addSampleName").val(source.dataset.samplename);
+		$("#addSampleStyle").val(source.dataset.samplestyle);
 		$("#addUnit").val(source.dataset.unit);
-		$("#addSampleCode").val(source.dataset.sampleCode);
+		$("#addSampleCode").val(source.dataset.samplecode);
 		$("#addSampleID").val(sampleID);
 		// 设置不可编辑--新增
 		$("#addSampleName").prop("disabled", true); 
@@ -274,10 +275,10 @@ function selectSample(self) {
 		$("#addUnit").prop("disabled", true);
 	} else {
 		// 填充数据-编辑
-		$("#editSampleName").val(source.dataset.sampleName);
-		$("#editSampleStyle").val(source.dataset.sampleStyle);
+		$("#editSampleName").val(source.dataset.samplename);
+		$("#editSampleStyle").val(source.dataset.samplestyle);
 		$("#editUnit").val(data.datasset.unit);
-		$("#editSampleCode").val(data.datasset.sampleCode);
+		$("#editSampleCode").val(data.datasset.samplecode);
 		$("#editSampleID").val(sampleID);
 		// 设置不可编辑--编辑
 		$("#editSampleName").prop("disabled", true);
@@ -389,7 +390,7 @@ function initSaveAndSubmitRe_event() {
 	});
 	
 	$("#companyName").blur(function() {
-		 setTimeout("hideCpmpanyOver" ,700);
+		 setTimeout("hideCpmpanyOver()" ,700);
 		 
      });
 	 
@@ -499,7 +500,6 @@ function vaildInputData(param) {
 	return true;
 }
 function handleCompany(){
-	console.log(this);
 	curral(searchCompany,window,arguments);
 }
 //函数节流处理 --减少执行次数
@@ -551,6 +551,10 @@ function showCompanylist(data){
 //选择公司名字后处理
 function selectedCompany(){
     var source = EventUtil.getSource(event);
+    var tagName = source.tagName ;
+    if(tagName == "UL" || tagName == "ul"){
+    	return ;
+    }
 	$("#companyName").val(source.innerText);
 	obj.comID = source.id;
 	$("#address").val(source.dataset.address);
