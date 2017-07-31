@@ -113,7 +113,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 }
 
 .button-wrap {
-	height: 70px;
+	height: 50px;
 	background-color: #e8f3f9;
 	position: relative;
 }

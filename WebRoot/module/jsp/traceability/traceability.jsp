@@ -38,7 +38,9 @@
 	href="assets/css/bootstrap-table.min.css">
 <link rel="stylesheet" type="text/css"
 	href="assets/css/bootstrap-datetimepicker.min.css">
-	<link rel="stylesheet" type="text/css"
+<link  rel="stylesheet" type="text/css" 
+	href="module/css/sweetalert.css">
+<link rel="stylesheet" type="text/css"
 	href="module/css/traceability/traceability.css">
 	
 	
@@ -56,8 +58,11 @@
 <script src="assets/js/bootstrap-table-zh-CN.min.js"></script>
 <script src="module/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
 <script src="assets/js/bootstrap-datetimepicker.fr.js"></script>
-<script type="text/javascript"
-	src="module/js/traceability/traceability.js"></script>
+<script type="text/javascript" src="assets/fileupload/jquery.iframe-transport.js"></script>
+<script type="text/javascript" src="assets/fileupload/jquery.ui.widget.js"></script> 
+<script type="text/javascript" src="assets/fileupload/jquery.fileupload.js"></script>
+<script type="text/javascript" src="module/js/traceability/traceability.js"></script>
+<script src="module/js/sweetalert.min.js"></script>
 <body>
 	<!-- 功能按钮 -->
 	<div>
@@ -151,7 +156,7 @@
 					onclick="addSubmit()" style="float:right;display:none">&nbsp;提交</button>
 				<button type="button" id="uploadTable"
 					class="btn btn-primary thisbtn"
-					onclick="Upload()">上传检测记录表</button>
+					onclick="openModal()">上传检测记录表</button>
 				<button type="button" id="upload_Table"
 					class="btn btn-primary thisbtn"
 					onclick="allData()">全部数据</button>
@@ -173,56 +178,49 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel">上传文件</h4>
+					<h4 class="modal-title">上传</h4>
 				</div>
 				<div class="modal-body">
-					<form id="adddata" action="traceabilityController/upload.do"
-						method="post" enctype="multipart/form-data"
-						class="form-horizontal">
-						<div id="files">
-							<div class="form-group">
-								<label for="inputEmail3" class="col-sm-2 control-label">选择文件</label>
-								<div class="col-sm-10">
-									<input id="fileupload" type="file" name="file"
-										placeholder="请选择">
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="inputPassword3" class="col-sm-2 control-label">送检方式</label>
-								<div class="col-sm-10">
-									<select class="form-control" id="type" name="type">
-										<option>自检</option>
-										<option>外检</option>
-										</select>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="inputPassword3" class="col-sm-2 control-label">备注</label>
-								<div class="col-sm-10">
-									<textarea rows="3" class="form-control" name="remark"
-										id="remark"></textarea>
-								</div>
-							</div>
-							<div class="form-group" style="visibility:hidden;">
-								<label for="inputPassword3" class="col-sm-2 control-label">ID</label>
-								<div class="col-sm-10">
-									<input type="text" class="form-control" id="belongID"
-										name="belongID" readonly="true">
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="submit" class="btn btn-info thisbtn">确定</button>
-								<button type="button" class="btn btn-info thisbtn"
-									data-dismiss="modal">退出</button>
-							</div>
+					<input type="hidden" id="EMPLOYEEID" value="20170220super">
+					<div class="row">
+						<div class="col-md-6 column">
+							<label>文件名称：</label> <input type="text" id="add_TemplateName" name="TemplateName" class="form-control">
 						</div>
-					</form>
+						
+						<div id="fileInfo" class="col-md-6 column">
+							<div id="fileQueue">
+								<input type="file" name="files" id="files" style="display:none" onchange="checkFile(this)">
+							</div>
+							<button type="button" id="chooseFile" name="chooseFile" class="btn btn-default">
+								<span class="glyphicon glyphicon-folder-open "></span> 选择文件
+							</button>
+							<span id="fileName"></span>
+							
+						</div>
+					</div>
+					<div class="col-md-12 row form-group">
+						<label for="inputPassword3" class="control-label&quot;">送检方式:</label>
+						<div>
+					      <select class="form-control" id="type" name="type" onchange="typeChange()">
+					        <option>自检</option>
+					        <option>外检</option>
+					      </select>
+					  </div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 column">
+							<label>备注信息</label>
+							<textarea id="add_TemplateRemarks" name="TemplateReamarks" class="form-control" style="height: 147px;"></textarea>
+						</div>
+					</div>
 				</div>
-
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" id="cancel" name="cancel" data-dismiss="modal">取消</button>
+					<button type="button" class="btn primary" id="ensure" name="ensure">确定</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -239,6 +237,15 @@
 		forceParse:0,
 		showMeridian:1,
 		language:'zh-CN'      /*此属性是显示顺序，还有显示顺序是mm-dd-yyyy*/
+	});
+	$('#chooseFile').click(function() {
+		$('#files').click();
+
+	});
+	$('#cancel').click(function() {
+		if (confirm("是否取消上传?")) {
+			reload();
+		}
 	});
   	</script>
 </html>

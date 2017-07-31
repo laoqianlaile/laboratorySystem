@@ -44,9 +44,8 @@
 	width:100%;
 	height: 50px;
 /* 	background: #1b89c4; */
-	background:#9abdd0;
-	opacity: 0.69;
-}
+	background-color: rgba(27, 137, 196, 0.1); 
+} 
 
 .input-group  .btn-primary {
     margin:8 0px;
@@ -63,6 +62,10 @@
   /*   background: #198ac8; */
     background: #ffad33;
 
+}
+
+.input-group .btn{
+    background: #198ac8;
 }
 .table thread {
 	background: #364760;

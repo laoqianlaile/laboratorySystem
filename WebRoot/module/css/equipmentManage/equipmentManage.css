@@ -17,18 +17,13 @@
 	margin-bottom: 30px;
 	width:100%;
 	height: 50px;
-	background:#9abdd0;
-	opacity: 0.69;
+	line-height:50px;
+	background-color: rgb(232, 243, 249);
 }
 
 .input-group-area  .btn-primary {
-    margin-top:8px;
 	margin-left: 26px;
-    background: #089beb;
-    color: #fff;
-    opacity: 1;
-    font-size:14px;
-    z-index: 2222;
+	
 }
 .glyphicon:before {
  
@@ -36,9 +31,7 @@
     top: 1px;
 }
 .input-group-area  .btn-primary:HOVER {
-
-    background: #ffad33;
-
+	background-color: rgb(255, 173, 51);
 }
 #searcherArea .row{
 	margin-left:0px;

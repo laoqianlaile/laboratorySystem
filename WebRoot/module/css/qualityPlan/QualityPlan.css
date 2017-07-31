@@ -5,6 +5,7 @@
 } */
 #main{
 	margin-left:16px;
+	width: 98%
 }
 #searcherArea{
 	margin-top: 7px;
@@ -170,7 +171,8 @@ li:hover{
 	display:none;
 }
 .fixed-table-body{
-	height:300px;
+	height:auto;
+	min-height: 450px;
 }
 .text{
 	display: inline;

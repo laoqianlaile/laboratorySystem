@@ -1,5 +1,7 @@
 package com.cqut.xiji.service.duty;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -15,6 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
@@ -122,7 +129,6 @@ public class DutyService extends SearchService implements IDutyService{
 		duty.setDutyName(dutyName);
 		duty.setIntroduction(introduction);
 		duty.setCreateTime(new Date());
-	
 		
 		int result = entityDao.save(duty);
 		return result+"";
@@ -226,8 +232,8 @@ public class DutyService extends SearchService implements IDutyService{
 		String tableName = "duty";
 		String[] properties = new String[] {
 				"duty.ID",
-				"duty.dutyName",
 				"duty.dutyCode",
+				"duty.dutyName",
 				"duty.introduction",	
 				"DATE_FORMAT(duty.createTime,'%Y-%m-%d ') as createTime ",};
 		
@@ -244,4 +250,66 @@ public class DutyService extends SearchService implements IDutyService{
 		
 		return result;
 	}
+	public void dutyGoExcel(String filePath){
+		//String filePath = "D://excel.xls";
+		   XSSFWorkbook wookbook = null;
+		try {
+			wookbook = new XSSFWorkbook(new FileInputStream(filePath));
+		} catch (java.io.IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		   // 在Excel文档中，第一张工作表的缺省索引是0
+		   // 其语句为：HSSFSheet sheet = workbook.getSheetAt(0);
+		   XSSFSheet sheet = wookbook.getSheet("Sheet1");
+		   //获取到Excel文件中的所有行数 
+		   int rows = sheet.getPhysicalNumberOfRows();
+		  //遍历行 
+		   for (int i = 0; i < rows; i++) {
+		         // 读取左上端单元格 
+		        XSSFRow row = sheet.getRow(i); 
+		         // 行不为空 
+		         if (row != null) { 
+		              //获取到Excel文件中的所有的列 
+		               int cells = row.getPhysicalNumberOfCells(); 
+		               String value = "";      
+		              //遍历列 
+		               for (int j = 0; j < cells; j++) { 
+		                     //获取到列的值 
+		                     XSSFCell cell = row.getCell(j); 
+		                     if (cell != null) { 
+		                          switch (cell.getCellType()) { 
+		                                 case HSSFCell.CELL_TYPE_FORMULA: 
+		                                 break; 
+		                                 case HSSFCell.CELL_TYPE_NUMERIC: 
+		                                       value += cell.getNumericCellValue() + ",";         
+		                                break;   
+		                                 case HSSFCell.CELL_TYPE_STRING: 
+		                                       value += cell.getStringCellValue() + ","; 
+		                                 break; 
+		                                 default: 
+		                                      value += "0"; 
+		                                break; 
+		                     } 
+		              }      
+		       } 
+		         // 将数据插入到mysql数据库中 
+		        String[] val = value.split(","); 
+		       Duty duty = new Duty(); 
+		       duty.setID(EntityIDFactory.createId());
+		       duty.setDutyCode(val[0]);
+		        duty.setDutyName(val[1]);
+		      duty.setIntroduction(val[2]);
+		      duty.setCreateTime(new Date());
+		     
+		     
+		  
+		      @SuppressWarnings("unused")
+			int result = entityDao.save(duty);
+		 File file = new File(filePath);
+		 file.delete();
+		   }
+    }
+	}
+	
 }

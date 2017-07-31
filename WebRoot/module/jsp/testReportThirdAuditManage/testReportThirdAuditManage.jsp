@@ -125,13 +125,18 @@
 
 		<div class="buttonGroup">
 			<div>
-				<button type="button" class="btn btn-primary glyphicon " onclick="search()">查询</button>
-				&nbsp;
-				<button type="button" class="btn btn-primary glyphicon " onclick="checkReport()">查看</button>
-				&nbsp;
-				<button type="button" class="btn btn-primary glyphicon " onclick="filelDown()">下载</button>
-				&nbsp;
-				<button type="button" class="btn btn-primary glyphicon " onclick="refresh()">刷新</button>
+				<button type="button" class="btn btn-primary  " onclick="search()">
+					<em class="glyphicon glyphicon-search"></em> 查询
+				</button>
+				<button type="button" class="btn btn-primary " onclick="checkReport()">
+					<em class="glyphicon glyphicon-eye-open"></em> 查看
+				</button>
+				<button type="button" class="btn btn-primary " onclick="filelDown()">
+					<em class="glyphicon glyphicon-arrow-down"></em> 下载
+				</button>
+				<button type="button" class="btn btn-primary " onclick="refresh()">
+					<em class="glyphicon glyphicon-refresh"></em> 刷新
+				</button>
 			</div>
 		</div>
 	</div>

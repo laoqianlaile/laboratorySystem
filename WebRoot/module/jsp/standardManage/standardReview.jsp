@@ -16,9 +16,11 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
-<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" /> 
-<link rel="stylesheet"  type="text/css" href="module/css/wait.css">
+<link rel="stylesheet" type="text/css"
+	href="module/css/bootstrap-table.css">
+<link rel="stylesheet" type="text/css"
+	href="module/css/commonSystem/commonSystem.css" />
+<link rel="stylesheet" type="text/css" href="module/css/wait.css">
 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
@@ -30,29 +32,30 @@
 <script src="module/js/sweetalert.min.js"></script>
 </head>
 
- <style>
-.col-md-3 input.form-control, .col-md-3 select.form-control{
-	width:150px;
-	display:inline-block;
+<style>
+.col-md-3 input.form-control,.col-md-3 select.form-control {
+	width: 150px;
+	display: inline-block;
 }
-.col-md-6 select.form-control{
-	width:150px;
-	display:inline-block;
+
+.col-md-6 select.form-control {
+	width: 150px;
+	display: inline-block;
 }
-#menu{
-    background-color: rgb(232,243,249);
-    padding-top: 20px;
-    padding-bottom: 20px;
-    width: 101%;
-    margin-bottom: 30px;
+#menu {
+	height: 50px;
+	line-height: 50px;
+	background-color: rgb(232, 243, 249);
+	margin-bottom: 30px;
 }
-#menu button{
-	margin-right:2%;
+#menu button {
+	margin-left: 26px;
 }
+
 #menu button:hover {
-  border: none;
-  color: #fff;
-  background-color: rgb(255, 173, 51);
+	border: none;
+	color: #fff;
+	background-color: rgb(255, 173, 51);
 }
 </style>
 <body>
@@ -62,18 +65,19 @@
 				<div class="row clearfix">
 					<div class="col-md-12 column">
 						<div class="row clearfix" style=" margin-bottom: 10px;">
-						<input type= "hidden" id = "EMPLOYEEID" value = "<%=session.getAttribute("EMPLOYEEID")  %>" />
+							<input type="hidden" id="EMPLOYEEID"
+								value="<%=session.getAttribute("EMPLOYEEID")%>" />
 							<div class="col-md-3 column">
-								<label>编码 ： </label> <input
-									id="query_STANDARDCODE" class ="form-control" name="STANDARDCODE" type="text">
+								<label>编码 ： </label> <input id="query_STANDARDCODE"
+									class="form-control" name="STANDARDCODE" type="text">
 							</div>
 							<div class="col-md-3 column">
-								<label>名称 ： </label> <input
-									id="query_STANDARDNAME" class ="form-control"  name="STANDARDNAME"  type="text">
+								<label>名称 ： </label> <input id="query_STANDARDNAME"
+									class="form-control" name="STANDARDNAME" type="text">
 							</div>
 							<div class="col-md-3 column">
-								<label>状态&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;： </label> <select
-									id="query_STATE"  class ="form-control"  name="STATE" >
+								<label>状态&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;：
+								</label> <select id="query_STATE" class="form-control" name="STATE">
 									<option value="">全部</option>
 									<option value="1">待审核</option>
 									<option value="4">废弃待审核</option>
@@ -85,14 +89,14 @@
 						</div>
 						<div class="row clearfix" style=" margin-bottom: 10px;">
 							<div class="col-md-6 column">
-								<label>类别 ： </label> <select
-									id="query_TYPE"  class ="form-control"  name="TYPE" >
+								<label>类别 ： </label> <select id="query_TYPE"
+									class="form-control" name="TYPE">
 									<option value="">全部</option>
 								</select>
 							</div>
 							<div class="col-md-6 column">
 								<label>标准类型 ： </label> <select id="query_APPLICATIONTYPE"
-									name="APPLICATIONTYPE" class ="form-control" >
+									name="APPLICATIONTYPE" class="form-control">
 									<option value="">全部</option>
 									<option value="0">国家标准</option>
 									<option value="1">企业标准</option>
@@ -100,30 +104,31 @@
 								</select>
 							</div>
 						</div>
-						<div id = "menu"class="row clearfix">
-							<div class="col-md-6 column">
-								<button id="query" onclick="query()" class="btn btn-primary"
-									type="button">
-									<em class="glyphicon glyphicon-search"></em> 查询
-								</button>
 
-								<button class="btn btn-primary" type="button" onclick="ViewDoc()">
-									<em class="glyphicon glyphicon-search"></em> 查看
-								</button>
-
-								<button class="btn btn-primary type=" button" id="refresh"
-									onclick="refresh()">
-									<em class="glyphicon glyphicon-refresh"></em> 刷新
-								</button>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>
-			<table id="table">
-			</table>
 		</div>
 	</div>
+	<div id="menu" >
+		<div >
+			<button id="query" onclick="query()" class="btn btn-primary"
+				type="button">
+				<em class="glyphicon glyphicon-search"></em> 查询
+			</button>
+
+			<button class="btn btn-primary" type="button" onclick="ViewDoc()">
+				<em class="glyphicon glyphicon-search"></em> 查看
+			</button>
+
+			<button class="btn btn-primary type=" button" id="refresh"
+				onclick="refresh()">
+				<em class="glyphicon glyphicon-refresh"></em> 刷新
+			</button>
+		</div>
+	</div>
+	<table id="table">
+	</table>
 	<!-- 审核弹窗 -->
 	<div id="Modal" class="modal fade" role="dialog">
 		<div class="modal-dialog" role="document">
@@ -137,25 +142,26 @@
 				</div>
 				<div class="modal-body">
 					<div class="row">
-							<input type="hidden" id="StandardID" name="StandardID"
-								class="form-control" aria-describedby="basic-addon1" />
+						<input type="hidden" id="StandardID" name="StandardID"
+							class="form-control" aria-describedby="basic-addon1" />
 						<div class="col-xs-12 col-md-12">
 							<h4>原因：</h4>
-							<textarea id="Suggest" name="Suggest"
-								class="form-control" aria-describedby="basic-addon1"></textarea>
+							<textarea id="Suggest" name="Suggest" class="form-control"
+								aria-describedby="basic-addon1"></textarea>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					<button id = "AuditStandard" type="button" class="btn btn-primary" onclick="AuditStandard()">确认</button>
+					<button id="AuditStandard" type="button" class="btn btn-primary"
+						onclick="AuditStandard()">确认</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- // 文件查看等待加载 -->
-    <div id="wait_img">
+	<div id="wait_img">
 		<img src="module/img/wait.jpg" style="width:48px;height:48px;" />
 	</div>
 	<div id="mask"></div>

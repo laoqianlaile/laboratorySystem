@@ -118,8 +118,10 @@
 					
 					<!--  左边菜单栏树-->
 					<ul class="nav nav-list">
-						<label for="tree"></label>
-						<div class="tree"></div>
+						<div style="overflow:hidden">
+							<label for="tree"></label>
+							<div class="tree"></div>
+						</div>
 					</ul>
 					<!-- 左边菜单栏下面，右藏功能 -->
 					<!-- <div class="sidebar-collapse" id="sidebar-collapse">
@@ -173,8 +175,8 @@
 					</div> -->
 					<div class="col-xs-12-w">
 						<div class="datagrid">
-							<iframe id="content_frame" name="aa"  
-								frameborder=0 scrolling=auto src="./welcome.jsp"></iframe>
+							<iframe id="content_frame" name="aa" 
+								frameborder=0 scrolling=auto src="./welcome.jsp" height="100%"></iframe>
 						</div>
 					</div>
 				</div>

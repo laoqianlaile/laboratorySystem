@@ -7,6 +7,7 @@ var mydata1 = new Array();
 var mydataID1 = new Array();
 var mydata2 = new Array();
 var mydataID2 = new Array();
+var fileParam = {};
 
 function queryParams(pageReqeust) {
 	pageReqeust.pageNo = this.offset;
@@ -349,47 +350,47 @@ function addSubmit() {
 		if (getdata[0].equipmentName != null && getdata[0].equipmentName != "") {
 			dataobj.equipmentName = getdata[0].equipmentName;
 		} else {
-			alert("设备名称不能为空");
+			swal({title:"设备名称不能为空",  type:"warning",});
 			return;
 		}
 		dataobj.equipmentID = getdata[0].equipmentID;
 		if (getdata[0].equipmentCode != null && getdata[0].equipmentCode != "") {
 			dataobj.equipmentCode = getdata[0].equipmentCode;
 		} else {
-			alert("仪器编号不能为空");
+			swal({title:"仪器编号不能为空",  type:"warning",});
 			return;
 		}
 		if (getdata[0].model != null && getdata[0].model != "") {
 			dataobj.model = getdata[0].model;
 		} else {
-			alert("规格型号不能为空");
+			swal({title:"规格型号不能为空",  type:"warning",});
 			return;
 		}
 		if (getdata[0].correctOrgan != null && getdata[0].correctOrgan != "") {
 			dataobj.correctOrgan = getdata[0].correctOrgan;
 		} else {
-			alert("校验服务机构不能为空");
+			swal({title:"校验服务机构不能为空",  type:"warning",});
 			return;
 		}
 		dataobj.departmentName = getdata[0].departmentName;
 		if (getdata[0].period != null && getdata[0].period != "") {
 			dataobj.period = getdata[0].period;
 		} else {
-			alert("本次校验周期不能为空");
+			swal({title:"本次校验周期不能为空",  type:"warning",});
 			return;
 		}
 		if (getdata[0].nowCorrectYear != null
 				&& getdata[0].nowCorrectYear != "") {
 			dataobj.nowCorrectYear = getdata[0].nowCorrectYear;
 		} else {
-			alert("本年度校验时间不能为空");
+			swal({title:"本年度校验时间不能为空",  type:"warning",});
 			return;
 		}
 		if (getdata[0].nextCorrectYear != null
 				&& getdata[0].nextCorrectYear != "") {
 			dataobj.nextCorrectYear = getdata[0].nextCorrectYear;
 		} else {
-			alert("下次校验时间不能为空");
+			swal({title:"下次校验时间不能为空",  type:"warning",});
 			return;
 		}
 		dataobj.reason = getdata[0].reason;
@@ -400,7 +401,7 @@ function addSubmit() {
 			url : 'traceabilityController/saveTracebility.do',
 			data : dataobj,
 			success : function(e) {
-				alert("新增成功");
+				swal({title:"新增成功",  type:"success",});
 				$("#AddSubmit").hide();
 			}
 		});
@@ -499,7 +500,7 @@ function Updatesubmit() {
 														url : 'traceabilityController/updateTracebilityByID.do',
 														data : dataobj,
 														success : function(e) {
-															alert("修改成功");
+															swal({title:"修改成功",  type:"success",});
 														}
 													});
 										},
@@ -515,25 +516,9 @@ function Updatesubmit() {
 window.onload = function() {
 	inti();
 	intiFileTable();
+	uploadFile();
 }
 
-/*
- * function getfilename(){ var myobj={}; var files = $("#fileupload").val(); var
- * type=$("#type").val(); var remark = $("#remarks").val(); myobj.type=type;
- * myobj.files = files; myobj.remark=remark; $.ajax({
- * url:'timeCheckController/upload.do', datatype:"json", data:myobj,
- * success:function(e){ alert("上传成功"); } }); }
- */
-// 上传文件
-function Upload() {
-	var getData = $('#table').bootstrapTable("getSelections");
-	if (getData.length == 1) {
-		$('#UploadModal').modal('show');
-		$('#belongID').val(getData[0].traceabilityID);
-	} else {
-		alert("请为一条建议上传文件");
-	}
-}
 function getobject(dom, value, type) {
 	dom.parentNode.innerHTML = value;
 	switch (type) {
@@ -751,23 +736,7 @@ function onDblClickCell(field, value, row, $element) {
 					+ getvalue + "'>";
 			;
 			break;
-		/*
-		 * case "departmentName": if (viscount3 == 0) getvalue =
-		 * row.departmentName; if (viscount3 == 1) getvalue = visture3;
-		 * $element[0].innerHTML = "<div class=''>" + "<button class='btn
-		 * btn-default dropdown-toggle' type='button' id='dropdowmlist'
-		 * data-toggle='dropdown'>" + getvalue + "<span class='caret'></span></button>" + "<ul id='listdata' class='dropdown-menu ' role='menu' aria-labelledby='dropdownMenu1'>" + "</ul></div>";
-		 * var equipmentID = encodeURI(object.equipmentID, "UTF-8"); $ .ajax({ //
-		 * data:{equipmentID:equipmentID}, url :
-		 * 'employeeController/getDepartmentID.do', success : function(data) {
-		 * var myobj = eval("(" + data + ")"); var myobje = myobj.equipements;
-		 * var listdata = $('#listdata'); for ( var i = 0; i < myobje.length;
-		 * i++) { mydata[i] = myobje[i].departmentName; mydataID[i] =
-		 * myobje[i].departmentID; var rstring = "<li role='presentation'
-		 * onclick='getParentbutton3(this," + "mydata[" + i + "]" + "," +
-		 * "mydataID[" + i + "]" + ")'>" + mydata[i] + "</li>";
-		 * listdata.append(rstring); } } }); ; break;
-		 */
+			
 		case "period":
 			getvalue = row.period;
 			$element[0].innerHTML = "<input onblur='getobject(this,this.value,"
@@ -780,25 +749,12 @@ function onDblClickCell(field, value, row, $element) {
 			$element[0].innerHTML = "<input onblur='getobject(this,this.value,"
 					+ "pubtype" + ")' type='text' class='form-control' value='"
 					+ getvalue + "'>";
-			;
 			break;
+			
 		case "Name1":
 			getvalue = row.Name1;
-			/*
-			 * $element[0].innerHTML = "<input
-			 * onblur='getobject(this,this.value," + "pubtype" + ")' type='text'
-			 * class='form-control' value='" + getvalue + "'>"; ;
-			 */
 			break;
-		/*
-		 * case "Range1":
-		 * 
-		 * getvalue = row.Range1; $element[0].innerHTML = "<input
-		 * onblur='getobject(this,this.value," + "pubtype" + ")' type='text'
-		 * class='form-control' value='" + getvalue + "'>"; ;
-		 * 
-		 * break;
-		 */
+			
 		case "model":
 			if (viscount1 == 0)
 				getvalue = row.model;
@@ -916,24 +872,11 @@ function getParentbutton3(dom, value, ID) {
 		}
 	}
 }
-// 获取当行的每格的value
-/*
- * function getobject(dom, value, type) { dom.parentNode.innerHTML = value;
- * switch (type) { case "equipmentName": if (object.equipmentName == value) {
- * sbtjude = sbtjude; } else { object.equipmentName = value; sbtjude = 1; } ;
- * break; case "equipmentCode": if (object.equipmentCode == value) { sbtjude =
- * sbtjude; } else { object.equipmentCode = value; sbtjude = 1; } ; break;
- * 
- * case "startTime":if(object.startTime == value){ sbtjude = sbtjude; }else{
- * object.startTime =value; sbtjude = 1; }; break;
- * 
- * case "departmentName": if (object.departmentName == value) { sbtjude =
- * sbtjude; } else { object.departmentName = value; sbtjude = 1; } ; break; } }
- */
+
 function del() {
 	var data = $('#table').bootstrapTable("getSelections");
 	if (data.length == 0) {
-		alert("请选择至少一条数据");
+		swal({title:"请选择至少一条数据",  type:"warning",});
 	} else {
 		var message = confirm("确定要删除这条建议吗？");
 		if (message == true) {
@@ -949,9 +892,9 @@ function del() {
 				data : ajaxParameter,
 				success : function(o) {
 					if (o <= 0) {
-						alert("删除失败");
+						swal({title:"删除失败",  type:"error",});
 					}
-					alert("删除成功");
+					swal({title:"删除成功",  type:"success",});
 					refresh();
 				}
 			});
@@ -980,6 +923,7 @@ function Params(pageReqeust) {
 	pageReqeust.belongtoID = rowID;
 	return pageReqeust;
 }
+
 function intiFileTable() {
 	$('#filetable')
 			.bootstrapTable(
@@ -1001,7 +945,8 @@ function intiFileTable() {
 						// checkbox
 						cache : false,// 禁用 AJAX 数据缓存
 						sortOrder : 'asc',// 定义排序方式
-						url : 'fileOperateController/getFileInfoBybelongtoIDWithPaging.do',
+//						url : 'fileOperateController/getFileInfoBybelongtoIDWithPaging.do',
+						url : 'timeCheckController/getTimecheckFileWithPaging.do',
 						sidePagination : 'server',// 设置在哪里进行分页
 						contentType : 'application/json',// 发送到服务器的数据编码类型
 						dataType : 'json',// 服务器返回的数据类型
@@ -1015,6 +960,10 @@ function intiFileTable() {
 									field : 'ck',
 									checkbox : true,
 									align : 'center'
+								},
+								{
+							    	field:'ID',
+							    	visible:false,
 								},
 								{
 									title : '送检方式',
@@ -1064,8 +1013,9 @@ function intiFileTable() {
 // 下载文件
 function fileDownload() {
 	var getdata = $("#filetable").bootstrapTable('getSelections');
-	var fileID = getdata[0].ID;
-	window.location.href = "fileOperateController/filedownload.do?ID=" + fileID;
+	var fileID=getdata[0].ID;
+	alert(fileID);
+	window.location.href="timeCheckController/filedownload.do?ID="+fileID;
 }
 // 全部数据
 function allData() {
@@ -1077,4 +1027,90 @@ function allData() {
 	$('#startTime').val("");
 	$('#endTime').val("");
 	refresh();
+}
+
+function typeChange(){
+	var filetype = document.getElementById("type").value;
+	if(filetype === "自检"){
+		fileParam.type = 0;
+	}else{
+		fileParam.type = 1;
+	}
+}
+
+/*新增js方法*/
+//检查文件类型
+function checkFile(o) {
+	$("#chooseFile").attr("disabled", "disabled");
+	var filePath = $(o).val();
+	if (filePath != "" && filePath != undefined) {
+		var arr = filePath.split('\\');
+		var fileName = arr[arr.length - 1];
+		$("#fileName").html(fileName);
+	}
+	
+	typeChange();
+}
+
+//上传文件
+function uploadFile() {
+	$("#files").fileupload({
+				autoUpload : true,
+				url : 'timeCheckController/upload.do',
+				dataType : 'json',
+				add : function(e, data) {
+					$("#ensure").click(function() {
+						fileParam.secondDirectoryName = "核查记录文件";
+						data.submit();
+					});
+				},
+			}).bind('fileuploaddone',function(e, data) {
+						var fileID = data.result;
+						if (fileID != null && fileID != "null" && fileID != "") {
+							$("#addModal").modal("hide");
+							reload();
+						} else {
+							swal({title:"上传失败! 网路繁忙",  type:"error",});
+						} 
+					});
+
+	// 文件上传前触发事件,如果需要额外添加参数可以在这里添加
+	$('#files').bind('fileuploadsubmit', function(e, data) {
+		data.formData = {
+			secondDirectory : fileParam.secondDirectoryName,
+			TypeNumber : fileParam.type,
+			belongtoID : fileParam.belongtoID,
+			remark : fileParam.remarks
+		}
+	});
+}
+
+//判空处理
+function checkNull(){
+	if(arguments[0].TemplateName == ""){
+		swal({title:"文件名称不能为空",  type:"warning",});
+		return true;
+	}
+	if(arguments[0].fileID == ""){
+		swal({title:"请选择一个文件上传",  type:"warning",});
+		return true;
+	}
+}
+
+function openModal() {
+	if($('#table').bootstrapTable("getSelections").length == 1){
+		$("#chooseFile").removeAttr("disabled");
+		$("#fileName").html("");
+		fileParam.type = 1 ;
+		fileParam.remarks = $('#add_TemplateRemarks').val(); // 备注
+		fileParam.belongtoID = rowID;
+		$("#UploadModal").modal("show");
+	}else{
+		swal({title:"请选择一条数据",  type:"warning",});
+	}
+}
+
+//重新加载页面
+function reload() {
+	window.location.reload();
 }

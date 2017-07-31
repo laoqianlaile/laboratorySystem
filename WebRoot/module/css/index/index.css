@@ -92,8 +92,9 @@ html body{
 	text-align: right;
 }
 #content_frame{
-	
+	height: 100%;
 	width: 100%;
+	overflow: auto;
 	/* min-height:510px; */
 }
 .col-xs-12-w{
@@ -148,7 +149,11 @@ vertical-align: middle;
 }
 
 .tree {
-	padding: 0;
+	width: 407px;
+	height: 425px;
+	padding-left: 0px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .tree:before {

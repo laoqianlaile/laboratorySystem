@@ -75,8 +75,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 
 	<div class="input-group-area" >
-  	 	<button type="button" onclick="search()" class="btn btn-primary glyphicon glyphicon-search">&nbsp;查询</button>
-  		<button id="refresh" onclick="refresh()" type="button" class="btn btn-primary glyphicon glyphicon-refresh">&nbsp;刷新</button>
+  	 	<button type="button" onclick="search()" class="btn btn-primary">
+  	 		<em class=" glyphicon glyphicon-search"></em> 查询
+  	 	</button>
+  		<button id="refresh" onclick="refresh()" type="button" class="btn btn-primary">
+  			<em class=" glyphicon glyphicon-refresh"></em> 刷新
+  		</button>
 	</div>
   		
   	<!-- 表格 -->
