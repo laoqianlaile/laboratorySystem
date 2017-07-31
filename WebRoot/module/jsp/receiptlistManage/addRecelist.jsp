@@ -101,7 +101,7 @@
 						class="form-control">
 					<div id="companyContainer">
 						<div id="over_company">
-							<ul onclick="selectedCompany()">
+							<ul onclick="selectedCompany(event)">
 							</ul>
 						</div>
 					</div>

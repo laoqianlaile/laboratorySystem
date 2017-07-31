@@ -220,7 +220,7 @@ function searchSampleCode(args) {
 		$("#editSammpleID").val("");
 	}
 	
-	var html = '<ul class="list_sampleCode"  onclick="selectSample(this)" data-state="'+args[1]+'"  >';
+	var html = '<ul class="list_sampleCode"  onclick="selectSample(this,event)" data-state="'+args[1]+'"  >';
 	var list_data;
 	$(".tip-factory .tip-factory-content").html("");// 清空原来的数据
 	$.ajax({
@@ -239,7 +239,7 @@ function searchSampleCode(args) {
 		}
 	});
 	for (var i = 0; i < list_data.length; i++) {
-		html += '<li id="'+list_data[i].ID+'" data-unit="'+list_data[i].unit+'"  data-sampleName="'+list_data[i].sampleName+'" data-sampleCode="'+list_data[i].sampleCode+'"  data-sampleStyle="'+list_data[i].sampleStyle+'">' + list_data[i].sampleCode +' ~~ '+list_data[i].sampleName+ '</li>';
+		html += '<li id="'+list_data[i].ID+'" data-sample =\''+ JSON.stringify(list_data[i])+'\'>' + list_data[i].sampleCode +' ~~ '+list_data[i].sampleName+ '</li>';
 	}
 	html += '</ul>';
 	if(list_data != null && list_data.length > 0)
@@ -252,21 +252,30 @@ function searchSampleCode(args) {
 	}
 }
 //选择搜索出来的样品后的操作
-function selectSample(self) {
+function selectSample(self,event) {
 	var source = event.srcElement || event.target;
-	var sampleCode = $(source).text();
+	var sample ;
 	var sampleID = source.id;
 	var state = self.dataset.state;
 	if(source.className == "list_sampleCode"){ //点击到ul中，却没有点击到li中
 		 
 		return ;
 	}
+	
+	if(source.dataset){
+		sample = source.dataset.sample;
+	}else{
+		sample = source.getAttribute("data-sample");
+	}
+	sample = JSON.parse(sample);
+	
+	
 	if (state == "add") {
 		// 填充数据-新增
-		$("#addSampleName").val(source.dataset.sampleName);
-		$("#addSampleStyle").val(source.dataset.sampleStyle);
-		$("#addUnit").val(source.dataset.unit);
-		$("#addSampleCode").val(source.dataset.sampleCode);
+		$("#addSampleName").val(sample.sampleName);
+		$("#addSampleStyle").val(sample.sampleStyle);
+		$("#addUnit").val(sample.unit);
+		$("#addSampleCode").val(sample.sampleCode);
 		$("#addSampleID").val(sampleID);
 		// 设置不可编辑--新增
 		$("#addSampleName").prop("disabled", true); 
@@ -274,8 +283,8 @@ function selectSample(self) {
 		$("#addUnit").prop("disabled", true);
 	} else {
 		// 填充数据-编辑
-		$("#editSampleName").val(source.dataset.sampleName);
-		$("#editSampleStyle").val(source.dataset.sampleStyle);
+		$("#editSampleName").val(sample.sampleName);
+		$("#editSampleStyle").val(sample.sampleStyle);
 		$("#editUnit").val(data.datasset.unit);
 		$("#editSampleCode").val(data.datasset.sampleCode);
 		$("#editSampleID").val(sampleID);
@@ -389,7 +398,7 @@ function initSaveAndSubmitRe_event() {
 	});
 	
 	$("#companyName").blur(function() {
-		 setTimeout("hideCpmpanyOver" ,700);
+		 setTimeout("hideCpmpanyOver()" ,700);
 		 
      });
 	 
@@ -411,9 +420,10 @@ function hideCpmpanyOver(){
 	}else{
 		obj.isSelectedCom = false;
 		obj.comID = "";
+		$("#address").val("");
 	}
 	
-	$("#address").val("");
+	
 }
 // 处理交接单的保存和提交事件
 function dealReSave(self) {
@@ -499,7 +509,6 @@ function vaildInputData(param) {
 	return true;
 }
 function handleCompany(){
-	console.log(this);
 	curral(searchCompany,window,arguments);
 }
 //函数节流处理 --减少执行次数
@@ -549,11 +558,15 @@ function showCompanylist(data){
 	$("#over_company ul").html(html);
 }
 //选择公司名字后处理
-function selectedCompany(){
+function selectedCompany(event){
     var source = EventUtil.getSource(event);
+    var tagName = source.tagName ;
+    if(tagName == "UL" || tagName == "ul"){
+    	return ;
+    }
 	$("#companyName").val(source.innerText);
 	obj.comID = source.id;
-	$("#address").val(source.dataset.address);
+	$("#address").val(source.getAttribute("data-address"));
 	obj.isSelectedCom = true;
 	$("#companyContainer").css("display","none");
 	EventUtil.stopPropagation(event);
@@ -1505,3 +1518,4 @@ function getTestProjectID(){
 		return total;
 	}
 }
+
