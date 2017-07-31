@@ -46,7 +46,7 @@
 
 <style>
 span {
-	font-size: 20px;
+	
 	padding: 0px;
 	margin: 0px;
 }
