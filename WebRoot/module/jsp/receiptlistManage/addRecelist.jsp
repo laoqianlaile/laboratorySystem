@@ -18,9 +18,7 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
+
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 <link rel="stylesheet" type="text/css" href="module/css/changeACE.css" />
@@ -89,10 +87,6 @@
 							class="glyphicon glyphicon-calendar"></span></span>
 					</div>
 				</div>
-				<!-- <div class="headModeal col-xs-3">
-					<label>完成时间：</label><input type="date" id="endTime"
-						class="form-control">
-				</div> -->
 			</div>
 			<div class="row">
 				<div class="col-xs-6">
@@ -101,7 +95,7 @@
 						class="form-control">
 					<div id="companyContainer">
 						<div id="over_company">
-							<ul onclick="selectedCompany()">
+							<ul onclick="selectedCompany(event)">
 							</ul>
 						</div>
 					</div>
@@ -121,9 +115,7 @@
 			<div class="row">
 				<div class=" col-xs-12">
 					<span class="kemiche ">依据的技术文件(代号、名称)及客户要求：</span>
-					<!-- &nbsp;&nbsp;QRX-1型雷达光电望远镜按《QRX-1型雷达光电望远镜系统更新技术状态鉴定试验大纲WLDGA》和《GJB50.11A-2009军用设备实验室环境实验方法第II部分：盐雾实验》进行24h喷雾，24h干燥，两种状态，供240h的盐雾实验 -->
-
-
+					
 					<textarea type="text" id="accordingDoc" rows="6">	</textarea>
 				</div>
 			</div>
@@ -138,16 +130,6 @@
 					<hr class="headHr">
 				</div>
 				<table id="sampleTable">
-					<!-- 	<tr>
-						<th>序号</th>
-						<th>出厂编号</th>
-						<th>名称</th>
-						<th>型号/规格/代号</th>
-						<th>检测/校准项目</th>
-						<th>录入时间</th>
-						<th>操作</th>
-					</tr>
- -->
 				</table>
 			</div>
 			<div class="second">
@@ -247,40 +229,28 @@
 								</div>
 								    <div class="col-xs-12 col-md-12">
 							
-									<div class="col-md-6 col-xs-6 ">
+								<div class="col-md-6 col-xs-6 " style="display: none;" id="assayType">
 										<p>检测类型：</p>
 									<input type="radio" name="addTaskType" id="addTaskType1" value="0" checked="checked"> <label class="radioLabel" for="addTaskType1">检测</label>									
 									<input type="radio" name="addTaskType" id="addTaskType2" value="1"> <label class="radioLabel" for="addTaskType2">校准</label>					
 								</div>
-									
-										<div class="col-md-6 col-xs-6 ">
-										<div>
-											<p class="labelName">搜索查询添加检测项目:</p>
-											<input type="text" id="addsearchTestProjects"
+
+								<div class="col-md-6 col-xs-6 " style="display: none;" id="searchAssay">
+									<div>
+										<p class="labelName">搜索查询添加检测项目:</p>
+										<input type="text" id="addsearchTestProjects"
 												class="form-control" placeholder="选择所需检测项目"
 												oninput="searchTestProject('add')"
 												onpropertychange="searchTestProject('add')" />
-										</div>
-										<div class="showTestProjects" name="add"></div>
-								
 									</div>
+										<div class="showTestProjects" name="add"></div>
 								</div>
-								<div class="col-xs-12 col-md-12">
-									
+								</div>
+								<div class="col-xs-12 col-md-12"  style="display: none;" id="calibrationItems">								
 										<p>检测/校准项目：</p>
-										<!-- 	<textarea id="addTestProject" rows="3" cols="30"
-										class="testProjectName" placeholder="选择检测项目"></textarea> -->
-										<div  class="testProjectName displayChecked" id="displayChecked"  name="add"
+										<div class="testProjectName displayChecked" id="displayChecked"  name="add"
 											placeholder="选择检测项目"></div>
-										<!-- 	<ul>
-										<li><input type="checkbox">检测项目
-										</li>
-										<li><input type="checkbox">检测项目</li>
-										</ul> -->
-								
-								
 								</div>
-                            
 								<div class="col-xs-12 col-md-12">
 									<p>检测部门：</p>
 									<select id="addDepartment" >

@@ -171,15 +171,17 @@ public class ReceiptlistService extends SearchService implements
 		int pageIndex = offset / limit; // 分页查询数据限制
 		System.out.println("limit : " + limit + "  " + offset);
 		String[] properties = new String[] { // 查询的字段
-		"a.ID", "project.ID AS proID", "a.contractCode as coCode",
+		"a.ID", "project.ID AS proID", "a.contractCode as coCode","a.contractName",
 				"a.isEditSample", "a.coID", "a.companyID AS comID", "a.reCode",
 				"a.coState", "company.companyName", "a.linkMan", "a.startTime",
 				"a.endTime", "a.employeeName", "a.linkPhone", "a.reType",
-				"a.state" };
+				"a.state", "a.contractType" };
 		// 连接关系表和一些删选条件
 		String joinEntity = " "
 				+ "( SELECT receiptlist.ID,"
 				+ "contract.contractCode,"
+				+ "contract.contractName,"
+				+ "contract.type AS contractType,"
 				+ "contract.ID AS coID,"
 				+ "contract.state AS coState,"
 				+ "receiptlist.receiptlistCode AS reCode,"
@@ -195,7 +197,7 @@ public class ReceiptlistService extends SearchService implements
 				+ " IF (receiptlist.receiptlistType = 0,'接受',IF (receiptlist.receiptlistType = 1,'退还','无' "
 				+ " )) AS reType FROM contract LEFT JOIN  receiptlist ON receiptlist.contractID = contract.ID "
 				+ " LEFT JOIN employee ON receiptlist.employeeID = employee.ID "
-				+ " WHERE 1 = 1 ";
+				+ " WHERE contract.state = 4 ";
 		// 异常数据判断 并加上搜索条件
 		if (reCode != null && !reCode.equals("")) {
 			joinEntity += " and receiptlistCode  like '%" + reCode + "%'  ";

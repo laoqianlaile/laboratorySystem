@@ -20,7 +20,6 @@ var globl = {
 }
 /* 初始化数据 */
 $(function() {
-	
 	$('#table') .bootstrapTable(
 					{
 						// 定义表格的高度height: 500,
@@ -61,8 +60,23 @@ $(function() {
 								    }
 								},
 								{
+									field : 'contractName',// 返回值名称
+									title : '合同名称',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '10',// 宽度
+								},
+								{
 									field : 'ID',// 返回值名称
 									title : '交接单ID',// 列名
+									align : 'center',// 水平居中显示
+									valign : 'middle',// 垂直居中显示
+									width : '10',// 宽度
+									visible : false
+								},
+								{
+									field : 'contractType',// 返回值名称
+									title : '合同类型',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
 									width : '10',// 宽度
@@ -198,7 +212,7 @@ function addRe() {
 		    				+result.reID+"&coID=" 
 		    				+ data[0].coID + "&comID="
 		    				+ data[0].comID + "&coCode=" + data[0].coCode
-		    				+ "&state=yes&reCode=" + result.reCode+"&proID="+data[0].proID;
+		    				+ "&state=yes&reCode=" + result.reCode+"&proID="+data[0].proID+"&contractType="+data[0].contractType;
 
 }
 
