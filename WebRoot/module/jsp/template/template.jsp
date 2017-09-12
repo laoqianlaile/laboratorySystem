@@ -39,7 +39,6 @@
 
 <style>
 span {
-	font-size: 20px;
 	padding: 0px;
 	margin: 0px;
 }
@@ -57,14 +56,13 @@ span {
 	float: right;
 }
 #menu{
+	height: 50px;
+    line-height: 50px;
     background-color: rgb(232,243,249);
-    padding-top: 20px;
-    padding-bottom: 20px;
-    width: 101%;
     margin-bottom: 30px;
 }
 #menu button{
-	margin-right:2%;
+	margin-left:26px;
 }
 #menu button:hover {
   border: none;
@@ -146,14 +144,14 @@ span {
 					<div class="col-md-12 column">
 						<div class="row clearfix" style=" margin-bottom: 10px;">
 							<div class="col-md-3 column" >
-								<label>模板名称： </label>
+								<label>模板名称:</label>
 								<input id="query_templateName" name="templateName"
 									class="form-control" type="text" 
 									style="display: inline; width:40%;">
 							</div>
 							<div class="input-group date form_datetime col-md-3 column "
 								style="text-align: center;">
-								<label style="margin-top: 8px;">上传时间： </label> <input
+								<label style="margin-top: 8px;">上传时间:</label> <input
 									class="form-control" size="10" id = "uPLOADTIME1" type="text" value="" readonly
 									style="display: inline; width:50%;" oninput="correctTime()"
 									onpropertychange="correctTime()" onchange="correctTime()"> <span
@@ -164,7 +162,7 @@ span {
 							</div>
 							<div class="input-group date form_datetime col-md-3 column "
 								style="text-align: center;">
-								<label style="margin-top: 8px;">至： </label> 
+								<label style="margin-top: 8px;">至:</label> 
 								<input class="form-control" size="10" id = "uPLOADTIME2" type="text" value="" readonly
 									style="display: inline; width:50%;" oninput="correctTime()"
 									onpropertychange="correctTime()" onchange="correctTime()"> 
@@ -174,45 +172,46 @@ span {
 									<i class="glyphicon glyphicon-calendar"></i></span>
 							</div>
 						</div>
-						<div id="menu" class= "row clearfix">
-								<div class="col-md-12 column">
-									<button id="query" onclick="query()"
-										class="btn btn-primary" type="button">
-										<em class="glyphicon glyphicon-search"></em> 查询
-									</button>
-
-									<button class="btn btn-primary" type="button" id="addmodel"
-										onclick="openModal()">
-										<em class="glyphicon glyphicon-plus"></em> 上传
-									</button>
-			
-									<button class="btn btn-primary" type="button" id="addmodel"
-										onclick="submit()">
-										<em class="glyphicon glyphicon-check"></em> 提交审核
-									</button>
-										
-									<button class="btn btn-primary type=" button" id=""
-										onclick="ViewDoc()">
-										<em class="glyphicon glyphicon-search"></em> 查看
-									</button>
-
-									<button class="btn btn-primary  type=" button" id="del" onclick="delData()">
-										<em class="glyphicon glyphicon-trash"></em> 删除
-									</button>
-
-									<button class="btn btn-primary type=" button" id="refresh"
-										onclick="refresh()">
-										<em class="glyphicon glyphicon-refresh"></em> 刷新
-									</button>
-								</div>
-						</div>
 					</div>
 				</div>
 			</div>
+			</div>
+	</div>
+			<div id="menu" class= "">
+					<div >
+						<button id="query" onclick="query()"
+							class="btn btn-primary" type="button">
+							<em class="glyphicon glyphicon-search"></em> 查询
+						</button>
+
+						<button class="btn btn-primary" type="button" id="addmodel"
+							onclick="openModal()">
+							<em class="glyphicon glyphicon-plus"></em> 上传
+						</button>
+
+						<button class="btn btn-primary" type="button" id="addmodel"
+							onclick="submit()">
+							<em class="glyphicon glyphicon-check"></em> 提交审核
+						</button>
+							
+						<button class="btn btn-primary type=" button" id=""
+							onclick="ViewDoc()">
+							<em class="glyphicon glyphicon-search"></em> 查看
+						</button>
+
+						<button class="btn btn-primary  type=" button" id="del" onclick="delData()">
+							<em class="glyphicon glyphicon-trash"></em> 删除
+						</button>
+
+						<button class="btn btn-primary type=" button" id="refresh"
+							onclick="refresh()">
+							<em class="glyphicon glyphicon-refresh"></em> 刷新
+						</button>
+					</div>
+			</div>
 			<table id="table">
 			</table>
-		</div>
-	</div>
+	
 	<!-- 检测项目弹框 -->
 	<div id="testProjectModal" class="modal fade" role="dialog" style="display: none;"
 		aria-labelledby="gridSystemModalLabel ">
@@ -293,13 +292,13 @@ span {
 								<img id ="editReportImg" src ='module/img/edit_icon.png' onclick=''  title="修改报告模板" style='cursor:pointer;margin-right:8px;display: none'/>
 						</div>
 						<div class="col-md-6 column" >
-							<select class= "form-control" style="width: 47%;position: absolute;top: -36px;">
+							<!-- <select class= "form-control" style="width: 47%;position: absolute;top: -36px;">
 									<option class="form-control">交接单模板</option>
 									<option class="form-control">检测合同模板</option>
 									<option class="form-control">校准合同模板</option>
 									<option class="form-control">检测报告模板</option>
 									<option class="form-control">校准报告模板</option>
-							</select>
+							</select> -->
 							<input id="editReprotSearch" type="text" class="form-control" placeholder="检测项目搜索"  style="margin-top: 12px;display: none" onblur="hideSearch()" onfocus="showPartTestproject()"  oninput="showPartTestproject()"
 											onpropertychange="showPartTestproject()"/>
 							<div   id="showTestProject" ></div>
@@ -321,10 +320,10 @@ span {
 
 
 
-    <div id="wait_img">
-		<img src="module/img/wait.jpg" style="width:48px;height:48px;" />
-	</div>
-	<div id="mask"></div>
+<div id="wait_img">
+	<img src="module/img/wait.jpg" style="width:48px;height:48px;" />
+</div>
+<div id="mask"></div>
 
 <script src="module/js/wait.js"></script>
 <script src="module/js/template/template.js"></script>

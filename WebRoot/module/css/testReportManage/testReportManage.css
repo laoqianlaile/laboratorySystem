@@ -52,10 +52,10 @@
 }
 
 .buttonGroup {
+	height: 50px;
+	line-height: 50px;
 	background-color: rgb(232, 243, 249);
-	width: 100%;
-	margin: 20px 0 20px 0;
-	padding: 20px 0 20px 0;
+	margin-bottom: 30px;
 }
 
 .buttonGroup button:hover {

@@ -73,7 +73,7 @@ function init(){
 				title:'标准名称',// 列名
 				align:'center',// 水平居中显示
 				valign:'middle',// 垂直居中显示
-				width:'20%'// 宽度
+				width:'10%'// 宽度
 			},{
 				field:'standardTypeName',// 返回值名称
 				title:'类别',// 列名
@@ -144,8 +144,7 @@ function init(){
 			/* 事件 */
 		});
 	});
-	uploadFile();
-	recoverFile();
+	
 }
 
 /* 刷新方法 */
@@ -224,10 +223,12 @@ function openAddmodal(){
 	fileParam.remarks = $('#add_TemplateRemarks').val(); // 备注
 	
 	if(arguments[0] === "add"){
+		uploadFile();
 //		fileUploadInit("#file_upload");
 		$('#addModal').modal('show');
 	}
 	else{
+		recoverFile();
 		$("#recoverButton").removeAttr("disabled");
 		$("#recoverFileName").html("");
 		recover();
@@ -269,7 +270,7 @@ function uploadFile() {
 							// 调用新增标准文件
 							addstandard(fileID);
 						} else {
-							swal({title:"上传失败! 网路繁忙",  type:"error",});
+							swal({title:"上传失败!",  type:"error",});
 						} 
 					});
 
@@ -292,6 +293,7 @@ function recoverFile() {
 				dataType : 'json',
 				add : function(e, data) {
 					$("#recoverEnsure").click(function() {
+						alert("臥槽你嘛，給點司馬");
 						data.submit();	
 					});
 				},

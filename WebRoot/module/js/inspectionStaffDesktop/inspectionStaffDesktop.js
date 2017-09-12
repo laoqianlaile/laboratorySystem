@@ -163,7 +163,7 @@ function turnout() {
 	}
 	var taskID = data[0].ID;
 	window.location.href = window.location.href.replace(
-			'InspectionStaffDesktop/inspectionStaffDesktop.jsp',
+			'inspectionStaffDesktop/inspectionStaffDesktop.jsp',
 			'taskManage/taskView.jsp')
 			+ '?taskID=' + taskID;
 }

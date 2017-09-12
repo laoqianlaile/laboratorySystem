@@ -91,11 +91,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 
 		<div class="input-group-area">
-  	 			<button type="button" onclick="searchContract()" class="btn btn-primary glyphicon glyphicon-search">&nbsp;查询</button>
-  				<button type="button" onclick="showContractA()" class="btn btn-primary glyphicon glyphicon-show">&nbsp;审查</button>
-  				<button type="button" onclick="writeModal1()" class="btn btn-primary glyphicon glyphicon-ok">&nbsp;通过</button>
-  				<button type="button" onclick="writeModal2()" class="btn btn-primary glyphicon glyphicon-remove">&nbsp;驳回</button>
-  				<button id="refresh" onclick="refresh()" type="button" class="btn btn-primary glyphicon glyphicon-refresh">&nbsp;刷新</button>
+  	 			<button type="button" onclick="searchContract()" class="btn btn-primary ">
+					<em class="glyphicon glyphicon-search"></em> 查询
+					</button>
+  				<button type="button" onclick="showContractA()" class="btn btn-primary">
+  					<em class="glyphicon glyphicon-show"></em> 审查
+  					</button>
+  				<button type="button" onclick="writeModal1()" class="btn btn-primary ">
+  					<em class="glyphicon glyphicon-ok"></em> 通过
+  					</button>
+  				<button type="button" onclick="writeModal2()" class="btn btn-primary ">
+  					<em class="glyphicon glyphicon-remove"></em> 驳回
+  					</button>
+  				<button id="refresh" onclick="refresh()" type="button" class="btn btn-primary ">
+  					<em class="glyphicon glyphicon-refresh"></em> 刷新
+  					</button>
 			</div>
 		</div>
   	

@@ -16,10 +16,14 @@
 
 
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
-<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" /> 
-<link rel="stylesheet" type="text/css" href="module/css/bootstrap-select.css">
-<link rel="stylesheet" type="text/css" href="module/css/bootstrap-select.min.css">
+<link rel="stylesheet" type="text/css"
+	href="module/css/bootstrap-table.css">
+<link rel="stylesheet" type="text/css"
+	href="module/css/commonSystem/commonSystem.css" />
+<link rel="stylesheet" type="text/css"
+	href="module/css/bootstrap-select.css">
+<link rel="stylesheet" type="text/css"
+	href="module/css/bootstrap-select.min.css">
 
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
@@ -29,8 +33,8 @@
 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 <script src="module/js/sweetalert.min.js"></script>
 <script src="module/js/bootstrap-select.js"></script>
-</head><style>
-
+</head>
+<style>
 .choose {
 	height: 300px;
 	overflow-x: hidden;
@@ -62,6 +66,7 @@
 	top: 0px;
 	z-index: 9999;
 }
+
 .col-xs-12 input,.col-md-12 input,.col-xs-12 select {
 	display: block;
 	width: 100%;
@@ -69,6 +74,7 @@
 	width: 90%;
 	height: 34px;
 }
+
 .col-xs-12 input.chooseInput,.col-md-12 input.chooseInput {
 	width: 20px;
 	display: inline-block;
@@ -79,93 +85,105 @@
 .col-xs-12 label.fontStyle,.col-md-12 label.fontStyle {
 	margin: 10px 0 0;
 }
-.col-md-4 input.form-control, .col-md-3 select.form-control {
-	width:150px;
-	display:inline-block;
 
+.col-md-4 input.form-control,.col-md-3 select.form-control {
+	width: 150px;
+	display: inline-block;
 }
-#menu{
-    background-color: rgb(232,243,249);
-    padding-top: 20px;
-    padding-bottom: 20px;
-    width: 101%;
-    margin-bottom: 30px;
+
+#menu {
+	height: 50px;
+	line-height: 50px;
+	background-color: rgb(232, 243, 249);
+	margin-bottom: 30px;
 }
-#menu button{
-	margin-right:2%;
+
+#menu button {
+	margin-left: 26px;
 }
+
 #menu button:hover {
-  border: none;
-  color: #fff;
-  background-color: rgb(255, 173, 51);
+	border: none;
+	color: #fff;
+	background-color: rgb(255, 173, 51);
 }
+
 #displayChecked {
 	width: 100%;
 	height: 100px;
 	border: 1px solid;
-	overflow-y:auto;
+	overflow-y: auto;
 }
-#displayChecked .spanTag{
+
+#displayChecked .spanTag {
 	border: 1px solid #a5d24a;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
-    display: block;
-    float: left;
-    padding: 5px;
-    text-decoration: none;
-    background: #cde69c;
-    color: #638421;
-    margin-right: 5px;
-    margin-bottom: 5px;
-    font-family: helvetica;
-    font-size: 13px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	display: block;
+	float: left;
+	padding: 5px;
+	text-decoration: none;
+	background: #cde69c;
+	color: #638421;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	font-family: helvetica;
+	font-size: 13px;
 }
-#displayChecked .spanTag a{
+
+#displayChecked .spanTag a {
 	font-weight: bold;
-    color: #82ad2b;
-    text-decoration: none;
-    font-size: 11px;
+	color: #82ad2b;
+	text-decoration: none;
+	font-size: 11px;
 }
-.showEquipments{
+
+.showEquipments {
 	margin-left: 6.65%;
-	position:absolute;
-	width:74%;
-	height:auto;
-	max-height:120px;
-	display:none;
-	border:1px solid #ccc;
-	border-top:none;
-	border-radius:3px;
-	background-color:#fff;
+	position: absolute;
+	width: 74%;
+	height: auto;
+	max-height: 120px;
+	display: none;
+	border: 1px solid #ccc;
+	border-top: none;
+	border-radius: 3px;
+	background-color: #fff;
 	z-index: 10;
-	overflow-x:hidden;
-	overflow-y:hidden;
+	overflow-x: hidden;
+	overflow-y: hidden;
 }
+
 .showEquipments ul {
-	border:none;
-	max-height:120px;
-	overflow-y:auto;
-	margin:0;
-	margin-left:-40px;
+	border: none;
+	max-height: 120px;
+	overflow-y: auto;
+	margin: 0;
+	margin-left: -40px;
 }
-.showEquipments ul li{
-	height:30px;
+
+.showEquipments ul li {
+	height: 30px;
 	line-height: 30px;
 	list-style-type: none;
 	text-indent: 12px;
-	background-color:#fff;
+	background-color: #fff;
 }
-.showEquipments ul li.noDate{
- 	color: red;
+
+.showEquipments ul li.noDate {
+	color: red;
 }
-.showEquipments ul li:hover{
-	background-color:#dcdcdc;
+
+.showEquipments ul li:hover {
+	background-color: #dcdcdc;
 }
-#addModal .row .margin2{
-	margin:2%;
+
+#addModal .row .margin2 {
+	margin: 2%;
 }
-#editModal .row .margin2{
-	margin:2%;
+
+#editModal .row .margin2 {
+	margin: 2%;
 }
 </style>
 <body>
@@ -177,45 +195,47 @@
 						<div class="row clearfix" style=" margin-bottom: 10px;">
 							<div class="col-md-4 column">
 								<label>项目名称： </label> <input id="query_nameCnORnameEn"
-									name="nameCnORnameEn" class="form-control"  type="text">
+									name="nameCnORnameEn" class="form-control" type="text">
 							</div>
 							<div class="col-md-3 column">
-								<label>所属科室： </label>
-								<select id="query_departmentID" class="form-control" name="departmentID" >
+								<label>所属科室： </label> <select id="query_departmentID"
+									class="form-control" name="departmentID">
 									<option value="">全部</option>
 								</select>
 							</div>
 						</div>
-						<div id = "menu" class="row clearfix">
-							<div class="col-md-4 column">
-								<button id="query" onclick="query()" class="btn btn-primary"
-									type="button">
-									<em class="glyphicon glyphicon-search"></em> 查询
-								</button>
 
-								<button class="btn btn-primary" type="button" id="addmodel"
-									onclick="addModal()">
-									<em class="glyphicon glyphicon-plus"></em> 新增
-								</button>
-
-								<button class="btn btn-primary type=" button" id="del"
-									onclick="delData()">
-									<em class="glyphicon glyphicon-trash"></em> 删除
-								</button>
-
-								<button class="btn btn-primary type=" button" id="refresh"
-									onclick="refresh()">
-									<em class="glyphicon glyphicon-refresh"></em> 刷新
-								</button>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>
-			<table id="table">
-			</table>
 		</div>
 	</div>
+	<div id="menu" >
+		<div >
+			<button id="query" onclick="query()" class="btn btn-primary"
+				type="button">
+				<em class="glyphicon glyphicon-search"></em> 查询
+			</button>
+
+			<button class="btn btn-primary" type="button" id="addmodel"
+				onclick="addModal()">
+				<em class="glyphicon glyphicon-plus"></em> 新增
+			</button>
+
+			<button class="btn btn-primary type=" button" id="del"
+				onclick="delData()">
+				<em class="glyphicon glyphicon-trash"></em> 删除
+			</button>
+
+			<button class="btn btn-primary type=" button" id="refresh"
+				onclick="refresh()">
+				<em class="glyphicon glyphicon-refresh"></em> 刷新
+			</button>
+		</div>
+	</div>
+	<table id="table">
+	</table>
+
 	<!-- 新增弹窗 -->
 	<div id="addModal" class="modal fade" role="dialog">
 		<div class="modal-dialog" role="document">
@@ -227,27 +247,29 @@
 					</button>
 					<h4 class="modal-title">新增检测项目</h4>
 				</div>
-				<div class="modal-body" >
+				<div class="modal-body">
 					<div class="row">
-						<div class="col-md-12 col-xs-12 margin2" >
+						<div class="col-md-12 col-xs-12 margin2">
 							<div class="col-md-6 col-xs-6" style="padding: 0px;">
-								<label class="labelName">中文名称</label>
-								<input type=" text" id="add_NAMECN" name="NAMECN"
-									class="form-control" aria-describedby="basic-addon1" />
+								<label class="labelName">中文名称</label> <input type=" text"
+									id="add_NAMECN" name="NAMECN" class="form-control"
+									aria-describedby="basic-addon1" />
 							</div>
 							<div class="col-md-6 col-xs-6">
-								<label class="labelName">英文名称</label>
-								<input type=" text" id="add_NAMEEN" name="NAMEEN"
-									class="form-control" aria-describedby="basic-addon1" />
-							<!-- 	<label class="labelName">环境要求</label>
+								<label class="labelName">英文名称</label> <input type=" text"
+									id="add_NAMEEN" name="NAMEEN" class="form-control"
+									aria-describedby="basic-addon1" />
+								<!-- 	<label class="labelName">环境要求</label>
 								<input type=" text" id="add_ENVIRONMENTALREQUIREMENTS"
 									name="ENVIRONMENTALREQUIREMENTS" class="form-control"
 									aria-describedby="basic-addon1" /> -->
 							</div>
 						</div>
 						<div class="col-md-12 col-xs-12 margin2">
-							<label class="labelName">检测部门</label>
-							<select id="add_DEPARTMENTID" name="DEPARTMENTID" class="selectpicker show-tick" multiple data-live-search="false" multiple data-selected-text-format="">
+							<label class="labelName">检测部门</label> <select
+								id="add_DEPARTMENTID" name="DEPARTMENTID"
+								class="selectpicker show-tick" multiple data-live-search="false"
+								multiple data-selected-text-format="">
 							</select>
 						</div>
 						<!-- <div class="col-md-12 col-xs-12" style="padding-bottom:10px;">
@@ -266,29 +288,31 @@
 							</div>
 						</div> -->
 						<div class="col-md-12 col-xs-12 margin2">
-							<label class="labelName">依据标准</label>
-							<select id="add_STANDARDID" name="STANDARDID" class="selectpicker show-tick" multiple data-live-search="false" multiple data-selected-text-format="">
+							<label class="labelName">依据标准</label> <select id="add_STANDARDID"
+								name="STANDARDID" class="selectpicker show-tick" multiple
+								data-live-search="false" multiple data-selected-text-format="">
 							</select>
 						</div>
 						<div class="col-md-6 col-xs-6 margin2">
-								<label class="labelName">检测类别</label>
-								<select  id="add_type" name="type"class="form-control">
-								</select>
+							<label class="labelName">检测类别</label> <select id="add_type"
+								name="type" class="form-control">
+							</select>
 						</div>
 						<div class="col-md-6 col-xs-6 margin2">
-								<label class="labelName">不确定度</label>
-								<input  type="text" id="add_uncertainty" name ="uncertainty" placeholder="请输入 1.5% 或者 0.345" class="form-control" />
+							<label class="labelName">不确定度</label> <input type="text"
+								id="add_uncertainty" name="uncertainty"
+								placeholder="请输入 1.5% 或者 0.345" class="form-control" />
 						</div>
 						<div class="col-md-12 col-xs-12 margin2">
 							<label class="labelName">标准描述</label>
-							<textarea  id="add_DESCRIBE" name="DESCRIBE"
-								class="form-control" aria-describedby="basic-addon1" style="max-width: 98%;"></textarea>
+							<textarea id="add_DESCRIBE" name="DESCRIBE" class="form-control"
+								aria-describedby="basic-addon1" style="max-width: 98%;"></textarea>
 						</div>
 						<div class="col-md-12 col-xs-12 margin2">
-								<label class="labelName">备注</label>
-								<textarea  id="add_REMARKS" name="REMARKS"
-								class="form-control" aria-describedby="basic-addon1" style="max-width: 98%;"></textarea>
-						</div>	
+							<label class="labelName">备注</label>
+							<textarea id="add_REMARKS" name="REMARKS" class="form-control"
+								aria-describedby="basic-addon1" style="max-width: 98%;"></textarea>
+						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -310,37 +334,42 @@
 					</button>
 					<h4 class="modal-title">检测项目修改</h4>
 				</div>
-					<div class="row">
-						<div class="col-md-12 col-xs-12 margin2">
-						 		<!-- 检测项目id -->
-							<input type=" hidden" id="edit_testProjectID" name="testProjectID"
-								class="form-control" aria-describedby="basic-addon1" style="display: none;" />
-								<!-- 检测标准id --> 
-							<input type=" hidden" id="edit_testStandardID" name="testStandardID"
-								class="form-control" aria-describedby="basic-addon1" style="display: none;" />
-							<input type=" hidden" id="edit_testDepartmentID" name="testDepartmentID"
-								class="form-control" aria-describedby="basic-addon1" style="display: none;" />
-								<!-- 检测仪器id  -->
-							<!-- <input type=" hidden" id="edit_testInstumentID" name="testInstumentID"
+				<div class="row">
+					<div class="col-md-12 col-xs-12 margin2">
+						<!-- 检测项目id -->
+						<input type=" hidden" id="edit_testProjectID" name="testProjectID"
+							class="form-control" aria-describedby="basic-addon1"
+							style="display: none;" />
+						<!-- 检测标准id -->
+						<input type=" hidden" id="edit_testStandardID"
+							name="testStandardID" class="form-control"
+							aria-describedby="basic-addon1" style="display: none;" /> <input
+							type=" hidden" id="edit_testDepartmentID" name="testDepartmentID"
+							class="form-control" aria-describedby="basic-addon1"
+							style="display: none;" />
+						<!-- 检测仪器id  -->
+						<!-- <input type=" hidden" id="edit_testInstumentID" name="testInstumentID"
 								class="form-control" aria-describedby="basic-addon1" style="display: none;" /> -->
-							<div  class="col-md-6 col-xs-6" style="padding: 0px;">
-								<label class="labelName">中文名称</label>
-								<input type=" text" id="edit_NAMECN" name="NAMECN"
-									class="form-control" aria-describedby="basic-addon1" />
-							</div>
-							<div class="col-md-6 col-xs-6">
-								<label class="labelName">英文名称</label>
-								<input type=" text" id="edit_NAMEEN" name="NAMEEN"
-									class="form-control" aria-describedby="basic-addon1" />
-							</div>
-							
-						</div>	
-						<div class="col-md-12 col-xs-12 margin2">
-							<label class="labelName">检测部门</label>
-							<select id="edit_DEPARTMENTID" name="DEPARTMENTID" class="selectpicker show-tick" multiple data-live-search="false" multiple data-selected-text-format="">
-							</select>
+						<div class="col-md-6 col-xs-6" style="padding: 0px;">
+							<label class="labelName">中文名称</label> <input type=" text"
+								id="edit_NAMECN" name="NAMECN" class="form-control"
+								aria-describedby="basic-addon1" />
 						</div>
-						<!-- <div class="col-md-12 col-xs-12" style="padding-bottom:10px;">
+						<div class="col-md-6 col-xs-6">
+							<label class="labelName">英文名称</label> <input type=" text"
+								id="edit_NAMEEN" name="NAMEEN" class="form-control"
+								aria-describedby="basic-addon1" />
+						</div>
+
+					</div>
+					<div class="col-md-12 col-xs-12 margin2">
+						<label class="labelName">检测部门</label> <select
+							id="edit_DEPARTMENTID" name="DEPARTMENTID"
+							class="selectpicker show-tick" multiple data-live-search="false"
+							multiple data-selected-text-format="">
+						</select>
+					</div>
+					<!-- <div class="col-md-12 col-xs-12" style="padding-bottom:10px;">
 							<div class="col-md-6 col-xs-6 " >
 								<label class="labelName">所需仪器</label>
 								<div id="displayChecked" name="edit"></div>
@@ -354,39 +383,44 @@
 								<div   class="showEquipments" name="edit" ></div>
 							</div>
 						</div> -->
-					
+
 					<div class="col-md-12 col-xs-12 margin2">
-							<label class="labelName">依据标准</label>
-							<select id="edit_STANDARDID" name="STANDARDID" class="selectpicker show-tick" multiple data-live-search="false" multiple data-selected-text-format="">
-							</select>
-						</div>
-					<div class="col-md-6 col-xs-6 margin2">
-							<label class="labelName">检测类别</label>
-							<select  id="edit_type" name="type"class="form-control">
-							</select>
+						<label class="labelName">依据标准</label> <select id="edit_STANDARDID"
+							name="STANDARDID" class="selectpicker show-tick" multiple
+							data-live-search="false" multiple data-selected-text-format="">
+						</select>
 					</div>
 					<div class="col-md-6 col-xs-6 margin2">
-							<label class="labelName">不确定度</label>
-							<input  type="text" id="edit_uncertainty" name ="uncertainty" placeholder="请输入 1.5% 或者 0.345" class="form-control" />
+						<label class="labelName">检测类别</label> <select id="edit_type"
+							name="type" class="form-control">
+						</select>
+					</div>
+					<div class="col-md-6 col-xs-6 margin2">
+						<label class="labelName">不确定度</label> <input type="text"
+							id="edit_uncertainty" name="uncertainty"
+							placeholder="请输入 1.5% 或者 0.345" class="form-control" />
 					</div>
 					<div class="col-md-12 column margin2">
 						<label class="labelName">标准描述</label>
 						<textarea type=" text" id="edit_DESCRIBE" name="DESCRIBE"
-							class="form-control" aria-describedby="basic-addon1" style="max-width: 95%;" ></textarea>
-					</div>	
+							class="form-control" aria-describedby="basic-addon1"
+							style="max-width: 95%;"></textarea>
+					</div>
 					<div class="col-md-12 col-xs-12 margin2">
 						<label>备注</label>
 						<textarea type=" text" id="edit_REMARKS" name="REMARKS"
-							class="form-control" aria-describedby="basic-addon1" style="max-width: 95%;"></textarea>
+							class="form-control" aria-describedby="basic-addon1"
+							style="max-width: 95%;"></textarea>
 					</div>
 				</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-				<button type="button" class="btn btn-primary" onclick="editTestProject()">确定</button>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary"
+						onclick="editTestProject()">确定</button>
+				</div>
 			</div>
 		</div>
 	</div>
-	</div>
-<script src="module/js/testProject/testProject.js"></script>
+	<script src="module/js/testProject/testProject.js"></script>
 </body>
 </html>
