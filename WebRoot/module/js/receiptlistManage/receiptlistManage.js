@@ -234,7 +234,6 @@ var globl = {
 					// 列配置项,详情请查看 列参数 表格
 					/* 事件 */
 					});
-});
 // 有合同新增--接受类交接单
 function addRe() {
 	var data = $('#table').bootstrapTable('getSelections');
@@ -242,21 +241,11 @@ function addRe() {
 		sweetAlert("请选中一条数据");
 		return;
 	}
-
-<<<<<<< Updated upstream
-	var result = initAddReceiptlist(data[0],"yes");  //创建交接单跳转
-	window.location.href = "./addRecelist.jsp?reID="
-		    				+result.reID+"&coID=" 
-		    				+ data[0].coID + "&comID="
-		    				+ data[0].comID + "&coCode=" + data[0].coCode
-		    				+ "&state=yes&reCode=" + result.reCode+"&proID="+data[0].proID+"&contractType="+data[0].contractType;
-=======
 	var result = initAddReceiptlist(data[0], "yes"); // 创建交接单跳转
 	window.location.href = "./addRecelist.jsp?reID=" + result.reID + "&coID="
 			+ data[0].coID + "&comID=" + data[0].comID + "&coCode="
 			+ data[0].coCode + "&state=yes&reCode=" + result.reCode + "&proID="
 			+ data[0].proID;
->>>>>>> Stashed changes
 
 }
 
