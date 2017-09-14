@@ -86,6 +86,7 @@ public class TaskService extends SearchService implements ITaskService {
 				"sample.specifications",
 				"testProject.ID as testProjectID",
 				"testProject.nameCn",
+				"task.departmentID",
 				"case when task.allotState = 0 then '未分配' "
 						+ "when task.allotState = 1 then '已分配' end as state",
 				"IFnull( " + " (SELECT group_concat(employee.employeeName) "

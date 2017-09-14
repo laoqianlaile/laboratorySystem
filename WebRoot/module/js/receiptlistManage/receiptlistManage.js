@@ -19,8 +19,9 @@ var globl = {
 	proID : "",
 }
 /* 初始化数据 */
-$(function() {
-	$('#table') .bootstrapTable(
+
+	$('#table')
+			.bootstrapTable(
 					{
 						// 定义表格的高度height: 500,
 						striped : true,// 隔行变色效果
@@ -28,7 +29,8 @@ $(function() {
 						pageSize : 5,// 页面数据条数
 						pageNumber : 1,// 首页页码
 						pageList : [ 5, 10, 15 ],// 设置可供选择的页面数据条数
-						clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和	// checkbox
+						clickToSelect : true,// 设置true 将在点击行时，自动选择rediobox 和
+												// // checkbox
 						cache : false,// 禁用 AJAX 数据缓存
 						sortName : 'ID',// 定义排序列
 						sortOrder : 'asc',// 定义排序方式 getRceiptlistWithPaging
@@ -56,8 +58,8 @@ $(function() {
 									valign : 'middle',// 垂直居中显示
 									width : '5%',// 宽度
 									formatter : function(value, row, index) {
-										 checkData(row);	 //验证数据合理性					
-								    }
+										checkData(row); // 验证数据合理性
+									}
 								},
 								{
 									field : 'contractName',// 返回值名称
@@ -174,27 +176,61 @@ $(function() {
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
 									width : '12%',// 宽度
-									formatter : function(value, row, index) { //操作按钮的设置
-									  var look = "", edit = "", dele = ""; download = "",submit = "";
-									  if(row.ID != ""){   //没有交接单---就没有任何编辑，查看，删除等功能
-									  		
-									  		 look =	"<img src=\"../../img/view_icon.png\"  alt=\"查看\" title=\"查看\" onclick='lookRe(\""+row.ID+"\")'>";
-									  
-										 if(row.isEditSample == 1)  //能否编辑--提交的不能编辑
-										 {    
-											  if(row.reType == "接受")  //接受的交接单跳转的页面
-											  {   
-												  edit = "<img src=\"../../img/edit_icon.png\"  alt=\"编辑\" title=\"编辑\" onclick='editRe(\"" + row.ID+"\" , \""+row.coID+"\",\""+row.proID+"\",\""+row.comID+"\",\""+row.coCode+"\",\""+row.reCode+"\",\""+"recive\""+")'>";
-											  }
-											else{   //退还的交接单跳转的页面
-											      edit = "<img src=\"../../img/edit_icon.png\"  alt=\"编辑\" title=\"编辑\"  onclick='editRe(\"" + row.ID+"\" , \""+row.coID+"\",\""+row.proID+"\",\""+row.comID+"\",\""+row.coCode+"\",\""+row.reCode+"\",\""+"return\""+")'>";
+									formatter : function(value, row, index) { // 操作按钮的设置
+										var look = "", edit = "", dele = "";
+										download = "", submit = "";
+										if (row.ID != "") { // 没有交接单---就没有任何编辑，查看，删除等功能
+
+											look = "<img src=\"../../img/view_icon.png\"  alt=\"查看\" title=\"查看\" onclick='lookRe(\""
+													+ row.ID + "\")'>";
+
+											if (row.isEditSample == 1) // 能否编辑--提交的不能编辑
+											{
+												if (row.reType == "接受") // 接受的交接单跳转的页面
+												{
+													edit = "<img src=\"../../img/edit_icon.png\"  alt=\"编辑\" title=\"编辑\" onclick='editRe(\""
+															+ row.ID
+															+ "\" , \""
+															+ row.coID
+															+ "\",\""
+															+ row.proID
+															+ "\",\""
+															+ row.comID
+															+ "\",\""
+															+ row.coCode
+															+ "\",\""
+															+ row.reCode
+															+ "\",\""
+															+ "recive\""
+															+ ")'>";
+												} else { // 退还的交接单跳转的页面
+													edit = "<img src=\"../../img/edit_icon.png\"  alt=\"编辑\" title=\"编辑\"  onclick='editRe(\""
+															+ row.ID
+															+ "\" , \""
+															+ row.coID
+															+ "\",\""
+															+ row.proID
+															+ "\",\""
+															+ row.comID
+															+ "\",\""
+															+ row.coCode
+															+ "\",\""
+															+ row.reCode
+															+ "\",\""
+															+ "return\""
+															+ ")'>";
 												}
-										 }
-											download =  "<img src=\"../../img/download_icon.png\" alt=\"下载\" title=\"下载\" onclick='downloadReFile(\"" + row.ID+"\",\""+row.coID+"\",\""+row.proID+"\")'>";
-									  	}
-										return look + edit + submit +download;
+											}
+											download = "<img src=\"../../img/download_icon.png\" alt=\"下载\" title=\"下载\" onclick='downloadReFile(\""
+													+ row.ID
+													+ "\",\""
+													+ row.coID
+													+ "\",\""
+													+ row.proID + "\")'>";
+										}
+										return look + edit + submit + download;
 									}
-								}]
+								} ]
 					// 列配置项,详情请查看 列参数 表格
 					/* 事件 */
 					});
@@ -207,101 +243,101 @@ function addRe() {
 		return;
 	}
 
+<<<<<<< Updated upstream
 	var result = initAddReceiptlist(data[0],"yes");  //创建交接单跳转
 	window.location.href = "./addRecelist.jsp?reID="
 		    				+result.reID+"&coID=" 
 		    				+ data[0].coID + "&comID="
 		    				+ data[0].comID + "&coCode=" + data[0].coCode
 		    				+ "&state=yes&reCode=" + result.reCode+"&proID="+data[0].proID+"&contractType="+data[0].contractType;
+=======
+	var result = initAddReceiptlist(data[0], "yes"); // 创建交接单跳转
+	window.location.href = "./addRecelist.jsp?reID=" + result.reID + "&coID="
+			+ data[0].coID + "&comID=" + data[0].comID + "&coCode="
+			+ data[0].coCode + "&state=yes&reCode=" + result.reCode + "&proID="
+			+ data[0].proID;
+>>>>>>> Stashed changes
 
 }
 
-//无合同新增--接受类交接单
+// 无合同新增--接受类交接单
 function addReNo() {
 	// 在这里创建新的合同
 	sweetAlert({
-		  title: "确认无合同新增！",
-		  type: "warning",
-		  showCancelButton: true,
-		  confirmButtonColor: "#DD6B55",
-		  confirmButtonText: "是",
-		  cancelButtonText: "否"
-		}, function(isConfirm){
-		        if(isConfirm){
-		        	var result = initAddReceiptlist({},"no");  //创建交接单跳转
-		        	window.location.href = "./addRecelist.jsp?reID="
-		        						 + result.reID+"&coID=" 
-		        						 + result.coID + "&comID="
-		        						 + "" + "&coCode=" + result.coCode
-		        						 + "&state=no&reCode=" + result.reCode+"&proID="+result.proID;
-		        }
-		});
-	
+		title : "确认无合同新增！",
+		type : "warning",
+		showCancelButton : true,
+		confirmButtonColor : "#DD6B55",
+		confirmButtonText : "是",
+		cancelButtonText : "否"
+	}, function(isConfirm) {
+		if (isConfirm) {
+			var result = initAddReceiptlist({}, "no"); // 创建交接单跳转
+			window.location.href = "./addRecelist.jsp?reID=" + result.reID
+					+ "&coID=" + result.coID + "&comID=" + "" + "&coCode="
+					+ result.coCode + "&state=no&reCode=" + result.reCode
+					+ "&proID=" + result.proID;
+		}
+	});
+
 }
-//有合同新增--退还类交接单
+// 有合同新增--退还类交接单
 function returnSample() {
 	var data = $('#table').bootstrapTable('getSelections');
 	if (data.length == 0 || data.length > 1) {
 		sweetAlert("请选中一条数据");
 		return;
 	}
-	if(data[0].comID == null || data[0].comID == ""){
+	if (data[0].comID == null || data[0].comID == "") {
 		sweetAlert("此时你还没有样品可以退");
 	}
-	var result = initAddReceiptlist(data[0],"return");
-	window.location.href = "./receiptlistReturn.jsp?reID="+result.reID
-							+"&coID=" + result.coID + "&comID="
-							+ "" + "&coCode=" + result.coCode
-							+ "&state=add&reCode=" + result.reCode;
+	var result = initAddReceiptlist(data[0], "return");
+	window.location.href = "./receiptlistReturn.jsp?reID=" + result.reID
+			+ "&coID=" + result.coID + "&comID=" + "" + "&coCode="
+			+ result.coCode + "&state=add&reCode=" + result.reCode;
 }
-//创建交接单 --各种类型
-function initAddReceiptlist(data,state) {
+// 创建交接单 --各种类型
+function initAddReceiptlist(data, state) {
 	var param = deepCopy(data);
-	var result ;
-	    param.state = state;
-          $.ajax({
-				url : '/laboratorySystem/receiptlistController/addReceiptList.do',
-				dataType : "json",
-				type : "post",
-				contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
-				async : false,
-				data : param,
-				success : function(o) {
-					 result  = JSON.parse(o);
-					 console.log(result);
-				},
-				error : function() {
-					sweetAlert(""," 创建交接单失败 ","error");
-				}
-          });
-          return result;
+	var result;
+	param.state = state;
+	$.ajax({
+		url : '/laboratorySystem/receiptlistController/addReceiptList.do',
+		dataType : "json",
+		type : "post",
+		contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
+		async : false,
+		data : param,
+		success : function(o) {
+			result = JSON.parse(o);
+			console.log(result);
+		},
+		error : function() {
+			sweetAlert("", " 创建交接单失败 ", "error");
+		}
+	});
+	return result;
 }
-
-
 
 // 查看页面
 function lookRe(id) {
-	
+
 	window.location = "./receiptlistView.jsp?reID=" + id;
-	
+
 }
 // 编辑交接单
-function editRe(reID,coID,proID,comID,coCode,reCode,state) {
-	 //接受交接单--编辑的页面
-	if(state == "recive") 
-		 window.location.href = "./addRecelist.jsp?reID="+reID
-		 						+"&coID=" + coID + "&comID="
-		 						+ comID + "&coCode=" + coCode
-		 						+"&proID="+proID
-		 						+ "&state=edit&reCode=" + reCode;
-	 //退还样品-交接单编辑的页面
+function editRe(reID, coID, proID, comID, coCode, reCode, state) {
+	// 接受交接单--编辑的页面
+	if (state == "recive")
+		window.location.href = "./addRecelist.jsp?reID=" + reID + "&coID="
+				+ coID + "&comID=" + comID + "&coCode=" + coCode + "&proID="
+				+ proID + "&state=edit&reCode=" + reCode;
+	// 退还样品-交接单编辑的页面
 	else {
-			window.location.href = "./receiptlistReturn.jsp?reID="
-									+reID+"&coID=" + coID + "&comID="
-									+ comID + "&coCode=" + coCode
-									+"&proID="+proID
-									+ "&state=edit";
-		}
+		window.location.href = "./receiptlistReturn.jsp?reID=" + reID
+				+ "&coID=" + coID + "&comID=" + comID + "&coCode=" + coCode
+				+ "&proID=" + proID + "&state=edit";
+	}
 }
 /* 查询方法 */
 function seacher() {
@@ -315,7 +351,9 @@ function seacher() {
 	param.startTime = $('#schStratTime').val();
 	param.endTime = $("#schEndTime").val();
 	param.state = $("#schState").val();
-	$('#table') .bootstrapTable( 'refresh',
+	$('#table')
+			.bootstrapTable(
+					'refresh',
 					{
 						silent : true,
 						url : "/laboratorySystem/receiptlistController/getReceiptlistWithPaging.do",
@@ -335,7 +373,9 @@ function refresh() {
 	param.startTime = "";
 	param.endTime = "";
 	param.state = "";
-	$('#table').bootstrapTable( 'refresh',
+	$('#table')
+			.bootstrapTable(
+					'refresh',
 					{
 						silent : false,
 						url : "/laboratorySystem/receiptlistController/getReceiptlistWithPaging.do",
@@ -347,83 +387,80 @@ function refresh() {
 function deleteRe() {
 
 	sweetAlert({
-		  title: "确认删除!",
-		  type: "warning",
-		  showCancelButton: true,
-		  confirmButtonColor: "#DD6B55",
-		  confirmButtonText: "是",
-		  cancelButtonText: "否",
-		  closeOnConfirm:false
-		}, function(isConfirm){
-		        if(isConfirm){
-		        	deleteRe_ok();
-		        }
-		});
-	
+		title : "确认删除!",
+		type : "warning",
+		showCancelButton : true,
+		confirmButtonColor : "#DD6B55",
+		confirmButtonText : "是",
+		cancelButtonText : "否",
+		closeOnConfirm : false
+	}, function(isConfirm) {
+		if (isConfirm) {
+			deleteRe_ok();
+		}
+	});
 
 }
-//删除交接单
-function deleteRe_ok(){
+// 删除交接单
+function deleteRe_ok() {
 	var data = $('#table').bootstrapTable('getSelections');
 
-	if (data.length == 0 ) {
+	if (data.length == 0) {
 		sweetAlert("请至少选择一条数据");
 		return;
 	}
-   var ids = "";
-   for(var i = 0; i < data.length ; i++){
-		   if (data[i].state == "未检测") // 未检测的才能删
-		   {
-			   if (data[i].ID == null || data[i].ID == undefined || data[i].ID == ""){
-				   				;
-			   }else{
-				   		ids += data[i].ID + ",";
+	var ids = "";
+	for (var i = 0; i < data.length; i++) {
+		if (data[i].state == "未检测") // 未检测的才能删
+		{
+			if (!(data[i].ID == null || data[i].ID == undefined
+					|| data[i].ID == "")){
+				ids += data[i].ID + ",";
 			}
 		}
-   }
-   if(ids != "")
-   {
-	   ids = ids.substring(0 , ids.length-1);
-   }
-   else{
-	   sweetAlert("没有任何的交接单可以删除");
-   }
+	}
 
-		$.ajax({
-			url : '/laboratorySystem/receiptlistController/delReceiptlist.do',
-			dataType : "json",
-			data : {
-				reIDs : ids
-			},
-			success : function(o) {
-				if (o == false) {
-					sweetAlert("","删除失败","error");
-				} else {
-					sweetAlert({
-						title:"删除成功",
-						type:"success",
-						timer:1000
-						});
-					}
-					$('#table').bootstrapTable('refresh',null);
-				}
-		});
-
+	if (ids != "") {
+		ids = ids.substring(0, ids.length - 1);
+	} else {
+		sweetAlert("没有任何可以删除的交接单");
+		return ;
+	}
 	
+	$.ajax({
+		url : '/laboratorySystem/receiptlistController/delReceiptlist.do',
+		dataType : "json",
+		data : {
+			reIDs : ids
+		},
+		success : function(o) {
+			if (o == false) {
+				sweetAlert("", "删除失败", "error");
+			} else {
+				sweetAlert({
+					title : "删除成功",
+					type : "success",
+					timer : 1000
+				});
+			}
+			$('#table').bootstrapTable('refresh', null);
+		}
+	});
+
 }
-//下载交接单文件 
-function downloadReFile(reID ,coID,proID){
+// 下载交接单文件
+function downloadReFile(reID, coID, proID) {
 	var fileID = "";
 	$.ajax({
 		url : '/laboratorySystem/receiptlistController/downReceiptlist.do',
 		dataType : "json",
 		type : "post",
 		contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
-		async : false ,
+		async : false,
 		data : {
-			reID : reID	,
-			coID : coID ,
-			proID: proID
+			reID : reID,
+			coID : coID,
+			proID : proID
 		},
 		success : function(o) {
 			if (o == "false") {
@@ -432,56 +469,71 @@ function downloadReFile(reID ,coID,proID){
 				fileID = o;
 				downOneFile(fileID);
 			}
-			
+
 		}
 	});
 
 }
 // 检查交接单数据是否合理并处理
 function checkData(dataObj) { // 后台数据字段为空就不会传上来
-	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null || dataObj.ID.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("ID") || dataObj.ID == null
+			|| dataObj.ID.trim() == "NULL") {
 		dataObj.ID = "";
 	}
-	if (!dataObj.hasOwnProperty("proID") || dataObj.proID == null 	|| dataObj.proID.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("proID") || dataObj.proID == null
+			|| dataObj.proID.trim() == "NULL") {
 		dataObj.proID = "";
 	}
-	if (!dataObj.hasOwnProperty("coState") || dataObj.coState == null || dataObj.coState == undefined ) {
-		dataObj.coState = "0"; //没有合同文件
+	if (!dataObj.hasOwnProperty("coState") || dataObj.coState == null
+			|| dataObj.coState == undefined) {
+		dataObj.coState = "0"; // 没有合同文件
 	}
-	if (!dataObj.hasOwnProperty("coCode") || dataObj.coCode == null || dataObj.coCode.trim() == "NULL") {
-		 dataObj.coCode = "";
+	if (!dataObj.hasOwnProperty("coCode") || dataObj.coCode == null
+			|| dataObj.coCode.trim() == "NULL") {
+		dataObj.coCode = "";
 	}
-	if (!dataObj.hasOwnProperty("isEditSample") || dataObj.isEditSample == null || dataObj.isEditSample == undefined ) {
-		dataObj.isEditSample = "1"; //能编辑
+	if (!dataObj.hasOwnProperty("isEditSample") || dataObj.isEditSample == null
+			|| dataObj.isEditSample == undefined) {
+		dataObj.isEditSample = "1"; // 能编辑
 	}
-	if (!dataObj.hasOwnProperty("comID") || dataObj.comID == null || dataObj.comID.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("comID") || dataObj.comID == null
+			|| dataObj.comID.trim() == "NULL") {
 		dataObj.comID = "";
 	}
-	if (!dataObj.hasOwnProperty("reCode") || dataObj.reCode == null || dataObj.reCode.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("reCode") || dataObj.reCode == null
+			|| dataObj.reCode.trim() == "NULL") {
 		dataObj.reCode = "";
 	}
-	if (!dataObj.hasOwnProperty("companyName") || dataObj.companyName == null || dataObj.companyName.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("companyName") || dataObj.companyName == null
+			|| dataObj.companyName.trim() == "NULL") {
 		dataObj.companyName = "";
 	}
-	if (!dataObj.hasOwnProperty("linkMan") || dataObj.linkMan == null || dataObj.linkMan.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("linkMan") || dataObj.linkMan == null
+			|| dataObj.linkMan.trim() == "NULL") {
 		dataObj.linkMan = "";
 	}
-	if (!dataObj.hasOwnProperty("startTime") || dataObj.startTime == null || dataObj.startTime.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("startTime") || dataObj.startTime == null
+			|| dataObj.startTime.trim() == "NULL") {
 		dataObj.startTime = "";
 	}
-	if (!dataObj.hasOwnProperty("endTime") || dataObj.endTime == null || dataObj.endTime.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("endTime") || dataObj.endTime == null
+			|| dataObj.endTime.trim() == "NULL") {
 		dataObj.endTime = "";
 	}
-	if (!dataObj.hasOwnProperty("employeeName") || dataObj.employeeName == null || dataObj.employeeName.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("employeeName") || dataObj.employeeName == null
+			|| dataObj.employeeName.trim() == "NULL") {
 		dataObj.employeeName = "";
 	}
-	if (!dataObj.hasOwnProperty("linkPhone") || dataObj.linkPhone == null || dataObj.linkPhone.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("linkPhone") || dataObj.linkPhone == null
+			|| dataObj.linkPhone.trim() == "NULL") {
 		dataObj.linkPhone = "";
 	}
-	if (!dataObj.hasOwnProperty("reType") || dataObj.reType == null || dataObj.reType.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("reType") || dataObj.reType == null
+			|| dataObj.reType.trim() == "NULL") {
 		dataObj.reType = "";
 	}
-	if (!dataObj.hasOwnProperty("state") || dataObj.state == null || dataObj.state.trim() == "NULL") {
+	if (!dataObj.hasOwnProperty("state") || dataObj.state == null
+			|| dataObj.state.trim() == "NULL") {
 		dataObj.state = "";
 	}
 }

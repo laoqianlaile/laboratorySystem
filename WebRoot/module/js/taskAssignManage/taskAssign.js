@@ -26,15 +26,15 @@ $(function () {
 	});
 
 	// 获取当前登录人员的部门ID和部门名称
-	$.ajax({
-		url:'employeeController/getDepartmentInfo.do',
-		dataType:'json',
-		success:function(o){
-			var data = JSON.parse(o);
-			$('#departmentID').text(data[0].ID);
-			$('#departmentPeople').text(data[0].departmentName);
-	  	}
-	});
+//	$.ajax({
+//		url:'employeeController/getDepartmentInfo.do',
+//		dataType:'json',
+//		success:function(o){
+//			var data = JSON.parse(o);
+//			$('#departmentID').text(data[0].ID);
+//			$('#departmentPeople').text(data[0].departmentName);
+//	  	}
+//	});
 
 	// 得到指定交接单下的任务
 	$('#taskTable').bootstrapTable({
@@ -131,6 +131,13 @@ $(function () {
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'10%'//宽度
+		},{
+			field:'departmentID',
+			title:"部门ID",
+			align:"center",
+			valign:"middle",
+			width:'0',
+			visible:false  //不可见
 		},{
 			field:'operate',//返回值名称
 			title:'操作',//列名
@@ -249,7 +256,21 @@ $("#btn-assign").click(function(){
 		$('#taskID').text(data[0].ID);
 		$('#type').text(0);
 
-		var departmentID = $('#departmentID').text();
+		var departmentID = data[0].departmentID;
+		
+		//通过部门ID得到部门名称
+		$.ajax({
+			url:'employeeController/getDepartmentInfoByID.do',
+			data:{"departmentID":departmentID},
+			dataType:'json',
+			success:function(o){
+				if(o != "" || o != null){
+					$('#departmentPeople').text(o);
+				}else{
+					$('#departmentPeople').text("没有部门信息");
+				}
+		  	}
+		});
 
 		$('#assignTable').bootstrapTable({
 			striped: false,// 隔行变色效果
