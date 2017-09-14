@@ -475,6 +475,7 @@ public class TaskService extends SearchService implements ITaskService {
 				"sample.sampleName",
 				"sample.specifications",
 				"testProject.nameCn",
+				"task.departmentID",
 				"case when task.allotState = 0 then '未分配' "
 						+ "when task.allotState = 1 then '已分配' end as state",
 				"if(employee_2.employeeName is null,'无',employee_2.employeeName) as detector",
