@@ -65,8 +65,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
   	<!-- 分配弹框 -->
 	<div id="assignPeopleModal" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
-		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
+		<div class="modal-lg" role="document" style="margin: 20 auto;background: #fff;">
+			<div class="modal-content" style="min-width: 768px;">
 				<div class="modal-header">
 					<div class="row">
 						<div class="col-xs-11 col-md-11 col-lg-11">
@@ -82,7 +82,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-xs-4 col-md-4 col-lg-4">
-							<h4><span id="departmentPeople"></span>部门所有人员：</h4>
+							<h4>部门：<span id="departmentPeople"></span></h4>
 						</div>
 						<div class="col-xs-5 col-md-5 col-lg-5"></div>
 						<div class="col-xs-3 col-md-3 col-lg-3">

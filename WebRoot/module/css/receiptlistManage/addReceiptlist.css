@@ -298,12 +298,12 @@ h4,.h4 {
 }
 #companyContainer{
  
-        position: absolute;
+    position: absolute;
     top: 34px;
-    left: 85px;
+    left: 65px;
     width: 74%;
     overflow: hidden;
-        z-index: 99;
+    z-index: 99;
 }
 #over_company{
 
@@ -319,15 +319,17 @@ h4,.h4 {
     padding: 0px;
 }
 #over_company ul li{
-		display: block;
+	display: block;
     /* list-style-type: none; */
     height: 30px;
     vertical-align: middle;
     padding-top: 7px;
+    padding-left:12px;
     border-bottom: 1px solid;
     margin-bottom: 5px;
     background: #ddd;
     border-radius: 4px;
+  
 }
 .col-xs-12 .col-xs-6{
 	padding:0px;

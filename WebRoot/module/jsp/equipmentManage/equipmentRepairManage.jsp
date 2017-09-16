@@ -58,11 +58,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 
 	<div class="input-group-area">
-		<button type="button" onclick="search()" class="btn btn-primary glyphicon glyphicon-search">&nbsp;查询</button>
-  		<button type="button" class="btn btn-primary glyphicon glyphicon-plus" data-toggle="modal" data-target="#addModal">&nbsp;新增</button>
-  		<button type="button" onclick="openModal()" class="btn btn-primary glyphicon glyphicon-edit">&nbsp;修改</button>
-  		<button id="del" onclick="delData()" type="button" class="btn btn-primary glyphicon glyphicon-remove">&nbsp;删除</button>
-  		<button id="refresh" onclick="refresh()" type="button" class="btn btn-primary glyphicon glyphicon-refresh">&nbsp;刷新</button>
+		<button type="button" onclick="search()" class="btn btn-primary">
+			<em class="glyphicon glyphicon-search"></em> 查询
+		</button>
+  		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">
+  			<em class="glyphicon glyphicon-plus"></em> 新增
+  		</button>
+  		<button type="button" onclick="openModal()" class="btn btn-primary ">
+  			<em class="glyphicon glyphicon-edit"></em> 修改
+  		</button>
+  		<button id="del" onclick="delData()" type="button" class="btn btn-primary ">
+  			<em class="glyphicon glyphicon-trash"></em> 删除
+  		</button>
+  		<button id="refresh" onclick="refresh()" type="button" class="btn btn-primary">
+  			<em class="glyphicon glyphicon-refresh"></em> 刷新
+  		</button>
 	</div>
   		
   	<!-- 新增弹框 -->

@@ -2,12 +2,13 @@
 
 .content input,.content select {
 	display: inline;
-	width: 140px;
+	width: 60%;
 }
 
 .top {
 	height: 50px;
 	background-color: rgba(27, 137, 196, 0.1);
+	margin-bottom:30px;
 }
 
 .top button {
@@ -44,6 +45,11 @@
 	font-size: 14px;
 	color: #333;
 	width:75px;
+}
+
+.content .row{
+	margin-left:0;
+	margin-right:0;
 }
 
 .content input {
@@ -115,7 +121,7 @@
 	padding: 0;
 }
 
-.col-xs-3 {
+.col-xs-4 {
 	margin-bottom: 10px;
 }
 

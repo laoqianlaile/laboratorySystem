@@ -24,6 +24,7 @@ function init() {
 		cache : false,// 禁用 AJAX 数据缓存
 		sortName : 'task.ID',// 定义排序列
 		sortOrder : 'asc',// 定义排序方式
+		singleSelect:true,//禁止多选
 		// onDblClickCell : onDblClickCell,
 		onClickRow : onClickRow,
 		url : 'taskController/getTaskInfoWithPaging.do',// 服务器数据的加载地址
@@ -43,7 +44,7 @@ function init() {
 		queryParamsType : "limit", // 参数格式,发送标准的RESTFul类型的参数请求
 		selectItemName : '',// radio or checkbox 的字段名
 		columns : [ {
-			radio : true,
+			checkbox : true,
 			align : 'center',// 水平居中显示
 			valign : 'middle',// 垂直居中显示
 			width : '3%'// 宽度
@@ -163,7 +164,7 @@ function turnout() {
 	}
 	var taskID = data[0].ID;
 	window.location.href = window.location.href.replace(
-			'InspectionStaffDesktop/inspectionStaffDesktop.jsp',
+			'inspectionStaffDesktop/inspectionStaffDesktop.jsp',
 			'taskManage/taskView.jsp')
 			+ '?taskID=' + taskID;
 }

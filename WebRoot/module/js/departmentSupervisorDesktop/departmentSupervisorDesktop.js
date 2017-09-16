@@ -93,7 +93,7 @@ $(function () {
 			});
 			return;
 		} else {
-			var fileID = data[0].fileID;
+			var fileID = data[0].ID;
 			
 			downOneFile(fileID);
 		}

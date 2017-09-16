@@ -50,7 +50,9 @@ public interface ITestProjectService {
     * @date 2016年11月19日 上午9:39:06
     * @return
     */
-	List<Map<String, Object>> getTestProjectListByName(String matchName);
+
+	List<Map<String, Object>> getTestProjectListByName(String matchName,
+			String contractID);
 
 
 	/**
@@ -84,6 +86,7 @@ public interface ITestProjectService {
 
 
 	String updateManHour(String ID, String testTypeID, double laborHour);
+
 
 
 }

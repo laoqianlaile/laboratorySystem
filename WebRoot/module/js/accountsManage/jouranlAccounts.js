@@ -10,11 +10,11 @@ $(function(){
 function init(){
 	$(function(){
 		$('#table').bootstrapTable({
-			striped:true, // 隔行变色效果
+			striped:false, // 隔行变色效果
 			pagination:true,// 在表格底部显示分页条
 			pageSize:10,// 页面数据条数
 			pageNumber: 1,// 首页页码
-			pageList: [3,5,9,10,200,500],// 设置可供选择的页面数据条数
+			pageList: [3,5,10,50,200],// 设置可供选择的页面数据条数
 			clickToSelect : false,// 设置true 将点击时，自动选择rediobox 和 checkbox
 			cache:false,// 禁用AJAX数据缓存
 			sortName:'jouranlAccount.ID',

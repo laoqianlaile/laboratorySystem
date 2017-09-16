@@ -276,7 +276,16 @@ public class ContractFineItemService extends SearchService implements IContractF
 		String joinEntity = " left join testProject on contractFineItem.testProjectID = testProject.ID "
 				+ " left join testdepartment on testproject.ID = testdepartment.testProjectID ";
 		
-		String condition = " testdepartment.departmentID = '" + ID + "' ";
+		String condition = " 1=1 ";
+		if(!ID.equals("-1")){
+			condition = " testdepartment.departmentID = '" + ID + "' ";
+		}
+		
+//		if(ID.equals("-1")){
+//			String condition = "1 = 1";
+//		}
+//		else
+//		String condition = " testdepartment.departmentID = '" + ID + "' ";
 		
 		String groupField = "testProject.ID";
 		
@@ -525,6 +534,7 @@ public class ContractFineItemService extends SearchService implements IContractF
 	 * 
 	 * @description 大类任务统计初始化表格
 	 * @author chenyubo
+	 * @modifiedBy heweikang 2017年9月9日17:01:03
 	 * @created 2016年11月16日 下午3:45:42
 	 * @param ID 科室ID
 	 * @param limit
@@ -540,28 +550,29 @@ public class ContractFineItemService extends SearchService implements IContractF
 		int pageNum = offset/limit;
 		
 		String[] properties = new String[]{
-			"testType.ID",
-			"testType.name",
-			"sum(contractFineItem.money) as money"
+				"testProject.testTypeID as ID",
+				"testtype.`name`",
+				"department.departmentName",
+				"SUM(contractFineItem.money) as money"
 		};
 		
-		String joinEntity = " left join testProject on contractFineitem.testProjectID = testProject.ID "
-				+ " left join testtype on testProject.testTypeID = testType.ID "
-				+ " left join testdepartment on testproject.ID = testdepartment.testProjectID ";
+		String joinEntity = " LEFT JOIN testtype on testProject.testTypeID = testtype.ID "
+				+ " LEFT JOIN testdepartment on testproject.id = testdepartment.ID "
+				+ " left join department on testproject.ID = testdepartment.testProjectID ";
 		
-		String condition = " 1 = 1 ";
+		String condition = " contractFineItem.testProjectID = testproject.ID ";
 		
 		if(ID!=null && !ID.equals("") && !ID.equals("-1")){
 			condition += " and testdepartment.departmentID = '" + ID + "' ";
 		}
 		
-		String groupField = "testType.ID";
+		String groupField = "testtype.`name`";
 		
-		List<Map<String, Object>> result = originalSearchWithpaging(properties, getBaseEntityName(), joinEntity, null, condition, false, groupField, sort, order, index, pageNum);
-		int count = originalGetForeignCount("testType.ID", getBaseEntityName(), joinEntity, null, condition, false);
+		List<Map<String, Object>> result = originalSearchWithpaging(properties, getBaseEntityName()+",testproject ", joinEntity, null, condition, false, groupField, sort, order, index, pageNum);
+//		int count = originalGetForeignCount("testType.ID", getBaseEntityName(), joinEntity, null, condition, false);
 		
 		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("total", count);
+		map.put("total", 1);
 		map.put("rows", result);
 		
 		return map;
