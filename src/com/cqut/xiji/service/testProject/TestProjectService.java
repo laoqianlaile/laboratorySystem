@@ -375,23 +375,24 @@ public class TestProjectService extends SearchService implements ITestProjectSer
 	 * 
 	 */
 	@Override
-	public List<Map<String, Object>> getTestProjectListByName(String matchName) {
+	public List<Map<String, Object>> getTestProjectListByName(String matchName, String contractID) {
 		// TODO Auto-generated method stub
 		String condition = "";
 		String[] properties = new String[] {
-				"testproject.ID ",
-				"IF(testproject.nameCn IS  NULL , testproject.nameEn , "
-						+ " if ( testproject.nameEn is null ,testproject.nameCn,"
-						+ " CONCAT(testproject.nameCn,'(',testproject.nameEn,')') )) as testName " };
+				"testName",
+				"ID" };
 		if(matchName != null && !matchName.equals("")){
 			matchName = matchName.replaceAll(" ", "");
-			condition = " testproject.nameCn LIKE '%"+matchName+"%' or testproject.nameEn  like '%"+matchName+"%' ";
+			condition = " testName LIKE '%" + matchName + "%' ";
 		}else{
 			condition = " 1=1 ";
 		}
 		
-		List<Map<String, Object>> list = entityDao.findByCondition(properties,
-				condition, TestProject.class);
+		String baseEntity = " (SELECT testproject.ID, IF(testproject.nameCn IS NULL,testproject.nameEn,IF(testproject.nameEn IS NULL,testproject.nameCn,CONCAT(testproject.nameCn,'(',testproject.nameEn,')'))) AS testName "
+							+"FROM contractFineItem LEFT JOIN testproject ON contractFineItem.testProjectID = testproject.ID "
+							+"WHERE contractID = '" + contractID + "' GROUP BY testproject.ID) as testproject ";
+		
+		List<Map<String, Object>> list = entityDao.searchForeign(properties, baseEntity, null, null, condition);
 		return list;
 	}
 

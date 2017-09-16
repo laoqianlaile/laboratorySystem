@@ -273,10 +273,23 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 					"department.departmentName"
 			};
 
-			String joinEntity =  " left join employee on department.ID = employee.departmentID and employee.ID = '" + ID +"' ";
+			String joinEntity =  " left join employee on department.ID = employee.departmentID where employee.ID = '" + ID +"' ";
 
 			List<Map<String,Object>> result = this.originalSearchForeign(properties, baseEntity, joinEntity, null, null, false);
 			return result;
+		}
+		
+		/**
+		 *
+		 * @description 得到该ID对应的部门名称
+		 * @author chenyoulin
+		 * @created 2017年09月13日 下午10:12:06
+		 * @param departmentID
+		 * @return
+		 */
+		@Override
+		public String getDepartmentInfoByID(String departmentID){
+			return (String) baseEntityDao.getByID(departmentID, "ID", "department").get("departmentName");
 		}
 
 		@Override

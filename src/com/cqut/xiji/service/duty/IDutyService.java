@@ -62,4 +62,8 @@ public interface IDutyService {
 	 */
 	public boolean dutyExportExcel(HttpServletRequest request,
 			HttpServletResponse response);
+	/**
+	 * 导入数据
+	 */
+	public void dutyGoExcel(String filePath);
 }

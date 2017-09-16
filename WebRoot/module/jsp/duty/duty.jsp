@@ -46,7 +46,7 @@
 
 <style>
 span {
-	font-size: 20px;
+	
 	padding: 0px;
 	margin: 0px;
 }
@@ -109,17 +109,17 @@ textarea {
 .btn-primary:hover {
     background-color: #ffad33;
 }
-#bl{
-padding-top:12px;
-padding-bottom:12px;
-}
+
 
 #bl button{
-margin-left:16px;
+margin-left:26px;
 }
 .row {
      margin-right: 0px; 
      margin-left: 0px; 
+}
+.bootstrap-table{
+margin-top:30px;
 }
 
 	
@@ -136,13 +136,15 @@ margin-left:16px;
 				class="form-control" id="linkdutytName">
 		</div>
 		<div class="col-md-3.5 column">
-		<!-- <button id="Import" onclick="" class="btn btn-primary"
-					type="button">
+		 <button id="Import" onclick="" class="btn btn-primary"
+					type="button" data-toggle="modal" data-target="#leadingModal">
 					<em class=""></em> 导入
+					<!-- <input type="file" name="filename" class="form-control"> -->
 				</button>
-				-->
+				
+				
 				<button id="export" onclick="exportReport()" class="btn btn-primary"
-					type="button">
+					type="button" >
 					<em class=""></em> 导出
 				</button>
 				 
@@ -152,7 +154,7 @@ margin-left:16px;
 	<!--功能按钮 -->
 	<div class="row clearfix">
 		<div class="col-md-3.5 column">
-			<div style="float: left;width:100%;background: #9abdd0;" id="bl">
+			<div style="float: left;width:100%;background: rgba(27, 137, 196, 0.1);height: 50px;    line-height: 50px;" id="bl">
 				<button id="query" onclick="find()" class="btn btn-primary"
 					type="button">
 					<em class="glyphicon glyphicon-search"></em> 查询
@@ -220,6 +222,40 @@ margin-left:16px;
 			</div>
 		</div>
 	</div>
+<!-- 	导入弹框 -->
+	<div id="leadingModal" class="modal fade" role="dialog"
+		aria-labelledby="gridSystemModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">导入数据</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="form-group">
+							<input type="file" name="files" id="files" style="display:none" onchange="checkFile(this)">
+								<button type="button" id="chooseFile" name="chooseFile" class="btn btn-default">
+								<span class="glyphicon glyphicon-folder-open "></span> 选择文件
+							</button>
+							<span id="fileName"></span>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+				
+					<button type="button" class="btn btn-primary" id="ensure" name="ensure">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal"onclick="refreshall();">关闭</button>
+					<!-- <button type="button" class="btn btn-default" id="cancel" data-dismiss="modal">关闭</button> -->
+			
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 修改弹狂 -->
 	<div id="editModal" class="modal fade" role="dialog"
 		aria-labelledby="gridSystemModalLabel">
 		<div class="modal-dialog" role="document">
@@ -280,8 +316,20 @@ margin-left:16px;
 		forceParse : 0,
 		format : 'yyyy-mm-dd'
 	});
+	$('#chooseFile').click(function() {
+		$('#files').click();
+
+	});
+	$('#cancel').click(function() {
+		if (confirm("是否取消上传?")) {
+			reload();
+		}
+	});
 </script>
 
+<script type="text/javascript" src="assets/fileupload/jquery.iframe-transport.js"></script>
+<script type="text/javascript" src="assets/fileupload/jquery.ui.widget.js"></script> 
+<script type="text/javascript"src="assets/fileupload/jquery.fileupload.js"></script>
 <script src="module/js/duty/duty.js"></script>
 </html>
 	

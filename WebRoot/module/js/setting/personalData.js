@@ -216,6 +216,8 @@ function onclickNvi(){
 	 var html="";
 	 var data = getEmployeeInfo();
 	 
+	 console.log(data);
+	 
 	 html = "<tr>" +
 		"<td width='200px'>" +
 			"<div style='cursor: pointer;'>";
@@ -230,21 +232,82 @@ function onclickNvi(){
 		"</td>" +
 		"<td>" +"<a class='ahead' onclick ='openCropModal()' ><input unselectable='on' type='file'  class='hide'>更改头像</a>" +
 		"</td>" +
-		"</tr>"
-		+"<tr><td>姓名</td>"+"<td> <input id ='edit_Name' type='text' class='form-control' value='"+data[0].employeeName+"' placeholder='请输入昵称'/></td></tr>"
-		+"<tr><td>所属部门</td>"+"<td>"+data[0].departmentName+"</td></tr>"
-		+"<tr><td>能力等级</td>"+"<td>"+data[0].level+"</td></tr>"
-		+"<tr><td>职位名称</td>"+"<td>"+data[0].dutyName+"</td></tr>"
-		+"<tr><td>性别</td>"+"<td><div id ='edit_sex'><input name ='sex' type='radio' value='1'><span>男</span><input type='radio' name ='sex' value='0'><span>女</span></div></td></tr>"
-		+"<tr><td>邮箱</td>"+"<td><input id ='edit_email' type='text' class='form-control' value ='"+data[0].email+"' /></td></tr>"
-		+"<tr><td>出生日期</td>"+"<td>"+data[0].birthday+"</td></tr>"
-		+"<tr><td>手机号码</td>"+"<td><input id ='edit_phone' type='text' class='form-control' value='"+data[0].phoneNumber+"' /></td></tr>"
-		+"<tr><td>地址</td>"+"<td><textarea id ='edit_address' class='form-control' placeholder='填写的你的地址'>"+data[0].address+"</textarea></td></tr>"
-		+"<tr><td>职称</td>"+"<td>"+data[0].jobTitle+"</td></tr>"
-		+"<tr><td>文化水平</td>"+"<td>"+data[0].eduLevel+"</td></tr>"
-		+"<tr><td>毕业学校</td>"+"<td>"+data[0].graduate+"</td></tr>"
-		+"<tr><td>身份证号</td>"+"<td>"+data[0].IDCard+"</td></tr>"
-		+"<tr><td><button  type='button' class='btn btn-success' id='submit' onclick='editInfo()'>保存</button></td><td></td></tr>"
+		"</tr>";
+	 if(data[0].employeeName != null && data[0].employeeName != undefined && data[0].employeeName != ""){
+		 html += "<tr><td>姓名</td>"+"<td> <input id ='edit_Name' type='text' class='form-control' value='"+data[0].employeeName+"' placeholder='请输入昵称'/></td></tr>";
+	 }
+	 else{
+		 html += "<tr><td>姓名</td>"+"<td> <input id ='edit_Name' type='text' class='form-control' value='' placeholder='请输入昵称'/></td></tr>"
+	 }
+	 html +="<tr><td>性别</td>"+"<td><div id ='edit_sex'><input name ='sex' type='radio' value='1'><span>男</span><input type='radio' name ='sex' value='0'><span>女</span></div></td></tr>"
+
+	 if(data[0].departmentName != null && data[0].departmentName != undefined && data[0].departmentName != ""){
+		 html += "<tr><td>所属部门</td>"+"<td>"+data[0].departmentName+"</td></tr>";
+	 }
+	 else{
+		 html += "<tr><td>所属部门</td>"+"<td>-</td></tr>";
+	 }
+	 if(data[0].level != null && data[0].level != undefined && data[0].level != ""){
+		 html += "<tr><td>能力等级</td>"+"<td>"+data[0].level+"</td></tr>";
+	 }
+	 else{
+		 html += "<tr><td>能力等级</td>"+"<td>-</td></tr>";
+	 }
+	 if(data[0].dutyName != null && data[0].dutyName != undefined && data[0].dutyName != ""){
+		 html += "<tr><td>职位名称</td>"+"<td>"+data[0].dutyName+"</td></tr>";
+	 }
+	 else{
+		 html += "<tr><td>职位名称</td>"+"<td-</td></tr>";
+	 }
+	 if(data[0].email != null && data[0].email != undefined && data[0].email != ""){
+		 html += "<tr><td>邮箱</td>"+"<td><input id ='edit_email' type='text' class='form-control' value ='"+data[0].email+"' /></td></tr>";
+	 }
+	 else{
+		 html += "<tr><td>邮箱</td>"+"<td><input id ='edit_email' type='text' class='form-control' value ='' /></td></tr>";
+	 }
+	 if(data[0].birthday != null && data[0].birthday != undefined && data[0].birthday != ""){
+		 html += "<tr><td>出生日期</td>"+"<td>"+data[0].birthday+"</td></tr>";
+		 }
+	 else{
+		 html +="<tr><td>出生日期</td>"+"<td>-</td></tr>";
+	 }
+	 if(data[0].phoneNumber != null && data[0].phoneNumber != undefined && data[0].phoneNumber != ""){
+		 html += "<tr><td>手机号码</td>"+"<td><input id ='edit_phone' type='text' class='form-control' value='"+data[0].phoneNumber+"' /></td></tr>";
+		 }
+	 else{
+		 html += "<tr><td>手机号码</td>"+"<td><input id ='edit_phone' type='text' class='form-control' value='' /></td></tr>";
+	 }
+	 if(data[0].address != null && data[0].address != undefined && data[0].address != ""){
+		 html += "<tr><td>地址</td>"+"<td><textarea id ='edit_address' class='form-control' placeholder='填写的你的地址'>"+data[0].address+"</textarea></td></tr>";
+		 }
+	 else{
+		 html += "<tr><td>地址</td>"+"<td><textarea id ='edit_address' class='form-control' placeholder='填写的你的地址'></textarea></td></tr>";
+	 }
+	 if(data[0].jobTitle != null && data[0].jobTitle != undefined && data[0].jobTitle != ""){
+		 html += "<tr><td>职称</td>"+"<td>"+data[0].jobTitle+"</td></tr>";
+		 }
+	 else{
+		 html += "<tr><td>职称</td>"+"<td>-</td></tr>";
+	 }
+	 if(data[0].eduLevel != null && data[0].eduLevel != undefined && data[0].eduLevel != ""){
+		 html += "<tr><td>文化水平</td>"+"<td>"+data[0].eduLevel+"</td></tr>";
+		 }
+	 else{
+		 html +="<tr><td>文化水平</td>"+"<td>-</td></tr>";
+	 }
+	 if(data[0].graduate != null && data[0].graduate != undefined && data[0].graduate != ""){
+		 html += "<tr><td>毕业学校</td>"+"<td>"+data[0].graduate+"</td></tr>";
+		 }
+	 else{
+		 html += "<tr><td>毕业学校</td>"+"<td>-</td></tr>";
+	 }
+	 if(data[0].IDCard != null && data[0].IDCard != undefined && data[0].IDCard != ""){
+		 html += "<tr><td>身份证号</td>"+"<td>"+data[0].IDCard+"</td></tr>";
+		 }
+	 else{
+		 html += "<tr><td>身份证号</td>"+"<td>-</td></tr>";
+	 }
+	html +="<tr><td><button  type='button' class='btn btn-success' id='submit' onclick='editInfo()'>保存</button></td><td></td></tr>"
 	 $('#tablebody').append(html);
 	 if(data[0].sex == 1){
 		 $('#edit_sex input[value="1"]').attr("checked",true);

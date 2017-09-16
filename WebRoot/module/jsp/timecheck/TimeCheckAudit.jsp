@@ -28,11 +28,10 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap-datetimepicker.css">
 	<link rel="stylesheet" type="text/css" href="module/css/timecheck/TimeCheck.css">
-	
-	
-    
-    
-  </head>
+	<link rel="stylesheet" type="text/css" href="module/css/wait.css">
+	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
+	<script src="module/js/sweetalert.min.js"></script>
+</head>
   
   <body>
    <div id="main">
@@ -144,6 +143,7 @@ if(qualiyPlanId!=null&&qualiyPlanId!="")
 	<script src="assets/js/bootstrap-datetimepicker.zh-CN.js"></script>
 	<script src="module/js/jquery.uploadify.min.js"></script>
 	<script src="module/js/timecheck/TimeCheckAudit.js"></script>
+		<script src="module/js/wait.js"></script>
   	<script>
   /* 	function timeget(num){
   		$('.time').datetimepicker({

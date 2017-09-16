@@ -92,17 +92,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 		<div class="input-group-area">
 			<div>
-  	 			<button type="button" onclick="searchContract()" class="btn btn-primary glyphicon glyphicon-search">&nbsp;查询</button>
-  				<button type="button" onclick="showAddModal()" class="btn btn-primary glyphicon glyphicon-plus">&nbsp;新增</button>
-  				<button type="button" onclick="showContractM()" class="btn btn-primary glyphicon glyphicon-show">&nbsp;查看</button>
-  				<button type="button" onclick="cloneContract()" class="btn btn-primary glyphicon glyphicon-plus">&nbsp;复制</button>
-  				<button type="button" onclick="EditContract()" class="btn btn-primary glyphicon glyphicon-edit">&nbsp;修改</button>
-  				<button id="del" onclick="delData()" type="button" class="btn btn-primary glyphicon glyphicon-remove">&nbsp;删除</button>
-  				<button onclick="wdownFile()" type="button" class="btn btn-primary glyphicon glyphicon-down">&nbsp;下载</button>
-  				<button id="refresh" onclick="refresh()" type="button" class="btn btn-primary glyphicon glyphicon-refresh">&nbsp;刷新</button>
+  	 			<button type="button" onclick="searchContract()" class="btn btn-primary">
+  	 				<em class="glyphicon glyphicon-search"></em> 查询
+  	 			</button>
+  				<button type="button" onclick="showAddModal()" class="btn btn-primary">
+  					<em class="glyphicon glyphicon-plus"></em> 新增
+  				</button>
+  				<button type="button" onclick="showContractM()" class="btn btn-primary">
+  					<em class="glyphicon glyphicon-eye-open"></em> 查看
+  				</button>
+  				<button type="button" onclick="cloneContract()" class="btn btn-primary">
+  					<em class="glyphicon glyphicon-repeat"></em> 复制
+  				</button>
+  				<button type="button" onclick="EditContract()" class="btn btn-primary">
+  					<em class="glyphicon glyphicon-edit"></em> 修改
+  				</button>
+  				<button id="del" onclick="delData()" type="button" class="btn btn-primary">
+  					<em class="glyphicon glyphicon-trash"></em> 删除
+  				</button>
+  				<button onclick="wdownFile()" type="button" class="btn btn-primary">
+  					<em class="glyphicon glyphicon-arrow-down"></em> 下载
+  				</button>
+  				<button id="refresh" onclick="refresh()" type="button" class="btn btn-primary">
+  					<em class="glyphicon glyphicon-refresh"></em> 刷新
+  				</button>
 			</div>
 		</div>
-  		
   	<!-- 新增弹框 -->
   	<div id="addModal" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
 	  <div class="modal-dialog" role="document">

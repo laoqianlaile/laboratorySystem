@@ -251,6 +251,10 @@ function delData(){
 	for(var i=0; i<data.length; i++){
 		ID += "ID = '" + data[i].ID + "' or ";
 		message += data[i].companyName + " or ";
+		if(data[i].state == "审核中"){
+			 swal("审核中的合同不能删除！");
+			 return;
+		}
 	}
 	var ajaxParameter = {
 		ids:ID.substring(0, (ID.length-3))	

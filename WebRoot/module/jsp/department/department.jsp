@@ -59,7 +59,7 @@ document.getElementById("tree").onclick = function(){return false}
 
 <style>
 span {
-	font-size: 20px;
+
 	padding: 0px;
 	margin: 0px;
 }
@@ -207,7 +207,7 @@ table {
 	min-width:800px;
 }
 #tree{
-margin-top: 10px;
+margin-top: 30px;
 min-width: 100px;
 width:15%;
 float:left ;
@@ -218,7 +218,7 @@ float:left ;
     margin-left: 10px;
     display: inline-block;
     width: 84%;
-    margin-top: 10px;
+    margin-top: 30px;
     
 }
 .container{
@@ -287,19 +287,16 @@ position:relative;
     background-color: #ffad33;
 }
  .row .btn{
-margin: 16px;
+margin: 8px;
 }
 .btn-primary {
     background-color: #089beb;
   
 }
-#bl{
-padding-top:12px;
-padding-bottom:12px;
-}
+
 
 #bl button{
-margin-left:16px;
+margin-left:26px;
 }
 
 		
@@ -328,7 +325,7 @@ margin-left:16px;
 	<div class="row clearfix">
 
 		<div class="col-md-3.5 column">
-			<div style="float: left;width:100%;background: #9abdd0;" id="bl">
+			<div style="float: left;width:100%;background: rgba(27, 137, 196, 0.1);height: 50px;" id="bl">
 				<button id="query" onclick="find()" class="btn btn-primary"
 					type="button">
 					<em class="glyphicon glyphicon-search"></em> 查询
