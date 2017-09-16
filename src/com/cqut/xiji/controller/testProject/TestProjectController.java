@@ -142,9 +142,10 @@ public class TestProjectController{
 	 */
 	@RequestMapping("/getTestProjectListByName")
 	@ResponseBody
-    public String getTestProjectListByName(String matchName){
-		
-		List<Map<String, Object>> result = service.getTestProjectListByName(matchName);
+    public String getTestProjectListByName(String matchName,String contractID){
+		if(contractID == null) 
+			return null;
+		List<Map<String, Object>> result = service.getTestProjectListByName(matchName,contractID);
 		return JSONArray.fromObject(result).toString();
 	}
 	

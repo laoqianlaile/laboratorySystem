@@ -86,6 +86,7 @@ function initPageData() {
 	obj.coID = dara.coID;
 	obj.state = dara.state;
 	obj.comID = dara.comID;
+	obj.contractType = dara.contractType;
 
 	$('.headTitel').children().eq(1).children().eq(1).text(obj.reCode); // 设置交接单编码
 	$("#coCode").val(dara.coCode);// 设置合同编码
@@ -712,6 +713,11 @@ function showAddTaskModal(){
 	$("#addAskFor").val("");
 	$('#displayChecked[name = "add"]').empty();
 	addDepartmentList("add");
+	if(obj.contractType == "0"){
+		$("#assayType").show();
+		$("#searchAssay").show();
+		$("#calibrationItems").show();
+	}
 	$("#addTaskModal").modal('show');
 }
 function addDepartmentList(par){
@@ -1410,13 +1416,15 @@ function matchTestProject(type){
 //	$('.showTestProjects[name = "add"]').css("display","block");
 	var matchName = $('#'+type+'searchTestProjects').val();
 	console.log(matchName);
+	console.log(obj.coID);
 	var data;
 	$.ajax({
 		url : '/laboratorySystem/testProjectController/getTestProjectListByName.do',
 		dataType : "json",
 		async : false,
 		data : {
-			matchName:matchName
+			matchName:matchName,
+			contractID:obj.coID
 		},
 		success : function(o) {
 			data = JSON.parse(o);
@@ -1432,7 +1440,7 @@ function matchTestProject(type){
 //填充检测数据
 function fullTestProjects(testProjectDate){
 	
-	var html = "<ul onclick='displayChecked()'>";
+	var html = "<ul onclick='displayChecked(event)'>";
 	if(testProjectDate.length == 0){
 		html += "<li class='noDate'>没有查到数据</li>";
 	}
@@ -1452,7 +1460,7 @@ function fullTestProjects(testProjectDate){
 	}
 }
 //展示被选中的检测项目
-function displayChecked(){
+function displayChecked(event){
     var source = EventUtil.getSource(event);
     var testName = $(source).text();
     EventUtil.stopPropagation(event);
@@ -1518,4 +1526,3 @@ function getTestProjectID(){
 		return total;
 	}
 }
-

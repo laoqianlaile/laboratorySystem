@@ -145,6 +145,22 @@ public class EmployeeController {
 		public String getDepartmentInfo(HttpSession session){
 			return JSONArray.fromObject(service.getDepartmentInfo(session)).toString();
 		}
+		
+		/**
+		 *
+		 * @description 得到该ID对应的部门名称
+		 * @author chenyoulin
+		 * @created 2017年09月13日 下午10:12:06
+		 * @param departmentID
+		 * @return
+		 */
+		@RequestMapping("/getDepartmentInfoByID")
+	    @ResponseBody
+		public String getDepartmentInfoByID(String departmentID){
+			String result = service.getDepartmentInfoByID(departmentID);
+			System.out.println("============================="  + result + "=========================");
+			return result;
+		}
 
 
 		/**

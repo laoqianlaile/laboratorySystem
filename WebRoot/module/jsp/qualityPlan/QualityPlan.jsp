@@ -75,7 +75,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			<button type="button" class="btn btn-primary thisbtn thatbtn" onclick="addQualityPlan(this)">提交</button>
     	</div>
     </div>
-    		<hr />
+    	<hr />
 		<div id="tablecontent">
 			<table id="table">
 			</table>
