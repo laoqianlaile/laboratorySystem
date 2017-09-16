@@ -35,6 +35,7 @@ function initContractTable() {
 		url : '/laboratorySystem/receiptlistController/getReceiptlistAll.do',// 服务器数据的加载地址
 		sidePagination : 'server',// 设置在哪里进行分页
 		method : "post",
+		singleSelect:true,//禁止多选,
 		dataType : "json",// 服务器返回的数据类型
 		contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
 		queryParams : function queryParams(params) {
