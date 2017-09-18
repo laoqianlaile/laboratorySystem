@@ -187,7 +187,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  </div>
   </body>
   
-  <script src="module/js/departmentStatisticalManage/departmentStatisticalManageDetailPage.js"></script>
+  <script src="module/js/departmentTaskStatistical/departmentTaskStatistical.js"></script>
   <script type="text/javascript">
 	$('.form_datetime').datetimepicker({
 	    language: 'zh-CN',
