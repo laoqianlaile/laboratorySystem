@@ -578,6 +578,17 @@ function save_continue() {
 	parame.email = $('#add_email').val();
 	parame.address = encodeURI($('#add_address').val());
 	parame.phoneNumber = $('#add_phoneNumber').val();
+	var regTel1 = /^(([0\+]\d{2,3}-)?(0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/.test(parame.phoneNumber);//带区号的固定电话
+    var regTel2 = /^(\d{7,8})(-(\d{3,}))?$/.test(parame.phoneNumber);//不带区号的固定电话
+    if (parame.phoneNumber != "") {
+        if (!regTel1 && !regTel2) { 
+		   swal({
+				title : "电话号码输入有误！",
+				type : 'warning'
+			});
+          return ;
+        }
+      }
 	parame.departmentID = $('#add_departmentName').val();
 	parame.dutyID = $('#add_dutyName').val();
 	parame.birthday = $('#add_birthday').val();
@@ -585,6 +596,15 @@ function save_continue() {
 	parame.eduLevel = $('#add_eduLevel').val();
 	parame.graduate = encodeURI($('#add_graduate').val());
 	parame.IDCard = $('#add_IDCard').val();
+	   var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;  
+	   if(reg.test(IDCard) === false)  
+	   {  
+		   swal({
+				title : "身份证输入不合法",
+				type : 'warning'
+			});
+	       return  ;  
+	   } 
 	var data = $('#add_name').val();
 	var password = $('#add_IDCard').val();
 	var ids = "";

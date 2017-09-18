@@ -270,7 +270,6 @@ function edit() {
 		parame.artColumn = $('#edit_artColumn').val();
 		if($('#edit_artColumn').val()!="检测案例"){
 			parame.artCaseType="";
-			
 		}else{
 			parame.artCaseType = $('#edit_artCaseType').val();
 		}	
@@ -308,7 +307,7 @@ function del() {
 	var ids = "";
 	for ( var i = 0; i < data.length; i++) {
 		ids += data[i].articleID + ",";
-	}
+	}artDel
 	var ajaxParameter = {
 			articleID : ids.substring(0, (ids.length - 1))
 	}

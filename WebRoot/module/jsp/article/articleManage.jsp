@@ -54,7 +54,7 @@
 <body>
 	<div class="wrapper">
 		<form class="form-inline" role="form">
-			<div class="input-group col-xs-12 col-md-3">
+			<div class="input-group col-xs-12 col-md-3" style="width:250px">
 				<span class="input-group-addon">文章栏目</span> <select
 					class="form-control" id="search_artColumn">
 					<option>检测案例</option>
@@ -63,16 +63,16 @@
 					<option>荣誉资质</option>
 				</select>
 			</div>
-			<div class="input-group col-xs-12 col-md-4">
+			<div class="input-group col-xs-12 col-md-4" style="width:320px">
 				<span class="input-group-addon">文章名称</span> <input type="text"
 					class="form-control" id="search_artTitle" placeholder="请输入要搜索的文章名称">
 			</div>
-			<div class="input-group col-xs-12 col-md-4">
+			<div class="input-group col-xs-12 col-md-4" style="width:320px">
 				<span class="input-group-addon">发布人</span> <input type="text"
 					class="form-control" id="search_artPublisher"
 					placeholder="请输入要搜索的文章发布人">
 			</div>
-			<button type="button" id="artSearch" class="btn btn-primary glyphicon glyphicon-search"
+			<button type="button" id="artSearch" style="margin-left:50px"class="btn btn-primary glyphicon glyphicon-search"
 				onclick="search()">&nbsp;查询</button>
 		</form>
 		<div class="mainTableDate">

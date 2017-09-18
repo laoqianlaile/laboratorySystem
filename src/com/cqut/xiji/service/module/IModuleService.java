@@ -36,7 +36,7 @@ public interface IModuleService {
 			String icon, String isShow);
 	int updateModule(String text, String parent, String href, String icon, //修改模块
 			String isShow, String ID);
-	public String deleteModule(String[] IDs);
+	public String deleteModule(String[] IDs);		//删除模块
 	public Map<String,Object> getModuleWithPaging(int rows, int page, String order,
 			String sort, String moduleName,String condition);
 	public String getModuleIDByRoleID(String roleID);  //通过角色Id查询对应的模块ID

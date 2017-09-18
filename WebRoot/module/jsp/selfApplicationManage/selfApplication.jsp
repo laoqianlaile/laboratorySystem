@@ -56,13 +56,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  </span>
 	  <div id="isTouchReviewStatus" style="display: none;"></div>
      </div>
-     <div class="col-xs-1 col-md-1">
-      <button class="btn btn-primary glyphicon glyphicon-search" id="search" onclick="formSearch1()">&nbsp;查询</button>
+     <div>
+      <button class="btn btn-primary glyphicon glyphicon-search" id="search" onclick="formSearch1()" style="margin-left:50px;">&nbsp;查询</button>
+	  <button class="btn btn-primary" id="displayAll" onclick="displayAll()" style="margin-left:10px;">显示全部信息</button>     
      </div>
-     <div class="col-xs-2 col-md-2">
-       <button class="btn btn-primary" id="displayAll" onclick="displayAll()" style="margin-left:15px;">显示全部信息</button>
-	</div>	
-		
+
 	<!-- </form> -->
 	 <div id="tableDiv">
        <table id="table"></table> 

@@ -26,15 +26,15 @@ $(function () {
 	});
 
 	// 获取当前登录人员的部门ID和部门名称
-	$.ajax({
-		url:'employeeController/getDepartmentInfo.do',
-		dataType:'json',
-		success:function(o){
-			var data = JSON.parse(o);
-			$('#departmentID').text(data[0].ID);
-			$('#departmentPeople').text(data[0].departmentName);
-	  	}
-	});
+//	$.ajax({
+//		url:'employeeController/getDepartmentInfo.do',
+//		dataType:'json',
+//		success:function(o){
+//			var data = JSON.parse(o);
+//			$('#departmentID').text(data[0].ID);
+//			$('#departmentPeople').text(data[0].departmentName);
+//	  	}
+//	});
 
 	// 得到指定交接单下的任务
 	$('#taskTable').bootstrapTable({
@@ -132,6 +132,13 @@ $(function () {
 			valign:'middle',//垂直居中显示
 			width:'10%'//宽度
 		},{
+			field:'departmentID',
+			title:"部门ID",
+			align:"center",
+			valign:"middle",
+			width:'0',
+			visible:false  //不可见
+		},{
 			field:'operate',//返回值名称
 			title:'操作',//列名
 			align:'center',//水平居中显示
@@ -139,7 +146,7 @@ $(function () {
 			width:'15%',//宽度
 			formatter:function(value,row,index){
 				var temp = '';
-				var btn_assignAgain = '<img src="module/img/view_icon.png" onclick="assignAgain(\'' + row.ID + '\',\'' + row.detector + '\',\'' + row.custodian + '\',\'' + row.factoryCode + '\')" data-toggle="tooltip" data-placement="top" title="重新分配" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></img>';
+				var btn_assignAgain = '<img src="module/img/view_icon.png" onclick="assignAgain(\'' + row.ID + '\',\'' + row.detector + '\',\'' + row.custodian + '\',\'' + row.factoryCode + '\',\'' + row.departmentID + '\')" data-toggle="tooltip" data-placement="top" title="重新分配" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></img>';
 		  		var btn_edit = '<img src="module/img/edit_icon.png" onclick="edit(\'' + row.ID + '\',\'' + row.factoryCode + '\')" data-toggle="tooltip" data-placement="top" title="修改" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></img>';
 				temp += btn_assignAgain + btn_edit;
 				
@@ -230,6 +237,24 @@ $(function () {
 	});
 });
 
+function getDepartmentNameByID(departmentID){
+	//通过部门ID得到部门名称
+	$.ajax({
+		url:'employeeController/getDepartmentInfoByID.do',
+		data:{"departmentID":departmentID},
+		dataType:'json',
+		success:function(o){
+			if(o != "" || o != null){
+				$('#departmentPeople').text(o);
+			}else{
+				alert(1);
+				$('#departmentPeople').text("没有部门信息");
+			}
+	  	}
+	});
+}
+
+
 //分配弹框方法
 $("#btn-assign").click(function(){
 	var data = $('#taskTable').bootstrapTable('getSelections');
@@ -249,8 +274,10 @@ $("#btn-assign").click(function(){
 		$('#taskID').text(data[0].ID);
 		$('#type').text(0);
 
-		var departmentID = $('#departmentID').text();
-
+		var departmentID = data[0].departmentID;
+		
+		getDepartmentNameByID(departmentID);
+		
 		$('#assignTable').bootstrapTable({
 			striped: false,// 隔行变色效果
 			pagination: true,//在表格底部显示分页条
@@ -334,13 +361,13 @@ $("#btn-assign").click(function(){
 });
 
 // 重新分配弹框方法
-function assignAgain(ID,detector,custodian,factoryCode){
+function assignAgain(ID,detector,custodian,factoryCode, departmentID){
 
 	$('#sampleCode').text(factoryCode);
 	$('#taskID').text(ID);
 	$('#type').text(1);
-
-	var departmentID = $('#departmentID').text();
+	
+	getDepartmentNameByID(departmentID);
 	
 	$('#assignTable').bootstrapTable({
 		striped: false,// 隔行变色效果

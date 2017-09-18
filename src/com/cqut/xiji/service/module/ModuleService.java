@@ -314,12 +314,12 @@ public class ModuleService extends SearchService implements IModuleService{
 	 */
 	@Override
 	public String deleteModule(String[] IDs){
-		String moudulID = "''";
-		String permissCode = "''"; //这个模块删除后，权限分配的这个也要删除。
+		String moudulID = "";
+		String permissCode = ""; //这个模块删除后，权限分配的这个也要删除。
 		
 		for (int i = 0; i < IDs.length; i++) {
-			moudulID +=" moduleCode like '"+IDs[i]+"%'";
-			permissCode += " permissionCode like '"+IDs[i]+"%'";
+			moudulID +="ID like '"+IDs[i]+"%'";
+			permissCode += "ID like '"+IDs[i]+"%'";
 			if(i !=IDs.length-1){
 				moudulID += " or ";
 				permissCode += " or ";
