@@ -103,7 +103,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	.btn{
 	margin-right:20px;
 	width:106px;
-	height:40px;
+	height:34px;
 	padding:0px;
 	}
 	</style>
@@ -138,7 +138,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  </span>
 	  <div id="isTouchReviewStatus" style="display: none;"></div>
      </div>
-     <div class="col-xs-3 col-md-3">
+     <div class="col-xs-3 col-md-3" style="margin-left:30px;width:200px">
       <button class="btn btn-primary glyphicon glyphicon-search" id="search" onclick="formSearch1()">&nbsp;查询</button>
      </div>
 	<!-- </form> -->

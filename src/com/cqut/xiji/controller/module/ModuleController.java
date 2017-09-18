@@ -102,7 +102,7 @@ public class ModuleController{
 	@RequestMapping("/deleteModule")  
 	@ResponseBody 
 	public String deleteModule(String IDs){
-		 if(IDs == null || IDs.length() == 0)
+		if(IDs == null || IDs.length() == 0)
 			 return "true";
 		return service.deleteModule(IDs.split(",")) ;
 	}

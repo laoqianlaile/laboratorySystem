@@ -30,7 +30,6 @@ $(function () {
 		columns:[{
 			checkbox:true,
 			width:'5%'
-			
 		},{
 			field:'ID',//返回值名称
 			title:'模块ID',//列名
@@ -184,8 +183,8 @@ function showModal(){
 	$('#show_MODULECODE').val(data[0].moduleCode);
 	$('#show_PARENT').val(data[0].parentText);
 	$('#show_ISSHOW').val(data[0].isShow);
-	$("#show_icon").addClass(data[0].icon);
-	
+	$("#show_icon").removeClass();		//删除之前添的图标
+	$("#show_icon").addClass("form-control "+data[0].icon);
 	
 	$('#show_TEXT').attr("disabled", true);
 	$('#show_HREF').attr("disabled", true);
