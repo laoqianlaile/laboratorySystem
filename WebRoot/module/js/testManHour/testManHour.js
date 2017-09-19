@@ -331,6 +331,15 @@ function ensure() {
 	param.ID = $('#add_ID').val();
 	param.laborHour = $('#add_laborHour').val();
 	param.testTypeID = $('#add_name').val();
+	
+	var re = /^[0-9]*[1-9][0-9]*$/;  
+	if(!re.test(param.laborHour)){
+		swal({
+			title : "请输入非0正整数",
+			type : 'warning'
+		});
+		return ;
+	}
 	if (checkdata(param)) {
 		$.ajax({
 			url : 'testProjectController/updateManHour.do',
@@ -394,6 +403,14 @@ function edit() {
 	param.ID = $('#edit_ID').val();
 	param.laborHour = $('#edit_laborHour').val();
 	param.testTypeID = $('#edit_name').val();
+	var re = /^[0-9]*[1-9][0-9]*$/;  
+	if(!re.test(param.laborHour)){
+		swal({
+			title : "请输入非0正整数",
+			type : 'warning'
+		});
+		return ;
+	}
 	if (checkdata(param)) {
 		$.ajax({
 			url : 'testProjectController/updateManHour.do',

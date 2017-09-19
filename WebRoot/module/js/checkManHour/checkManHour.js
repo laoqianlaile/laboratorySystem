@@ -574,6 +574,14 @@ function ensure(){
 	parame.sampleName = encodeURI($('#add_sampleName').val());
 	parame.specifications = $('#add_specifications').val();
 	parame.laborHour = $('#add_laborHour').val();
+	var re = /^[0-9]*[1-9][0-9]*$/;  
+	if(!re.test(param.laborHour)){
+		swal({
+			title : "请输入非0正整数",
+			type : 'warning'
+		});
+		return ;
+	}
 	if(ID==""){
 		if (checkdata(parame)) {
 			$.ajax({
@@ -644,6 +652,14 @@ function edit(){
 	var param = {};
 	param.ID = $('#edit_ID').val();
 	param.laborHour = $('#edit_laborHour').val();
+	var re = /^[0-9]*[1-9][0-9]*$/;  
+	if(!re.test(param.laborHour)){
+		swal({
+			title : "请输入非0正整数",
+			type : 'warning'
+		});
+		return ;
+	}
 	if(checkdata(param)){
 		$.ajax({
 			url : 'sampleController/updateManHour.do',
