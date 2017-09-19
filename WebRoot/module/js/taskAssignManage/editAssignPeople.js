@@ -374,6 +374,14 @@ function assignDetector(){
 		return;
 	}
 	
+	if(taskManID == null || taskManID == '' || taskManID == 'undefined' || taskManID == undefined){
+		swal({
+			title: "请先分配检测人员",
+			type: 'warning'
+		});
+		return;
+	}
+	
 	var parame = {};
 	
 	parame.taskID = ID;
