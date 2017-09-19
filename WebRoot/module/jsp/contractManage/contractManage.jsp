@@ -105,7 +105,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   					<em class="glyphicon glyphicon-repeat"></em> 复制
   				</button>
   				<button type="button" onclick="EditContract()" class="btn btn-primary">
-  					<em class="glyphicon glyphicon-edit"></em> 修改
+  					<em class="glyphicon glyphicon-edit"></em> 编辑
   				</button>
   				<button id="del" onclick="delData()" type="button" class="btn btn-primary">
   					<em class="glyphicon glyphicon-trash"></em> 删除
