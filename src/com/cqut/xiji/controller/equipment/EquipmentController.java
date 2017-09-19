@@ -50,8 +50,11 @@ public class EquipmentController {
 	 */
 	@RequestMapping("/addEquipment")  
     @ResponseBody
-	public int addEquipment(String equipmentName, String equipmentType, String model, String department, String buyTime, int useYear, String factoryCode, String credentials, String effectiveTime, String remarks,HttpServletRequest request,HttpServletResponse response){
-		int result = service.addEquipment(equipmentName, equipmentType, model, department, buyTime, useYear, factoryCode, credentials, effectiveTime, remarks,request,response);
+	public int addEquipment(String equipmentCode,String equipmentName,
+			String equipmentType, String model, String department,
+			String buyTime, int useYear, String factoryCode, String credentials,
+			String remarks,HttpServletRequest request,HttpServletResponse response){
+		int result = service.addEquipment(equipmentCode,equipmentName,equipmentType, model,department, buyTime,useYear, factoryCode, credentials, remarks, request, response);
 		return result;
 	}
 	
@@ -64,10 +67,10 @@ public class EquipmentController {
 	 */
 	@RequestMapping("/delEquipment")  
     @ResponseBody
-	public int delEquipment(String equipmentIds){
-		int result = service.delEquipment(equipmentIds);
-		return result;
-	}
+		public String delEquipment(String equipmentIDs){
+			String result = service.delEquipment(equipmentIDs);
+			return result;
+		}
 	
 	/**
 	 * @description 通过仪器编码得到ID
@@ -129,8 +132,8 @@ public class EquipmentController {
 	 */
 	@RequestMapping("/updEquipment")  
     @ResponseBody
-	public int updEquipment(String ID, String equipmentName, String equipmentType, String model, String department, String buyTime, int useYear, String factoryCode, String credentials, String effectiveTime,  String employeeID, String remarks){
-		int result = service.updEquipment(ID, equipmentName, equipmentType, model, department, buyTime, useYear, factoryCode, credentials, effectiveTime, employeeID, remarks);
+	public int updEquipment(String ID, String equipmentName, String equipmentType, String department, String buyTime, int useYear, String factoryCode, String remarks){
+		int result = service.updEquipment(ID, equipmentName, equipmentType,department,buyTime, useYear,remarks);
 		return result;
 	}
 

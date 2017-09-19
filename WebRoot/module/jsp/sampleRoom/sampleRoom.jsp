@@ -109,7 +109,7 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-xs-12 col-md-12">
-							<label>出厂编号：</label>
+							<h4>出厂编号：</h4>
 							<input type="text" id="addFactoryCode" name="addFactoryCode"
 								class="form-control" aria-describedby="basic-addon1"
 								  value=""/>
@@ -118,12 +118,12 @@
 							</div>
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<label>样品名称：</label>
+							<h4>样品名称：</h4>
 							<input type="text" id="addSampleName" name="addSampleName"
 								class="form-control" aria-describedby="basic-addon1" value=""/>
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<label>规格/型号：</label>
+							<h4>规格/型号：</h4>
 							<input type="text" id="addSampleType" name="addSampleType"
 								class="form-control" aria-describedby="basic-addon1" value=""/>
 						</div>
@@ -133,7 +133,7 @@
 								class="form-control" aria-describedby="basic-addon1" />
 						</div> -->
 						<div class="col-xs-12 col-md-12">
-							<label>单位：</label>
+							<h4>单位：</h4>
 							<select id="addUnit" name="addUnit" class="form-control"
 								aria-describedby="basic-addon1">
 								<option>个</option>
@@ -142,7 +142,7 @@
 							</select>
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<label>备注：</label>
+							<h4>备注：</h4>
 							<input type="text" id="addRemarks" name="addRemarks"
 								class="form-control" aria-describedby="basic-addon1" value=""/>
 						</div>
@@ -174,17 +174,17 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-xs-12 col-md-12">
-							<label>出厂编号：</label>
+							<h4>出厂编号：</h4>
 							<input type="text" id="lookFactoryCode" name="lookFactoryCode"
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<label>样品名称：</label>
+							<h4>样品名称：</h4>
 							<input type="text" id="lookSampleName" name="lookSampleName"
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<label>规格/型号：</label>
+							<h4>规格/型号：</h4>
 							<input type="text" id="lookSampleType" name="lookSampleType"
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
@@ -194,7 +194,7 @@
 								class="form-control" aria-describedby="basic-addon1" />
 						</div> -->
 						<div class="col-xs-12 col-md-12">
-							<label>单位：</label>
+							<h4>单位：</h4>
 							<select id="lookUnit" name="lookUnit" class="form-control"
 								aria-describedby="basic-addon1">
 								<option>个</option>
@@ -203,7 +203,7 @@
 							</select>
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<label>备注：</label>
+							<h4>备注：</h4>
 							<input type="text" id="lookRemarks" name="lookRemarks"
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
@@ -235,7 +235,7 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-xs-12 col-md-12">
-							<label>出厂编号：</label>
+							<h4>出厂编号：</h4>
 							<input type="text" id="editFactoryCode" name="editFactoryCode"
 								class="form-control" aria-describedby="basic-addon1"
 								 />
@@ -245,12 +245,12 @@
 							<input type="hidden" id="editSampleID">
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<label>样品名称：</label>
+							<h4>样品名称：</h4>
 							<input type="text" id="editSampleName" name="editSampleName"
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<label>规格/型号：</label>
+							<h4>规格/型号：</h4>
 							<input type="text" id="editSampleType" name="editSampleType"
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>
@@ -260,7 +260,7 @@
 								class="form-control" aria-describedby="basic-addon1" />
 						</div> -->
 						<div class="col-xs-12 col-md-12">
-							<label>单位：</label>
+							<h4>单位：</h4>
 							<select id="editUnit" name="editUnit" class="form-control"
 								aria-describedby="basic-addon1">
 								<option>个</option>
@@ -269,7 +269,7 @@
 							</select>
 						</div>
 						<div class="col-xs-12 col-md-12">
-							<label>备注：</label>
+							<h4>备注：</h4>
 							<input type="text" id="editRemarks" name="editRemarks"
 								class="form-control" aria-describedby="basic-addon1" />
 						</div>

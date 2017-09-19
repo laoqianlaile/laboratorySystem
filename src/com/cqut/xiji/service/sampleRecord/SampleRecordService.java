@@ -93,33 +93,33 @@ public class SampleRecordService extends SearchService implements
 			int offset, String order, String sort) {
 		int index = limit;
 		int pageNum = offset / limit;
-		String tableName = "sampleRecord";
+		String tableName = "samplerecord";
 		String[] properties = new String[] {
-				"sampleRecord.ID",
+				"samplerecord.ID",
 				"sample.ID as sampleID",
-				"sampleRecord.getMan as getManID",
-				"sampleRecord.returnMan as returnManID",
-				"sampleRecord.factoryCode",
+				"samplerecord.getMan as getManID",
+				"samplerecord.returnMan as returnManID",
+				"samplerecord.factoryCode",
 				// "receiptlist.receiptlistCode",
-				"sampleRecord.remarks",
+				"samplerecord.remarks",
 				"sample.sampleName",
 				"sample.specifications",
-				"case when sampleRecord.Type=0 then '领样'"
-						+ "when sampleRecord.Type=1 then '还样' end  as Type ",
+				"case when samplerecord.Type=0 then '领样'"
+						+ "when samplerecord.Type=1 then '还样' end  as Type ",
 				"case when sample.state=0 then '未领用'"
 						+ "when sample.state=1 then '领用' end  as state ",
 				"employee2.employeeName AS getMan",
-				"DATE_FORMAT(sampleRecord.getTime,'%Y-%m-%d %H:%i:%s') as getTime",
+				"DATE_FORMAT(samplerecord.getTime,'%Y-%m-%d %H:%i:%s') as getTime",
 				"employee.employeeName as returnMan",
-				"DATE_FORMAT(sampleRecord.returnTime,'%Y-%m-%d %H:%i:%s') as returnTime" };
+				"DATE_FORMAT(samplerecord.returnTime,'%Y-%m-%d %H:%i:%s') as returnTime" };
 		String joinEntity = // " left join sampleInformation on sampleRecord.sampleInformationID = sampleInformation.ID "
-		" left join sample on sampleRecord.factoryCode = sample.factoryCode "
+		" left join sample on samplerecord.factoryCode = sample.factoryCode "
 				// +" left join receiptlist on sample.receiptlistID = receiptlist.ID"
-				+ " left join employee on sampleRecord.returnMan = employee.ID"
-				+ " left join employee as employee2 on sampleRecord.getMan = employee2.ID";
+				+ " left join employee on samplerecord.returnMan = employee.ID"
+				+ " left join employee as employee2 on samplerecord.getMan = employee2.ID";
 		String condition = " 1 = 1  ";
 		if (factoryCode != null && !factoryCode.equals("")) {
-			condition += " and sample.factoryCode like '%" + factoryCode
+			condition += " and samplerecord.factoryCode like '%" + factoryCode
 					+ "%'  ";
 		}
 		if (sampleName != null && !sampleName.equals("")) {
