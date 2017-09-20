@@ -358,7 +358,6 @@ function exportSample(){
 }
 //检查文件类型
 function vaildFileType(self) {
-	alert()
 	$("#submitFileBtn").removeAttr("disabled");
 	var filePath = $(self).val();
 	if (filePath != "" && filePath != undefined) {
