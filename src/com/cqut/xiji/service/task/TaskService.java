@@ -96,13 +96,14 @@ public class TaskService extends SearchService implements ITaskService {
 						+ "	taskMan.ID),'无'" + " ) AS detector",
 				"IFnull(employee_1.employeeName,'无') as custodian",
 				"CASE WHEN task.type = 0 THEN '检测' WHEN task.type = 1 THEN '校准' END AS type",
-				"IFnull(testProject.laborHour, '?') as laborHour"
+				"IFnull(taskman.laborHour, '?') as laborHour"
 		};
 
 		String joinEntity = " left join receiptlist on receiptlist.ID = task.receiptlistID "
 				+ " left join sample on task.sampleID = sample.ID "
 				+ " left join tasktestproject on task.ID = tasktestproject.taskID "
 				+ " left join testProject ON taskTestProject.testProjectID = testProject.ID "
+				+ " left join taskman on task.ID = taskman.taskID "
 				+ " left join employee as employee_1 on task.custodian = employee_1.ID ";
 
 		String condition = "1 = 1 and task.receiptlistID = '" + ID + "' and receiptlist.receiptlistType = 0";
