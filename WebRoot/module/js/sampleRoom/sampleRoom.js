@@ -245,6 +245,7 @@ function deleSample(sampleIDs){
 		});
 	
 }
+
 function addSample(){
 	$("#addFactoryCode").val("");
 	$('#addSampleName').val("");
@@ -252,6 +253,7 @@ function addSample(){
 	$('#addRemarks').val("");
 	$("#addModal").modal("show");
 }
+
 /* 新增方法 */
 function add() {
 	var parame = {};

@@ -39,8 +39,11 @@ public class QualityPlanService extends SearchService implements IQualityPlanSer
 	}
 	
 	@Override
-	public Map<String, Object> getQualityPlanWithPaging(int limit, int offset,String order,String sort,String type,String year,String code,String employeeName2) {
-		System.out.println("222" + "<br />");
+	public Map<String, Object> getQualityPlanWithPaging(int limit, int offset,String order,String sort,String type,String year,String code,String employeeName2, String EMPLOYEEID) {
+		List<Map<String, Object>> permission = entityDao.searchForeign(new String[]{"permission"}, "employee", null, null, " ID='"+EMPLOYEEID+"'");
+		System.out.println((int)(permission.get(0).get("permission")) == 1);
+		System.out.println((permission.get(0).get("permission").equals("0")));
+		
 		int index = limit;
 		int pageNum = offset/limit;
 		String tablename = "qualityplan";
@@ -57,7 +60,7 @@ public class QualityPlanService extends SearchService implements IQualityPlanSer
 		String strcondition = " left JOIN employee ON qualityPlan.employeeID1 = employee.ID"+
 							" left JOIN (select employeeName as employeeName2 , employee.ID from employee) as employee2 ON qualityPlan.employeeID2 = employee2.ID";
 		
-		if((type!=null&&type!="")||(code!=null&&code!="")||(year!=null&&year!="")||(employeeName2!=null&&employeeName2!="")){
+		if((type!=null&&type!="")||(code!=null&&code!="")||(year!=null&&year!="")||(employeeName2!=null&&employeeName2!="")||(int)(permission.get(0).get("permission")) == 1||(int)(permission.get(0).get("permission")) == 0){
 			if(type!=null&&type!=""){
 				condition = condition + "type like '%" + type +"%'";
 			};
@@ -70,6 +73,12 @@ public class QualityPlanService extends SearchService implements IQualityPlanSer
 			if(employeeName2!=null&&employeeName2!=""){
 				condition = condition +" and "+"employeeName2 like '%" + employeeName2 + "%'";
 			};	
+			if((int)(permission.get(0).get("permission")) == 0){
+				condition = "1=1";
+			};
+			if((int)(permission.get(0).get("permission")) == 1){
+				condition = condition +" and "+"employee2.ID = qualityplan.employeeID2" +" and "+" employee2.ID = '"+EMPLOYEEID+"'";
+			}
 		}else{
 			condition = "1=1";
 		};

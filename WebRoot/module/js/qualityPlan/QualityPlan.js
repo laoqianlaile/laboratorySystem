@@ -153,6 +153,7 @@ function queryParams(params) { // 配置参数
 		offset : params.offset, // 页码
 		sort : params.sort, // 排序列名
 		order : params.order
+		 
 	// 排位命令（desc，asc）
 	};
 	return temp;
@@ -444,7 +445,7 @@ function addQualityPlan(dom){
 				showdiag("请填写执行年度");
 				break;
 			}
-			if(dataobj.employeeName==null||dataobj.employeeName==""){
+			if(dataobj.employeeName2==null||dataobj.employeeName2==""){
 				showdiag("请填写审核人");
 				break;
 			}
