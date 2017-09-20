@@ -141,7 +141,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<option class="Code4" value="STE">测评室－STE</option>
 						<option class="Code4" value="TEC">中心-TEC</option>
 					</select>
-					<input type="text" id="add_contractCode" name="contractName" class="form-control contractCodeA" required="required"/>
+					<input type="text" id="add_contractCode" disabled="disabled" name="contractName" class="form-control contractCodeA" required="required"/>
                 </div>
 	      		<div class="col-xs-12 col-md-12">
                    	<label class="control-label">合同类型:</label>
