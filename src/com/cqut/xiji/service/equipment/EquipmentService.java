@@ -2,6 +2,7 @@ package com.cqut.xiji.service.equipment;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,7 @@ import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
 import com.cqut.xiji.entity.employee.Employee;
 import com.cqut.xiji.entity.equipment.Equipment;
+import com.cqut.xiji.entity.sample.Sample;
 import com.cqut.xiji.service.base.SearchService;
 import com.cqut.xiji.tool.util.EntityIDFactory;
 
@@ -83,6 +85,7 @@ public class EquipmentService extends SearchService implements
 		String tableName = "equipment";
 		String[] properties = new String[]{
 				"equipment.ID",
+				"equipment.equipmentCode",
 				"equipment.equipmentName",
 				"equipment.model",
 				"department.ID as departmentID",
@@ -127,10 +130,10 @@ public class EquipmentService extends SearchService implements
 	}
 	
 	@Override
-	public int addEquipment(String equipmentName,
+	public int addEquipment(String equipmentCode,String equipmentName,
 			String equipmentType, String model, String department,
 			String buyTime, int useYear, String factoryCode, String credentials,
-			String effectiveTime, String remarks,HttpServletRequest request,HttpServletResponse response){
+			String remarks,HttpServletRequest request,HttpServletResponse response){
 		HttpSession session = request.getSession();
 	    Object LOGINNAME = session.getAttribute("LOGINNAME");
 	    //操作对应的操作员
@@ -147,6 +150,7 @@ public class EquipmentService extends SearchService implements
 		Equipment equipment = new Equipment();
 		String ID = EntityIDFactory.createId();
 		equipment.setID(ID);
+		equipment.setEquipmentCode(equipmentCode);
 		equipment.setEquipmentName(equipmentName);
 		equipment.setEquipmentTypeID(equipmentType);
 		equipment.setModel(model);
@@ -158,11 +162,12 @@ public class EquipmentService extends SearchService implements
 		equipment.setEmployeeID(employeeID);
 		equipment.setRemarks(remarks);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+		System.out.println(sdf);
 		Date buyTime1 = null;
 		Date effectiveTime1 = null;
 		try {
 			buyTime1 = sdf.parse(buyTime);
-			effectiveTime1 = sdf.parse(effectiveTime);
+			//effectiveTime1 = sdf.parse(effectiveTime);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -171,9 +176,9 @@ public class EquipmentService extends SearchService implements
 		if (buyTime1 != null) {
 			equipment.setBuyTime(buyTime1);
 		}
-		if (effectiveTime1 != null) {
+		/*if (effectiveTime1 != null) {
 			equipment.setEffectiveTime(effectiveTime1);
-		}
+		}*/
 		
 		int result = entityDao.save(equipment);
 		if(result <= 0){
@@ -194,39 +199,11 @@ public class EquipmentService extends SearchService implements
 	 * @see com.cqut.xiji.service.equipment.IEquipmentService#delEquipment(java.lang.String)
 	 */
 	@Override
-	public int delEquipment(String equipmentIds) {
+	public String delEquipment(String roleIDs) {
 		// TODO Auto-generated method stub
-		String condition = "";
-		if(equipmentIds == null || equipmentIds.isEmpty()){
-			return 0;
-		}else{
-			int count = 0;
-			String[] properties1 = new String[] {"COUNT(equipmentrepair.ID) as r"};
-			String[] properties2 = new String[] {"COUNT(equipmentuse.ID) as u"};
-			String[] properties3 = new String[] {"COUNT(equipmentverify.ID) as v"};
-			String[] properties4 = new String[] {"COUNT(equipmentscrap.ID) as s"};
-			String tableName = "equipment";
-			String joinEntity1 = " LEFT JOIN equipmentrepair ON equipment.ID = equipmentrepair.equipmentID ";
-			String joinEntity2 = " LEFT JOIN equipmentuse ON equipment.ID = equipmentuse.equipmentID ";
-			String joinEntity3 = " LEFT JOIN equipmentverify ON equipment.ID = equipmentverify.equipmentID ";
-			String joinEntity4 = " LEFT JOIN equipmentscrap ON equipment.ID = equipmentscrap.equipmentID ";
-			condition = "equipment.ID = '" + equipmentIds + "'";
-			List<Map<String, Object>> re1 = entityDao.searchForeign(properties1, tableName, joinEntity1, null, condition);
-			List<Map<String, Object>> re2 = entityDao.searchForeign(properties2, tableName, joinEntity2, null, condition);
-			List<Map<String, Object>> re3 = entityDao.searchForeign(properties3, tableName, joinEntity3, null, condition);
-			List<Map<String, Object>> re4 = entityDao.searchForeign(properties4, tableName, joinEntity4, null, condition);
-			count = Integer.parseInt(re1.get(0).get("r").toString()) + 
-					Integer.parseInt(re2.get(0).get("u").toString()) +
-					Integer.parseInt(re3.get(0).get("v").toString()) +
-					Integer.parseInt(re4.get(0).get("s").toString());
-			if(count == 0){
-				int result = entityDao.deleteByCondition(condition, Equipment.class);
-				return result;
-		    }else {
-		    	System.out.println("该设备与其他表数据有关联，请先删除关联");
-		    	return -2;
-		    }
-		}
+		String[] ids = roleIDs.split(",");
+		System.out.println(Arrays.toString(ids));
+		return entityDao.deleteEntities(ids, Equipment.class) == ids.length ? "true" :"false";
 	}
 	
 	/**
@@ -276,40 +253,17 @@ public class EquipmentService extends SearchService implements
 	}
 	
 	@Override
-	public int updEquipment(String ID,
-			String equipmentName, String equipmentType, String model,
-			String department, String buyTime, int useYear, String factoryCode,
-			String credentials, String effectiveTime, String employeeID,
-			String remarks){
+	public int updEquipment(String ID, String equipmentName, String equipmentType, String department, String buyTime, int useYear, String remarks){
 		// TODO Auto-generated method stub
 		Equipment equipment = new Equipment();
 		
 		equipment.setEquipmentName(equipmentName);
 		equipment.setEquipmentTypeID(equipmentType);
-		equipment.setModel(model);
 		equipment.setDepartmentID(department);
 		equipment.setUseYear(useYear);
-		equipment.setFactoryCode(factoryCode);
-		equipment.setCredentials(credentials);
-		equipment.setEmployeeID(employeeID);
 		equipment.setRemarks(remarks);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
-		Date buyTime1 = null;
-		Date effectiveTime1 = null;
-		try {
-			buyTime1 = sdf.parse(buyTime);
-			effectiveTime1 = sdf.parse(effectiveTime);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		if (buyTime1 != null) {
-			equipment.setBuyTime(buyTime1);
-		}
-		if (effectiveTime1 != null) {
-			equipment.setEffectiveTime(effectiveTime1);
-		}
+	
 				
 		int result = entityDao.updatePropByID(equipment,ID);
 		return result;

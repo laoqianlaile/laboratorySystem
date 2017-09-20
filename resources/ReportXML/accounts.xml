@@ -1,11 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <workbook>
 	<sheet id="sheet1" sheetName="sheet1">
 		<style>
 			<colWidth>
-				<widthItem>3000</widthItem>
-				<widthItem>3000</widthItem>
-				<widthItem>3000</widthItem>
 				<widthItem>3000</widthItem>
 				<widthItem>3000</widthItem>
 				<widthItem>3000</widthItem>
@@ -32,7 +29,7 @@
 						<row>1</row>
 						<col>0</col>
 					</address>
-					<title>样品编码</title>
+					<title>合同编码</title>
 				</header>
 
 				<header id="header2">
@@ -40,7 +37,7 @@
 						<row>1</row>
 						<col>1</col>
 					</address>
-					<title>样品名称</title>
+					<title>合同名称</title>
 				</header>
 
 				<header id="header3">
@@ -48,43 +45,19 @@
 						<row>1</row>
 						<col>2</col>
 					</address>
-					<title>样品型号/规格</title>
+					<title>合同金额</title>
 				</header>
 				<header id="header3">
 					<address>
 						<row>1</row>
 						<col>3</col>
 					</address>
-					<title>工时</title>
+					<title>报账专员</title>
 				</header>
 				<header id="header4">
 					<address>
 						<row>1</row>
 						<col>4</col>
-					</address>
-					<title>单位</title>
-				</header>
-
-				<header id="header5">
-					<address>
-						<row>1</row>
-						<col>5</col>
-					</address>
-					<title>领用状态</title>
-				</header>
-
-				<header id="header6">
-					<address>
-						<row>1</row>
-						<col>6</col>
-					</address>
-					<title>备注</title>
-				</header>
-
-				<header id="header7">
-					<address>
-						<row>1</row>
-						<col>7</col>
 					</address>
 					<title>录入时间</title>
 				</header>
@@ -100,14 +73,11 @@
 
 			<!-- 数据项 -->
 			<dataItem>
-				<item>sampleCode</item>
-				<item>sampleName</item>
-				<item>sampleStype</item>
-				<item>laborHour</item>
-				<item>unit</item>
-				<item>state</item>
-				<item>remarks</item>
-				<item>createTime</item>
+				<item>contractCode</item>
+				<item>contractName</item>
+				<item>contractAmount</item>
+				<item>employeeName</item>
+				<item>checkinTime</item>
 			</dataItem>
 		</dataArea>
 	</sheet>

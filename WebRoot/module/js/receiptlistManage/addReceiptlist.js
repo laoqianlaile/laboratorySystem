@@ -87,7 +87,6 @@ function initPageData() {
 	obj.state = dara.state;
 	obj.comID = dara.comID;
 	obj.contractType = dara.contractType;
-
 	$('.headTitel').children().eq(1).children().eq(1).text(obj.reCode); // 设置交接单编码
 	$("#coCode").val(dara.coCode);// 设置合同编码
 	$("#coCode").attr("disabled", true);// 不可编辑
@@ -289,6 +288,7 @@ function selectSample(self,event) {
 		$("#editUnit").val(data.datasset.unit);
 		$("#editSampleCode").val(data.datasset.sampleCode);
 		$("#editSampleID").val(sampleID);
+		$("#editDepartment").val(sample.department);
 		// 设置不可编辑--编辑
 		$("#editSampleName").prop("disabled", true);
 		$("#editSampleStyle").prop("disabled", true);
@@ -713,10 +713,10 @@ function showAddTaskModal(){
 	$("#addAskFor").val("");
 	$('#displayChecked[name = "add"]').empty();
 	addDepartmentList("add");
-	if(obj.contractType == "0"){
-		$("#assayType").show();
-		$("#searchAssay").show();
-		$("#calibrationItems").show();
+	if(obj.contractType == "1"){
+//		$("#assayType").hide();
+		$("#searchAssay").hide();
+		$("#calibrationItems").hide();
 	}
 	$("#addTaskModal").modal('show');
 }
@@ -1044,9 +1044,15 @@ function editTask() {
 	html='<span class = "spanTag"><span class= "singleE" id ="'+data.testProjectID+'" >'+ data.testProjectName +'&nbsp;&nbsp;</span><a  onclick="moveSingleE(this)">x</a></span>'
 	$('#displayChecked[name = "edit"]').empty();
 	$('#displayChecked[name = "edit"]').append(html);
-	$(".testProjectName").val(data.testName);
+	if(obj.contractType == "1"){
+//		$("#assayType").hide();
+		$("#searchAssay1").hide();
+		$("#calibrationItems1").hide();
+	}
+	else{
+	$(".testProjectName").val(data.testName);}
 	$("#editUnit").val(data.unit);
-	$("#editAskFor").val(data.askFor);
+//	$("#editAskFor").val(data.askFor);
 	$('#editTaskModal').modal('show');
 }
 // 新增任务框按钮确定
@@ -1058,10 +1064,12 @@ function addTaskModel() {
 	param.sampleName = $("#addSampleName").val();
 	param.sampleStyle = $("#addSampleStyle").val();
 	param.sampleID = $("#addSampleID").val();
+	if(obj.contractType == "0"){
 	param.testProjects = getTestProjectID();
 	console.log(param.testProject);
+	}
 	param.unit = $("#addUnit").val();
-	param.type = $("input[name='addTaskType']").val();
+//	param.type = $("input[name='addTaskType']").val();
 	param.departmentID = $("#addDepartment").val();
 	console.log("departmentID:"+param.departmentID);
 	param.require = $("#addAskFor").val();
@@ -1124,8 +1132,10 @@ function editTaskModel() {
 	param.sampleStyle = $("#editSampleStyle").val();
 	param.sampleID = $("#editSampleID").val();
 	param.taskID = $("#editTaskID").val();
+	if(obj.contractType == "0"){
 	param.testProjects = getTestProjectID();
 	console.log(param.testProject);
+	}
 	param.type = $("input[name='editTaskType']").val();
 	param.departmentID = $("#editDepartment").val();
 	param.unit = $("#editUnit").val();
@@ -1518,6 +1528,9 @@ function getTestProjectID(){
 	if(allTestprojectIDs.length == 0){
 		//swal("请至少选中一个检测项目");
 		return;
+	}
+	else if(allTestprojectIDs.length == 0){
+		total += allTestprojectIDs[i].id;
 	}
 	else{
 		for(var i=0;i<allTestprojectIDs.length;i++){

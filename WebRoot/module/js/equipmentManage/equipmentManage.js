@@ -237,7 +237,7 @@ function refrehTable() {
 }
 /* 刷新方法 */
 function refresh(){
-	window.location.href="module/jsp/equipmentManage/equipmentManage.jsp";
+	window.location.href="module/jsp/equipmentManage/equipmentAudit.jsp";
 }
 
 /* 删除方法 */

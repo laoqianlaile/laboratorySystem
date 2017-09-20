@@ -126,8 +126,8 @@ $(function () {
 			valign:'middle',//垂直居中显示
 			width:'15%'//宽度
 		},{
-			field:'custodian',//返回值名称
-			title:'监督员',//列名
+			field:'laborHour',//返回值名称
+			title:'工时',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'10%'//宽度
@@ -668,7 +668,7 @@ function assignDetector(){
 	parame.IDs = IDs;
 	parame.assignType = 1;
 	parame.type = $('#type').text();
-
+	
 	$.ajax({
 		url:'taskController/assignTaskPeople.do',
 		data:parame,

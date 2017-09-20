@@ -477,7 +477,7 @@ function applyMondal(){
 			});
 		return;
 	}
-	if (data[0].STATE != '通过'){
+	if (data[0].STATE != '通过' || data[0].STATE != '驳回'){
 		swal({
 			  title: "当前状态不能废弃",
 			  type: "warning",
@@ -531,7 +531,10 @@ function apply(){
 	parame.ABANDONAPPLYMAN = $('#uploaderID').val();
 	parame.ABANDONAPPLYREASON = $('#apply_ABANDONAPPLYREASON').val();
 	parame.STATE = 4;
-	if(checkNull(parame))return;
+	if(parame.ABANDONAPPLYREASON == ""){
+		swal({title:"申请理由不能为空",  type:"warning",});
+		return;
+	}
 	$.ajax({
 	  url:'standardController/upStandard.do',
 	  data:parame,

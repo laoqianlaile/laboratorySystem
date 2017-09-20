@@ -29,8 +29,6 @@ public interface IEmployeeService {
 	String getEmployeeID(HttpSession session);
 
 	List<Map<String,Object>> getDepartmentInfo(HttpSession session);
-	
-	public String getDepartmentInfoByID(String departmentID);
 
 	List<Map<String, Object>> getEmployeeData(String matchName);
 

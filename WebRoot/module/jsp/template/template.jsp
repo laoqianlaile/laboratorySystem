@@ -299,7 +299,7 @@ span {
 									<option class="form-control">检测报告模板</option>
 									<option class="form-control">校准报告模板</option>
 							</select> -->
-							<input id="editReprotSearch" type="text" class="form-control" placeholder="检测项目搜索"  style="margin-top: 12px;display: none" onblur="hideSearch()" onfocus="showPartTestproject()"  oninput="showPartTestproject()"
+							<input id="editReprotSearch" type="text" class="form-control" placeholder="检测标准搜索"  style="margin-top: 12px;display: none" onblur="hideSearch()" onfocus="showPartTestproject()"  oninput="showPartTestproject()"
 											onpropertychange="showPartTestproject()"/>
 							<div   id="showTestProject" ></div>
 						</div>

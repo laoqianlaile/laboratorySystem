@@ -1,6 +1,5 @@
 $(function() {
 	init();
-	getDepartment("query_departmentID");
 });
 
 function init() {
@@ -224,7 +223,6 @@ function query() {
 
 function addModal() {
 	
-	getDepartment("add_DEPARTMENTID"); //从数据库里获取部门信息填充
 	getStandard("add_STANDARDID");	// 从数据库里获取标准信息填充
 	getType("add_type");
 	
@@ -405,7 +403,6 @@ function openEditModal(){
 	var departmentIDs = departmentID.split(",");
 
 	
-	getDepartment("edit_DEPARTMENTID",departmentIDs);	//从数据库里获取部门信息
 //	getEquipment("edit_EQUIPMENTID");// 从数据库里获取设备信息
 	
 	
@@ -518,45 +515,6 @@ function editTestProject(){
 			$('#editModal').modal('hide');
 
 			refresh();
-		}
-
-	});
-}
-// 获取部门信息
-function getDepartment(id,departments) {
-	$('.selectpicker').selectpicker({
-		size : 4
-	});
-	$.ajax({
-		url : 'testProjectController/getDepartment.do',
-		success : function(o) {
-			if($('#' + id + '').children().length == 0){
-				var data = JSON.parse(o);
-				for (var i = 0; i < data.length; i++) {
-					$('#' + id + '').append(
-							"<option value=" + data[i].ID + ">" + data[i].departmentName
-									+ "</option>");
-				}
-				
-				$('#' + id + '').selectpicker('refresh');
-				$('#' + id + '').selectpicker('render');
-			}
-			if(departments !== null && departments !== undefined){
-				
-				$('#' + id + '').selectpicker('val', departments);// 默认选
-				$('#' + id + '').selectpicker('refresh');
-				$('#' + id + '').selectpicker('render');
-			}
-			
-			/*if($('#' + id + '').children().length == 0 || $('#' + id + '').children().length == 1 ){
-				var data = JSON.parse(o);
-				
-				for (var i=0; i<data.length;i++)
-				{	
-					$('#' + id + '').append("<option value='" + data[i].ID + "' >" +data[i].departmentName + " </option>");
-				}
-			}*/
-			
 		}
 
 	});

@@ -84,10 +84,13 @@
 			<div class="row">
 				<div class="col-xs-8">
 					<label>委托单位 : </label> <input id="show_companyName"
-						name="companyName" class="form-control" size="20" type="text" />
+						name="companyName" class="form-control" size="20" type="text" style="width: 75%;"/>
 				</div>
 				<div class="col-xs-4">
-					<label>联系电话 : </label> <input id="show_linkPhone" name="linkPhone"
+					<div class="timeLabelDiv">
+						<label>联系电话 : </label>
+					</div> 
+					<input id="show_linkPhone" name="linkPhone"
 						class="form-control" type="text" "/>
 				</div>
 			</div>
@@ -100,10 +103,10 @@
 				<label>样品信息</label>
 				<button type="button" ;
 				class="btn btn-primary"
-					onclick="manualadd()" style="margin-right: 95px;">手动录入</button>
+					onclick="manualadd()" style="margin-right: 95px;margin-top: -20px;">手动录入</button>
 				<button type="button" ;
 				class="btn btn-primary"
-					onclick="automaticadd()">扫描录入</button>
+					onclick="automaticadd()" style="margin-top: -20px;">扫描录入</button>
 				<hr class="headHr">
 			</div>
 			<table id="sampleTable" class="table">

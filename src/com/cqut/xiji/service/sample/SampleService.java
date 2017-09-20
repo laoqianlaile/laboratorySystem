@@ -76,7 +76,7 @@ public class SampleService extends SearchService implements ISampleService{
 	public Map<String, Object> getSampleWithPaging(String factoryCode,String sampleName,String sampleType,String giveMan,String takeMan,String receiptlistID, String startTime, String endTime,int limit, int offset,
 			String order, String sort){
 		// TODO Auto-generated method stub
-		System.out.println("sampleName: "+sampleName+"  "+"sampleType:"+sampleType+"  "+"startTime:"+startTime+"  "+"endTime: "+endTime+"  rolename:");
+		System.out.println("sampleName: "+sampleName+"  "+"sampleType:"+sampleType+"  "+"startTime:"+startTime + " 00:00:00" +"  "+"endTime: "+ endTime + " 23:00:00" + "  rolename:");
 		System.out.println("giveMan : "+giveMan+"  takeman :"+takeMan +" receiptlistID "+receiptlistID);
 		System.out.println("limit : "+limit+"  "+offset);
 		System.out.println("orderFiled : "+order+"  sortModel:"+sort);
@@ -125,7 +125,7 @@ public class SampleService extends SearchService implements ISampleService{
 		}*/
 		
     	if(startTime != null && endTime != null  && !startTime.equals("") &&  !endTime.equals("") ){
-			condition+=" and sample.createTime between  "+startTime+" and "+endTime+"  ";
+			condition+=" and sample.createTime between  "+ "'" + (startTime+" 00:00:00")+"'" +" and "+"'"+(endTime+" 23:59:59")+"'" +"  ";
 		}else if((startTime != null && !startTime.equals("")) && (endTime == null || endTime.equals(""))){
 			condition+=" and sample.createTime >  "+startTime+"  " ;
 		}else if((startTime == null ||startTime.equals("")) && (endTime != null && !endTime.equals(""))){
@@ -367,7 +367,7 @@ public class SampleService extends SearchService implements ISampleService{
 				 "sample.ID as sampleID",
 				
 		};
-		String condition = " specifications ='"+sampleStyle+"' and factory ='"+sampleCode+"' and sampleName ='"+sampleName+"'";
+		String condition = " specifications ='"+sampleStyle+"' and factoryCode ='"+sampleCode+"' and sampleName ='"+sampleName+"'";
 		List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, Sample.class);
 	
 	  if(list == null || list.size() == 0)
@@ -476,12 +476,10 @@ public class SampleService extends SearchService implements ISampleService{
 
 		String condition = " 1 = 1 and sample.laborHour is not null";
 		if (factoryCode != null && !factoryCode.equals("")) {
-			condition += " and sample.factoryCode like '%"
-					+ factoryCode + "%'";
+			condition += " and sample.factoryCode like '%" + factoryCode + "%'";
 		}
 		if (sampleName != null && !sampleName.equals("")) {
-			condition += " and sample.sampleName like '%" + sampleName
-					+ "%'";
+			condition += " and sample.sampleName like '%" + sampleName + "%'";
 		}
 		if (specifications != null && !specifications.equals("")) {
 			condition += " and sample.specifications like '%" + specifications
@@ -591,13 +589,13 @@ public class SampleService extends SearchService implements ISampleService{
     *
     */
 	@Override
-	public void exportSample(HttpServletRequest request,
-			HttpServletResponse response) {
+	public void exportSample(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
+		//在object这个类中有一个方法：getclass().这个方法是用来取得该类已经被实例化了的对象的该类的引用，
 		Class objClass = this.getClass(); 
 		String strRealPath  = objClass.getClassLoader().getResource("").getFile(); 
 		try {
-			strRealPath = URLDecoder.decode(strRealPath, "UTF-8");
+			strRealPath = URLDecoder.decode(strRealPath, "UTF-8");//把字符解码
 		} catch (UnsupportedEncodingException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -619,11 +617,9 @@ public class SampleService extends SearchService implements ISampleService{
 		fileName = "样品信息.xls";
 		final String userAgent = request.getHeader("USER-AGENT");
 		list1.add("样品信息");
-		DynamicLengthConfig config1 = new DynamicLengthConfig(0, 0, 1, 8,
-				list1);
+		DynamicLengthConfig config1 = new DynamicLengthConfig(0, 0, 1, 8,list1);
 		dynamicLengthMap.put("dynamicLengt1", config1);
-		XMLParser parser = new XMLParser(XMLPath, sheetName, null,
-				dynamicLengthMap, dataSource);
+		XMLParser parser = new XMLParser(XMLPath, sheetName, null,	dynamicLengthMap, dataSource);
 		parser.parse();
 		try {
 			if(StringUtils.contains(userAgent, "MSIE")){//IE浏览器
@@ -633,8 +629,7 @@ public class SampleService extends SearchService implements ISampleService{
             }else{
                 fileName = URLEncoder.encode(fileName,"UTF8");//其他浏览器
             }
-			response.setHeader("content-disposition", "attachment;filename=\""
-					+ fileName+"\"");
+			response.setHeader("content-disposition", "attachment;filename=\"" + fileName+ "\"");
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
 		}
@@ -701,7 +696,6 @@ public class SampleService extends SearchService implements ISampleService{
 				List<ArrayList<String>> list = new ExcelReader().readExcel(file); 
 				ArrayList<String> rowList = null;
 		        //获得Excel表格的内容:
-				
 		        for (int i = 1; i < list.size(); i++) {
 		        	rowList = list.get(i);
 		        	Sample sample = new Sample();
@@ -713,7 +707,7 @@ public class SampleService extends SearchService implements ISampleService{
 		        	if(tempString == null || tempString.equals("")){
 		        		sample.setLaborHour(0);
 		        	}else{
-		        		sample.setLaborHour(Integer.parseInt(tempString));
+		        		sample.setLaborHour(Double.parseDouble(tempString));
 		        	}
 		        
 		        	sample.setUnit(rowList.get(4));
@@ -721,6 +715,7 @@ public class SampleService extends SearchService implements ISampleService{
 		        	sample.setRemarks(rowList.get(6));
 		        	sample.setCreateTime(date);
 		            entityDao.save(sample);
+		           
 		        }
 		      
 		     
