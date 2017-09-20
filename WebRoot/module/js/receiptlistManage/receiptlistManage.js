@@ -245,7 +245,7 @@ function addRe() {
 	window.location.href = "./addRecelist.jsp?reID=" + result.reID + "&coID="
 			+ data[0].coID + "&comID=" + data[0].comID + "&coCode="
 			+ data[0].coCode + "&state=yes&reCode=" + result.reCode + "&proID="
-			+ data[0].proID;
+			+ data[0].proID + "&contractType="+data[0].contractType;
 
 }
 

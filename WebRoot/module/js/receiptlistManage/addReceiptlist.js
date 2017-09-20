@@ -87,7 +87,6 @@ function initPageData() {
 	obj.state = dara.state;
 	obj.comID = dara.comID;
 	obj.contractType = dara.contractType;
-
 	$('.headTitel').children().eq(1).children().eq(1).text(obj.reCode); // 设置交接单编码
 	$("#coCode").val(dara.coCode);// 设置合同编码
 	$("#coCode").attr("disabled", true);// 不可编辑
@@ -289,6 +288,7 @@ function selectSample(self,event) {
 		$("#editUnit").val(data.datasset.unit);
 		$("#editSampleCode").val(data.datasset.sampleCode);
 		$("#editSampleID").val(sampleID);
+		$("#editDepartment").val(sample.sampleCode);
 		// 设置不可编辑--编辑
 		$("#editSampleName").prop("disabled", true);
 		$("#editSampleStyle").prop("disabled", true);
@@ -701,6 +701,7 @@ function initAddTask_event() {
 		$("#addAskFor").val("");
 		$('#displayChecked[name = "add"]').empty();
 		addDepartmentList("add");
+		addDepartmentList("edit");
 		$("#addTaskModal").modal('show');
 		showAddTaskModal();
 	});
@@ -713,10 +714,11 @@ function showAddTaskModal(){
 	$("#addAskFor").val("");
 	$('#displayChecked[name = "add"]').empty();
 	addDepartmentList("add");
-	if(obj.contractType == "0"){
-		$("#assayType").show();
-		$("#searchAssay").show();
-		$("#calibrationItems").show();
+	addDepartmentList("edit");
+	if(obj.contractType == "1"){
+//		$("#assayType").hide();
+		$("#searchAssay").hide();
+		$("#calibrationItems").hide();
 	}
 	$("#addTaskModal").modal('show');
 }
@@ -1058,10 +1060,12 @@ function addTaskModel() {
 	param.sampleName = $("#addSampleName").val();
 	param.sampleStyle = $("#addSampleStyle").val();
 	param.sampleID = $("#addSampleID").val();
+	if(obj.contractType == "0"){
 	param.testProjects = getTestProjectID();
 	console.log(param.testProject);
+	}
 	param.unit = $("#addUnit").val();
-	param.type = $("input[name='addTaskType']").val();
+//	param.type = $("input[name='addTaskType']").val();
 	param.departmentID = $("#addDepartment").val();
 	console.log("departmentID:"+param.departmentID);
 	param.require = $("#addAskFor").val();
@@ -1518,6 +1522,9 @@ function getTestProjectID(){
 	if(allTestprojectIDs.length == 0){
 		//swal("请至少选中一个检测项目");
 		return;
+	}
+	else if(allTestprojectIDs.length == 0){
+		total += allTestprojectIDs[i].id;
 	}
 	else{
 		for(var i=0;i<allTestprojectIDs.length;i++){

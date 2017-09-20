@@ -229,13 +229,13 @@
 								</div>
 								    <div class="col-xs-12 col-md-12">
 							
-								<div class="col-md-6 col-xs-6 " style="display: none;" id="assayType">
+<!-- 								<div class="col-md-6 col-xs-6 " id="assayType">
 										<p>检测类型：</p>
 									<input type="radio" name="addTaskType" id="addTaskType1" value="0" checked="checked"> <label class="radioLabel" for="addTaskType1">检测</label>									
 									<input type="radio" name="addTaskType" id="addTaskType2" value="1"> <label class="radioLabel" for="addTaskType2">校准</label>					
-								</div>
+								</div> -->
 
-								<div class="col-md-6 col-xs-6 " style="display: none;" id="searchAssay">
+								<div class="col-md-6 col-xs-6 " id="searchAssay">
 									<div>
 										<p class="labelName">搜索查询添加检测项目:</p>
 										<input type="text" id="addsearchTestProjects"
@@ -246,7 +246,7 @@
 										<div class="showTestProjects" name="add"></div>
 								</div>
 								</div>
-								<div class="col-xs-12 col-md-12"  style="display: none;" id="calibrationItems">								
+								<div class="col-xs-12 col-md-12"  id="calibrationItems">								
 										<p>检测/校准项目：</p>
 										<div class="testProjectName displayChecked" id="displayChecked"  name="add"
 											placeholder="选择检测项目"></div>
