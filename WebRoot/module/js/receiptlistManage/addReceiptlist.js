@@ -288,7 +288,7 @@ function selectSample(self,event) {
 		$("#editUnit").val(data.datasset.unit);
 		$("#editSampleCode").val(data.datasset.sampleCode);
 		$("#editSampleID").val(sampleID);
-		$("#editDepartment").val(sample.sampleCode);
+		$("#editDepartment").val(sample.department);
 		// 设置不可编辑--编辑
 		$("#editSampleName").prop("disabled", true);
 		$("#editSampleStyle").prop("disabled", true);
@@ -701,7 +701,6 @@ function initAddTask_event() {
 		$("#addAskFor").val("");
 		$('#displayChecked[name = "add"]').empty();
 		addDepartmentList("add");
-		addDepartmentList("edit");
 		$("#addTaskModal").modal('show');
 		showAddTaskModal();
 	});
@@ -714,7 +713,6 @@ function showAddTaskModal(){
 	$("#addAskFor").val("");
 	$('#displayChecked[name = "add"]').empty();
 	addDepartmentList("add");
-	addDepartmentList("edit");
 	if(obj.contractType == "1"){
 //		$("#assayType").hide();
 		$("#searchAssay").hide();
@@ -1046,9 +1044,15 @@ function editTask() {
 	html='<span class = "spanTag"><span class= "singleE" id ="'+data.testProjectID+'" >'+ data.testProjectName +'&nbsp;&nbsp;</span><a  onclick="moveSingleE(this)">x</a></span>'
 	$('#displayChecked[name = "edit"]').empty();
 	$('#displayChecked[name = "edit"]').append(html);
-	$(".testProjectName").val(data.testName);
+	if(obj.contractType == "1"){
+//		$("#assayType").hide();
+		$("#searchAssay1").hide();
+		$("#calibrationItems1").hide();
+	}
+	else{
+	$(".testProjectName").val(data.testName);}
 	$("#editUnit").val(data.unit);
-	$("#editAskFor").val(data.askFor);
+//	$("#editAskFor").val(data.askFor);
 	$('#editTaskModal').modal('show');
 }
 // 新增任务框按钮确定
@@ -1128,8 +1132,10 @@ function editTaskModel() {
 	param.sampleStyle = $("#editSampleStyle").val();
 	param.sampleID = $("#editSampleID").val();
 	param.taskID = $("#editTaskID").val();
+	if(obj.contractType == "0"){
 	param.testProjects = getTestProjectID();
 	console.log(param.testProject);
+	}
 	param.type = $("input[name='editTaskType']").val();
 	param.departmentID = $("#editDepartment").val();
 	param.unit = $("#editUnit").val();
