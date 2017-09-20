@@ -311,7 +311,7 @@ function wdownFile(){
 /* 打开新增弹出框 */
 function showAddModal(){
 	$('#add_contractCodeM').val("");
-	$('#add_contractCode').val("");
+	$('#add_contractCode').val("SCC-IMSTEC-479");
 	$('#add_contractName').val("");
 	$('#add_companyName').val("");
 	$('#add_address').val("");

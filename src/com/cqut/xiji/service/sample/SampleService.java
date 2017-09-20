@@ -367,7 +367,7 @@ public class SampleService extends SearchService implements ISampleService{
 				 "sample.ID as sampleID",
 				
 		};
-		String condition = " specifications ='"+sampleStyle+"' and factory ='"+sampleCode+"' and sampleName ='"+sampleName+"'";
+		String condition = " specifications ='"+sampleStyle+"' and factoryCode ='"+sampleCode+"' and sampleName ='"+sampleName+"'";
 		List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, Sample.class);
 	
 	  if(list == null || list.size() == 0)
