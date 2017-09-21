@@ -1428,8 +1428,8 @@ public class ContractService extends SearchService implements IContractService{
 		+" FROM contractfineitem  WHERE "
 		+" contractfineitem.contractID = '"+coID+"'"
 		+" 	) a "
-		+" right JOIN teststandard ON teststandard.testProjectID = a.testProjectID "
-		+" LEFT JOIN standard ON teststandard.standardID = standard.ID GROUP BY standard.ID";
+		+" LEFT JOIN teststandard ON teststandard.testProjectID = a.testProjectID "
+		+" LEFT JOIN standard ON teststandard.standardID = standard.ID GROUP BY standard.ID ";
 		List<Map<String, Object>> list = searchDao.searchForeign(properties, baseEntity, null, null, null, null);
 		String reString = "";
 		Object temp = null;
