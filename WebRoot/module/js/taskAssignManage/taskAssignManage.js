@@ -49,10 +49,16 @@ $(function () {
 		queryParamsType: "limit", //参数格式,发送标准的RESTFul类型的参数请求
 		selectItemName:'',//radio or checkbox 的字段名
 		singleSelect:true,//禁止多选
-		undefinedText: '',//当数据为 undefined 时显示的字符
+		undefinedText: '-----',//当数据为 undefined 时显示的字符
 		columns:[{
-			checkbox:true,
-			width:'5%'//宽度
+			checkbox:false,
+			visible: false
+		},{
+			field:'contractName',
+			title:'合同名称',
+			align:'center',
+			vilign:'middle',
+			width:'15%'
 		},{
 			field:'ID',//返回值名称
 			title:'交接单ID',//列名
@@ -89,13 +95,13 @@ $(function () {
 			title:'委托时间',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10%'//宽度
+			width:'7%'//宽度
 		},{
 			field:'completeTime',//返回值名称
 			title:'完成时间',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10%'//宽度
+			width:'7%'//宽度
 		},{
 			field:'employeeName',//返回值名称
 			title:'样品管理员',//列名

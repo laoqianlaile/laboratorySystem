@@ -88,7 +88,8 @@ public class TaskService extends SearchService implements ITaskService {
 				"testProject.nameCn",
 				"task.departmentID",
 				"case when task.allotState = 0 then '未分配' "
-						+ "when task.allotState = 1 then '已分配' end as state",
+						+ "when task.allotState = 1 then '已分配'"
+						+ " when task.allotState = 2 then '分配中' end as state",
 				"IFnull( " + " (SELECT group_concat(employee.employeeName) "
 						+ " FROM " + " taskMan, employee " + " WHERE "
 						+ "	taskMan.taskID = task.ID "
@@ -96,13 +97,14 @@ public class TaskService extends SearchService implements ITaskService {
 						+ "	taskMan.ID),'无'" + " ) AS detector",
 				"IFnull(employee_1.employeeName,'无') as custodian",
 				"CASE WHEN task.type = 0 THEN '检测' WHEN task.type = 1 THEN '校准' END AS type",
-				"IFnull(testProject.laborHour, '?') as laborHour"
+				"IFnull(taskman.laborHour, '?') as laborHour"
 		};
 
 		String joinEntity = " left join receiptlist on receiptlist.ID = task.receiptlistID "
 				+ " left join sample on task.sampleID = sample.ID "
 				+ " left join tasktestproject on task.ID = tasktestproject.taskID "
 				+ " left join testProject ON taskTestProject.testProjectID = testProject.ID "
+				+ " left join taskman on task.ID = taskman.taskID "
 				+ " left join employee as employee_1 on task.custodian = employee_1.ID ";
 
 		String condition = "1 = 1 and task.receiptlistID = '" + ID + "' and receiptlist.receiptlistType = 0";
@@ -150,7 +152,11 @@ public class TaskService extends SearchService implements ITaskService {
 			if (type == 0) {// 初次分配
 				// 更新分配状态
 				Task task = entityDao.getByID(taskID, Task.class);
-				task.setAllotstate(1);
+				if(judgeAssignlaborHour(taskID)){
+					task.setAllotstate(1);
+				}else{
+					task.setAllotstate(2);
+				}
 				entityDao.updatePropByID(task, taskID);
 				
 				String receiptlistID = task.getReceiptlistID(); // 得到交接单ID
@@ -194,7 +200,11 @@ public class TaskService extends SearchService implements ITaskService {
 				if (taskManID == null) {
 					// 更新分配状态
 					Task task = entityDao.getByID(taskID, Task.class);
-					task.setAllotstate(1);
+					if(judgeAssignlaborHour(taskID)){
+						task.setAllotstate(1);
+					}else{
+						task.setAllotstate(2);
+					}
 					entityDao.updatePropByID(task, taskID);
 					
 					String receiptlistID = task.getReceiptlistID(); // 得到交接单ID
@@ -232,6 +242,13 @@ public class TaskService extends SearchService implements ITaskService {
 		}
 		return result;
 	}
+	
+	public boolean judgeAssignlaborHour(String taskID)
+	{
+		String condition = " taskID = '" + taskID + "' ";
+		return baseEntityDao.getCountByCondition(condition, "taskID", "taskman") > 0 ? true : false;
+	}
+	
 	/**
 	 * 
 	 * features or effect

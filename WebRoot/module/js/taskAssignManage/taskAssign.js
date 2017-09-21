@@ -1,4 +1,4 @@
-$(function () {
+ $(function () {
 	var ID = window.location.search.match(/\d+/i)[0];
 
 	$('#receiptlistID').text(ID);
@@ -587,6 +587,7 @@ $('#edit-hour').click(function(){
 					});
 					$('#editHourModal').modal('hide');
 					$('#laborHourTable').bootstrapTable('refresh');
+					$('#taskTable').bootstrapTable('refresh');
 				} else if (data === "2") {
 					swal({
 						title: "分配工时超过总工时",

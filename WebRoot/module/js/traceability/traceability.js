@@ -1014,7 +1014,6 @@ function intiFileTable() {
 function fileDownload() {
 	var getdata = $("#filetable").bootstrapTable('getSelections');
 	var fileID=getdata[0].ID;
-	alert(fileID);
 	window.location.href="timeCheckController/filedownload.do?ID="+fileID;
 }
 // 全部数据

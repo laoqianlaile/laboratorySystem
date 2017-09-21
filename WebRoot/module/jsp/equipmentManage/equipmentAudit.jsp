@@ -145,10 +145,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		           	</select>
                	</div>
                	<div class="col-xs-12 col-md-12">
-                   	<label class="control-label" style="margin:8px 0 0 0;">数量：</label>
-                   	<input type="text" id="add_number" name="number" class="form-control"/>
-               	</div>
-               	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">型号：</label>
                    	<select id="add_equipmentTypeName" name="equipmentTypeName" class="form-control">
 						
@@ -197,6 +193,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      </div>
 	      <div class="modal-body">
 	      	<div id="IDid" class="row">
+	      		<input type="text" name="EquipmentID" id="EquipmentID" style= "display:none" ></input>
 	      		<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">设备编号：</label>
                    	<input type="text" id="edit_equipmentCode" name="equipmentCode" class="form-control" />
@@ -210,10 +207,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    	<select id="edit_departmentName" name="departmentName" class="form-control">
 						
 		           	</select>
-               	</div>
-               	<div class="col-xs-12 col-md-12">
-                   	<label class="control-label" style="margin:8px 0 0 0;">数量：</label>
-                   	<input type="text" id="edit_number" name="number" class="form-control"/>
                	</div>
                	<div class="col-xs-12 col-md-12">
                    	<label class="control-label" style="margin:8px 0 0 0;">型号：</label>
@@ -259,7 +252,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<table id="table">
   	</table>
   </body>
-  <script src="module/js/equipmentManage/equipmentManage.js"></script>
+  <script src="module/js/equipmentManage/equipmentAudit.js"></script>
  <script type="text/javascript">
 	$('.form_datetime').datetimepicker({
 	    language: 'zh-CN',

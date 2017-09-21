@@ -10,7 +10,7 @@ public interface IQualityPlanService {
 
 	Map<String, Object> getQualityPlanWithPaging(int limit, int offset,
 			String order, String sort, String type, String year, String code,
-			String employeeName2);
+			String employeeName2, String EMPLOYEEID);
 
 	int updataQualityPlanById(String id, String type, String code, String year,
 			String employeeName, String employeeName2, int jude, int judg2);

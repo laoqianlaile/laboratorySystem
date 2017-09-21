@@ -1,6 +1,12 @@
 package com.cqut.xiji.service.accounts;
 
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 public interface IAccountsService {
 
@@ -13,5 +19,10 @@ public interface IAccountsService {
 	String addAccounts(String contractID, String employeeID, String remarks);
 
 	String delAccounts(String accountsID);
+	void exportAccounts(HttpServletRequest request , HttpServletResponse response);
+
+	List<Map<String, Object>> getAccounts(int total);
+	
+	int importAccounts(CommonsMultipartFile file, HttpServletRequest req,HttpServletResponse response); 
 	
 }

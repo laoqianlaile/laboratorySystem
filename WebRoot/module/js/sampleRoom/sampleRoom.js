@@ -245,6 +245,7 @@ function deleSample(sampleIDs){
 		});
 	
 }
+
 function addSample(){
 	$("#addFactoryCode").val("");
 	$('#addSampleName').val("");
@@ -252,6 +253,7 @@ function addSample(){
 	$('#addRemarks').val("");
 	$("#addModal").modal("show");
 }
+
 /* 新增方法 */
 function add() {
 	var parame = {};
@@ -358,7 +360,6 @@ function exportSample(){
 }
 //检查文件类型
 function vaildFileType(self) {
-
 	$("#submitFileBtn").removeAttr("disabled");
 	var filePath = $(self).val();
 	if (filePath != "" && filePath != undefined) {
@@ -387,24 +388,25 @@ function uploadFile() {
 			});
 		},
 	}).bind('fileuploaddone', function(e, data) {
-		var state = data.result;
+		var state = data;
 		switch(state){
 		case 0:
 			$("#importSampleModal").modal("hide");
-			swal("导入成功","success");		
+			swal("导入成功","","success");
+			
 			break;
 		case 1:
-			swal("格式不对","waring");
+			swal("格式不对","","waring");
 			break;
 		case 2:
-			swal("未在指定位置输入正确工时时间","error");
+			swal("未在指定位置输入正确工时时间","","error");
 			break;
 		case 3:
-			swal("文件路径不对","error");
+			swal("文件路径不对","","error");
 			break;
 		default:
 			$("#importSampleModal").modal("hide");
-			swal("导入成功","success");
+			swal("导入成功","","success");
 			break;
 		}
 		

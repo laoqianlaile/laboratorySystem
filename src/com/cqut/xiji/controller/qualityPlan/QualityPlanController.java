@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cqut.xiji.entity.base.Entity;
 import com.cqut.xiji.service.qualityPlan.IQualityPlanService;
 
 @Controller
@@ -36,8 +37,9 @@ public class QualityPlanController{
 	 */
 	@RequestMapping("/getQualityPlanWithPaging")
 	@ResponseBody
-	public JSONObject getQualityPlanWithPaging(int limit, int offset,String order, String sort, String type,String year,String code,String employeeName2){
-		Map<String, Object> result = service.getQualityPlanWithPaging(limit, offset, order, sort, type, year, code, employeeName2);
+	public JSONObject getQualityPlanWithPaging(int limit, int offset,String order, String sort, String type,String year,String code,String employeeName2,HttpSession session){
+		String EMPLOYEEID = (String)session.getAttribute("EMPLOYEEID");
+		Map<String, Object> result = service.getQualityPlanWithPaging(limit, offset, order, sort, type, year, code, employeeName2, EMPLOYEEID);
 		return JSONObject.fromObject(result);
 	}
 	

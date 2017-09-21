@@ -60,29 +60,29 @@
 			<div class="head">
 				<div class="content">
 					<div class="row" style="margin-top:10px;">
-						<div class="col-xs-4 col-md-4 col-lg-4">
+						<div class="col-xs-3 col-md-3 col-lg-3">
 							<label class="control-label">员工姓名 ： </label> <input type="text"
 								id="search_employeeName" name="employeeName"
 								class="form-control" placeholder="请输入名称查找" />
 						</div>
-						<div class="col-xs-4 col-md-4 col-lg-4">
+						<div class="col-xs-3 col-md-3 col-lg-3">
 							<label class="control-label">员工编码 ： </label> <input type="text"
 								id="search_employeeCode" name="employeeCode"
 								class="form-control" placeholder="请输入员工编码查找" />
 						</div>
-						<div class="col-xs-4 col-md-4 col-lg-4">
+						<div class="col-xs-3 col-md-3 col-lg-3">
 							<label class="control-label">登录名 ： </label> <input type="text"
 								id="search_loginName" name="loginName" class="form-control"
 								placeholder="请输入登录名查找" />
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-xs-4 col-md-4 col-lg-4">
+						<div class="col-xs-3 col-md-3 col-lg-3">
 							<label class="control-label">电话号码 ： </label> <input type="text"
 								id="search_phoneNumber" name="phoneNumber" class="form-control"
 								placeholder="请输入电话号码查找" />
 						</div>
-						<div class="col-xs-4 col-md-4 col-lg-4">
+						<div class="col-xs-3 col-md-3 col-lg-3">
 							<label class="control-label">部&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;门 &nbsp;&nbsp;:</label> <select
 								id="search_departmentName" name="departmentName"
 								class="form-control">
@@ -93,11 +93,11 @@
 				</div>
 			</div>
 			<div class="top">
-				<button type="button" class="btn btn-primary glyphicon btn3 glyphicon glyphicon-refresh"
+				<button type="button" class="btn btn-primary glyphicon btn3"
 					onclick="reflesh()">刷新</button>
-				<button type="button" class="btn btn-primary glyphicon btn3 glyphicon glyphicon-search"
+				<button type="button" class="btn btn-primary glyphicon btn3"
 					onclick="search()">查询</button>
-				<button type="button" class="btn btn-primary glyphicon btn3 glyphicon glyphicon-plus"
+				<button type="button" class="btn btn-primary glyphicon btn3"
 					style="hover:#ffad33" onclick="add()">新增</button>
 				<button type="button" class="btn btn-primary glyphicon btn3"
 					onclick="reset()">重置</button>
