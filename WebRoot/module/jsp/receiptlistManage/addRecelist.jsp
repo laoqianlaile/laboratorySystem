@@ -300,14 +300,16 @@
 							<div class="row">
 								<div class="col-xs-12 col-md-12">
 									<p>出厂编号：</p>
-									<input type="text" id="editSampleCode" name="sampleCode"
+										<input type="text" id="editSampleCode" name="sampleCode"
 										placeholder="输入出厂编码或者名称搜索" class="form-control"
 										aria-describedby="basic-addon1"
 										onpropertychange="handleSearchSample(this,'edit')"
-										oninput="handleSearchSample(this,'edit')" /> <input
-										type="hidden" id="editSampleID" name="sampleID"
-										class="form-control" aria-describedby="basic-addon1" /> <input
-										type="hidden" id="editTaskID" name="taskID"
+										oninput="handleSearchSample(this,'edit')" /> 
+										
+										<input type="hidden" id="editSampleID" name="sampleID"
+										class="form-control" aria-describedby="basic-addon1" /> 
+										
+										<input type="hidden" id="editTaskID" name="taskID"
 										class="form-control" aria-describedby="basic-addon1" />
 									<div class="tip-factory  ">
 										<div class="tip-factory-content"></div>
@@ -324,7 +326,7 @@
 									<input type="text" id="editSampleStyle" name="sampleStyle"
 										class="form-control" aria-describedby="basic-addon1" />
 								</div>
-	<div class="col-xs-12 col-md-12">
+								<div class="col-xs-12 col-md-12">
 							
 		<!-- 							<div class="col-md-6 col-xs-6 ">
 									<p>检测类型：</p>
