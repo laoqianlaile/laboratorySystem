@@ -35,14 +35,15 @@ function initData(){
 			width:'10',//宽度
 //			visible:false
 		},{
-			field:'equipmentName',//返回值名称
-			title:'设备名称',//列名
+			field:'ID',//返回值名称
+			title:'设备ID',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'10'//宽度
+			width:'0',//宽度
+			visible:false
 		},{
-			field:'number',//返回值名称
-			title:'数量',//列名
+			field:'equipmentName',//返回值名称
+			title:'设备名称',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'10'//宽度
@@ -82,12 +83,6 @@ function initData(){
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'10'//宽度
-		},{
-			field:'state',//返回值名称
-			title:'状态',//列名
-			align:'center',//水平居中显示
-			valign:'middle',//垂直居中显示
-			width:'10'//宽度
 		}]//列配置项,详情请查看 列参数 表格
 		/*事件*/
 	});
@@ -124,32 +119,43 @@ function refresh(){
 }
 
 /* 删除方法 */
-function delData(){
+function delData() {
 	var data = $('#table').bootstrapTable('getSelections');
-	if(data.length==0){
-		alert("请至少选中一条数据");
+    //弹出确认框
+	if (data.length == 0) {
+		sweetAlert("请至少选中一条数据");
 		return;
 	}
-	var Codes = "";
-	for(var i=0; i<data.length; i++){
-		Codes += "equipmentCode= '" + data[i].equipmentCode + "' or ";
+
+	var ids = "";
+	for (var i = 0; i < data.length; i++) {
+		ids += data[i].ID + ",";
 	}
-	alert(Codes.substring(0, (Codes.length-3)));
-	var ajaxParameter = {
-			equipmentCodes:Codes.substring(0, (Codes.length-3))	
-	};
+
+
+	var sampleIDs = ids.substring(0, (ids.length - 1));
+	deleEquipment(sampleIDs);
+	
+}
+
+function deleEquipment(sampleIDs){
 	
 	$.ajax({
-	  url:'equipmentController/delEquipment.do',
-	  type:"post",
-	  data:ajaxParameter,
-	  success:function(o){
-		  if(o<=0){
-			  alert("删除失败");
+		url : '/laboratorySystem/equipmentController/delEquipment.do',
+		dataType:"json",
+		data : {
+			equipmentIDs : sampleIDs
+		},
+		success : function(o) {
+			if (o == "false") {
+				alert("删除失败");
+			}else{
+				alert("删除成功");
 		  }
-		  refresh();
-	  }
+			refresh();
+		}
 	});
+	
 }
 
 /* 新增方法 */
@@ -170,7 +176,6 @@ function add(){
 		parame.state = "0";
 		parame.remarks = $('#add_remarks').val();
 		parame.employeeName = $('#add_employeeName').val();
-		alert(parame);
 		
 		$.ajax({
 		  url:'equipmentController/addEquipment.do',
@@ -393,6 +398,7 @@ function openModal(){
 	}
 	$('#edit_equipmentCode').val(data[0].equipmentCode);
 	$('#edit_equipmentName').val(data[0].equipmentName);
+	$('#EquipmentID').val(data[0].ID);
 	
 	var depart = data[0].departmentName;
 	switch (depart) {
@@ -435,7 +441,6 @@ function openModal(){
  */
 function GetEName(employeeName){
 	var name = employeeName;
-	alert(name);
 	var parame = {};
 	parame.employeeName = name;
 		

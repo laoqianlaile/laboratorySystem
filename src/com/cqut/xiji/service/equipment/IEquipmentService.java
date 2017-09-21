@@ -36,17 +36,16 @@ public interface IEquipmentService {
 	 * @param remarks
 	 * @return
 	 */
-	public int addEquipment(String equipmentName,
+	public int addEquipment(String equipmentCode,String equipmentName,
 			String equipmentType, String model, String department,
-			String buyTime, int useYear, String factoryCode,
-			String credentials, String effectiveTime, String remarks,
-			HttpServletRequest request,HttpServletResponse response);
+			String buyTime, int useYear, String factoryCode, String credentials,
+			String remarks,HttpServletRequest request,HttpServletResponse response);
 	
 	/**
 	 * @param equipmentIds
 	 * @return
 	 */
-	public int delEquipment(String equipmentIds);
+	public String delEquipment(String equipmentIDs);
 
 	/**
 	 * @param equipmentCode
@@ -69,11 +68,7 @@ public interface IEquipmentService {
 	 * @param remarks
 	 * @return
 	 */
-	public int updEquipment(String ID, String equipmentCode,
-			String equipmentName, String equipmentType, String model,
-			String department, int useYear, String factoryCode,
-			String credentials, String effectiveTime, String employeeID,
-			String remarks);
+	public int updEquipment(String ID, String equipmentName, String equipmentType, String department, String buyTime, int useYear, String remarks);
 
 	public List<Map<String, Object>> getEquipments();
 
