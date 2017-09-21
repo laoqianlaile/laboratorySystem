@@ -91,6 +91,7 @@ public class ReceiptlistService extends SearchService implements
 		String tableName = "receiptlist";
 		String[] properties = new String[] {
 				"receiptlist.ID",
+				"contract.contractName",
 				"contract.contractCode",
 				"receiptlist.receiptlistCode",
 				"company.companyName",
@@ -680,7 +681,7 @@ public class ReceiptlistService extends SearchService implements
 					for (int i = 0; i < listemployee.size(); i++) {
 						MessageNotice messageNotice = new MessageNotice();
 						messageNotice.setMessageID(message.getID());
-						messageNotice.setID(EntityIDFactory.createId());
+						 messageNotice.setID(EntityIDFactory.createId());
 						messageNotice
 								.setEmployeeID(listemployee.get(i).getID());
 						messageNotice.setState(0);
@@ -696,6 +697,7 @@ public class ReceiptlistService extends SearchService implements
 		return entityDao.updatePropByID(receiptlist, reID) == 1 ? "true"
 				: "false";
 	}
+	
 	public static Date StrToDate(String str) {
 
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

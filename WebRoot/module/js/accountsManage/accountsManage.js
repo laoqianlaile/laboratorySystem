@@ -10,6 +10,7 @@ function init(){
 	
 
 	$(function(){
+		uploadFile();
 		$('#table').bootstrapTable({
 			striped:true, // 隔行变色效果
 			pagination:true,// 在表格底部显示分页条
@@ -310,4 +311,73 @@ function getLoginerInfo(){
 		}
 	});
 	return data;
+}
+
+//导出文件
+function exportAccounts(){
+	window.location.href = "/laboratorySystem/accountsController/exportAccounts.do";
+}
+//检查文件类型
+function vaildFileType(self) {
+
+	$("#submitFileBtn").removeAttr("disabled");
+	var filePath = $(self).val();
+	if (filePath != "" && filePath != undefined) {
+		var arr = filePath.split('\\');
+		var fileName = arr[arr.length - 1];
+		$("#fileName").html(fileName);
+	}
+	if (self.value.indexOf('.xls') < 0 && self.value.indexOf('.xlsx') < 0) {
+		swal("此类型文件不能上传");
+		$("#submitFileBtn").attr("disabled", true);
+		$("#fileName").empty(); // 清空子元素
+	}
+} 
+
+function importAccounts(){
+	$("#importSampleModal").modal("show");
+}
+//初始化上传文件的方法
+function uploadFile() {
+	$("#files").fileupload({
+		autoUpload : true,
+		url : '/laboratorySystem/accountsController/importAccounts.do',
+		dataType : 'json',
+		add : function(e, data) {
+			$("#submitFileBtn").click(function() {
+				data.submit();
+			});
+		},
+	}).bind('fileuploaddone', function(e, data) {
+		var state = data;
+		switch(state){
+		case 0:
+			$("#importSampleModal").modal("hide");
+			swal("导入成功","","success");
+			
+			break;
+		case 1:
+			swal("格式不对","","waring");
+			break;
+		case 2:
+			swal("未在指定位置输入正确工时时间","","error");
+			break;
+		case 3:
+			swal("文件路径不对","","error");
+			break;
+		default:
+			$("#importSampleModal").modal("hide");
+			swal("导入成功","","success");
+			refresh();
+			break;
+		}
+		
+	
+	});
+	// 文件上传前触发事件
+	$('#files').bind('fileuploadsubmit', function(e, data) { 
+		data.formData = {
+
+		}
+	});
 }

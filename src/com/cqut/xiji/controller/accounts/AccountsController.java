@@ -3,12 +3,16 @@ package com.cqut.xiji.controller.accounts;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.cqut.xiji.service.accounts.IAccountsService;
 
@@ -82,5 +86,36 @@ public class AccountsController{
 	public String delAccounts(String accountsID){
 		String result = service.delAccounts(accountsID);
 		return result;
+	}
+
+	/**
+	 *导出Excel表
+	 * 
+	 * @author zx
+	 * @return
+	 */
+	@RequestMapping("/exportAccounts")
+	@ResponseBody
+	public void exportAccounts(HttpServletRequest request , HttpServletResponse response ) {
+		 service.exportAccounts(request, response);
+	}
+	
+	/**
+	 * 
+	 * 导sample样品信息
+	 * @author wzj
+	 * @date 2017年7月18日 下午1:01:55
+	 * @param file
+	 * @param req
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/importAccounts")
+	@ResponseBody
+	public int importSample(@RequestParam("files") CommonsMultipartFile file,
+			HttpServletRequest req, HttpServletResponse response ) {
+		int result = service.importAccounts(file,req,response);
+		return result;
+		
 	}
 }

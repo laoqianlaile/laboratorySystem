@@ -9,7 +9,7 @@
 		clickToSelect:true,//设置true 将在点击行时，自动选择rediobox 和 checkbox
 		cache: false,//禁用 AJAX 数据缓存
 		sortName:'sampleRecord.ID',//定义排序列
-		sortOrder:'desc',//定义排序方式
+		sortOrder:'asc',//定义排序方式
 		url:'sampleRecordController/getSampleRecordWithPaging.do',//服务器数据的加载地址
 		sidePagination:'server',//设置在哪里进行分页
 		contentType:'application/json',//发送到服务器的数据编码类型
@@ -619,9 +619,6 @@ function trimall(str) {
 
 /* 新增方法 */
 function add(){
-	
-	
-
 		var parame = {};
 		parame.factoryCode = $('#add_factoryCode').val();
 		parame.sampleName = $('#add_sampleName').val();
