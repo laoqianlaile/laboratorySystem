@@ -8,9 +8,9 @@
 				<widthItem>3000</widthItem>
 				<widthItem>3000</widthItem>
 				<widthItem>3000</widthItem>
-				<widthItem>3000</widthItem>
-				<widthItem>3000</widthItem>
 				<widthItem>5000</widthItem>
+				<widthItem>3000</widthItem>
+				<widthItem>3000</widthItem>
 			</colWidth>
 		</style>
 		<!-- 定义动态表头 -->
@@ -70,7 +70,7 @@
 						<row>1</row>
 						<col>5</col>
 					</address>
-					<title>领用状态</title>
+					<title>录入时间</title>
 				</header>
 
 				<header id="header6">
@@ -78,7 +78,7 @@
 						<row>1</row>
 						<col>6</col>
 					</address>
-					<title>备注</title>
+					<title>领用状态</title>
 				</header>
 
 				<header id="header7">
@@ -86,7 +86,7 @@
 						<row>1</row>
 						<col>7</col>
 					</address>
-					<title>录入时间</title>
+					<title>备注</title>
 				</header>
 			</staticSingleReportHeader>
 		</dynamicReportHeader>
@@ -105,9 +105,10 @@
 				<item>sampleStype</item>
 				<item>laborHour</item>
 				<item>unit</item>
+				<item>createTime</item>
 				<item>state</item>
 				<item>remarks</item>
-				<item>createTime</item>
+				
 			</dataItem>
 		</dataArea>
 	</sheet>

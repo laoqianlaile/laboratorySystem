@@ -261,6 +261,7 @@ public class SampleService extends SearchService implements ISampleService{
 			}
 			sample.setUnit(unit);
 			sample.setState(0);
+			sample.setLaborHour(3);
 			sample.setCreateTime(new Date());
 			sample.setQrcode(EntityIDFactory.createId());	
 			 return  entityDao.save(sample) == 1 ?"true":"false";
@@ -683,6 +684,8 @@ public class SampleService extends SearchService implements ISampleService{
 		        //获得Excel表格的内容:
 		        for (int i = 1; i < list.size(); i++) {
 		        	rowList = list.get(i);
+		        	if(isExitByCodeName(rowList.get(0),rowList.get(1)))
+		        		continue;
 		        	Sample sample = new Sample();
 		        	sample.setID(EntityIDFactory.createId());
 		        	sample.setFactoryCode(rowList.get(0));
@@ -690,7 +693,7 @@ public class SampleService extends SearchService implements ISampleService{
 		        	sample.setSpecifications(rowList.get(2));
 		        	String tempString = rowList.get(3);
 		        	if(tempString == null || tempString.equals("")){
-		        		sample.setLaborHour(0);
+		        		sample.setLaborHour(3);
 		        	}else{
 		        		sample.setLaborHour(Double.parseDouble(tempString));
 		        	}
