@@ -242,11 +242,10 @@ public class SampleService extends SearchService implements ISampleService{
 	 */
 	@Override
 	public String addSample(String factoryCode,String sampleName, String sampleType, String remarks,String unit){
-		String sampleID = isExitByCodeName(factoryCode, sampleName, sampleType);
-		if(sampleID == null || sampleID.equals("")){
+		if(isExitByCodeName(factoryCode, sampleName))
+			return "have";
 			Sample sample = new Sample();
-			sampleID = EntityIDFactory.createId();
-			sample.setID(sampleID);
+			sample.setID(EntityIDFactory.createId());
 			if(factoryCode != null && !factoryCode.equals("")){
 				sample.setFactoryCode(factoryCode);
 			}
@@ -265,10 +264,6 @@ public class SampleService extends SearchService implements ISampleService{
 			sample.setCreateTime(new Date());
 			sample.setQrcode(EntityIDFactory.createId());	
 			 return  entityDao.save(sample) == 1 ?"true":"false";
-		}
-		else {
-			return "have";
-		}
 	}
 	
 	/**
@@ -337,10 +332,10 @@ public class SampleService extends SearchService implements ISampleService{
 	public String updateSample(String ID,String sampleName,String factoryCode, String sampleType,
 			String remarks, String unit) {
 		if(ID == null  || ID.equals("")){
-			return "false";
+			return "have";
 		}
-		String sampleID = isExitByCodeName(factoryCode, sampleName, sampleType);
-		if(sampleID == null || sampleID.equals("")){
+		if(isExitByCodeName(factoryCode, sampleName))
+			return "have";
 			Sample	sample = entityDao.getByID(ID, Sample.class);
 			if(sample == null )
 				return "false";
@@ -349,9 +344,6 @@ public class SampleService extends SearchService implements ISampleService{
 			sample.setRemarks(remarks);
 			sample.setFactoryCode(factoryCode);
 			return entityDao.updatePropByID(sample, ID)  == 1 ? "true": "false";
-		}else{
-	       return "true";
-		}
 	}
 /**
  * 
@@ -361,25 +353,18 @@ public class SampleService extends SearchService implements ISampleService{
  *
  */
 	@Override
-	public String isExitByCodeName(String sampleCode,String sampleName , String sampleStyle) {
+	public boolean isExitByCodeName(String sampleCode,String sampleName) {
 		// TODO Auto-generated method stub
 		String[] properties = new String[]{
-				 "sample.ID as sampleID",
-				
+				 "sample.ID as sampleID",	
 		};
-		String condition = " specifications ='"+sampleStyle+"' and factoryCode ='"+sampleCode+"' and sampleName ='"+sampleName+"'";
+		String condition = " factoryCode ='"+sampleCode+"' and sampleName ='"+sampleName+"'";
 		List<Map<String, Object>> list = entityDao.findByCondition(properties, condition, Sample.class);
 	
 	  if(list == null || list.size() == 0)
-		 return "";
+		 return false;
 	  else {
-		  Object sampleID =  list.get(0).get("smapleID");
-		  if(sampleID == null ){
-			  return "";
-		  }
-		  else{
-			  return sampleID.toString();
-		  }
+		  return true;
 	  }
 	}
 	
