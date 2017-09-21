@@ -13,8 +13,11 @@ import org.springframework.stereotype.Service;
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
+import com.cqut.xiji.entity.receiptlist.Receiptlist;
+import com.cqut.xiji.entity.task.Task;
 import com.cqut.xiji.entity.taskMan.TaskMan;
 import com.cqut.xiji.service.base.SearchService;
+import com.cqut.xiji.service.task.TaskService;
 
 @Service
 public class TaskManService extends SearchService implements ITaskManService{
@@ -27,6 +30,9 @@ public class TaskManService extends SearchService implements ITaskManService{
 	
 	@Resource(name="baseEntityDao")
 	BaseEntityDao baseEntityDao;
+	
+	@Resource(name="taskService")
+	TaskService taskService;
 	
 	/**
 	 * 
@@ -112,8 +118,22 @@ public class TaskManService extends SearchService implements ITaskManService{
 		} else if (laborHour + totalLaborHour > maxLaborHour) { // 如果分配的工时超过可分配的工时
 			return 3;
 		} else { // 正常分配
-			taskMan.setLaborHour(laborHour);
+			Task task = entityDao.getByID(taskID, Task.class);
+			if(task.getAllotstate() == 2){ //等于2代表该任务已经分配了检测人员但是没有分配工时，1代表任务分配完成 
+				task.setAllotstate(1);
+				entityDao.updatePropByID(task, taskID);
+				Receiptlist receiptlist = entityDao.getByID(task.getReceiptlistID(), Receiptlist.class);
+				
+				// 判断该交接单下的任务是否全部分配
+				if (taskService.judgeAssignState(taskID) == 1) {
+					receiptlist.setAllotState(1);
+				} else if (taskService.judgeAssignState(taskID) == 2) {
+					receiptlist.setAllotState(2);
+				}
+				entityDao.updatePropByID(receiptlist, task.getReceiptlistID()); // 更新交接单分配状态
+			}
 			
+			taskMan.setLaborHour(laborHour);
 			return entityDao.updatePropByID(taskMan, ID); // 即返回1
 		}
 	}
