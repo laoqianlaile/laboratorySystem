@@ -94,20 +94,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="list-searcher">
 			<span>设备型号：</span>
 			<select id="schEquipmentType" name="schEquipmentType" class="form-control" >
-		    	<option value="0">所有型号</option>
-		    	<option value="1">超大型</option>
-				<option value="2">大型</option>
-				<option value="3">中型</option>
-				<option value="4">小型</option>
 			</select>
 			<span>设备名称：</span><input type="text" id="schEquipmentName" name="schEquipmentName" class="form-control" >
 		</div>
 		<div class="list-searcher">
 		    <span>所属科室：</span>
 		    <select id="schDepartment" name="schDepartment" class="form-control" >
-		    	<option value="0">所有科室</option>
-		    	<option value="1">物理实验室</option>
-				<option value="2">化学实验室</option>
 			</select>
 			<span>购入时间：</span><input type="date" id="schBuyTime" name="schBuyTime" class="form-control" >
 		</div>
