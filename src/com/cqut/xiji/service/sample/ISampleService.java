@@ -27,7 +27,7 @@ public interface ISampleService {
 	String updateSample(String ID, String sampleName,String factoryCode, String sampleType,
 			String remarks, String unit); //单纯的修改样品信息
 	String delLinkReSample(String linkIDs);
-	String isExitByCodeName(String sampleCode,String sampleName,String sampleStyle); //通过判断名称 编码 型号 是否存在
+	boolean isExitByCodeName(String sampleCode,String sampleName); //通过判断名称 编码 型号 是否存在
 	String getSampleByID(String sampleID);
 	public List<Map<String, Object>> getSampleInfor(String qrcode);
 	String addSample(String factoryCode, String sampleName, String sampleType,String remarks, String unit); //新增样品

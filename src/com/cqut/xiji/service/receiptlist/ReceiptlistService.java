@@ -498,8 +498,8 @@ public class ReceiptlistService extends SearchService implements
 			type = "1";
 		}
 		if (sampleID == null || sampleID.equals("")) {
-			String sampleID1 = sampleService.isExitByCodeName(sampleCode, sampleName, sampleStyle); //查询是否存在此类样品
-			if(sampleID1 == null || sampleID1.equals("") ){
+			if(sampleService.isExitByCodeName(sampleCode, sampleName))
+				return "have";//查询是否存在此类样品
 				// 样品还不存在
 				Sample sample = new Sample();
 				sample.setID(EntityIDFactory.createId());
@@ -512,10 +512,6 @@ public class ReceiptlistService extends SearchService implements
 				sample.setQrcode(EntityIDFactory.createId());
 				if (entityDao.save(sample) != 1)
 					return "false";
-			}
-			else{
-				sampleID = sampleID1;
-			}
 		
 		} else {
 			Sample sample = entityDao.getByID(sampleID, Sample.class); // 有样品更新数据

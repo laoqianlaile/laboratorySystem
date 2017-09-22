@@ -83,6 +83,7 @@ public class TaskService extends SearchService implements ITaskService {
 				"task.ID",
 				"sample.factoryCode",
 				"sample.sampleName",
+				"sample.laborHour as totalLaborHour",
 				"sample.specifications",
 				"testProject.ID as testProjectID",
 				"testProject.nameCn",
