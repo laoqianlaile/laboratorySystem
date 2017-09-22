@@ -7,7 +7,13 @@ $(function(){
 
 function init(){
 	
-
+	$("#ensure").click(function() {
+		var files = $('#files').val();
+		if(files == null || files == ""){
+			swal({title:"新上传文件!",  type:"error",});
+			return ;
+		}
+	});
 	$(function(){
 		$('#table').bootstrapTable({
 			striped:false, // 隔行变色效果

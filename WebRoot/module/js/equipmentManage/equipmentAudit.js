@@ -204,7 +204,7 @@ function showSth(){
 	    		 var department;
 	    		 var myobj = JSON.parse(data);
 	    		 var htmlElement = "<option></option>";//定义HTML    
-	    		 department=$("#add_departmentName");
+	    		 department=$("#schDepartment");
 	    		 for(var i=0;i<myobj.length;i++){
 	    			 htmlElement += "<option value='" + myobj[i].ID + "'>" + myobj[i].departmentName + "</option>";
 	    		 }
@@ -221,7 +221,7 @@ function showSth(){
 	    		 var equipmentType;
 	    		 var myobj = JSON.parse(data);
 	    		 var htmlElement = "<option></option>";//定义HTML    
-	    		 equipmentType=$("#add_equipmentTypeName");
+	    		 equipmentType=$("#schEquipmentType");
 	    		 for(var i=0;i<myobj.length;i++){
 	    			 htmlElement += "<option value='" + myobj[i].ID + "'>" + myobj[i].name + "</option>";
 	    		 }
@@ -307,6 +307,16 @@ function editSth(){
 	    		 }
 	    		 department.append(htmlElement);
  		    }
+	    	 if (data) { 
+	    		 var department1;
+	    		 var myobj = JSON.parse(data);
+	    		 var htmlElement = "<option class='depart'></option>";//定义HTML    
+	    		 department1=$("#add_departmentName");
+	    		 for(var i=0;i<myobj.length;i++){
+	    			 htmlElement += "<option value='" + myobj[i].ID + "'>" + myobj[i].departmentName + "</option>";
+	    		 }
+	    		 department1.append(htmlElement);
+ 		    }
 		}
 	 });
 	 $.ajax({  
@@ -323,6 +333,16 @@ function editSth(){
 	    			 htmlElement += "<option value='" + myobj[i].ID + "'>" + myobj[i].name + "</option>";
 	    		 }
 	    		 equipmentType.append(htmlElement);
+ 		    }
+	    	 if (data) { 
+	    		 var equipmentType1;
+	    		 var myobj = JSON.parse(data);
+	    		 htmlElement = "<option class='equip'></option>";//定义HTML    
+	    		 equipmentType1=$("#add_equipmentTypeName");
+	    		 for(var i=0;i<myobj.length;i++){
+	    			 htmlElement += "<option value='" + myobj[i].ID + "'>" + myobj[i].name + "</option>";
+	    		 }
+	    		 equipmentType1.append(htmlElement);
  		    }
 		}
 	 });
@@ -397,7 +417,7 @@ function openModal(){
 		return;
 	}
 	$('#edit_equipmentCode').val(data[0].equipmentCode);
-	$('#edit_equipmentName').val(data[0].equipmentName);
+	$('#edit_equipmentName').val(data[0].equipmentID);
 	$('#EquipmentID').val(data[0].ID);
 	
 	var depart = data[0].departmentName;

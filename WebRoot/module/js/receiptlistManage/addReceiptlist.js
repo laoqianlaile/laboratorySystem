@@ -14,6 +14,7 @@ var obj = {
 	departmentData :[],
 	isCreate : false
 }
+var tableData;
 /**
  * 上传文件所用的参数
  */
@@ -448,6 +449,9 @@ function dealReSave(self) {
 	if (vaildInputData(param) == false) {
 		return;
 	}
+	if(unselectedDepartment()){
+		return;
+	}
 	obj.isCreate = true;
 	if (btnName == "保存")
 		param.saveState = "save";
@@ -475,6 +479,16 @@ function dealReSave(self) {
 
 			});
 
+}
+//判断是否选中咳嗽
+function unselectedDepartment(){
+	for(i=0;i<tableData.rows.length;i++){
+		if(tableData.rows[i].departmentName == undefined || tableData.rows[i].departmentName == ""){
+			swal("请检查您的样品信息是否选择了检测科室");
+			return true;
+		}
+	}
+	return false;
 }
 // 验证数据是否合理或者是否输入
 function vaildInputData(param) {
@@ -890,7 +904,7 @@ function initSample() {
 						}, // 请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
 						selectItemName : '',// radio or checkbox 的字段名
 						onLoadSuccess : function(data) {
-							
+							tableData = data;
 						},
 						columns : [
 								{
@@ -1041,6 +1055,7 @@ function editTask() {
 	$("#editSampleStyle").val(data.sampleStyle);
 	$("#editSampleID").val(data.sampleID);
 	$("#editTaskID").val(data.ID);
+	editDepartmentList("edit",data.departmentName);
 	html='<span class = "spanTag"><span class= "singleE" id ="'+data.testProjectID+'" >'+ data.testProjectName +'&nbsp;&nbsp;</span><a  onclick="moveSingleE(this)">x</a></span>'
 	$('#displayChecked[name = "edit"]').empty();
 	$('#displayChecked[name = "edit"]').append(html);
@@ -1054,6 +1069,18 @@ function editTask() {
 	$("#editUnit").val(data.unit);
 //	$("#editAskFor").val(data.askFor);
 	$('#editTaskModal').modal('show');
+}
+function editDepartmentList(par,departmentName){
+	var html = "";
+	var data = obj.departmentData ;
+	$("#"+par+"Department").html(html);
+	for(var i = 0; i < data.length ; i++){
+		if(departmentName == data[i].departmentName)
+			html+="<option value='"+data[i].ID+"'  selected ='selected'>" + data[i].departmentName + "</option>";
+		else
+			html+="<option value='"+data[i].ID+"'>"+data[i].departmentName+"</option>";
+	}
+	$("#"+par+"Department").html(html);
 }
 // 新增任务框按钮确定
 function addTaskModel() {
@@ -1092,6 +1119,7 @@ function addTaskModel() {
 							$('#sampleTable').bootstrapTable('refresh', null);
 							swal("任务新增成功");
 							showAddTaskModal();
+							$("#addTaskModal").modal('hide');
 						} else
 							swal("","任务新增失败","error");
 					},
