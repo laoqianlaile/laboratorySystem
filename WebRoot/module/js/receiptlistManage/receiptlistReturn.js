@@ -334,38 +334,56 @@ function automaticadd() {
 
 // 手动录入样品
 function manualadd() {
-	// $('input[type="text"]').val("");
-	$('#add').modal('show');
+	$("#add_factoryCode").val(""); // 后面方法验证
+	$("#add_sampleName").val("");
+	$("#add_specifications").val("");
+	$("#add_sampleID").val("");
+	$('#add').modal('show');''
 }
 
 function addSample() {
-	var sampleCode = $('#add_sampleCode').val();
+	var sampleCode = $('#add_factoryCode').val();
 	isExitSample(sampleCode);
 }
 
 // 录入样品
 function isExitSample(sampleCode) {
+	// 获取数据
+	var param = {};
 	var data;
-	$.ajax({
-		url : '/laboratorySystem/sampleController/getSampleByCode.do',
-		dataType : "json",
-		type : "post",
-		contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
-		async : false,
-		data : {
-			sampleCode : sampleCode
-		},
-		success : function(o) {
-			var datas = JSON.parse(o);
-			var ID = datas.sampleID;
-			if (typeof ID !== 'undefined') {
-				add(ID);
-			} else {
-				swal("该样品不存在");
-			}
-		}
-	});
-}
+	param.sampleCode = $("#add_factoryCode").val(); // 后面方法验证
+	param.sampleName = $("#add_sampleName").val();
+	param.sampleStyle = $("#add_specifications").val();
+	param.sampleID = $("#add_sampleID").val();
+	param.require = $("#add_remarks2").val();
+	param.reID = reID;
+	param.state = "add";
+	if(param.sampleID.length == 0){
+		swal("请选择样品");
+		return;
+	}
+		// 传输数据
+		$.ajax({
+					url : '/laboratorySystem/receiptlistController/addTaskAndSampleWithEdit.do',
+					dataType : "json",
+					type : "post",
+					contentType : 'application/x-www-form-urlencoded; charset=UTF-8',// 发送到服务器的数据编码类型
+					async : false,
+					data : param,
+					success : function(o) {
+						data = JSON.parse(o);
+						if (data == true) {
+							$('#sampleTable').bootstrapTable('refresh', null);
+							swal("任务新增成功");
+							$("#add").modal('hide');
+						} else
+							swal("","任务新增失败","error");
+					},
+					error : function() {
+						return false;
+					}
+				});
+	} 
 
 function add(ID) {
 
@@ -569,4 +587,88 @@ function checkSamplesData(dataObj) {
 // 返回
 function turnBack() {
 	window.history.back(-1);
+}
+
+/**
+ * 改变信息触发相关提示信息的方法(add)
+ */
+function addGetSName(){ 
+	var codeOrName = $('#add_factoryCode').val().trim();
+	if (!codeOrName || typeof(codeOrName) == "undefined" || codeOrName.trim() == "") 
+	{ 
+		$(".sampleSelect").hide();
+	}else {
+		var parame = {};
+		parame.codeOrName = codeOrName;
+		
+		$.ajax({  
+		    url:'sampleController/getSampleMsg.do',// 跳转到 action
+		    type:'post', 
+		    data:parame,
+		    dataType:'json',
+		    success:function(data){  
+		    	if (data) { 
+		    		var sample,length;
+		    		var myobj = JSON.parse(data);
+		    		var htmlElement = "";//定义HTML
+		    		sample = $(".sampleSelect");
+		    		if(myobj.length == 0){
+		    			htmlElement += "<ul><li class='noDate'>没有查到对应样品，将新增对应数据</li></ul>";
+		    		}else{
+		    			length = myobj.length;
+		    			htmlElement += "<ul>";
+		    			for(var i=0; i < length; i++){
+		    				htmlElement += "<li value='" + myobj[i].sampleName + "' name='" + myobj[i].sampleID + "' title='" + myobj[i].specifications + "' class='" + myobj[i].factoryCode + "'>" + myobj[i].factoryCode + " | " + myobj[i].sampleName + "</li>";
+			    		}
+		    			htmlElement += "</ul>";
+		    		}
+	    			
+		    		sample.show();
+		    		sample.empty();
+		    		sample.append(htmlElement);
+		    		addClick();
+		    	}
+		    }
+		});
+	}
+}
+
+//点击事件(add)
+function addClick(){ 
+	//给input赋值
+	$(".sampleSelect ul li").click(function(){
+		 var sampleID =  $(this).attr("name");
+		 if (sampleID == null || sampleID.trim() == "" || sampleID == "undefined") {
+			 sampleID = "add_factoryCode";
+			 $('#add_factoryCode').attr({'name' : "" + sampleID + ""});
+			 $('#add_sampleName').attr("readOnly",false);
+			 $('#add_specifications').attr("readOnly",false);
+		 }else{
+			 $("#add_sampleID").val(sampleID);
+			 $('#add_factoryCode').attr({'name' : "" + sampleID + ""});
+			 var sampleName =  $(this).attr("value");
+			 if (sampleName == null || sampleName.trim() == "" || sampleName == "undefined") {
+				 sampleName = "";
+				}
+			 $("#add_sampleName").val(sampleName);
+			 var factoryCode =  $(this).attr("class");
+			 var specifications =  $(this).attr("title");
+			 if (factoryCode == null || factoryCode.trim() == "" || factoryCode == "undefined") {
+				 factoryCode = "";
+			 }
+			 if (specifications == null || specifications.trim() == "" || specifications == "undefined") {
+				 specifications = "";
+				}
+			 $("#add_factoryCode").val(factoryCode);
+			 $('#add_specifications').val(specifications);
+			 $('#add_sampleName').attr("readOnly",true);
+			 $('#add_specifications').attr("readOnly",true);
+		 }
+		 $(".sampleSelect").hide();
+	})
+
+	//隐藏提示框
+	$(".row").click(function(){
+		 $(".sampleSelect").hide();
+	})
 }
