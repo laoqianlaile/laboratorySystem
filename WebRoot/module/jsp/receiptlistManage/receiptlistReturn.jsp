@@ -32,8 +32,8 @@
 <link rel="stylesheet" type="text/css"
 	href="module/css/commonSystem/commonSystem.css" />
 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
-<script src="assets/js/autoPage.js"></script>
 <script src="module/js/jquery-2.1.1.min.js"></script>
+<script src="assets/js/autoPage.js"></script>
 <script src="module/js/bootstrap.js"></script>
 <script src="module/js/bootstrap-table.js"></script>
 <script src="module/js/bootstrap-table-zh-CN.js"></script>
@@ -218,7 +218,7 @@
 			</div>
 		</div>
 
-		<!--手动录入样品框 -->
+<!-- 		
 		<div id="add" class="modal fade" role="dialog"
 			aria-labelledby="gridSystemModalLabel">
 			<div class="modal-dialog" role="document">
@@ -233,8 +233,11 @@
 					<div class="modal-body">
 						<div class="row">
 							<div class="col-xs-12 col-md-12">
-								<label>样品编号:</label> <input type="text" id="add_sampleCode"
-									name="sampleCode" class="form-control" />
+								<label>样品编号:</label> <input type="text" id="add_factoryCode"
+									name="sampleCode" class="form-control"   oninput="addGetSName()" onpropertychange="addGetSName()" class="form-control" placeholder="请输入样品编码或样品名称进行搜索样品"/>
+									<div class="sample1">
+	                   
+                 				   </div>
 							</div>
 						</div>
 					</div>
@@ -246,8 +249,48 @@
 				</div>
 			</div>
 		</div>
+	</div> -->
+	
+	<!-- 手动录入样品 -->
+	<div id="add" class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title">录入样品</h4>
+	      </div>
+	      <div class="modal-body">
+	      	<div id="addContent" class="row">
+	      		<div class="col-xs-12 col-md-12">
+                   	<label class="control-label">样品编码：</label>
+                   	 <input type="text" id="add_sampleID" name="add_sampleID" style="display: none"/>                
+                   	<input type="text" id="add_factoryCode" name="factoryCode"  oninput="addGetSName()" onpropertychange="addGetSName()" class="form-control" placeholder="请输入样品编码或样品名称进行搜索样品"/>
+                   	<div class="sampleSelect">
+	                   
+                   </div>
+               	</div>
+                <div class="col-xs-12 col-md-12 nameCn">
+                   	<label class="control-label">样品名称：</label>
+                   	<input type="text" id="add_sampleName" name="sampleName" class="form-control" readonly="true"/>
+                </div>
+                <div class="col-xs-12 col-md-12">
+                   	<label class="control-label">样品型号:</label>
+                   	<input type="text" id="add_specifications" name="specifications" class="form-control" readonly="true" style="margin-left: 3%;"/>
+               	</div>
+               	<div class="col-xs-12 col-md-12">
+                   	<label class="control-label">备注:</label>
+                   	<textarea id="add_remarks2" name="remarks" style="margin: -34px 0 0 21.5%;" class="form-control"></textarea>
+               	</div>
+             </div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary" onclick="addSample()">新增</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	      </div>
+	    </div>
+	  </div>
 	</div>
-
+	
 	<script type="text/javascript">
 		$('.form_datetime').datetimepicker({
 			language : 'zh-CN',

@@ -70,11 +70,11 @@ span {
   background-color: rgb(255, 173, 51);
 }
 #showTestProject{
-	margin-left: 6.65%;
+	margin-left: 0;
 	position:absolute;
-	width:83%;
+	width:100%;
 	height:auto;
-	max-height:120px;
+	max-height:200px;
 	display:none;
 	border:1px solid #ccc;
 	border-top:none;
@@ -86,16 +86,16 @@ span {
 }
 #showTestProject ul {
 	border:none;
-	max-height:120px;
+	max-height:200px;
 	overflow-y:auto;
 	margin:0;
 	margin-left:-40px;
 }
 #showTestProject ul li{
-	height:30px;
+	min-height:40px;
 	line-height: 30px;
 	list-style-type: none;
-	text-indent: 12px;
+	text-indent: 0px;
 	background-color:#fff;
 }
 #showTestProject ul li.noDate{
