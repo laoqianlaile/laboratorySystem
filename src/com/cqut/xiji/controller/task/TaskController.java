@@ -1,6 +1,7 @@
 package com.cqut.xiji.controller.task;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -544,6 +545,21 @@ public class TaskController{
 	}
 	
 	/**
+	 * @discription 得到任务类型
+	 * @author Uo
+	 * @created 2017-9-22
+	 * @param taskID
+	 * @return 
+	 */
+	@RequestMapping("/getTaskType")
+	@ResponseBody
+	public int getTaskType(String taskID)
+	{
+		return service.getTaskType(taskID);
+	}
+	
+	
+	/**
 	 * 
 	 * @discription 获取检测项目树
 	 * @author zt
@@ -554,6 +570,22 @@ public class TaskController{
 	@ResponseBody
 	public List<BootstrapTreeNode> getTestProjectTree() {
 		List<BootstrapTreeNode> result = service.getTestProjectTree();
+		return result;
+	}
+	
+	/**
+	 * @remark 通过测试项目的ID得到测试项目
+	 * @author cyl
+	 * @creatTime 2017年9月23日 上午9:42:08
+	 * @param testProjectID
+	 * @return
+	 */
+	@RequestMapping("/getNodeByID")
+	@ResponseBody
+	public List<BootstrapTreeNode> getNodeByID(String taskID)
+	{
+		List<BootstrapTreeNode> result = new ArrayList<BootstrapTreeNode>();
+		result.add(service.getNodeByID(taskID));
 		return result;
 	}
 	
