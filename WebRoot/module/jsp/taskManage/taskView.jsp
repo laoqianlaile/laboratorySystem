@@ -20,10 +20,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-table.css">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-editable.css">
 <link rel="stylesheet" type="text/css" href="module/css/bootstrap-treeview.css" >
-<link rel="stylesheet" type="text/css" href="module/css/taskManage/taskView.css">
 <link rel="stylesheet"  type="text/css" href="module/css/wait.css">
 <link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 <link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" />
+<link rel="stylesheet" type="text/css" href="module/css/taskManage/taskView.css">
 
 <script src="module/js/jquery-2.1.1.min.js"></script>
 <script src="module/js/bootstrap.js"></script>
@@ -169,8 +169,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 				</div>
 				<div class="col-xs-8 col-md-8 col-lg-8 buttonGroup">
-					<button type="button" class="btn btn-primary"
-						onclick="registeTestProject()">
+					<!-- <button type="button" class="btn btn-primary"
+						onclick="registeTestProject()"> -->
+						<button type="button" class="btn btn-primary"
+						onclick="getTaskType()">
 						<span class="glyphicon glyphicon-edit"></span> 检测项目登记
 					</button>
 					<button type="button" class="btn btn-primary"

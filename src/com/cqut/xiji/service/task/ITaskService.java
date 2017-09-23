@@ -83,8 +83,12 @@ public interface ITaskService {
 	public boolean deleteTaskTestproject(String[] testprojectIDs);
 
 	public String checkTaskTypeIsCalibration(String taskID);
+	
+	public int getTaskType(String taskID);
 
 	public List<BootstrapTreeNode> getTestProjectTree();
+	
+	public BootstrapTreeNode getNodeByID(String taskID);
 
 	public List<BootstrapTreeNode> getStandardByProjectID(String testProjectID,
 			String testprojectName);

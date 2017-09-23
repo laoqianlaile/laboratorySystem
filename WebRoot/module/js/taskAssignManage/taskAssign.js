@@ -68,7 +68,7 @@
 		undefinedText: '',//当数据为 undefined 时显示的字符
 		columns:[{
 			checkbox:true,
-			width:'5%'//宽度
+			width:'2%'//宽度
 		},{
 			field:'ID',//返回值名称
 			title:'任务ID',//列名
@@ -124,13 +124,19 @@
 			title:'检测/校准人员',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'15%'//宽度
+			width:'10%'//宽度
 		},{
 			field:'laborHour',//返回值名称
 			title:'工时',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 			width:'10%'//宽度
+		},{
+			field:'totalLaborHour',
+			title:'样品总工时',
+			align:'center',
+			valign:'middle',
+			width:'10%'
 		},{
 			field:'departmentID',
 			title:"部门ID",
@@ -143,7 +149,7 @@
 			title:'操作',//列名
 			align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
-			width:'15%',//宽度
+			width:'20%',//宽度
 			formatter:function(value,row,index){
 				var temp = '';
 				var btn_assignAgain = '<img src="module/img/view_icon.png" onclick="assignAgain(\'' + row.ID + '\',\'' + row.detector + '\',\'' + row.custodian + '\',\'' + row.factoryCode + '\',\'' + row.departmentID + '\')" data-toggle="tooltip" data-placement="top" title="重新分配" style="cursor:pointer;color: rgb(10, 78, 143);padding-right:8px;"></img>';
@@ -588,7 +594,7 @@ $('#edit-hour').click(function(){
 					$('#editHourModal').modal('hide');
 					$('#laborHourTable').bootstrapTable('refresh');
 					$('#taskTable').bootstrapTable('refresh');
-				} else if (data === "2") {
+					} else if (data === "2") {
 					swal({
 						title: "分配工时超过总工时",
 						type: 'error'

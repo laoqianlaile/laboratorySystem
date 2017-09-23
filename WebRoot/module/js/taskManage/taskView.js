@@ -354,11 +354,11 @@ function uploadOriginalDataFile() {
 				if(result == "true" || result == true) {
 					reload();
 				} else {
-					alert(result);
+					swal({title:result + "",  type:"success",});
 				}
 			});
 		} else {
-			alert("图片上传失败");
+			swal({title:"图片上传失败",  type:"error",});
 		}
 	});
 }
@@ -376,14 +376,31 @@ function registeTestProject() {
 			initTestprojectTree();
 			$("#testprojectInfo").modal("show");
 		} else {
-			alert(result);
+			swal({title:result + "",});
 		}
 	});
 }
 
+function getTaskType(){
+	var taskID = param.taskID;
+	$.post("taskController/getTaskType.do",
+	{
+		taskID:taskID
+	},
+	function(result){
+		initTestprojectTree(result);
+	});
+}
+
+
 // 确认登记的检测项目
 function sureRegisteTestProject() {
 	if (param.testProjectID !== "" && param.standards.length > 0) {
+		if( param.standards.length > 1){
+			swal({title:"只能选择一个检测标准！", type:"warning",});
+			return ;
+		}
+		$('#testprojectInfo').modal('hide');
 		$.ajax({
 			url : 'taskController/registeTestPeojcetAndStandardOfTask.do',
 			type : 'POST',
@@ -393,19 +410,19 @@ function sureRegisteTestProject() {
 				standards : param.standards
 			},
 			traditional : true,
+			async : false,
 			success : function(result) {
 				result = JSON.parse(result);
 				if (result == true || result == "true") {
-					refresh();
-					alert("成功登记或修改检测项目和标准");
+					$('#sampleInfoTable').bootstrapTable('refresh');
+					swal({title:"成功登记或修改检测项目和标准", type:"succeuss"});
 				} else {
-					refresh();
-					alert("系统运行出错");
+					swal({title:"系统运行出错", type:"error"});
 				}
 			}
 		});
 	} else {
-		alert("请确定检测项目和标准都已登记");
+		swal({title:"请确定检测项目和标准都已登记", type:"warning"});
 		return;
 	}
 }
@@ -427,7 +444,7 @@ function downReportTemplate() {
 			function(result) {
 				result = JSON.parse(result);
 				if (result == null || result == "null" || result == "") {
-					alert("生成报告前请先登记检测项目");
+					swal({title:"生成报告前请先登记检测项目", type:"warning"});
 				} else {
 					displayDiv();
 					$.post("taskController/downReportTemplate.do", 
@@ -441,7 +458,8 @@ function downReportTemplate() {
 							refresh();
 							downOneFile(fileID);
 						} else {
-							alert("下载出错,请确定模版是否上传或系统是否运行正常");
+							swal({title:"下载出错,请确定模版是否上传或系统是否运行正常", type:"error"});
+							
 						}
 					});
 				}
@@ -462,7 +480,7 @@ function checkFile(o) {
 		$("#fileName").html(fileName);
 	}
 	if (o.value.indexOf('.doc') < 0 && o.value.indexOf('.docx') < 0) {
-		alert("不能将此类型文档作为检测报告上传");
+		swal({title:"不能将此类型文档作为检测报告上传", type:"warning"});
 	}
 } 
 
@@ -481,7 +499,7 @@ function uploadTestReport() {
 			param.fileSummaryInfo = $.trim($("#fileSummaryInfo").val());
 			$("#uploadReport").modal("show");
 		} else {
-			alert("当前审核状态不可以上传报告");
+			swal({title:"当前审核状态不可以上传报告", type:"warning"});
 		}
 	});
 }
@@ -507,19 +525,18 @@ function onlineViewReport() {
 					window.location.href = "module/jsp/documentOnlineView.jsp";
 				} else {
 					hideDiv();
-					alert("无法查看");
+					swal({title:"无法查看", type:"error"});
 				}
 			});
 		} else {
 			hideDiv();
-			alert("无法查看");
+			swal({title:"无法查看", type:"error"});
 		}
 	});
 }
 
 // 提交审核
-function submitReport() {
-	if (confirm("确定要提交审核?")) {
+function submitReport() {	if (confirm("确定要提交审核?")) {
     var taskID = getUrlParam("taskID");
     $.post("taskController/submitReport.do",
     {
@@ -548,20 +565,26 @@ function submitReport() {
     				}
     			});
     			refresh();
-    			alert("提交审核成功");
+				swal({title:"提交审核成功", type:"success"});
     			} else {
     				refresh();
-    				alert("当前状态不能提交审核!请核对报告审核状态或者指定审核人");
+    				swal({title:"当前状态不能提交审核!请核对报告审核状态或者指定审核人", type:"warning"});
     				}
     		});
     }
 }
 
 // 初始化检测项目数
-function initTestprojectTree() {
+function initTestprojectTree(type) {
+	var data;
+	if(type == 0){
+		data = getNodeByID();
+	}else if(type == 1){
+		data = getTestProjectTree();
+	}
 	$('#testProjectTree').treeview({
 		collapsed : false,
-		data : getTestProjectTree(),
+		data : data,
 		showIcon : true,
 		showCheckbox : true,
 		onNodeChecked : function(event, node) {// 一个节点被checked
@@ -572,7 +595,7 @@ function initTestprojectTree() {
 				$('#testProjectTree').treeview('checkAll', {
 					silent : true
 				});
-				alert("不可以同时选择多个检测项目同时登记标准");
+				swal({title:"不可以同时选择多个检测项目同时登记标准", type:"warning"});
 				return;
 			} else {
 				$('#testProjectTree').treeview('uncheckAll', { silent: false });
@@ -594,6 +617,22 @@ function initTestprojectTree() {
 			return;
 		}
 	});
+	$('#testprojectInfo').modal('show');
+}
+
+function getNodeByID(){       //只得到该检测项目一个节点，data为该检测项目的ID
+	var ab;
+	$.ajax({
+		type:'post',
+		url:'taskController/getNodeByID.do',
+		data:{'taskID':param.taskID},
+		async : false,           //设为同步否则返回值可能为undefined
+		dataType:'text',
+		success:function (result){
+			ab = JSON.parse(result);
+		}
+	});
+	return ab;
 }
 
 //获取检测项目树
@@ -629,7 +668,7 @@ function initStandardTreeByTestProjectID(testProjectID, testprojectName) {
 				onNodeChecked : function(event, node) {// 一个节点被checked
 					var thisId = node.nodeId;
 					if(param.testProjectID  == "" ||  param.testProjectID  == null){
-						alert("请先选择检测项目");
+						swal({title:"请先选择检测项目",  type:"warning",});
 						return ;
 					}
 					if (node.id == undefined || node.id == "") { // 点击所有模块 
@@ -667,7 +706,7 @@ function initStandardTreeByTestProjectID(testProjectID, testprojectName) {
 			});
 			setRegistedStandardSelected(result); // 将相应标准选中
 		} else {
-			alert("没有找到该检测项目所对应的标准");
+			swal({title:"没有找到该检测项目所对应的标准",  type:"error",});
 		}
 	});
 }
@@ -709,14 +748,14 @@ function uploadOriginalData() {
 			}, function(fileID) {
 				fileID = JSON.parse(fileID);
 				if (fileID == null || fileID == "null" || fileID == "") {
-					alert("上传原始数据前请确定已生成或上传了报告");
+					swal({title:"上传原始数据前请确定已生成或上传了报告",  type:"warning",});
 				} else {
 					param.fileID = fileID;
 					$("#originalDataModal").modal("show");
 				}
 			});
 		} else {
-			alert("当前审核状态不可以上传原始数据图片");
+			swal({title:"当前审核状态不可以上传原始数据图片",  type:"error",});
 		}
 	});
 }
@@ -726,7 +765,7 @@ function previewImage(file, imgArea) {
 	if (file.files && file.files[0]) {
 		var fileSuffixName = file.value.toLowerCase();
 		if (fileSuffixName.indexOf('.jpg') < 0 && fileSuffixName.indexOf('.gif') < 0 &&  fileSuffixName.indexOf('.png') < 0) {
-			alert("不能将此类型文件作为原始数据上传上传");
+			swal({title:"不能将此类型文件作为原始数据上传上传",  type:"error",});
 			return ;
 		}
 		var img = document.getElementById(imgArea);
