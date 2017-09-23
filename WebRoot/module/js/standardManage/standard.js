@@ -8,7 +8,7 @@ $(function(){
 function init(){
 	
 	$("#ensure").click(function() {
-		var files = $('#files').val();
+		var fileName = $('#fileName').val();
 		if(files == null || files == ""){
 			swal({title:"新上传文件!",  type:"error",});
 			return ;
@@ -226,7 +226,7 @@ function openAddmodal(){
 	$("#fileName").html("");
 	fileParam.firstDirectoryName = $('#fileType option:checked').text();// 一级目录
 	fileParam.type = 1 ;
-	fileParam.remarks = $('#add_TemplateRemarks').val(); // 备注
+	fileParam.remarks = $('#add_DESCRIPTION').val(); // 备注
 	
 	if(arguments[0] === "add"){
 		uploadFile();
@@ -284,8 +284,8 @@ function uploadFile() {
 	$('#files').bind('fileuploadsubmit', function(e, data) {
 		data.formData = {
 			firstDirectory : fileParam.firstDirectoryName,
-			secondDirectory : fileParam.secondDirectoryName,
-			TypeNumber : fileParam.type,
+			secondDirectory : "标准文件",
+			TypeNumber : 0,
 			remark : fileParam.remarks
 		}
 	});
@@ -297,22 +297,26 @@ function recoverFile() {
 				autoUpload : true,
 				url : 'fileOperateController/upload.do',
 				dataType : 'json',
+				async:false,
 				add : function(e, data) {
 					$("#recoverEnsure").click(function() {
-						alert("臥槽你嘛，給點司馬");
 						data.submit();	
 					});
 				},
 			}).bind('fileuploaddone',function(e, data) {
-						var fileID = data.result
+						var fileID = data.result;
+						var rows = $("#table").bootstrapTable('getSelections');
 						if (fileID != null && fileID != "null" && fileID != "") {
 							$.post("standardController/upFileID.do", 
 							{
-								standardID : recoverParam.ID,
+								standardID : rows[0].ID,
+								async:false,
+								type:'json',
 								fileID : fileID
 							},
 							function(result) {
-								if(result > 0 || result > "0"){
+								result = result.replace(/\"/g, "");
+								if(result == 1){
 									$("#recoverStandard").modal("hide");
 									swal({title:"覆盖上传成功",  type:"success",});
 								}
@@ -328,8 +332,8 @@ function recoverFile() {
 	// 文件上传前触发事件,如果需要额外添加参数可以在这里添加
 	$('#recoverFiles').bind('fileuploadsubmit', function(e, data) {
 		data.formData = {
-			path : recoverParam.path,
-			TypeNumber : recoverParam.type,
+				secondDirectory : "标准文件",
+				TypeNumber : 0
 		}
 	});
 } 

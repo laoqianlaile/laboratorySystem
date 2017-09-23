@@ -355,13 +355,13 @@
 						</div>
 
 					</div>
-					<div class="col-md-12 col-xs-12 margin2">
+<!-- 					<div class="col-md-12 col-xs-12 margin2">
 						<label class="labelName">检测部门</label> <select
 							id="edit_DEPARTMENTID" name="DEPARTMENTID"
 							class="selectpicker show-tick" multiple data-live-search="false"
 							multiple data-selected-text-format="">
 						</select>
-					</div>
+					</div> -->
 					<!-- <div class="col-md-12 col-xs-12" style="padding-bottom:10px;">
 							<div class="col-md-6 col-xs-6 " >
 								<label class="labelName">所需仪器</label>
