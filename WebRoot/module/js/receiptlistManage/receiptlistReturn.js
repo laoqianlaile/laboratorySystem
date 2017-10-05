@@ -216,7 +216,7 @@ function edit() {
 	parame.factoryCode = $('#edit_factoryCode').val();
 	parame.sampleName = encodeURI($('#edit_sampleName').val());
 	parame.specifications = $('#edit_specifications').val();
-	parame.createTime = $('#edit_createTimes').val();
+	parame.createTime = $('#show_createTime').val();
 	parame.ID = $('#edit_ID').val();
 	if (checkSampledata(parame)) {
 		$.ajax({
