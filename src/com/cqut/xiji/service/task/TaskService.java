@@ -1130,7 +1130,7 @@ public class TaskService extends SearchService implements ITaskService {
 	
 	@Override
 	public String getFileIdOfTask(String taskID){
-		Map<String, Object> taskInfoResult = baseEntityDao.findByID(new String[] { "testReportID,receiptlistID" }, taskID, "ID",
+/*		Map<String, Object> taskInfoResult = baseEntityDao.findByID(new String[] { "testReportID,receiptlistID" }, taskID, "ID",
 				"task");
 		Object map = taskInfoResult.get("testReportID");
 		if (map == null || map.toString().length() == 0) {
@@ -1149,7 +1149,13 @@ public class TaskService extends SearchService implements ITaskService {
 				String fileID = result.get(0).get("ID").toString();
 				return fileID;
 			}
-		}
+		}*/
+		String joinEntity = "left join standard on tasktestproject.testStandard = standard.ID"
+				+ " left join template on standard.templateID = template.ID";
+		List<Map<String, Object>> map = entityDao.searchForeign(new String[]{
+				"template.fileID"
+		}, "tasktestproject", joinEntity, null, " taskID = '"+taskID+"' ");
+		return map.get(0).get("fileID").toString();
 	}
 
 	@Override

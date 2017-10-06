@@ -118,7 +118,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  		<hr />
  		<div class="row">
  			<div class="col-xs-12 col-md-12 col-lg-2">
-			<h5>其他文件</h5>
+			<h5>交接单文件</h5>
 		</div>
 	</div>
 	<hr />
