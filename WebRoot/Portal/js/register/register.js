@@ -57,7 +57,7 @@ function openModal(idCard){
 /*上传 文件*/
 function upfile(){
 	
-	path = ""; // 文件上传路径，如果此参数没有值，则使用firstDirectoryName,secondDirectoryName,thirdDirectoryName
+	path = $("#file_upload").val(); // 文件上传路径，如果此参数没有值，则使用firstDirectoryName,secondDirectoryName,thirdDirectoryName
 	type = "0" // 文件类型       该处默认为模板文件
 	belongID = "";//文件所属ID
 	firstDirectoryName = $('#fileType option:checked').text();// 一级目录
