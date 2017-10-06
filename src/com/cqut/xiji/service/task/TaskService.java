@@ -1155,6 +1155,9 @@ public class TaskService extends SearchService implements ITaskService {
 		List<Map<String, Object>> map = entityDao.searchForeign(new String[]{
 				"template.fileID"
 		}, "tasktestproject", joinEntity, null, " taskID = '"+taskID+"' ");
+		Object fileID = map.get(0);
+		if(fileID == null)
+			return "null";
 		return map.get(0).get("fileID").toString();
 	}
 

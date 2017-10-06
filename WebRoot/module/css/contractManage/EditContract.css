@@ -240,7 +240,7 @@ label.wide{
 .testStandard ul li{
 	display: block;
     vertical-align: middle;
-	height:30px;
+	min-height:30px;
 	line-height: 30px;
 	list-style-type: none;
 	text-indent: 12px;
