@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
 
@@ -40,7 +41,7 @@ public class ArticleService extends SearchService implements IArticleService {
 	}
 
 	@Override
-	public String addArticle(Article article) {
+	public String addArticle(Article article, HttpSession session) {
 		return entityDao.save(article) == 1 ? "true" : "false";
 	}
 
