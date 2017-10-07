@@ -17,6 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" /> 
 	<link rel="stylesheet"  type="text/css" href="module/css/wait.css">
 	<link rel="stylesheet"  type="text/css" href="module/css/setting/style.css"/>
+	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 	
 	<script src="module/js/jquery-2.1.1.min.js"></script>
 	<script src="module/js/setting/cropbox.js"></script>
@@ -26,7 +27,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="module/js/bootstrap-table.js"></script>
 	<script src="module/js/bootstrap-table-zh-CN.js"></script>
 	
-	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 	<script src="module/js/sweetalert.min.js"></script>
 	<style>
 .ahead{
@@ -162,6 +162,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="assets/fileupload/jquery.iframe-transport.js"></script>
 <script type="text/javascript" src="assets/fileupload/jquery.ui.widget.js"></script> 
 <script type="text/javascript"src="assets/fileupload/jquery.fileupload.js"></script>
+<script type="text/javascript" src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
 <script type="text/javascript">
 	$('#chooseFile').click(function() {
 		$('#files').click();

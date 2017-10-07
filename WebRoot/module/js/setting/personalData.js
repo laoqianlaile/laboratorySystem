@@ -223,7 +223,7 @@ function onclickNvi(){
 			"<div style='cursor: pointer;'>";
 	 
 	 if(data[0].headCrop != null && data[0].headCrop  != undefined && data[0].headCrop != ""){
-		 html += "<img class = 'imgHead' src ='http://localhost:80/img/headCrop/"+data[0].headCrop+"'>";
+		 html += "<img class = 'imgHead' src ='http://"+ returnCitySN["cip"] +":80/img/headCrop/"+data[0].headCrop+"'>";
 	 }
 	 else{
 		 html += "<img class = 'imgHead' src ='module/img/person.png'>";
@@ -332,7 +332,7 @@ function onclickNvi(){
 	 _uploadFile('.singnatureImg');
 	 var data = getEmployeeInfo();
 	 if(data[0].signature !== null && data[0].signature !== undefined && data[0].signature !== ""){
-		 $('#Img1').attr("src","http://localhost:80/img/"+data[0].signature);
+		 $('#Img1').attr("src","http://"+ returnCitySN["cip"] +":80/img/"+data[0].signature);
 	 }
 //	 $(navli).parent().addClass("a1");
 //	 onclickNvi();
@@ -345,7 +345,7 @@ function onclickNvi(){
 	 
 	 var data = getEmployeeInfo();
 	 if(data[0].stamp !== null && data[0].stamp !== undefined && data[0].stamp !== ""){
-		 $('#Img2').attr("src","http://localhost:80/img/"+data[0].stamp);
+		 $('#Img2').attr("src","http://"+ returnCitySN["cip"] +":80/img/"+data[0].stamp);
 	 }
 //	 $(navli).parent().addClass("a1");
 //	 onclickNvi();
