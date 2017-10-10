@@ -8,6 +8,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
   <head>
     <base href="<%=basePath%>">
+    <meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+	<meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+	<meta HTTP-EQUIV="expires" CONTENT="0">
     
     <title>个人资料</title>
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
@@ -162,7 +165,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="assets/fileupload/jquery.iframe-transport.js"></script>
 <script type="text/javascript" src="assets/fileupload/jquery.ui.widget.js"></script> 
 <script type="text/javascript"src="assets/fileupload/jquery.fileupload.js"></script>
-<script type="text/javascript" src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
 <script type="text/javascript">
 	$('#chooseFile').click(function() {
 		$('#files').click();
