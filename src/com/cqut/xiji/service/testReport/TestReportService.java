@@ -1163,7 +1163,7 @@ public class TestReportService extends SearchService implements
 			}
 		}
 		for (int i = 0, len = states.length; i < len - i; i++) { // 检查当前审核状态的报告是否能合并
-			if (!states[i].equals("0")) {
+			if (!states[i].equals("5")) {
 				return "请检查选择合并的报告的审核状态是否符合条件";
 			}
 		}
