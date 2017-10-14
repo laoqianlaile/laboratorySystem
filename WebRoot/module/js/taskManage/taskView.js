@@ -382,7 +382,12 @@ function registeTestProject() {
 }
 
 function getTaskType(){
-	var taskID = param.taskID;
+	var rows = $('#sampleInfoTable').bootstrapTable('getSelections');
+	if(rows.length == 0){
+		swal({title:"请选择一条数据",  type:"error",});
+		return ;
+	}
+	var taskID = rows[0].ID;
 	$.post("taskController/getTaskType.do",
 	{
 		taskID:taskID
@@ -429,7 +434,12 @@ function sureRegisteTestProject() {
 
 // 下载报告模版
 function downReportTemplate() {
-	var ID = getUrlParam("taskID");
+	var rows = $('#sampleInfoTable').bootstrapTable('getSelections');
+	if(rows.length == 0){
+		swal({title:"请选择一条数据",  type:"error",});
+		return ;
+	}
+	var ID = rows[0].ID;
 	$.post("taskController/getFileIdOfTask.do", 
 	{
 		taskID : ID

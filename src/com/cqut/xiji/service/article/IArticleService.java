@@ -3,13 +3,15 @@ package com.cqut.xiji.service.article;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import net.sf.json.JSONObject;
 
 import com.cqut.xiji.entity.article.Article;
 
 public interface IArticleService {
 
-	public String addArticle(Article article);
+	public String addArticle(Article article, HttpSession session);
 
 	public String deleteArticleByID(String articleID);
 

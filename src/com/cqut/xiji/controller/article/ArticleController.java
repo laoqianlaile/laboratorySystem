@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -34,8 +35,9 @@ public class ArticleController {
 	 */
 	@RequestMapping("/addArticle")
 	@ResponseBody
-	public String addArticle(Article article) {
-		return service.addArticle(article);
+	public String addArticle(Article article, HttpSession session) {
+		article.setArtPublisher(session.getAttribute("LOGINNAME")+"");
+		return service.addArticle(article, session);
 	}
 
 	/**
