@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import com.jacob.activeX.ActiveXComponent;  
 import com.jacob.com.ComThread;
 import com.jacob.com.Dispatch;  
@@ -23,14 +24,22 @@ public class WordProcess {
     private Dispatch selection;
     // 退出是否保存
     private boolean saveOnExit = true;
-    public WordProcess(boolean visible) throws Exception {
+    public WordProcess(boolean visible) {
         if (word == null) {
-            word = new ActiveXComponent("Word.Application");
+        	try{
+            word = new ActiveXComponent("KWPS.Application");
+        	}
+        	catch(Exception e){
+        	word = new ActiveXComponent("Word.Application");	
+        	}
+        	finally{
             word.setProperty("Visible", new Variant(visible)); // 不可见打开word
             word.setProperty("AutomationSecurity", new Variant(3)); // 禁用宏
-        }
+  
         if (documents == null)
             documents = word.getProperty("Documents").toDispatch();
+        }
+       }
     }
     /**
      * 设置退出时参数

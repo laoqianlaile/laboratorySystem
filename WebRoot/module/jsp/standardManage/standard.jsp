@@ -537,7 +537,7 @@
 					<div class="row">
 						<div id="fileInfo" style="text-align:left">
 							<div id="recoverfileQueue">
-								<input class="recoverFiles" type="file" name="files" id="files"
+								<input class="recoverFiles" type="file" name="files" id="recoverFiles"
 									style="display:none" onchange="checkRecoverFile(this)">
 							</div>
 							<button type="button" id="recoverButton" name="recoverButton"

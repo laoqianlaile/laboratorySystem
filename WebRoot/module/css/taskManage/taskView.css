@@ -10,8 +10,10 @@ body {
 }
 
 .content {
-	width: 98%;
-	margin: 5px auto;
+	/*width: 98%;
+	margin: 5px auto;*/
+	overflow-x: hidden;
+    margin-bottom: 25px;
 }
 
 .hrStyle {

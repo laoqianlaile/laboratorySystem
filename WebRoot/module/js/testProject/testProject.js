@@ -127,13 +127,6 @@ function init() {
 										width : '8%'// 宽度
 									},
 									{
-										field : 'departmentName',// 返回值名称
-										title : '检测部门',// 列名
-										align : 'center',// 水平居中显示
-										valign : 'middle',// 垂直居中显示
-										width : '10%'// 宽度
-									},
-									{
 										field : 'describes',// 返回值名称
 										title : '技术条件',// 列名
 										align : 'center',// 水平居中显示
@@ -278,7 +271,7 @@ function addTestProject() {
 		
 	parame.NAMECN = ($('#add_NAMECN').val());
 	parame.NAMEEN = ($('#add_NAMEEN').val());
-	var data = $('#add_DEPARTMENTID').val();
+/*	var data = $('#add_DEPARTMENTID').val();
 	if (data == null) {
 		swal("检测部门不能为空");
 	} else {
@@ -288,7 +281,7 @@ function addTestProject() {
 		}
 		parame.departmentID = ids;
 	}
-	
+*/	
 	var data = $('#add_STANDARDID').val();
 	if (data == null) {
 		swal("依据标准不能为空");
@@ -394,13 +387,13 @@ function delData() {
 //修改方法 
 function openEditModal(){
 	
-	var departmentID = arguments[0].departmentID;
+/*	var departmentID = arguments[0].departmentID;
 	if(departmentID == null || departmentID　== "" || departmentID == undefined){
 		swal("测试部门为空");
 		return;
 	}
 	
-	var departmentIDs = departmentID.split(",");
+	var departmentIDs = departmentID.split(",");*/
 
 	
 //	getEquipment("edit_EQUIPMENTID");// 从数据库里获取设备信息
@@ -476,7 +469,7 @@ function editTestProject(){
 	
 	parame.DESCRIPTION = ($('#edit_DESCRIPTION').val());
 	
-	var data = $('#edit_DEPARTMENTID').val();
+/*	var data = $('#edit_DEPARTMENTID').val();
 	if (data == null) {
 		swal("检测部门不能为空");
 		return;
@@ -486,7 +479,7 @@ function editTestProject(){
 			ids += data[i] + ",";
 		}
 		parame.departmentID = ids;
-	}
+	}*/
 	
 	var data = $('#edit_STANDARDID').val();
 	if (data == null) {

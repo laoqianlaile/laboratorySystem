@@ -219,8 +219,8 @@ function getTree(){
 $(function(){
 	 empolyee = getEmployeeInfo();
 	 if(empolyee[0].headCrop!= null && empolyee[0].headCrop  != undefined && empolyee[0].headCrop != ""){
-		$('#sidebarHead').attr("src","upload/img/headCrop/"+empolyee[0].headCrop); 
-		$('#navHead').attr("src","upload/img/headCrop/"+empolyee[0].headCrop);
+		$('#sidebarHead').attr("src","/img/headCrop/"+empolyee[0].headCrop); 
+		$('#navHead').attr("src","/img/headCrop/"+empolyee[0].headCrop);  //http://localhost:80
 	}
  }
  );

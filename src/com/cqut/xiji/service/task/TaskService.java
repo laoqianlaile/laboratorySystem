@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 
+
 import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
@@ -1129,7 +1130,7 @@ public class TaskService extends SearchService implements ITaskService {
 	
 	@Override
 	public String getFileIdOfTask(String taskID){
-		Map<String, Object> taskInfoResult = baseEntityDao.findByID(new String[] { "testReportID,receiptlistID" }, taskID, "ID",
+/*		Map<String, Object> taskInfoResult = baseEntityDao.findByID(new String[] { "testReportID,receiptlistID" }, taskID, "ID",
 				"task");
 		Object map = taskInfoResult.get("testReportID");
 		if (map == null || map.toString().length() == 0) {
@@ -1148,7 +1149,16 @@ public class TaskService extends SearchService implements ITaskService {
 				String fileID = result.get(0).get("ID").toString();
 				return fileID;
 			}
-		}
+		}*/
+		String joinEntity = "left join standard on tasktestproject.testStandard = standard.ID"
+				+ " left join template on standard.templateID = template.ID";
+		List<Map<String, Object>> map = entityDao.searchForeign(new String[]{
+				"template.fileID"
+		}, "tasktestproject", joinEntity, null, " taskID = '"+taskID+"' ");
+		Object fileID = map.get(0);
+		if(fileID == null)
+			return "null";
+		return map.get(0).get("fileID").toString();
 	}
 
 	@Override
@@ -1636,6 +1646,17 @@ public class TaskService extends SearchService implements ITaskService {
 	};
 	
 	@Override
+	public int getTaskType(String taskID)
+	{
+		Map<String, Object> taskType = baseEntityDao.findByID(new String[]{"type"}, taskID, "ID", "task");
+		if(taskType != null && taskType.size() > 0)
+		{
+			return Integer.parseInt(taskType.get("type").toString());
+		}
+		return -1;
+	}
+	
+	@Override
 	public List<BootstrapTreeNode> getTestProjectTree() {
 		String ID = "";
 		List<BootstrapTreeNode> list = new ArrayList<>();
@@ -1664,6 +1685,35 @@ public class TaskService extends SearchService implements ITaskService {
 		}
 		list.add(nodeName);
 		return list;
+	}
+	
+	@Override
+	public BootstrapTreeNode getNodeByID(String taskID)
+	{
+		String testProjectID = baseEntityDao.findByID(new String[]{" testProjectID "}, taskID, "taskID", "tasktestProject").get("testProjectID") + "";
+		BootstrapTreeNode root = new BootstrapTreeNode("", "检测项目");
+		BootstrapTreeNode node = null;
+		String ID = "";
+		root.setlevel0("0");
+		root.setBackColor("#fff");
+		root.setIcon("glyphicon glyphicon-th");
+		root.setColor("#238bc8");
+		root.setHref("javascript:void(0)");
+		String[] projectProperites = new String[] { "ID",
+		"CONCAT(nameCn, '(', nameEn, ')') AS testprojectName" };
+		List<Map<String, Object>> testProjectList = entityDao.findByCondition(
+				projectProperites, " 1 = 1 and ID = '" + testProjectID + "'", TestProject.class);
+		for (@SuppressWarnings("rawtypes") Map map : testProjectList) {
+			node = new BootstrapTreeNode("", "所有检测项目");
+			node.setText((String) map.get("testprojectName"));
+			node.setHref("javascript:void(0)");
+			ID = map.get("ID") + "";
+			
+			node.setId(ID);
+			root.setChecked(0);
+			root.addChilred(node);
+		}
+		return root;
 	}
 	
 	@Override

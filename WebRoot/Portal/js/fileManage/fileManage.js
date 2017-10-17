@@ -82,7 +82,6 @@ function fileUploadInit(selectorName,idCard){
 function showPrompt(idCard){
 	if(idCard == 1){
 		var file = $("#file_upload").val();
-		alert(file);
 		$("#licensePrompt").html("*图片已上传");
 		$("#licensePrompt").css("color","green");
 	}

@@ -97,14 +97,14 @@ function init() {
 											align : 'center',// 水平居中显示
 											valign : 'middle',// 垂直居中显示
 											width : '9%'// 宽度
-										},
+										}/*,
 										{
 											field : 'Pdepartment',// 返回值名称
 											title : '上级部门',// 列名
 											align : 'center',// 水平居中显示
 											valign : 'middle',// 垂直居中显示
 											width : '10%'// 宽度
-										} ]
+										} */]
 							// 列配置项,详情请查看 列参数 表格
 							/* 事件 */
 							});

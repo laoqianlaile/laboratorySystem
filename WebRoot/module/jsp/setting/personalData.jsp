@@ -8,6 +8,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
   <head>
     <base href="<%=basePath%>">
+    <meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+	<meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+	<meta HTTP-EQUIV="expires" CONTENT="0">
     
     <title>个人资料</title>
 	<link rel="stylesheet" type="text/css" href="module/css/bootstrap.css">
@@ -17,6 +20,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="module/css/commonSystem/commonSystem.css" /> 
 	<link rel="stylesheet"  type="text/css" href="module/css/wait.css">
 	<link rel="stylesheet"  type="text/css" href="module/css/setting/style.css"/>
+	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 	
 	<script src="module/js/jquery-2.1.1.min.js"></script>
 	<script src="module/js/setting/cropbox.js"></script>
@@ -26,7 +30,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="module/js/bootstrap-table.js"></script>
 	<script src="module/js/bootstrap-table-zh-CN.js"></script>
 	
-	<link rel="stylesheet" type="text/css" href="module/css/sweetalert.css">
 	<script src="module/js/sweetalert.min.js"></script>
 	<style>
 .ahead{
@@ -90,8 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					  			<td>电子签名</td>
 					  			<td>
 					  				<div>
-					  					 <img id="Img1"  src="module/img/file/defaultPhoto.jpg"data-holder-rendered="true"/>
-
+					  					 <img id="Img1"  src="module/img/file/defaultPhoto.jpg" style="max-width:300px;" data-holder-rendered="true"/>
 										 <input class="singnatureImg" type="file" name="files" id="files" onchange="previewImage(this,'Img1')"
 											accept="image/png, image/gif, image/jpg, image/jpeg"
 											style="width:66px;height:25px;position:absolute;left:10px;top:155px;opacity: 0;filter: alpha(opacity = 0);" />  
@@ -108,9 +110,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					  			<td>电子盖章</td>
 					  			<td>
 					  				<div>
-
-					  					  <img id="Img2"  src="module/img/file/defaultPhoto.jpg" data-holder-rendered="true""/>
-
+					  					<img id="Img2"  src="module/img/file/defaultPhoto.jpg" style="max-width:300px;" data-holder-rendered="true""/>
 										<input class="stampImg" type="file" name="files" id="files" onchange="previewImage(this,'Img2')"
 											accept="image/png, image/gif, image/jpg, image/jpeg" 
 											style="width:66px;height:25px;position:absolute;left:10px;top:155px;opacity: 0;filter: alpha(opacity = 0);" />

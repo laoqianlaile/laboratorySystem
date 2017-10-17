@@ -110,7 +110,7 @@ public class DocConverter {
 				try {
 					// 这里根据SWFTools安装路径需要进行相应更改
 
-					Process p = r.exec("D:/viewsoft/查看软件/SWFTools/pdf2swf.exe "
+					Process p = r.exec("D:/资料/西计实验室管理系统/查看软件/查看软件/SWFTools/pdf2swf.exe "
 							+ pdfFile.getPath() + " -o " + swfFile.getPath()
 							+ " -T 9");
 					System.out.print(loadStream(p.getInputStream()));

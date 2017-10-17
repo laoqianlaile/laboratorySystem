@@ -123,10 +123,10 @@
 			<div class="main">
 				<div class="row mainTitel">
 					<label>样品信息</label>
+				<!-- 	<button class="btn btn-primary glyphicon btnEnterSample"
+						style="margin-right: 95px;" id="handDeal">手动录入</button> -->
 					<button class="btn btn-primary glyphicon btnEnterSample"
-						style="margin-right: 95px;" id="handDeal">手动录入</button>
-					<button class="btn btn-primary glyphicon btnEnterSample"
-						id="machineDeal">扫描录入</button>
+						id="handDeal">手动录入</button>
 					<hr class="headHr">
 				</div>
 				<table id="sampleTable">
@@ -134,7 +134,7 @@
 			</div>
 			<div class="second">
 				<div class="row secondTitel">
-					<label>其他文件</label>
+					<label>交接单文件</label>
 					<button type="button"
 						class="btn btn-primary glyphicon glyphicon-plus"
 						data-toggle="modal" data-target="#file_uploadModal">&nbsp;添加附件</button>
