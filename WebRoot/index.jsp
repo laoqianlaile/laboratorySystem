@@ -149,7 +149,7 @@
 						<span>&nbsp;你的当前位置为：</span>
 						<ul class="breadcrumb">
 						</ul>
-						<div class="nav-search" id="nav-search">
+						<div class="nav-search" id="nav-search" style = "display:none;">
 							<form class="form-search">
 								<span class="input-icon"> <input type="text"
 									placeholder="Search ..." class="nav-search-input"
