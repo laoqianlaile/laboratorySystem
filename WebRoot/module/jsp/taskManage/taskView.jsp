@@ -171,11 +171,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="col-xs-8 col-md-8 col-lg-8 buttonGroup">
 					<!-- <button type="button" class="btn btn-primary"
 						onclick="registeTestProject()"> -->
-						<button type="button" class="btn btn-primary"
+						<button type="button" class="btn btn-primary" id = "projectLogin"
 						onclick="getTaskType()">
 						<span class="glyphicon glyphicon-edit"></span> 检测项目登记
 					</button>
-					<button type="button" class="btn btn-primary"
+					<button type="button" class="btn btn-primary" id = "downloadReport"
 						onclick="downReportTemplate()">
 						<span class="glyphicon glyphicon-arrow-down"></span>生成或下载报告
 					</button>
