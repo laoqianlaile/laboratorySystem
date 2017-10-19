@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 
 
+
+
 import com.cqut.xiji.dao.base.BaseEntityDao;
 import com.cqut.xiji.dao.base.EntityDao;
 import com.cqut.xiji.dao.base.SearchDao;
@@ -104,13 +106,19 @@ public class CompanyService extends SearchService implements ICompanyService {
 	}
 
 	@Override
-	public String updCompany(String COMPANYID, String NAME, String CONTACTOR,
-			String CONTACTPHONE, String TELEPHONE, String ADDRESS,
-			String SCOPE, String CREATTIMES, String REMARKES) {
-		CompanyService cs = new CompanyService();
-		Company company = cs.setValue(COMPANYID, NAME, CONTACTOR, CONTACTPHONE,
-				TELEPHONE, ADDRESS, SCOPE, CREATTIMES, REMARKES);
-		int result = entityDao.updatePropByID(company, COMPANYID);
+	public String updCompany(String ID,String companyName, String linkMan, String mobilePhone,
+			String address, String scope, String fax,
+			String emailbox) {
+		Company company = new Company();
+		company.setID(ID);
+		company.setCompanyName(companyName);
+		company.setLinkMan(linkMan);
+		company.setMobilePhone(mobilePhone);
+		company.setAddress(address);
+		company.setScope(scope);
+		company.setFax(fax);
+		company.setEmailbox(emailbox);
+		int result = entityDao.updatePropByID(company, ID);
 		return result + "";
 	}
 
