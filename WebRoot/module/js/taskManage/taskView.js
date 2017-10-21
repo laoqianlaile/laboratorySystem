@@ -24,7 +24,11 @@ $(function() {
 		$("#isClassified").text(result.isClassified);
 		$("#secretLevel").text(result.classifiedLevel);
 		$("#accordingInfo").text(result.requires);
-
+		var type = result.type;
+		if(type == 1){
+			$("#projectLogin").css("display", "none");
+			$("#downloadReport").css("display", "none");
+		}
 	});
 	
 	$.post("taskController/getSampleManageInfo.do", {

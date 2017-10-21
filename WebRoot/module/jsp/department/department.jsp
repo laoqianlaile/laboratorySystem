@@ -400,7 +400,7 @@ margin-left:26px;
 						</div>
 						
 						
-						<div class="col-xs-12 col-md-12" id="add_department">
+<!-- 						<div class="col-xs-12 col-md-12" id="add_department">
 							<span class="spanstyle">上级部门:</span>
 							<div class="btn-group">
 								<button type="button" onclick="getdepartment()" 
@@ -413,7 +413,7 @@ margin-left:26px;
 									style="width:200px;">
 								</ul>
 							</div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -475,7 +475,7 @@ margin-left:26px;
 	                   
                    </div>
 						</div>
-						<div class="col-xs-12 col-md-12"id="edit_department">
+<!-- 						<div class="col-xs-12 col-md-12"id="edit_department">
 							<span class="spanstyle">上级部门:</span>
 							<div class="btn-group">
 								<button type="button" onclick="getdepartment1()"
@@ -488,7 +488,7 @@ margin-left:26px;
 									style="width:200px;">
 								</ul>
 							</div>
-						</div>
+						</div> -->
 						<!-- <div class="col-xs-12 col-md-12">
 							<h4>上级部门：</h4>
 							<input type="text" id="edit_parent" name="parent"

@@ -197,6 +197,7 @@ function openModal(){
 	$('#editModal').modal('show');
 }
 function edit(){
+	var data = $('#table').bootstrapTable('getSelections');
 	var parame = {};
 	parame.ID = $('#edit_ID').val();
 	parame.companyName = $('#edit_companyName').val();
@@ -216,13 +217,13 @@ function edit(){
 		
 		$("input").val("");
 		$.ajax({
-		  url:'companyController/addCompanywj.do',
+		  url:'companyController/updCompany.do',
 		  data:parame,
 		  success:function(o){
 			  if(o<=0){
-				  swal("新增失败");
+				  swal("修改失败");
 			  }
-			  $('#addModal').modal('hide');
+			  $('#editModal').modal('hide');
 			  refresh();
 			  swal("修改成功");
 		  }

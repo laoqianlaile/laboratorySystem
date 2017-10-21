@@ -885,7 +885,7 @@ public class TestReportService extends SearchService implements
                     	try {
 							WordProcess wp = new WordProcess(false);
 							wp.openDocument(cachePath);
-							wp.replaceText("{签发人}", employeeName);
+							if(!wp.replaceText("{签发人}", employeeName));
 							wp.moveStart();
 							wp.insertImage("{电子盖章}", stampPath, 80, 45);
 							wp.replaceAllText("{电子盖章}", "");
@@ -896,7 +896,7 @@ public class TestReportService extends SearchService implements
 							wp.save(cachePath);
 							wp.close();
 						    fileEncryptservice.encryptFile(cachePath, fileTruePath, fileID); // 将文件重新加密
-                    	}
+						    	}
 					    catch (Exception e) {
 							return "程序运行出错";
 						}
@@ -1163,7 +1163,7 @@ public class TestReportService extends SearchService implements
 			}
 		}
 		for (int i = 0, len = states.length; i < len - i; i++) { // 检查当前审核状态的报告是否能合并
-			if (!states[i].equals("0")) {
+			if (!states[i].equals("5")) {
 				return "请检查选择合并的报告的审核状态是否符合条件";
 			}
 		}

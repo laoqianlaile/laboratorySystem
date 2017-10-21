@@ -15,9 +15,9 @@ public interface ICompanyService {
 
 	public String delCompany(String COMPANYID);
 
-	public String updCompany(String COMPANYID, String NAME, String CONTACTOR,
-			String CONTACTPHONE, String TELEPHONE, String ADDRESS,
-			String SCOPE, String CREATTIMES, String REMARKES);
+	public String updCompany(String ID, String companyName, String linkMan, String mobilePhone,
+			String address, String scope, String fax,
+			String emailbox);
 
 	public Company setValue(String COMPANYID, String NAME, String CONTACTOR,
 			String CONTACTPHONE, String TELEPHONE, String ADDRESS,

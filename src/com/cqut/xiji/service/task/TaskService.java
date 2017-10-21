@@ -827,6 +827,7 @@ public class TaskService extends SearchService implements ITaskService {
 				+ "receiptlist.linkMan AS linkMan,"
 				+ "receiptlist.linkPhone AS linkPhone,"
 				+ "contract.companyID AS companyID,"
+				+ "contract.type AS type,"
 				+ "IF(contract.isClassified = 0,'否','是') AS isClassified,"
 				+ "IF(contract.classifiedLevel = 0,'秘密',"
 				+ "IF (contract.classifiedLevel = 1,'机密',"
@@ -839,6 +840,7 @@ public class TaskService extends SearchService implements ITaskService {
 				+ filteCondition + " ) AS a ";
 		String[] properties = new String[] {
 				"a.requires AS requires",
+				"a.type AS type",
 				"a.receiptlistCode AS receiptlistCode",
 				"DATE_FORMAT(a.createTime,'%Y-%m-%d %H:%i:%s') AS createTime",
 				"DATE_FORMAT(a.completeTime,'%Y-%m-%d %H:%i:%s') AS completeTime",
