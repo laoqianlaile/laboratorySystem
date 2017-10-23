@@ -1447,7 +1447,7 @@ public class TaskService extends SearchService implements ITaskService {
 			fileName =  wordData.get(0).get("sampleName").toString() + "的检测报告" + "_" + ID + ".docx";
 			cacheFilePath =  pe.getSystemPram("cacheFilePath") + "\\" + fileName ;
 			WordProcess wp = new WordProcess(false);
-			wp.comblineDocument(list, cacheFilePath);
+			wp.comblineDocument(list, cacheFilePath, wp.getWord());
 			wp.close();
 			
 			cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\" +fileName;
