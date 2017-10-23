@@ -233,7 +233,7 @@ public class EquipmentService extends SearchService implements
 	@Override
 	public List<Map<String, Object>> getEquipmentByName(String equipmentName){
 		String[] properties = new String[] {"ID","factoryCode","equipmentName","date_format(buyTime,'%Y.%m.%d') as buyTime","departmentID"};
-		String condition = "equipmentName like '%" + equipmentName + "%'";
+		String condition = "equipmentName like \"%" + equipmentName + "%\"";
 		List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Equipment.class);
 		return result;
 	}

@@ -207,7 +207,6 @@ function edit(){
 	parame.address =$('#edit_address').val();
 	parame.fax =$('#edit_fax').val();
 	parame.emailbox =$('#edit_emailbox').val();
-	parame.CREATTIMES=data[0]
 	if($('#edit_mobilePhone').val()!=""){
 		if($('#edit_address').val()!=""){
 		if($('#edit_linkMan').val()!=""){
