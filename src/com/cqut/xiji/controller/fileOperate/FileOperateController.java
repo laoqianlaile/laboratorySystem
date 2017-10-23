@@ -327,7 +327,11 @@ public class FileOperateController {
 			String pathpassword = results.get("pathPassword").toString();
 			String relativePath = fileEncryptservice.decryptPath(filePath, pathpassword);
 			System.out.println("relativePath :" + relativePath);
-		    filedisplay = fileName;// "给用户提供的下载文件名";
+//		    filedisplay = fileName;// "给用户提供的下载文件名";
+			if(fileName.substring(fileName.length() - 5, fileName.length()).equals(".docx"))
+			{
+				filedisplay = fileName.substring(0, fileName.length() - 1);// "给用户提供的下载文件名";
+			}
 		    String path = pe.getSystemPram("filePath") + "\\" + relativePath;
 		    System.out.println("下载地址path :" + path);
 		    cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\" + filedisplay;

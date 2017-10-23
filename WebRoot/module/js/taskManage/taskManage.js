@@ -91,13 +91,13 @@ function initData() {
 									valign : 'middle',// 垂直居中显示
 									width : "10%"// 宽度
 								},
-								{
+								/*{
 									field : 'custodian',// 返回值名称
 									title : '监督人',// 列名
 									align : 'center',// 水平居中显示
 									valign : 'middle',// 垂直居中显示
 									width : "10%"// 宽度
-								},
+								},*/
 								{
 									field : 'levelTwo',// 返回值名称
 									title : '审核人',// 列名
