@@ -171,10 +171,10 @@ public class SelfapplicationService extends SearchService implements ISelfapplic
 		else if(selfHasContact.equals("全部"))
 			selfHasContactCondition = " 1=1 ";
 		if(!selfCompanyName.equals("null") && selfCompanyName != null){
-			 condition += " and company.companyName='"+selfCompanyName+"'";
+			 condition += " and company.companyName like '%"+selfCompanyName+"%'";
 		}
 		if(!selfSampleName.equals("null") && selfSampleName != null){
-			condition += " and selfSampleName='"+selfSampleName+"'"; 
+			condition += " and selfSampleName like '%"+selfSampleName+"%'"; 
 		}
 		if(condition.length() != 0){
 			selfHasContactCondition += condition;

@@ -85,7 +85,7 @@
     
     <!--得到sql运行结果的条数  -->
      <select id="sqlCount" resultType="int">
-     	select COUNT(*) from (${sql}) S
+     	select COUNT(*) from ${sql}
      </select> 
     
     <select id="searchWithpagingInMysql"  resultType="map">

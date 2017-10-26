@@ -1230,10 +1230,15 @@ public class TestReportService extends SearchService implements
 			x++;
 			fileName = relativePath.substring(x, length);// "文件名";
 			path = pt.getSystemPram("filePath") + "\\" + relativePath;
+			
 			File file = new File(path);
 			if (!file.exists()) {
 				return "null";
 			} else {
+				if(fileName.substring(fileName.length()-5, fileName.length()).equals(".docx"))
+				{
+					fileName = fileName.substring(0, fileName.length() - 1);
+				}
 				cacheFilePath = pt.getSystemPram("cacheFilePath") + "\\" + fileName;
 				fileEncryptservice.decryptFile(path, cacheFilePath, fileIDs[i-1]);
 			}
@@ -1242,10 +1247,10 @@ public class TestReportService extends SearchService implements
 		try {
 			WordProcess wp = new WordProcess(false);
 			String ID = EntityIDFactory.createId();
-		    fileName = "合并后的报告.docx";
-			relativePath = "合并后的报告" + "_" + ID + ".docx";
+		    fileName = "合并后的报告.doc";
+			relativePath = "合并后的报告" + "_" + ID + ".doc";
 			cacheFilePath = pt.getSystemPram("cacheFilePath") + "\\" + relativePath;
-			wp.comblineDocument(list, cacheFilePath);
+			wp.comblineDocument(list, cacheFilePath, wp.getWord());
 			wp.close();
 			relativePath = "报告文件" + "\\" + relativePath;
 			FileInformation fi = new FileInformation();

@@ -213,7 +213,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 		@Override
 		public List<Map<String, Object>> getEmployeeNameInPersonalTask(String ID) {
 			String[] properties = new String[] {"ID","employeeName"};
-			String condition = " 1 = 1 and employee.departmentID = '" + ID + "' ";
+			String condition = " 1 = 1 and employee.departmentID = \"" + ID + "\" ";
 			List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Employee.class);
 			return result;
 		}
@@ -221,7 +221,7 @@ public class EmployeeService extends SearchService implements IEmployeeService{
 		@Override
 		public List<Map<String, Object>> getEmployeeName(String employeeName) {
 			String[] properties = new String[] {"ID","employeeName","employeeCode"};
-			String condition = "employeeName like '%" + employeeName + "%'  and ID != '20170220super'";
+			String condition = "employeeName like \"%" + employeeName + "%\"  and ID != '20170220super'";
 			List<Map<String, Object>> result = entityDao.findByCondition(properties, condition, Employee.class);
 			return result;
 		}

@@ -244,7 +244,7 @@ function secondAuditPassSure(){
 	{
 		ID : keyID,
 		taskID : taskID,
-		passAgreement : auditPassAgreement
+		auditPassAgreement : auditPassAgreement
 	},
 	function(result) {
 		if (result == true || result == "true") {

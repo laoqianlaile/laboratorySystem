@@ -385,13 +385,14 @@ public class TaskService extends SearchService implements ITaskService {
 		int pageNum = offset / limit;
 		int state;
 		String tablename = "task";
-		String condition = "testProjectID=" + "\"" + gettestprojectID + "\"";
+		String condition = "tasktestproject.testProjectID=" + "'" + gettestprojectID + "'";
 		/* String condition="testProjectID=2345"; */
 		String[] properties = new String[] { "detectstate" };
 		List<Map<String, Object>> result = entityDao.searchWithpaging(
-				properties, tablename, null, null, condition, null, null,
+				properties, tablename, " LEFT JOIN tasktestproject ON tasktestproject.taskID =task.ID ", null, condition, null, "task.ID",
 				null, index, pageNum);
-		int count = entityDao.getByCondition(condition, Task.class).size();
+//		int count = entityDao.getByCondition(condition, Task.class).size();
+		int count = searchDao.sqlCount(" task LEFT JOIN tasktestproject ON tasktestproject.taskID = task.ID WHERE tasktestproject.testProjectID = '" + gettestprojectID + "'");
 		/* <span class="liucheng" name="liucheng"></span> */
 		for (Map<String, Object> m : result) {
 			state = (Integer) m.get("detectstate");
@@ -1449,7 +1450,7 @@ public class TaskService extends SearchService implements ITaskService {
 			fileName =  wordData.get(0).get("sampleName").toString() + "的检测报告" + "_" + ID + ".docx";
 			cacheFilePath =  pe.getSystemPram("cacheFilePath") + "\\" + fileName ;
 			WordProcess wp = new WordProcess(false);
-			wp.comblineDocument(list, cacheFilePath);
+			wp.comblineDocument(list, cacheFilePath, wp.getWord());
 			wp.close();
 			
 			cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\" +fileName;
