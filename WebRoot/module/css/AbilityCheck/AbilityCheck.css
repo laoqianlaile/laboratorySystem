@@ -1,3 +1,8 @@
+	body {
+    margin: 0;
+    overflow-x: hidden;
+	}
+	
 	label {
     font-size: 16px;
     color: #333;

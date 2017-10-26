@@ -189,6 +189,9 @@ ul li{
 	margin:0 auto;
 	margin-top:10px;
 }
+#contenttable tr{
+	height:40px;
+}
 .columns_titlefont{
 	display:inline-block;
 /* 	height:40px;

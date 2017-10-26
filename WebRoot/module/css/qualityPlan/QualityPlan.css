@@ -3,10 +3,16 @@
 	width:94%;
 	margin:0 auto;
 } */
+body {
+    margin: 0;
+    overflow-x: hidden;
+}
+
 #main{
 	margin-left:16px;
 	width: 98%
 }
+
 #searcherArea{
 	margin-top: 7px;
 }

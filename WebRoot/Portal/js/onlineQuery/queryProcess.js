@@ -20,13 +20,13 @@ $(function(){
 		dataType:'json',//服务器返回的数据类型
 //		queryParams:'',//请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数
 		selectItemName:'',//radio or checkbox 的字段名//设置True 将禁止多选
-	    columns: [{
+	    columns: [/*{
 	        field:'taskname',
 	        title:'<span class="columns_titlefont" name="chang_title">检测报告</span>',
 	        align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 	        width:'120',
-	    },{
+	    },*/{
 	        field: '1',
 	        title:'<span class="columns_titlefont" name="chang_title">委托单登记</span>',
 	        align:'center',//水平居中显示
