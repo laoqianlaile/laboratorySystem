@@ -13,10 +13,10 @@ public interface IQualityPlanService {
 			String employeeName2, String EMPLOYEEID);
 
 	int updataQualityPlanById(String id, String type, String code, String year,
-			String employeeName, String employeeName2, int jude, int judg2);
+			String employeeName, String employeeName2, int jude, int judg2,String remark);
 
 	String deleteQualityPlanById(String idstr);
 
 	String addQualityPlan(String type, String code, String year,
-			String employeeName, String employeeName2,HttpSession session);
+			String employeeName, String employeeName2,String remark,HttpSession session);
 }

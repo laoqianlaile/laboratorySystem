@@ -56,6 +56,7 @@ public class QualityPlanService extends SearchService implements IQualityPlanSer
 				"qualityplan.state",
 				"employee2.employeeName2",
 				"employeeName",
+				"remark"
 		};
 		String strcondition = " left JOIN employee ON qualityPlan.employeeID1 = employee.ID"+
 							" left JOIN (select employeeName as employeeName2 , employee.ID from employee) as employee2 ON qualityPlan.employeeID2 = employee2.ID";
@@ -100,11 +101,12 @@ public class QualityPlanService extends SearchService implements IQualityPlanSer
 	}
 	
 	@Override
-	public int updataQualityPlanById(String id,String type,String  code,String year,String employeeName,String employeeName2,int jude,int judg2){
+	public int updataQualityPlanById(String id,String type,String  code,String year,String employeeName,String employeeName2,int jude,int judg2,String remark){
 		QualityPlan qualityPlan = new QualityPlan();
 		qualityPlan.setType(type);
 		qualityPlan.setCode(code);
 		qualityPlan.setYear(year);
+		qualityPlan.setRemark(remark);
 		if(jude == 1){
 			qualityPlan.setEmployeeID1(employeeName);		
 		}
@@ -123,7 +125,7 @@ public class QualityPlanService extends SearchService implements IQualityPlanSer
 	}
 	
 	@Override
-	public String addQualityPlan(String type,String code,String year,String employeeName,String employeeName2,HttpSession session){
+	public String addQualityPlan(String type,String code,String year,String employeeName,String employeeName2,String remark,HttpSession session){
 		String id = EntityIDFactory.createId();
 		QualityPlan qualityPlan = new QualityPlan();
 		qualityPlan.setID(id);
@@ -133,6 +135,7 @@ public class QualityPlanService extends SearchService implements IQualityPlanSer
 		qualityPlan.setYear(year);
 		qualityPlan.setEmployeeID1(session.getAttribute("ID").toString());
 		qualityPlan.setEmployeeID2(employeeName2);
+		qualityPlan.setRemark(remark);
 		return entityDao.save(qualityPlan)+"";
 	}
 	

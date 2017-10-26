@@ -58,14 +58,14 @@ public class QualityPlanController{
 	 */
 	@RequestMapping("/updataQualityPlanById")
 	@ResponseBody
-	public int updataQualityPlanById(String id,String type,String code,String year,String employeeName,String employeeName2,int judg,int judg2){
+	public int updataQualityPlanById(String id,String type,String code,String year,String employeeName,String employeeName2,int judg,int judg2,String remark){
 //		try
 //		{
 //			type = new String(type.getBytes("iso-8859-1"),"UTF-8");
 //		}catch(Exception e){
 //			return 0;
 //		}
-		return service.updataQualityPlanById(id, type, code, year,employeeName,employeeName2,judg,judg2);
+		return service.updataQualityPlanById(id, type, code, year,employeeName,employeeName2,judg,judg2,remark);
 	}
 	
 	/**
@@ -92,13 +92,13 @@ public class QualityPlanController{
 	 */
 	@RequestMapping("/addQualityPlan")
 	@ResponseBody
-	public String addQualityPlan(String type,String code,String year,String employeeName, String employeeName2,HttpSession session){
+	public String addQualityPlan(String type,String code,String year,String employeeName, String employeeName2,HttpSession session,String remark){
 //		try
 //		{
 //			type = new String(type.getBytes("iso-8859-1"),"UTF-8");
 //		}catch(Exception e){
 //			return null;
 //		}
-		return service.addQualityPlan(type, code, year, employeeName ,employeeName2,session);
+		return service.addQualityPlan(type, code, year, employeeName ,employeeName2,remark,session);
 	}
 }
