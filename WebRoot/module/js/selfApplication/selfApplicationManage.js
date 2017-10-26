@@ -104,7 +104,6 @@ function initTable(){
 	    	 pageReqeust.selfHasContact = "null";
 	    else
 	    	pageReqeust.selfHasContact = encodeURI($('select').val());
-	    console.log(pageReqeust);
 	    return pageReqeust;  
 	}
 }

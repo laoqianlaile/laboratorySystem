@@ -487,7 +487,7 @@ function applyMondal(){
 			});
 		return;
 	}
-	if (data[0].STATE != '通过' || data[0].STATE != '驳回'){
+	if (data[0].STATE != "通过" && data[0].STATE != "驳回"){
 		swal({
 			  title: "当前状态不能废弃",
 			  type: "warning",
