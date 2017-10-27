@@ -324,8 +324,13 @@ public class ContractFineItemService extends SearchService implements IContractF
 		String joinEntity = " left join testProject on contractFineItem.testProjectID = testProject.ID "
 				+ " left join testdepartment on testproject.ID = testdepartment.testProjectID ";
 		
-		String condition = " testdepartment.departmentID = '" + ID + "' group by testdepartment.departmentID ";
-		
+		String condition = "";
+		if(ID.equals("-1")){
+			condition = " 1=1 group by testdepartment.departmentID ";
+		}
+		else {
+			condition = " testdepartment.departmentID = '" + ID + "' group by testdepartment.departmentID ";
+		}
 		List<Map<String, Object>> result = originalSearchForeign(properties, baseEntity, joinEntity, null, condition, false);
 		
 		String totalMoney = result.size() == 0 ? "0" : result.get(0).get("totalMoney") + "";

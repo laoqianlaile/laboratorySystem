@@ -86,6 +86,17 @@ $(function () {
 		}]
 	});
 	
+	// 更新总金额
+	$.ajax({
+		url:'contractFineItemController/getTotalMoneyInDepartmentTaskStatistical.do',
+		dataType:'json',
+		data: {
+			ID: '-1'
+		},
+		success:function(data){
+			$('#totalMoney').text(data);
+	  	}
+	});
 	// 查询按钮点击事件
 	$('#search').click(function(){
 		var departmentID = $('#department').val();

@@ -394,7 +394,7 @@ public class StandardService extends SearchService implements IStandardService{
 			standardName = standardName.replaceAll(" ", "");
 			condition = " standard.standardName LIKE '%"+standardName+"%' or standard.standardCode  like '%"+standardName+"%' ";
 		}else{
-			condition = " 1=1 ";
+			condition = " state = '2' ";
 		}
 		
 		List<Map<String, Object>> list = entityDao.findByCondition(properties,
