@@ -8,7 +8,7 @@ var obj ={
 
 var weeks = ['星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
 	seasons = ['春季', '夏季', '秋季' , '冬季'],
-	periods = ['早上', '下午', '晚上'];
+	periods = ['早上','上午','中午','下午', '晚上'];
 
 var nodeId, // 节点id
 	node, // 节点
@@ -333,7 +333,18 @@ function changeDateInfo() {
  	// 0 1 2 | 3 4 5 | 6 7 8 | 9 -2 -1
 	var week = weeks[date.getDay()];
 	var	season = seasons[Math.floor(date.getMonth() / 3)];
-	var period  = periods[Math.floor(date.getHours() / 8)];
+	if(date.getHours() >= 6 && date.getHours() < 8){
+		var period  = periods[0];
+	}else if(date.getHours() >= 8 && date.getHours() < 11){
+		var period  = periods[1];
+	}else if(date.getHours() >= 11 && date.getHours() < 13){
+		var period = periods[2];
+	}else if(date.getHours() >= 13 && date.getHours() < 18){
+		var period = periods[3];
+	}else{
+		var period = periods[4];
+	}
+		
 	 	
     var time = period + ' ' + hour + ':' + minute + ':' + second;
 	
