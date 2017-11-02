@@ -189,9 +189,9 @@ public class ClientService extends SearchService implements IClientService{
 	
 	@Override
 	 public String addPersonnel(String clientNo,String password,String companyName,String mobilePhone,String address,
-	    		String scope,String legal,String companyType,String remarks,String fileID1,String fileID2){
+	    		String scope,String legal,String linkman,String companyType,String email,String fax,String remarks,String fileID1,String fileID2){
 		Client client = new Client();
-		Company company2 = new Company();
+		Company company = new Company();
 		String id = EntityIDFactory.createId();
 		String id1 = EntityIDFactory.createId();
 		client.setID(id);
@@ -201,20 +201,23 @@ public class ClientService extends SearchService implements IClientService{
 		client.setCompanyID(id1);
 		client.setReviewStatus("0");
 		
-		company2.setID(id1);
-		company2.setCompanyName(companyName);
-		company2.setAddress(address);
-		company2.setMobilePhone(mobilePhone);
-		company2.setFileID1(fileID1);
-		company2.setFileID2(fileID2);
-		company2.setLegal(legal);
-		company2.setScope(scope);
-		company2.setRemarks(remarks);
-		company2.setType(Integer.parseInt(companyType));
-		company2.setCreateTime(new Date());
+		company.setID(id1);
+		company.setCompanyName(companyName);
+		company.setAddress(address);
+		company.setMobilePhone(mobilePhone);
+		company.setFileID1(fileID1);
+		company.setFileID2(fileID2);
+		company.setLegal(legal);
+		company.setLinkMan(linkman);
+		company.setScope(scope);
+		company.setEmailbox(email);
+		company.setFax(fax);
+		company.setRemarks(remarks);
+		company.setType(Integer.parseInt(companyType));
+		company.setCreateTime(new Date());
 		
 		int result = entityDao.save(client);
-		return result+" " + entityDao.save(company2);
+		return result+" " + entityDao.save(company);
 	}
 
 	@Override

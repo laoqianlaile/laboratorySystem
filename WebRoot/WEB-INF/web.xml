@@ -108,6 +108,10 @@
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.ttf</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.html</url-pattern>
+	</servlet-mapping>
 
    <!-- 页面拦截过滤 -->
 	<filter>
