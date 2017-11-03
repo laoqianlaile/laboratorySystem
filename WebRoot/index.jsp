@@ -58,7 +58,7 @@
 									<input type="hidden" id="LoginID" value="<%=request.getSession().getAttribute("EMPLOYEEID")%>"/>
 							</span> <i class="fa fa-caret-down"></i>
 								<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-								<li onclick = "openEditpwd()"><a> <i class="icon-cog"></i> 修改密码</a></li>
+								<!-- <li onclick = "openEditpwd()"><a> <i class="icon-cog"></i> 修改密码</a></li> -->
 								<li ><a target="aa" href="module/jsp/setting/personalData.jsp"><i class="icon-user"></i> 个人资料</a> </li>
 							</ul>
 							<%}%>
