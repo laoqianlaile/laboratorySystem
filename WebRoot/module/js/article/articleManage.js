@@ -95,7 +95,7 @@ window.onload = function() {
 	$('#rightFormDiv').hide();
 	var flag=true;
 	var ue= UE.getEditor('add_artContent', {
-		 toolbars: [[/*"fullscreen",*/"source","undo","redo","bold","italic","underline","fontborder","strikethrough","superscript","subscript","insertunorderedlist","insertorderedlist","justifyleft","justifycenter","justifyright","justifyjustify","removeformat","simpleupload",/*"snapscreen",*/"emotion",/*"attachment",*/"fontfamily", 
+		 toolbars: [[/*"fullscreen",*/"source","undo","redo","bold","italic","underline","fontborder","strikethrough","superscript","subscript","insertunorderedlist","insertorderedlist","justifyleft","justifycenter","justifyright","justifyjustify","removeformat","simpleupload",/*"snapscreen","emotion","attachment",*/"fontfamily", 
 	                    "fontsize"]],
        iframeCssUrl: 'PorUeditor/themes/iframe.css',// 引入css       
        enterTag:'br',
@@ -247,7 +247,7 @@ function openModal() {
 	
 	//alert(artPicturegis);
 	var ue2 = UE.getEditor('edit_artContent', {
-		 toolbars: [[/*"fullscreen",*/"source","undo","redo","bold","italic","underline","fontborder","strikethrough","superscript","subscript","insertunorderedlist","insertorderedlist","justifyleft","justifycenter","justifyright","justifyjustify","removeformat","simpleupload",/*"snapscreen",*/"emotion",/*"attachment",*/"fontfamily", 
+		 toolbars: [[/*"fullscreen",*/"source","undo","redo","bold","italic","underline","fontborder","strikethrough","superscript","subscript","insertunorderedlist","insertorderedlist","justifyleft","justifycenter","justifyright","justifyjustify","removeformat","simpleupload",/*"snapscreen","emotion","attachment",*/"fontfamily", 
 	                    "fontsize"]],
        initialFrameHeight :300,
         autoHeightEnabled: false,
@@ -338,7 +338,7 @@ function showModal() {
 		return;
 	}
 	var ue1 = UE.getEditor('show_artContent', {
-		 toolbars: [[/*"fullscreen",*/"source","undo","redo","bold","italic","underline","fontborder","strikethrough","superscript","subscript","insertunorderedlist","insertorderedlist","justifyleft","justifycenter","justifyright","justifyjustify","removeformat","simpleupload",/*"snapscreen",*/"emotion",/*"attachment",*/"fontfamily", 
+		 toolbars: [[/*"fullscreen",*/"source","undo","redo","bold","italic","underline","fontborder","strikethrough","superscript","subscript","insertunorderedlist","insertorderedlist","justifyleft","justifycenter","justifyright","justifyjustify","removeformat","simpleupload",/*"snapscreen","emotion","attachment",*/"fontfamily", 
 	                    "fontsize"]],
        initialFrameHeight :300,
         autoHeightEnabled: false,

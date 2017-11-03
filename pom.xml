@@ -340,11 +340,11 @@
 			<version>${spring.version}</version>
 			<classifier>sources</classifier>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>cn.songxinqiang</groupId>
 			<artifactId>com.baidu.ueditor</artifactId>
 			<version>1.1.2-offical</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>fluent-hc</artifactId>
