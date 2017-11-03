@@ -83,7 +83,7 @@ function downOneFile(fileID) {
 			window.location.href = "/laboratorySystem/fileOperateController/filedownload.do?ID="
 					+ fileID;
 		} else {
-			alert(result);
+			swal(result);
 		}
 	});
 }
@@ -100,9 +100,9 @@ function deleteFile(ids) {
 		IDs : ids
 	}, function(result) {
 		if (result == true || result == "true") {
-			alert("删除成功");
+			swal("删除成功");
 		} else {
-			alert("删除失败");
+			swal("删除失败");
 		}
 	});
 }

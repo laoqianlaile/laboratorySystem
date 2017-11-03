@@ -136,10 +136,10 @@ function pigeonholeReport() {
 		}, function(result) {
 			if (result == true || result == "true") {
 				refresh();
-				alert("设置归档成功");
+				swal("设置归档成功");
 			} else {
 				refresh();
-				alert("设置归档失败");
+				swal("设置归档失败");
 			}
 		});
 	}
@@ -149,11 +149,11 @@ function pigeonholeReport() {
 function checkReport() {
 	var rows = $("#table").bootstrapTable('getSelections');
 	if (rows.length == 0) {
-		alert("请选择要查看的检测报告");
+		swal("请选择要查看的检测报告");
 		return;
 	}
 	if (rows.length > 1) {
-		alert("请选择一条数据");
+		swal("请选择一条数据");
 		return;
 	} else {
 		var testReportID = rows[0].ID;
