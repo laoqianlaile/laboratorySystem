@@ -28,7 +28,7 @@ public interface IReceiptlistService {
 	String saveSubmitReceipt(String reID, String saveState, String addState,  String companyName, String address, String linkMan,
 			String startTime, String endTime, String linkPhone, String accordingDoc, String reCode,String coID, String comID);//保存和提交交接单
 	Map<String, Object> addReceiptList(HttpSession session, String coID, String proID, String state,HttpServletRequest request); //新增交接单
-	Map<String, Object> getReceiptByReID(String reID); //获取交接单信息通过交接单ID
+	Map<String, Object> getReceiptByReID(String reID, String coID); //获取交接单信息通过交接单ID
 	String delReceiptlist(String reID); //删除交接单
 	
 	public String updReceiptlistInforInReturn(String ID,String linkMan,String createTime,String linkPhone);

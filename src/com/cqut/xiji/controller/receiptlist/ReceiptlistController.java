@@ -210,8 +210,8 @@ public class ReceiptlistController{
 	 */
 	@RequestMapping("/getReceiptByReID")
 	@ResponseBody
-	public String getReceiptByReID(String reID ) {
-		Map<String, Object> result = service.getReceiptByReID( reID) ;
+	public String getReceiptByReID(String reID , String coID) {
+		Map<String, Object> result = service.getReceiptByReID( reID,coID) ;
 		return JSONObject.fromObject(result).toString();
 	}
 	/**

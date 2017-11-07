@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 
 
 
+
 import org.springframework.stereotype.Service;
 
 import com.cqut.xiji.dao.base.BaseEntityDao;
@@ -853,6 +854,39 @@ public class TaskService extends SearchService implements ITaskService {
 		String joinEntity = " LEFT JOIN company ON a.companyID = company.ID ";
 		List<Map<String, Object>> result = entityDao.searchForeign(properties,
 				tableName, joinEntity, null, null);
+		
+		List<Map<String, Object>> result2 = entityDao.searchForeign(new String[]{
+			"receiptlist.contractID"
+		},"task", " LEFT JOIN receiptlist ON task.receiptlistID = receiptlist.ID ", null, " task.ID = '20171028102003134' " );
+		if(result2.size() >= 1){
+		String coID = (String)result2.get(0).get("contractID");
+		String[] properties2 = new String[]{
+				"standard.standardCode",
+				"standard.standardName",
+				"technical.content",
+				"standard.ID",
+			};
+			String baseEntity = ""
+			+" ( SELECT 	DISTINCT testProjectID ,contractfineitem.contractID "
+			+" FROM contractfineitem  WHERE "
+			+" contractfineitem.contractID = '"+coID+"'"
+			+" 	) a "
+			+" LEFT JOIN teststandard ON teststandard.testProjectID = a.testProjectID "
+			+" LEFT JOIN technical ON a.contractID = technical.contractID"
+			+" LEFT JOIN standard ON teststandard.standardID = standard.ID GROUP BY standard.ID ";
+			List<Map<String, Object>> list = searchDao.searchForeign(properties2, baseEntity, null, null, null, null);
+			String reString = "";
+			Object temp = null;
+			reString += "依据的技术文件: ";
+			for (int i = 0; i < list.size(); i++) {
+				 temp = list.get(i).get("standardCode") ;
+				reString+=  temp = temp != null ? temp.toString()+"(" : "";
+				 temp = list.get(i).get("standardName");
+				reString+=  temp  != null ? temp.toString()+")," : "";
+			}
+			reString += "客户要求: "+(String)list.get(0).get("content");
+			result.get(0).put("requires", reString);
+		}
 		return result;
 	}
 	

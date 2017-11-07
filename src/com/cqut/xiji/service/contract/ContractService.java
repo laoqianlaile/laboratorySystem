@@ -666,8 +666,7 @@ public class ContractService extends SearchService implements IContractService{
 		String contractItem = "";
 		String baseEntiy = "contractFineItem";
 		String[] properties = new String[] { 
-			"contractFineItem.ID",
-			"contractFineItem.fineItemCode",
+			"contractFineItem.ID as fineItemCode",
 			"testProject.nameCn",
 			"testProject.nameEn",
 			"contractFineItem.number",
@@ -699,11 +698,10 @@ public class ContractService extends SearchService implements IContractService{
 			+ "testtype.`name` as testTypeName,"
 			+ "testproject.testTypeID"
 			};
-		String joinEntity5 = " LEFT JOIN standard ON teststandard.standardID = standard.ID"
-				+ " LEFT JOIN testproject ON teststandard.testProjectID = testproject.ID"
+		String joinEntity5 =  " LEFT JOIN testproject ON teststandard.testProjectID = testproject.ID"
 				+ " LEFT JOIN testtype ON testproject.testTypeID = testtype.ID"
-				+ " LEFT JOIN contractfineitem ON contractfineitem.testProjectID = testProject.ID";
-		
+				+ " LEFT JOIN contractfineitem ON contractfineitem.testProjectID = testProject.ID"
+		        + " LEFT JOIN standard ON contractfineitem.standardID = standard.ID";
 		String condition5 = " contractfineitem.contractID = '" + ID + "' ORDER BY testproject.testTypeID desc";
 		
 		List<Map<String, Object>> result5 = entityDao.searchForeign(properties5, baseEntiy5, joinEntity5, null, condition5);
@@ -768,9 +766,9 @@ public class ContractService extends SearchService implements IContractService{
 				String testTypeID = "";
 				String standardNote = "";
 				for(int i = 0; i < result5.size(); i++){
-					standardCode = result5.get(i).get("standardCode").toString();
-					standardName = result5.get(i).get("standardName").toString();
-					testTypeName = result5.get(i).get("testTypeName").toString();
+					standardCode = (String)result5.get(i).get("standardCode");
+					standardName = (String)result5.get(i).get("standardName");
+					testTypeName = (String)result5.get(i).get("testTypeName");
 					/*testTypeID = result5.get(i).get("testTypeID").toString();
 					standardNote += testTypeName + ":" + standardCode + "," + standardName + ";\n ";*/
 					
@@ -791,24 +789,26 @@ public class ContractService extends SearchService implements IContractService{
 				String nameEn = "";
 				String fineItemCode = "";
 				//String departmentName = "";
-				String money = "";
-				String price = "";
-				String number = "";
-				wp.putTxtToCell(2, 2, 5,"总计"+contractAmount.toString());
-				for(int i = 0; i < result2.size(); i++){
-					nameCn = result2.get(i).get("nameCn").toString();
-					nameEn = result2.get(i).get("nameEn").toString();
-					fineItemCode = result2.get(i).get("fineItemCode").toString();
-					money = result2.get(i).get("money").toString();
-					price = result2.get(i).get("price").toString();
-					number = result2.get(i).get("number").toString();
+				double money = 0;
+				double price = 0;
+				int number = 0;
+				int i = 0;
+				for(;i < result2.size(); i++){
+					nameCn = (String)result2.get(i).get("nameCn");
+					nameEn = (String)result2.get(i).get("nameEn");
+					fineItemCode = (String)result2.get(i).get("fineItemCode");
+					money = (double)result2.get(i).get("money");
+					price = (double)result2.get(i).get("price");
+					number = (int)result2.get(i).get("number");
+					String projectName = nameCn+"("+nameEn+")";
 					wp.addTableRow(2,2);
-					wp.putTxtToCell(2, 2, 1,fineItemCode  == null ? " " :  fineItemCode);
-					wp.putTxtToCell(2, 2, 2,nameCn  == null ? " " :  nameCn+"("+nameEn  == null ? " " :  nameEn+")");
-					wp.putTxtToCell(2, 2, 3,price  == null ? " " :  price+"元/每次");
-					wp.putTxtToCell(2, 2, 4,number  == null ? " " :  number+"次");
-					wp.putTxtToCell(2, 2, 5,money  == null ? " " :  money);
+					wp.putTxtToCell(2, 2, 1,fineItemCode);
+					wp.putTxtToCell(2, 2, 2,projectName);
+					wp.putTxtToCell(2, 2, 3,price+"元/每次");
+					wp.putTxtToCell(2, 2, 4,number+"次");
+					wp.putTxtToCell(2, 2, 5,money+"元");
 				}
+				wp.putTxtToCell(2, 2+i, 5,"总计"+contractAmount.toString());
 			}
 			if (companyName != null)
 				wp.replaceText("{companyName-x}",companyName.toString() == null ? " " :  companyName.toString());
@@ -1421,29 +1421,28 @@ public class ContractService extends SearchService implements IContractService{
 		String[] properties = new String[]{
 			"standard.standardCode",
 			"standard.standardName",
+			"technical.content",
 			"standard.ID",
 		};
 		String baseEntity = ""
-		+" ( SELECT 	DISTINCT testProjectID "
+		+" ( SELECT 	DISTINCT testProjectID ,contractfineitem.contractID "
 		+" FROM contractfineitem  WHERE "
 		+" contractfineitem.contractID = '"+coID+"'"
 		+" 	) a "
 		+" LEFT JOIN teststandard ON teststandard.testProjectID = a.testProjectID "
+		+" LEFT JOIN technical ON a.contractID = technical.contractID"
 		+" LEFT JOIN standard ON teststandard.standardID = standard.ID GROUP BY standard.ID ";
 		List<Map<String, Object>> list = searchDao.searchForeign(properties, baseEntity, null, null, null, null);
 		String reString = "";
 		Object temp = null;
-		
+		reString += "依据的技术文件: ";
 		for (int i = 0; i < list.size(); i++) {
 			 temp = list.get(i).get("standardCode") ;
-			 System.out.println();
 			reString+=  temp = temp != null ? temp.toString()+"(" : "";
-			 System.out.println(reString);
 			 temp = list.get(i).get("standardName");
 			reString+=  temp  != null ? temp.toString()+")," : "";
-			 System.out.println(reString);
-			
 		}
+		reString += "客户要求: "+(String)list.get(0).get("content")+",";
 		if (reString == null || reString.equals("") ){
 			return "";
 		}

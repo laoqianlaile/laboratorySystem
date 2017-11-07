@@ -848,8 +848,33 @@ public class ReceiptlistService extends SearchService implements
 	 * 
 	 */
 	@Override
-	public Map<String, Object> getReceiptByReID(String reID) {
+	public Map<String, Object> getReceiptByReID(String reID,String coID) {
 		// TODO Auto-generated method stub
+		String[] properties1 = new String[]{
+				"standard.standardCode",
+				"standard.standardName",
+				"technical.content",
+				"standard.ID",
+			};
+			String baseEntity = ""
+			+" ( SELECT 	DISTINCT testProjectID ,contractfineitem.contractID "
+			+" FROM contractfineitem  WHERE "
+			+" contractfineitem.contractID = '"+coID+"'"
+			+" 	) a "
+			+" LEFT JOIN teststandard ON teststandard.testProjectID = a.testProjectID "
+			+" LEFT JOIN technical ON a.contractID = technical.contractID"
+			+" LEFT JOIN standard ON teststandard.standardID = standard.ID GROUP BY standard.ID ";
+			List<Map<String, Object>> list = searchDao.searchForeign(properties1, baseEntity, null, null, null, null);
+			String reString = "";
+			Object temp = null;
+			reString += "依据的技术文件: ";
+			for (int i = 0; i < list.size(); i++) {
+				 temp = list.get(i).get("standardCode") ;
+				reString+=  temp = temp != null ? temp.toString()+"(" : "";
+				 temp = list.get(i).get("standardName");
+				reString+=  temp  != null ? temp.toString()+")," : "";
+			}
+			reString += "客户要求: "+(String)list.get(0).get("content");
 		if (reID == null || reID.equals("")) // 传输错误返回
 			return null;
 		String[] properties = new String[] { // 选择字段
@@ -860,6 +885,7 @@ public class ReceiptlistService extends SearchService implements
 			               "date_format(receiptlist.completeTime,'%Y-%m-%d') as endTime" };
 		Map<String, Object> map = entityDao.findByID(properties, reID,
 				Receiptlist.class);
+		map.put("accordingDoc", reString);
 		return map;
 	}
 
