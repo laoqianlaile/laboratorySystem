@@ -25,7 +25,7 @@ public interface IClientService {
 	public String clientLogin(Client client,HttpSession session);
 
 	 public String addPersonnel(String clientNo,String password,String companyName,String mobilePhone,String address,
-	    		String scope,String legal,String companyType,String remarks,String fileID1,String fileID2);
+	    		String scope,String legal,String linkman,String companyType,String email,String fax,String remarks,String fileID1,String fileID2);
 
 	public Map<String, Object> getPersonage(String articleID);
 

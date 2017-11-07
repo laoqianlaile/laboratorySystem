@@ -246,7 +246,7 @@ function onlineView() {
 			window.location.href = "module/jsp/documentOnlineView.jsp";
 		} else {
 			hideDiv();
-			alert("无法查看");
+			swal("无法查看");
 		}
 	});
 }
@@ -271,7 +271,7 @@ function deleteTestReport() {
 				});
 				refresh();
 			} else {
-				alert("当前审核状态不能删除");
+				swal("当前审核状态不能删除");
 			}
 		});
 	}
