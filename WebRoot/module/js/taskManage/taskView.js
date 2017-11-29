@@ -752,7 +752,7 @@ function setRegistedStandardSelected(result) {
 
 // 上传原始数据
 function uploadOriginalData() {
-	$.post("taskController/taskDectstateCheck.do", {
+/*	$.post("taskController/taskDectstateCheck.do", {
 		taskID : param.taskID
 	}, function(result) {
 		if (result == true || result == "true") {
@@ -760,18 +760,20 @@ function uploadOriginalData() {
 			{
 				taskID : param.taskID
 			}, function(fileID) {
-				fileID = JSON.parse(fileID);
-				if (fileID == null || fileID == "null" || fileID == "") {
-					swal({title:"上传原始数据前请确定已生成或上传了报告",  type:"warning",});
+				fileID = JSON.parse(fileID);*/
+	var rows = $('#taskFile').bootstrapTable('getSelections');
+				if (rows.length != 1) {
+				//	swal({title:"上传原始数据前请确定已生成或上传了报告",  type:"warning",});
+					swal({title:"请选择一条已上传了的报告记录",  type:"warning",});
 				} else {
-					param.fileID = fileID;
+					param.fileID = rows[0].ID;
 					$("#originalDataModal").modal("show");
 				}
-			});
+				/*});
 		} else {
 			swal({title:"当前审核状态不可以上传原始数据图片",  type:"error",});
 		}
-	});
+	});*/
 }
 
 // 预览图片

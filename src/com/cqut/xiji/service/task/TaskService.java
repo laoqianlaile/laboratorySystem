@@ -1394,7 +1394,7 @@ public class TaskService extends SearchService implements ITaskService {
 						if (wordData.get(0).get("sampleName") != null) {
 							fileName = wordData.get(0).get("sampleName").toString() + "的检测报告" + EntityIDFactory.createId();
 						}
-					    cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\" + fileName + ".docx";
+					    cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\" + fileName + ".doc";
 
 						fileEncryptservice.decryptFile(systemPramPath + filePath, cacheFilePath,
 								fileInfoID);
@@ -1485,7 +1485,7 @@ public class TaskService extends SearchService implements ITaskService {
 			cacheFilePath =  pe.getSystemPram("cacheFilePath") + "\\" + fileName ;
 			WordProcess wp = new WordProcess(false);
 			wp.comblineDocument(list, cacheFilePath, wp.getWord());
-			wp.close();
+			//wp.close();
 			
 			cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\" +fileName;
 			relativePath = "报告文件" + "\\" + fileName;
@@ -1544,6 +1544,7 @@ public class TaskService extends SearchService implements ITaskService {
 			}
 			return ID + "";
 		} catch (Exception e) {
+			System.out.println(e);
 			return null;
 		}
 	}

@@ -332,6 +332,9 @@ public class FileOperateController {
 			{
 				filedisplay = fileName.substring(0, fileName.length() - 1);// "给用户提供的下载文件名";
 			}
+			else if(fileName.substring(fileName.length() - 4, fileName.length()).equals(".doc")){
+				filedisplay = fileName.substring(0, fileName.length());// "给用户提供的下载文件名";
+			}
 		    String path = pe.getSystemPram("filePath") + "\\" + relativePath;
 		    System.out.println("下载地址path :" + path);
 		    cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\" + filedisplay;
