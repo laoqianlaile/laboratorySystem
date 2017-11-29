@@ -764,7 +764,7 @@ public class TaskService extends SearchService implements ITaskService {
 				"c.testProjectName AS testProjectName",
 				"employee.employeeName AS levelTwo" };
 		String joinEntity = " LEFT JOIN employee ON c.levelTwo = employee.ID ";
-		String condition = " 1 = 1 AND c.detecotorID ='" + uploader + "'";
+		String condition = " receiptlistCode != '' AND c.detecotorID ='" + uploader + "'";
 
 		if (receiptlistCode != null && !receiptlistCode.isEmpty()) {
 			condition += " and receiptlistCode like '%" + receiptlistCode
@@ -857,7 +857,7 @@ public class TaskService extends SearchService implements ITaskService {
 		
 		List<Map<String, Object>> result2 = entityDao.searchForeign(new String[]{
 			"receiptlist.contractID"
-		},"task", " LEFT JOIN receiptlist ON task.receiptlistID = receiptlist.ID ", null, " task.ID = '20171028102003134' " );
+		},"task", " LEFT JOIN receiptlist ON task.receiptlistID = receiptlist.ID ", null, " 1=1 " );
 		if(result2.size() >= 1){
 		String coID = (String)result2.get(0).get("contractID");
 		String[] properties2 = new String[]{
@@ -1373,7 +1373,7 @@ public class TaskService extends SearchService implements ITaskService {
 			System.out.println("标准信息 :" + standardInfo);
 			
 			// 模版信息,暂时写死
-			filterConditionString = " fileinformation.ID = '20170713152116338' ";  // 模版暂时写死
+			filterConditionString = " fileinformation.ID = '20171129202727529' ";  // 模版暂时写死
 			tableName = "fileinformation";
 			properties = new String[] { "fileinformation.ID AS ID",
 					"fileinformation.path AS path",
