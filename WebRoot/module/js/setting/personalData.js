@@ -119,7 +119,6 @@ function onclickNvi(){
 			 $('#currentpwd_ok').show();
 		 }
 		 else{
-			console.log("密码不一致");
 			$('#currentpwd_ok').hide();
 			$('#currentpwd_tip').show();
 			$('#currentpwd_error').show();
@@ -132,11 +131,9 @@ function onclickNvi(){
 		$('#currentpwd_tip').hide();
 		$('#currentpwd_error').hide();
 		$('#currentpwd_ok').show();
-		console.log("密码相同");
 		return true;
 	}
 	else{
-		console.log("密码不一致");
 		$('#currentpwd_ok').hide();
 		$('#currentpwd_tip').show();
 		$('#currentpwd_error').show();
@@ -152,7 +149,6 @@ function onclickNvi(){
 	 else{
 		 var employeeInfo = getEmployeeInfo();
 		 if($('#old_pwd').val() === employeeInfo[0].password){
-			 console.log("原密码为" + employeeInfo[0].password);
 			 var parame = {};
 			 parame.employeeID = EmployeeInfo[0].employeeID;
 			 parame.newpwd =  $('#current_pwd').val();
@@ -199,7 +195,6 @@ function onclickNvi(){
 	 $('#tablebody').append(html);
 	
 	 $('#table').show();
-	 console.log(data);
  }
  
  /**
@@ -215,8 +210,6 @@ function onclickNvi(){
 	 $('#tablebody').empty();
 	 var html="";
 	 var data = getEmployeeInfo();
-	 
-	 console.log(data);
 	 
 	 html = "<tr>" +
 		"<td width='200px'>" +
@@ -425,7 +418,6 @@ function onclickNvi(){
 			 autoUpload : true,
 		 	 url : 'fileOperateController/upload.do?TypeNumber=' + 3,
 			 success:function(data){
-				 console.log(data);
 				 var parme = {}
 				 parme.fileID = data;
 				 parme.selectorName = selectorName;
@@ -480,8 +472,6 @@ function onclickNvi(){
  }
  
  function upImgheadCorp(){
-	 console.log(arguments[0]);
-	 
 	 if($('.cropped').children().length == 0 ){
 		 swal({title:"请裁剪！",type:"warning"});
 		 return;

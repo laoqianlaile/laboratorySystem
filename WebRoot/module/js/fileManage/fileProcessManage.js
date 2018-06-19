@@ -133,7 +133,7 @@ function viewFile() {
 	fileNames = fileNames.split(".");
 	fileSuffixName = fileNames[fileNames.length - 1].toLowerCase();
 	if (fileSuffixName == "png" || fileSuffixName == "jpg" || fileSuffixName == "gif") {
-		alert("查看图片请下载下来直接查看");
+		swal("查看图片请下载下来直接查看");
 	} else {
 		displayDiv();
 		$.post("fileOperateController/onlinePreview.do", {
@@ -143,7 +143,7 @@ function viewFile() {
 			if (result != null && result != "null" && result != "") {
 				window.location.href = "module/jsp/documentOnlineView.jsp";
 			} else {
-				alert("无法查看");
+				swal("无法查看");
 			}
 		});
 	}
@@ -154,10 +154,10 @@ function viewFile() {
 function viewFilePath() {
 	var rows = $("#table").bootstrapTable('getSelections');
 	if (rows.length === 0) {
-		alert("必须选择一条数据");
+		swal("必须选择一条数据");
 	}
 	if (rows.length > 1) {
-		alert("只能选择一条数据");
+		swal("只能选择一条数据");
 	} else {
 		$.post("fileOperateController/viewFilePath.do", 
 		{

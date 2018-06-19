@@ -186,7 +186,7 @@ function onDblClickCell(field,value,row,$element){
 	object = row ;
 	var getvalue ="";
 	//var receive = getfiled(field);
-	if(field=="type"||field=="code"||field=="year"||field=="employeeName"||field=="employeeName2"){
+	if(field=="type"||field=="code"||field=="year"||field=="employeeName"||field=="employeeName2"||field=="remark"){
 		pubtype = field;
 		switch(field){
 		case "type":getvalue = row.type;
@@ -234,6 +234,11 @@ function onDblClickCell(field,value,row,$element){
 			showdiag("请先完成之前的选择");
 		}
 		;break;
+		case "remark":getvalue = row.remark;
+		if(getvalue == undefined)
+			getvalue = "";
+		$element[0].innerHTML="<input onblur='getobject(this,this.value,"+"pubtype"+")' type='text' class='form-control' value='"+getvalue+"'>";
+		break;
 		}
 	}else{
 		showdiag("此项不能修改");
@@ -312,6 +317,12 @@ function getobject(dom,value,type){
 			object.year =value;
 			sbtjude = 1;
 		};break;
+	case "remark":if(object.remark == value){
+		sbtjude = sbtjude;
+		}else{
+			object.remark =value;
+			sbtjude = 1;
+		};break;
 	}
 }
 
@@ -345,6 +356,7 @@ function addrow(){
 				state:'',
 				employeeName:name,
 				employeeName2:'',
+				remark:''
 			}});
 			$("#table").find("tr").eq(1).attr("class","trbg");
 			$(".thatbtn").css("display","block");
@@ -363,6 +375,7 @@ function updataqualityPlan(dom){
 		dataobj.year = getdata[0].year;
 		dataobj.employeeName = getdata[0].employeeName;
 		dataobj.employeeName2 = getdata[0].employeeName2;
+		dataobj.remark = getdata[0].remark;
 		dataobj.judg = judg;
 		dataobj.judg2 = judg2;
 		if(dataobj.id==null||dataobj.id==""){
@@ -431,6 +444,7 @@ function addQualityPlan(dom){
 	dataobj.year = getdata[0].year;
 	dataobj.employeeName = getdata[0].employeeName;
 	dataobj.employeeName2 = getdata[0].employeeName2;
+	dataobj.remark = getdata[0].remark;
 	if(getdata.length==1){
 		for(var i =0 ;i<1;i++){
 			if(dataobj.type==null||dataobj.type==""){

@@ -120,8 +120,9 @@ function getTree(){
 	
 	return data;
 }
+
+//貌似没用？
  function initTree(){
-	
 	 // 按照指定的根节点菜单 id，加载其相应的子菜单树面板数据；该方法定义如下参数：
 	    // id: 表示根节点菜单的 id；
 	    window.mainpage.loadMenu = function (id) {

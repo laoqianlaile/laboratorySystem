@@ -85,7 +85,7 @@ public class ClientController{
 	@RequestMapping("/addPersonnel")  
     @ResponseBody 
     public String addPersonnel(String clientNo,String password,String companyName,String mobilePhone,String address,
-    		String scope,String legal,String companyType,String remarks,String fileID1,String fileID2) throws UnsupportedEncodingException{
+    		String scope,String legal,String linkman,String companyType,String email,String fax,String remarks,String fileID1,String fileID2) throws UnsupportedEncodingException{
 		clientNo = URLDecoder.decode(clientNo,"utf-8");
 		password = URLDecoder.decode(password,"utf-8");
 		companyName = URLDecoder.decode(companyName,"utf-8");
@@ -93,12 +93,15 @@ public class ClientController{
 		address = URLDecoder.decode(address,"utf-8");
 		scope = URLDecoder.decode(scope,"utf-8");
 		legal = URLDecoder.decode(legal,"utf-8");
+		linkman = URLDecoder.decode(linkman, "utf-8");
 		companyType = URLDecoder.decode(companyType,"utf-8");
+		email = URLDecoder.decode(email, "utf-8");
+		fax = URLDecoder.decode(fax, "utf-8");
 		remarks = URLDecoder.decode(remarks,"utf-8");
 		fileID1 = URLDecoder.decode(fileID1,"utf-8");
 		fileID2 = URLDecoder.decode(fileID2,"utf-8");
 		return service.addPersonnel(clientNo,password,companyName,mobilePhone,address,
-				scope,legal,companyType,remarks,fileID1,fileID2); 
+				scope,legal,linkman,companyType,email,fax,remarks,fileID1,fileID2); 
 		
 	}
 

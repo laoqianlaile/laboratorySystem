@@ -325,12 +325,13 @@ public class PermissionAssignService extends SearchService implements
 
 		}
 		if (loginName != null  && loginName.equals("superc102")){
-			 List<Module> module_list = entityDao.getByCondition("  module.text ='模块管理'", Module.class);
+			 List<Module> module_list = entityDao.getByCondition("  module.href ='module/jsp/moduleManage/moduleManage.jsp'", Module.class);
 			 if(module_list == null  || module_list.size() == 0){
 				 Module module2 =  new Module();
 				 module2.setID(EntityIDFactory.createId());
 				 module2.setHref("module/jsp/moduleManage/moduleManage.jsp");
 				 module2.setParent("0");
+				 module2.setText("模块管理");
 				 module2.setLevel0(1);
 				 module2.setModuleCode("0000");
 				 module2.setIcon("icon-bell");

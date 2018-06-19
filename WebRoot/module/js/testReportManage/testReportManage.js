@@ -215,52 +215,119 @@ function search() {
 function submitReport() {
 	var keyID = arguments[0], 
 	    taskID = arguments[1];
-	if (confirm("是否提交审核?")) {
-		$.post("testReportController/submitReportCheck.do", 
-		{
-			ID : keyID
-		}, 
-		function(result) {
-			if (result == true || result == "true") {
-				$.post("testReportController/submitReport.do", 
-				{
-					ID : keyID,
-					taskID : taskID
-				}, 
-				function(result) {
-					if (result == true || result == "true") {
-						refresh();
-						alert("提交成功");
-					} else {
-						refresh();
-						alert("提交失败");
-					}
-				});
-			} else {
-				refresh();
-				alert("当前报告不可提交审核！请核对报告检测状态或是指定报告审核人");
-			}
-		});
-	}
+	
+	swal({
+        title:"是否提交审核?",
+        type:"warning",
+        showCancelButton: true,
+        confirmButtonColor: "blue",
+        closeOnConfirm: false
+    },
+    function(isConfirm) {
+        if (isConfirm) {
+        	$.post("testReportController/submitReportCheck.do", 
+        			{
+        				ID : keyID
+        			}, 
+        			function(result) {
+        				if (result == true || result == "true") {
+        					$.post("testReportController/submitReport.do", 
+        					{
+        						ID : keyID,
+        						taskID : taskID
+        					}, 
+        					function(result) {
+        						if (result == true || result == "true") {
+        							refresh();
+        							swal("提交成功");
+        						} else {
+        							refresh();
+        							swal("提交失败");
+        						}
+        					});
+        				} else {
+        					refresh();
+        					swal("当前报告不可提交审核！请核对报告检测状态或是指定报告审核人");
+        				}
+        			});
+        }
+        else {
+            swal("你点击了取消");
+            refresh();
+            swal("提交失败");
+        }
+    });
+//	if (confirm("是否提交审核?")) {
+//		$.post("testReportController/submitReportCheck.do", 
+//		{
+//			ID : keyID
+//		}, 
+//		function(result) {
+//			if (result == true || result == "true") {
+//				$.post("testReportController/submitReport.do", 
+//				{
+//					ID : keyID,
+//					taskID : taskID
+//				}, 
+//				function(result) {
+//					if (result == true || result == "true") {
+//						refresh();
+//						swal("提交成功");
+//					} else {
+//						refresh();
+//						swal("提交失败");
+//					}
+//				});
+//			} else {
+//				refresh();
+//				swal("当前报告不可提交审核！请核对报告检测状态或是指定报告审核人");
+//			}
+//		});
+//	}
 }
 
 // 发送报告
 function showSendReportModal() {
 	var testReportID = arguments[0];
-	if (confirm("确定发送报告?")) {
-		$.post("testReportController/setReportSendCheck.do", 
-		{
-			ID : testReportID
-		}, 
-		function(result) {
-			if (result == true || result == "true") {
-				$("#testReportID").text(testReportID);
-				$("#sendReport").modal("show");
-			} else {
-				alert("不能发送当前报告");
-			}
-		});
-	}
+	
+	swal({
+		title: "确定发送报告？",
+		type: "warning",
+		showCancelButton: true,
+        confirmButtonColor: "blue",
+        closeOnConfirm: false
+	},
+	function(isConfirm) {
+		if (isConfirm) {
+			$.post("testReportController/setReportSendCheck.do", 
+				{
+					ID : testReportID
+				}, 
+				function(result) {
+					if (result == true || result == "true") {
+						$("#testReportID").text(testReportID);
+						$("#sendReport").modal("show");
+					} else {
+						swal("不能发送当前报告");
+					}
+				});
+		}
+	});
+	
+//	if (confirm("确定发送报告?")) {
+//		$.post("testReportController/setReportSendCheck.do", 
+//		{
+//			ID : testReportID
+//		}, 
+//		function(result) {
+//			if (result == true || result == "true") {
+//				$("#testReportID").text(testReportID);
+//				$("#sendReport").modal("show");
+//			} else {
+//				swal("不能发送当前报告");
+//			}
+//		});
+//	}
 }
 
 // 确定发送
@@ -274,10 +341,10 @@ function sendReportSure() {
 	function(result) {
 		if (result == true || result == "true") {
 			refresh();
-			alert("发送成功");
+			swal("发送成功");
 		} else {
 			refresh();
-			alert("发送失败");
+			swal("发送失败");
 		}
 	});
 	$("#sendReport").modal("hide");
@@ -287,11 +354,11 @@ function sendReportSure() {
 function recoatCheck() {
 	var rows = $("#table").bootstrapTable('getSelections');
 	if (rows.length == 0) {
-		alert("请选择需要合并的报告");
+		swal("请选择需要合并的报告");
 		return;
 	}
 	if (rows.length == 1) {
-		alert("至少选择两个报告才能进行合并");
+		swal("至少选择两个报告才能进行合并");
 		return;
 	} else {
 		var taskIDs = [], fileIDs = [], IDs = [], projectIDs = [], stateEns = [];
@@ -325,7 +392,7 @@ function recoatCheck() {
 					});
 					recoatReport(fileIDs, IDs, taskIDs, projectIDs);			
 				} else {
-					alert(result)
+					swal(result)
 				}
 			}
 		});
@@ -349,7 +416,7 @@ function recoatReport(fileIDs, IDs, taskIDs, projectIDs) {
 		success : function(result) {
 			result = JSON.parse(result);
 			if (result == null || result == "null" || result == "") {
-				alert("合并失败");
+				swal("合并失败");
 			} else {
 				updateTestReportFileID(IDs, result);
 			}
@@ -371,10 +438,10 @@ function updateTestReportFileID(IDs, result) {
 			result = JSON.parse(result);
 			if (result == true || result == "true") {
 				refresh();
-				alert("合并成功");
+				swal("合并成功");
 			} else {
 				refresh();
-				alert("合并失败");
+				swal("合并失败");
 			}
 		}
 	});
@@ -390,7 +457,7 @@ function checkFile(o) {
 		$("#fileName").html(fileName);
 	}
 	if (o.value.indexOf('.doc') < 0 && o.value.indexOf('.docx') < 0) {
-		alert("不能将此类型文档作为检测报告上传");
+		swal("不能将此类型文档作为检测报告上传");
 	}
 } 
 
@@ -424,7 +491,7 @@ function uploadFile() {
 				reload();
 				});
 		} else {
-			alert("上传失败");
+			swal("上传失败");
 			} 
 		});
 	
@@ -442,11 +509,11 @@ function uploadFile() {
 function recover() {
 	var rows = $("#table").bootstrapTable('getSelections');
 	if (rows.length == 0) {
-		alert("请选择需要重新覆盖的文件");
+		swal("请选择需要重新覆盖的文件");
 		return;
 	}
 	if (rows.length > 1) {
-		alert("只能选择一条数据");
+		swal("只能选择一条数据");
 		return;
 	} else {
 		$.post("testReportController/recoverCheck.do", 
@@ -462,7 +529,7 @@ function recover() {
 				function(result) {
 					result = JSON.parse(result);
 					if (result == null || result == "null" || result == "") {
-						alert("没有记录");
+						swal("没有记录");
 					} else {
 						var path = result[0].path;
 						var i = path.lastIndexOf("\\");
@@ -485,7 +552,7 @@ function recover() {
 				});
 				$("#recoverReport").modal("show");
 			} else {
-				alert("当前审核状态不可以重新覆盖");
+				swal("当前审核状态不可以重新覆盖");
 			}
 		});
 	}
@@ -495,11 +562,11 @@ function recover() {
 function checkReport() {
 	var rows = $("#table").bootstrapTable('getSelections');
 	if (rows.length == 0) {
-		alert("请选择要查看的检测报告");
+		swal("请选择要查看的检测报告");
 		return;
 	}
 	if (rows.length > 1) {
-		alert("请选择一条数据");
+		swal("请选择一条数据");
 		return;
 	} else {
 		var testReportID = rows[0].ID;

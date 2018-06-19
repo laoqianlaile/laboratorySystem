@@ -98,7 +98,7 @@ function initPageData() {
 	} else if (dara.state == "no") { // 无合同新增，不做操作
 		;
 	} else { // 编辑状态
-		var reInformation = getReceiptByReID(dara.reID);
+		var reInformation = getReceiptByReID(dara.reID,dara.coID);
 		$("#linkMan").val(reInformation.linkMan);
 		$("#startTime").val(reInformation.startTime);
 		$("#endTime").val(reInformation.endTime);
@@ -160,15 +160,15 @@ function refrehFileTable() {
  * @param reID
  * @returns
  */
-function getReceiptByReID(reID) {
-	var data;
+function getReceiptByReID(reID,coID) {
+	var data = {};
+	data.reID = reID;
+	data.coID = coID;
 	$.ajax({
 		url : '/laboratorySystem/receiptlistController/getReceiptByReID.do',
 		dataType : "json",
 		async : false,
-		data : {
-			reID : reID
-		},
+		data : data,
 		success : function(o) {
 			data = JSON.parse(o);
 		},

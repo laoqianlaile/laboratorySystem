@@ -145,7 +145,7 @@ public class TestReportService extends SearchService implements
 				"c.completeTime AS completeTime", "c.remarks AS remarks" };
 
 		String joinEntity = " LEFT JOIN fileinformation ON c.fileID = fileinformation.ID   ";
-		String condition = " 1 = 1 AND (fileInformation.state = 0 OR fileInformation.state IS NULL)";
+		String condition = " 1 = 1 AND (fileInformation.state = 0 OR fileInformation.state IS NULL) AND c.state > 0";
 		if (receiptlistCode != null && !receiptlistCode.isEmpty()) {
 			condition += " and receiptlistCode like '%" + receiptlistCode
 					+ "%'";
@@ -1162,11 +1162,11 @@ public class TestReportService extends SearchService implements
 				return "选择的报告有的对应同一文件";
 			}
 		}
-		for (int i = 0, len = states.length; i < len - i; i++) { // 检查当前审核状态的报告是否能合并
-			if (!states[i].equals("5")) {
-				return "请检查选择合并的报告的审核状态是否符合条件";
+/*		for (int i = 0, len = states.length; i < len - i; i++) { // 检查当前审核状态的报告是否能合并
+			if (!states[i].equals("6")) {
+				return "请提交后，再进行合并";
 			}
-		}
+		}*/
 		String IDs = "";
 		if (taskIDs.length > 0) {
 			IDs = "'" + taskIDs[0] + "'";
