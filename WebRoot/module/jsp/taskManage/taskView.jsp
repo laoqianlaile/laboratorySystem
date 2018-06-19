@@ -179,10 +179,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						onclick="downReportTemplate()">
 						<span class="glyphicon glyphicon-arrow-down"></span>生成或下载报告
 					</button>
-					<button type="button" class="btn btn-primary"
+					<!--<button type="button" class="btn btn-primary"
 						onclick="uploadOriginalData()">
 						<span class="glyphicon glyphicon-arrow-up"></span>上传原始数据
-					</button>
+					</button>  -->
 					<button type="button" class="btn btn-primary"
 						onclick="uploadTestReport()">
 						<span class="glyphicon glyphicon-upload"></span> 上传报告

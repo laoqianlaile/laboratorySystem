@@ -80,6 +80,12 @@ $(function(){
 	        align:'center',//水平居中显示
 			valign:'middle',//垂直居中显示
 	        width:''
+	    },{
+	        field: '9',
+	        title:'<span class="columns_titlefont" name="chang_title">报告ID</span>',
+	        align:'center',//水平居中显示
+			valign:'middle',//垂直居中显示
+	        width:''
 	    }]
 	});
 	$(".columns_titlefont").parent().css({"background":"#f6f6f6"});

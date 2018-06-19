@@ -347,6 +347,8 @@ function addTemplate(fileID) {
 	parame.fileID = fileID;
 	var templateTypeString = $('#fileSubtype option:checked').text();
 
+	console.log(templateTypeString);
+//	console.log(parame.TemplateType);
 	if (templateTypeString === "检测合同模板") {
 		parame.TemplateType = 0;
 	}
@@ -359,6 +361,9 @@ function addTemplate(fileID) {
 	}
 	if (templateTypeString === "交接单模板") {
 		parame.TemplateType = 2;
+	}
+	if (templateTypeString === "校准报告模板") {
+		parame.TemplateType = 4;
 	}
 	
 	if(checkNull(parame))return;

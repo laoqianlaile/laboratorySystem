@@ -149,7 +149,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</button>
 						<button class="btn btn-primary type=" button" id="refresh"
 							onclick="openAddModal()">
-							<em class="glyphicon glyphicon-plus"></em> 新增标准
+							<em class="glyphicon glyphicon-plus"></em> 新增账目记录
 						</button>
 						<button class="btn btn-primary" type="button" onclick="importAccounts()">
 							<em class="glyphicon glyphicon-circle-arrow-up"></em> 导入

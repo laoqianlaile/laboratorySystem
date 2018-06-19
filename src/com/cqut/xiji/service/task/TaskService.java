@@ -405,6 +405,9 @@ public class TaskService extends SearchService implements ITaskService {
 					m.put("" + i + "", "");
 			}
 		}
+		
+		// 添加报告的ID单号
+		List<Map<String, Object>> result2 = entityDao.searchForeign(new String[]{"ID"}, "fileinformation", null, null, " belongtoID = '20180123152640083'");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("total", count);
 		map.put("rows", result);
@@ -1339,7 +1342,8 @@ public class TaskService extends SearchService implements ITaskService {
 			System.out.println("标准信息 :" + standardInfo);
 			
 			// 模版信息,暂时写死
-			filterConditionString = " fileinformation.ID = '20170713152116338' ";  // 模版暂时写死
+			filterConditionString = " fileinformation.ID = '20180301160619847' ";  // 模版暂时写死
+
 			tableName = "fileinformation";
 			properties = new String[] { "fileinformation.ID AS ID",
 					"fileinformation.path AS path",
@@ -1451,7 +1455,7 @@ public class TaskService extends SearchService implements ITaskService {
 			cacheFilePath =  pe.getSystemPram("cacheFilePath") + "\\" + fileName ;
 			WordProcess wp = new WordProcess(false);
 			wp.comblineDocument(list, cacheFilePath, wp.getWord());
-			wp.close();
+			//wp.close();
 			
 			cacheFilePath = pe.getSystemPram("cacheFilePath") + "\\" +fileName;
 			relativePath = "报告文件" + "\\" + fileName;
@@ -1510,6 +1514,7 @@ public class TaskService extends SearchService implements ITaskService {
 			}
 			return ID + "";
 		} catch (Exception e) {
+			System.out.println("异常： " + e);
 			return null;
 		}
 	}
